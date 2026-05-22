@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Análise Estratégica — Plano Vitalício (mai/2026)</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      color: #1a1a1a;
+      background: #f5f4f0;
+    }
+
+    /* Layout */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* Header */
+    .header {
+      background: #1a1a1a;
+      color: #fff;
+      padding: 48px 40px 40px;
+      margin-bottom: 48px;
+    }
+    .header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 10px;
+    }
+    .header .meta {
+      font-size: 13px;
+      color: #999;
+      letter-spacing: 0.2px;
+    }
+    .header .meta code {
+      color: #bbb;
+      background: #2a2a2a;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+
+    /* Executive summary card */
+    .exec-summary {
+      background: #fff;
+      border-left: 4px solid #1a1a1a;
+      padding: 28px 32px;
+      margin-bottom: 48px;
+      border-radius: 0 6px 6px 0;
+    }
+    .exec-summary h2 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 14px;
+    }
+    .exec-summary p { margin-bottom: 12px; }
+    .exec-summary ul {
+      margin: 10px 0 12px 18px;
+    }
+    .exec-summary li { margin-bottom: 5px; }
+    .exec-summary .highlight-row {
+      background: #f8f8f6;
+      border-radius: 4px;
+      padding: 12px 16px;
+      margin-top: 14px;
+      font-size: 14px;
+      border: 1px solid #e8e8e4;
+    }
+
+    /* Stat cards */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 6px;
+      padding: 22px 24px;
+      border: 1px solid #e8e8e4;
+    }
+    .stat-card .label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .stat-card .value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    .stat-card .sub {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 52px;
+    }
+    h2.section-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e8e8e4;
+      letter-spacing: -0.2px;
+    }
+    h2.section-title .num {
+      color: #aaa;
+      font-weight: 400;
+      margin-right: 6px;
+    }
+    h3.subsection {
+      font-size: 14px;
+      font-weight: 700;
+      color: #444;
+      margin: 24px 0 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    p { margin-bottom: 12px; }
+    ul, ol { margin: 10px 0 12px 20px; }
+    li { margin-bottom: 4px; }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0 24px;
+      border-radius: 6px;
+      border: 1px solid #e8e8e4;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      background: #fff;
+    }
+    thead { background: #f2f1ed; }
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #666;
+      border-bottom: 1px solid #e8e8e4;
+      white-space: nowrap;
+    }
+    td {
+      padding: 9px 14px;
+      border-bottom: 1px solid #f0efe9;
+      color: #1a1a1a;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafaf8; }
+    .bold { font-weight: 700; }
+    .muted { color: #888; }
+    .positive { color: #1a7a3a; font-weight: 700; }
+    .highlight-row td { background: #f7f6f1; font-weight: 600; }
+
+    /* Callout / blockquote */
+    .callout {
+      background: #f2f1ed;
+      border-left: 3px solid #888;
+      padding: 14px 18px;
+      border-radius: 0 5px 5px 0;
+      margin: 16px 0;
+      font-size: 14px;
+      color: #333;
+    }
+    .callout.accent {
+      background: #eef4ff;
+      border-left-color: #3b6bcc;
+      color: #1a2e5a;
+    }
+    .callout.warning {
+      background: #fff8ec;
+      border-left-color: #c8820a;
+      color: #4a3200;
+    }
+
+    /* Opportunity cards */
+    .opp-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .opp-card {
+      background: #fff;
+      border: 1px solid #e8e8e4;
+      border-radius: 6px;
+      padding: 20px 22px;
+    }
+    .opp-card .opp-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: 6px;
+    }
+    .opp-card .opp-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+    .opp-card ul { margin: 0 0 0 16px; }
+    .opp-card li { font-size: 13px; color: #444; margin-bottom: 3px; }
+
+    /* Profile comparison */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .profile-card {
+      background: #fff;
+      border-radius: 6px;
+      border: 1px solid #e8e8e4;
+      padding: 18px 20px;
+      text-align: center;
+    }
+    .profile-card .profile-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    .profile-card .profile-val {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.15;
+    }
+    .profile-card .profile-sub {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+    .profile-card.featured { border-color: #1a1a1a; border-width: 2px; }
+
+    /* Limitations */
+    .limits {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .limits-col { background: #fff; border-radius: 6px; padding: 20px 22px; border: 1px solid #e8e8e4; }
+    .limits-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #666; margin-bottom: 12px; }
+    .limits-col ul { margin-left: 16px; }
+    .limits-col li { font-size: 13px; color: #444; margin-bottom: 6px; }
+
+    /* Footer */
+    .footer {
+      margin-top: 64px;
+      padding-top: 20px;
+      border-top: 1px solid #e0dfd9;
+      font-size: 12px;
+      color: #999;
+    }
+    .footer code { background: #eeede9; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+
+    strong { font-weight: 700; }
+    code {
+      font-family: "SF Mono", "Fira Code", Consolas, monospace;
+      font-size: 12px;
+      background: #eeedea;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 640px) {
+      .stat-row { grid-template-columns: 1fr 1fr; }
+      .opp-grid { grid-template-columns: 1fr; }
+      .profile-grid { grid-template-columns: 1fr 1fr; }
+      .limits { grid-template-columns: 1fr; }
+      .header { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="page" style="padding-bottom:0; max-width:860px;">
+    <h1>Análise Estratégica — Plano Vitalício</h1>
+    <p class="meta">Atualizada mai/2026 &nbsp;·&nbsp; Fonte: <code>masterdata.fct_transactions</code>, <code>dim_subscriptions</code>, <code>obt_kafka__view_sessions</code></p>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- Executive Summary -->
+  <div class="exec-summary">
+    <h2>Resumo Executivo</h2>
+    <p>O Vitalício é, hoje, o produto mais estratégico da Brasil Paralelo. Desde 2023, geramos <strong>R$ 130M em receita de entrada</strong> de 61.818 compradores — e esses mesmos clientes geraram mais <strong>R$ 37M em compras adicionais</strong> depois, totalizando <strong>R$ 167M de LTV</strong>.</p>
+    <p>Além da receita, o Vitalício resolve três problemas ao mesmo tempo:</p>
+    <ul>
+      <li><strong>Elimina o churn:</strong> o dinheiro entra de uma vez, sem risco de cancelamento</li>
+      <li><strong>Recupera ex-assinantes:</strong> 11–15% dos compradores de Vitalício GBB haviam cancelado antes de voltar via esse produto</li>
+      <li><strong>Cria clientes mais engajados:</strong> compradores de Vitalício assistem 2 a 4× mais conteúdo do que assinantes regulares — e aumentam o consumo depois da compra</li>
+    </ul>
+    <div class="highlight-row"><strong>Papel do Comercial:</strong> 88,5% da receita incremental pós-vitalício foi gerada pelo time Comercial. O canal digital sozinho gera menos de 12% do incremental.</div>
+  </div>
+
+  <!-- Stat cards -->
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="label">Compradores totais</div>
+      <div class="value">61.818</div>
+      <div class="sub">todos os históricos disponíveis</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Receita de entrada</div>
+      <div class="value">R$ 130M</div>
+      <div class="sub">desde 2023</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">LTV total (c/ upsell)</div>
+      <div class="value">R$ 167M</div>
+      <div class="sub">+R$ 0,29 por cada R$ 1 captado</div>
+    </div>
+  </div>
+
+  <!-- 1. Evolução -->
+  <section>
+    <h2 class="section-title"><span class="num">1.</span>Evolução da Base</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ano</th><th>Básico</th><th>Intermediário</th><th>Premium GBB</th><th>Black</th><th>Total</th><th>Receita</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>2023</td><td>9.885</td><td>1.523</td><td>16.196</td><td class="muted">—</td><td class="bold">27.604</td><td class="bold">R$ 53M</td></tr>
+          <tr><td>2024</td><td>12.872</td><td>393</td><td>4.888</td><td>3.234</td><td class="bold">21.387</td><td class="bold">R$ 43M</td></tr>
+          <tr><td>2025</td><td>4.695</td><td class="muted">—</td><td>3.507</td><td>7.303</td><td class="bold">15.505</td><td class="bold">R$ 38M</td></tr>
+          <tr><td>2026 YTD</td><td>865</td><td class="muted">—</td><td>413</td><td>1.548</td><td class="bold">2.826</td><td class="bold">R$ 9M</td></tr>
+          <tr class="highlight-row"><td><strong>Total</strong></td><td><strong>28.353</strong></td><td><strong>1.916</strong></td><td><strong>24.581</strong></td><td><strong>6.968</strong></td><td><strong>61.818</strong></td><td><strong>R$ 130M</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>2023</strong> foi o ano de fundação da base: foco em Básico e Premium GBB</li>
+      <li><strong>2024</strong> marca a entrada do Black Vitalício (out/2024), que imediatamente domina em receita por ticket</li>
+      <li><strong>2025</strong> o Black torna-se o tier principal, com R$ 30,8M — maior ano individual de receita por tier</li>
+    </ul>
+  </section>
+
+  <!-- 2. O que acontece depois -->
+  <section>
+    <h2 class="section-title"><span class="num">2.</span>O Que Acontece Depois da Compra?</h2>
+    <p>Dos 61.818 compradores, <strong>17,5% voltam a comprar algo</strong> após o Vitalício. A maioria não gera mais receita direta — mas os que voltam geram muito.</p>
+
+    <h3 class="subsection">Receita incremental por tier</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Plano</th><th>Clientes</th><th>Voltaram</th><th>Receita entrada</th><th>Receita extra</th><th>LTV total</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Básico</td><td>28.353</td><td>13,5%</td><td>R$ 36,7M</td><td>R$ 10,4M</td><td class="bold">R$ 47,1M</td></tr>
+          <tr><td>Intermediário</td><td>1.916</td><td>18,6%</td><td>R$ 3,7M</td><td>R$ 1,1M</td><td class="bold">R$ 4,8M</td></tr>
+          <tr><td>Premium GBB</td><td>24.581</td><td>24,0%</td><td>R$ 59,1M</td><td>R$ 22,2M</td><td class="bold">R$ 81,3M</td></tr>
+          <tr><td>Black</td><td>6.968</td><td>10,8%</td><td>R$ 30,5M</td><td>R$ 3,6M</td><td class="bold">R$ 34,1M</td></tr>
+          <tr class="highlight-row"><td><strong>Total</strong></td><td><strong>61.818</strong></td><td><strong>~17,5%</strong></td><td><strong>R$ 130M</strong></td><td><strong>R$ 37M</strong></td><td><strong>R$ 167M</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">Cada R$ 1 captado no Vitalício gerou mais R$ 0,29 em compras adicionais.</div>
+
+    <h3 class="subsection">O que compraram depois?</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Produto</th><th>Receita</th><th>Destaque</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Upgrade de tier Vitalício</strong></td><td>R$ 22,8M</td><td>Principal driver — Básico → Black, GBB → Black</td></tr>
+          <tr><td>Mecenas</td><td>R$ 11,3M</td><td>Alto ticket, recorrente, filantrópico</td></tr>
+          <tr><td>Assinatura recorrente</td><td>R$ 4,3M</td><td>Voltaram para o modelo mensal/anual</td></tr>
+          <tr><td>Certificações avulsas</td><td>R$ 1,7M</td><td>Compradores GBB que complementam acesso</td></tr>
+          <tr><td>Clube do Livro</td><td>R$ 1,6M</td><td>1.316 clientes — produto novo com força imediata</td></tr>
+          <tr><td><strong>CEC (Conselho Editorial)</strong></td><td>R$ 1,5M</td><td>55 clientes, avg <strong>R$ 27.533</strong> — maior LTV individual da base</td></tr>
+          <tr><td>Teller</td><td>R$ 600k</td><td>Produto adicional</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 3. Upgrades -->
+  <section>
+    <h2 class="section-title"><span class="num">3.</span>Upgrades entre Tiers</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>De → Para</th><th>Clientes</th><th>Tempo médio</th><th>Receita entrada</th><th>Receita upgrade</th><th>Total</th><th>Incremental</th></tr></thead>
+        <tbody>
+          <tr><td>Premium GBB → Black</td><td>3.262</td><td>~15 meses</td><td>R$ 7,7M</td><td>R$ 12,3M</td><td>R$ 20,0M</td><td class="positive">+158%</td></tr>
+          <tr><td>Básico → Black</td><td>1.410</td><td>~12 meses</td><td>R$ 1,8M</td><td>R$ 5,4M</td><td>R$ 7,2M</td><td class="positive">+299%</td></tr>
+          <tr><td>Básico → Premium GBB</td><td>430</td><td>~9 meses</td><td>R$ 530k</td><td>R$ 781k</td><td>R$ 1,3M</td><td class="positive">+147%</td></tr>
+          <tr><td>Intermediário → Black</td><td>126</td><td>~17 meses</td><td>R$ 247k</td><td>R$ 490k</td><td>R$ 737k</td><td class="positive">+198%</td></tr>
+          <tr class="highlight-row"><td><strong>Total</strong></td><td><strong>5.281</strong></td><td>—</td><td><strong>R$ 10,4M</strong></td><td><strong>R$ 19,0M</strong></td><td><strong>R$ 29,4M</strong></td><td class="positive">+183%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout accent">Há <strong>~21.000 clientes com Premium GBB Vitalício que nunca migraram para o Black</strong>. Dado que 88,5% dos upgrades aconteceram via Comercial, essa base é a principal oportunidade de abordagem ativa. <strong>Potencial estimado: R$ 10–15M em 2 anos sem adquirir nenhum cliente novo.</strong></div>
+
+    <h3 class="subsection">O Papel do Comercial nos Upsells</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Canal</th><th>Clientes</th><th>Receita</th><th>% da receita</th></tr></thead>
+        <tbody>
+          <tr class="highlight-row"><td><strong>Comercial</strong></td><td><strong>7.445</strong></td><td><strong>R$ 33,2M</strong></td><td><strong>88,5%</strong></td></tr>
+          <tr><td>Digital / Orgânico</td><td>5.817</td><td>R$ 4,3M</td><td>11,5%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warning">A taxa de conversão via Pipedrive não está disponível: deals de alto ticket ficam abertos como controle de carteira, o que distorce as métricas de conversão por pipeline.</div>
+  </section>
+
+  <!-- 4. Vitalício vs Assinatura -->
+  <section>
+    <h2 class="section-title"><span class="num">4.</span>Vitalício vs. Assinatura — Quem Gera Mais?</h2>
+    <p>A pergunta central: se não tivéssemos vendido o Vitalício, esses clientes teriam gerado mais ficando como assinantes?</p>
+
+    <h3 class="subsection">O problema do churn da assinatura</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Plano</th><th>Churn ciclo 1</th><th>Churn ciclo 2</th><th>Churn ciclo 3</th></tr></thead>
+        <tbody>
+          <tr><td>Básico (good)</td><td>71,2%</td><td>45,4%</td><td>57,8%</td></tr>
+          <tr><td>Premium (best)</td><td>62,5%</td><td>54,9%</td><td>68,8%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Mesmo quem superou o primeiro churn tem alta probabilidade de cancelar nos ciclos seguintes. O Vitalício elimina esse risco — o dinheiro já entrou.</p>
+
+    <h3 class="subsection">Comparação justa: Vitalício vs. assinante mais fiel (decil 9)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Plano</th><th>Assinante decil 9</th><th>Vitalício entrada</th><th>Vitalício total</th><th>Vantagem</th></tr></thead>
+        <tbody>
+          <tr><td>Básico</td><td>R$ 906</td><td>R$ 1.293</td><td>R$ 1.660</td><td class="positive">+R$ 754</td></tr>
+          <tr><td>Intermediário</td><td>R$ 1.005</td><td>R$ 1.951</td><td>R$ 2.525</td><td class="positive">+R$ 1.520</td></tr>
+          <tr><td>Premium GBB</td><td>R$ 1.331</td><td>R$ 2.403</td><td>R$ 3.306</td><td class="positive">+R$ 1.975</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <strong>Na escala total:</strong> enquanto o caminho de assinatura geraria ~R$ 62M (R$ 22M antes do mês 20 + ~R$ 40M projetado com churn real), o caminho Vitalício gerou <strong>~R$ 189M</strong> para os mesmos clientes.
+    </div>
+
+    <h3 class="subsection">O Teste Definitivo: mesmo engajamento, LTV diferente</h3>
+    <p>Comparamos compradores de Vitalício com assinantes que consomem a <strong>mesma quantidade de conteúdo</strong>. O Vitalício ainda vence em todas as faixas, sem exceção.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Consumo de conteúdo</th><th>Assinante Básico</th><th>Vitalício Básico</th><th>Assinante Premium GBB</th><th>Vitalício Premium GBB</th></tr></thead>
+        <tbody>
+          <tr><td>Menos de 5h</td><td>R$ 233</td><td class="positive">R$ 1.383 (6×)</td><td>R$ 583</td><td class="positive">R$ 2.516 (4,3×)</td></tr>
+          <tr><td>5h a 20h</td><td>R$ 252</td><td class="positive">R$ 1.379 (5,5×)</td><td>R$ 621</td><td class="positive">R$ 2.535 (4,1×)</td></tr>
+          <tr><td>20h a 50h</td><td>R$ 289</td><td class="positive">R$ 1.385 (4,8×)</td><td>R$ 686</td><td class="positive">R$ 2.612 (3,8×)</td></tr>
+          <tr><td>50h a 100h</td><td>R$ 328</td><td class="positive">R$ 1.385 (4,2×)</td><td>R$ 751</td><td class="positive">R$ 2.617 (3,5×)</td></tr>
+          <tr><td>100h a 200h</td><td>R$ 358</td><td class="positive">R$ 1.444 (4×)</td><td>R$ 812</td><td class="positive">R$ 2.751 (3,4×)</td></tr>
+          <tr><td>Mais de 200h</td><td>R$ 385</td><td class="positive">R$ 1.627 (4,2×)</td><td>R$ 975</td><td class="positive">R$ 3.052 (3,1×)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout accent">A vantagem do Vitalício é <strong>estrutural</strong>, não apenas do perfil do cliente. O preço de entrada garante um piso de receita independente do comportamento — o assinante, mesmo consumindo o mesmo conteúdo, nunca chega perto.</div>
+  </section>
+
+  <!-- 5. Engajamento -->
+  <section>
+    <h2 class="section-title"><span class="num">5.</span>Engajamento — O Vitalício Muda o Comportamento</h2>
+
+    <h3 class="subsection">Horas assistidas totais: Vitalício vs. assinante regular</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Grupo</th><th>Horas assistidas (média)</th><th>vs. Assinante regular</th></tr></thead>
+        <tbody>
+          <tr><td>Assinante regular</td><td>26,6h</td><td class="muted">—</td></tr>
+          <tr><td>Vitalício Básico</td><td>41,6h</td><td class="positive">+57%</td></tr>
+          <tr><td>Vitalício Intermediário</td><td>46,5h</td><td class="positive">+75%</td></tr>
+          <tr><td><strong>Vitalício Premium GBB</strong></td><td><strong>92,2h</strong></td><td class="positive">+247%</td></tr>
+          <tr><td>Vitalício Black</td><td>74,1h</td><td class="positive">+179%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="subsection">Antes e depois da compra (janela de 12 meses)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tier</th><th>Média 12m antes</th><th>Média 12m depois</th><th>Variação</th><th>% que aumentou consumo</th></tr></thead>
+        <tbody>
+          <tr><td>Básico</td><td>9,4h</td><td>13,4h</td><td class="positive">+42%</td><td>56,2%</td></tr>
+          <tr><td>Intermediário</td><td>9,8h</td><td>15,9h</td><td class="positive">+62%</td><td>60,9%</td></tr>
+          <tr><td>Premium GBB</td><td>20,9h</td><td>28,5h</td><td class="positive">+37%</td><td>60,1%</td></tr>
+          <tr><td>Black</td><td>21,6h</td><td>20,5h</td><td class="muted">-5%</td><td>46,0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Para Básico, Intermediário e Premium GBB, <strong>57–61% dos clientes assistem mais conteúdo depois da compra</strong> do que assistiam antes. O Black é exceção: compradores já estavam no pico de consumo antes da decisão de comprar o tier máximo.</p>
+  </section>
+
+  <!-- 6. Recuperação -->
+  <section>
+    <h2 class="section-title"><span class="num">6.</span>Recuperação de Ex-Membros</h2>
+    <p>Uma parte dos compradores de Vitalício havia cancelado a assinatura antes — e o Vitalício foi o produto que trouxe de volta. Metodologia: cancelamento com pelo menos 90 dias de distância antes da compra do Vitalício.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tier</th><th>Total compradores</th><th>Recuperados</th><th>% da base</th><th>Mediana de tempo fora</th></tr></thead>
+        <tbody>
+          <tr><td>Básico</td><td>28.422</td><td>4.036</td><td class="bold">14,2%</td><td>373 dias (~12 meses)</td></tr>
+          <tr><td>Intermediário</td><td>1.922</td><td>218</td><td class="bold">11,3%</td><td>307 dias (~10 meses)</td></tr>
+          <tr><td>Premium GBB</td><td>25.088</td><td>3.875</td><td class="bold">15,4%</td><td>354 dias (~12 meses)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">1 em cada 7 compradores de Vitalício GBB estava fora da base por <strong>cerca de 1 ano</strong> antes de retornar. O Vitalício tem apelo mesmo para quem havia desistido — parte do público trabalhável pelo Comercial pode estar em bases de ex-assinantes inativos.</div>
+    <div class="callout warning"><strong>Nota sobre o Black:</strong> O Black aparece com ~45% de ex-membros — fora da curva. A hipótese mais provável é que muitos compradores de Black tinham assinaturas GBB que encerraram antes de comprar o tier máximo. São migrações de produto, não inatividade real. O dado do Black não é comparável aos outros tiers.</div>
+  </section>
+
+  <!-- 7. Certificações -->
+  <section>
+    <h2 class="section-title"><span class="num">7.</span>Certificações vs. Black — Não Há Canibalização</h2>
+    <p>O Black inclui acesso a todas as certificações. A pergunta era: ao vender Black, estamos deixando de vender certificações?</p>
+    <p><strong>Resposta: quase zero canibalização.</strong></p>
+    <ul>
+      <li>De 8.194 compradores de certificações: <strong>80% (6.563) nunca viraram Black</strong></li>
+      <li><strong>20% (1.624)</strong> compraram certificação e depois foram para o Black — em média 20 meses depois</li>
+      <li>Apenas <strong>7 clientes</strong> com Black compraram uma certificação avulsa depois</li>
+    </ul>
+
+    <h3 class="subsection">De onde vêm os compradores de Black Vitalício?</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Histórico anterior</th><th>Clientes</th><th>%</th></tr></thead>
+        <tbody>
+          <tr><td>Tinham Vitalício GBB antes</td><td>4.975</td><td>41%</td></tr>
+          <tr><td>Eram assinantes GBB recorrentes</td><td>3.755</td><td>31%</td></tr>
+          <tr><td>Sem histórico GBB (entrada direta)</td><td>2.641</td><td>22%</td></tr>
+          <tr><td>Tinham certificação antes</td><td>617</td><td>5%</td></tr>
+          <tr><td>Eram Black recorrente antes</td><td>91</td><td>1%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 8. Oportunidades -->
+  <section>
+    <h2 class="section-title"><span class="num">8.</span>Principais Oportunidades</h2>
+    <div class="opp-grid">
+      <div class="opp-card">
+        <div class="opp-num">Oportunidade 1</div>
+        <div class="opp-title">Premium GBB → Black</div>
+        <ul>
+          <li>~21.000 clientes sem upgrade para Black</li>
+          <li>Ticket do upgrade: ~R$ 3.800</li>
+          <li>88,5% dos upgrades feitos foram via Comercial</li>
+          <li><strong>Potencial: R$ 10–15M em 2 anos</strong></li>
+        </ul>
+      </div>
+      <div class="opp-card">
+        <div class="opp-num">Oportunidade 2</div>
+        <div class="opp-title">Compradores de cert sem Black</div>
+        <ul>
+          <li>6.563 clientes com certificação e sem Black</li>
+          <li>Pagaram R$ 1.200–2.800 em certs avulsas</li>
+          <li>Gasto médio em certs: R$ 1.932</li>
+          <li>Leads quentes para conversão direta</li>
+        </ul>
+      </div>
+      <div class="opp-card">
+        <div class="opp-num">Oportunidade 3</div>
+        <div class="opp-title">Básico sem upsell</div>
+        <ul>
+          <li>~24.500 clientes sem nenhuma compra adicional</li>
+          <li>Upgrade para Premium ou Black, Mecenas, CDL</li>
+          <li>Menor ticket médio, mas maior volume</li>
+        </ul>
+      </div>
+      <div class="opp-card">
+        <div class="opp-num">Oportunidade 4</div>
+        <div class="opp-title">CEC e Retiro — topo da pirâmide</div>
+        <ul>
+          <li>Perfil: Black Vitalício + Mecenas + alto consumo</li>
+          <li>Compradores de Black chegam ao CEC em ~11 meses</li>
+          <li>Ticket médio: R$ 28–39k por cliente</li>
+          <li>Ver Seção 9 para perfil detalhado</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Perfil CEC e Retiro -->
+  <section>
+    <h2 class="section-title"><span class="num">9.</span>Perfil dos Compradores de CEC e Retiro</h2>
+    <p>CEC e Retiro são os dois produtos de maior ticket vendidos para membros Vitalício. Quem compra é radicalmente diferente da média da base.</p>
+
+    <div class="profile-grid">
+      <div class="profile-card">
+        <div class="profile-label">Base Vitalício (média)</div>
+        <div class="profile-val">R$ 3.889</div>
+        <div class="profile-sub">LTV médio total</div>
+      </div>
+      <div class="profile-card featured">
+        <div class="profile-label">Compradores de CEC (71)</div>
+        <div class="profile-val">R$ 51.613</div>
+        <div class="profile-sub">LTV médio — 13× a média</div>
+      </div>
+      <div class="profile-card featured">
+        <div class="profile-label">Compradores de Retiro (34)</div>
+        <div class="profile-val">R$ 79.506</div>
+        <div class="profile-sub">LTV médio — 20× a média</div>
+      </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:20px;">
+      <table>
+        <thead><tr><th></th><th>Base Vitalício</th><th>Compradores de CEC</th><th>Compradores de Retiro</th></tr></thead>
+        <tbody>
+          <tr><td>Horas de conteúdo (mediana)</td><td>—</td><td><strong>429h</strong></td><td>~700h</td></tr>
+          <tr><td>Já foram Mecenas</td><td>6,4%</td><td><strong>62%</strong></td><td><strong>52,9%</strong></td></tr>
+          <tr><td>Fizeram upgrade de tier</td><td>17,1%</td><td><strong>53,5%</strong></td><td><strong>61,8%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="subsection">Tempo até a compra por tier de entrada</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tier → Produto</th><th>Clientes</th><th>Ticket pago</th><th>LTV total</th><th>Tempo médio</th></tr></thead>
+        <tbody>
+          <tr><td>Black → CEC</td><td>33</td><td>R$ 27.706</td><td>R$ 47.424</td><td><strong>~11 meses</strong></td></tr>
+          <tr><td>Premium GBB → CEC</td><td>24</td><td>R$ 29.588</td><td>R$ 59.683</td><td>~25 meses</td></tr>
+          <tr><td>Black → Retiro</td><td>15</td><td>R$ 39.403</td><td>R$ 75.461</td><td><strong>~12 meses</strong></td></tr>
+          <tr><td>Premium GBB → Retiro</td><td>16</td><td>R$ 39.050</td><td>R$ 86.963</td><td>~26 meses</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout accent">O Mecenas funciona como estágio intermediário: mais de 50% dos compradores de CEC e Retiro passaram pelo Mecenas antes. A jornada típica é <strong>Vitalício → Upgrade → Mecenas → CEC/Retiro</strong>. Membros com Black chegam ao topo em ~11–12 meses; com Premium GBB levam ~25–26 meses.</div>
+  </section>
+
+  <!-- 10. Limitações -->
+  <section>
+    <h2 class="section-title"><span class="num">10.</span>Limitações desta Análise</h2>
+    <div class="limits">
+      <div class="limits-col">
+        <h4>O que esta análise faz bem</h4>
+        <ul>
+          <li>Usa dados reais de comportamento, não projeções teóricas</li>
+          <li>Compara Vitalício com os assinantes mais fiéis (decil 9), não com a média</li>
+          <li>Inclui engajamento, recuperação e produtos complementares</li>
+          <li>Analisa mudança de comportamento antes e depois da compra</li>
+          <li>Dados de churn extraídos diretamente do BigQuery</li>
+        </ul>
+      </div>
+      <div class="limits-col">
+        <h4>O que ela não captura</h4>
+        <ul>
+          <li>Compradores de Vitalício podem ser ainda mais fiéis do que o grupo comparável</li>
+          <li>Black é recente (out/2024) — sem dados suficientes de longo prazo</li>
+          <li>Recuperação do Black não é comparável aos outros tiers (ver Seção 6)</li>
+          <li>Taxa de conversão do Comercial não disponível via Pipedrive</li>
+          <li>Não captura valor de marca e boca a boca dos membros engajados</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <p>Análise realizada em 19/05/2026 &nbsp;·&nbsp; Fontes: <code>bp-datawarehouse.masterdata.fct_transactions</code>, <code>masterdata.dim_subscriptions</code>, <code>datamart.obt_kafka__view_sessions</code></p>
+    <p style="margin-top:6px;">Metodologia de comparação Vitalício vs. Assinatura disponível sob demanda.</p>
+  </div>
+
+</div>
+</body>
+</html>

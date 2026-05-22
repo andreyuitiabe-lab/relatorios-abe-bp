@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil do Espectador — El Salvador · Brasil Paralelo Analytics · desde lançamento 21/05</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <style>
+    :root {
+      --bg-base:        #0D0F12;
+      --bg-card:        #111318;
+      --bg-card-alt:    #1E293B;
+      --bg-brand:       #0A2A22;
+      --border:         #1E293B;
+      --border-subtle:  #334155;
+      --text-primary:   #F1F5F9;
+      --text-secondary: #CBD5E1;
+      --text-muted:     #64748B;
+      --text-label:     #475569;
+      --brand:          #00C896;
+      --brand-light:    #2DD9B4;
+      --brand-dark:     #007D5E;
+      --brand-subtle:   rgba(0, 200, 150, 0.12);
+      --positive:       #00C896;
+      --positive-light: #CCFBEE;
+      --negative:       #EF4444;
+      --negative-light: #FEE2E2;
+      --warning:        #F59E0B;
+      --warning-light:  #FEF3C7;
+      --neutral:        #64748B;
+      --font-sans:      'Inter', system-ui, sans-serif;
+      --space-1:  0.25rem;
+      --space-2:  0.5rem;
+      --space-3:  0.75rem;
+      --space-4:  1rem;
+      --space-6:  1.5rem;
+      --space-8:  2rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --radius-sm:  4px;
+      --radius-md:  8px;
+      --radius-lg:  12px;
+      --radius-xl:  16px;
+      --radius-pill: 999px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-base);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .page-wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-6) var(--space-16);
+    }
+
+    /* ── HEADER ── */
+    .report-header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: var(--space-8);
+      margin-bottom: var(--space-8);
+    }
+    .breadcrumb {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--brand);
+      margin-bottom: var(--space-3);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .breadcrumb-sep { color: var(--text-label); }
+    h1 {
+      font-family: var(--font-sans);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      line-height: 1.2;
+      margin-bottom: var(--space-2);
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: var(--space-4);
+    }
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border-radius: var(--radius-pill);
+    }
+    .badge-active  { background: var(--brand-subtle); color: var(--brand-light); border: 1px solid rgba(0,200,150,.3); }
+    .badge-warning { background: rgba(245,158,11,.12); color: #FCD34D; border: 1px solid rgba(245,158,11,.3); }
+    .badge-neutral { background: rgba(100,116,139,.12); color: #94A3B8; border: 1px solid rgba(100,116,139,.3); }
+    .badge-danger  { background: rgba(239,68,68,.12); color: #F87171; border: 1px solid rgba(239,68,68,.3); }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-label);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--space-6);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .section-label-brand { border-bottom-color: var(--brand); color: var(--brand); }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+    }
+    .card-brand-border { border-top: 2px solid var(--brand); }
+
+    /* ── KPI GRID ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+    }
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--brand);
+    }
+    .kpi-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-label);
+      margin-bottom: var(--space-2);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .kpi-value {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    .kpi-value span { color: var(--brand); }
+    .kpi-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: var(--space-2);
+    }
+    .kpi-delta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .kpi-delta.pos { color: var(--positive); }
+    .kpi-delta.neg { color: var(--negative); }
+    .kpi-delta.neu { color: var(--text-muted); }
+
+    /* ── 2-COL LAYOUT ── */
+    .chart-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-6);
+      margin-bottom: var(--space-8);
+    }
+    @media (max-width: 900px) {
+      .chart-grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .chart-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+      margin-bottom: var(--space-8);
+    }
+    @media (max-width: 1000px) {
+      .chart-grid-3 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .chart-grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* ── TABLE ── */
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-label);
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    thead th.right { text-align: right; }
+    tbody td {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    tbody td.right { text-align: right; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(255,255,255,.02); }
+    .td-mono {
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum";
+      font-weight: 500;
+    }
+
+    /* ── BAR CHART ── */
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+    .bar-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      width: 90px;
+      flex-shrink: 0;
+    }
+    .bar-label.wide { width: 200px; }
+    .bar-track {
+      flex: 1;
+      background: var(--border);
+      border-radius: var(--radius-pill);
+      height: 6px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: var(--radius-pill);
+      background: var(--brand);
+    }
+    .bar-fill.alt { background: var(--bg-card-alt); }
+    .bar-fill.warning { background: var(--warning); }
+    .bar-value {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      width: 42px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .bar-delta {
+      font-size: 0.72rem;
+      font-weight: 600;
+      width: 52px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .bar-delta.pos { color: var(--positive); }
+    .bar-delta.neg { color: var(--negative); }
+    .bar-delta.neu { color: var(--text-muted); }
+
+    /* ── COMPARE BAR ── */
+    .compare-block { margin-bottom: var(--space-3); }
+    .compare-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .compare-name {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    .compare-values {
+      display: flex;
+      gap: var(--space-4);
+      font-size: 0.8rem;
+    }
+    .cv-es { color: var(--brand); font-weight: 600; }
+    .cv-bg { color: var(--text-muted); }
+    .compare-bars { display: flex; gap: 4px; flex-direction: column; }
+    .compare-bar-row { display: flex; align-items: center; gap: 6px; }
+    .compare-bar-track {
+      flex: 1;
+      background: var(--border);
+      border-radius: var(--radius-pill);
+      height: 5px;
+      overflow: hidden;
+    }
+    .compare-bar-fill { height: 100%; border-radius: var(--radius-pill); }
+    .es-fill { background: var(--brand); }
+    .bg-fill { background: #334155; }
+
+    /* ── INSIGHT CARD ── */
+    .insight-list { display: flex; flex-direction: column; gap: var(--space-4); }
+    .insight-item {
+      display: flex;
+      gap: var(--space-4);
+      align-items: flex-start;
+    }
+    .insight-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .insight-icon.brand { background: var(--brand-subtle); color: var(--brand); }
+    .insight-icon.warning { background: rgba(245,158,11,.12); color: #FCD34D; }
+    .insight-icon.info { background: rgba(100,116,139,.12); color: #94A3B8; }
+    .insight-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+    .insight-body {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ── CONTENT AFFINITY ── */
+    .affinity-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .affinity-row:last-child { border-bottom: none; }
+    .affinity-rank {
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius-sm);
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .affinity-rank.top3 { background: var(--brand-subtle); color: var(--brand); }
+    .affinity-name {
+      flex: 1;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+    .affinity-bar-wrap {
+      width: 120px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .affinity-pct {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      width: 36px;
+      text-align: right;
+    }
+
+    /* ── SECTION SPACING ── */
+    .section { margin-bottom: var(--space-12); }
+
+    /* ── LEGEND ── */
+    .legend {
+      display: flex;
+      gap: var(--space-6);
+      margin-bottom: var(--space-6);
+      font-size: 0.78rem;
+    }
+    .legend-item { display: flex; align-items: center; gap: var(--space-2); color: var(--text-muted); }
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 2px;
+    }
+    .legend-dot.es { background: var(--brand); }
+    .legend-dot.bg { background: #334155; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: var(--space-8);
+      margin-top: var(--space-16);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+    .footer-brand { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; color: var(--brand); text-transform: uppercase; }
+    .footer-note { font-size: 0.75rem; color: var(--text-label); }
+
+    /* ── HIGHLIGHT ROW ── */
+    .highlight-row { background: var(--brand-subtle) !important; }
+    .highlight-row td { color: var(--text-primary) !important; }
+    .highlight-val { color: var(--brand); font-weight: 700; }
+
+    /* ── SCORE PILL ── */
+    .score-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+    .score-high { background: var(--brand-subtle); color: var(--brand-light); }
+    .score-med  { background: rgba(100,116,139,.15); color: #94A3B8; }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- ── HEADER ── -->
+  <header class="report-header">
+    <div class="breadcrumb">
+      Brasil Paralelo
+      <span class="breadcrumb-sep">·</span>
+      Analytics
+      <span class="breadcrumb-sep">·</span>
+      Perfil de Audiência
+    </div>
+    <h1>Perfil do Espectador<br>El Salvador</h1>
+    <p class="subtitle">Análise comparativa · Assinantes ativos · Desde lançamento 21/05/2026</p>
+    <div class="header-meta">
+      <span class="badge badge-active">Dados atualizados 22/05</span>
+      <span class="badge badge-neutral">7.232 viewers El Salvador</span>
+      <span class="badge badge-neutral">8.460 no doc. principal</span>
+      <span class="badge badge-neutral">524.915 base geral</span>
+    </div>
+  </header>
+
+  <!-- ── KPIs ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="bar-chart-2" style="width:14px;height:14px"></i>
+      Números-chave
+    </div>
+    <div class="kpi-grid">
+
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="users" style="width:12px;height:12px"></i> Viewers ativos</div>
+        <div class="kpi-value">7<span>.</span>232</div>
+        <div class="kpi-sub">assinantes ativos desde o lançamento · 8.460 no doc. principal</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="user" style="width:12px;height:12px"></i> Perfil de gênero</div>
+        <div class="kpi-value">70<span>%</span></div>
+        <div class="kpi-sub">
+          masculino &nbsp;
+          <span class="kpi-delta pos">↑ +10pp vs base</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="calendar" style="width:12px;height:12px"></i> Faixa principal</div>
+        <div class="kpi-value">35<span>–</span>44</div>
+        <div class="kpi-sub">
+          32,3% nessa faixa &nbsp;
+          <span class="kpi-delta pos">↑ +9pp vs base</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="trending-up" style="width:12px;height:12px"></i> Score upsell médio</div>
+        <div class="kpi-value">56<span>.</span>9</div>
+        <div class="kpi-sub">
+          upsell Mecenas &nbsp;
+          <span class="kpi-delta pos">↑ +9pp vs 48.2 base</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="zap" style="width:12px;height:12px"></i> Top upsell (≥ p8)</div>
+        <div class="kpi-value">96<span>%</span></div>
+        <div class="kpi-sub">
+          no top 30% de propensão &nbsp;
+          <span class="kpi-delta pos">↑ +5pp vs 91.8%</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="smartphone" style="width:12px;height:12px"></i> Destaque iOS</div>
+        <div class="kpi-value">16<span>%</span></div>
+        <div class="kpi-sub">
+          preferem iOS &nbsp;
+          <span class="kpi-delta pos">↑ +3pp vs base</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── DEMOGRAFIA ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="users" style="width:14px;height:14px"></i>
+      Perfil demográfico
+    </div>
+    <div class="chart-grid-3">
+
+      <!-- GÊNERO -->
+      <div class="card card-brand-border">
+        <div class="section-label">Gênero</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot es"></div>El Salvador</div>
+          <div class="legend-item"><div class="legend-dot bg"></div>Base geral</div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">Masculino</span>
+            <div class="compare-values">
+              <span class="cv-es">70,5%</span>
+              <span class="cv-bg">60,6%</span>
+            </div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row">
+              <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:70.5%"></div></div>
+            </div>
+            <div class="compare-bar-row">
+              <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:60.6%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">Feminino</span>
+            <div class="compare-values">
+              <span class="cv-es">26,9%</span>
+              <span class="cv-bg">37,1%</span>
+            </div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row">
+              <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:26.9%"></div></div>
+            </div>
+            <div class="compare-bar-row">
+              <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:37.1%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--border);">
+          <span class="badge badge-active">+10pp a mais de homens</span>
+        </div>
+      </div>
+
+      <!-- FAIXA ETÁRIA -->
+      <div class="card card-brand-border">
+        <div class="section-label">Faixa etária <span style="color:var(--text-label);font-weight:400">(quem informou)</span></div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot es"></div>El Salvador</div>
+          <div class="legend-item"><div class="legend-dot bg"></div>Base geral</div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">18 – 24</span>
+            <div class="compare-values"><span class="cv-es">1,1%</span><span class="cv-bg">1,0%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:1.1%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:1.0%"></div></div></div>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">25 – 34</span>
+            <div class="compare-values"><span class="cv-es">10,8%</span><span class="cv-bg">7,1%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:10.8%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:7.1%"></div></div></div>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">35 – 44</span>
+            <div class="compare-values"><span class="cv-es">32,3%</span><span class="cv-bg">23,0%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:32.3%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:23.0%"></div></div></div>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">45 – 54</span>
+            <div class="compare-values"><span class="cv-es">28,3%</span><span class="cv-bg">29,4%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:28.3%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:29.4%"></div></div></div>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">55+</span>
+            <div class="compare-values"><span class="cv-es">27,6%</span><span class="cv-bg">39,5%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:27.6%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:39.5%"></div></div></div>
+          </div>
+        </div>
+
+        <div style="margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--border);">
+          <span class="badge badge-active">Mais jovem que a base</span>
+          <span class="badge badge-active" style="margin-left:6px">35-44 +9pp</span>
+          <span class="badge badge-neutral" style="margin-left:6px">55+ -12pp</span>
+        </div>
+      </div>
+
+      <!-- REGIÃO -->
+      <div class="card card-brand-border">
+        <div class="section-label">Região <span style="color:var(--text-label);font-weight:400">(quem tem CEP)</span></div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot es"></div>El Salvador</div>
+          <div class="legend-item"><div class="legend-dot bg"></div>Base geral</div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">Sudeste</span>
+            <div class="compare-values"><span class="cv-es">46,4%</span><span class="cv-bg">47,2%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:46.4%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:47.2%"></div></div></div>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">Sul</span>
+            <div class="compare-values"><span class="cv-es">25,4%</span><span class="cv-bg">26,7%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:25.4%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:26.7%"></div></div></div>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">Nordeste</span>
+            <div class="compare-values"><span class="cv-es">17,2%</span><span class="cv-bg">15,0%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:17.2%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:15.0%"></div></div></div>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">Norte</span>
+            <div class="compare-values"><span class="cv-es">6,1%</span><span class="cv-bg">5,5%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:6.1%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:5.5%"></div></div></div>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">Centro-Oeste</span>
+            <div class="compare-values"><span class="cv-es">4,9%</span><span class="cv-bg">5,6%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:4.9%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:5.6%"></div></div></div>
+          </div>
+        </div>
+
+        <div style="margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--border);">
+          <span class="badge badge-active">Nordeste +2pp</span>
+          <span class="badge badge-neutral" style="margin-left:6px">Resto similar</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── PLANO & DEVICE ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="credit-card" style="width:14px;height:14px"></i>
+      Plano e consumo
+    </div>
+    <div class="chart-grid-2">
+
+      <!-- PLANO -->
+      <div class="card card-brand-border">
+        <div class="section-label">Distribuição por plano</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Plano</th>
+              <th class="right">El Salvador</th>
+              <th class="right">Base geral</th>
+              <th class="right">Δ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-neutral">GBB</span></td>
+              <td class="right td-mono">27,6%</td>
+              <td class="right td-mono">30,1%</td>
+              <td class="right"><span style="color:var(--negative);font-size:.75rem;font-weight:600">-2,5pp</span></td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-warning">Mecenas</span></td>
+              <td class="right td-mono">0,2%</td>
+              <td class="right td-mono">0,2%</td>
+              <td class="right"><span style="color:var(--text-muted);font-size:.75rem">—</span></td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-neutral">Outro</span></td>
+              <td class="right td-mono">72,2%</td>
+              <td class="right td-mono">69,7%</td>
+              <td class="right"><span style="color:var(--positive);font-size:.75rem;font-weight:600">+2,5pp</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:var(--space-6);">
+          <div class="section-label">Recorrência</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th class="right">El Salvador</th>
+                <th class="right">Base geral</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Anual</td>
+                <td class="right td-mono">87,8%</td>
+                <td class="right td-mono">88,9%</td>
+              </tr>
+              <tr>
+                <td>Vitalício</td>
+                <td class="right td-mono">6,6%</td>
+                <td class="right td-mono">7,1%</td>
+              </tr>
+              <tr>
+                <td>Bienal</td>
+                <td class="right td-mono">5,3%</td>
+                <td class="right td-mono">3,3%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- DEVICE -->
+      <div class="card card-brand-border">
+        <div class="section-label">Dispositivo preferido <span style="color:var(--text-label);font-weight:400">(últimos 90d)</span></div>
+        <div class="legend" style="margin-bottom:var(--space-4)">
+          <div class="legend-item"><div class="legend-dot es"></div>El Salvador</div>
+          <div class="legend-item"><div class="legend-dot bg"></div>Base geral</div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">📺 TV</span>
+            <div class="compare-values"><span class="cv-es">48,8%</span><span class="cv-bg">47,4%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:48.8%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:47.4%"></div></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">📱 Android</span>
+            <div class="compare-values"><span class="cv-es">23,5%</span><span class="cv-bg">26,2%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:23.5%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:26.2%"></div></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">🍎 iOS</span>
+            <div class="compare-values"><span class="cv-es">16,9%</span><span class="cv-bg">14,3%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:16.9%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:14.3%"></div></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header">
+            <span class="compare-name">🌐 Web</span>
+            <div class="compare-values"><span class="cv-es">9,3%</span><span class="cv-bg">9,0%</span></div>
+          </div>
+          <div class="compare-bars">
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:9.3%"></div></div></div>
+            <div class="compare-bar-row"><div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:9.0%"></div></div></div>
+          </div>
+        </div>
+
+        <div style="margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--border);">
+          <span class="badge badge-active">iOS +3pp vs base</span>
+          <span class="badge badge-neutral" style="margin-left:6px">TV e Web também acima</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── PODER DE COMPRA & UPSELL ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="trending-up" style="width:14px;height:14px"></i>
+      Poder de compra e propensão de upsell
+    </div>
+    <div class="chart-grid-2">
+
+      <!-- CARTÃO -->
+      <div class="card card-brand-border">
+        <div class="section-label">Nível do cartão de crédito</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Nível</th>
+              <th class="right">El Salvador</th>
+              <th class="right">Base geral</th>
+              <th class="right">Δ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight-row">
+              <td><span class="badge badge-warning">⬛ Black</span></td>
+              <td class="right td-mono highlight-val">29,5%</td>
+              <td class="right td-mono">28,6%</td>
+              <td class="right"><span style="color:var(--positive);font-size:.75rem;font-weight:600">+0,9pp</span></td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-neutral">Amex</span></td>
+              <td class="right td-mono">1,1%</td>
+              <td class="right td-mono">1,1%</td>
+              <td class="right"><span style="color:var(--text-muted);font-size:.75rem">~</span></td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-neutral">Platinum</span></td>
+              <td class="right td-mono">26,0%</td>
+              <td class="right td-mono">25,8%</td>
+              <td class="right"><span style="color:var(--text-muted);font-size:.75rem">~</span></td>
+            </tr>
+            <tr class="highlight-row">
+              <td><span class="badge badge-active">Gold</span></td>
+              <td class="right td-mono highlight-val">29,5%</td>
+              <td class="right td-mono">28,4%</td>
+              <td class="right"><span style="color:var(--positive);font-size:.75rem;font-weight:600">+1,1pp</span></td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-neutral">Standard</span></td>
+              <td class="right td-mono">12,1%</td>
+              <td class="right td-mono">14,2%</td>
+              <td class="right"><span style="color:var(--negative);font-size:.75rem;font-weight:600">-2,1pp</span></td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-neutral">Business</span></td>
+              <td class="right td-mono">1,5%</td>
+              <td class="right td-mono">1,6%</td>
+              <td class="right"><span style="color:var(--text-muted);font-size:.75rem">~</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- UPSELL SCORE -->
+      <div class="card card-brand-border">
+        <div class="section-label">Score de propensão ao upsell (ML)</div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4); margin-bottom:var(--space-6)">
+          <div style="background:var(--brand-subtle); border:1px solid rgba(0,200,150,.2); border-radius:var(--radius-md); padding:var(--space-4); text-align:center">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-label);margin-bottom:6px">Upsell Mecenas</div>
+            <div style="font-size:2rem;font-weight:800;color:var(--brand)">56,9</div>
+            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px">vs 48,2 base geral</div>
+            <div style="margin-top:8px"><span class="badge badge-active">+9pp</span></div>
+          </div>
+          <div style="background:var(--brand-subtle); border:1px solid rgba(0,200,150,.2); border-radius:var(--radius-md); padding:var(--space-4); text-align:center">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-label);margin-bottom:6px">Upsell Geral</div>
+            <div style="font-size:2rem;font-weight:800;color:var(--brand)">60,5</div>
+            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px">vs 50,0 base geral</div>
+            <div style="margin-top:8px"><span class="badge badge-active">+10pp</span></div>
+          </div>
+        </div>
+
+        <div style="padding:var(--space-4); background:var(--bg-brand); border-radius:var(--radius-md); border:1px solid rgba(0,200,150,.15)">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);margin-bottom:var(--space-2)">
+            96,4% no top upsell (percentil ≥ 8)
+          </div>
+          <div style="font-size:0.825rem;color:var(--text-secondary);line-height:1.5">
+            Quase todos os viewers de El Salvador estão nos 30% com maior propensão de upgrade — 5pp acima da média da base (91,8%).
+          </div>
+        </div>
+
+        <div style="margin-top:var(--space-4);">
+          <div class="section-label" style="margin-bottom:var(--space-3)">Tempo de assinatura</div>
+          <table>
+            <thead><tr><th></th><th class="right">El Salvador</th><th class="right">Base geral</th></tr></thead>
+            <tbody>
+              <tr><td>Média (meses)</td><td class="right td-mono">8,8</td><td class="right td-mono">11,9</td></tr>
+              <tr><td>Mediana (meses)</td><td class="right td-mono">1</td><td class="right td-mono">6</td></tr>
+              <tr><td>% Vitalício</td><td class="right td-mono">7,1%</td><td class="right td-mono">7,1%</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:var(--space-3)"><span class="badge badge-warning">Assinantes mais novos</span> <span style="font-size:.8rem;color:var(--text-muted);margin-left:6px">Onboarding ativo</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── AFINIDADE DE CONTEÚDO ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="play-circle" style="width:14px;height:14px"></i>
+      Afinidade de conteúdo — O que mais assistem além de El Salvador
+    </div>
+    <div class="card card-brand-border">
+      <div style="margin-bottom:var(--space-6); padding:var(--space-4); background:var(--bg-brand); border-radius:var(--radius-md); border:1px solid rgba(0,200,150,.15)">
+        <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.5">
+          <strong style="color:var(--brand)">Perfil editorial claro:</strong> Crime organizado · Segurança pública · Geopolítica · Política investigativa.
+          O espectador de El Salvador tem preferência fortíssima por documentários de investigação e reportagens de criminalidade — alinhado ao tema do próprio conteúdo.
+        </div>
+      </div>
+
+      <div class="affinity-row">
+        <div class="affinity-rank top3">1</div>
+        <div class="affinity-name">Oficina do Diabo</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:56.3%"></div></div>
+          <div class="affinity-pct">56%</div>
+        </div>
+        <span class="badge badge-active">Top 1</span>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank top3">2</div>
+        <div class="affinity-name">Face Oculta</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:54.0%"></div></div>
+          <div class="affinity-pct">54%</div>
+        </div>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank top3">3</div>
+        <div class="affinity-name">Entre Lobos</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:52.2%"></div></div>
+          <div class="affinity-pct">52%</div>
+        </div>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank">4</div>
+        <div class="affinity-name">Rasta News</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:44.6%"></div></div>
+          <div class="affinity-pct">45%</div>
+        </div>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank">5</div>
+        <div class="affinity-name">Investigação Paralela — 4ª Temporada</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:44.5%"></div></div>
+          <div class="affinity-pct">45%</div>
+        </div>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank">6</div>
+        <div class="affinity-name">From the River to the Sea</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:44.2%"></div></div>
+          <div class="affinity-pct">44%</div>
+        </div>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank">7</div>
+        <div class="affinity-name">Rio de Janeiro: Paraíso em Chamas</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:43.5%"></div></div>
+          <div class="affinity-pct">44%</div>
+        </div>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank">8</div>
+        <div class="affinity-name">História do Comunismo</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:41.9%"></div></div>
+          <div class="affinity-pct">42%</div>
+        </div>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank">9</div>
+        <div class="affinity-name">Raio-X Banco Master</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:39.1%"></div></div>
+          <div class="affinity-pct">39%</div>
+        </div>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank">10</div>
+        <div class="affinity-name">Magna Carta</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:37.3%"></div></div>
+          <div class="affinity-pct">37%</div>
+        </div>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank">11</div>
+        <div class="affinity-name">Conversa Paralela</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:36.3%"></div></div>
+          <div class="affinity-pct">36%</div>
+        </div>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank">12</div>
+        <div class="affinity-name">Brasil: A Última Cruzada</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:36.2%"></div></div>
+          <div class="affinity-pct">36%</div>
+        </div>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank">13</div>
+        <div class="affinity-name">Cartas na Mesa</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:34.0%"></div></div>
+          <div class="affinity-pct">34%</div>
+        </div>
+      </div>
+      <div class="affinity-row">
+        <div class="affinity-rank">14</div>
+        <div class="affinity-name">Domingo sem Deus</div>
+        <div class="affinity-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:32.5%"></div></div>
+          <div class="affinity-pct">33%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INSIGHTS & AÇÕES ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="lightbulb" style="width:14px;height:14px"></i>
+      Recomendações estratégicas
+    </div>
+    <div class="chart-grid-3">
+
+      <div class="card card-brand-border">
+        <div class="insight-list">
+          <div class="insight-item">
+            <div class="insight-icon brand">
+              <i data-lucide="target" style="width:16px;height:16px"></i>
+            </div>
+            <div>
+              <div class="insight-title">Perfil ideal para aquisição</div>
+              <div class="insight-body">Homem, 35–50 anos, interesse em segurança pública, política e geopolítica. Score de upsell alto indica boa LTV desde o primeiro mês.</div>
+            </div>
+          </div>
+          <div style="padding:var(--space-3); background:var(--bg-brand); border-radius:var(--radius-md); border:1px solid rgba(0,200,150,.1);">
+            <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;font-weight:600">Canais sugeridos</div>
+            <div style="font-size:.82rem;color:var(--text-secondary)">YouTube político · Podcasts de geopolítica · Twitter/X (debates de segurança)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-brand-border">
+        <div class="insight-list">
+          <div class="insight-item">
+            <div class="insight-icon brand">
+              <i data-lucide="refresh-cw" style="width:16px;height:16px"></i>
+            </div>
+            <div>
+              <div class="insight-title">Reativação de inativos</div>
+              <div class="insight-body">Filtrar ex-assinantes por consumo histórico de Oficina do Diabo, Face Oculta, Entre Lobos ou Investigação Paralela — mesmo DNA editorial.</div>
+            </div>
+          </div>
+          <div style="padding:var(--space-3); background:var(--bg-brand); border-radius:var(--radius-md); border:1px solid rgba(0,200,150,.1);">
+            <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;font-weight:600">Argumento de reativação</div>
+            <div style="font-size:.82rem;color:var(--text-secondary)">El Salvador como gancho — conteúdo inédito sobre segurança pública e crime organizado.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-brand-border">
+        <div class="insight-list">
+          <div class="insight-item">
+            <div class="insight-icon warning">
+              <i data-lucide="alert-triangle" style="width:16px;height:16px"></i>
+            </div>
+            <div>
+              <div class="insight-title">Atenção: assinantes novos</div>
+              <div class="insight-body">Mediana de apenas 1 mês de assinatura — El Salvador está atraindo entrantes recentes, possivelmente via destaque no onboarding.</div>
+            </div>
+          </div>
+          <div style="padding:var(--space-3); background:rgba(245,158,11,.06); border-radius:var(--radius-md); border:1px solid rgba(245,158,11,.15);">
+            <div style="font-size:.72rem;color:#FCD34D;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;font-weight:600">Oportunidade</div>
+            <div style="font-size:.82rem;color:var(--text-secondary)">Usar El Salvador como isca de conversão em landing pages e campanhas de topo de funil.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── TABELA DE REFERÊNCIA ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="table" style="width:14px;height:14px"></i>
+      Tabela completa — El Salvador vs Base geral
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Atributo</th>
+            <th class="right">El Salvador</th>
+            <th class="right">Base geral</th>
+            <th class="right">Δ</th>
+            <th>Destaque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="5" style="padding:var(--space-2) var(--space-4); font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-label); background:var(--bg-base)">Perfil demográfico</td></tr>
+          <tr>
+            <td>Masculino</td>
+            <td class="right td-mono highlight-val">70,5%</td>
+            <td class="right td-mono">60,6%</td>
+            <td class="right"><span style="color:var(--positive);font-weight:600">+10pp</span></td>
+            <td><span class="badge badge-active">Destaque</span></td>
+          </tr>
+          <tr>
+            <td>Faixa 35–44</td>
+            <td class="right td-mono highlight-val">32,3%</td>
+            <td class="right td-mono">23,0%</td>
+            <td class="right"><span style="color:var(--positive);font-weight:600">+9pp</span></td>
+            <td><span class="badge badge-active">Destaque</span></td>
+          </tr>
+          <tr>
+            <td>Faixa 45–54</td>
+            <td class="right td-mono">28,3%</td>
+            <td class="right td-mono">29,4%</td>
+            <td class="right"><span style="color:var(--text-muted);font-size:.75rem">~</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Faixa 55+</td>
+            <td class="right td-mono">27,6%</td>
+            <td class="right td-mono">39,5%</td>
+            <td class="right"><span style="color:var(--negative);font-weight:600">-12pp</span></td>
+            <td><span class="badge badge-neutral">Mais jovem</span></td>
+          </tr>
+
+          <tr><td colspan="5" style="padding:var(--space-2) var(--space-4); font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-label); background:var(--bg-base)">Geografia & plano</td></tr>
+          <tr>
+            <td>Região Sudeste</td>
+            <td class="right td-mono">46,4%</td>
+            <td class="right td-mono">47,2%</td>
+            <td class="right"><span style="color:var(--text-muted);font-size:.75rem">~</span></td>
+            <td><span class="badge badge-neutral">Igual</span></td>
+          </tr>
+          <tr>
+            <td>Região Nordeste</td>
+            <td class="right td-mono highlight-val">17,2%</td>
+            <td class="right td-mono">15,0%</td>
+            <td class="right"><span style="color:var(--positive);font-weight:600">+2pp</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Plano GBB</td>
+            <td class="right td-mono">27,5%</td>
+            <td class="right td-mono">30,1%</td>
+            <td class="right"><span style="color:var(--text-muted);font-size:.75rem">~</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Plano Mecenas</td>
+            <td class="right td-mono">0,3%</td>
+            <td class="right td-mono">0,2%</td>
+            <td class="right"><span style="color:var(--text-muted);font-size:.75rem">~</span></td>
+            <td></td>
+          </tr>
+
+          <tr><td colspan="5" style="padding:var(--space-2) var(--space-4); font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-label); background:var(--bg-base)">Consumo & score</td></tr>
+          <tr>
+            <td>Dispositivo iOS</td>
+            <td class="right td-mono highlight-val">16,9%</td>
+            <td class="right td-mono">14,3%</td>
+            <td class="right"><span style="color:var(--positive);font-weight:600">+3pp</span></td>
+            <td><span class="badge badge-active">Destaque</span></td>
+          </tr>
+          <tr>
+            <td>Cartão Black</td>
+            <td class="right td-mono highlight-val">29,5%</td>
+            <td class="right td-mono">28,6%</td>
+            <td class="right"><span style="color:var(--positive);font-weight:600">+1pp</span></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Score upsell Mecenas (avg)</td>
+            <td class="right td-mono highlight-val">56,9</td>
+            <td class="right td-mono">48,2</td>
+            <td class="right"><span style="color:var(--positive);font-weight:600">+9pp</span></td>
+            <td><span class="badge badge-active">Destaque</span></td>
+          </tr>
+          <tr>
+            <td>Score upsell geral (avg)</td>
+            <td class="right td-mono highlight-val">60,5</td>
+            <td class="right td-mono">50,0</td>
+            <td class="right"><span style="color:var(--positive);font-weight:600">+10pp</span></td>
+            <td><span class="badge badge-active">Destaque</span></td>
+          </tr>
+          <tr>
+            <td>Top upsell (percentil ≥ 8)</td>
+            <td class="right td-mono highlight-val">96,4%</td>
+            <td class="right td-mono">91,8%</td>
+            <td class="right"><span style="color:var(--positive);font-weight:600">+5pp</span></td>
+            <td><span class="badge badge-active">Destaque</span></td>
+          </tr>
+          <tr>
+            <td>Mediana assinatura (meses)</td>
+            <td class="right td-mono">1</td>
+            <td class="right td-mono">6</td>
+            <td class="right"><span style="color:var(--warning);font-weight:600">-5 meses</span></td>
+            <td><span class="badge badge-warning">Atenção</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-brand">Brasil Paralelo · Analytics</div>
+    <div class="footer-note">Atualizado em 22/05/2026 · Fonte: bp-datawarehouse · sandbox_seu_nome.tmp_el_salvador_perfil · 7.232 viewers ativos desde lançamento 21/05 / 524.915 base geral</div>
+  </footer>
+
+</div>
+
+<script>
+  lucide.createIcons();
+</script>
+</body>
+</html>
