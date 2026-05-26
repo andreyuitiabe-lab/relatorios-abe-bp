@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análise de Eficiência do Aquecimento — Brasil Paralelo</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; }
+    .header { background: #1a1a2e; color: #fff; padding: 40px 48px 32px; }
+    .header h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+    .header .subtitle { font-size: 14px; color: #aaa; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+    .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .kpi { background: #fff; border-radius: 8px; padding: 20px 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .kpi .label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+    .kpi .value { font-size: 28px; font-weight: 700; color: #1a1a2e; }
+    .kpi .sub { font-size: 12px; color: #666; margin-top: 4px; }
+    .section { background: #fff; border-radius: 8px; padding: 28px 32px; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 24px; }
+    .section h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+    .section .section-sub { font-size: 13px; color: #888; margin-bottom: 20px; }
+    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .chart-box { background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .chart-box h3 { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 16px; }
+    .chart-container { position: relative; height: 280px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 10px 12px; background: #f0f0f0; color: #555; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; }
+    td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafafa; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 600; background: #1a1a2e; color: #fff; border-radius: 3px; padding: 2px 6px; }
+    .badge-high { background: #16a34a; color: #fff; border-radius: 3px; padding: 2px 7px; font-size: 11px; font-weight: 600; }
+    .badge-low  { background: #dc2626; color: #fff; border-radius: 3px; padding: 2px 7px; font-size: 11px; font-weight: 600; }
+    .badge-mid  { background: #d97706; color: #fff; border-radius: 3px; padding: 2px 7px; font-size: 11px; font-weight: 600; }
+    .insight-box { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 14px 18px; border-radius: 0 6px 6px 0; margin-top: 16px; font-size: 13px; line-height: 1.6; color: #1e3a5f; }
+    .insight-box strong { display: block; margin-bottom: 4px; font-size: 13px; }
+    .survey-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 8px; }
+    .survey-item { background: #f9fafb; border-radius: 6px; padding: 14px; }
+    .survey-item .s-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 8px; }
+    .survey-item .s-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 12px; }
+    .survey-item .bar-fill { height: 8px; border-radius: 4px; background: #1a1a2e; min-width: 2px; }
+    footer { text-align: center; font-size: 12px; color: #999; padding: 32px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Análise de Eficiência do Aquecimento de Campanhas</h1>
+  <div class="subtitle">Brasil Paralelo · BigQuery — lead_registration + fct_transactions · Atualizado em 25/05/2026</div>
+</div>
+
+<div class="container">
+
+  <!-- KPIs -->
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="label">Total de Leads</div>
+      <div class="value">5,9M</div>
+      <div class="sub">histórico completo</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Leads Novos</div>
+      <div class="value">73,4%</div>
+      <div class="sub">nunca compraram antes</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Taxa de Conversão</div>
+      <div class="value">9,33%</div>
+      <div class="sub">last-click attribution</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Receita Gerada</div>
+      <div class="value">R$ 302M</div>
+      <div class="sub">atribuída a leads</div>
+    </div>
+  </div>
+
+  <!-- Charts row 1 -->
+  <div class="charts-row">
+    <div class="chart-box">
+      <h3>Conversão por Status no Cadastro</h3>
+      <div class="chart-container">
+        <canvas id="chartStatus"></canvas>
+      </div>
+    </div>
+    <div class="chart-box">
+      <h3>Receita por Lead (R$) — por Status</h3>
+      <div class="chart-container">
+        <canvas id="chartRevPerLead"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Curva de Conversão -->
+  <div class="section">
+    <h2>Curva de Conversão por Dias após Cadastro</h2>
+    <div class="section-sub">% acumulado dos leads que geraram alguma compra dentro de cada janela de tempo</div>
+    <div style="position:relative; height:320px;">
+      <canvas id="chartCurva"></canvas>
+    </div>
+    <div class="insight-box">
+      <strong>O lead frio demora mais de 1 ano para converter</strong>
+      Em 30 dias após o cadastro, apenas <strong>2,2%</strong> dos Não Membros converteram. Em 90 dias, <strong>3,1%</strong>. A metade da conversão total (5,1% em 1 ano vs 11% acumulado) ainda não aconteceu após o primeiro ano. O aquecimento constrói base para campanhas futuras — não para a janela de venda imediata.
+    </div>
+
+    <div style="margin-top: 24px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Status no Cadastro</th>
+            <th>Total Leads</th>
+            <th>1 dia</th>
+            <th>5 dias</th>
+            <th>15 dias</th>
+            <th>30 dias</th>
+            <th>60 dias</th>
+            <th>90 dias</th>
+            <th>180 dias</th>
+            <th>1 ano</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Membro Ativo</strong></td>
+            <td>310.312</td>
+            <td>1,43%</td><td>2,55%</td><td>5,14%</td><td>8,69%</td><td>13,30%</td><td>17,61%</td><td>28,83%</td><td>48,53%</td><td>88,83%</td>
+          </tr>
+          <tr>
+            <td><strong>Ex-Membro</strong></td>
+            <td>208.518</td>
+            <td>2,72%</td><td>4,11%</td><td>6,64%</td><td>9,12%</td><td>11,76%</td><td>13,66%</td><td>17,33%</td><td>21,43%</td><td>32,74%</td>
+          </tr>
+          <tr>
+            <td><strong>Membro Ativo (Vitalício)</strong></td>
+            <td>20.599</td>
+            <td>1,20%</td><td>2,25%</td><td>4,30%</td><td>6,30%</td><td>8,76%</td><td>11,01%</td><td>16,11%</td><td>22,71%</td><td>25,96%</td>
+          </tr>
+          <tr style="background:#fef9f9">
+            <td><strong>Não Membro</strong></td>
+            <td>5.376.144</td>
+            <td>0,62%</td><td>0,96%</td><td>1,60%</td><td>2,16%</td><td>2,69%</td><td>3,11%</td><td>3,96%</td><td>5,15%</td><td>11,03%</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px;color:#999;margin-top:8px;">* "Total" inclui conversões além de 1 ano. Membro Ativo tem múltiplas compras por lead, o que eleva o percentual acima de 100% quando somado por evento.</p>
+    </div>
+  </div>
+
+  <!-- Canal e campanhas -->
+  <div class="charts-row">
+    <div class="chart-box">
+      <h3>Taxa de Conversão por Canal de Aquisição</h3>
+      <div class="chart-container">
+        <canvas id="chartCanal"></canvas>
+      </div>
+    </div>
+    <div class="chart-box">
+      <h3>Campanhas Recentes 2025+ — R$/Lead</h3>
+      <div class="chart-container">
+        <canvas id="chartCampanhas"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabela de campanhas -->
+  <div class="section">
+    <h2>Campanhas com Aquecimento — Desempenho Consolidado</h2>
+    <div class="section-sub">Atribuição last-click. Campanhas mais antigas têm taxas maiores por terem mais tempo para os leads converterem.</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Campanha</th>
+          <th>Tag</th>
+          <th>Leads</th>
+          <th>% Novos</th>
+          <th>Conv.</th>
+          <th>% Conv</th>
+          <th>Receita</th>
+          <th>R$/Lead</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>A Primeira Arte</td><td><span class="tag">MUS</span></td><td>210.253</td><td>96,6%</td><td>28.677</td><td><span class="badge-high">13,64%</span></td><td>R$ 19,3M</td><td>R$ 92</td></tr>
+        <tr><td>Natal 2021</td><td><span class="tag">NTL21</span></td><td>149.116</td><td>90,8%</td><td>31.582</td><td><span class="badge-high">21,18%</span></td><td>R$ 25,6M</td><td>R$ 172</td></tr>
+        <tr><td>O Fim da Beleza</td><td><span class="tag">OFB</span></td><td>165.089</td><td>95,0%</td><td>25.505</td><td><span class="badge-high">15,45%</span></td><td>R$ 16,2M</td><td>R$ 98</td></tr>
+        <tr><td>Cortina de Fumaça</td><td><span class="tag">AMB</span></td><td>108.299</td><td>93,3%</td><td>26.265</td><td><span class="badge-high">24,25%</span></td><td>R$ 18,2M</td><td>R$ 168</td></tr>
+        <tr><td>Nova BP</td><td><span class="tag">NBP</span></td><td>48.752</td><td>72,0%</td><td>19.574</td><td><span class="badge-high">40,15%</span></td><td>R$ 21,6M</td><td>R$ 443</td></tr>
+        <tr><td>Entre Lobos</td><td><span class="tag">ELB</span></td><td>202.433</td><td>96,3%</td><td>25.820</td><td><span class="badge-mid">12,75%</span></td><td>R$ 13,7M</td><td>R$ 68</td></tr>
+        <tr><td>Brasil, A Última Cruzada</td><td><span class="tag">BUC</span></td><td>217.231</td><td>98,9%</td><td>15.304</td><td><span class="badge-mid">7,05%</span></td><td>R$ 8,1M</td><td>R$ 37</td></tr>
+        <tr><td>Direita no Brasil</td><td><span class="tag">DIR</span></td><td>185.002</td><td>97,7%</td><td>17.501</td><td><span class="badge-mid">9,46%</span></td><td>R$ 7,6M</td><td>R$ 41</td></tr>
+        <tr><td>Pátria</td><td><span class="tag">PPT</span></td><td>136.561</td><td>96,4%</td><td>13.045</td><td><span class="badge-mid">9,55%</span></td><td>R$ 6,6M</td><td>R$ 48</td></tr>
+        <tr><td>Oficina do Diabo</td><td><span class="tag">ODD</span></td><td>236.470</td><td>64,4%</td><td>23.980</td><td><span class="badge-mid">10,14%</span></td><td>R$ 6,7M</td><td>R$ 28</td></tr>
+        <tr><td>A Nova Moeda (Bitcoin)</td><td><span class="tag">BIT</span></td><td>69.162</td><td>41,0%</td><td>8.300</td><td><span class="badge-mid">12,00%</span></td><td>R$ 4,9M</td><td>R$ 71</td></tr>
+        <tr><td>Papa</td><td><span class="tag">PAP</span></td><td>121.908</td><td>52,7%</td><td>7.618</td><td><span class="badge-mid">6,25%</span></td><td>R$ 2,1M</td><td>R$ 18</td></tr>
+        <tr><td>MST</td><td><span class="tag">MST</span></td><td>127.691</td><td>50,4%</td><td>6.866</td><td><span class="badge-mid">5,38%</span></td><td>R$ 2,1M</td><td>R$ 17</td></tr>
+        <tr><td>Rio de Janeiro, Paraíso em Chamas</td><td><span class="tag">RIO</span></td><td>220.280</td><td>73,3%</td><td>8.159</td><td><span class="badge-low">3,70%</span></td><td>R$ 2,0M</td><td>R$ 9</td></tr>
+        <tr><td>Raio-X Banco Master</td><td><span class="tag">BMA</span></td><td>190.481</td><td>53,8%</td><td>7.484</td><td><span class="badge-low">3,93%</span></td><td>R$ 1,8M</td><td>R$ 10</td></tr>
+        <tr><td>Congresso Bitcoin</td><td><span class="tag">DBI</span></td><td>26.189</td><td>38,0%</td><td>862</td><td><span class="badge-low">3,29%</span></td><td>R$ 226k</td><td>R$ 9</td></tr>
+        <tr><td>Domingo Sem Deus</td><td><span class="tag">DOM</span></td><td>233.062</td><td>69,2%</td><td>4.347</td><td><span class="badge-low">1,87%</span></td><td>R$ 987k</td><td>R$ 4</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Survey -->
+  <div class="section">
+    <h2>Perfil dos Leads — Pesquisa Pós-Cadastro</h2>
+    <div class="section-sub">4 pesquisas · 776 respostas totais · jan–mai/2025. Cada aba cobre uma campanha/evento diferente.</div>
+
+    <!-- Tab comparison cards -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;">
+
+      <div style="background:#f9fafb;border-radius:8px;padding:16px;border-top:3px solid #1a1a2e;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#1a1a2e;margin-bottom:8px;">ODD — Jan/2025</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;">N = 207 respostas</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;">62% masculino</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;"><strong>64% têm 50+ anos</strong></div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;">43% ganham até R$5k</div>
+        <div style="font-size:11px;color:#555;margin-bottom:6px;">Ocupação: Func. privado (24%) · Aposentado (22%)</div>
+        <div style="font-size:10px;background:#1a1a2e;color:#fff;border-radius:3px;padding:2px 6px;display:inline-block;">Hist/Política 72% · Religião 57%</div>
+      </div>
+
+      <div style="background:#f9fafb;border-radius:8px;padding:16px;border-top:3px solid #7c3aed;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#7c3aed;margin-bottom:8px;">Oscar/DTR — Fev/2025</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;">N = 155 respostas</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;"><strong>78% feminino</strong> ← único evento</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;">34% têm 60+ anos</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;">55% ganham até R$5k</div>
+        <div style="font-size:11px;color:#555;margin-bottom:6px;"><strong>33% já são Membros</strong> (mais engajado)</div>
+        <div style="font-size:10px;background:#7c3aed;color:#fff;border-radius:3px;padding:2px 6px;display:inline-block;">Pós-Grad 27% · Superior 28%</div>
+      </div>
+
+      <div style="background:#f9fafb;border-radius:8px;padding:16px;border-top:3px solid #0891b2;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#0891b2;margin-bottom:8px;">RIO — Mar/2025</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;">N = 207 respostas</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;">55% masculino</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;"><strong>51% têm 60+ anos</strong></div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;">40% ganham até R$5k</div>
+        <div style="font-size:11px;color:#555;margin-bottom:6px;">9% Membros · 64% conhece sem ser membro</div>
+        <div style="font-size:10px;background:#0891b2;color:#fff;border-radius:3px;padding:2px 6px;display:inline-block;">Documentário violência RJ: 80% nota 5</div>
+      </div>
+
+      <div style="background:#f9fafb;border-radius:8px;padding:16px;border-top:3px solid #dc2626;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#dc2626;margin-bottom:8px;">RIO wave 2 — Mai/2025</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;">N = 207 respostas</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;">61% masculino</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;"><strong>67% têm 60+ anos</strong> ↑ mais velho</div>
+        <div style="font-size:11px;color:#555;margin-bottom:2px;"><strong>60% ganham até R$5k</strong> ↑ mais baixo</div>
+        <div style="font-size:11px;color:#555;margin-bottom:6px;">3% Membros · 56% conhece sem ser membro</div>
+        <div style="font-size:10px;background:#dc2626;color:#fff;border-radius:3px;padding:2px 6px;display:inline-block;">Ensino Médio 30% (top) · Pós-Grad 15%</div>
+      </div>
+
+    </div>
+
+    <!-- ODD detail — survey 1 -->
+    <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:12px;padding-top:4px;">Detalhe: Pesquisa ODD (jan/2025) — N=207</div>
+    <div class="survey-grid">
+      <div class="survey-item">
+        <div class="s-label">Faixa Etária</div>
+        <div class="s-bar"><div class="bar-fill" style="width:74px"></div><span>60+ anos — 36,7%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:55px"></div><span>50–59 anos — 27,1%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:36px"></div><span>40–49 anos — 17,9%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:25px"></div><span>30–39 anos — 12,6%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:10px"></div><span>19–29 anos — 5,3%</span></div>
+        <p style="font-size:11px;color:#888;margin-top:8px;"><strong>64% têm 50 anos ou mais.</strong> Perfil mais maduro do que a média digital.</p>
+      </div>
+
+      <div class="survey-item">
+        <div class="s-label">Ocupação</div>
+        <div class="s-bar"><div class="bar-fill" style="width:49px"></div><span>Funcionário privado — 24,2%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:44px"></div><span>Aposentado — 21,7%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:41px"></div><span>Autônomo / Liberal — 20,3%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:25px"></div><span>Empresário — 12,1%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:25px"></div><span>Servidor público — 12,1%</span></div>
+      </div>
+
+      <div class="survey-item">
+        <div class="s-label">Renda Mensal</div>
+        <div class="s-bar"><div class="bar-fill" style="width:47px"></div><span>Até R$ 2.500 — 19,8%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:47px"></div><span>R$ 2.500–5.000 — 23,2%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:25px"></div><span>R$ 5.000–7.500 — 12,1%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:20px"></div><span>R$ 7.500–10.000 — 9,7%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:14px"></div><span>R$ 10.000–12.500 — 4,8%</span></div>
+        <div class="s-bar"><div class="bar-fill" style="width:25px"></div><span>R$ 15.000+ — 12,1%</span></div>
+        <p style="font-size:11px;color:#888;margin-top:8px;">43% ganham até R$5k/mês. Classe média típica.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px;">Áreas de Interesse (ODD)</div>
+        <div class="chart-container" style="height:200px;">
+          <canvas id="chartAreas"></canvas>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px;">Motivação para Consumir Conteúdo (ODD)</div>
+        <div class="chart-container" style="height:200px;">
+          <canvas id="chartMotivacao"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box" style="margin-top:20px;">
+      <strong>O lead BP: homem, maduro, intelectualmente motivado</strong>
+      62% masculino, 64% com 50 anos ou mais. Motivação central: enriquecer repertório cultural (41,5%) e melhorar argumentação (38,2%). Não é um comprador por impulso — é alguém que pondera. Isso é consistente com os 421 dias de tempo médio de conversão.
+    </div>
+
+    <!-- Urgência e dor -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px;">Urgência: "Importância de aprofundar conhecimento" (1–5)</div>
+        <div class="chart-container" style="height:180px;">
+          <canvas id="chartScore"></canvas>
+        </div>
+        <p style="font-size:12px;color:#666;margin-top:8px;">50–59 anos: 80% deram nota 5 — o perfil mais urgente da base. 19–29 anos: apenas 64%.</p>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px;">Sensação de "já fiquei para trás" por faixa de renda</div>
+        <div class="chart-container" style="height:180px;">
+          <canvas id="chartDor"></canvas>
+        </div>
+        <p style="font-size:12px;color:#666;margin-top:8px;">Paradoxo: renda mais baixa sente mais dor, mas tem menos poder de compra. Ponto de equilíbrio: R$5–7,5k (68% de urgência).</p>
+      </div>
+    </div>
+
+    <!-- Cross-survey BP awareness -->
+    <div style="margin-top:24px;">
+      <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:12px;">Conhecimento da BP por Pesquisa — quão "quente" é o lead?</div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Pesquisa</th>
+              <th>N</th>
+              <th>Membro ativo</th>
+              <th>Consome sem ser membro</th>
+              <th>Ouviu falar, nunca assistiu</th>
+              <th>Não conhece</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ODD — Jan/2025</strong></td>
+              <td>207</td>
+              <td>—</td>
+              <td colspan="3" style="color:#888;font-style:italic;">Pesquisa não perguntou awareness da BP</td>
+            </tr>
+            <tr>
+              <td><strong>Oscar/DTR — Fev/2025</strong></td>
+              <td>155</td>
+              <td><span class="badge-high">33%</span></td>
+              <td>55%</td>
+              <td>9%</td>
+              <td>3%</td>
+            </tr>
+            <tr>
+              <td><strong>RIO — Mar/2025</strong></td>
+              <td>207</td>
+              <td><span class="badge-mid">9%</span></td>
+              <td>64%</td>
+              <td>21%</td>
+              <td>6%</td>
+            </tr>
+            <tr>
+              <td><strong>RIO wave 2 — Mai/2025</strong></td>
+              <td>207</td>
+              <td><span class="badge-low">3%</span></td>
+              <td>56%</td>
+              <td>33%</td>
+              <td>7%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="insight-box" style="margin-top:12px;">
+        <strong>A base "esfria" ao longo do ciclo de campanha</strong>
+        Da onda 1 (mar) à onda 2 (mai) da campanha RIO, o percentual de membros caiu de 9% para 3% — e o de "nunca assistiu nada" subiu de 21% para 33%. A segunda onda alcançou uma audiência significativamente mais fria e menos qualificada da BP. O evento Oscar (DTR) foi o caso mais aquecido: 33% já membros, público feminino (78%), mais educado — leads de alta qualidade mas audiência pequena (155).
+      </div>
+    </div>
+
+    <!-- Age comparison chart across surveys -->
+    <div style="margin-top:24px;">
+      <div style="font-size:12px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px;">Perfil de Idade por Pesquisa — % com 60+ anos</div>
+      <div class="chart-container" style="height:160px;">
+        <canvas id="chartIdadePesquisas"></canvas>
+      </div>
+      <p style="font-size:12px;color:#666;margin-top:8px;">A base envelhece ao longo das ondas da campanha RIO: de 51% para 67% com 60+ anos. O evento Oscar, por ser feminino e cultural, captou um perfil relativamente mais jovem (34% com 60+).</p>
+    </div>
+
+  </div>
+
+  <!-- Seção geográfica -->
+  <div class="section">
+    <h2>Distribuição Geográfica dos Leads</h2>
+    <div class="section-sub">Extraído via DDD do telefone de cadastro — 3,3M leads com telefone válido mapeados</div>
+
+    <div class="charts-row" style="margin-bottom:20px;">
+      <div class="chart-box">
+        <h3>Leads por Região</h3>
+        <div class="chart-container">
+          <canvas id="chartRegiao"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>Conversão por Região (% e R$/Lead)</h3>
+        <div class="chart-container">
+          <canvas id="chartRegiaoConv"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>UF</th><th>Região</th><th>Leads</th><th>Convertidos</th><th>% Conv</th><th>Receita Total</th><th>R$/Lead</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>SP</strong></td><td>Sudeste</td><td>835.697</td><td>60.361</td><td><span class="badge-mid">7,22%</span></td><td>R$ 23,9M</td><td>R$ 28,6</td></tr>
+        <tr><td><strong>RJ</strong></td><td>Sudeste</td><td>434.724</td><td>28.041</td><td><span class="badge-mid">6,45%</span></td><td>R$ 9,8M</td><td>R$ 22,5</td></tr>
+        <tr><td><strong>MG</strong></td><td>Sudeste</td><td>338.839</td><td>24.280</td><td><span class="badge-mid">7,17%</span></td><td>R$ 8,9M</td><td>R$ 26,1</td></tr>
+        <tr><td><strong>RS</strong></td><td>Sul</td><td>319.563</td><td>17.924</td><td><span class="badge-low">5,61%</span></td><td>R$ 6,7M</td><td>R$ 21,0</td></tr>
+        <tr><td><strong>PR</strong></td><td>Sul</td><td>176.832</td><td>13.443</td><td><span class="badge-high">7,60%</span></td><td>R$ 5,2M</td><td>R$ 29,5</td></tr>
+        <tr><td><strong>BA</strong></td><td>Nordeste</td><td>143.275</td><td>7.860</td><td><span class="badge-low">5,49%</span></td><td>R$ 2,5M</td><td>R$ 17,5</td></tr>
+        <tr><td><strong>SC</strong></td><td>Sul</td><td>136.827</td><td>10.018</td><td><span class="badge-mid">7,32%</span></td><td>R$ 3,4M</td><td>R$ 24,9</td></tr>
+        <tr><td><strong>PE</strong></td><td>Nordeste</td><td>110.037</td><td>6.254</td><td><span class="badge-low">5,68%</span></td><td>R$ 2,2M</td><td>R$ 20,3</td></tr>
+        <tr><td><strong>DF</strong></td><td>Centro-Oeste</td><td>98.981</td><td>7.928</td><td><span class="badge-high">8,01%</span></td><td>R$ 3,3M</td><td>R$ 33,4</td></tr>
+        <tr><td><strong>CE</strong></td><td>Nordeste</td><td>97.361</td><td>5.297</td><td><span class="badge-low">5,44%</span></td><td>R$ 1,7M</td><td>R$ 17,3</td></tr>
+        <tr><td><strong>GO</strong></td><td>Centro-Oeste</td><td>74.768</td><td>5.162</td><td><span class="badge-mid">6,90%</span></td><td>R$ 1,9M</td><td>R$ 25,4</td></tr>
+        <tr><td><strong>ES</strong></td><td>Sudeste</td><td>69.181</td><td>4.996</td><td><span class="badge-mid">7,22%</span></td><td>R$ 1,7M</td><td>R$ 24,1</td></tr>
+        <tr><td><strong>MT</strong></td><td>Centro-Oeste</td><td>42.977</td><td>3.253</td><td><span class="badge-high">7,57%</span></td><td>R$ 1,4M</td><td>R$ 32,1</td></tr>
+        <tr><td><strong>AM</strong></td><td>Norte</td><td>42.468</td><td>1.973</td><td><span class="badge-low">4,65%</span></td><td>R$ 673k</td><td>R$ 15,8</td></tr>
+        <tr><td><strong>MS</strong></td><td>Centro-Oeste</td><td>39.901</td><td>2.800</td><td><span class="badge-mid">7,02%</span></td><td>R$ 1,1M</td><td>R$ 27,4</td></tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box" style="margin-top:16px;">
+      <strong>Centro-Oeste e Sul (PR, SC) convertem acima da média — Nordeste e Norte abaixo</strong>
+      DF lidera com 8,01% e R$33/lead. PR (7,60%) e MT (7,57%) surpreendem positivamente. RS destoa do restante do Sul (5,61% — similar ao Nordeste). Nordeste e Norte são os mercados com menor eficiência de conversão: custo de aquisição de lead provavelmente similar, retorno menor.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Análise gerada em 25/05/2026 · Fontes: bp-lake.marketing.lead_registration · bp-datawarehouse.masterdata.fct_transactions · dim_subscriptions · dim_user · dim_contact
+</footer>
+
+<script>
+const COLORS = {
+  blue:   '#1a1a2e',
+  mid:    '#16213e',
+  accent: '#0f3460',
+  green:  '#16a34a',
+  red:    '#dc2626',
+  amber:  '#d97706',
+  gray:   '#94a3b8',
+  light:  '#e2e8f0',
+};
+
+// 1. Conversão por Status
+new Chart(document.getElementById('chartStatus'), {
+  type: 'bar',
+  data: {
+    labels: ['Membro Ativo', 'Ex-Membro', 'Vitalício', 'Não Membro'],
+    datasets: [{
+      label: '% Conversão',
+      data: [44.74, 21.25, 19.33, 6.78],
+      backgroundColor: [COLORS.green, COLORS.accent, COLORS.mid, COLORS.gray],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y}%` } }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => v + '%' }, grid: { color: '#f0f0f0' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 2. Receita por Lead
+new Chart(document.getElementById('chartRevPerLead'), {
+  type: 'bar',
+  data: {
+    labels: ['Membro Ativo', 'Ex-Membro', 'Vitalício', 'Não Membro'],
+    datasets: [{
+      label: 'R$/Lead',
+      data: [391, 95, 541, 28],
+      backgroundColor: [COLORS.green, COLORS.accent, COLORS.mid, COLORS.gray],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` R$ ${ctx.parsed.y}` } }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + v }, grid: { color: '#f0f0f0' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 3. Curva de Conversão
+new Chart(document.getElementById('chartCurva'), {
+  type: 'line',
+  data: {
+    labels: ['1d', '5d', '10d', '15d', '30d', '60d', '90d', '180d', '1 ano'],
+    datasets: [
+      {
+        label: 'Membro Ativo',
+        data: [1.432, 2.553, 3.821, 5.135, 8.694, 13.3, 17.608, 28.826, 48.532],
+        borderColor: COLORS.green, backgroundColor: 'transparent', tension: 0.3, borderWidth: 2, pointRadius: 3,
+      },
+      {
+        label: 'Ex-Membro',
+        data: [2.722, 4.112, 5.505, 6.643, 9.119, 11.761, 13.66, 17.325, 21.43],
+        borderColor: COLORS.accent, backgroundColor: 'transparent', tension: 0.3, borderWidth: 2, pointRadius: 3,
+      },
+      {
+        label: 'Vitalício',
+        data: [1.199, 2.253, 3.335, 4.301, 6.296, 8.758, 11.01, 16.108, 22.71],
+        borderColor: COLORS.amber, backgroundColor: 'transparent', tension: 0.3, borderWidth: 2, pointRadius: 3, borderDash: [4,3],
+      },
+      {
+        label: 'Não Membro',
+        data: [0.616, 0.959, 1.308, 1.598, 2.155, 2.692, 3.111, 3.963, 5.146],
+        borderColor: COLORS.gray, backgroundColor: 'transparent', tension: 0.3, borderWidth: 2, pointRadius: 3,
+      },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { boxWidth: 12, font: { size: 12 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}%` } }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => v + '%' }, grid: { color: '#f0f0f0' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 4. Canais
+new Chart(document.getElementById('chartCanal'), {
+  type: 'bar',
+  data: {
+    labels: ['email CRM', 'orgânico', 'Portal', 'YouTube', 'Redes Sociais', 'Indicação', 'Anúncios', 'Influ. | Ads'],
+    datasets: [{
+      label: '% Conversão',
+      data: [49.33, 36.18, 18.42, 17.12, 9.75, 9.68, 7.57, 5.12],
+      backgroundColor: [COLORS.green, COLORS.green, COLORS.accent, COLORS.accent,
+                        COLORS.mid, COLORS.mid, COLORS.gray, COLORS.red],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x}%` } }
+    },
+    scales: {
+      x: { beginAtZero: true, ticks: { callback: v => v + '%' }, grid: { color: '#f0f0f0' } },
+      y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+    }
+  }
+});
+
+// 5. Campanhas recentes — R$/Lead
+new Chart(document.getElementById('chartCampanhas'), {
+  type: 'bar',
+  data: {
+    labels: ['BPD', 'BIT', 'ODD', 'GOD', 'PAP', 'MST', 'HDF', 'HID', 'VDS', 'BMA', 'RIO', 'DBI', 'DOM'],
+    datasets: [{
+      label: 'R$ por Lead',
+      data: [100, 71, 28, 20, 18, 17, 15, 15, 11, 10, 9, 9, 4],
+      backgroundColor: ctx => {
+        const v = ctx.parsed.y;
+        if (v >= 50) return COLORS.green;
+        if (v >= 20) return COLORS.accent;
+        if (v >= 10) return COLORS.amber;
+        return COLORS.red;
+      },
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` R$ ${ctx.parsed.y}/lead` } }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + v }, grid: { color: '#f0f0f0' } },
+      x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+    }
+  }
+});
+
+// 6. Áreas de Interesse (survey)
+new Chart(document.getElementById('chartAreas'), {
+  type: 'bar',
+  data: {
+    labels: ['Hist. e Política', 'Religião/Teologia', 'Des. Pessoal', 'Eco. e Negócios', 'Filosofia', 'Lit. e Artes'],
+    datasets: [{
+      data: [72.5, 58.0, 56.0, 55.1, 54.6, 34.8],
+      backgroundColor: COLORS.blue,
+      borderRadius: 3,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x}%` } }
+    },
+    scales: {
+      x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: '#f0f0f0' } },
+      y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
+
+// 8. Score de urgência (survey)
+new Chart(document.getElementById('chartScore'), {
+  type: 'bar',
+  data: {
+    labels: ['19–29 anos', '30–39 anos', '40–49 anos', '50–59 anos', '60+ anos'],
+    datasets: [{
+      label: '% com nota 5',
+      data: [64, 58, 73, 80, 74],
+      backgroundColor: [COLORS.gray, COLORS.gray, COLORS.accent, COLORS.green, COLORS.accent],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y}% deram nota 5` } }
+    },
+    scales: {
+      y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' }, grid: { color: '#f0f0f0' } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
+
+// 9. Dor por renda (survey)
+new Chart(document.getElementById('chartDor'), {
+  type: 'bar',
+  data: {
+    labels: ['Até 2,5k', '2,5–5k', '5–7,5k', '7,5–10k', '10–12,5k', '12,5–15k', '15k+'],
+    datasets: [{
+      label: '% "já fiquei para trás"',
+      data: [73, 60, 68, 35, 60, 64, 64],
+      backgroundColor: ctx => {
+        const v = ctx.parsed.y;
+        if (v >= 65) return COLORS.green;
+        if (v >= 55) return COLORS.accent;
+        return COLORS.amber;
+      },
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y}% sentem urgência` } }
+    },
+    scales: {
+      y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' }, grid: { color: '#f0f0f0' } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
+
+// 10. Leads por região
+new Chart(document.getElementById('chartRegiao'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Sudeste', 'Sul', 'Nordeste', 'Centro-Oeste', 'Norte'],
+    datasets: [{
+      data: [1678441, 633222, 550571, 256627, 164008],
+      backgroundColor: [COLORS.blue, COLORS.accent, COLORS.gray, COLORS.mid, COLORS.light],
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 10, font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => ` ${(ctx.parsed/3291291*100).toFixed(1)}% — ${ctx.parsed.toLocaleString('pt-BR')} leads` } }
+    }
+  }
+});
+
+// 11. Conversão por região
+new Chart(document.getElementById('chartRegiaoConv'), {
+  type: 'bar',
+  data: {
+    labels: ['Centro-Oeste', 'Sudeste', 'Sul', 'Nordeste', 'Norte'],
+    datasets: [
+      {
+        label: '% Conversão',
+        data: [7.46, 7.01, 6.54, 5.46, 5.24],
+        backgroundColor: [COLORS.green, COLORS.accent, COLORS.mid, COLORS.amber, COLORS.red],
+        borderRadius: 4,
+        yAxisID: 'y',
+      },
+      {
+        label: 'R$/Lead',
+        data: [29.9, 26.3, 24.2, 17.6, 18.3],
+        type: 'line',
+        borderColor: COLORS.blue,
+        backgroundColor: 'transparent',
+        tension: 0.3,
+        pointRadius: 5,
+        yAxisID: 'y2',
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { boxWidth: 10, font: { size: 11 } } } },
+    scales: {
+      y:  { beginAtZero: true, ticks: { callback: v => v + '%' }, grid: { color: '#f0f0f0' } },
+      y2: { position: 'right', beginAtZero: true, ticks: { callback: v => 'R$' + v }, grid: { display: false } },
+      x:  { grid: { display: false } }
+    }
+  }
+});
+
+// 7. Motivações (survey)
+new Chart(document.getElementById('chartMotivacao'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Enriquecer repertório', 'Melhorar argumentação', 'Confiança ao debater', 'Crescer profissionalmente'],
+    datasets: [{
+      data: [41.5, 38.2, 16.9, 3.4],
+      backgroundColor: [COLORS.blue, COLORS.accent, COLORS.gray, COLORS.light],
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 10, font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.parsed}%` } }
+    }
+  }
+});
+
+// 12. % 60+ por pesquisa (cross-survey age comparison)
+new Chart(document.getElementById('chartIdadePesquisas'), {
+  type: 'bar',
+  data: {
+    labels: ['ODD (jan/25)', 'Oscar/DTR (fev/25)', 'RIO onda 1 (mar/25)', 'RIO onda 2 (mai/25)'],
+    datasets: [
+      {
+        label: '% com 60+ anos',
+        data: [36.7, 34.2, 51.7, 67.6],
+        backgroundColor: ['#1a1a2e', '#7c3aed', '#0891b2', '#dc2626'],
+        borderRadius: 4,
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y}% com 60+ anos` } }
+    },
+    scales: {
+      y: { beginAtZero: true, max: 80, ticks: { callback: v => v + '%', font: { size: 11 } }, grid: { color: '#f0f0f0' } },
+      x: { ticks: { font: { size: 11 } }, grid: { display: false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
