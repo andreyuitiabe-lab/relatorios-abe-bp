@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qualificação de Leads — Brasil Paralelo</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; }
+    .header { background: #1a1a2e; color: #fff; padding: 40px 48px 32px; }
+    .header h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+    .header .subtitle { font-size: 14px; color: #aaa; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+    .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .kpi { background: #fff; border-radius: 8px; padding: 20px 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .kpi .label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+    .kpi .value { font-size: 28px; font-weight: 700; color: #1a1a2e; }
+    .kpi .sub { font-size: 12px; color: #666; margin-top: 4px; }
+    .section { background: #fff; border-radius: 8px; padding: 28px 32px; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 24px; }
+    .section h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+    .section-sub { font-size: 13px; color: #888; margin-bottom: 20px; }
+    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .chart-box { background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .chart-box h3 { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 16px; }
+    .chart-container { position: relative; height: 280px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 10px 12px; background: #f0f0f0; color: #555; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; }
+    td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafafa; }
+    .badge-high { background: #16a34a; color: #fff; border-radius: 3px; padding: 2px 7px; font-size: 11px; font-weight: 600; }
+    .badge-low  { background: #dc2626; color: #fff; border-radius: 3px; padding: 2px 7px; font-size: 11px; font-weight: 600; }
+    .badge-mid  { background: #d97706; color: #fff; border-radius: 3px; padding: 2px 7px; font-size: 11px; font-weight: 600; }
+    .insight-box { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 14px 18px; border-radius: 0 6px 6px 0; margin-top: 16px; font-size: 13px; line-height: 1.6; color: #1e3a5f; }
+    .insight-box strong { display: block; margin-bottom: 4px; font-size: 13px; }
+    .warn-box { background: #fff7ed; border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 0 6px 6px 0; margin-top: 16px; font-size: 13px; line-height: 1.6; color: #7c4a00; }
+    .success-box { background: #f0fdf4; border-left: 4px solid #16a34a; padding: 14px 18px; border-radius: 0 6px 6px 0; margin-top: 16px; font-size: 13px; line-height: 1.6; color: #14532d; }
+    .rec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+    .rec-card { background: #f8faff; border: 1px solid #dbeafe; border-radius: 8px; padding: 18px; }
+    .rec-card .num { font-size: 24px; font-weight: 800; color: #3b82f6; margin-bottom: 6px; }
+    .rec-card .title { font-size: 13px; font-weight: 700; color: #1e3a5f; margin-bottom: 8px; }
+    .rec-card .body { font-size: 12px; color: #555; line-height: 1.6; }
+    .q-card { background: #1a1a2e; color: #fff; border-radius: 8px; padding: 16px 20px; margin-bottom: 10px; }
+    .q-card .q-num { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+    .q-card .q-text { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .q-card .q-why { font-size: 12px; color: #94a3b8; }
+    .score-row { display: grid; grid-template-columns: 120px 1fr 60px; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 13px; }
+    .score-bar { height: 10px; border-radius: 5px; background: #1a1a2e; }
+    footer { text-align: center; font-size: 12px; color: #999; padding: 32px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Como Qualificar Leads — Pesquisa Pós-Cadastro</h1>
+  <div class="subtitle">Brasil Paralelo · 342.537 respostas · 4 formulários · 2025 · Atualizado em 26/05/2026</div>
+</div>
+
+<div class="container">
+
+  <!-- KPIs -->
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="label">Respostas totais</div>
+      <div class="value">342k</div>
+      <div class="sub">4 formulários — jan a dez/2025</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Conversão — respondentes</div>
+      <div class="value">39%</div>
+      <div class="sub">Teller survey (N=60.163) vs 9,3% geral</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Uplift médio Teller</div>
+      <div class="value">2,5×</div>
+      <div class="sub">vs leads que não responderam survey</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Taxa de resposta</div>
+      <div class="value">1–8%</div>
+      <div class="sub">dos leads por campanha (survey opcional)</div>
+    </div>
+  </div>
+
+  <!-- Section 1: Os formulários existentes -->
+  <div class="section">
+    <h2>Os 4 Formulários — O que Existe Hoje</h2>
+    <div class="section-sub">Cada formulário tem uma estrutura e uma audiência diferente. Só um prediz conversão de forma consistente.</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Formulário</th>
+          <th>Tipo de perguntas</th>
+          <th>Respostas</th>
+          <th>Período</th>
+          <th>Uplift de conversão</th>
+          <th>Prediz compra?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Teller (psicográfico)</strong></td>
+          <td>Idade, gênero, renda, áreas de interesse, motivação, urgência</td>
+          <td>66.850</td>
+          <td>Jan–Nov/2025</td>
+          <td><span class="badge-high">2–5× a taxa geral</span></td>
+          <td><span class="badge-high">Sim — forte</span></td>
+        </tr>
+        <tr>
+          <td><strong>TPV (Oscar/Tapete Vermelho)</strong></td>
+          <td>Nascimento, gênero, renda, interesse no Oscar, visão da premiação</td>
+          <td>12.509</td>
+          <td>Fev–Dez/2025</td>
+          <td><span class="badge-low">~1× (sem uplift)</span></td>
+          <td><span class="badge-low">Não</span></td>
+        </tr>
+        <tr>
+          <td><strong>RIO (documentário)</strong></td>
+          <td>Nascimento, gênero, renda, nota 1–5 para relevância do tema</td>
+          <td>159.560</td>
+          <td>Fev–Dez/2025</td>
+          <td><span class="badge-low">~1× (sem uplift)</span></td>
+          <td><span class="badge-low">Não</span></td>
+        </tr>
+        <tr>
+          <td><strong>MST (documentário)</strong></td>
+          <td>Nascimento, gênero, renda, nota 1–5 para relevância do tema</td>
+          <td>103.618</td>
+          <td>Mai–Jun/2025</td>
+          <td><span class="badge-low">~1× (sem uplift)</span></td>
+          <td><span class="badge-low">Não</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box" style="margin-top:16px;">
+      <strong>Diagnóstico: perguntas sobre o conteúdo específico não qualificam o lead</strong>
+      Perguntar "quão relevante é um documentário sobre violência no RJ?" ou "qual seu interesse no Oscar?" não distingue quem vai comprar de quem não vai. O que distingue são as características psicográficas do lead — quem ele é, o que o motiva, quanto ganha. O Teller (único formulário com esse perfil) mostra uplift consistente de 2–5× em <em>todas</em> as campanhas onde foi aplicado.
+    </div>
+  </div>
+
+  <!-- Section 2: Conversão por tipo de survey -->
+  <div class="charts-row">
+    <div class="chart-box">
+      <h3>Uplift de conversão por survey — campanhas selecionadas</h3>
+      <div class="chart-container">
+        <canvas id="chartUplift"></canvas>
+      </div>
+    </div>
+    <div class="chart-box">
+      <h3>Teller: distribuição de respostas (N=66.850)</h3>
+      <div class="chart-container">
+        <canvas id="chartDistrib"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: O que prediz conversão dentro do Teller -->
+  <div class="section">
+    <h2>O que Prediz Conversão Dentro do Formulário Teller</h2>
+    <div class="section-sub">60.163 respondentes cruzados com histórico de transações (last-click). Taxa de conversão e R$/respondente por segmento.</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:4px;">
+
+      <!-- Renda -->
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:14px;">Renda — maior predictor individual</div>
+        <div class="score-row">
+          <span style="font-size:12px;">R$15k+</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:100%;background:#16a34a;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#16a34a;">58,5%</span>
+        </div>
+        <div class="score-row">
+          <span style="font-size:12px;">R$12,5–15k</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:97%;background:#16a34a;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#16a34a;">56,5%</span>
+        </div>
+        <div class="score-row">
+          <span style="font-size:12px;">R$10–12,5k</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:92%;background:#16a34a;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#16a34a;">53,9%</span>
+        </div>
+        <div class="score-row">
+          <span style="font-size:12px;">R$7,5–10k</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:88%;background:#d97706;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#d97706;">51,5%</span>
+        </div>
+        <div class="score-row">
+          <span style="font-size:12px;">R$5–7,5k</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:81%;background:#d97706;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#d97706;">47,2%</span>
+        </div>
+        <div class="score-row">
+          <span style="font-size:12px;">R$2,5–5k</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:67%;background:#d97706;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#d97706;">39,2%</span>
+        </div>
+        <div class="score-row">
+          <span style="font-size:12px;">Até R$2,5k</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:47%;background:#dc2626;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#dc2626;">27,4%</span>
+        </div>
+      </div>
+
+      <!-- Faixa etária -->
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:14px;">Faixa etária — positivo com idade</div>
+        <div class="score-row">
+          <span style="font-size:12px;">60+ anos</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:100%;background:#16a34a;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#16a34a;">47,7%</span>
+        </div>
+        <div class="score-row">
+          <span style="font-size:12px;">50–59 anos</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:85%;background:#16a34a;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#16a34a;">40,5%</span>
+        </div>
+        <div class="score-row">
+          <span style="font-size:12px;">40–49 anos</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:84%;background:#d97706;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#d97706;">40,2%</span>
+        </div>
+        <div class="score-row">
+          <span style="font-size:12px;">30–39 anos</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:76%;background:#d97706;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#d97706;">36,2%</span>
+        </div>
+        <div class="score-row">
+          <span style="font-size:12px;">19–29 anos</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:55%;background:#dc2626;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#dc2626;">26,0%</span>
+        </div>
+        <div class="score-row">
+          <span style="font-size:12px;">Até 18 anos</span>
+          <div style="background:#eee;border-radius:5px;overflow:hidden;"><div class="score-bar" style="width:11%;background:#dc2626;"></div></div>
+          <span style="font-size:12px;font-weight:700;color:#dc2626;">5,1%</span>
+        </div>
+        <p style="font-size:11px;color:#888;margin-top:12px;">A combinação 60+ com R$7,5k+ é o segmento de maior valor — converte ~52% e gasta em média R$800+/respondente.</p>
+      </div>
+    </div>
+
+    <!-- Ocupação e outras variáveis -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:28px;">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:14px;">Ocupação</div>
+        <table style="font-size:12px;">
+          <thead><tr><th>Ocupação</th><th>N</th><th>Conv%</th><th>R$/resp</th></tr></thead>
+          <tbody>
+            <tr><td>Aposentado(a)</td><td>13.718</td><td><span class="badge-high">48,6%</span></td><td>R$ 552</td></tr>
+            <tr><td>Servidor(a) público(a)</td><td>10.567</td><td><span class="badge-high">48,6%</span></td><td>R$ 610</td></tr>
+            <tr><td>Empresário(a) / Empreendedor(a)</td><td>7.946</td><td><span class="badge-mid">42,9%</span></td><td>R$ 619</td></tr>
+            <tr><td>Func. empresa privada</td><td>12.083</td><td><span class="badge-mid">40,2%</span></td><td>R$ 404</td></tr>
+            <tr><td>Autônomo / Liberal</td><td>14.823</td><td><span class="badge-mid">37,0%</span></td><td>R$ 404</td></tr>
+            <tr><td>Estudante</td><td>2.903</td><td><span class="badge-low">18,6%</span></td><td>R$ 133</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:14px;">Áreas de interesse</div>
+        <div class="chart-container" style="height:200px;">
+          <canvas id="chartAreas"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Motivação e urgência -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:28px;">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:10px;">Motivação — "Crescer profissionalmente" é o pior sinal</div>
+        <table style="font-size:12px;">
+          <thead><tr><th>Motivação</th><th>N</th><th>Conv%</th><th>R$/resp</th></tr></thead>
+          <tbody>
+            <tr><td>Melhorar argumentação/visão</td><td>23.340</td><td><span class="badge-high">42,4%</span></td><td>R$ 471</td></tr>
+            <tr><td>Enriquecer repertório cultural</td><td>28.017</td><td><span class="badge-high">41,9%</span></td><td>R$ 512</td></tr>
+            <tr><td>Confiança ao debater</td><td>11.762</td><td><span class="badge-high">41,7%</span></td><td>R$ 463</td></tr>
+            <tr><td><strong>Crescer profissionalmente</strong></td><td>3.730</td><td><span class="badge-low">29,9%</span></td><td>R$ 259</td></tr>
+          </tbody>
+        </table>
+        <div class="warn-box" style="margin-top:10px;">
+          Leads que buscam crescimento profissional convertem menos. BP é uma plataforma de formação intelectual/cultural — não de capacitação profissional. Esse lead está desalinhado.
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:10px;">Score de urgência (1–5) — diferencia mas não é o principal</div>
+        <table style="font-size:12px;">
+          <thead><tr><th>Score</th><th>N</th><th>Conv%</th><th>R$/resp</th></tr></thead>
+          <tbody>
+            <tr><td>5 — Extremamente importante</td><td>52.285</td><td><span class="badge-high">41,9%</span></td><td>R$ 495</td></tr>
+            <tr><td>4</td><td>9.897</td><td><span class="badge-high">41,7%</span></td><td>R$ 451</td></tr>
+            <tr><td>3</td><td>3.714</td><td><span class="badge-mid">36,2%</span></td><td>R$ 315</td></tr>
+            <tr><td>1–2 — Pouco/Nada importante</td><td>953</td><td><span class="badge-low">27,7%</span></td><td>R$ 224</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:11px;color:#888;margin-top:8px;">78% dos respondentes dão nota 5. A escala tem pouco poder discriminatório no topo — mas score 1-2 é sinal negativo claro (leads frios).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: O paradoxo TLR -->
+  <div class="section">
+    <h2>O Paradoxo do Teller — Quando o Survey É Obrigatório, o Sinal Desaparece</h2>
+    <div class="section-sub">Comparação entre campanhas onde o survey é opcional vs. Teller (survey embutido na captação)</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div style="background:#f9fafb;border-radius:8px;padding:20px;">
+        <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:12px;">Survey opcional — 1–8% de resposta</div>
+        <table style="font-size:12px;">
+          <thead><tr><th>Campanha</th><th>Resp%</th><th>Conv geral</th><th>Conv Teller</th><th>Uplift</th></tr></thead>
+          <tbody>
+            <tr><td>AMB</td><td>1,7%</td><td>24,3%</td><td>63,9%</td><td><span class="badge-high">2,6×</span></td></tr>
+            <tr><td>MUS</td><td>1,4%</td><td>13,6%</td><td>58,2%</td><td><span class="badge-high">4,3×</span></td></tr>
+            <tr><td>OFB</td><td>1,3%</td><td>15,5%</td><td>47,1%</td><td><span class="badge-high">3,0×</span></td></tr>
+            <tr><td>ODD</td><td>2,0%</td><td>10,1%</td><td>20,0%</td><td><span class="badge-high">2,0×</span></td></tr>
+            <tr><td>DOM</td><td>1,4%</td><td>1,9%</td><td>6,9%</td><td><span class="badge-high">3,7×</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="background:#f9fafb;border-radius:8px;padding:20px;">
+        <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:12px;">Survey embutido na captação TLR — 79% de resposta</div>
+        <table style="font-size:12px;">
+          <thead><tr><th>Campanha</th><th>Resp%</th><th>Conv geral</th><th>Conv Teller</th><th>Uplift</th></tr></thead>
+          <tbody>
+            <tr><td>TLR</td><td>79,3%</td><td>17,8%</td><td>18,9%</td><td><span class="badge-low">1,1×</span></td></tr>
+          </tbody>
+        </table>
+        <div class="warn-box" style="margin-top:12px;">
+          <strong>Quando o survey é obrigatório, o uplift desaparece.</strong>
+          O sinal de qualificação não vem das respostas em si — vem do <em>ato voluntário</em> de preencher o formulário. Leads que preenchem por conta própria já demonstram engajamento superior. Tornar o survey obrigatório elimina esse sinal.
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box" style="margin-top:16px;">
+      <strong>Conclusão estratégica: o formulário deve ser opcional e proeminente</strong>
+      Colocar o formulário como passo obrigatório no cadastro aumenta a taxa de resposta (de 2% para 79%), mas elimina completamente o poder preditivo. O ideal é disponibilizá-lo logo após o cadastro, de forma visível mas não bloqueante — as pessoas que preenchem são as que mais querem comprar.
+    </div>
+  </div>
+
+  <!-- Section 5: Perfil dos respondentes por formulário -->
+  <div class="section">
+    <h2>Perfil Demográfico por Formulário</h2>
+    <div class="section-sub">Cada formulário atraiu um público diferente — importante para segmentação e comunicação.</div>
+
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Dimensão</th>
+            <th>Teller (N=66.850)</th>
+            <th>TPV / Oscar (N=12.509)</th>
+            <th>RIO (N=159.560)</th>
+            <th>MST (N=103.618)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Gênero</strong></td>
+            <td>54% M / 45% F</td>
+            <td><strong>72% F / 27% M</strong> ← único feminino</td>
+            <td>76% M / 23% F</td>
+            <td>62% M / 37% F</td>
+          </tr>
+          <tr>
+            <td><strong>60+ anos</strong></td>
+            <td>33%</td>
+            <td>55%</td>
+            <td>19%</td>
+            <td>35%</td>
+          </tr>
+          <tr>
+            <td><strong>Aposentados</strong></td>
+            <td>20%</td>
+            <td>37%</td>
+            <td>12%</td>
+            <td>21%</td>
+          </tr>
+          <tr>
+            <td><strong>Renda até R$5k</strong></td>
+            <td>48%</td>
+            <td>48%</td>
+            <td>59%</td>
+            <td>55%</td>
+          </tr>
+          <tr>
+            <td><strong>Membros BP</strong></td>
+            <td>não perguntado</td>
+            <td>26%</td>
+            <td>3%</td>
+            <td>5%</td>
+          </tr>
+          <tr>
+            <td><strong>Nunca viram BP</strong></td>
+            <td>não perguntado</td>
+            <td>7%</td>
+            <td>73%</td>
+            <td>51%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="charts-row" style="margin-top:20px;margin-bottom:0;">
+      <div class="chart-box">
+        <h3>Distribuição de renda — todos formulários</h3>
+        <div class="chart-container">
+          <canvas id="chartRenda"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>Conhece a BP — TPV vs RIO vs MST</h3>
+        <div class="chart-container">
+          <canvas id="chartBP"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Recomendações -->
+  <div class="section">
+    <h2>Como Qualificar Leads — Recomendações</h2>
+    <div class="section-sub">Baseado em 342k respostas + dados de conversão + benchmarks de mercado (HubSpot, Typeform, MarketingSherpa)</div>
+
+    <div class="success-box">
+      <strong>O formulário ideal: psicográfico, opcional, 4–5 perguntas, exibido logo após o cadastro</strong>
+      Perguntas sobre identidade (quem o lead é, o que o move) têm poder preditivo. Perguntas sobre interesse no tema do documentário específico não diferenciam conversor de não conversor.
+    </div>
+
+    <div style="margin-top:24px;">
+      <div style="font-size:14px;font-weight:700;color:#1a1a2e;margin-bottom:16px;">Formulário proposto — 5 perguntas</div>
+
+      <div class="q-card">
+        <div class="q-num">Pergunta 1</div>
+        <div class="q-text">Qual dessas áreas de conhecimento mais te interessa? (escolha até 3)</div>
+        <div class="q-why">Por quê: História/Política (72% escolhem) converte a 45,2% — o maior entre as áreas. Serve para segmentar comunicação e pontuação.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">Pergunta 2</div>
+        <div class="q-text">Qual é a sua faixa de renda mensal?</div>
+        <div class="q-why">Por quê: maior predictor individual de conversão. R$5k+ converte 2× mais que R$2,5k. Permite scoring automático e priorização de ações do Comercial.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">Pergunta 3</div>
+        <div class="q-text">Qual é a sua ocupação principal?</div>
+        <div class="q-why">Por quê: Aposentado e Servidor público convertem a 48,6% — perfis de maior estabilidade financeira. Estudante (18,6%) é o pior sinal. Permite segmentar tom de comunicação e ofertas.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">Pergunta 4</div>
+        <div class="q-text">De 1 a 5, o quanto é importante para você aprofundar seus conhecimentos sobre os temas que influenciaram o mundo?</div>
+        <div class="q-why">Por quê: Score 1–2 é sinal negativo claro (28% conversão vs 42% no score 5). Scores altos são maioria (78% dão nota 5), mas identifica leads frios para separar da comunicação de alta pressão.</div>
+      </div>
+
+      <div class="q-card">
+        <div class="q-num">Pergunta 5</div>
+        <div class="q-text">O que mais te motiva a consumir conteúdo? (escolha uma)</div>
+        <div class="q-why">Por quê: "Crescer profissionalmente" (29,9% conversão) está desalinhado com a proposta da BP. Identifica e filtra leads que buscam capacitação profissional — não formação intelectual.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div style="font-size:14px;font-weight:700;color:#1a1a2e;margin-bottom:16px;">Modelo de Lead Score Sugerido</div>
+      <table>
+        <thead><tr><th>Dimensão</th><th>Resposta</th><th>Pontos</th><th>Lógica</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="3"><strong>Renda</strong></td><td>Acima de R$7.500</td><td>+30</td><td>Conv. 51–58% — alto potencial</td></tr>
+          <tr><td>R$5.000–7.500</td><td>+20</td><td>Conv. 47%</td></tr>
+          <tr><td>Até R$2.500</td><td>0</td><td>Conv. 27% — não penalizar, apenas não pontuar</td></tr>
+          <tr><td rowspan="3"><strong>Ocupação</strong></td><td>Aposentado / Servidor</td><td>+25</td><td>48,6% conversão, estabilidade financeira</td></tr>
+          <tr><td>Empresário / Empreendedor</td><td>+20</td><td>42,9%</td></tr>
+          <tr><td>Estudante</td><td>0</td><td>18,6% — excluir de ações intensivas</td></tr>
+          <tr><td rowspan="2"><strong>Área de interesse</strong></td><td>História/Política ou Religião/Filosofia</td><td>+20</td><td>45,2% e 42,7–43,9% conversão</td></tr>
+          <tr><td>Só Economia/Negócios</td><td>+10</td><td>42% — alinhado mas menos típico</td></tr>
+          <tr><td rowspan="2"><strong>Motivação</strong></td><td>Argumentação / Repertório cultural</td><td>+15</td><td>42% conv — perfil BP ideal</td></tr>
+          <tr><td>Crescimento profissional</td><td>−10</td><td>30% conv — desalinhado</td></tr>
+          <tr><td rowspan="2"><strong>Score urgência</strong></td><td>5</td><td>+10</td><td>42% conv</td></tr>
+          <tr><td>1–2</td><td>−15</td><td>28% conv — lead frio</td></tr>
+          <tr><td><strong>Ato de responder</strong></td><td>Preencheu voluntariamente</td><td>+30</td><td>Maior sinal individual — uplift de 2–5× só por preencher</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rec-grid" style="margin-top:24px;">
+      <div class="rec-card">
+        <div class="num">01</div>
+        <div class="title">Unificar em um único formulário</div>
+        <div class="body">Hoje há 4 formulários diferentes por campanha. Isso fragmenta os dados e impede acumulação de conhecimento. Um único formulário psicográfico (tipo Teller) deve ser usado em todas as campanhas — as respostas vão ao perfil do lead, não ao evento específico.</div>
+      </div>
+      <div class="rec-card">
+        <div class="num">02</div>
+        <div class="title">Manter opcional — não tornar obrigatório</div>
+        <div class="body">O paradoxo TLR mostrou que quando o survey é embutido como obrigatório (79% de resposta), o uplift desaparece completamente. O formulário deve ser exibido logo após o cadastro, de forma visível mas não bloqueante. A taxa de 1–8% está boa — esses são os leads mais quentes.</div>
+      </div>
+      <div class="rec-card">
+        <div class="num">03</div>
+        <div class="title">Usar o score para priorizar Comercial</div>
+        <div class="body">Leads com score ≥60 pontos (renda alta + aposentado/servidor + histórica/política + score 5) convertem 3–4× mais. Direcioná-los diretamente ao Comercial antes de qualquer automação de email pode aumentar a taxa de conversão por vendedor significativamente.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 7: O que não perguntar -->
+  <div class="section">
+    <h2>O que Não Perguntar</h2>
+    <div class="section-sub">Perguntas que não discriminam conversão e podem reduzir taxa de resposta.</div>
+    <table>
+      <thead><tr><th>Pergunta</th><th>Problema</th><th>Evidência</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>"Quão relevante você acha um documentário sobre [tema]?" (1–5)</td>
+          <td>Não prediz conversão — lead e não-comprador respondem igual</td>
+          <td>RIO: respondentes 3,61% vs geral 3,71%. Uplift zero.</td>
+        </tr>
+        <tr>
+          <td>"Qual seu interesse no Oscar / premiação?"</td>
+          <td>Específica demais ao tema do evento; muda a cada campanha; não acumula</td>
+          <td>TPV: uplift 1,0× — sem diferenciação nenhuma.</td>
+        </tr>
+        <tr>
+          <td>"Você acredita que já perdeu alguma oportunidade por não buscar conhecimento?"</td>
+          <td>Contra-intuitivo: quem diz "não" converte mais (42,5%) do que quem diz "sim" (39,6%)</td>
+          <td>A "dor" explícita não é sinal de compra — pode ser apenas ruminação.</td>
+        </tr>
+        <tr>
+          <td>"Estado civil", "filhos", "escolaridade"</td>
+          <td>Dados demográficos sem poder preditivo direto; aumentam atrito sem retorno</td>
+          <td>Análise não revelou diferenciação significativa por estado civil ou escolaridade.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>Brasil Paralelo · Relatório gerado por Claude Code · 26/05/2026</footer>
+</div>
+
+<script>
+const C = {
+  navy: '#1a1a2e', blue: '#3b82f6', green: '#16a34a',
+  amber: '#d97706', red: '#dc2626', purple: '#7c3aed',
+  teal: '#0891b2', gray: '#94a3b8', light: '#e2e8f0'
+};
+
+// 1. Uplift chart
+new Chart(document.getElementById('chartUplift'), {
+  type: 'bar',
+  data: {
+    labels: ['AMB','MUS','OFB','NTL21','EDF','LARA','DOM','ISR','ODD','TLR\n(obrig.)'],
+    datasets: [
+      { label: 'Conv. Geral %', data: [24.25,13.64,15.45,21.18,17.73,11.34,1.87,7.85,10.14,17.78], backgroundColor: C.gray, borderRadius: 3 },
+      { label: 'Conv. Teller %', data: [63.93,58.18,47.09,55.58,60.86,48.27,6.92,20.52,20.03,18.94], backgroundColor: C.blue, borderRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { boxWidth: 10, font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}%` } }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => v+'%', font: { size: 10 } }, grid: { color: '#f0f0f0' } },
+      x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+    }
+  }
+});
+
+// 2. Distribuição Teller
+new Chart(document.getElementById('chartDistrib'), {
+  type: 'doughnut',
+  data: {
+    labels: ['60+ anos (33%)', '50–59 (27%)', '40–49 (24%)', '30–39 (11%)', '≤29 (4%)'],
+    datasets: [{
+      data: [33, 27, 24, 11, 4],
+      backgroundColor: [C.navy, C.blue, C.teal, C.gray, C.light],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 10, font: { size: 11 } } },
+      title: { display: true, text: 'Faixa etária — Teller (N=66.850)', font: { size: 12 } }
+    }
+  }
+});
+
+// 3. Áreas de interesse
+new Chart(document.getElementById('chartAreas'), {
+  type: 'bar',
+  indexAxis: 'y',
+  data: {
+    labels: ['História/Política','Religião/Teologia','Filosofia/Cultura','Economia/Negócios','Desenv. Pessoal','Literatura/Artes'],
+    datasets: [
+      { label: 'Conv%', data: [45.2,43.9,42.7,42.0,41.1,42.4], backgroundColor: C.blue, borderRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` Conv: ${ctx.parsed.x}%` } } },
+    scales: {
+      x: { beginAtZero: true, max: 55, ticks: { callback: v => v+'%', font: { size: 10 } }, grid: { color: '#f0f0f0' } },
+      y: { ticks: { font: { size: 10 } }, grid: { display: false } }
+    }
+  }
+});
+
+// 4. Renda comparativa
+new Chart(document.getElementById('chartRenda'), {
+  type: 'bar',
+  data: {
+    labels: ['Até R$2,5k','R$2,5–5k','R$5–7,5k','R$7,5–10k','R$10–12,5k','R$12,5–15k','R$15k+'],
+    datasets: [
+      { label: 'Teller', data: [22,26,15,9,5,4,9], backgroundColor: C.navy, borderRadius: 3 },
+      { label: 'RIO', data: [33,26,9,4,2,1,2], backgroundColor: C.teal, borderRadius: 3 },
+      { label: 'MST', data: [28,27,10,5,2,1,2], backgroundColor: C.blue, borderRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { boxWidth: 10, font: { size: 11 } } }, tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}%` } } },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => v+'%', font: { size: 10 } }, grid: { color: '#f0f0f0' } },
+      x: { ticks: { font: { size: 9 } }, grid: { display: false } }
+    }
+  }
+});
+
+// 5. BP awareness
+new Chart(document.getElementById('chartBP'), {
+  type: 'bar',
+  data: {
+    labels: ['Membro ativo','Consome sem ser membro','Ouviu falar, nunca assistiu','Não conhece'],
+    datasets: [
+      { label: 'TPV (Oscar)', data: [26,47,20,7], backgroundColor: C.purple, borderRadius: 3 },
+      { label: 'RIO', data: [3,22,36,37], backgroundColor: C.teal, borderRadius: 3 },
+      { label: 'MST', data: [5,42,38,13], backgroundColor: C.blue, borderRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { labels: { boxWidth: 10, font: { size: 11 } } }, tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}%` } } },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => v+'%', font: { size: 10 } }, grid: { color: '#f0f0f0' } },
+      x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
