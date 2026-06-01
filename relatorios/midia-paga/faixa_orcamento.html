@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="UTF-8">
+<title>Faixa de Orçamento Recomendada · Meta Ads VENDA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<style>
+:root{--bg-base:#0D0F12;--bg-card:#111318;--bg-card-alt:#1E293B;--bg-brand:#0A2A22;
+--border:#1E293B;--border-subtle:#334155;
+--text-primary:#F1F5F9;--text-secondary:#CBD5E1;--text-muted:#64748B;--text-label:#475569;
+--brand:#00C896;--brand-light:#2DD9B4;--brand-dark:#007D5E;--brand-subtle:rgba(0,200,150,0.12);
+--positive:#00C896;--negative:#EF4444;--warning:#F59E0B;
+--font-sans:'Inter',system-ui,sans-serif;
+--radius-md:8px;--radius-lg:12px;--radius-pill:999px;
+--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-6:1.5rem;--space-8:2rem;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text-primary);font-family:var(--font-sans);min-height:100vh}
+.page-wrapper{max-width:1400px;margin:0 auto;padding:var(--space-8) var(--space-6)}
+.report-header{border-bottom:1px solid var(--border);padding-bottom:var(--space-8);margin-bottom:var(--space-8)}
+.breadcrumb{font-size:0.75rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--brand);margin-bottom:var(--space-3)}
+h1{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.02em;line-height:1.2;margin-bottom:var(--space-2)}
+.subtitle{color:var(--text-muted);font-size:0.9rem}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-6);margin-bottom:var(--space-6)}
+.card-brand{border-top:2px solid var(--brand)}
+.section-label{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-label);padding-bottom:var(--space-3);border-bottom:1px solid var(--border);margin-bottom:var(--space-6)}
+.chart-wrap{position:relative;height:340px}
+.chart-wrap-lg{position:relative;height:460px}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-4);margin-bottom:var(--space-6)}
+.kpi{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-4)}
+.kpi.kpi-status{border-left:3px solid var(--brand)}
+.kpi.kpi-status.bad{border-left-color:var(--negative)}
+.kpi.kpi-status.warn{border-left-color:var(--warning)}
+.kpi .label{font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-label);margin-bottom:var(--space-2)}
+.kpi .value{font-size:1.5rem;font-weight:700;color:var(--text-primary)}
+.kpi .sub{font-size:0.75rem;color:var(--text-muted);margin-top:2px}
+.kpi .value.brand{color:var(--brand-light)}
+.kpi .value.warn{color:var(--warning)}
+.kpi .value.bad{color:var(--negative)}
+.insight{background:var(--bg-brand);border:1px solid rgba(0,200,150,.15);border-left:3px solid var(--brand);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:var(--space-4) var(--space-6);margin-top:var(--space-4);font-size:0.85rem;color:var(--text-secondary);line-height:1.7}
+.insight strong{color:var(--brand-light)}
+.insight.warn{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2);border-left-color:var(--warning)}
+.insight.warn strong{color:#FCD34D}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-6);margin-bottom:var(--space-6)}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:var(--space-6)}
+.tab{padding:var(--space-3) var(--space-6);cursor:pointer;font-size:0.8rem;font-weight:600;color:var(--text-muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab:hover{color:var(--text-secondary)}
+.tab.active{color:var(--brand);border-bottom-color:var(--brand)}
+.panel{display:none}.panel.active{display:block}
+table{width:100%;border-collapse:collapse}
+thead th{font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-label);padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border);text-align:left}
+tbody td{font-size:0.875rem;color:var(--text-secondary);padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border-subtle)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(255,255,255,.02)}
+td.right{text-align:right;font-variant-numeric:tabular-nums}
+.badge{display:inline-flex;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:.25rem .7rem;border-radius:var(--radius-pill)}
+.badge-active{background:var(--brand-subtle);color:var(--brand-light);border:1px solid rgba(0,200,150,.3)}
+.badge-warning{background:rgba(245,158,11,.12);color:#FCD34D;border:1px solid rgba(245,158,11,.3)}
+.badge-danger{background:rgba(239,68,68,.12);color:#F87171;border:1px solid rgba(239,68,68,.3)}
+.controls{background:var(--bg-card-alt);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:var(--space-4) var(--space-6);margin-bottom:var(--space-6)}
+.controls-row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-6)}
+.control{display:flex;flex-direction:column}
+.control label{font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-label);margin-bottom:var(--space-2)}
+.control .vbox{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:0.85rem}
+.control .vbox strong{color:var(--warning);font-size:1rem}
+input[type=range]{width:100%;accent-color:var(--warning);cursor:pointer}
+.formula{font-family:'JetBrains Mono',monospace;background:var(--bg-base);border:1px solid var(--border);border-left:3px solid var(--brand-dark);padding:var(--space-3) var(--space-4);font-size:0.8rem;color:var(--brand-light);margin:var(--space-3) 0;border-radius:0 var(--radius-md) var(--radius-md) 0}
+</style></head><body>
+<div class="page-wrapper">
+<div class="report-header">
+  <div class="breadcrumb">Brasil Paralelo · Analytics</div>
+  <h1>Faixa de Orçamento Recomendada</h1>
+  <p class="subtitle">Meta Ads VENDA · Curva de Vendas (logística + adstock) · Teto adaptativo pelo ticket médio</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('atual')">Estado Atual</div>
+  <div class="tab" onclick="showTab('historico')">Histórico</div>
+  <div class="tab" onclick="showTab('episodios')">Episódios</div>
+  <div class="tab" onclick="showTab('metodologia')">Metodologia</div>
+</div>
+
+<!-- ESTADO ATUAL -->
+<div class="panel active" id="tab-atual">
+  <div class="kpi-row" id="kpi-atual"></div>
+  
+  <div class="card card-brand">
+    <p class="section-label">Última semana — gasto vs faixa recomendada</p>
+    <div class="chart-wrap-lg"><canvas id="chartRecent"></canvas></div>
+    <div class="insight" id="insight-atual"></div>
+  </div>
+  
+  <div class="card">
+    <p class="section-label">Calibração</p>
+    <div class="controls">
+      <div class="controls-row">
+        <div class="control">
+          <label>CPA piso (vendas baratas)</label>
+          <div class="vbox"><span>R$</span><strong id="vp-piso">130</strong></div>
+          <input type="range" id="sl-piso" min="80" max="200" step="10" value="130">
+        </div>
+        <div class="control">
+          <label>Multiplicador do teto (× ticket médio)</label>
+          <div class="vbox"><span>×</span><strong id="vp-mult">1.0</strong></div>
+          <input type="range" id="sl-mult" min="0.5" max="1.5" step="0.05" value="1.0">
+        </div>
+        <div class="control">
+          <label>Janela do ticket (dias)</label>
+          <div class="vbox"><span>últimos</span><strong id="vp-tw">7</strong><span>dias</span></div>
+          <input type="range" id="sl-tw" min="3" max="28" step="1" value="7">
+        </div>
+      </div>
+    </div>
+    <div class="insight">
+      <strong>Teto adaptativo:</strong> CPA marginal aceitável = ticket médio dos últimos N dias × multiplicador. Em dias com ticket alto, a faixa sobe; em dias com ticket baixo, ela desce naturalmente.
+    </div>
+  </div>
+</div>
+
+<!-- HISTÓRICO -->
+<div class="panel" id="tab-historico">
+  <div class="card">
+    <p class="section-label">Série temporal — gasto realizado vs faixa recomendada</p>
+    <div class="chart-wrap-lg"><canvas id="chartHistorico"></canvas></div>
+    <div class="insight">
+      <strong>Banda verde:</strong> faixa recomendada (piso → teto adaptativo). <strong>Linha:</strong> gasto realizado. Pontos vermelhos = super-investimento.
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <p class="section-label">CPA marginal estimado pela curva</p>
+      <div class="chart-wrap"><canvas id="chartCpaMarg"></canvas></div>
+      <div class="insight">
+        CPA marginal no nível atual de gasto (curva logística rolante). Acima do teto adaptativo: cada venda extra custa mais que o ticket médio.
+      </div>
+    </div>
+    <div class="card">
+      <p class="section-label">Qualidade do ajuste (R²)</p>
+      <div class="chart-wrap"><canvas id="chartR2"></canvas></div>
+      <div class="insight">
+        R² da curva logística em cada janela rolante. Quanto maior, mais confiável a estimativa de faixa.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EPISÓDIOS -->
+<div class="panel" id="tab-episodios">
+  <div class="card">
+    <p class="section-label">Top 15 dias de super-investimento (com teto adaptativo)</p>
+    <table>
+      <thead><tr><th>Data</th><th>DOW</th><th class="right">Gasto</th><th class="right">Teto</th><th class="right">Ticket 7d</th><th class="right">Excesso</th><th class="right">ROAS real</th><th>Status</th></tr></thead>
+      <tbody id="tbl-super"></tbody>
+    </table>
+    <div class="insight">
+      O sistema sinaliza esses dias como acima do teto recomendado. Compare com o ROAS real — alguns são lançamentos lucrativos (ROAS ≥ 1.3), outros são perdas reais (ROAS &lt; 1).
+    </div>
+  </div>
+</div>
+
+<!-- METODOLOGIA -->
+<div class="panel" id="tab-metodologia">
+  <div class="card">
+    <p class="section-label">Framework</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6)">
+      <div>
+        <h3 style="font-size:0.95rem;color:var(--brand-light);margin-bottom:var(--space-3)">1. Curva de Vendas</h3>
+        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">
+          Modela vendas em função do gasto com saturação logística. V é o teto e k a velocidade de saturação.
+        </p>
+        <div class="formula">vendas = V · (1 − e^(−k · spend_adstocked))</div>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;color:var(--brand-light);margin-bottom:var(--space-3)">2. Adstock geométrico</h3>
+        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">
+          Aplicado antes do ajuste para incorporar carryover (50% do efeito de hoje persiste). Parâmetros vêm do MMM da casa.
+        </p>
+        <div class="formula">α = 0.50 · l_max = 14d</div>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;color:var(--brand-light);margin-bottom:var(--space-3)">3. CPA marginal</h3>
+        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">
+          Derivada da curva: quanto custa a próxima venda incremental ao nível de gasto atual.
+        </p>
+        <div class="formula">CPA marg = 1 / (V · k · e^(−k · spend))</div>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;color:var(--brand-light);margin-bottom:var(--space-3)">4. Teto adaptativo</h3>
+        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">
+          O CPA marginal teto não é fixo: acompanha o ticket médio recente. Em dias com ticket alto, o teto sobe. Em dias com ticket baixo, ele cai.
+        </p>
+        <div class="formula">CPA teto = ticket médio últimos N dias × multiplicador</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <p class="section-label">Como ler a faixa</p>
+    <ul style="color:var(--text-secondary);line-height:1.9;padding-left:1.5rem;font-size:0.88rem">
+      <li><strong style="color:var(--brand-light)">Gasto dentro da faixa (verde):</strong> operação saudável. CPA marginal compatível com ticket médio recente.</li>
+      <li><strong style="color:var(--brand-light)">Gasto acima do teto (vermelho):</strong> pagando mais por venda do que cada venda vale, em média. Ajustar para baixo, exceto se há razão clara (lançamento, oferta especial).</li>
+      <li><strong style="color:var(--brand-light)">Gasto abaixo do piso (amarelo):</strong> há vendas baratas disponíveis que não estão sendo capturadas. Vale escalar.</li>
+      <li><strong style="color:var(--brand-light)">Aviso de extrapolação:</strong> quando o teto da faixa fica acima de 1.5× o gasto máximo observado em 28 dias, é cálculo fora do range testado. Usar com cautela.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <p class="section-label">Limitações honestas</p>
+    <ul style="color:var(--text-secondary);line-height:1.9;padding-left:1.5rem;font-size:0.88rem">
+      <li>Curva é mal identificada nas janelas com pouca variação de gasto (R² baixo). Faixa fica imprecisa.</li>
+      <li>Teto usa ticket dos dias anteriores. Se o ticket cair junto com a escalada (ex: 9-10/mai), o sistema só identifica depois do fato.</li>
+      <li>Não capta endogeneidade — o gasto foi escolhido com base em expectativa de retorno, não aleatoriamente.</li>
+      <li>Ferramenta serve para <em>apoiar</em> a decisão do gestor com evidência organizada, não substitui julgamento humano sobre eventos e calendário.</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<script>
+const DATA = {"config": {"cpa_piso": 130, "curve_window": 28, "ticket_window": 7}, "series": [{"date": "2026-01-29", "V": 8614.399926747476, "k": 7.247580239390352e-07, "r2": 0.6629788866478978, "spend": 25806.0, "sales": 119.0, "revenue": 34040.0, "ticket_7d": 198.75084937712344, "cpa_teto_adaptive": 198.75084937712344, "cpa_marg_now": 163.32333822986905, "s_piso": 0, "s_teto": 297774.58706650534, "s_teto_extrap": true, "max_obs": 85741.0, "extrap_limit": 128611.5, "status": "dentro", "roas_real": 1.3190730837789661}, {"date": "2026-01-30", "V": 8414.207484323504, "k": 7.247580239390352e-07, "r2": 0.6732539686395504, "spend": 20117.0, "sales": 110.0, "revenue": 21838.0, "ticket_7d": 210.15654205607476, "cpa_teto_adaptive": 210.15654205607476, "cpa_marg_now": 166.79879555155182, "s_piso": 0, "s_teto": 342323.38043822243, "s_teto_extrap": true, "max_obs": 85741.0, "extrap_limit": 128611.5, "status": "dentro", "roas_real": 1.085549535218969}, {"date": "2026-01-31", "V": 8331.082899176812, "k": 7.247580239390352e-07, "r2": 0.6576869629003097, "spend": 34199.0, "sales": 123.0, "revenue": 22947.0, "ticket_7d": 212.9500594530321, "cpa_teto_adaptive": 212.9500594530321, "cpa_marg_now": 169.11703723454374, "s_piso": 0, "s_teto": 346844.59637631394, "s_teto_extrap": true, "max_obs": 85741.0, "extrap_limit": 128611.5, "status": "dentro", "roas_real": 0.6709845317114536}, {"date": "2026-02-01", "V": 8179.283315113375, "k": 7.247580239390352e-07, "r2": 0.6278351872324444, "spend": 24704.0, "sales": 112.0, "revenue": 19565.0, "ticket_7d": 213.37971698113208, "cpa_teto_adaptive": 213.37971698113208, "cpa_marg_now": 171.99685781944376, "s_piso": 0, "s_teto": 324253.18964719854, "s_teto_extrap": true, "max_obs": 85741.0, "extrap_limit": 128611.5, "status": "dentro", "roas_real": 0.7919770077720207}, {"date": "2026-02-02", "V": 992.7568771672945, "k": 5.480714450772835e-06, "r2": 0.6132939850206465, "spend": 18095.0, "sales": 96.0, "revenue": 13588.0, "ticket_7d": 213.36375, "cpa_teto_adaptive": 213.36375, "cpa_marg_now": 207.83779426653038, "s_piso": 0, "s_teto": 27224.399864657535, "s_teto_extrap": false, "max_obs": 48302.0, "extrap_limit": 72453.0, "status": "dentro", "roas_real": 0.7509256700746062}, {"date": "2026-02-03", "V": 477.7508929611386, "k": 1.245113273171067e-05, "r2": 0.46567768551959243, "spend": 17760.0, "sales": 93.0, "revenue": 24849.0, "ticket_7d": 201.32820512820513, "cpa_teto_adaptive": 201.32820512820513, "cpa_marg_now": 215.90869326889867, "s_piso": 0, "s_teto": 14482.773342843639, "s_teto_extrap": false, "max_obs": 48302.0, "extrap_limit": 72453.0, "status": "baixar", "roas_real": 1.3991554054054054}, {"date": "2026-02-04", "V": 313.9776341832919, "k": 2.0940541412422493e-05, "r2": 0.3819250744577175, "spend": 36703.0, "sales": 186.0, "revenue": 37274.0, "ticket_7d": 209.3651612903226, "cpa_teto_adaptive": 209.3651612903226, "cpa_marg_now": 275.67728564524054, "s_piso": 0, "s_teto": 15261.21801462155, "s_teto_extrap": false, "max_obs": 48302.0, "extrap_limit": 72453.0, "status": "baixar", "roas_real": 1.0155573113914393}, {"date": "2026-02-05", "V": 265.84947806940136, "k": 2.66001471995637e-05, "r2": 0.2922451062356618, "spend": 50177.0, "sales": 304.0, "revenue": 53599.0, "ticket_7d": 207.51013110846245, "cpa_teto_adaptive": 207.51013110846245, "cpa_marg_now": 402.12558391221523, "s_piso": 0, "s_teto": 14417.838688754484, "s_teto_extrap": false, "max_obs": 48302.0, "extrap_limit": 72453.0, "status": "baixar", "roas_real": 1.068198577037288}, {"date": "2026-02-06", "V": 4184.097389671759, "k": 1.2726114314990214e-06, "r2": 0.3722578517453923, "spend": 49836.0, "sales": 372.0, "revenue": 71122.0, "ticket_7d": 189.12109375, "cpa_teto_adaptive": 189.12109375, "cpa_marg_now": 198.76128545363218, "s_piso": 0, "s_teto": 5496.003068418908, "s_teto_extrap": false, "max_obs": 50177.0, "extrap_limit": 75265.5, "status": "baixar", "roas_real": 1.427120956738101}, {"date": "2026-02-07", "V": 5099.330172290834, "k": 1.122008834262071e-06, "r2": 0.5513493328895911, "spend": 61303.0, "sales": 580.0, "revenue": 90835.0, "ticket_7d": 188.9144634525661, "cpa_teto_adaptive": 188.9144634525661, "cpa_marg_now": 185.4744649149902, "s_piso": 0, "s_teto": 69312.22822535918, "s_teto_extrap": false, "max_obs": 50177.0, "extrap_limit": 75265.5, "status": "dentro", "roas_real": 1.481738250982823}, {"date": "2026-02-08", "V": 6886.587376829851, "k": 9.445820990209197e-07, "r2": 0.6132413782802538, "spend": 59597.0, "sales": 604.0, "revenue": 98939.0, "ticket_7d": 178.33161216293746, "cpa_teto_adaptive": 178.33161216293746, "cpa_marg_now": 162.12050676335218, "s_piso": 0, "s_teto": 157162.1109505401, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.6601338993573502}, {"date": "2026-02-09", "V": 8031.183294004098, "k": 8.886397810732642e-07, "r2": 0.6626468998588699, "spend": 29714.0, "sales": 291.0, "revenue": 101484.0, "ticket_7d": 174.58881431767338, "cpa_teto_adaptive": 174.58881431767338, "cpa_marg_now": 145.57469470165313, "s_piso": 0, "s_teto": 247509.57302196263, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 3.415359763074645}, {"date": "2026-02-10", "V": 8075.243744368083, "k": 8.886397810732642e-07, "r2": 0.6731016682011091, "spend": 27821.0, "sales": 207.0, "revenue": 120585.0, "ticket_7d": 196.74979423868314, "cpa_teto_adaptive": 196.74979423868314, "cpa_marg_now": 143.8078969488608, "s_piso": 0, "s_teto": 388140.73187938385, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 4.33431580460803}, {"date": "2026-02-11", "V": 8031.572276488143, "k": 8.886397810732642e-07, "r2": 0.6678409958636574, "spend": 30888.0, "sales": 252.0, "revenue": 47178.0, "ticket_7d": 225.56525157232704, "cpa_teto_adaptive": 225.56525157232704, "cpa_marg_now": 144.29991241107808, "s_piso": 0, "s_teto": 535842.7566249395, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.5273892773892774}, {"date": "2026-02-12", "V": 8081.557408251369, "k": 8.886397810732642e-07, "r2": 0.6667869273919615, "spend": 45687.0, "sales": 274.0, "revenue": 50082.0, "ticket_7d": 223.65593869731802, "cpa_teto_adaptive": 223.65593869731802, "cpa_marg_now": 144.20871317378607, "s_piso": 0, "s_teto": 533258.6897959989, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.0961980432070393}, {"date": "2026-02-13", "V": 8081.864657146601, "k": 8.886397810732642e-07, "r2": 0.6678634200742004, "spend": 47267.0, "sales": 286.0, "revenue": 49255.0, "ticket_7d": 224.89341085271317, "cpa_teto_adaptive": 224.89341085271317, "cpa_marg_now": 144.70710933118323, "s_piso": 0, "s_teto": 539510.5989259069, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.042058941756405}, {"date": "2026-02-14", "V": 8069.321853915583, "k": 8.886397810732642e-07, "r2": 0.6689320069508973, "spend": 54351.0, "sales": 274.0, "revenue": 44631.0, "ticket_7d": 223.88051323175623, "cpa_teto_adaptive": 223.88051323175623, "cpa_marg_now": 145.6427552043568, "s_piso": 0, "s_teto": 532683.0309819423, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 0.8211624441132638}, {"date": "2026-02-15", "V": 7946.203806527156, "k": 8.886397810732642e-07, "r2": 0.6626058632605925, "spend": 38270.0, "sales": 197.0, "revenue": 33245.0, "ticket_7d": 234.07404021937842, "cpa_teto_adaptive": 234.07404021937842, "cpa_marg_now": 147.2058967471289, "s_piso": 0, "s_teto": 565485.805395272, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 0.8686961066109224}, {"date": "2026-02-16", "V": 7759.746771596227, "k": 8.886397810732642e-07, "r2": 0.642941018568896, "spend": 30576.0, "sales": 191.0, "revenue": 34458.0, "ticket_7d": 250.67939359910162, "cpa_teto_adaptive": 250.67939359910162, "cpa_marg_now": 149.87603049603482, "s_piso": 0, "s_teto": 615891.7470447613, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.1269623233908947}, {"date": "2026-02-17", "V": 7714.913149375329, "k": 8.886397810732642e-07, "r2": 0.6339217372324557, "spend": 18869.0, "sales": 143.0, "revenue": 22637.0, "ticket_7d": 225.71921475312314, "cpa_teto_adaptive": 225.71921475312314, "cpa_marg_now": 149.53299178430245, "s_piso": 0, "s_teto": 491344.6952443756, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.1996926175208014}, {"date": "2026-02-18", "V": 7676.56849447115, "k": 8.886397810732642e-07, "r2": 0.6303433209010451, "spend": 31614.0, "sales": 155.0, "revenue": 34529.0, "ticket_7d": 174.07915893630178, "cpa_teto_adaptive": 174.07915893630178, "cpa_marg_now": 150.5235754059508, "s_piso": 0, "s_teto": 193401.38977021616, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.0922059846903271}, {"date": "2026-02-19", "V": 7656.986261547101, "k": 8.886397810732642e-07, "r2": 0.6261676816202653, "spend": 42468.0, "sales": 234.0, "revenue": 39782.0, "ticket_7d": 176.86644736842106, "cpa_teto_adaptive": 176.86644736842106, "cpa_marg_now": 151.76093177618253, "s_piso": 0, "s_teto": 208402.5324541169, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 0.9367523782612791}, {"date": "2026-02-20", "V": 7687.005866588403, "k": 8.886397810732642e-07, "r2": 0.6270131913530157, "spend": 15140.0, "sales": 122.0, "revenue": 29945.0, "ticket_7d": 174.68716216216217, "cpa_teto_adaptive": 174.68716216216217, "cpa_marg_now": 149.76493145607765, "s_piso": 0, "s_teto": 198853.89614345954, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.977873183619551}, {"date": "2026-02-21", "V": 7706.229392516188, "k": 8.886397810732642e-07, "r2": 0.6312971164658888, "spend": 36068.0, "sales": 280.0, "revenue": 53960.0, "ticket_7d": 181.78343465045592, "cpa_teto_adaptive": 181.78343465045592, "cpa_marg_now": 150.08547675349135, "s_piso": 0, "s_teto": 246473.85511644138, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.4960629921259843}, {"date": "2026-02-22", "V": 7834.5230958150005, "k": 8.886397810732642e-07, "r2": 0.6251738965709321, "spend": 37448.0, "sales": 272.0, "revenue": 45694.0, "ticket_7d": 188.01512859304086, "cpa_teto_adaptive": 188.01512859304086, "cpa_marg_now": 148.06107501805198, "s_piso": 0, "s_teto": 302984.22586947243, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.2201986754966887}, {"date": "2026-02-23", "V": 7888.295507927636, "k": 8.886397810732642e-07, "r2": 0.6219614619462042, "spend": 25540.0, "sales": 203.0, "revenue": 47624.0, "ticket_7d": 186.83249821045098, "cpa_teto_adaptive": 186.83249821045098, "cpa_marg_now": 146.49028618073925, "s_piso": 0, "s_teto": 303580.7861205928, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.864682850430697}, {"date": "2026-02-24", "V": 7918.667212103577, "k": 8.886397810732642e-07, "r2": 0.6171074833926637, "spend": 33111.0, "sales": 217.0, "revenue": 32355.0, "ticket_7d": 194.58552164655785, "cpa_teto_adaptive": 194.58552164655785, "cpa_marg_now": 146.14041581014496, "s_piso": 0, "s_teto": 353659.6979481259, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 0.9771677086164718}, {"date": "2026-02-25", "V": 7992.872030000769, "k": 8.886397810732642e-07, "r2": 0.6206097247390563, "spend": 26828.0, "sales": 154.0, "revenue": 49582.0, "ticket_7d": 191.42886041807148, "cpa_teto_adaptive": 191.42886041807148, "cpa_marg_now": 144.48486526413575, "s_piso": 0, "s_teto": 345750.67212664254, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.8481437304308932}, {"date": "2026-02-26", "V": 8012.550564408162, "k": 8.886397810732642e-07, "r2": 0.6224007497242161, "spend": 36958.0, "sales": 169.0, "revenue": 30890.0, "ticket_7d": 201.71524966261808, "cpa_teto_adaptive": 201.71524966261808, "cpa_marg_now": 144.63074090636428, "s_piso": 0, "s_teto": 407417.70533824957, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 0.8358136262784783}, {"date": "2026-02-27", "V": 8006.651615256156, "k": 8.886397810732642e-07, "r2": 0.6168758628692457, "spend": 63000.0, "sales": 351.0, "revenue": 76968.0, "ticket_7d": 204.69301340860974, "cpa_teto_adaptive": 204.69301340860974, "cpa_marg_now": 146.6759227966103, "s_piso": 0, "s_teto": 423079.6517619567, "s_teto_extrap": true, "max_obs": 61303.0, "extrap_limit": 91954.5, "status": "dentro", "roas_real": 1.2217142857142858}, {"date": "2026-02-28", "V": 8070.161941703719, "k": 8.886397810732642e-07, "r2": 0.6212448783339908, "spend": 94299.0, "sales": 699.0, "revenue": 138241.0, "ticket_7d": 204.7831105710814, "cpa_teto_adaptive": 204.7831105710814, "cpa_marg_now": 148.54447482645398, "s_piso": 0, "s_teto": 432465.8641599388, "s_teto_extrap": true, "max_obs": 63000.0, "extrap_limit": 94500.0, "status": "dentro", "roas_real": 1.4659858535085208}, {"date": "2026-03-01", "V": 10742.057287843061, "k": 7.026002751372128e-07, "r2": 0.6916970874635495, "spend": 56906.0, "sales": 389.0, "revenue": 67915.0, "ticket_7d": 204.0455205811138, "cpa_teto_adaptive": 204.0455205811138, "cpa_marg_now": 138.5937393381952, "s_piso": 0, "s_teto": 614556.13147446, "s_teto_extrap": true, "max_obs": 94299.0, "extrap_limit": 141448.5, "status": "dentro", "roas_real": 1.1934593891681018}, {"date": "2026-03-02", "V": 10648.667002566754, "k": 7.026002751372128e-07, "r2": 0.6888065796277572, "spend": 24502.0, "sales": 157.0, "revenue": 25947.0, "ticket_7d": 203.28826764436297, "cpa_teto_adaptive": 203.28826764436297, "cpa_marg_now": 137.88095544471847, "s_piso": 0, "s_teto": 596836.2352639503, "s_teto_extrap": true, "max_obs": 94299.0, "extrap_limit": 141448.5, "status": "dentro", "roas_real": 1.058974777569178}, {"date": "2026-03-03", "V": 10467.234210926415, "k": 7.026002751372128e-07, "r2": 0.6393854208855018, "spend": 25619.0, "sales": 167.0, "revenue": 32763.0, "ticket_7d": 197.5177902621723, "cpa_teto_adaptive": 197.5177902621723, "cpa_marg_now": 139.35490985686764, "s_piso": 0, "s_teto": 531391.8468140234, "s_teto_extrap": true, "max_obs": 94299.0, "extrap_limit": 141448.5, "status": "dentro", "roas_real": 1.2788555369062025}, {"date": "2026-03-04", "V": 10408.052298044986, "k": 7.026002751372128e-07, "r2": 0.6171698598878443, "spend": 44077.0, "sales": 196.0, "revenue": 73262.0, "ticket_7d": 202.4477468839885, "cpa_teto_adaptive": 202.4477468839885, "cpa_marg_now": 140.59773654764845, "s_piso": 0, "s_teto": 558410.1892778054, "s_teto_extrap": true, "max_obs": 94299.0, "extrap_limit": 141448.5, "status": "dentro", "roas_real": 1.6621367152936906}, {"date": "2026-03-05", "V": 10319.839092448374, "k": 7.026002751372128e-07, "r2": 0.6026739092754098, "spend": 52950.0, "sales": 251.0, "revenue": 52783.0, "ticket_7d": 209.57988721804512, "cpa_teto_adaptive": 209.57988721804512, "cpa_marg_now": 142.47063945110983, "s_piso": 0, "s_teto": 595574.3917302177, "s_teto_extrap": true, "max_obs": 94299.0, "extrap_limit": 141448.5, "status": "dentro", "roas_real": 0.9968460812086875}, {"date": "2026-03-06", "V": 10185.93357541358, "k": 7.026002751372128e-07, "r2": 0.5929825145249492, "spend": 73834.0, "sales": 309.0, "revenue": 68305.0, "ticket_7d": 211.70995475113122, "cpa_teto_adaptive": 211.70995475113122, "cpa_marg_now": 145.75014068157688, "s_piso": 0, "s_teto": 591378.1924031525, "s_teto_extrap": true, "max_obs": 94299.0, "extrap_limit": 141448.5, "status": "dentro", "roas_real": 0.9251158003088008}, {"date": "2026-03-07", "V": 9921.927450027588, "k": 7.026002751372128e-07, "r2": 0.572989061622022, "spend": 72219.0, "sales": 471.0, "revenue": 97446.0, "ticket_7d": 211.81549815498155, "cpa_teto_adaptive": 211.81549815498155, "cpa_marg_now": 150.2703367347166, "s_piso": 0, "s_teto": 554711.3958039314, "s_teto_extrap": true, "max_obs": 94299.0, "extrap_limit": 141448.5, "status": "dentro", "roas_real": 1.349312507788809}, {"date": "2026-03-08", "V": 9640.99817299212, "k": 7.026002751372128e-07, "r2": 0.6247125762670283, "spend": 83979.0, "sales": 579.0, "revenue": 115268.0, "ticket_7d": 215.68092783505153, "cpa_teto_adaptive": 215.68092783505153, "cpa_marg_now": 155.62207507807415, "s_piso": 0, "s_teto": 539570.4566024615, "s_teto_extrap": true, "max_obs": 94299.0, "extrap_limit": 141448.5, "status": "dentro", "roas_real": 1.3725812405482323}, {"date": "2026-03-09", "V": 9972.317207620421, "k": 6.661903856421728e-07, "r2": 0.7115354642895628, "spend": 93292.0, "sales": 471.0, "revenue": 101246.0, "ticket_7d": 218.67323943661972, "cpa_teto_adaptive": 218.67323943661972, "cpa_marg_now": 159.20581090082192, "s_piso": 0, "s_teto": 560585.1980296177, "s_teto_extrap": true, "max_obs": 94299.0, "extrap_limit": 141448.5, "status": "dentro", "roas_real": 1.0852591862110363}, {"date": "2026-03-10", "V": 10977.95187462786, "k": 5.940100353618397e-07, "r2": 0.7255682504147996, "spend": 110899.0, "sales": 593.0, "revenue": 128669.0, "ticket_7d": 221.38829787234042, "cpa_teto_adaptive": 221.38829787234042, "cpa_marg_now": 162.4976907731008, "s_piso": 0, "s_teto": 618159.0949660733, "s_teto_extrap": true, "max_obs": 94299.0, "extrap_limit": 141448.5, "status": "dentro", "roas_real": 1.1602358903146106}, {"date": "2026-03-11", "V": 12642.192231947854, "k": 5.12622648027036e-07, "r2": 0.7675673142128759, "spend": 117460.0, "sales": 680.0, "revenue": 157346.0, "ticket_7d": 221.94390243902438, "cpa_teto_adaptive": 221.94390243902438, "cpa_marg_now": 163.0468757128268, "s_piso": 0, "s_teto": 709086.7073790346, "s_teto_extrap": true, "max_obs": 110899.0, "extrap_limit": 166348.5, "status": "dentro", "roas_real": 1.3395709177592372}, {"date": "2026-03-12", "V": 13881.535879784864, "k": 4.6511582959478276e-07, "r2": 0.8151058008786769, "spend": 132544.0, "sales": 682.0, "revenue": 159603.0, "ticket_7d": 214.98598688133572, "cpa_teto_adaptive": 214.98598688133572, "cpa_marg_now": 163.77432136933362, "s_piso": 0, "s_teto": 705003.6646136459, "s_teto_extrap": true, "max_obs": 117460.0, "extrap_limit": 176190.0, "status": "dentro", "roas_real": 1.2041510743602124}, {"date": "2026-03-13", "V": 15220.160090319509, "k": 4.165845124172691e-07, "r2": 0.8395185497983109, "spend": 122402.0, "sales": 599.0, "revenue": 163286.0, "ticket_7d": 218.72734478203435, "cpa_teto_adaptive": 218.72734478203435, "cpa_marg_now": 165.88524714825326, "s_piso": 0, "s_teto": 785016.2649756141, "s_teto_extrap": true, "max_obs": 132544.0, "extrap_limit": 198816.0, "status": "dentro", "roas_real": 1.3340141500955867}, {"date": "2026-03-14", "V": 2704.803623979365, "k": 2.474958853950675e-06, "r2": 0.8348011974903846, "spend": 133638.0, "sales": 714.0, "revenue": 156833.0, "ticket_7d": 226.46969325153376, "cpa_teto_adaptive": 226.46969325153376, "cpa_marg_now": 204.7683087790145, "s_piso": 0, "s_teto": 168127.61761855998, "s_teto_extrap": false, "max_obs": 132544.0, "extrap_limit": 198816.0, "status": "dentro", "roas_real": 1.1735659019141262}, {"date": "2026-03-15", "V": 2827.357370206658, "k": 2.3542864238284686e-06, "r2": 0.8563607867980071, "spend": 123246.0, "sales": 670.0, "revenue": 154881.0, "ticket_7d": 227.4782306623437, "cpa_teto_adaptive": 227.4782306623437, "cpa_marg_now": 201.79540758994986, "s_piso": 0, "s_teto": 176223.00413333287, "s_teto_extrap": false, "max_obs": 133638.0, "extrap_limit": 200457.0, "status": "dentro", "roas_real": 1.2566817584343508}, {"date": "2026-03-16", "V": 2076.886369191885, "k": 3.335239100423664e-06, "r2": 0.8697273129792151, "spend": 71891.0, "sales": 326.0, "revenue": 82944.0, "ticket_7d": 231.7677477886142, "cpa_teto_adaptive": 231.7677477886142, "cpa_marg_now": 200.586009430075, "s_piso": 0, "s_teto": 141937.2630451163, "s_teto_extrap": false, "max_obs": 133638.0, "extrap_limit": 200457.0, "status": "dentro", "roas_real": 1.1537466442252855}, {"date": "2026-03-17", "V": 1628.35512342263, "k": 4.316191777018859e-06, "r2": 0.8152729919453227, "spend": 85565.0, "sales": 360.0, "revenue": 111544.0, "ticket_7d": 235.35694183864916, "cpa_teto_adaptive": 235.35694183864916, "cpa_marg_now": 211.7257687686619, "s_piso": 0, "s_teto": 116605.53311634336, "s_teto_extrap": false, "max_obs": 133638.0, "extrap_limit": 200457.0, "status": "dentro", "roas_real": 1.3036171331736106}, {"date": "2026-03-18", "V": 1600.2852499890173, "k": 4.316191777018859e-06, "r2": 0.7819009263705061, "spend": 146484.0, "sales": 518.0, "revenue": 188869.0, "ticket_7d": 244.71272637062765, "cpa_teto_adaptive": 244.71272637062765, "cpa_marg_now": 242.27528462116916, "s_piso": 0, "s_teto": 121608.3761477997, "s_teto_extrap": false, "max_obs": 133638.0, "extrap_limit": 200457.0, "status": "baixar", "roas_real": 1.2893490074001257}, {"date": "2026-03-19", "V": 1341.4295061122118, "k": 5.297144453614054e-06, "r2": 0.7639149956424776, "spend": 168165.0, "sales": 765.0, "revenue": 194978.0, "ticket_7d": 263.10674592918065, "cpa_teto_adaptive": 263.10674592918065, "cpa_marg_now": 301.32956668600485, "s_piso": 0, "s_teto": 118121.80852513114, "s_teto_extrap": false, "max_obs": 146484.0, "extrap_limit": 219726.0, "status": "baixar", "roas_real": 1.1594445931079596}, {"date": "2026-03-20", "V": 1481.9635667341763, "k": 4.696339780357276e-06, "r2": 0.7841901016686329, "spend": 181472.0, "sales": 1013.0, "revenue": 237300.0, "ticket_7d": 266.53213562753035, "cpa_teto_adaptive": 266.53213562753035, "cpa_marg_now": 308.35144807041206, "s_piso": 0, "s_teto": 131568.6147345173, "s_teto_extrap": false, "max_obs": 168165.0, "extrap_limit": 252247.5, "status": "baixar", "roas_real": 1.3076397460765297}, {"date": "2026-03-21", "V": 3364.5300640342107, "k": 1.8449907901136337e-06, "r2": 0.8014404609374426, "spend": 301442.0, "sales": 1708.0, "revenue": 381840.0, "ticket_7d": 258.21094823637196, "cpa_teto_adaptive": 258.21094823637196, "cpa_marg_now": 247.1703954261975, "s_piso": 0, "s_teto": 255710.86216482017, "s_teto_extrap": false, "max_obs": 181472.0, "extrap_limit": 272208.0, "status": "baixar", "roas_real": 1.2667113408217834}, {"date": "2026-03-22", "V": 28057.983039868624, "k": 2.1549337736712573e-07, "r2": 0.8565196044987147, "spend": 366862.0, "sales": 1932.0, "revenue": 426309.0, "ticket_7d": 252.30522388059703, "cpa_teto_adaptive": 252.30522388059703, "cpa_marg_now": 176.41449706557708, "s_piso": 0, "s_teto": 1959839.2168265905, "s_teto_extrap": true, "max_obs": 301442.0, "extrap_limit": 452163.0, "status": "dentro", "roas_real": 1.162041857701261}, {"date": "2026-03-23", "V": 36944.67152981161, "k": 1.66973707927574e-07, "r2": 0.9101901773186863, "spend": 266492.0, "sales": 1513.0, "revenue": 347747.0, "ticket_7d": 245.21051041981275, "cpa_teto_adaptive": 245.21051041981275, "cpa_marg_now": 169.94958084559053, "s_piso": 0, "s_teto": 2478619.579526131, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.304905963406031}, {"date": "2026-03-24", "V": 36167.37811289504, "k": 1.66973707927574e-07, "r2": 0.9169160896561295, "spend": 19642.0, "sales": 152.0, "revenue": 30161.0, "ticket_7d": 241.84748367268537, "cpa_teto_adaptive": 241.84748367268537, "cpa_marg_now": 169.82709361028924, "s_piso": 0, "s_teto": 2268564.6702234684, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.535536096120558}, {"date": "2026-03-25", "V": 34610.932675692864, "k": 1.66973707927574e-07, "r2": 0.8240650526099834, "spend": 18236.0, "sales": 114.0, "revenue": 32449.0, "ticket_7d": 237.75871595842654, "cpa_teto_adaptive": 237.75871595842654, "cpa_marg_now": 175.50348701300481, "s_piso": 0, "s_teto": 1903004.8192558505, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.7793924106163632}, {"date": "2026-03-26", "V": 34190.65496722791, "k": 1.66973707927574e-07, "r2": 0.8013848956567654, "spend": 16962.0, "sales": 136.0, "revenue": 36298.0, "ticket_7d": 229.37112685841322, "cpa_teto_adaptive": 229.37112685841322, "cpa_marg_now": 176.6578558586759, "s_piso": 0, "s_teto": 1614742.231204472, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 2.139959910387926}, {"date": "2026-03-27", "V": 34094.20543384604, "k": 1.66973707927574e-07, "r2": 0.7983914006072478, "spend": 18170.0, "sales": 138.0, "revenue": 31494.0, "ticket_7d": 227.17783191230208, "cpa_teto_adaptive": 227.17783191230208, "cpa_marg_now": 176.6746531556441, "s_piso": 0, "s_teto": 1540280.5638830448, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.7332966428178316}, {"date": "2026-03-28", "V": 34016.06921012121, "k": 1.66973707927574e-07, "r2": 0.803854189764721, "spend": 30635.0, "sales": 207.0, "revenue": 71957.0, "ticket_7d": 225.94379062005973, "cpa_teto_adaptive": 225.94379062005973, "cpa_marg_now": 177.02308171268794, "s_piso": 0, "s_teto": 1493918.4057990839, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 2.348849355312551}, {"date": "2026-03-29", "V": 33738.15587292018, "k": 1.66973707927574e-07, "r2": 0.8224579916283329, "spend": 30477.0, "sales": 215.0, "revenue": 47468.0, "ticket_7d": 232.92342557251908, "cpa_teto_adaptive": 232.92342557251908, "cpa_marg_now": 178.44999611023744, "s_piso": 0, "s_teto": 1626992.5393387116, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.557502378843062}, {"date": "2026-03-30", "V": 33728.06446787211, "k": 1.66973707927574e-07, "r2": 0.8249965867354478, "spend": 21449.0, "sales": 125.0, "revenue": 39686.0, "ticket_7d": 241.4440404040404, "cpa_teto_adaptive": 241.4440404040404, "cpa_marg_now": 178.35326297327612, "s_piso": 0, "s_teto": 1840372.3683409772, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.850249428877803}, {"date": "2026-03-31", "V": 33775.103741317886, "k": 1.66973707927574e-07, "r2": 0.827029917966379, "spend": 22632.0, "sales": 158.0, "revenue": 54259.0, "ticket_7d": 266.34130634774607, "cpa_teto_adaptive": 266.34130634774607, "cpa_marg_now": 178.04756380555153, "s_piso": 0, "s_teto": 2436481.514397967, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 2.3974460940261575}, {"date": "2026-04-01", "V": 33796.05351459471, "k": 1.66973707927574e-07, "r2": 0.8273085600777428, "spend": 23047.0, "sales": 148.0, "revenue": 27644.0, "ticket_7d": 286.92680695333945, "cpa_teto_adaptive": 286.92680695333945, "cpa_marg_now": 177.91472552580504, "s_piso": 0, "s_teto": 2886065.1262146137, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.1994619690198292}, {"date": "2026-04-02", "V": 33814.993109986346, "k": 1.66973707927574e-07, "r2": 0.8284191921400502, "spend": 24673.0, "sales": 184.0, "revenue": 32708.0, "ticket_7d": 274.00709849157056, "cpa_teto_adaptive": 274.00709849157056, "cpa_marg_now": 177.82796102996926, "s_piso": 0, "s_teto": 2613489.932885232, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.3256596279333686}, {"date": "2026-04-03", "V": 33836.76743509547, "k": 1.66973707927574e-07, "r2": 0.8293144965147936, "spend": 46970.0, "sales": 381.0, "revenue": 74854.0, "ticket_7d": 259.75829787234045, "cpa_teto_adaptive": 259.75829787234045, "cpa_marg_now": 178.0511005516649, "s_piso": 0, "s_teto": 2297519.7086243164, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.5936555248030657}, {"date": "2026-04-04", "V": 33950.31823514192, "k": 1.66973707927574e-07, "r2": 0.8233852270470973, "spend": 59556.0, "sales": 307.0, "revenue": 59184.0, "ticket_7d": 245.8222849083216, "cpa_teto_adaptive": 245.8222849083216, "cpa_marg_now": 177.81078879377773, "s_piso": 0, "s_teto": 1987336.1621408074, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 0.9937537779568809}, {"date": "2026-04-05", "V": 33885.008618596505, "k": 1.66973707927574e-07, "r2": 0.8262161910654042, "spend": 44619.0, "sales": 328.0, "revenue": 57773.0, "ticket_7d": 221.2140974967062, "cpa_teto_adaptive": 221.2140974967062, "cpa_marg_now": 178.10939933457718, "s_piso": 0, "s_teto": 1344100.8152707843, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.294807144938255}, {"date": "2026-04-06", "V": 33763.276197783984, "k": 1.66973707927574e-07, "r2": 0.8306892417111568, "spend": 37074.0, "sales": 248.0, "revenue": 45550.0, "ticket_7d": 212.206008583691, "cpa_teto_adaptive": 212.206008583691, "cpa_marg_now": 178.61686074210004, "s_piso": 0, "s_teto": 1073564.556707059, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.2286238334142525}, {"date": "2026-04-07", "V": 33772.114842142735, "k": 1.66973707927574e-07, "r2": 0.8327548812645329, "spend": 30420.0, "sales": 202.0, "revenue": 44515.0, "ticket_7d": 200.66818700114024, "cpa_teto_adaptive": 200.66818700114024, "cpa_marg_now": 178.4037246412448, "s_piso": 0, "s_teto": 740320.1161270102, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.4633464825772518}, {"date": "2026-04-08", "V": 33704.66858850738, "k": 1.66973707927574e-07, "r2": 0.8356989009999376, "spend": 80076.0, "sales": 339.0, "revenue": 74051.0, "ticket_7d": 190.3381535038932, "cpa_teto_adaptive": 190.3381535038932, "cpa_marg_now": 179.41982686131067, "s_piso": 0, "s_teto": 411827.7808840061, "s_teto_extrap": false, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 0.9247589789699785}, {"date": "2026-04-09", "V": 33588.66892171003, "k": 1.66973707927574e-07, "r2": 0.8367436531710651, "spend": 105667.0, "sales": 513.0, "revenue": 102496.0, "ticket_7d": 195.3921568627451, "cpa_teto_adaptive": 195.3921568627451, "cpa_marg_now": 180.75685066292, "s_piso": 0, "s_teto": 548129.2903948019, "s_teto_extrap": false, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 0.9699906309443819}, {"date": "2026-04-10", "V": 33631.164837522396, "k": 1.66973707927574e-07, "r2": 0.8354743463002863, "spend": 126654.0, "sales": 673.0, "revenue": 141038.0, "ticket_7d": 197.76660914581535, "cpa_teto_adaptive": 197.76660914581535, "cpa_marg_now": 181.2049892740442, "s_piso": 0, "s_teto": 628042.352022585, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.1135692516620084}, {"date": "2026-04-11", "V": 33916.46882599063, "k": 1.66973707927574e-07, "r2": 0.835656003713337, "spend": 146854.0, "sales": 894.0, "revenue": 164259.0, "ticket_7d": 200.99885057471263, "cpa_teto_adaptive": 200.99885057471263, "cpa_marg_now": 180.32091895267095, "s_piso": 0, "s_teto": 775725.1013485688, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.1185190733653834}, {"date": "2026-04-12", "V": 34280.644282221496, "k": 1.66973707927574e-07, "r2": 0.8330414105647748, "spend": 163785.0, "sales": 1075.0, "revenue": 189458.0, "ticket_7d": 196.96027525805442, "cpa_teto_adaptive": 196.96027525805442, "cpa_marg_now": 178.97566871468825, "s_piso": 0, "s_teto": 718129.5438956333, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.1567481759623897}, {"date": "2026-04-13", "V": 34913.943540223, "k": 1.66973707927574e-07, "r2": 0.8313149770414572, "spend": 112047.0, "sales": 596.0, "revenue": 133740.0, "ticket_7d": 193.04437119675455, "cpa_teto_adaptive": 193.04437119675455, "cpa_marg_now": 175.25128482280738, "s_piso": 0, "s_teto": 707489.5132364905, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.1936062545181934}, {"date": "2026-04-14", "V": 34996.94112260261, "k": 1.66973707927574e-07, "r2": 0.8361052767310897, "spend": 125176.0, "sales": 572.0, "revenue": 115682.0, "ticket_7d": 197.93965517241378, "cpa_teto_adaptive": 197.93965517241378, "cpa_marg_now": 174.78922489076635, "s_piso": 0, "s_teto": 871686.2065510978, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 0.9241547900556017}, {"date": "2026-04-15", "V": 34933.922251723874, "k": 1.66973707927574e-07, "r2": 0.8360231858782284, "spend": 111616.0, "sales": 562.0, "revenue": 141068.0, "ticket_7d": 197.4954954954955, "cpa_teto_adaptive": 197.4954954954955, "cpa_marg_now": 174.88317712722431, "s_piso": 0, "s_teto": 847438.3431118834, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.2638689793577982}, {"date": "2026-04-16", "V": 35011.32336160623, "k": 1.66973707927574e-07, "r2": 0.8379783423448826, "spend": 89455.0, "sales": 514.0, "revenue": 107423.0, "ticket_7d": 202.19877175025587, "cpa_teto_adaptive": 202.19877175025587, "cpa_marg_now": 174.06387268800458, "s_piso": 0, "s_teto": 1001646.1423546792, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.2008607679839025}, {"date": "2026-04-17", "V": 35009.72721653058, "k": 1.66973707927574e-07, "r2": 0.8361713276353431, "spend": 96944.0, "sales": 512.0, "revenue": 123013.0, "ticket_7d": 203.16577977896029, "cpa_teto_adaptive": 203.16577977896029, "cpa_marg_now": 173.96459702480826, "s_piso": 0, "s_teto": 1029946.8395632631, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.2689078230731143}, {"date": "2026-04-18", "V": 34709.338470141876, "k": 1.66973707927574e-07, "r2": 0.8304102424217559, "spend": 125640.0, "sales": 686.0, "revenue": 130495.0, "ticket_7d": 206.2736507936508, "cpa_teto_adaptive": 206.2736507936508, "cpa_marg_now": 175.836870636833, "s_piso": 0, "s_teto": 1069259.7462988982, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.0386421521808342}, {"date": "2026-04-19", "V": 33236.91175059932, "k": 1.66973707927574e-07, "r2": 0.8162910665653755, "spend": 107526.0, "sales": 637.0, "revenue": 129356.0, "ticket_7d": 208.29732123090548, "cpa_teto_adaptive": 208.29732123090548, "cpa_marg_now": 183.54060098042538, "s_piso": 0, "s_teto": 868120.8100378424, "s_teto_extrap": true, "max_obs": 366862.0, "extrap_limit": 550293.0, "status": "dentro", "roas_real": 1.203020664769451}, {"date": "2026-04-20", "V": 29597.301292683875, "k": 1.7669533054588593e-07, "r2": 0.724183721519531, "spend": 97914.0, "sales": 616.0, "revenue": 125060.0, "ticket_7d": 215.92963961755333, "cpa_teto_adaptive": 215.92963961755333, "cpa_marg_now": 194.7659787473621, "s_piso": 0, "s_teto": 687919.6608459172, "s_teto_extrap": true, "max_obs": 266492.0, "extrap_limit": 399738.0, "status": "dentro", "roas_real": 1.2772432951365484}, {"date": "2026-04-21", "V": 1154.9187348427354, "k": 6.113424681274187e-06, "r2": 0.5647730488193832, "spend": 110075.0, "sales": 779.0, "revenue": 145988.0, "ticket_7d": 212.75847767748232, "cpa_teto_adaptive": 212.75847767748232, "cpa_marg_now": 272.5960875196249, "s_piso": 0, "s_teto": 66561.61799316134, "s_teto_extrap": false, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "baixar", "roas_real": 1.3262593686123099}, {"date": "2026-04-22", "V": 16876.581354032016, "k": 3.456073739122597e-07, "r2": 0.7784675264482563, "spend": 122538.0, "sales": 537.0, "revenue": 120210.0, "ticket_7d": 209.56874129122156, "cpa_teto_adaptive": 209.56874129122156, "cpa_marg_now": 178.38839516763372, "s_piso": 0, "s_teto": 580923.8429082173, "s_teto_extrap": true, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "dentro", "roas_real": 0.9810018116829066}, {"date": "2026-04-23", "V": 17139.042315057133, "k": 3.456073739122597e-07, "r2": 0.8396458146516741, "spend": 109026.0, "sales": 550.0, "revenue": 122218.0, "ticket_7d": 205.9203457136183, "cpa_teto_adaptive": 205.9203457136183, "cpa_marg_now": 175.480839067157, "s_piso": 0, "s_teto": 574759.9453742781, "s_teto_extrap": true, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "dentro", "roas_real": 1.1209986608698843}, {"date": "2026-04-24", "V": 5119.407356191302, "k": 1.2096258086929092e-06, "r2": 0.841312856587873, "spend": 90665.0, "sales": 438.0, "revenue": 165046.0, "ticket_7d": 207.63029881862406, "cpa_teto_adaptive": 207.63029881862406, "cpa_marg_now": 182.5334808664021, "s_piso": 0, "s_teto": 207794.47023662092, "s_teto_extrap": false, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "dentro", "roas_real": 1.8203937572381845}, {"date": "2026-04-25", "V": 5067.919621975441, "k": 1.2096258086929092e-06, "r2": 0.8197338861545476, "spend": 127369.0, "sales": 633.0, "revenue": 116616.0, "ticket_7d": 221.1579071411737, "cpa_teto_adaptive": 221.1579071411737, "cpa_marg_now": 187.31885673025366, "s_piso": 0, "s_teto": 251617.60136678594, "s_teto_extrap": true, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "dentro", "roas_real": 0.915576003580149}, {"date": "2026-04-26", "V": 5057.179663247818, "k": 1.2096258086929092e-06, "r2": 0.8142839153106567, "spend": 144566.0, "sales": 760.0, "revenue": 135371.0, "ticket_7d": 220.64295942720764, "cpa_teto_adaptive": 220.64295942720764, "cpa_marg_now": 191.18085040482745, "s_piso": 0, "s_teto": 247936.64090872253, "s_teto_extrap": true, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "dentro", "roas_real": 0.9363958330451143}, {"date": "2026-04-27", "V": 16906.85170287422, "k": 3.456073739122597e-07, "r2": 0.8143731703027585, "spend": 81107.0, "sales": 467.0, "revenue": 102081.0, "ticket_7d": 215.74518896359842, "cpa_teto_adaptive": 215.74518896359842, "cpa_marg_now": 177.48260359045247, "s_piso": 0, "s_teto": 670152.9809058663, "s_teto_extrap": true, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "dentro", "roas_real": 1.2585966685982715}, {"date": "2026-04-28", "V": 16751.764973117155, "k": 3.456073739122597e-07, "r2": 0.7824288685960197, "spend": 90683.0, "sales": 406.0, "revenue": 121646.0, "ticket_7d": 217.94668587896254, "cpa_teto_adaptive": 217.94668587896254, "cpa_marg_now": 178.67454976600493, "s_piso": 0, "s_teto": 672864.4403551205, "s_teto_extrap": true, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "dentro", "roas_real": 1.3414421666685046}, {"date": "2026-04-29", "V": 16583.827512083437, "k": 3.456073739122597e-07, "r2": 0.7448833109684517, "spend": 111905.0, "sales": 488.0, "revenue": 170809.0, "ticket_7d": 232.96966499604326, "cpa_teto_adaptive": 232.96966499604326, "cpa_marg_now": 180.91873517143384, "s_piso": 0, "s_teto": 836582.3858810548, "s_teto_extrap": true, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "dentro", "roas_real": 1.5263750502658504}, {"date": "2026-04-30", "V": 16466.831174129526, "k": 3.456073739122597e-07, "r2": 0.7035058682257576, "spend": 129913.0, "sales": 579.0, "revenue": 253994.0, "ticket_7d": 249.54222340994122, "cpa_teto_adaptive": 249.54222340994122, "cpa_marg_now": 182.99209812754737, "s_piso": 0, "s_teto": 1014935.1563423504, "s_teto_extrap": true, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "dentro", "roas_real": 1.9551084187109835}, {"date": "2026-05-01", "V": 16365.483834557583, "k": 3.456073739122597e-07, "r2": 0.6628706121772208, "spend": 132157.0, "sales": 842.0, "revenue": 156672.0, "ticket_7d": 282.56775391142935, "cpa_teto_adaptive": 282.56775391142935, "cpa_marg_now": 184.5946076662574, "s_piso": 0, "s_teto": 1356700.3544702, "s_teto_extrap": true, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "dentro", "roas_real": 1.1854990655054216}, {"date": "2026-05-02", "V": 16483.731840822198, "k": 3.456073739122597e-07, "r2": 0.6898809870385231, "spend": 162187.0, "sales": 826.0, "revenue": 146572.0, "ticket_7d": 253.21892215568863, "cpa_teto_adaptive": 253.21892215568863, "cpa_marg_now": 184.4585531798779, "s_piso": 0, "s_teto": 1060223.8493062225, "s_teto_extrap": true, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "dentro", "roas_real": 0.9037222465425713}, {"date": "2026-05-03", "V": 16503.968088856505, "k": 3.456073739122597e-07, "r2": 0.6888485405853382, "spend": 165004.0, "sales": 876.0, "revenue": 159618.0, "ticket_7d": 248.88850732600733, "cpa_teto_adaptive": 248.88850732600733, "cpa_marg_now": 184.91858130480315, "s_piso": 0, "s_teto": 1013863.4717102513, "s_teto_extrap": true, "max_obs": 163785.0, "extrap_limit": 245677.5, "status": "dentro", "roas_real": 0.9673583670698892}, {"date": "2026-05-04", "V": 17572.522326532624, "k": 3.2415307771465217e-07, "r2": 0.69660154708446, "spend": 61846.0, "sales": 343.0, "revenue": 117747.0, "ticket_7d": 247.85727029438002, "cpa_teto_adaptive": 247.85727029438002, "cpa_marg_now": 181.81356623846472, "s_piso": 0, "s_teto": 1063987.4804017448, "s_teto_extrap": true, "max_obs": 165004.0, "extrap_limit": 247506.0, "status": "dentro", "roas_real": 1.9038741389903955}, {"date": "2026-05-05", "V": 17318.120522514906, "k": 3.2415307771465217e-07, "r2": 0.6119404187953995, "spend": 66649.0, "sales": 403.0, "revenue": 100673.0, "ticket_7d": 258.4995412844037, "cpa_teto_adaptive": 258.4995412844037, "cpa_marg_now": 183.25070238873298, "s_piso": 0, "s_teto": 1148693.7367946112, "s_teto_extrap": true, "max_obs": 165004.0, "extrap_limit": 247506.0, "status": "dentro", "roas_real": 1.5104952812495311}, {"date": "2026-05-06", "V": 17256.619541284133, "k": 3.2415307771465217e-07, "r2": 0.5496728030949394, "spend": 86189.0, "sales": 495.0, "revenue": 130540.0, "ticket_7d": 253.8638971769566, "cpa_teto_adaptive": 253.8638971769566, "cpa_marg_now": 183.86925036009552, "s_piso": 0, "s_teto": 1081894.4176591074, "s_teto_extrap": true, "max_obs": 165004.0, "extrap_limit": 247506.0, "status": "dentro", "roas_real": 1.5145784264813376}, {"date": "2026-05-07", "V": 17260.14028781702, "k": 3.2415307771465217e-07, "r2": 0.5153126019310901, "spend": 87711.0, "sales": 477.0, "revenue": 131215.0, "ticket_7d": 244.22914757103575, "cpa_teto_adaptive": 244.22914757103575, "cpa_marg_now": 183.85981929551042, "s_piso": 0, "s_teto": 963162.3369134226, "s_teto_extrap": true, "max_obs": 165004.0, "extrap_limit": 247506.0, "status": "dentro", "roas_real": 1.4959925208924765}, {"date": "2026-05-08", "V": 17214.029506562987, "k": 3.2415307771465217e-07, "r2": 0.525169393864643, "spend": 101194.0, "sales": 592.0, "revenue": 148479.0, "ticket_7d": 221.2663068981699, "cpa_teto_adaptive": 221.2663068981699, "cpa_marg_now": 184.76975356093806, "s_piso": 0, "s_teto": 650300.8233532622, "s_teto_extrap": true, "max_obs": 165004.0, "extrap_limit": 247506.0, "status": "dentro", "roas_real": 1.467270786805542}, {"date": "2026-05-09", "V": 17183.717942356318, "k": 3.2415307771465217e-07, "r2": 0.5292504981413618, "spend": 192254.0, "sales": 911.0, "revenue": 176082.0, "ticket_7d": 233.01196410767696, "cpa_teto_adaptive": 233.01196410767696, "cpa_marg_now": 188.06036551792138, "s_piso": 0, "s_teto": 804426.7688137133, "s_teto_extrap": true, "max_obs": 165004.0, "extrap_limit": 247506.0, "status": "dentro", "roas_real": 0.9158821142863087}, {"date": "2026-05-10", "V": 17120.775442652095, "k": 3.2415307771465217e-07, "r2": 0.5671115277080128, "spend": 166239.0, "sales": 831.0, "revenue": 153613.0, "ticket_7d": 235.3805223334147, "cpa_teto_adaptive": 235.3805223334147, "cpa_marg_now": 189.45678858618936, "s_piso": 0, "s_teto": 824306.2907451963, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 0.9240491100163019}, {"date": "2026-05-11", "V": 16812.36228629562, "k": 3.2312590877990817e-07, "r2": 0.592656413112443, "spend": 47700.0, "sales": 331.0, "revenue": 92731.0, "ticket_7d": 236.51258637709773, "cpa_teto_adaptive": 236.51258637709773, "cpa_marg_now": 190.1969490747334, "s_piso": 0, "s_teto": 775695.7427546687, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 1.9440461215932914}, {"date": "2026-05-12", "V": 16725.26428792771, "k": 3.2312590877990817e-07, "r2": 0.5832832612351905, "spend": 52656.0, "sales": 369.0, "revenue": 99226.0, "ticket_7d": 231.0230198019802, "cpa_teto_adaptive": 231.0230198019802, "cpa_marg_now": 189.69324143840203, "s_piso": 0, "s_teto": 686943.5720635595, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 1.8844196292920086}, {"date": "2026-05-13", "V": 16807.627288251988, "k": 3.2312590877990817e-07, "r2": 0.6205360714182289, "spend": 66907.0, "sales": 364.0, "revenue": 93247.0, "ticket_7d": 232.62256615077385, "cpa_teto_adaptive": 232.62256615077385, "cpa_marg_now": 188.45803669613076, "s_piso": 0, "s_teto": 723499.8321427286, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 1.3936807807852691}, {"date": "2026-05-14", "V": 16871.86767763463, "k": 3.2312590877990817e-07, "r2": 0.6487866148109536, "spend": 63540.0, "sales": 318.0, "revenue": 82283.0, "ticket_7d": 230.86270967741936, "cpa_teto_adaptive": 230.86270967741936, "cpa_marg_now": 187.4863791450912, "s_piso": 0, "s_teto": 711803.966749037, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 1.2949795404469626}, {"date": "2026-05-15", "V": 16885.764066645923, "k": 3.2312590877990817e-07, "r2": 0.6736745780636535, "spend": 63073.0, "sales": 400.0, "revenue": 111972.0, "ticket_7d": 227.57292787944027, "cpa_teto_adaptive": 227.57292787944027, "cpa_marg_now": 187.19112918179565, "s_piso": 0, "s_teto": 669934.372438759, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 1.7752762671824711}, {"date": "2026-05-16", "V": 16941.47496541119, "k": 3.2312590877990817e-07, "r2": 0.6815409378968547, "spend": 99191.0, "sales": 587.0, "revenue": 150787.0, "ticket_7d": 229.61237230419977, "cpa_teto_adaptive": 229.61237230419977, "cpa_marg_now": 187.5968908644506, "s_piso": 0, "s_teto": 707738.9905877692, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 1.52016816041778}, {"date": "2026-05-17", "V": 16969.864461727684, "k": 3.2312590877990817e-07, "r2": 0.6609067507570059, "spend": 118148.0, "sales": 741.0, "revenue": 197550.0, "ticket_7d": 244.9559375, "cpa_teto_adaptive": 244.9559375, "cpa_marg_now": 188.37099387112684, "s_piso": 0, "s_teto": 913108.2697511404, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 1.6720553881572264}, {"date": "2026-05-18", "V": 17117.84883450639, "k": 3.2312590877990817e-07, "r2": 0.6294440342292551, "spend": 74992.0, "sales": 420.0, "revenue": 132222.0, "ticket_7d": 266.17234726688105, "cpa_teto_adaptive": 266.17234726688105, "cpa_marg_now": 185.98281293300533, "s_piso": 0, "s_teto": 1197048.0265171656, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 1.7631480691273735}, {"date": "2026-05-19", "V": 17018.33685483025, "k": 3.2312590877990817e-07, "r2": 0.6363369568808971, "spend": 65063.0, "sales": 413.0, "revenue": 139492.0, "ticket_7d": 271.1119099718662, "cpa_teto_adaptive": 271.1119099718662, "cpa_marg_now": 186.39025548806592, "s_piso": 0, "s_teto": 1235910.1444430086, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 2.143952784224521}, {"date": "2026-05-20", "V": 16805.34066215319, "k": 3.2312590877990817e-07, "r2": 0.6702671510032719, "spend": 68909.0, "sales": 373.0, "revenue": 141694.0, "ticket_7d": 279.84983040394695, "cpa_teto_adaptive": 279.84983040394695, "cpa_marg_now": 188.5263307479604, "s_piso": 0, "s_teto": 1295103.1166338979, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 2.05624809531411}, {"date": "2026-05-21", "V": 16880.150543300966, "k": 3.2312590877990817e-07, "r2": 0.6866819512774169, "spend": 63087.0, "sales": 583.0, "revenue": 219437.0, "ticket_7d": 293.9729397293973, "cpa_teto_adaptive": 293.9729397293973, "cpa_marg_now": 187.4018906058818, "s_piso": 0, "s_teto": 1461218.7258051645, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 3.4783235848907066}, {"date": "2026-05-22", "V": 17091.668587915145, "k": 3.2312590877990817e-07, "r2": 0.6413822689376807, "spend": 75040.0, "sales": 618.0, "revenue": 236277.0, "ticket_7d": 310.8200170599943, "cpa_teto_adaptive": 310.8200170599943, "cpa_marg_now": 185.29769186486487, "s_piso": 0, "s_teto": 1672217.0341577732, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 3.1486807036247333}, {"date": "2026-05-23", "V": 17385.194476095145, "k": 3.2312590877990817e-07, "r2": 0.5993577964522415, "spend": 154596.0, "sales": 1248.0, "revenue": 381939.0, "ticket_7d": 325.9595716198126, "cpa_teto_adaptive": 325.9595716198126, "cpa_marg_now": 184.63297774372631, "s_piso": 0, "s_teto": 1872099.3748793593, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 2.4705619809050687}, {"date": "2026-05-24", "V": 18128.304898581697, "k": 3.2312590877990817e-07, "r2": 0.4657759841684561, "spend": 234844.0, "sales": 1749.0, "revenue": 561289.0, "ticket_7d": 329.5293448589627, "cpa_teto_adaptive": 329.5293448589627, "cpa_marg_now": 180.58407853222016, "s_piso": 0, "s_teto": 2035341.0666761473, "s_teto_extrap": true, "max_obs": 192254.0, "extrap_limit": 288381.0, "status": "dentro", "roas_real": 2.3900504164466625}, {"date": "2026-05-25", "V": 21794.1487351687, "k": 2.8746577134918926e-07, "r2": 0.5324136244909518, "spend": 179622.0, "sales": 1202.0, "revenue": 447762.0, "ticket_7d": 335.3719467061436, "cpa_teto_adaptive": 335.3719467061436, "cpa_marg_now": 167.9359876602802, "s_piso": 0, "s_teto": 2582829.1390426187, "s_teto_extrap": true, "max_obs": 234844.0, "extrap_limit": 352266.0, "status": "dentro", "roas_real": 2.4928015499215017}, {"date": "2026-05-26", "V": 22585.835457059442, "k": 2.828404971306572e-07, "r2": 0.5885015324918674, "spend": 207069.0, "sales": 1326.0, "revenue": 486950.0, "ticket_7d": 343.9848043970255, "cpa_teto_adaptive": 343.9848043970255, "cpa_marg_now": 165.27139002792688, "s_piso": 0, "s_teto": 2783522.931229574, "s_teto_extrap": true, "max_obs": 234844.0, "extrap_limit": 352266.0, "status": "dentro", "roas_real": 2.3516315817432836}, {"date": "2026-05-27", "V": 24987.083852077234, "k": 2.60517112566035e-07, "r2": 0.6459829657266707, "spend": 254013.0, "sales": 1518.0, "revenue": 563449.0, "ticket_7d": 348.68967460205664, "cpa_teto_adaptive": 348.68967460205664, "cpa_marg_now": 162.80792461225988, "s_piso": 0, "s_teto": 3146432.0013220743, "s_teto_extrap": true, "max_obs": 234844.0, "extrap_limit": 352266.0, "status": "dentro", "roas_real": 2.2181896202162883}, {"date": "2026-05-29", "V": 29450.5748924559, "k": 2.2424284111792285e-07, "r2": 0.710052816433789, "spend": 848.0, "sales": 21.0, "revenue": 3362.0, "ticket_7d": 351.41957787481806, "cpa_teto_adaptive": 351.41957787481806, "cpa_marg_now": 155.2695134249227, "s_piso": 0, "s_teto": 3754471.4186003613, "s_teto_extrap": true, "max_obs": 254013.0, "extrap_limit": 381019.5, "status": "dentro", "roas_real": 3.964622641509434}], "daily": [{"date": "2026-01-01", "spend": 68627.0, "sales": 310.0, "revenue": 50687.0}, {"date": "2026-01-02", "spend": 66146.0, "sales": 322.0, "revenue": 52907.0}, {"date": "2026-01-03", "spend": 54234.0, "sales": 342.0, "revenue": 66451.0}, {"date": "2026-01-04", "spend": 85741.0, "sales": 704.0, "revenue": 124499.0}, {"date": "2026-01-05", "spend": 40485.0, "sales": 275.0, "revenue": 51083.0}, {"date": "2026-01-06", "spend": 33315.0, "sales": 225.0, "revenue": 44541.0}, {"date": "2026-01-07", "spend": 36056.0, "sales": 205.0, "revenue": 40766.0}, {"date": "2026-01-08", "spend": 48302.0, "sales": 201.0, "revenue": 49879.0}, {"date": "2026-01-09", "spend": 32225.0, "sales": 151.0, "revenue": 24450.0}, {"date": "2026-01-10", "spend": 29891.0, "sales": 130.0, "revenue": 22225.0}, {"date": "2026-01-11", "spend": 18737.0, "sales": 118.0, "revenue": 18315.0}, {"date": "2026-01-12", "spend": 14148.0, "sales": 74.0, "revenue": 17894.0}, {"date": "2026-01-13", "spend": 20316.0, "sales": 119.0, "revenue": 28696.0}, {"date": "2026-01-14", "spend": 18134.0, "sales": 107.0, "revenue": 17726.0}, {"date": "2026-01-15", "spend": 18701.0, "sales": 126.0, "revenue": 21673.0}, {"date": "2026-01-16", "spend": 21995.0, "sales": 121.0, "revenue": 23437.0}, {"date": "2026-01-17", "spend": 29710.0, "sales": 180.0, "revenue": 30728.0}, {"date": "2026-01-18", "spend": 31369.0, "sales": 224.0, "revenue": 50715.0}, {"date": "2026-01-19", "spend": 20700.0, "sales": 129.0, "revenue": 23282.0}, {"date": "2026-01-20", "spend": 22245.0, "sales": 151.0, "revenue": 26834.0}, {"date": "2026-01-21", "spend": 26249.0, "sales": 136.0, "revenue": 27072.0}, {"date": "2026-01-22", "spend": 31236.0, "sales": 146.0, "revenue": 29643.0}, {"date": "2026-01-23", "spend": 28744.0, "sales": 125.0, "revenue": 22641.0}, {"date": "2026-01-24", "spend": 24365.0, "sales": 116.0, "revenue": 21092.0}, {"date": "2026-01-25", "spend": 24157.0, "sales": 160.0, "revenue": 29820.0}, {"date": "2026-01-26", "spend": 21072.0, "sales": 116.0, "revenue": 27243.0}, {"date": "2026-01-27", "spend": 30286.0, "sales": 98.0, "revenue": 19627.0}, {"date": "2026-01-28", "spend": 29251.0, "sales": 122.0, "revenue": 25431.0}, {"date": "2026-01-29", "spend": 25806.0, "sales": 119.0, "revenue": 34040.0}, {"date": "2026-01-30", "spend": 20117.0, "sales": 110.0, "revenue": 21838.0}, {"date": "2026-01-31", "spend": 34199.0, "sales": 123.0, "revenue": 22947.0}, {"date": "2026-02-01", "spend": 24704.0, "sales": 112.0, "revenue": 19565.0}, {"date": "2026-02-02", "spend": 18095.0, "sales": 96.0, "revenue": 13588.0}, {"date": "2026-02-03", "spend": 17760.0, "sales": 93.0, "revenue": 24849.0}, {"date": "2026-02-04", "spend": 36703.0, "sales": 186.0, "revenue": 37274.0}, {"date": "2026-02-05", "spend": 50177.0, "sales": 304.0, "revenue": 53599.0}, {"date": "2026-02-06", "spend": 49836.0, "sales": 372.0, "revenue": 71122.0}, {"date": "2026-02-07", "spend": 61303.0, "sales": 580.0, "revenue": 90835.0}, {"date": "2026-02-08", "spend": 59597.0, "sales": 604.0, "revenue": 98939.0}, {"date": "2026-02-09", "spend": 29714.0, "sales": 291.0, "revenue": 101484.0}, {"date": "2026-02-10", "spend": 27821.0, "sales": 207.0, "revenue": 120585.0}, {"date": "2026-02-11", "spend": 30888.0, "sales": 252.0, "revenue": 47178.0}, {"date": "2026-02-12", "spend": 45687.0, "sales": 274.0, "revenue": 50082.0}, {"date": "2026-02-13", "spend": 47267.0, "sales": 286.0, "revenue": 49255.0}, {"date": "2026-02-14", "spend": 54351.0, "sales": 274.0, "revenue": 44631.0}, {"date": "2026-02-15", "spend": 38270.0, "sales": 197.0, "revenue": 33245.0}, {"date": "2026-02-16", "spend": 30576.0, "sales": 191.0, "revenue": 34458.0}, {"date": "2026-02-17", "spend": 18869.0, "sales": 143.0, "revenue": 22637.0}, {"date": "2026-02-18", "spend": 31614.0, "sales": 155.0, "revenue": 34529.0}, {"date": "2026-02-19", "spend": 42468.0, "sales": 234.0, "revenue": 39782.0}, {"date": "2026-02-20", "spend": 15140.0, "sales": 122.0, "revenue": 29945.0}, {"date": "2026-02-21", "spend": 36068.0, "sales": 280.0, "revenue": 53960.0}, {"date": "2026-02-22", "spend": 37448.0, "sales": 272.0, "revenue": 45694.0}, {"date": "2026-02-23", "spend": 25540.0, "sales": 203.0, "revenue": 47624.0}, {"date": "2026-02-24", "spend": 33111.0, "sales": 217.0, "revenue": 32355.0}, {"date": "2026-02-25", "spend": 26828.0, "sales": 154.0, "revenue": 49582.0}, {"date": "2026-02-26", "spend": 36958.0, "sales": 169.0, "revenue": 30890.0}, {"date": "2026-02-27", "spend": 63000.0, "sales": 351.0, "revenue": 76968.0}, {"date": "2026-02-28", "spend": 94299.0, "sales": 699.0, "revenue": 138241.0}, {"date": "2026-03-01", "spend": 56906.0, "sales": 389.0, "revenue": 67915.0}, {"date": "2026-03-02", "spend": 24502.0, "sales": 157.0, "revenue": 25947.0}, {"date": "2026-03-03", "spend": 25619.0, "sales": 167.0, "revenue": 32763.0}, {"date": "2026-03-04", "spend": 44077.0, "sales": 196.0, "revenue": 73262.0}, {"date": "2026-03-05", "spend": 52950.0, "sales": 251.0, "revenue": 52783.0}, {"date": "2026-03-06", "spend": 73834.0, "sales": 309.0, "revenue": 68305.0}, {"date": "2026-03-07", "spend": 72219.0, "sales": 471.0, "revenue": 97446.0}, {"date": "2026-03-08", "spend": 83979.0, "sales": 579.0, "revenue": 115268.0}, {"date": "2026-03-09", "spend": 93292.0, "sales": 471.0, "revenue": 101246.0}, {"date": "2026-03-10", "spend": 110899.0, "sales": 593.0, "revenue": 128669.0}, {"date": "2026-03-11", "spend": 117460.0, "sales": 680.0, "revenue": 157346.0}, {"date": "2026-03-12", "spend": 132544.0, "sales": 682.0, "revenue": 159603.0}, {"date": "2026-03-13", "spend": 122402.0, "sales": 599.0, "revenue": 163286.0}, {"date": "2026-03-14", "spend": 133638.0, "sales": 714.0, "revenue": 156833.0}, {"date": "2026-03-15", "spend": 123246.0, "sales": 670.0, "revenue": 154881.0}, {"date": "2026-03-16", "spend": 71891.0, "sales": 326.0, "revenue": 82944.0}, {"date": "2026-03-17", "spend": 85565.0, "sales": 360.0, "revenue": 111544.0}, {"date": "2026-03-18", "spend": 146484.0, "sales": 518.0, "revenue": 188869.0}, {"date": "2026-03-19", "spend": 168165.0, "sales": 765.0, "revenue": 194978.0}, {"date": "2026-03-20", "spend": 181472.0, "sales": 1013.0, "revenue": 237300.0}, {"date": "2026-03-21", "spend": 301442.0, "sales": 1708.0, "revenue": 381840.0}, {"date": "2026-03-22", "spend": 366862.0, "sales": 1932.0, "revenue": 426309.0}, {"date": "2026-03-23", "spend": 266492.0, "sales": 1513.0, "revenue": 347747.0}, {"date": "2026-03-24", "spend": 19642.0, "sales": 152.0, "revenue": 30161.0}, {"date": "2026-03-25", "spend": 18236.0, "sales": 114.0, "revenue": 32449.0}, {"date": "2026-03-26", "spend": 16962.0, "sales": 136.0, "revenue": 36298.0}, {"date": "2026-03-27", "spend": 18170.0, "sales": 138.0, "revenue": 31494.0}, {"date": "2026-03-28", "spend": 30635.0, "sales": 207.0, "revenue": 71957.0}, {"date": "2026-03-29", "spend": 30477.0, "sales": 215.0, "revenue": 47468.0}, {"date": "2026-03-30", "spend": 21449.0, "sales": 125.0, "revenue": 39686.0}, {"date": "2026-03-31", "spend": 22632.0, "sales": 158.0, "revenue": 54259.0}, {"date": "2026-04-01", "spend": 23047.0, "sales": 148.0, "revenue": 27644.0}, {"date": "2026-04-02", "spend": 24673.0, "sales": 184.0, "revenue": 32708.0}, {"date": "2026-04-03", "spend": 46970.0, "sales": 381.0, "revenue": 74854.0}, {"date": "2026-04-04", "spend": 59556.0, "sales": 307.0, "revenue": 59184.0}, {"date": "2026-04-05", "spend": 44619.0, "sales": 328.0, "revenue": 57773.0}, {"date": "2026-04-06", "spend": 37074.0, "sales": 248.0, "revenue": 45550.0}, {"date": "2026-04-07", "spend": 30420.0, "sales": 202.0, "revenue": 44515.0}, {"date": "2026-04-08", "spend": 80076.0, "sales": 339.0, "revenue": 74051.0}, {"date": "2026-04-09", "spend": 105667.0, "sales": 513.0, "revenue": 102496.0}, {"date": "2026-04-10", "spend": 126654.0, "sales": 673.0, "revenue": 141038.0}, {"date": "2026-04-11", "spend": 146854.0, "sales": 894.0, "revenue": 164259.0}, {"date": "2026-04-12", "spend": 163785.0, "sales": 1075.0, "revenue": 189458.0}, {"date": "2026-04-13", "spend": 112047.0, "sales": 596.0, "revenue": 133740.0}, {"date": "2026-04-14", "spend": 125176.0, "sales": 572.0, "revenue": 115682.0}, {"date": "2026-04-15", "spend": 111616.0, "sales": 562.0, "revenue": 141068.0}, {"date": "2026-04-16", "spend": 89455.0, "sales": 514.0, "revenue": 107423.0}, {"date": "2026-04-17", "spend": 96944.0, "sales": 512.0, "revenue": 123013.0}, {"date": "2026-04-18", "spend": 125640.0, "sales": 686.0, "revenue": 130495.0}, {"date": "2026-04-19", "spend": 107526.0, "sales": 637.0, "revenue": 129356.0}, {"date": "2026-04-20", "spend": 97914.0, "sales": 616.0, "revenue": 125060.0}, {"date": "2026-04-21", "spend": 110075.0, "sales": 779.0, "revenue": 145988.0}, {"date": "2026-04-22", "spend": 122538.0, "sales": 537.0, "revenue": 120210.0}, {"date": "2026-04-23", "spend": 109026.0, "sales": 550.0, "revenue": 122218.0}, {"date": "2026-04-24", "spend": 90665.0, "sales": 438.0, "revenue": 165046.0}, {"date": "2026-04-25", "spend": 127369.0, "sales": 633.0, "revenue": 116616.0}, {"date": "2026-04-26", "spend": 144566.0, "sales": 760.0, "revenue": 135371.0}, {"date": "2026-04-27", "spend": 81107.0, "sales": 467.0, "revenue": 102081.0}, {"date": "2026-04-28", "spend": 90683.0, "sales": 406.0, "revenue": 121646.0}, {"date": "2026-04-29", "spend": 111905.0, "sales": 488.0, "revenue": 170809.0}, {"date": "2026-04-30", "spend": 129913.0, "sales": 579.0, "revenue": 253994.0}, {"date": "2026-05-01", "spend": 132157.0, "sales": 842.0, "revenue": 156672.0}, {"date": "2026-05-02", "spend": 162187.0, "sales": 826.0, "revenue": 146572.0}, {"date": "2026-05-03", "spend": 165004.0, "sales": 876.0, "revenue": 159618.0}, {"date": "2026-05-04", "spend": 61846.0, "sales": 343.0, "revenue": 117747.0}, {"date": "2026-05-05", "spend": 66649.0, "sales": 403.0, "revenue": 100673.0}, {"date": "2026-05-06", "spend": 86189.0, "sales": 495.0, "revenue": 130540.0}, {"date": "2026-05-07", "spend": 87711.0, "sales": 477.0, "revenue": 131215.0}, {"date": "2026-05-08", "spend": 101194.0, "sales": 592.0, "revenue": 148479.0}, {"date": "2026-05-09", "spend": 192254.0, "sales": 911.0, "revenue": 176082.0}, {"date": "2026-05-10", "spend": 166239.0, "sales": 831.0, "revenue": 153613.0}, {"date": "2026-05-11", "spend": 47700.0, "sales": 331.0, "revenue": 92731.0}, {"date": "2026-05-12", "spend": 52656.0, "sales": 369.0, "revenue": 99226.0}, {"date": "2026-05-13", "spend": 66907.0, "sales": 364.0, "revenue": 93247.0}, {"date": "2026-05-14", "spend": 63540.0, "sales": 318.0, "revenue": 82283.0}, {"date": "2026-05-15", "spend": 63073.0, "sales": 400.0, "revenue": 111972.0}, {"date": "2026-05-16", "spend": 99191.0, "sales": 587.0, "revenue": 150787.0}, {"date": "2026-05-17", "spend": 118148.0, "sales": 741.0, "revenue": 197550.0}, {"date": "2026-05-18", "spend": 74992.0, "sales": 420.0, "revenue": 132222.0}, {"date": "2026-05-19", "spend": 65063.0, "sales": 413.0, "revenue": 139492.0}, {"date": "2026-05-20", "spend": 68909.0, "sales": 373.0, "revenue": 141694.0}, {"date": "2026-05-21", "spend": 63087.0, "sales": 583.0, "revenue": 219437.0}, {"date": "2026-05-22", "spend": 75040.0, "sales": 618.0, "revenue": 236277.0}, {"date": "2026-05-23", "spend": 154596.0, "sales": 1248.0, "revenue": 381939.0}, {"date": "2026-05-24", "spend": 234844.0, "sales": 1749.0, "revenue": 561289.0}, {"date": "2026-05-25", "spend": 179622.0, "sales": 1202.0, "revenue": 447762.0}, {"date": "2026-05-26", "spend": 207069.0, "sales": 1326.0, "revenue": 486950.0}, {"date": "2026-05-27", "spend": 254013.0, "sales": 1518.0, "revenue": 563449.0}, {"date": "2026-05-29", "spend": 848.0, "sales": 21.0, "revenue": 3362.0}]};
+const fmtR = v => 'R$' + (v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?(v/1e3).toFixed(0)+'k':Math.round(v));
+const fmtN = v => Number(v).toLocaleString('pt-BR');
+const dowName = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+
+function showTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  const panels=['atual','historico','episodios','metodologia'];
+  const idx=panels.indexOf(id);
+  document.querySelectorAll('.tab')[idx].classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  setTimeout(()=>{Object.values(Chart.instances).forEach(c=>{c.resize();c.update('none');})},50);
+}
+
+Chart.defaults.color='#64748B';
+Chart.defaults.borderColor='#1E293B';
+Chart.defaults.font.family="'Inter',system-ui,sans-serif";
+
+// --- recalc com parâmetros do usuário
+function recalcSeries(cpaPiso, mult, ticketWin) {
+  const out = [];
+  const allDaily = DATA.daily;
+  // Construir map date→idx
+  const dateMap = {};
+  allDaily.forEach((d,i)=>{dateMap[d.date]=i;});
+  
+  for (const r of DATA.series) {
+    const idx = dateMap[r.date];
+    if (idx === undefined || idx < ticketWin) continue;
+    // Recalcula ticket
+    let sumRev=0, sumSales=0;
+    for (let j=idx-ticketWin;j<idx;j++) {
+      sumRev += allDaily[j].revenue;
+      sumSales += allDaily[j].sales;
+    }
+    const ticketAdj = sumSales>0 ? sumRev/sumSales : 200;
+    const cpaTeto = ticketAdj * mult;
+    // s_for_cpa: ln(V*k*cpa)/k
+    const valPiso = r.V*r.k*cpaPiso;
+    const valTeto = r.V*r.k*cpaTeto;
+    const sPiso = valPiso>1 ? Math.log(valPiso)/r.k : 0;
+    const sTeto = valTeto>1 ? Math.log(valTeto)/r.k : 0;
+    let status = 'dentro';
+    if (r.spend < sPiso) status = 'subir';
+    else if (r.spend > sTeto) status = 'baixar';
+    out.push({...r, ticketAdj, cpaTeto, sPiso, sTeto, status,
+              extrapTeto: sTeto > r.max_obs * 1.5});
+  }
+  return out;
+}
+
+let CPA_PISO = 130, MULT = 1.0, TW = 7;
+let series = recalcSeries(CPA_PISO, MULT, TW);
+let chartRecent, chartHist, chartCpaMarg, chartR2;
+
+function renderAll() {
+  series = recalcSeries(CPA_PISO, MULT, TW);
+  renderAtual();
+  renderHistorico();
+  renderEpisodios();
+}
+
+function renderAtual() {
+  const last14 = series.slice(-14);
+  const last = last14[last14.length-1];
+  
+  // KPIs
+  const statCls = last.status==='dentro'?'':last.status==='baixar'?'bad':'warn';
+  const statTxt = last.status==='dentro'?'✓ Dentro':last.status==='baixar'?'↓ Acima do teto':'↑ Abaixo do piso';
+  const statColor = last.status==='dentro'?'brand':last.status==='baixar'?'bad':'warn';
+  document.getElementById('kpi-atual').innerHTML = `
+    <div class="kpi kpi-status ${statCls}"><div class="label">Status hoje</div><div class="value ${statColor}">${statTxt}</div><div class="sub">${last.date}</div></div>
+    <div class="kpi"><div class="label">Gasto</div><div class="value">${fmtR(last.spend)}</div><div class="sub">${fmtN(last.sales)} vendas · ROAS ${last.roas_real.toFixed(2)}</div></div>
+    <div class="kpi"><div class="label">Faixa recomendada</div><div class="value brand" style="font-size:1.1rem">${fmtR(last.sPiso)} – ${fmtR(last.sTeto)}</div><div class="sub">${last.extrapTeto?'⚠ teto em extrapolação':'dentro do range observado'}</div></div>
+    <div class="kpi"><div class="label">Ticket médio ${TW}d</div><div class="value">${fmtR(last.ticketAdj)}</div><div class="sub">teto CPA = ${fmtR(last.cpaTeto)}</div></div>
+    <div class="kpi"><div class="label">CPA marginal estimado</div><div class="value ${last.cpa_marg_now>last.cpaTeto?'warn':'brand'}">${fmtR(last.cpa_marg_now)}</div><div class="sub">vs teto ${fmtR(last.cpaTeto)}</div></div>
+    <div class="kpi"><div class="label">R² da curva</div><div class="value">${last.r2.toFixed(2)}</div><div class="sub">qualidade do ajuste</div></div>
+  `;
+  
+  // Chart recent
+  if (chartRecent) chartRecent.destroy();
+  chartRecent = new Chart(document.getElementById('chartRecent'), {
+    type:'bar',
+    data:{
+      labels: last14.map(r=>r.date),
+      datasets:[
+        {label:'Faixa recomendada',type:'bar',data:last14.map(r=>[r.sPiso,Math.min(r.sTeto,r.max_obs*1.5)]),
+         backgroundColor:'rgba(0,200,150,0.18)',borderColor:'rgba(0,200,150,0.4)',borderWidth:1,
+         borderSkipped:false,barPercentage:0.7,order:2},
+        {label:'Gasto realizado',type:'line',data:last14.map(r=>r.spend),
+         borderColor:'#F1F5F9',backgroundColor:'#F1F5F9',borderWidth:2,
+         pointRadius:5,pointHoverRadius:7,
+         pointBackgroundColor:last14.map(r=>r.status==='baixar'?'#EF4444':r.status==='subir'?'#F59E0B':'#F1F5F9'),
+         tension:0.2,order:1},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{usePointStyle:true}},
+        tooltip:{callbacks:{
+          label:ctx=>{const r=last14[ctx.dataIndex];
+            return ctx.datasetIndex===1?
+              [`Gasto: ${fmtR(r.spend)}`,`Status: ${r.status}`,`Vendas: ${fmtN(r.sales)}`,`ROAS real: ${r.roas_real.toFixed(2)}`]:
+              [`Piso: ${fmtR(r.sPiso)}`,`Teto: ${fmtR(r.sTeto)}${r.extrapTeto?' (extrap.)':''}`,`Ticket: ${fmtR(r.ticketAdj)}`];
+          }
+        }}
+      },
+      scales:{
+        x:{ticks:{maxRotation:45,minRotation:45}},
+        y:{title:{display:true,text:'R$ / dia',color:'#64748B'},ticks:{callback:v=>fmtR(v)}}
+      }
+    }
+  });
+  
+  // Insight
+  const dentroCnt = series.filter(r=>r.status==='dentro').length;
+  const baixarCnt = series.filter(r=>r.status==='baixar').length;
+  const subirCnt  = series.filter(r=>r.status==='subir').length;
+  document.getElementById('insight-atual').innerHTML = 
+    `Em ${series.length} dias avaliáveis: <strong>${dentroCnt} dentro da faixa (${(dentroCnt/series.length*100).toFixed(0)}%)</strong>, ${baixarCnt} super-investimento, ${subirCnt} sub-investimento.`;
+}
+
+function renderHistorico() {
+  // Série temporal
+  if (chartHist) chartHist.destroy();
+  chartHist = new Chart(document.getElementById('chartHistorico'), {
+    type:'line',
+    data:{datasets:[
+      {label:'Teto da faixa',data:series.map(r=>({x:r.date,y:Math.min(r.sTeto,r.max_obs*1.5)})),
+       borderColor:'rgba(0,200,150,0.4)',backgroundColor:'rgba(0,200,150,0.10)',fill:'+1',
+       borderWidth:1,pointRadius:0,tension:0.2,order:3},
+      {label:'Piso da faixa',data:series.map(r=>({x:r.date,y:r.sPiso})),
+       borderColor:'rgba(245,158,11,0.4)',borderWidth:1,pointRadius:0,fill:false,tension:0.2,order:2},
+      {label:'Gasto realizado',data:series.map(r=>({x:r.date,y:r.spend})),
+       borderColor:'#F1F5F9',borderWidth:2,pointRadius:3,
+       pointBackgroundColor:series.map(r=>r.status==='baixar'?'#EF4444':r.status==='subir'?'#F59E0B':'#2DD9B4'),
+       tension:0,order:1},
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{usePointStyle:true}}},
+      scales:{
+        x:{type:'time',time:{unit:'week'}},
+        y:{title:{display:true,text:'R$ / dia',color:'#64748B'},ticks:{callback:v=>fmtR(v)}}
+      }
+    }
+  });
+  
+  // CPA marginal
+  if (chartCpaMarg) chartCpaMarg.destroy();
+  chartCpaMarg = new Chart(document.getElementById('chartCpaMarg'), {
+    type:'line',
+    data:{datasets:[
+      {label:'CPA marg. (curva)',data:series.map(r=>({x:r.date,y:r.cpa_marg_now})),
+       borderColor:'#2DD9B4',borderWidth:2,pointRadius:0,tension:0.2},
+      {label:'Teto adaptativo (ticket × mult)',data:series.map(r=>({x:r.date,y:r.cpaTeto})),
+       borderColor:'#F59E0B',borderWidth:1.5,borderDash:[6,3],pointRadius:0,tension:0.2},
+      {label:'Piso',data:series.map(r=>({x:r.date,y:CPA_PISO})),
+       borderColor:'rgba(100,116,139,0.5)',borderWidth:1,borderDash:[2,2],pointRadius:0},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{usePointStyle:true}}},
+      scales:{x:{type:'time',time:{unit:'week'}},
+              y:{title:{display:true,text:'CPA (R$)',color:'#64748B'},ticks:{callback:v=>fmtR(v)}}}}
+  });
+  
+  // R²
+  if (chartR2) chartR2.destroy();
+  chartR2 = new Chart(document.getElementById('chartR2'), {
+    type:'line',
+    data:{datasets:[{label:'R²',data:series.map(r=>({x:r.date,y:r.r2})),
+                    borderColor:'#00C896',backgroundColor:'rgba(0,200,150,0.10)',fill:true,
+                    borderWidth:2,pointRadius:0,tension:0.2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{type:'time',time:{unit:'week'}},
+              y:{title:{display:true,text:'R²',color:'#64748B'},min:0,max:1}}}
+  });
+}
+
+function renderEpisodios() {
+  const sup = series.filter(r=>r.status==='baixar')
+    .sort((a,b)=>(b.spend-b.sTeto)-(a.spend-a.sTeto)).slice(0,15);
+  document.getElementById('tbl-super').innerHTML = sup.map(r=>{
+    const d = new Date(r.date);
+    const dow = dowName[(d.getUTCDay()+6)%7];
+    const excess = r.spend - r.sTeto;
+    const roasBadge = r.roas_real >= 1.3 ? 'badge-active' : r.roas_real >= 1 ? 'badge-warning' : 'badge-danger';
+    const roasLabel = r.roas_real >= 1.3 ? 'OK' : r.roas_real >= 1 ? 'apertado' : 'perda';
+    return `<tr>
+      <td>${r.date}</td><td>${dow}</td>
+      <td class="right">${fmtR(r.spend)}</td>
+      <td class="right">${fmtR(r.sTeto)}</td>
+      <td class="right">${fmtR(r.ticketAdj)}</td>
+      <td class="right">+${fmtR(excess)}</td>
+      <td class="right">${r.roas_real.toFixed(2)}</td>
+      <td><span class="badge ${roasBadge}">${roasLabel}</span></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--text-muted)">Nenhum super-investimento com a calibração atual</td></tr>';
+}
+
+// Controles
+document.getElementById('sl-piso').addEventListener('input', function(){
+  CPA_PISO = +this.value;
+  document.getElementById('vp-piso').textContent = CPA_PISO;
+  renderAll();
+});
+document.getElementById('sl-mult').addEventListener('input', function(){
+  MULT = +this.value;
+  document.getElementById('vp-mult').textContent = MULT.toFixed(2);
+  renderAll();
+});
+document.getElementById('sl-tw').addEventListener('input', function(){
+  TW = +this.value;
+  document.getElementById('vp-tw').textContent = TW;
+  renderAll();
+});
+
+renderAll();
+</script>
+</body></html>
