@@ -468,9 +468,9 @@
     <h1>Perfil do Espectador<br>El Salvador</h1>
     <p class="subtitle">Análise comparativa · Assinantes ativos · Desde lançamento 21/05/2026</p>
     <div class="header-meta">
-      <span class="badge badge-active">Dados atualizados 25/05</span>
-      <span class="badge badge-neutral">56.307 viewers El Salvador</span>
-      <span class="badge badge-neutral">44.096 assinantes ativos</span>
+      <span class="badge badge-active">Dados atualizados 01/06</span>
+      <span class="badge badge-neutral">69.385 viewers El Salvador</span>
+      <span class="badge badge-neutral">54.463 assinantes ativos</span>
       <span class="badge badge-neutral">512.525 base geral</span>
     </div>
   </header>
@@ -1297,164 +1297,243 @@
   <section class="section">
     <div class="section-label section-label-brand">
       <i data-lucide="trending-up" style="width:14px;height:14px"></i>
-      Evolução temporal — Lançamento vs semanas seguintes
+      Evolução temporal — 11 dias desde o lançamento
     </div>
 
-    <!-- Contextualização -->
-    <div style="padding:var(--space-4);background:var(--bg-brand);border-radius:var(--radius-md);border:1px solid rgba(0,200,150,.15);margin-bottom:var(--space-6)">
-      <div style="font-size:0.825rem;color:var(--text-secondary);line-height:1.6">
-        <strong style="color:var(--brand)">O perfil é estável em gênero e poder de compra</strong>, mas a propensão de upsell Mecenas <strong style="color:var(--brand)">cai com o tempo</strong>. A audiência do lançamento é a mais quente comercialmente — 38,5% no top 30% de propensão vs 33,0% de quem chegou na semana 2. Isso reforça prioridade de abordagem para quem assistiu nos primeiros dias.
+    <!-- KPIs temporais -->
+    <div class="kpi-grid" style="margin-bottom:var(--space-6)">
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="users" style="width:12px;height:12px"></i> Total de viewers</div>
+        <div class="kpi-value">69<span>.</span>385</div>
+        <div class="kpi-sub">únicos desde 21/05 · incl. ex-assinantes</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="user-check" style="width:12px;height:12px"></i> Assinantes ativos</div>
+        <div class="kpi-value">54<span>.</span>463</div>
+        <div class="kpi-sub">com assinatura paga ativa · base para análise</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="zap" style="width:12px;height:12px"></i> Segunda onda (30/05)</div>
+        <div class="kpi-value">7<span>.</span>393</div>
+        <div class="kpi-sub">novos viewers no sábado 30/05 · <span class="kpi-delta pos">+62% do pico do dia</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="trending-down" style="width:12px;height:12px"></i> Propensão Mecenas</div>
+        <div class="kpi-value">38<span>→</span>34<span>%</span></div>
+        <div class="kpi-sub">top 30% lançamento vs semana 2 · <span class="kpi-delta neg">↓ -4pp</span></div>
       </div>
     </div>
 
-    <!-- Curva diária de novos viewers -->
+    <!-- Curva diária -->
     <div class="card card-brand-border" style="margin-bottom:var(--space-6)">
-      <div class="section-label">Novos viewers por dia (todos os assinantes ativos)</div>
-      <div style="display:grid;grid-template-columns:repeat(9,1fr);gap:var(--space-2);align-items:end;height:180px;padding-bottom:var(--space-4)">
+      <div class="section-label">Novos viewers únicos por dia (todos — assinantes + ex-assinantes)</div>
 
-        <!-- Barras normalizadas: pico = 24.576 (semana1 total). Cada barra = novos viewers naquele dia -->
-        <!-- 21/05: 6577 lançamento, 22/05: ~8543 raw / 24576 total sem1 / barra prop -->
-        <!-- Usando qtd diária de first_view (total incluindo não-sub): 21:8543, 22:6317, 23:9342, 24:9852, 25:6029, 26:5632, 27:5258, 28:4853, 29:481 -->
-        <!-- Max = 9852, normalize to 160px height -->
+      <!-- Barras: max=9854, scale=150px -->
+      <div style="display:grid;grid-template-columns:repeat(11,1fr);gap:8px;align-items:end;height:200px;padding:0 4px var(--space-4)">
+
+        <!-- 21/05 lançamento: 8543 → 130px -->
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-          <div style="font-size:.68rem;font-weight:600;color:var(--brand)">8.543</div>
+          <div style="font-size:.65rem;font-weight:700;color:var(--brand)">8.543</div>
           <div style="flex:1;display:flex;align-items:flex-end;width:100%">
-            <div style="background:var(--brand);border-radius:4px 4px 0 0;width:100%;height:138px"></div>
+            <div style="background:var(--brand);border-radius:4px 4px 0 0;width:100%;height:130px"></div>
           </div>
-          <div style="font-size:.65rem;color:var(--text-muted);text-align:center">21/05<br><span style="color:var(--brand);font-weight:700">lança</span></div>
+          <div style="font-size:.6rem;color:var(--brand);font-weight:700;text-align:center;line-height:1.3">21/05<br>Qui<br>lança</div>
         </div>
+
+        <!-- 22/05: 6317 → 96px -->
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-          <div style="font-size:.68rem;font-weight:600;color:var(--text-muted)">6.317</div>
+          <div style="font-size:.65rem;font-weight:600;color:var(--text-muted)">6.317</div>
           <div style="flex:1;display:flex;align-items:flex-end;width:100%">
-            <div style="background:#334155;border-radius:4px 4px 0 0;width:100%;height:102px"></div>
+            <div style="background:#334155;border-radius:4px 4px 0 0;width:100%;height:96px"></div>
           </div>
-          <div style="font-size:.65rem;color:var(--text-muted);text-align:center">22/05</div>
+          <div style="font-size:.6rem;color:var(--text-muted);text-align:center;line-height:1.3">22/05<br>Sex</div>
         </div>
+
+        <!-- 23/05: 9342 → 142px -->
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-          <div style="font-size:.68rem;font-weight:600;color:var(--text-muted)">9.342</div>
+          <div style="font-size:.65rem;font-weight:600;color:var(--text-muted)">9.342</div>
           <div style="flex:1;display:flex;align-items:flex-end;width:100%">
-            <div style="background:#334155;border-radius:4px 4px 0 0;width:100%;height:151px"></div>
+            <div style="background:#334155;border-radius:4px 4px 0 0;width:100%;height:142px"></div>
           </div>
-          <div style="font-size:.65rem;color:var(--text-muted);text-align:center">23/05</div>
+          <div style="font-size:.6rem;color:var(--text-muted);text-align:center;line-height:1.3">23/05<br>Sáb</div>
         </div>
+
+        <!-- 24/05: 9854 → 150px PICO -->
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-          <div style="font-size:.68rem;font-weight:600;color:var(--text-muted)">9.852</div>
+          <div style="font-size:.65rem;font-weight:700;color:var(--text-primary)">9.854 ▲</div>
           <div style="flex:1;display:flex;align-items:flex-end;width:100%">
-            <div style="background:#334155;border-radius:4px 4px 0 0;width:100%;height:160px"></div>
+            <div style="background:#334155;border-radius:4px 4px 0 0;width:100%;height:150px;box-shadow:0 0 8px rgba(0,200,150,.2)"></div>
           </div>
-          <div style="font-size:.65rem;color:var(--text-muted);text-align:center">24/05</div>
+          <div style="font-size:.6rem;color:var(--text-muted);text-align:center;line-height:1.3">24/05<br>Dom</div>
         </div>
+
+        <!-- 25/05: 6031 → 92px -->
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-          <div style="font-size:.68rem;font-weight:600;color:var(--text-muted)">6.029</div>
+          <div style="font-size:.65rem;font-weight:600;color:var(--text-muted)">6.031</div>
           <div style="flex:1;display:flex;align-items:flex-end;width:100%">
-            <div style="background:#334155;border-radius:4px 4px 0 0;width:100%;height:98px"></div>
+            <div style="background:#334155;border-radius:4px 4px 0 0;width:100%;height:92px"></div>
           </div>
-          <div style="font-size:.65rem;color:var(--text-muted);text-align:center">25/05</div>
+          <div style="font-size:.6rem;color:var(--text-muted);text-align:center;line-height:1.3">25/05<br>Seg</div>
         </div>
+
+        <!-- 26/05: 5632 → 86px -->
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-          <div style="font-size:.68rem;font-weight:600;color:var(--text-muted)">5.632</div>
+          <div style="font-size:.65rem;font-weight:600;color:var(--text-muted)">5.632</div>
           <div style="flex:1;display:flex;align-items:flex-end;width:100%">
-            <div style="background:#475569;border-radius:4px 4px 0 0;width:100%;height:91px"></div>
+            <div style="background:#475569;border-radius:4px 4px 0 0;width:100%;height:86px"></div>
           </div>
-          <div style="font-size:.65rem;color:var(--text-muted);text-align:center">26/05</div>
+          <div style="font-size:.6rem;color:var(--text-muted);text-align:center;line-height:1.3">26/05<br>Ter</div>
         </div>
+
+        <!-- 27/05: 5258 → 80px -->
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-          <div style="font-size:.68rem;font-weight:600;color:var(--text-muted)">5.258</div>
+          <div style="font-size:.65rem;font-weight:600;color:var(--text-muted)">5.258</div>
           <div style="flex:1;display:flex;align-items:flex-end;width:100%">
-            <div style="background:#475569;border-radius:4px 4px 0 0;width:100%;height:85px"></div>
+            <div style="background:#475569;border-radius:4px 4px 0 0;width:100%;height:80px"></div>
           </div>
-          <div style="font-size:.65rem;color:var(--text-muted);text-align:center">27/05</div>
+          <div style="font-size:.6rem;color:var(--text-muted);text-align:center;line-height:1.3">27/05<br>Qua</div>
         </div>
+
+        <!-- 28/05: 4858 → 74px -->
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-          <div style="font-size:.68rem;font-weight:600;color:var(--text-muted)">4.853</div>
+          <div style="font-size:.65rem;font-weight:600;color:var(--text-muted)">4.858</div>
           <div style="flex:1;display:flex;align-items:flex-end;width:100%">
-            <div style="background:#475569;border-radius:4px 4px 0 0;width:100%;height:79px"></div>
+            <div style="background:#475569;border-radius:4px 4px 0 0;width:100%;height:74px"></div>
           </div>
-          <div style="font-size:.65rem;color:var(--text-muted);text-align:center">28/05</div>
+          <div style="font-size:.6rem;color:var(--text-muted);text-align:center;line-height:1.3">28/05<br>Qui</div>
         </div>
+
+        <!-- 29/05: 5336 → 81px -->
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-          <div style="font-size:.68rem;font-weight:600;color:var(--text-muted)">481</div>
+          <div style="font-size:.65rem;font-weight:600;color:var(--text-muted)">5.336</div>
           <div style="flex:1;display:flex;align-items:flex-end;width:100%">
-            <div style="background:#1E293B;border-radius:4px 4px 0 0;width:100%;height:8px;border:1px dashed #334155"></div>
+            <div style="background:#475569;border-radius:4px 4px 0 0;width:100%;height:81px"></div>
           </div>
-          <div style="font-size:.65rem;color:var(--text-muted);text-align:center">29/05<br><span style="color:var(--warning)">parcial</span></div>
+          <div style="font-size:.6rem;color:var(--text-muted);text-align:center;line-height:1.3">29/05<br>Sex</div>
+        </div>
+
+        <!-- 30/05: 7498 → 114px — SEGUNDA ONDA (warning amber) -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+          <div style="font-size:.65rem;font-weight:700;color:var(--warning)">7.498 ↑</div>
+          <div style="flex:1;display:flex;align-items:flex-end;width:100%">
+            <div style="background:var(--warning);border-radius:4px 4px 0 0;width:100%;height:114px;opacity:.85"></div>
+          </div>
+          <div style="font-size:.6rem;color:var(--warning);font-weight:700;text-align:center;line-height:1.3">30/05<br>Sáb<br>2ª onda</div>
+        </div>
+
+        <!-- 31/05: 716 → 11px parcial -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+          <div style="font-size:.65rem;font-weight:600;color:var(--text-label)">716</div>
+          <div style="flex:1;display:flex;align-items:flex-end;width:100%">
+            <div style="background:#1E293B;border:1px dashed #334155;border-radius:4px 4px 0 0;width:100%;height:11px"></div>
+          </div>
+          <div style="font-size:.6rem;color:var(--text-label);text-align:center;line-height:1.3">31/05<br>Dom<br>parcial</div>
         </div>
 
       </div>
-      <div style="display:flex;gap:var(--space-6);margin-top:var(--space-2);font-size:.75rem">
-        <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:var(--brand);border-radius:2px;display:inline-block"></span><span style="color:var(--text-muted)">Lançamento (21/05)</span></span>
-        <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:#334155;border-radius:2px;display:inline-block"></span><span style="color:var(--text-muted)">Semana 1 (22–25/05)</span></span>
-        <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:#475569;border-radius:2px;display:inline-block"></span><span style="color:var(--text-muted)">Semana 2 (26–28/05)</span></span>
+
+      <!-- Legenda -->
+      <div style="display:flex;gap:var(--space-6);flex-wrap:wrap;margin-top:var(--space-3);font-size:.75rem">
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:var(--brand);border-radius:2px;display:inline-block"></span><span style="color:var(--text-muted)">Dia do lançamento (21/05)</span></span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:#334155;border-radius:2px;display:inline-block"></span><span style="color:var(--text-muted)">Semana 1 — pico no fim de semana</span></span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:#475569;border-radius:2px;display:inline-block"></span><span style="color:var(--text-muted)">Semana 2 — cauda longa</span></span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:var(--warning);border-radius:2px;display:inline-block"></span><span style="color:var(--text-muted)">Segunda onda (30/05 · 62% novos)</span></span>
       </div>
-      <div style="margin-top:var(--space-3);font-size:.78rem;color:var(--text-muted)">Total cumulativo até 28/05: <strong style="color:var(--text-primary)">56.307 viewers</strong> (todos os assinantes + cancelados)</div>
     </div>
 
-    <!-- Tabela de coortes -->
-    <div class="card card-brand-border">
-      <div class="section-label">Comparativo de coorte — assinantes ativos (44.096 total)</div>
+    <!-- Callout: Segunda onda -->
+    <div style="padding:var(--space-4) var(--space-6);background:rgba(245,158,11,.08);border-radius:var(--radius-md);border:1px solid rgba(245,158,11,.25);margin-bottom:var(--space-6);display:flex;gap:var(--space-4);align-items:flex-start">
+      <div style="width:40px;height:40px;background:rgba(245,158,11,.15);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <i data-lucide="alert-circle" style="width:18px;height:18px;color:#F59E0B"></i>
+      </div>
+      <div>
+        <div style="font-size:.875rem;font-weight:600;color:var(--text-primary);margin-bottom:4px">Segunda onda em 30/05 (sábado) — 9 dias após o lançamento</div>
+        <div style="font-size:.825rem;color:var(--text-muted);line-height:1.6">
+          11.841 sessões no dia 30/05, das quais <strong style="color:var(--warning)">7.393 eram viewers novos (62,4%)</strong> — um segundo pico quase tão alto quanto o do lançamento. Causa provável: campanha CRM (email ou push) ou algoritmo de recomendação da plataforma. Vale cruzar com dados de envio de Insider nessa data. O perfil dessa segunda onda deve ser parecido com a coorte "semana 2" já mapeada.
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparativo de coortes -->
+    <div class="card card-brand-border" style="margin-bottom:var(--space-6)">
+      <div class="section-label">Comparativo de coortes — assinantes ativos (54.463 total)</div>
       <div style="overflow-x:auto">
         <table>
           <thead>
             <tr>
               <th>Métrica</th>
-              <th class="right" style="color:var(--brand)">Lançamento<br><span style="font-weight:400;font-size:.65rem;color:var(--text-label)">21/05 · 6.577 sub.</span></th>
-              <th class="right">Semana 1<br><span style="font-weight:400;font-size:.65rem;color:var(--text-label)">22–25/05 · 24.576 sub.</span></th>
-              <th class="right">Semana 2<br><span style="font-weight:400;font-size:.65rem;color:var(--text-label)">26–28/05 · 12.943 sub.</span></th>
+              <th class="right" style="color:var(--brand)">Lançamento<br><span style="font-weight:400;font-size:.63rem;color:var(--text-label)">21/05 · 6.565 sub.</span></th>
+              <th class="right">Semana 1<br><span style="font-weight:400;font-size:.63rem;color:var(--text-label)">22–25/05 · 24.505 sub.</span></th>
+              <th class="right">Semana 2+<br><span style="font-weight:400;font-size:.63rem;color:var(--text-label)">26/05–01/06 · 23.393 sub.</span></th>
               <th class="right">Tendência</th>
             </tr>
           </thead>
           <tbody>
             <tr><td colspan="5" style="padding:var(--space-2) var(--space-4);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-label);background:var(--bg-base)">Perfil demográfico</td></tr>
             <tr>
-              <td>Masculino</td>
-              <td class="right td-mono highlight-val">74,0%</td>
+              <td>% Masculino</td>
+              <td class="right td-mono highlight-val">74,1%</td>
               <td class="right td-mono">73,3%</td>
-              <td class="right td-mono">73,1%</td>
+              <td class="right td-mono">72,2%</td>
               <td class="right"><span style="color:var(--text-muted);font-size:.8rem">— estável</span></td>
             </tr>
             <tr>
               <td>Média de idade</td>
-              <td class="right td-mono">47,7 anos</td>
+              <td class="right td-mono highlight-val">47,7 anos</td>
               <td class="right td-mono">48,7 anos</td>
-              <td class="right td-mono">48,7 anos</td>
-              <td class="right"><span style="color:var(--negative);font-size:.75rem;font-weight:600">↑ +1 ano</span></td>
+              <td class="right td-mono">48,9 anos</td>
+              <td class="right"><span style="color:var(--negative);font-size:.75rem;font-weight:600">↑ +1,2 anos</span></td>
             </tr>
             <tr>
               <td>Faixa 35–44</td>
-              <td class="right td-mono highlight-val">32,1%</td>
+              <td class="right td-mono highlight-val">32,2%</td>
               <td class="right td-mono">28,5%</td>
-              <td class="right td-mono">30,8%</td>
-              <td class="right"><span style="color:var(--warning);font-size:.75rem;font-weight:600">↓ queda</span></td>
+              <td class="right td-mono">29,0%</td>
+              <td class="right"><span style="color:var(--warning);font-size:.75rem;font-weight:600">↓ -3pp</span></td>
+            </tr>
+            <tr>
+              <td>Faixa 55+</td>
+              <td class="right td-mono">27,4%</td>
+              <td class="right td-mono">30,2%</td>
+              <td class="right td-mono">31,2%</td>
+              <td class="right"><span style="color:var(--negative);font-size:.75rem;font-weight:600">↑ +3,8pp</span></td>
             </tr>
             <tr>
               <td>Tempo médio de assinatura</td>
-              <td class="right td-mono highlight-val">8,9 meses</td>
+              <td class="right td-mono highlight-val">9,8 meses</td>
+              <td class="right td-mono">9,2 meses</td>
               <td class="right td-mono">8,2 meses</td>
-              <td class="right td-mono">7,4 meses</td>
-              <td class="right"><span style="color:var(--negative);font-size:.75rem;font-weight:600">↓ -1,5 meses</span></td>
+              <td class="right"><span style="color:var(--negative);font-size:.75rem;font-weight:600">↓ -1,6 meses</span></td>
             </tr>
 
             <tr><td colspan="5" style="padding:var(--space-2) var(--space-4);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-label);background:var(--bg-base)">Propensão de upsell (ML)</td></tr>
+            <tr class="highlight-row">
+              <td><strong>Top 30% propensão Mecenas</strong></td>
+              <td class="right td-mono highlight-val">38,1%</td>
+              <td class="right td-mono">36,8%</td>
+              <td class="right td-mono">33,9%</td>
+              <td class="right"><span style="color:var(--negative);font-size:.75rem;font-weight:600">↓ -4,2pp</span></td>
+            </tr>
             <tr>
-              <td>Score Mecenas (avg)</td>
-              <td class="right td-mono highlight-val">57,9</td>
-              <td class="right td-mono">56,9</td>
-              <td class="right td-mono">54,9</td>
+              <td>Score Mecenas avg (0–100)</td>
+              <td class="right td-mono highlight-val">57,5</td>
+              <td class="right td-mono">56,3</td>
+              <td class="right td-mono">54,5</td>
               <td class="right"><span style="color:var(--negative);font-size:.75rem;font-weight:600">↓ -3,0</span></td>
             </tr>
             <tr>
-              <td>Score Upsell Geral (avg)</td>
-              <td class="right td-mono">57,9</td>
-              <td class="right td-mono">59,5</td>
-              <td class="right td-mono highlight-val">64,6</td>
-              <td class="right"><span style="color:var(--positive);font-size:.75rem;font-weight:600">↑ +6,7</span></td>
+              <td>Score Upsell Geral avg</td>
+              <td class="right td-mono">60,5</td>
+              <td class="right td-mono">59,3</td>
+              <td class="right td-mono highlight-val">61,8</td>
+              <td class="right"><span style="color:var(--text-muted);font-size:.8rem">— oscila</span></td>
             </tr>
-            <tr class="highlight-row">
-              <td><strong>Top 30% propensão Mecenas</strong></td>
-              <td class="right td-mono highlight-val">38,5%</td>
-              <td class="right td-mono">37,3%</td>
-              <td class="right td-mono">33,0%</td>
-              <td class="right"><span style="color:var(--negative);font-size:.75rem;font-weight:600">↓ -5,5pp</span></td>
+            <tr>
+              <td>Top 30% upsell geral</td>
+              <td class="right td-mono">45,2%</td>
+              <td class="right td-mono">43,3%</td>
+              <td class="right td-mono highlight-val">47,6%</td>
+              <td class="right"><span style="color:var(--positive);font-size:.75rem;font-weight:600">↑ semana 2</span></td>
             </tr>
 
             <tr><td colspan="5" style="padding:var(--space-2) var(--space-4);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-label);background:var(--bg-base)">Poder de compra</td></tr>
@@ -1462,14 +1541,14 @@
               <td>Cartão Black</td>
               <td class="right td-mono">29,4%</td>
               <td class="right td-mono highlight-val">31,9%</td>
-              <td class="right td-mono">31,0%</td>
+              <td class="right td-mono">31,6%</td>
               <td class="right"><span style="color:var(--text-muted);font-size:.8rem">— estável</span></td>
             </tr>
             <tr>
               <td>Decil de renda médio</td>
               <td class="right td-mono">5,4</td>
               <td class="right td-mono">5,5</td>
-              <td class="right td-mono">5,4</td>
+              <td class="right td-mono">5,5</td>
               <td class="right"><span style="color:var(--text-muted);font-size:.8rem">— estável</span></td>
             </tr>
           </tbody>
@@ -1477,15 +1556,68 @@
       </div>
     </div>
 
+    <!-- Evolução de idade por coorte -->
+    <div class="card card-brand-border" style="margin-bottom:var(--space-6)">
+      <div class="section-label">Distribuição etária por coorte <span style="font-weight:400;color:var(--text-label)">(usuários com data de nascimento conhecida)</span></div>
+      <div class="chart-grid-3" style="margin-bottom:0">
+
+        <!-- Lançamento -->
+        <div>
+          <div style="font-size:.75rem;font-weight:700;color:var(--brand);margin-bottom:var(--space-4)">Lançamento · 21/05</div>
+          <div class="bar-row"><div class="bar-label">18–24</div><div class="bar-track"><div class="bar-fill" style="width:1.1%"></div></div><div class="bar-value">1,1%</div></div>
+          <div class="bar-row"><div class="bar-label">25–34</div><div class="bar-track"><div class="bar-fill" style="width:10.9%"></div></div><div class="bar-value">10,9%</div></div>
+          <div class="bar-row" style="position:relative">
+            <div class="bar-label" style="color:var(--brand);font-weight:600">35–44</div>
+            <div class="bar-track"><div class="bar-fill" style="width:32.2%"></div></div>
+            <div class="bar-value" style="color:var(--brand);font-weight:700">32,2%</div>
+          </div>
+          <div class="bar-row"><div class="bar-label">45–54</div><div class="bar-track"><div class="bar-fill alt" style="width:28.5%"></div></div><div class="bar-value">28,5%</div></div>
+          <div class="bar-row"><div class="bar-label">55+</div><div class="bar-track"><div class="bar-fill alt" style="width:27.4%"></div></div><div class="bar-value">27,4%</div></div>
+        </div>
+
+        <!-- Semana 1 -->
+        <div>
+          <div style="font-size:.75rem;font-weight:700;color:var(--text-muted);margin-bottom:var(--space-4)">Semana 1 · 22–25/05</div>
+          <div class="bar-row"><div class="bar-label">18–24</div><div class="bar-track"><div class="bar-fill" style="width:1.0%"></div></div><div class="bar-value">1,0%</div></div>
+          <div class="bar-row"><div class="bar-label">25–34</div><div class="bar-track"><div class="bar-fill" style="width:10.3%"></div></div><div class="bar-value">10,3%</div></div>
+          <div class="bar-row"><div class="bar-label">35–44</div><div class="bar-track"><div class="bar-fill" style="width:28.5%"></div></div><div class="bar-value">28,5%</div></div>
+          <div class="bar-row"><div class="bar-label">45–54</div><div class="bar-track"><div class="bar-fill alt" style="width:30.0%"></div></div><div class="bar-value">30,0%</div></div>
+          <div class="bar-row" style="position:relative">
+            <div class="bar-label" style="color:var(--negative);font-weight:600">55+</div>
+            <div class="bar-track"><div class="bar-fill warning" style="width:30.2%"></div></div>
+            <div class="bar-value" style="color:var(--warning)">30,2%</div>
+          </div>
+        </div>
+
+        <!-- Semana 2 -->
+        <div>
+          <div style="font-size:.75rem;font-weight:700;color:var(--text-muted);margin-bottom:var(--space-4)">Semana 2+ · 26/05–01/06</div>
+          <div class="bar-row"><div class="bar-label">18–24</div><div class="bar-track"><div class="bar-fill" style="width:0.9%"></div></div><div class="bar-value">0,9%</div></div>
+          <div class="bar-row"><div class="bar-label">25–34</div><div class="bar-track"><div class="bar-fill" style="width:9.2%"></div></div><div class="bar-value">9,2%</div></div>
+          <div class="bar-row"><div class="bar-label">35–44</div><div class="bar-track"><div class="bar-fill" style="width:29.0%"></div></div><div class="bar-value">29,0%</div></div>
+          <div class="bar-row"><div class="bar-label">45–54</div><div class="bar-track"><div class="bar-fill alt" style="width:29.6%"></div></div><div class="bar-value">29,6%</div></div>
+          <div class="bar-row" style="position:relative">
+            <div class="bar-label" style="color:var(--negative);font-weight:600">55+</div>
+            <div class="bar-track"><div class="bar-fill warning" style="width:31.2%"></div></div>
+            <div class="bar-value" style="color:var(--warning)">31,2%</div>
+          </div>
+        </div>
+
+      </div>
+      <div style="margin-top:var(--space-4);padding:var(--space-3) var(--space-4);background:var(--bg-base);border-radius:var(--radius-md);font-size:.8rem;color:var(--text-muted)">
+        <strong style="color:var(--brand)">Leitura:</strong> A faixa 35–44 perde 3pp do lançamento para a semana 1 e permanece relativamente estável. O 55+ cresce consistentemente — provavelmente audiência que consome conteúdo no final de semana e chega via indicação orgânica (recomendações da plataforma).
+      </div>
+    </div>
+
     <!-- Insights temporais -->
-    <div class="chart-grid-3" style="margin-top:var(--space-6)">
+    <div class="chart-grid-3">
       <div class="card card-brand-border">
         <div class="insight-list">
           <div class="insight-item">
             <div class="insight-icon brand"><i data-lucide="zap" style="width:16px;height:16px"></i></div>
             <div>
-              <div class="insight-title">Lançamento: coorte mais quente</div>
-              <div class="insight-body">38,5% dos viewers do dia 1 estão no top 30% de propensão Mecenas — 5,5pp acima de quem chegou na semana 2. A janela de abordagem mais eficaz é <strong style="color:var(--brand)">primeiros 3 dias após consumo</strong>.</div>
+              <div class="insight-title">Abordagem comercial: priorize primeiros dias</div>
+              <div class="insight-body">A coorte do lançamento tem 38,1% no top 30% de propensão Mecenas — 4pp acima da semana 2. A janela ótima de abordagem é <strong style="color:var(--brand)">até 72h após o primeiro consumo</strong>. Depois disso, o perfil se dilui progressivamente.</div>
             </div>
           </div>
         </div>
@@ -1493,10 +1625,10 @@
       <div class="card card-brand-border">
         <div class="insight-list">
           <div class="insight-item">
-            <div class="insight-icon warning"><i data-lucide="clock" style="width:16px;height:16px"></i></div>
+            <div class="insight-icon warning"><i data-lucide="repeat" style="width:16px;height:16px"></i></div>
             <div>
-              <div class="insight-title">Perfil mais jovem no dia 1</div>
-              <div class="insight-body">No lançamento, a faixa 35–44 representou 32,1% — o melhor ICP. Nas semanas seguintes, a audiência envelhece levemente (+1 ano na média). Os early adopters tendem a ser mais jovens e engajados.</div>
+              <div class="insight-title">Segunda onda: investigar canal de origem</div>
+              <div class="insight-body">30/05 teve 7.393 viewers novos — quase tão alto quanto o lançamento. Muito provavelmente uma campanha de email/push do Insider. Vale cruzar com dados de envio Insider para confirmar e replicar a estratégia.</div>
             </div>
           </div>
         </div>
@@ -1504,10 +1636,10 @@
       <div class="card card-brand-border">
         <div class="insight-list">
           <div class="insight-item">
-            <div class="insight-icon info"><i data-lucide="bar-chart" style="width:16px;height:16px"></i></div>
+            <div class="insight-icon info"><i data-lucide="users" style="width:16px;height:16px"></i></div>
             <div>
-              <div class="insight-title">Score geral sobe ao longo do tempo</div>
-              <div class="insight-body">O score de upsell geral cresce de 57,9 para 64,6. Isso sugere que quem chega via recomendação orgânica (semana 2+) tem histórico de engajamento mais rico na plataforma — bom para CRM, menos urgente para Comercial.</div>
+              <div class="insight-title">Semana 2: alto score geral — melhor para CRM</div>
+              <div class="insight-body">47,6% dos viewers da semana 2 estão no top 30% de upsell geral (vs 45,2% no lançamento). São assinantes com histórico rico de engajamento — prioridade para campanhas CRM de produtos menores antes de escalar ao Mecenas.</div>
             </div>
           </div>
         </div>
@@ -1518,7 +1650,7 @@
   <!-- ── FOOTER ── -->
   <footer>
     <div class="footer-brand">Brasil Paralelo · Analytics</div>
-    <div class="footer-note">Atualizado em 25/05/2026 · Fonte: bp-datawarehouse · 44.096 assinantes ativos analisados desde lançamento 21/05 · 56.307 viewers totais (incl. ex-assinantes)</div>
+    <div class="footer-note">Atualizado em 01/06/2026 · Fonte: bp-datawarehouse · 54.463 assinantes ativos desde lançamento 21/05 · 69.385 viewers totais (incl. ex-assinantes) · sandbox_seu_nome.tmp_el_salvador_coortes</div>
   </footer>
 
 </div>
