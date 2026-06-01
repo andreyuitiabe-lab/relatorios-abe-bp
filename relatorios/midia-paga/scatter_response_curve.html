@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Curva de Resposta ao Investimento — Meta Ads VENDA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<style>
+:root {
+  --bg-base:        #0D0F12;
+  --bg-card:        #111318;
+  --bg-card-alt:    #1E293B;
+  --bg-brand:       #0A2A22;
+  --border:         #1E293B;
+  --border-subtle:  #334155;
+  --text-primary:   #F1F5F9;
+  --text-secondary: #CBD5E1;
+  --text-muted:     #64748B;
+  --text-label:     #475569;
+  --brand:          #00C896;
+  --brand-light:    #2DD9B4;
+  --brand-dark:     #007D5E;
+  --brand-subtle:   rgba(0,200,150,0.12);
+  --positive:       #00C896;
+  --positive-light: #CCFBEE;
+  --negative:       #EF4444;
+  --negative-light: #FEE2E2;
+  --warning:        #F59E0B;
+  --warning-light:  #FEF3C7;
+  --neutral:        #64748B;
+  --font-sans:      'Inter', system-ui, sans-serif;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px; --radius-pill: 999px;
+  --space-1:.25rem; --space-2:.5rem; --space-3:.75rem; --space-4:1rem; --space-6:1.5rem; --space-8:2rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg-base); color: var(--text-primary); font-family: var(--font-sans); min-height: 100vh; }
+
+.page-wrapper { max-width: 1280px; margin: 0 auto; padding: var(--space-8) var(--space-6) var(--space-8); }
+
+.report-header { border-bottom: 1px solid var(--border); padding-bottom: var(--space-8); margin-bottom: var(--space-8); }
+.breadcrumb { font-size:0.75rem; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--brand); margin-bottom:var(--space-3); }
+h1 { font-family:var(--font-sans); font-size:clamp(1.6rem,3vw,2.4rem); font-weight:800; letter-spacing:-0.02em; color:var(--text-primary); line-height:1.2; margin-bottom:var(--space-2); }
+.subtitle { color:var(--text-muted); font-size:0.9rem; }
+
+.tabs { display:flex; gap:2px; padding: 0; border-bottom: 1px solid var(--border); margin-bottom: var(--space-8); }
+.tab { padding: var(--space-3) var(--space-6); cursor:pointer; font-size:0.8rem; font-weight:600; color:var(--text-muted); transition:all 0.15s; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tab:hover { color: var(--text-secondary); }
+.tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+
+.panel { display:none; }
+.panel.active { display:block; }
+
+.grid2 { display:grid; grid-template-columns:repeat(2,1fr); gap:var(--space-6); margin-bottom:var(--space-6); }
+.grid1 { margin-bottom:var(--space-6); }
+.kpi-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:var(--space-4); margin-bottom:var(--space-6); }
+
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-6); }
+.card-brand { border-top: 2px solid var(--brand); }
+
+.section-label {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-label); padding-bottom: var(--space-3); border-bottom: 1px solid var(--border);
+  margin-bottom: var(--space-6);
+}
+
+.chart-wrap { position:relative; height:360px; }
+.chart-wrap-lg { position:relative; height:460px; }
+
+.kpi { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-4); }
+.kpi .label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-label); margin-bottom: var(--space-2); }
+.kpi .value { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); }
+.kpi .sub   { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+
+.insight { background: var(--bg-brand); border: 1px solid rgba(0,200,150,.15); border-left: 3px solid var(--brand); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-4) var(--space-6); margin-top: var(--space-4); font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
+.insight strong { color: var(--brand-light); }
+
+.formula { font-family: 'JetBrains Mono', 'Fira Code', monospace; background: var(--bg-base); border: 1px solid var(--border); border-left: 3px solid var(--brand-dark); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-3) var(--space-4); font-size: 0.8rem; color: var(--brand-light); margin: var(--space-3) 0; }
+
+.legend-row { display:flex; flex-wrap:wrap; gap:var(--space-3); margin-top:var(--space-3); }
+.legend-item { display:flex; align-items:center; gap:6px; font-size:0.75rem; color:var(--text-muted); }
+.legend-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+table { width:100%; border-collapse:collapse; }
+thead th { font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-label); padding:var(--space-3) var(--space-4); border-bottom:1px solid var(--border); text-align:left; }
+tbody td { font-size:0.875rem; color:var(--text-secondary); padding:var(--space-3) var(--space-4); border-bottom:1px solid var(--border-subtle); }
+tbody tr:last-child td { border-bottom:none; }
+tbody tr:hover td { background:rgba(255,255,255,.02); }
+
+.badge { display:inline-flex; align-items:center; font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:0.25rem 0.7rem; border-radius:var(--radius-pill); }
+.badge-active  { background:var(--brand-subtle); color:var(--brand-light); border:1px solid rgba(0,200,150,.3); }
+.badge-warning { background:rgba(245,158,11,.12); color:#FCD34D; border:1px solid rgba(245,158,11,.3); }
+.badge-danger  { background:rgba(239,68,68,.12);  color:#F87171; border:1px solid rgba(239,68,68,.3); }
+.badge-neutral { background:rgba(100,116,139,.12);color:#94A3B8; border:1px solid rgba(100,116,139,.3); }
+
+.slider-box { margin: var(--space-4) 0 var(--space-2); background: rgba(0,200,150,.05); border: 1px solid rgba(0,200,150,.2); border-radius: var(--radius-md); padding: var(--space-4) var(--space-6); }
+.slider-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-3); font-size:0.85rem; color:var(--text-secondary); }
+.slider-header strong { font-size: 1.1rem; color: var(--warning); }
+input[type=range] { width:100%; accent-color:var(--warning); cursor:pointer; }
+.opt-display { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-3); margin-top:var(--space-4); }
+.opt-kpi { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-md); padding:var(--space-3) var(--space-4); }
+.opt-kpi .lbl { font-size:0.68rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-label); }
+.opt-kpi .val { font-size:1rem; font-weight:700; color:var(--text-primary); margin-top:4px; }
+.opt-kpi .ok { color:var(--positive); } .opt-kpi .warn { color:var(--warning); } .opt-kpi .bad { color:var(--negative); }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+  <div class="report-header">
+    <div class="breadcrumb">Brasil Paralelo · Analytics</div>
+    <h1>Curva de Resposta ao Investimento</h1>
+    <p class="subtitle">Meta Ads VENDA · Jan–Mai 2026 · Lei de Potência aplicada a 4 níveis de análise</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('overview')">Visão Geral</div>
+    <div class="tab" onclick="showTab('daily')">Por Dia</div>
+    <div class="tab" onclick="showTab('campday')">Campanha × Dia</div>
+    <div class="tab" onclick="showTab('camp')">Por Campanha</div>
+    <div class="tab" onclick="showTab('adset')">Por Conjunto</div>
+    <div class="tab" onclick="showTab('marginal')">CPA Marginal</div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="panel active" id="tab-overview">
+    <div class="kpi-row" id="kpi-overview"></div>
+    <div class="grid2">
+      <div class="card">
+        <p class="section-label">Elasticidade por Nível de Análise</p>
+        <div class="chart-wrap"><canvas id="chartElasticidade"></canvas></div>
+        <div class="insight">
+          <strong>Elasticidade b:</strong> quanto 1% a mais de gasto converte em % de vendas.<br>
+          b &lt; 1 = retornos decrescentes · b = 1 = linear · b &gt; 1 = retornos crescentes
+        </div>
+      </div>
+      <div class="card">
+        <p class="section-label">Qualidade do Ajuste (R²) por Nível</p>
+        <div class="chart-wrap"><canvas id="chartR2"></canvas></div>
+        <div class="insight">
+          R² &gt; 0.85 confirma que a <strong>lei de potência explica bem</strong> a relação
+          investimento → vendas em todos os níveis de agregação.
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="section-label">Interpretação Estratégica</p>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:8px">
+        <div>
+          <p style="font-size:0.82rem;color:#CBD5E1;margin-bottom:8px"><strong style="color:#2DD9B4">Campanha × Dia (b = 0.69)</strong> — Visão mais rica</p>
+          <p style="font-size:0.82rem;color:#CBD5E1;line-height:1.6">Mesmo conjunto de campanhas observado em diferentes níveis de budget ao longo do tempo. Captura a verdadeira <em>função de resposta</em>: dobrar o gasto gera apenas +69% de vendas. Retorno decrescente forte.</p>
+          <div class="formula">vendas = 0.087 × gasto^0.69</div>
+          <p style="font-size:0.82rem;color:#CBD5E1;line-height:1.6">CPA Marginal = CPA Médio / 0.69 — ou seja, cada venda incremental custa <strong style="color:#F59E0B">45% a mais</strong> do que a média atual.</p>
+        </div>
+        <div>
+          <p style="font-size:0.82rem;color:#CBD5E1;margin-bottom:8px"><strong style="color:#4ade80">Por Dia (b = 0.92)</strong> — Portfólio consolidado</p>
+          <p style="font-size:0.82rem;color:#CBD5E1;line-height:1.6">Visão do portfólio total. Retorno quase-linear (b=0.92) sugere que há ainda campanhas eficientes no mix — o efeito de mistura dilui o retorno decrescente individual.</p>
+          <div class="formula">vendas = 0.014 × gasto^0.92</div>
+          <p style="font-size:0.82rem;color:#CBD5E1;line-height:1.6">Cada +1% de gasto no portfólio traz +0.92% de vendas. Margem de eficiência estreita mas ainda positiva.</p>
+        </div>
+        <div>
+          <p style="font-size:0.82rem;color:#CBD5E1;margin-bottom:8px"><strong style="color:#f472b6">Por Campanha (b = 0.80)</strong> — Alocação relativa</p>
+          <p style="font-size:0.82rem;color:#CBD5E1;line-height:1.6">Comparação entre campanhas. Campanhas maiores entregam proporcionalmente menos vendas por real investido — sinal claro de saturação em campanhas de grande orçamento.</p>
+          <div class="formula">vendas = 0.052 × gasto^0.80</div>
+        </div>
+        <div>
+          <p style="font-size:0.82rem;color:#CBD5E1;margin-bottom:8px"><strong style="color:#fb923c">Por Conjunto (b = 1.03)</strong> — Anomalia</p>
+          <p style="font-size:0.82rem;color:#CBD5E1;line-height:1.6">b ligeiramente acima de 1 sugere que conjuntos maiores são <em>mais</em> eficientes. Provável efeito de seleção: conjuntos com budget alto foram escalados porque já performavam bem.</p>
+          <div class="formula">vendas = 0.003 × gasto^1.03</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POR DIA -->
+  <div class="panel" id="tab-daily">
+    <div class="kpi-row" id="kpi-daily"></div>
+    <div class="grid1">
+      <div class="card">
+        <p class="section-label">Dispersão Investimento × Vendas — Totais Diários · Curva de Potência Ajustada</p>
+        <div class="chart-wrap-lg"><canvas id="chartScatterDaily"></canvas></div>
+        <div class="slider-box">
+          <div class="slider-header">
+            <span>CPA-alvo (máximo aceitável por venda):</span>
+            <strong id="cpa-val-daily">R$300</strong>
+          </div>
+          <input type="range" id="slider-daily" min="80" max="600" value="300" step="10">
+          <div class="opt-display" id="opt-display-daily">
+            <div class="opt-kpi"><div class="lbl">Vendas ótimas/dia</div><div class="val" id="od-sales">—</div></div>
+            <div class="opt-kpi"><div class="lbl">Gasto ótimo/dia</div><div class="val" id="od-spend">—</div></div>
+            <div class="opt-kpi"><div class="lbl">CPA Médio</div><div class="val" id="od-cpamed">—</div></div>
+            <div class="opt-kpi"><div class="lbl">CPA Marginal</div><div class="val" id="od-cpamarg">—</div></div>
+          </div>
+        </div>
+        <div class="formula" id="formula-daily"></div>
+        <div class="insight" id="insight-daily"></div>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <p class="section-label">CPA Médio vs. CPA Marginal · Nível Diário</p>
+        <div class="chart-wrap"><canvas id="chartMarginalDaily"></canvas></div>
+        <div class="insight">
+          <strong>CPA Marginal = CPA Médio / b.</strong><br>
+          A linha pontilhada laranja mostra quanto custa a <em>próxima</em> venda incremental a cada nível de gasto diário.
+        </div>
+      </div>
+      <div class="card">
+        <p class="section-label">Vendas Incrementais por +R$10k de Gasto</p>
+        <div class="chart-wrap"><canvas id="chartIncremental"></canvas></div>
+        <div class="insight">
+          Derivada discreta da curva ajustada: quantas vendas a mais cada bloco de R$10k adicional gera, a partir do nível atual de gasto.
+        </div>
+      </div>
+    </div>
+    <div class="grid1">
+      <div class="card">
+        <p class="section-label">CPA Marginal × Nº da Venda — Custo da Próxima Venda Conforme o Volume Cresce</p>
+        <div class="chart-wrap"><canvas id="chartCpaPorVenda"></canvas></div>
+        <div class="insight">
+          Leitura direta do ponto ótimo: encontre o CPA-alvo no eixo Y e leia no X quantas vendas/dia ainda valem a pena.<br>
+          <strong>Além desse número de vendas, cada venda adicional custa mais do que o alvo.</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAMPANHA × DIA -->
+  <div class="panel" id="tab-campday">
+    <div class="kpi-row" id="kpi-campday"></div>
+    <div class="card" style="margin-bottom:var(--space-6)">
+      <p class="section-label">Dispersão Gasto Diário × Vendas por Dia de Campanha — Colorido por Produto</p>
+      <div class="chart-wrap-lg"><canvas id="chartScatterCampday"></canvas></div>
+      <div class="formula" id="formula-campday"></div>
+      <div class="legend-row" id="legend-campday"></div>
+      <div class="insight" id="insight-campday"></div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <p class="section-label">Elasticidade por Produto (b)</p>
+        <div class="chart-wrap"><canvas id="chartElastProd"></canvas></div>
+        <div class="insight">Produtos com b menor têm retorno decrescente mais acentuado — dobrar o orçamento traz menos do que o dobro de vendas.</div>
+      </div>
+      <div class="card">
+        <p class="section-label">CPA Marginal vs. Médio · Portfólio</p>
+        <div class="chart-wrap"><canvas id="chartMarginalCampday"></canvas></div>
+        <div class="insight">
+          <strong>CPA Marginal &gt; CPA Médio</strong> sempre que b &lt; 1. A diferença cresce conforme o budget aumenta.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POR CAMPANHA -->
+  <div class="panel" id="tab-camp">
+    <div class="kpi-row" id="kpi-camp"></div>
+    <div class="card" style="margin-bottom:var(--space-6)">
+      <p class="section-label">Dispersão Investimento Total × Vendas Totais — Por Campanha</p>
+      <div class="chart-wrap-lg"><canvas id="chartScatterCamp"></canvas></div>
+      <div class="formula" id="formula-camp"></div>
+      <div class="insight" id="insight-camp"></div>
+    </div>
+  </div>
+
+  <!-- POR CONJUNTO -->
+  <div class="panel" id="tab-adset">
+    <div class="kpi-row" id="kpi-adset"></div>
+    <div class="card" style="margin-bottom:var(--space-6)">
+      <p class="section-label">Dispersão Investimento Total × Vendas Totais — Por Conjunto de Anúncios</p>
+      <div class="chart-wrap-lg"><canvas id="chartScatterAdset"></canvas></div>
+      <div class="formula" id="formula-adset"></div>
+      <div class="insight" id="insight-adset"></div>
+    </div>
+  </div>
+
+  <!-- CPA MARGINAL -->
+  <div class="panel" id="tab-marginal">
+    <div class="card" style="margin-bottom:var(--space-6)">
+      <p class="section-label">Curvas de CPA Marginal — Comparação entre Níveis de Análise</p>
+      <div class="chart-wrap-lg"><canvas id="chartAllMarginal"></canvas></div>
+      <div class="insight">
+        Cada curva mostra o custo da <strong>próxima venda incremental</strong> em função do gasto total.<br>
+        A curva <strong style="color:#2DD9B4">Campanha×Dia</strong> (b=0.69) é a mais fidedigna para decisão de budget — capta variação real de resposta da mesma campanha ao longo do tempo.
+      </div>
+    </div>
+    <div class="card">
+      <p class="section-label">Ponto Ótimo: CPA Marginal por Nível de Gasto Diário</p>
+      <div style="overflow-x:auto"><table id="tableOptimo"></table></div>
+      <div class="insight" style="margin-top:16px">
+        Linha <strong style="color:#F59E0B">amarela</strong>: CPA Marginal = R$300 (limiar conservador).
+        Linha <strong style="color:#EF4444">vermelha</strong>: CPA Marginal = R$500 (zona de prejuízo provável).<br>
+        Use a curva Campanha×Dia (b=0.69) como referência de decisão de alocação de budget.
+      </div>
+    </div>
+  </div>
+
+<script>
+const RAW = {"daily":[{"x":68627,"y":310},{"x":66146,"y":320},{"x":54234,"y":342},{"x":85741,"y":705},{"x":40485,"y":275},{"x":33315,"y":225},{"x":36056,"y":205},{"x":48302,"y":201},{"x":32225,"y":151},{"x":29891,"y":130},{"x":18737,"y":118},{"x":14148,"y":74},{"x":20316,"y":118},{"x":18134,"y":107},{"x":18701,"y":126},{"x":21995,"y":121},{"x":29710,"y":180},{"x":31369,"y":222},{"x":20700,"y":129},{"x":22245,"y":151},{"x":26249,"y":136},{"x":31236,"y":146},{"x":28744,"y":125},{"x":24365,"y":116},{"x":24157,"y":160},{"x":21072,"y":116},{"x":30286,"y":98},{"x":29251,"y":122},{"x":25806,"y":117},{"x":20117,"y":110},{"x":34199,"y":123},{"x":24704,"y":112},{"x":18095,"y":96},{"x":17760,"y":93},{"x":36703,"y":186},{"x":50177,"y":304},{"x":49836,"y":370},{"x":61303,"y":580},{"x":59597,"y":604},{"x":29714,"y":291},{"x":27821,"y":207},{"x":30888,"y":252},{"x":45687,"y":274},{"x":47267,"y":286},{"x":54351,"y":274},{"x":38270,"y":197},{"x":30576,"y":189},{"x":18869,"y":143},{"x":31614,"y":155},{"x":42468,"y":234},{"x":15140,"y":122},{"x":36068,"y":281},{"x":37448,"y":272},{"x":25540,"y":203},{"x":33111,"y":217},{"x":26828,"y":154},{"x":36958,"y":169},{"x":63000,"y":351},{"x":94299,"y":699},{"x":56906,"y":389},{"x":24502,"y":157},{"x":25619,"y":167},{"x":44077,"y":196},{"x":52950,"y":251},{"x":73834,"y":310},{"x":72219,"y":471},{"x":83979,"y":579},{"x":93292,"y":472},{"x":110899,"y":593},{"x":117460,"y":680},{"x":132544,"y":682},{"x":122402,"y":596},{"x":133638,"y":714},{"x":123246,"y":670},{"x":71891,"y":326},{"x":85565,"y":360},{"x":146484,"y":518},{"x":168165,"y":765},{"x":181472,"y":1014},{"x":301442,"y":1718},{"x":366862,"y":1942},{"x":266492,"y":1520},{"x":19642,"y":152},{"x":18236,"y":115},{"x":16962,"y":136},{"x":18170,"y":138},{"x":30635,"y":207},{"x":30477,"y":215},{"x":21449,"y":126},{"x":22632,"y":158},{"x":23047,"y":148},{"x":24673,"y":184},{"x":46970,"y":381},{"x":59556,"y":309},{"x":44619,"y":329},{"x":37074,"y":248},{"x":30420,"y":204},{"x":80076,"y":338},{"x":105667,"y":513},{"x":126654,"y":672},{"x":146854,"y":895},{"x":163785,"y":1076},{"x":112047,"y":598},{"x":125176,"y":572},{"x":111616,"y":563},{"x":89455,"y":513},{"x":96944,"y":512},{"x":125640,"y":688},{"x":107526,"y":638},{"x":97914,"y":618},{"x":110075,"y":777},{"x":122538,"y":542},{"x":109026,"y":548},{"x":90665,"y":439},{"x":127369,"y":629},{"x":144566,"y":761},{"x":81107,"y":472},{"x":90683,"y":408},{"x":111905,"y":486},{"x":129913,"y":582},{"x":132157,"y":844},{"x":162187,"y":831},{"x":165004,"y":884},{"x":61846,"y":349},{"x":66649,"y":406},{"x":86189,"y":501},{"x":87711,"y":486},{"x":101194,"y":598},{"x":192250,"y":930},{"x":166159,"y":848},{"x":33006,"y":339}],"camp":[{"x":7,"y":1,"t":"[LAN] [CDL] [VENDA] [ADVANTAGE] Abandono"},{"x":90,"y":6,"t":"[PPT] [TLR12] [VENDA] [MUITO QUENTE] Tod"},{"x":14,"y":1,"t":"[PPT] [TLR12] [VENDA] [QUENTE] Cadastrad"},{"x":15,"y":1,"t":"[LAN] [VDS] [VENDA] [QUENTE] Segmentados"},{"x":8,"y":1,"t":"[PPT] [10R] [VENDA] [MUITO QUENTE] Todos"},{"x":539,"y":25,"t":"[LAN] [FAU] [VENDA] [MUITO QUENTE] Todos"},{"x":11569,"y":78,"t":"[LAN] [SDC] [VIT] [VENDA] [QUENTE] Segme"},{"x":88,"y":5,"t":"[LAN] [ABC] [VENDA] [QUENTE] Envolviment"},{"x":250,"y":16,"t":"[PPT] [10R] [VENDA] [MUITO QUENTE] Todos"},{"x":222,"y":7,"t":"[PPT] [10R] [VENDA] [QUENTE] Todos os an"},{"x":1800,"y":25,"t":"[BIT] [D48] [VENDA] [ADVANTAGE] Brasil"},{"x":186,"y":6,"t":"[PPT] [TLR12] [VENDA] [MUITO QUENTE] Rem"},{"x":1076,"y":19,"t":"[PPT] [TLR12] [VENDA] [ADVANTAGE] Brasil"},{"x":933,"y":19,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Brasil |"},{"x":79,"y":3,"t":"[LAN] [ABC] [VENDA] [ADVANTAGE] Brasil |"},{"x":272,"y":3,"t":"[PPT] [TLR12] [VENDA] [ADVANTAGE] M\u00faltip"},{"x":78,"y":3,"t":"[PPT] [INP] [VENDA] [QUENTE] Abandono de"},{"x":1484,"y":51,"t":"[PPT] [10R] [VENDA] [QUENTE] Todos os an"},{"x":270,"y":9,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Brasil |"},{"x":53,"y":1,"t":"[LAN] [VDS] [VENDA] [QUENTE] Abandono de"},{"x":379,"y":10,"t":"[LAN] [ABC] [VENDA] [ADVANTAGE] Brasil |"},{"x":2277,"y":39,"t":"[PPT] [TLR] [VENDA] [MEMBROS] Cross sell"},{"x":572,"y":13,"t":"[PPT] [EXM] [VENDA] [QUENTE] Recupera\u00e7\u00e3o"},{"x":12,"y":1,"t":"[BIT] [D48] [VENDA] [QUENTE] Abandono de"},{"x":61,"y":1,"t":"[PPT] [TLR12] [VENDA] [ADVANTAGE] M\u00faltip"},{"x":342,"y":8,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Brasil |"},{"x":845,"y":21,"t":"[PPT] [VNZ] [VENDA] [MUITO QUENTE] Venez"},{"x":99,"y":2,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Ads rio"},{"x":282,"y":7,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] M\u00faltiplo"},{"x":5373,"y":120,"t":"[PPT] [INP] [VENDA] [MUITO QUENTE] Epste"},{"x":6150,"y":79,"t":"[PPT] [TLR] [VENDA] [ADVANTAGE] Aquisi\u00e7\u00e3"},{"x":266,"y":6,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Influs"},{"x":1665,"y":19,"t":"[PPT] [TLR12] [VENDA] [ADVANTAGE] Todos "},{"x":28481,"y":229,"t":"[PPT] [TLR] [VENDA] [ADVANTAGE] Brasil"},{"x":18527,"y":323,"t":"[PPT] [INP] [VENDA] [ADVANTAGE] Teste en"},{"x":155,"y":2,"t":"[PPT] [TLR12] [VENDA] [ADVANTAGE] Todos "},{"x":400,"y":7,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Brasil |"},{"x":7342,"y":22,"t":"[LAN] [SDC] [VIT] [VENDA] [QUENTE] Membr"},{"x":13240,"y":203,"t":"[PPT] [INP] [VENDA] [MUITO QUENTE] Epste"},{"x":3346,"y":34,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] M\u00faltiplo"},{"x":86,"y":2,"t":"[LAN] [DOM] [VENDA] [MUITO QUENTE] Aband"},{"x":3384,"y":55,"t":"[PPT] [VNZ] [VENDA] [QUENTE] Venezuela |"},{"x":2266,"y":35,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Interess"},{"x":95,"y":1,"t":"[LAN] [ABC] [VENDA] [QUENTE] Visualizou "},{"x":2371,"y":35,"t":"[BIT] [D48] [VENDA] [ADVANTAGE] Membros "},{"x":1564,"y":22,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Abandono"},{"x":45524,"y":323,"t":"[PPT] [EXM] [VENDA] [QUENTE] Recupera\u00e7\u00e3o"},{"x":2638,"y":37,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Brasil |"},{"x":97,"y":1,"t":"[LAN] [PEN] [VENDA] [ADVANTAGE] Gen z"},{"x":208,"y":2,"t":"[PPT] [TLR12] [VENDA] [ADVANTAGE] Brasil"},{"x":6759,"y":48,"t":"[LAN] [VDS] [VENDA] [ADVANTAGE] Brasil |"},{"x":6289,"y":54,"t":"[TESTE] [10R] [VENDA] [FRIO] Alvo satura"},{"x":5406,"y":97,"t":"[LAN] [CPL] [BIT] [VENDA] [ADVANTAGE] Pr"},{"x":812,"y":8,"t":"[LAN] [SDC] [VENDA] [ADVANTAGE] Mobile A"},{"x":7931,"y":40,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Ads tira"},{"x":2358,"y":19,"t":"[LAN] [VDS] [VENDA] [ADVANTAGE] Envolvim"},{"x":31857,"y":347,"t":"[PPT] [INP] [VENDA] [MUITO QUENTE] Epste"},{"x":3728,"y":44,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Pouco ga"},{"x":303162,"y":3009,"t":"[PPT] [EXM] [VENDA] [ADVANTAGE] Recupera"},{"x":1354,"y":17,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Brasil |"},{"x":126430,"y":1065,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Brasil |"},{"x":3854,"y":33,"t":"[LAN] [BMA] [VENDA] [ADVANTAGE] Brasil |"},{"x":2887,"y":30,"t":"[PPT] [EXM] [VENDA] [ADVANTAGE] Recupera"},{"x":9690,"y":94,"t":"[PPT] [VNZ] [VENDA] [MUITO QUENTE] Venez"},{"x":2706,"y":22,"t":"[TESTE] [10R] [VENDA] [FRIO] Alvo oportu"},{"x":8134,"y":77,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Lista to"},{"x":336,"y":12,"t":"[LAN] [CPL] [BIT] [VENDA] [ADVANTAGE] Pr"},{"x":30152,"y":238,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Brasil |"},{"x":8818,"y":80,"t":"[LAN] [CRA] [VENDA] [ADVANTAGE] Brasil"},{"x":1036998,"y":7159,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Escala |"},{"x":10154,"y":93,"t":"[PPT] [EXM] [VENDA] [QUENTE] Recupera\u00e7\u00e3o"},{"x":93,"y":3,"t":"[BIT] [D48] [VENDA] [ADVANTAGE] Envolvim"},{"x":186694,"y":1202,"t":"[LAN] [SDC] [VENDA] [ADVANTAGE] Brasil |"},{"x":528736,"y":3051,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Novos ad"},{"x":57072,"y":436,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Brasil"},{"x":56494,"y":385,"t":"[PPT] [FOC] [VENDA] [ADVANTAGE] Michael "},{"x":377954,"y":2368,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Brasil |"},{"x":42382,"y":288,"t":"[PPT] [VNZ] [VENDA] [ADVANTAGE] Teste en"},{"x":1226085,"y":8256,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Escala |"},{"x":166,"y":1,"t":"[LAN] [PEN] [VENDA] [ADVANTAGE] Interess"},{"x":4617,"y":40,"t":"[PPT] [BMA] [VENDA] [ADVANTAGE] Brasil |"},{"x":50479,"y":299,"t":"[PPT] [IRA] [VENDA] [ADVANTAGE] Brasil"},{"x":5411,"y":36,"t":"[TESTE] [10R] [VENDA] [FRIO] Alvo saud\u00e1v"},{"x":6750,"y":39,"t":"[TESTE] [10R] [VENDA] [FRIO] Alvo satura"},{"x":156016,"y":960,"t":"[LAN] [SDC] [VENDA] [ADVANTAGE] Brasil"},{"x":3190,"y":28,"t":"[BIT] [D48] [VENDA] [ADVANTAGE] Membros "},{"x":203895,"y":1224,"t":"[LAN] [IRA] [VENDA] [ADVANTAGE] Brasil |"},{"x":951,"y":6,"t":"[PPT] [VNZ] [VENDA] [ADVANTAGE] Envolvim"},{"x":10376,"y":86,"t":"[PPT] [BPO] [VENDA] [ADVANTAGE] Teste PO"},{"x":741253,"y":4845,"t":"[PPT] [FNC] [VENDA] [ADVANTAGE] Brasil"},{"x":12533,"y":76,"t":"[LAN] [FAU] [VENDA] [ADVANTAGE] Envolvim"},{"x":44996,"y":311,"t":"[PPT] [VNZ] [VENDA] [ADVANTAGE] Brasil"},{"x":43370,"y":298,"t":"[PPT] [VNZ] [VENDA] [ADVANTAGE] Lista to"},{"x":112276,"y":717,"t":"[LAN] [BMA] [VENDA] [ADVANTAGE] Ads divi"},{"x":21790,"y":155,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Campanha"},{"x":60505,"y":345,"t":"[LAN] [IRA] [VENDA] [ADVANTAGE] Maximiza"},{"x":359251,"y":2228,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Brasil"},{"x":278802,"y":1409,"t":"[LAN] [SDC] [VENDA] [ADVANTAGE] Escala"},{"x":159309,"y":903,"t":"[LAN] [SDC] [VENDA] [ADVANTAGE] Brasil |"},{"x":167792,"y":863,"t":"[LAN] [SDC] [VENDA] [ADVANTAGE] Maximiza"},{"x":29796,"y":214,"t":"[LAN] [FAU] [VENDA] [ADVANTAGE] Brasil |"},{"x":15174,"y":98,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Lista to"},{"x":294,"y":2,"t":"[LAN] [VDS] [VENDA] [ADVANTAGE] Brasil |"},{"x":43197,"y":268,"t":"[LAN] [BMA] [VENDA] [ADVANTAGE] Target R"},{"x":36285,"y":125,"t":"[LAN] [PEN] [VENDA] [ADVANTAGE] Brasil"},{"x":21763,"y":286,"t":"[LAN] [CPL] [BIT] [VENDA] [ADVANTAGE] Pr"},{"x":3326,"y":58,"t":"[LAN] [CPL] [BIT] [VENDA] [ADVANTAGE] Pr"},{"x":929,"y":6,"t":"[LAN] [VDS] [VENDA] [ADVANTAGE] Envolvim"},{"x":105622,"y":631,"t":"[PPT] [BMA] [VENDA] [ADVANTAGE] Brasil"},{"x":15993,"y":108,"t":"[LAN] [BMA] [VENDA] [ADVANTAGE] Meta de "},{"x":5114,"y":34,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Teste de"},{"x":438761,"y":2060,"t":"[LAN] [SDC] [VENDA] [ADVANTAGE] Brasil |"},{"x":38204,"y":188,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Ads do I"},{"x":82767,"y":469,"t":"[LAN] [FAU] [VENDA] [ADVANTAGE] Envolvim"},{"x":2517,"y":16,"t":"[LAN] [VDS] [VENDA] [ADVANTAGE] Brasil"},{"x":114756,"y":536,"t":"[LAN] [SDC] [VENDA] [ADVANTAGE] Brasil |"},{"x":8229,"y":55,"t":"[LAN] [BMA] [VENDA] [ADVANTAGE] Brasil"},{"x":1541,"y":10,"t":"[LAN] [VDS] [VENDA] [ADVANTAGE] Brasil |"},{"x":16502,"y":99,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Teste pa"},{"x":94092,"y":420,"t":"[LAN] [ABC] [VENDA] [ADVANTAGE] Brasil"},{"x":499,"y":3,"t":"[LAN] [DOM] [VENDA] [ADVANTAGE] Envolvim"},{"x":16217,"y":89,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Melhores"},{"x":1491,"y":6,"t":"[LAN] [DBI] [VENDA] [ADVANTAGE] Brasil"},{"x":9841,"y":47,"t":"[LAN] [IRA] [VENDA] [ADVANTAGE] Brasil |"},{"x":12323,"y":142,"t":"[LAN] [CPL] [BIT] [VENDA] [AUTO] [FRIO] "},{"x":2735,"y":9,"t":"[LAN] [ABC] [VENDA] [ADVANTAGE] Brasil |"},{"x":18201,"y":70,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Teste cl"},{"x":3477,"y":14,"t":"[LAN] [VDS] [VENDA] [ADVANTAGE] Brasil |"},{"x":1752,"y":8,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Brasil |"},{"x":7088,"y":33,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Envolvim"},{"x":707,"y":2,"t":"[LAN] [TLR] [VENDA] [ADVANTAGE] Clubinho"},{"x":4488,"y":22,"t":"[LAN] [FAU] [VENDA] [ADVANTAGE] Mix de p"},{"x":8006,"y":35,"t":"[LAN] [FAU] [VENDA] [ADVANTAGE] Brasil"},{"x":10594,"y":37,"t":"[LAN] [ABC] [VENDA] [ADVANTAGE] Brasil |"},{"x":148,"y":2,"t":"[BIT] [D48] [VENDA] [QUENTE] Segmentados"},{"x":9393,"y":40,"t":"[PPT] [10R] [VENDA] [ADVANTAGE] Remarket"},{"x":4520,"y":21,"t":"[LAN] [BMA] [VENDA] [ADVANTAGE] Best ads"},{"x":12806,"y":139,"t":"[BIT] [D48] [VENDA] [ADVANTAGE] Brasil |"},{"x":6326,"y":58,"t":"[BIT] [D48] [VENDA] [ADVANTAGE] Direto p"},{"x":4154,"y":16,"t":"[PPT] [EXM] [VENDA] [QUENTE] Recupera\u00e7\u00e3o"},{"x":742,"y":8,"t":"[BIT] [D48] [VENDA] [ADVANTAGE] Brasil |"},{"x":4711,"y":15,"t":"[LAN] [FAU] [VENDA] [ADVANTAGE] Cadastra"},{"x":2730,"y":6,"t":"[LAN] [VDS] [VENDA] [ADVANTAGE] Brasil |"},{"x":567,"y":1,"t":"[LAN] [SDC] [VENDA] [QUENTE] View gen z"},{"x":445,"y":1,"t":"[BIT] [D48] [VENDA] [ADVANTAGE] Envolvim"}],"adset":[{"x":599497,"y":3398},{"x":591425,"y":3116},{"x":582588,"y":3924},{"x":576450,"y":3021},{"x":491987,"y":2821},{"x":452426,"y":2643},{"x":372114,"y":2361},{"x":351298,"y":3039},{"x":330229,"y":2027},{"x":237726,"y":1206},{"x":224729,"y":1124},{"x":220099,"y":1133},{"x":211513,"y":1136},{"x":189966,"y":983},{"x":166506,"y":885},{"x":154851,"y":655},{"x":129681,"y":627},{"x":116794,"y":536},{"x":113100,"y":614},{"x":107277,"y":514},{"x":106827,"y":545},{"x":99776,"y":530},{"x":94324,"y":498},{"x":92919,"y":524},{"x":92345,"y":410},{"x":80371,"y":506},{"x":75944,"y":485},{"x":71001,"y":325},{"x":70375,"y":349},{"x":66569,"y":480},{"x":65289,"y":545},{"x":65119,"y":355},{"x":62433,"y":323},{"x":61884,"y":367},{"x":60279,"y":304},{"x":59589,"y":296},{"x":57919,"y":396},{"x":51748,"y":294},{"x":50156,"y":140},{"x":48337,"y":375},{"x":47953,"y":242},{"x":46624,"y":228},{"x":45930,"y":238},{"x":44774,"y":249},{"x":41902,"y":195},{"x":41898,"y":197},{"x":40733,"y":129},{"x":38654,"y":310},{"x":36771,"y":236},{"x":34817,"y":100},{"x":34686,"y":227},{"x":32917,"y":155},{"x":31502,"y":203},{"x":30759,"y":259},{"x":30636,"y":163},{"x":30438,"y":133},{"x":30270,"y":88},{"x":28439,"y":121},{"x":28398,"y":188},{"x":27413,"y":142},{"x":26506,"y":148},{"x":26453,"y":100},{"x":23972,"y":252},{"x":23119,"y":56},{"x":22990,"y":204},{"x":22725,"y":110},{"x":22490,"y":194},{"x":22085,"y":106},{"x":21266,"y":126},{"x":20846,"y":105},{"x":20739,"y":125},{"x":20243,"y":79},{"x":18784,"y":102},{"x":17595,"y":76},{"x":16593,"y":80},{"x":16157,"y":93},{"x":16138,"y":28},{"x":15029,"y":94},{"x":14828,"y":63},{"x":13949,"y":37},{"x":13277,"y":29},{"x":13246,"y":59},{"x":13101,"y":66},{"x":13087,"y":86},{"x":13038,"y":19},{"x":12442,"y":50},{"x":11859,"y":42},{"x":11773,"y":18},{"x":11165,"y":33},{"x":11027,"y":37},{"x":10172,"y":32},{"x":10117,"y":38},{"x":10051,"y":29},{"x":9700,"y":39},{"x":9676,"y":54},{"x":9659,"y":36},{"x":9564,"y":22},{"x":9266,"y":86},{"x":8665,"y":38},{"x":8642,"y":39},{"x":8640,"y":15},{"x":8596,"y":39},{"x":8510,"y":21},{"x":7739,"y":61},{"x":7346,"y":96},{"x":7173,"y":53},{"x":7037,"y":23},{"x":6674,"y":26},{"x":6478,"y":69},{"x":6400,"y":22},{"x":6377,"y":17},{"x":5885,"y":40},{"x":5845,"y":73},{"x":5745,"y":16},{"x":5674,"y":25},{"x":5647,"y":21},{"x":5438,"y":40},{"x":5294,"y":21},{"x":5149,"y":33},{"x":5120,"y":50},{"x":4601,"y":26},{"x":4527,"y":5},{"x":4362,"y":4},{"x":4339,"y":18},{"x":4138,"y":58},{"x":3966,"y":22},{"x":3848,"y":19},{"x":3753,"y":14},{"x":3563,"y":9},{"x":3384,"y":17},{"x":3309,"y":20},{"x":3256,"y":21},{"x":3146,"y":5},{"x":3111,"y":24},{"x":2812,"y":10},{"x":2723,"y":3},{"x":2687,"y":17},{"x":2410,"y":3},{"x":2356,"y":6},{"x":2295,"y":4},{"x":2265,"y":1},{"x":2128,"y":6},{"x":1651,"y":10},{"x":1510,"y":9},{"x":1366,"y":5},{"x":1289,"y":8},{"x":1179,"y":2},{"x":1093,"y":1},{"x":1000,"y":13},{"x":983,"y":14},{"x":895,"y":4},{"x":867,"y":4},{"x":856,"y":1},{"x":844,"y":1},{"x":831,"y":2},{"x":774,"y":1},{"x":755,"y":3},{"x":735,"y":6},{"x":697,"y":2},{"x":670,"y":2},{"x":664,"y":1},{"x":597,"y":1},{"x":555,"y":1},{"x":549,"y":1},{"x":536,"y":2},{"x":524,"y":1},{"x":519,"y":2},{"x":503,"y":2},{"x":489,"y":1},{"x":463,"y":12},{"x":458,"y":1},{"x":420,"y":1},{"x":416,"y":1},{"x":391,"y":1},{"x":387,"y":3},{"x":309,"y":1},{"x":304,"y":4},{"x":292,"y":1},{"x":242,"y":1},{"x":236,"y":2},{"x":233,"y":1},{"x":225,"y":1},{"x":218,"y":2},{"x":177,"y":1},{"x":103,"y":1},{"x":102,"y":1},{"x":9,"y":1}],"campday":[{"x":85408,"y":463,"t":"SDC"},{"x":82700,"y":400,"t":"SDC"},{"x":70973,"y":288,"t":"SDC"},{"x":55499,"y":325,"t":"SDC"},{"x":53170,"y":266,"t":"SDC"},{"x":51751,"y":209,"t":"SDC"},{"x":47596,"y":174,"t":"SDC"},{"x":45460,"y":228,"t":"IRA"},{"x":44432,"y":240,"t":"SDC"},{"x":44166,"y":219,"t":"SDC"},{"x":44068,"y":363,"t":"SDC"},{"x":42734,"y":291,"t":"SDC"},{"x":38215,"y":205,"t":"IRA"},{"x":37056,"y":137,"t":"SDC"},{"x":36978,"y":171,"t":"SDC"},{"x":36901,"y":242,"t":"PPT"},{"x":36769,"y":192,"t":"PPT"},{"x":36647,"y":201,"t":"PPT"},{"x":36455,"y":185,"t":"PPT"},{"x":36185,"y":163,"t":"PPT"},{"x":35749,"y":188,"t":"PPT"},{"x":35510,"y":221,"t":"PPT"},{"x":34086,"y":222,"t":"PPT"},{"x":32791,"y":178,"t":"PPT"},{"x":32596,"y":245,"t":"BMA"},{"x":31884,"y":267,"t":"PPT"},{"x":30243,"y":216,"t":"PPT"},{"x":30161,"y":175,"t":"SDC"},{"x":29106,"y":202,"t":"SDC"},{"x":27951,"y":83,"t":"SDC"},{"x":27440,"y":153,"t":"DOM"},{"x":27266,"y":158,"t":"PPT"},{"x":27225,"y":136,"t":"SDC"},{"x":25952,"y":172,"t":"PPT"},{"x":25176,"y":126,"t":"PPT"},{"x":25144,"y":105,"t":"PPT"},{"x":24900,"y":176,"t":"PPT"},{"x":24881,"y":120,"t":"PPT"},{"x":24849,"y":101,"t":"PPT"},{"x":24434,"y":178,"t":"PPT"},{"x":24007,"y":143,"t":"PPT"},{"x":23699,"y":100,"t":"SDC"},{"x":23674,"y":188,"t":"PPT"},{"x":23612,"y":117,"t":"DOM"},{"x":23404,"y":130,"t":"SDC"},{"x":23385,"y":140,"t":"SDC"},{"x":23343,"y":102,"t":"PPT"},{"x":23219,"y":178,"t":"SDC"},{"x":23150,"y":94,"t":"SDC"},{"x":22567,"y":113,"t":"SDC"},{"x":22326,"y":107,"t":"PPT"},{"x":22313,"y":135,"t":"SDC"},{"x":22181,"y":139,"t":"SDC"},{"x":21725,"y":105,"t":"SDC"},{"x":21558,"y":111,"t":"SDC"},{"x":21504,"y":81,"t":"PPT"},{"x":21499,"y":135,"t":"PPT"},{"x":21481,"y":98,"t":"PPT"},{"x":20914,"y":146,"t":"SDC"},{"x":20735,"y":64,"t":"SDC"},{"x":20573,"y":102,"t":"PPT"},{"x":20464,"y":135,"t":"PPT"},{"x":20421,"y":80,"t":"PPT"},{"x":20406,"y":174,"t":"SDC"},{"x":20074,"y":156,"t":"PPT"},{"x":19957,"y":105,"t":"PPT"},{"x":19944,"y":110,"t":"PPT"},{"x":19816,"y":258,"t":"PPT"},{"x":19377,"y":145,"t":"PPT"},{"x":19236,"y":96,"t":"SDC"},{"x":19080,"y":132,"t":"SDC"},{"x":19049,"y":112,"t":"PPT"},{"x":18959,"y":112,"t":"SDC"},{"x":18925,"y":160,"t":"PPT"},{"x":18609,"y":77,"t":"PPT"},{"x":18578,"y":88,"t":"SDC"},{"x":18401,"y":114,"t":"SDC"},{"x":18301,"y":99,"t":"SDC"},{"x":18280,"y":113,"t":"PPT"},{"x":18254,"y":107,"t":"PPT"},{"x":18248,"y":89,"t":"PPT"},{"x":18195,"y":106,"t":"DOM"},{"x":17747,"y":119,"t":"PPT"},{"x":17672,"y":62,"t":"PPT"},{"x":17583,"y":109,"t":"PPT"},{"x":17579,"y":152,"t":"PPT"},{"x":17547,"y":86,"t":"PPT"},{"x":17542,"y":105,"t":"PPT"},{"x":17530,"y":78,"t":"PPT"},{"x":17466,"y":186,"t":"PPT"},{"x":17410,"y":94,"t":"PPT"},{"x":17391,"y":61,"t":"PPT"},{"x":17390,"y":83,"t":"PPT"},{"x":17373,"y":113,"t":"DOM"},{"x":17344,"y":115,"t":"DOM"},{"x":17340,"y":91,"t":"SDC"},{"x":17328,"y":128,"t":"PPT"},{"x":17294,"y":109,"t":"PPT"},{"x":17225,"y":76,"t":"PPT"},{"x":17122,"y":64,"t":"PPT"},{"x":17034,"y":75,"t":"SDC"},{"x":17007,"y":99,"t":"PPT"},{"x":16922,"y":116,"t":"PPT"},{"x":16895,"y":72,"t":"PPT"},{"x":16833,"y":130,"t":"PPT"},{"x":16745,"y":45,"t":"SDC"},{"x":16726,"y":125,"t":"PPT"},{"x":16699,"y":136,"t":"PPT"},{"x":16651,"y":114,"t":"IRA"},{"x":16636,"y":64,"t":"PPT"},{"x":16555,"y":79,"t":"DOM"},{"x":16515,"y":80,"t":"PPT"},{"x":16328,"y":99,"t":"DOM"},{"x":16238,"y":73,"t":"PPT"},{"x":16157,"y":106,"t":"PPT"},{"x":16139,"y":112,"t":"PPT"},{"x":15976,"y":67,"t":"PPT"},{"x":15884,"y":120,"t":"PPT"},{"x":15764,"y":88,"t":"PPT"},{"x":15741,"y":112,"t":"PPT"},{"x":15673,"y":107,"t":"DOM"},{"x":15619,"y":63,"t":"SDC"},{"x":15555,"y":130,"t":"PPT"},{"x":15496,"y":82,"t":"SDC"},{"x":15228,"y":91,"t":"IRA"},{"x":15178,"y":56,"t":"DOM"},{"x":15062,"y":83,"t":"PPT"},{"x":14979,"y":60,"t":"ABC"},{"x":14953,"y":85,"t":"PPT"},{"x":14761,"y":85,"t":"FAU"},{"x":14751,"y":114,"t":"PPT"},{"x":14742,"y":115,"t":"PPT"},{"x":14710,"y":107,"t":"PPT"},{"x":14689,"y":111,"t":"PPT"},{"x":14651,"y":106,"t":"DOM"},{"x":14634,"y":71,"t":"DOM"},{"x":14505,"y":103,"t":"DOM"},{"x":14382,"y":60,"t":"PPT"},{"x":14353,"y":77,"t":"PPT"},{"x":14312,"y":52,"t":"ABC"},{"x":14294,"y":74,"t":"SDC"},{"x":14278,"y":72,"t":"PPT"},{"x":14148,"y":60,"t":"PPT"},{"x":14057,"y":73,"t":"DOM"},{"x":14049,"y":89,"t":"DOM"},{"x":14043,"y":102,"t":"DOM"},{"x":13991,"y":99,"t":"PPT"},{"x":13978,"y":81,"t":"SDC"},{"x":13910,"y":77,"t":"SDC"},{"x":13906,"y":101,"t":"PPT"},{"x":13880,"y":82,"t":"DOM"},{"x":13856,"y":53,"t":"IRA"},{"x":13847,"y":115,"t":"PPT"},{"x":13790,"y":112,"t":"PPT"},{"x":13771,"y":77,"t":"PPT"},{"x":13756,"y":78,"t":"SDC"},{"x":13746,"y":80,"t":"PPT"},{"x":13735,"y":104,"t":"PPT"},{"x":13690,"y":90,"t":"DOM"},{"x":13675,"y":80,"t":"IRA"},{"x":13649,"y":66,"t":"PPT"},{"x":13621,"y":108,"t":"PPT"},{"x":13620,"y":77,"t":"PPT"},{"x":13535,"y":90,"t":"BMA"},{"x":13413,"y":90,"t":"PPT"},{"x":13406,"y":91,"t":"DOM"},{"x":13346,"y":70,"t":"DOM"},{"x":13343,"y":80,"t":"PPT"},{"x":13333,"y":83,"t":"PPT"},{"x":13318,"y":105,"t":"PPT"},{"x":13293,"y":74,"t":"PPT"},{"x":13212,"y":122,"t":"PPT"},{"x":13166,"y":104,"t":"PPT"},{"x":13159,"y":54,"t":"DOM"},{"x":13139,"y":85,"t":"PPT"},{"x":13065,"y":92,"t":"PPT"},{"x":13047,"y":78,"t":"DOM"},{"x":13037,"y":65,"t":"SDC"},{"x":12899,"y":68,"t":"SDC"},{"x":12892,"y":70,"t":"DOM"},{"x":12891,"y":94,"t":"IRA"},{"x":12836,"y":97,"t":"PPT"},{"x":12732,"y":70,"t":"PPT"},{"x":12717,"y":104,"t":"PPT"},{"x":12709,"y":83,"t":"PPT"},{"x":12638,"y":65,"t":"PPT"},{"x":12630,"y":54,"t":"PPT"},{"x":12538,"y":62,"t":"PPT"},{"x":12510,"y":61,"t":"PPT"},{"x":12505,"y":101,"t":"PPT"},{"x":12482,"y":55,"t":"SDC"},{"x":12438,"y":71,"t":"PPT"},{"x":12426,"y":73,"t":"DOM"},{"x":12409,"y":77,"t":"SDC"},{"x":12400,"y":105,"t":"PPT"},{"x":12352,"y":105,"t":"PPT"},{"x":12327,"y":86,"t":"PPT"},{"x":12304,"y":67,"t":"PPT"},{"x":12289,"y":83,"t":"PPT"},{"x":12272,"y":58,"t":"PPT"},{"x":12239,"y":76,"t":"PPT"},{"x":12219,"y":95,"t":"PPT"},{"x":12097,"y":45,"t":"DOM"},{"x":12094,"y":66,"t":"DOM"},{"x":12093,"y":87,"t":"PPT"},{"x":12088,"y":64,"t":"DOM"},{"x":12068,"y":76,"t":"PPT"},{"x":12046,"y":73,"t":"PPT"},{"x":11998,"y":60,"t":"DOM"},{"x":11828,"y":67,"t":"BMA"},{"x":11812,"y":37,"t":"ABC"},{"x":11807,"y":90,"t":"PPT"},{"x":11802,"y":35,"t":"FAU"},{"x":11778,"y":79,"t":"PPT"},{"x":11777,"y":77,"t":"DOM"},{"x":11750,"y":120,"t":"PPT"},{"x":11738,"y":89,"t":"PPT"},{"x":11705,"y":70,"t":"PPT"},{"x":11705,"y":64,"t":"DOM"},{"x":11691,"y":83,"t":"PPT"},{"x":11668,"y":89,"t":"BMA"},{"x":11668,"y":69,"t":"PPT"},{"x":11610,"y":65,"t":"PPT"},{"x":11604,"y":72,"t":"PPT"},{"x":11589,"y":51,"t":"PPT"},{"x":11540,"y":92,"t":"PPT"},{"x":11446,"y":55,"t":"PPT"},{"x":11441,"y":106,"t":"PPT"},{"x":11345,"y":81,"t":"BMA"},{"x":11302,"y":76,"t":"PPT"},{"x":11266,"y":71,"t":"PPT"},{"x":11232,"y":93,"t":"PPT"},{"x":11195,"y":104,"t":"PPT"},{"x":11159,"y":92,"t":"PPT"},{"x":11122,"y":93,"t":"PPT"},{"x":11118,"y":90,"t":"DOM"},{"x":11091,"y":78,"t":"PPT"},{"x":11053,"y":74,"t":"PPT"},{"x":11005,"y":98,"t":"PPT"},{"x":10991,"y":74,"t":"PPT"},{"x":10960,"y":63,"t":"SDC"},{"x":10946,"y":77,"t":"PPT"},{"x":10925,"y":108,"t":"SDC"},{"x":10864,"y":100,"t":"DOM"},{"x":10797,"y":78,"t":"DOM"},{"x":10651,"y":72,"t":"PPT"},{"x":10601,"y":59,"t":"PPT"},{"x":10600,"y":102,"t":"PPT"},{"x":10528,"y":75,"t":"PPT"},{"x":10517,"y":59,"t":"PPT"},{"x":10479,"y":65,"t":"PPT"},{"x":10399,"y":76,"t":"PPT"},{"x":10391,"y":57,"t":"DOM"},{"x":10364,"y":68,"t":"PPT"},{"x":10356,"y":75,"t":"IRA"},{"x":10347,"y":52,"t":"PPT"},{"x":10324,"y":68,"t":"PPT"},{"x":10284,"y":45,"t":"ABC"},{"x":10277,"y":61,"t":"IRA"},{"x":10262,"y":61,"t":"PPT"},{"x":10242,"y":49,"t":"PPT"},{"x":10226,"y":57,"t":"PPT"},{"x":10166,"y":61,"t":"PPT"},{"x":10131,"y":50,"t":"SDC"},{"x":10088,"y":63,"t":"PPT"},{"x":10008,"y":54,"t":"DOM"},{"x":9952,"y":42,"t":"BMA"},{"x":9932,"y":110,"t":"PPT"},{"x":9853,"y":42,"t":"PPT"},{"x":9838,"y":84,"t":"PPT"},{"x":9798,"y":45,"t":"PPT"},{"x":9770,"y":56,"t":"FAU"},{"x":9704,"y":79,"t":"PPT"},{"x":9703,"y":64,"t":"PPT"},{"x":9690,"y":54,"t":"PPT"},{"x":9660,"y":59,"t":"PPT"},{"x":9642,"y":59,"t":"PPT"},{"x":9621,"y":69,"t":"PPT"},{"x":9588,"y":58,"t":"PPT"},{"x":9585,"y":54,"t":"DOM"},{"x":9557,"y":42,"t":"BMA"},{"x":9552,"y":41,"t":"DOM"},{"x":9497,"y":67,"t":"DOM"},{"x":9489,"y":44,"t":"BMA"},{"x":9483,"y":49,"t":"DOM"},{"x":9447,"y":31,"t":"SDC"},{"x":9423,"y":79,"t":"PPT"},{"x":9389,"y":60,"t":"DOM"},{"x":9380,"y":55,"t":"PPT"},{"x":9331,"y":52,"t":"PPT"},{"x":9322,"y":24,"t":"PPT"},{"x":9305,"y":78,"t":"DOM"},{"x":9295,"y":55,"t":"FAU"},{"x":9284,"y":37,"t":"DOM"},{"x":9278,"y":55,"t":"PPT"},{"x":9278,"y":42,"t":"PPT"},{"x":9273,"y":62,"t":"PPT"},{"x":9272,"y":72,"t":"PPT"},{"x":9244,"y":67,"t":"PPT"},{"x":9207,"y":60,"t":"FAU"},{"x":9071,"y":83,"t":"DOM"},{"x":9052,"y":40,"t":"PPT"},{"x":9025,"y":77,"t":"PPT"},{"x":8930,"y":48,"t":"IRA"},{"x":8914,"y":39,"t":"IRA"},{"x":8894,"y":67,"t":"PPT"},{"x":8870,"y":39,"t":"SDC"},{"x":8846,"y":57,"t":"DOM"},{"x":8784,"y":30,"t":"ABC"},{"x":8774,"y":68,"t":"DOM"},{"x":8729,"y":49,"t":"PPT"},{"x":8726,"y":32,"t":"FAU"},{"x":8706,"y":43,"t":"IRA"},{"x":8678,"y":55,"t":"IRA"},{"x":8675,"y":39,"t":"PPT"},{"x":8655,"y":34,"t":"PPT"},{"x":8653,"y":41,"t":"PPT"},{"x":8645,"y":53,"t":"IRA"},{"x":8633,"y":65,"t":"PPT"},{"x":8598,"y":59,"t":"DOM"},{"x":8598,"y":50,"t":"DOM"},{"x":8523,"y":76,"t":"DOM"},{"x":8521,"y":48,"t":"PPT"},{"x":8489,"y":57,"t":"PPT"},{"x":8462,"y":53,"t":"DOM"},{"x":8412,"y":72,"t":"PPT"},{"x":8376,"y":45,"t":"PPT"},{"x":8355,"y":35,"t":"SDC"},{"x":8345,"y":51,"t":"PPT"},{"x":8307,"y":66,"t":"DOM"},{"x":8275,"y":44,"t":"PPT"},{"x":8269,"y":46,"t":"SDC"},{"x":8248,"y":68,"t":"PPT"},{"x":8247,"y":57,"t":"PPT"},{"x":8240,"y":63,"t":"PPT"},{"x":8158,"y":39,"t":"IRA"},{"x":8134,"y":51,"t":"PPT"},{"x":8131,"y":67,"t":"DOM"},{"x":8130,"y":45,"t":"PPT"},{"x":8114,"y":40,"t":"DOM"},{"x":8106,"y":53,"t":"PPT"},{"x":8094,"y":35,"t":"PPT"},{"x":8084,"y":30,"t":"PPT"},{"x":8041,"y":67,"t":"PPT"},{"x":8031,"y":55,"t":"PPT"},{"x":8020,"y":84,"t":"PPT"},{"x":7981,"y":51,"t":"PPT"},{"x":7980,"y":41,"t":"PPT"},{"x":7965,"y":53,"t":"PPT"},{"x":7905,"y":96,"t":"PPT"},{"x":7843,"y":46,"t":"PPT"},{"x":7826,"y":54,"t":"PPT"},{"x":7791,"y":34,"t":"PPT"},{"x":7785,"y":57,"t":"PPT"},{"x":7759,"y":98,"t":"PPT"},{"x":7697,"y":42,"t":"PPT"},{"x":7684,"y":36,"t":"PPT"},{"x":7583,"y":69,"t":"PPT"},{"x":7582,"y":60,"t":"DOM"},{"x":7575,"y":44,"t":"DOM"},{"x":7553,"y":20,"t":"Outro"},{"x":7439,"y":41,"t":"PPT"},{"x":7331,"y":39,"t":"PPT"},{"x":7298,"y":50,"t":"PPT"},{"x":7261,"y":52,"t":"DOM"},{"x":7211,"y":27,"t":"PPT"},{"x":7142,"y":58,"t":"PPT"},{"x":7139,"y":53,"t":"DOM"},{"x":7124,"y":36,"t":"PPT"},{"x":7098,"y":70,"t":"DOM"},{"x":7096,"y":82,"t":"PPT"},{"x":7089,"y":27,"t":"ABC"},{"x":7065,"y":46,"t":"PPT"},{"x":6997,"y":36,"t":"PPT"},{"x":6989,"y":50,"t":"PPT"},{"x":6964,"y":64,"t":"PPT"},{"x":6935,"y":57,"t":"PPT"},{"x":6926,"y":42,"t":"DOM"},{"x":6818,"y":46,"t":"SDC"},{"x":6811,"y":37,"t":"PPT"},{"x":6796,"y":30,"t":"BMA"},{"x":6766,"y":37,"t":"PPT"},{"x":6732,"y":51,"t":"PPT"},{"x":6724,"y":63,"t":"PPT"},{"x":6707,"y":51,"t":"PPT"},{"x":6689,"y":59,"t":"PPT"},{"x":6681,"y":37,"t":"PPT"},{"x":6645,"y":36,"t":"PPT"},{"x":6628,"y":34,"t":"SDC"},{"x":6570,"y":42,"t":"PPT"},{"x":6540,"y":37,"t":"PPT"},{"x":6531,"y":39,"t":"DOM"},{"x":6523,"y":42,"t":"DOM"},{"x":6517,"y":48,"t":"DOM"},{"x":6485,"y":38,"t":"DOM"},{"x":6480,"y":45,"t":"PPT"},{"x":6398,"y":50,"t":"PPT"},{"x":6379,"y":47,"t":"PPT"},{"x":6374,"y":29,"t":"DOM"},{"x":6310,"y":69,"t":"IRA"},{"x":6282,"y":47,"t":"PPT"},{"x":6279,"y":44,"t":"IRA"},{"x":6241,"y":39,"t":"PPT"},{"x":6224,"y":67,"t":"PPT"},{"x":6182,"y":76,"t":"BMA"},{"x":6180,"y":43,"t":"PPT"},{"x":6120,"y":46,"t":"DOM"},{"x":6086,"y":39,"t":"PPT"},{"x":6070,"y":49,"t":"DOM"},{"x":6069,"y":57,"t":"DOM"},{"x":6067,"y":57,"t":"PPT"},{"x":6055,"y":31,"t":"PPT"},{"x":6002,"y":45,"t":"PPT"},{"x":5995,"y":47,"t":"DOM"},{"x":5950,"y":54,"t":"PPT"},{"x":5943,"y":41,"t":"BMA"},{"x":5937,"y":75,"t":"PPT"},{"x":5927,"y":35,"t":"PPT"},{"x":5917,"y":65,"t":"PPT"},{"x":5906,"y":50,"t":"PPT"},{"x":5888,"y":53,"t":"PPT"},{"x":5855,"y":56,"t":"PPT"},{"x":5850,"y":54,"t":"DOM"},{"x":5845,"y":38,"t":"PPT"},{"x":5834,"y":42,"t":"DOM"},{"x":5819,"y":28,"t":"PPT"},{"x":5801,"y":50,"t":"PPT"},{"x":5797,"y":32,"t":"PPT"},{"x":5797,"y":57,"t":"PPT"},{"x":5774,"y":36,"t":"PPT"},{"x":5761,"y":31,"t":"DOM"},{"x":5731,"y":62,"t":"PPT"},{"x":5729,"y":31,"t":"DOM"},{"x":5715,"y":16,"t":"BMA"},{"x":5715,"y":45,"t":"PPT"},{"x":5643,"y":40,"t":"DOM"},{"x":5619,"y":31,"t":"PPT"},{"x":5615,"y":34,"t":"PPT"},{"x":5610,"y":28,"t":"PPT"},{"x":5606,"y":41,"t":"PPT"},{"x":5582,"y":39,"t":"PPT"},{"x":5568,"y":26,"t":"PPT"},{"x":5550,"y":51,"t":"PPT"},{"x":5538,"y":49,"t":"PPT"},{"x":5537,"y":29,"t":"PPT"},{"x":5522,"y":69,"t":"PPT"},{"x":5512,"y":27,"t":"DOM"},{"x":5500,"y":59,"t":"PPT"},{"x":5497,"y":13,"t":"Outro"},{"x":5494,"y":29,"t":"IRA"},{"x":5480,"y":20,"t":"DOM"},{"x":5453,"y":32,"t":"PPT"},{"x":5437,"y":31,"t":"PPT"},{"x":5431,"y":42,"t":"DOM"},{"x":5409,"y":25,"t":"PPT"},{"x":5406,"y":53,"t":"PPT"},{"x":5389,"y":48,"t":"PPT"},{"x":5387,"y":29,"t":"PPT"},{"x":5380,"y":47,"t":"IRA"},{"x":5370,"y":38,"t":"PPT"},{"x":5367,"y":23,"t":"BMA"},{"x":5337,"y":16,"t":"ABC"},{"x":5331,"y":30,"t":"PPT"},{"x":5324,"y":39,"t":"SDC"},{"x":5321,"y":50,"t":"DOM"},{"x":5316,"y":66,"t":"PPT"},{"x":5313,"y":39,"t":"PPT"},{"x":5264,"y":51,"t":"PPT"},{"x":5244,"y":53,"t":"PPT"},{"x":5232,"y":38,"t":"PPT"},{"x":5212,"y":40,"t":"PPT"},{"x":5209,"y":41,"t":"PPT"},{"x":5204,"y":49,"t":"PPT"},{"x":5197,"y":31,"t":"PPT"},{"x":5197,"y":35,"t":"PPT"},{"x":5185,"y":35,"t":"PPT"},{"x":5183,"y":33,"t":"PPT"},{"x":5164,"y":45,"t":"PPT"},{"x":5132,"y":21,"t":"PPT"},{"x":5119,"y":27,"t":"PPT"},{"x":5113,"y":36,"t":"PPT"},{"x":5102,"y":39,"t":"PPT"},{"x":5095,"y":43,"t":"PPT"},{"x":5083,"y":38,"t":"PPT"},{"x":5078,"y":43,"t":"PPT"},{"x":5077,"y":41,"t":"DOM"},{"x":5076,"y":39,"t":"PPT"},{"x":5072,"y":37,"t":"PPT"},{"x":5070,"y":32,"t":"PPT"},{"x":5054,"y":22,"t":"PPT"},{"x":5029,"y":45,"t":"PPT"},{"x":5025,"y":27,"t":"PPT"},{"x":5000,"y":24,"t":"PPT"},{"x":4997,"y":36,"t":"PPT"},{"x":4986,"y":34,"t":"PPT"},{"x":4930,"y":35,"t":"PPT"},{"x":4928,"y":34,"t":"PPT"},{"x":4918,"y":37,"t":"DOM"},{"x":4914,"y":30,"t":"PPT"},{"x":4906,"y":21,"t":"Outro"},{"x":4900,"y":45,"t":"PPT"},{"x":4897,"y":44,"t":"PPT"},{"x":4888,"y":25,"t":"PPT"},{"x":4886,"y":39,"t":"IRA"},{"x":4878,"y":29,"t":"ABC"},{"x":4835,"y":16,"t":"BMA"},{"x":4794,"y":24,"t":"PPT"},{"x":4769,"y":24,"t":"PPT"},{"x":4755,"y":25,"t":"PPT"},{"x":4741,"y":41,"t":"PPT"},{"x":4720,"y":37,"t":"IRA"},{"x":4706,"y":29,"t":"PPT"},{"x":4689,"y":13,"t":"PPT"},{"x":4683,"y":38,"t":"PPT"},{"x":4675,"y":44,"t":"FAU"},{"x":4664,"y":28,"t":"PPT"},{"x":4664,"y":28,"t":"PPT"},{"x":4645,"y":40,"t":"PPT"},{"x":4634,"y":28,"t":"PPT"},{"x":4628,"y":32,"t":"FAU"},{"x":4625,"y":31,"t":"FAU"},{"x":4615,"y":22,"t":"PPT"},{"x":4605,"y":34,"t":"PPT"},{"x":4585,"y":24,"t":"FAU"},{"x":4567,"y":18,"t":"PPT"},{"x":4562,"y":23,"t":"FAU"},{"x":4543,"y":43,"t":"PPT"},{"x":4530,"y":60,"t":"PPT"},{"x":4525,"y":14,"t":"PPT"},{"x":4518,"y":21,"t":"PPT"},{"x":4512,"y":25,"t":"PPT"},{"x":4510,"y":34,"t":"FAU"},{"x":4509,"y":34,"t":"PPT"},{"x":4509,"y":25,"t":"FAU"},{"x":4502,"y":30,"t":"PPT"},{"x":4502,"y":33,"t":"PPT"},{"x":4493,"y":68,"t":"PPT"},{"x":4491,"y":30,"t":"PPT"},{"x":4453,"y":51,"t":"PPT"},{"x":4436,"y":25,"t":"PPT"},{"x":4419,"y":29,"t":"PPT"},{"x":4418,"y":28,"t":"PPT"},{"x":4394,"y":41,"t":"PPT"},{"x":4393,"y":25,"t":"PPT"},{"x":4385,"y":39,"t":"PPT"},{"x":4382,"y":31,"t":"PPT"},{"x":4380,"y":18,"t":"DOM"},{"x":4365,"y":44,"t":"PPT"},{"x":4354,"y":36,"t":"PPT"},{"x":4327,"y":28,"t":"DOM"},{"x":4316,"y":16,"t":"BMA"},{"x":4315,"y":32,"t":"PPT"},{"x":4315,"y":49,"t":"PPT"},{"x":4314,"y":31,"t":"PPT"},{"x":4258,"y":31,"t":"PPT"},{"x":4244,"y":35,"t":"PPT"},{"x":4242,"y":34,"t":"PPT"},{"x":4224,"y":39,"t":"PPT"},{"x":4222,"y":10,"t":"PPT"},{"x":4209,"y":32,"t":"DOM"},{"x":4207,"y":19,"t":"PPT"},{"x":4207,"y":27,"t":"DOM"},{"x":4203,"y":20,"t":"PPT"},{"x":4202,"y":25,"t":"PPT"},{"x":4199,"y":19,"t":"BMA"},{"x":4191,"y":30,"t":"DOM"},{"x":4186,"y":23,"t":"PPT"},{"x":4183,"y":27,"t":"PPT"},{"x":4178,"y":8,"t":"Outro"},{"x":4176,"y":29,"t":"SDC"},{"x":4173,"y":33,"t":"PPT"},{"x":4166,"y":9,"t":"ABC"},{"x":4153,"y":33,"t":"PPT"},{"x":4149,"y":31,"t":"FAU"},{"x":4143,"y":18,"t":"PPT"},{"x":4131,"y":34,"t":"BMA"},{"x":4103,"y":25,"t":"BMA"},{"x":4102,"y":33,"t":"PPT"},{"x":4095,"y":25,"t":"ABC"},{"x":4088,"y":30,"t":"PPT"},{"x":4084,"y":44,"t":"PPT"},{"x":4080,"y":44,"t":"PPT"},{"x":4065,"y":41,"t":"PPT"},{"x":4056,"y":18,"t":"PPT"},{"x":4049,"y":36,"t":"FAU"},{"x":4029,"y":15,"t":"ABC"},{"x":4019,"y":39,"t":"PPT"},{"x":3984,"y":15,"t":"PPT"},{"x":3975,"y":36,"t":"PPT"},{"x":3966,"y":25,"t":"DOM"},{"x":3955,"y":36,"t":"PPT"},{"x":3954,"y":39,"t":"PPT"},{"x":3942,"y":46,"t":"PPT"},{"x":3926,"y":55,"t":"PPT"},{"x":3879,"y":27,"t":"BMA"},{"x":3866,"y":25,"t":"BMA"},{"x":3854,"y":20,"t":"PPT"},{"x":3854,"y":13,"t":"PPT"},{"x":3845,"y":31,"t":"CRA"},{"x":3845,"y":37,"t":"PPT"},{"x":3843,"y":18,"t":"PPT"},{"x":3832,"y":23,"t":"DOM"},{"x":3827,"y":33,"t":"PPT"},{"x":3819,"y":24,"t":"BMA"},{"x":3807,"y":33,"t":"PPT"},{"x":3793,"y":23,"t":"PPT"},{"x":3786,"y":28,"t":"PPT"},{"x":3774,"y":11,"t":"Outro"},{"x":3756,"y":19,"t":"PPT"},{"x":3729,"y":58,"t":"PPT"},{"x":3727,"y":13,"t":"PPT"},{"x":3691,"y":24,"t":"SDC"},{"x":3675,"y":38,"t":"PPT"},{"x":3636,"y":28,"t":"FAU"},{"x":3627,"y":24,"t":"DOM"},{"x":3604,"y":34,"t":"DOM"},{"x":3598,"y":48,"t":"PPT"},{"x":3589,"y":12,"t":"Outro"},{"x":3565,"y":30,"t":"PPT"},{"x":3554,"y":25,"t":"FAU"},{"x":3545,"y":16,"t":"PPT"},{"x":3514,"y":17,"t":"FAU"},{"x":3495,"y":33,"t":"PPT"},{"x":3493,"y":38,"t":"DOM"},{"x":3482,"y":44,"t":"PPT"},{"x":3477,"y":14,"t":"VDS"},{"x":3472,"y":25,"t":"PPT"},{"x":3472,"y":14,"t":"PPT"},{"x":3456,"y":22,"t":"BIT"},{"x":3453,"y":17,"t":"PPT"},{"x":3445,"y":14,"t":"PPT"},{"x":3444,"y":12,"t":"FAU"},{"x":3442,"y":21,"t":"PPT"},{"x":3440,"y":31,"t":"PPT"},{"x":3433,"y":26,"t":"PPT"},{"x":3432,"y":14,"t":"PPT"},{"x":3430,"y":18,"t":"PPT"},{"x":3415,"y":25,"t":"DOM"},{"x":3410,"y":44,"t":"PPT"},{"x":3406,"y":20,"t":"PPT"},{"x":3391,"y":18,"t":"VDS"},{"x":3384,"y":16,"t":"PPT"},{"x":3381,"y":24,"t":"PPT"},{"x":3370,"y":42,"t":"PPT"},{"x":3365,"y":27,"t":"DOM"},{"x":3359,"y":34,"t":"DOM"},{"x":3347,"y":22,"t":"BMA"},{"x":3340,"y":34,"t":"PPT"},{"x":3337,"y":14,"t":"ABC"},{"x":3331,"y":38,"t":"PPT"},{"x":3326,"y":33,"t":"PPT"},{"x":3303,"y":39,"t":"PPT"},{"x":3276,"y":33,"t":"PPT"},{"x":3269,"y":28,"t":"PPT"},{"x":3252,"y":26,"t":"PPT"},{"x":3233,"y":37,"t":"PPT"},{"x":3232,"y":32,"t":"PPT"},{"x":3202,"y":27,"t":"PPT"},{"x":3190,"y":21,"t":"PPT"},{"x":3189,"y":14,"t":"PPT"},{"x":3161,"y":11,"t":"IRA"},{"x":3154,"y":31,"t":"PPT"},{"x":3151,"y":21,"t":"PPT"},{"x":3147,"y":27,"t":"PPT"},{"x":3143,"y":17,"t":"PPT"},{"x":3118,"y":27,"t":"PPT"},{"x":3103,"y":33,"t":"DOM"},{"x":3101,"y":11,"t":"PPT"},{"x":3092,"y":36,"t":"PPT"},{"x":3063,"y":30,"t":"PPT"},{"x":3034,"y":31,"t":"PPT"},{"x":3012,"y":41,"t":"PPT"},{"x":2996,"y":44,"t":"PPT"},{"x":2960,"y":23,"t":"DOM"},{"x":2949,"y":13,"t":"PPT"},{"x":2943,"y":17,"t":"PPT"},{"x":2933,"y":50,"t":"PPT"},{"x":2924,"y":37,"t":"PPT"},{"x":2914,"y":37,"t":"PPT"},{"x":2881,"y":14,"t":"PPT"},{"x":2874,"y":14,"t":"FAU"},{"x":2870,"y":20,"t":"PPT"},{"x":2862,"y":18,"t":"PPT"},{"x":2857,"y":13,"t":"IRA"},{"x":2844,"y":34,"t":"PPT"},{"x":2839,"y":22,"t":"PPT"},{"x":2837,"y":44,"t":"PPT"},{"x":2835,"y":51,"t":"PPT"},{"x":2834,"y":20,"t":"FAU"},{"x":2833,"y":25,"t":"PPT"},{"x":2819,"y":5,"t":"FAU"},{"x":2810,"y":13,"t":"PPT"},{"x":2791,"y":31,"t":"PPT"},{"x":2781,"y":25,"t":"PPT"},{"x":2766,"y":25,"t":"FAU"},{"x":2761,"y":44,"t":"PPT"},{"x":2735,"y":24,"t":"PPT"},{"x":2734,"y":27,"t":"PPT"},{"x":2734,"y":43,"t":"DOM"},{"x":2705,"y":15,"t":"SDC"},{"x":2657,"y":19,"t":"PPT"},{"x":2655,"y":16,"t":"PPT"},{"x":2648,"y":47,"t":"PPT"},{"x":2641,"y":20,"t":"DOM"},{"x":2611,"y":32,"t":"DOM"},{"x":2602,"y":33,"t":"PPT"},{"x":2601,"y":28,"t":"PPT"},{"x":2574,"y":15,"t":"IRA"},{"x":2564,"y":28,"t":"PPT"},{"x":2560,"y":20,"t":"BIT"},{"x":2557,"y":23,"t":"PPT"},{"x":2512,"y":8,"t":"SDC"},{"x":2511,"y":27,"t":"PPT"},{"x":2510,"y":10,"t":"FAU"},{"x":2505,"y":33,"t":"PPT"},{"x":2491,"y":29,"t":"PPT"},{"x":2480,"y":13,"t":"PPT"},{"x":2468,"y":21,"t":"DOM"},{"x":2458,"y":21,"t":"PPT"},{"x":2418,"y":36,"t":"PPT"},{"x":2398,"y":37,"t":"PPT"},{"x":2384,"y":13,"t":"SDC"},{"x":2365,"y":19,"t":"PPT"},{"x":2351,"y":6,"t":"ABC"},{"x":2345,"y":11,"t":"PPT"},{"x":2333,"y":27,"t":"PPT"},{"x":2332,"y":16,"t":"DOM"},{"x":2331,"y":23,"t":"PPT"},{"x":2318,"y":11,"t":"ABC"},{"x":2317,"y":24,"t":"PPT"},{"x":2313,"y":43,"t":"PPT"},{"x":2301,"y":8,"t":"PPT"},{"x":2288,"y":24,"t":"PPT"},{"x":2280,"y":18,"t":"FAU"},{"x":2268,"y":24,"t":"PPT"},{"x":2261,"y":9,"t":"BIT"},{"x":2218,"y":32,"t":"PPT"},{"x":2207,"y":23,"t":"BMA"},{"x":2206,"y":13,"t":"PPT"},{"x":2190,"y":23,"t":"DOM"},{"x":2187,"y":12,"t":"PPT"},{"x":2187,"y":12,"t":"PPT"},{"x":2182,"y":6,"t":"SDC"},{"x":2176,"y":13,"t":"PPT"},{"x":2168,"y":11,"t":"PPT"},{"x":2165,"y":17,"t":"PPT"},{"x":2165,"y":13,"t":"FAU"},{"x":2163,"y":14,"t":"PPT"},{"x":2160,"y":22,"t":"PPT"},{"x":2144,"y":10,"t":"BMA"},{"x":2141,"y":17,"t":"PPT"},{"x":2109,"y":18,"t":"PPT"},{"x":2108,"y":14,"t":"SDC"},{"x":2105,"y":16,"t":"PPT"},{"x":2081,"y":33,"t":"PPT"},{"x":2078,"y":22,"t":"PPT"},{"x":2073,"y":18,"t":"PPT"},{"x":2072,"y":11,"t":"PPT"},{"x":2072,"y":32,"t":"PPT"},{"x":2069,"y":17,"t":"FAU"},{"x":2064,"y":25,"t":"BIT"},{"x":2061,"y":19,"t":"PPT"},{"x":2051,"y":18,"t":"PPT"},{"x":2044,"y":25,"t":"PPT"},{"x":2041,"y":3,"t":"SDC"},{"x":2023,"y":12,"t":"DOM"},{"x":2020,"y":19,"t":"DOM"},{"x":2018,"y":24,"t":"DOM"},{"x":2008,"y":3,"t":"VDS"},{"x":2004,"y":17,"t":"PPT"},{"x":1998,"y":19,"t":"DOM"},{"x":1988,"y":4,"t":"PPT"},{"x":1980,"y":19,"t":"PPT"},{"x":1978,"y":6,"t":"PPT"},{"x":1975,"y":11,"t":"PPT"},{"x":1966,"y":22,"t":"PPT"},{"x":1965,"y":22,"t":"PPT"},{"x":1941,"y":20,"t":"CRA"},{"x":1941,"y":13,"t":"SDC"},{"x":1930,"y":19,"t":"PPT"},{"x":1922,"y":12,"t":"DOM"},{"x":1901,"y":9,"t":"Outro"},{"x":1896,"y":14,"t":"PPT"},{"x":1891,"y":10,"t":"FAU"},{"x":1879,"y":10,"t":"BMA"},{"x":1874,"y":3,"t":"PPT"},{"x":1873,"y":15,"t":"PPT"},{"x":1871,"y":8,"t":"PPT"},{"x":1861,"y":5,"t":"SDC"},{"x":1833,"y":14,"t":"DOM"},{"x":1812,"y":13,"t":"PPT"},{"x":1800,"y":28,"t":"PPT"},{"x":1788,"y":26,"t":"PPT"},{"x":1781,"y":9,"t":"Outro"},{"x":1771,"y":12,"t":"ABC"},{"x":1763,"y":18,"t":"PPT"},{"x":1745,"y":29,"t":"PPT"},{"x":1733,"y":14,"t":"PPT"},{"x":1731,"y":12,"t":"BMA"},{"x":1725,"y":9,"t":"PPT"},{"x":1720,"y":10,"t":"Outro"},{"x":1683,"y":7,"t":"SDC"},{"x":1676,"y":9,"t":"PPT"},{"x":1675,"y":13,"t":"ABC"},{"x":1653,"y":16,"t":"PPT"},{"x":1652,"y":4,"t":"PPT"},{"x":1650,"y":12,"t":"VDS"},{"x":1648,"y":10,"t":"PPT"},{"x":1635,"y":10,"t":"PPT"},{"x":1635,"y":18,"t":"BIT"},{"x":1622,"y":20,"t":"CRA"},{"x":1614,"y":8,"t":"FAU"},{"x":1610,"y":25,"t":"PPT"},{"x":1608,"y":15,"t":"PPT"},{"x":1583,"y":9,"t":"PPT"},{"x":1582,"y":20,"t":"DOM"},{"x":1574,"y":8,"t":"PPT"},{"x":1574,"y":20,"t":"PPT"},{"x":1569,"y":10,"t":"DOM"},{"x":1567,"y":24,"t":"DOM"},{"x":1554,"y":12,"t":"PPT"},{"x":1543,"y":8,"t":"BIT"},{"x":1533,"y":8,"t":"PPT"},{"x":1521,"y":6,"t":"PPT"},{"x":1519,"y":18,"t":"PPT"},{"x":1517,"y":13,"t":"PPT"},{"x":1490,"y":9,"t":"DOM"},{"x":1483,"y":24,"t":"PPT"},{"x":1480,"y":17,"t":"IRA"},{"x":1480,"y":25,"t":"PPT"},{"x":1479,"y":20,"t":"PPT"},{"x":1479,"y":12,"t":"VDS"},{"x":1475,"y":10,"t":"PPT"},{"x":1470,"y":19,"t":"PPT"},{"x":1460,"y":16,"t":"BIT"},{"x":1459,"y":28,"t":"PPT"},{"x":1456,"y":17,"t":"PPT"},{"x":1452,"y":16,"t":"PPT"},{"x":1445,"y":11,"t":"PPT"},{"x":1442,"y":15,"t":"PPT"},{"x":1438,"y":13,"t":"PPT"},{"x":1434,"y":9,"t":"PPT"},{"x":1422,"y":13,"t":"PPT"},{"x":1413,"y":9,"t":"DOM"},{"x":1409,"y":9,"t":"PPT"},{"x":1401,"y":26,"t":"PPT"},{"x":1397,"y":16,"t":"PPT"},{"x":1393,"y":21,"t":"DOM"},{"x":1375,"y":17,"t":"DOM"},{"x":1373,"y":10,"t":"PPT"},{"x":1371,"y":26,"t":"PPT"},{"x":1369,"y":6,"t":"VDS"},{"x":1363,"y":16,"t":"PPT"},{"x":1359,"y":3,"t":"DBI"},{"x":1358,"y":26,"t":"PPT"},{"x":1353,"y":26,"t":"PPT"},{"x":1337,"y":25,"t":"PPT"},{"x":1337,"y":5,"t":"PPT"},{"x":1335,"y":26,"t":"PPT"},{"x":1334,"y":17,"t":"DOM"},{"x":1330,"y":25,"t":"PPT"},{"x":1325,"y":20,"t":"PPT"},{"x":1325,"y":6,"t":"CRA"},{"x":1323,"y":9,"t":"DOM"},{"x":1311,"y":8,"t":"PPT"},{"x":1305,"y":7,"t":"PPT"},{"x":1296,"y":27,"t":"PPT"},{"x":1295,"y":7,"t":"PPT"},{"x":1294,"y":12,"t":"PPT"},{"x":1293,"y":22,"t":"PPT"},{"x":1288,"y":17,"t":"DOM"},{"x":1270,"y":16,"t":"PPT"},{"x":1265,"y":11,"t":"PPT"},{"x":1262,"y":7,"t":"PPT"},{"x":1256,"y":8,"t":"PPT"},{"x":1250,"y":8,"t":"IRA"},{"x":1249,"y":9,"t":"BIT"},{"x":1241,"y":12,"t":"PPT"},{"x":1238,"y":10,"t":"PPT"},{"x":1230,"y":14,"t":"PPT"},{"x":1223,"y":15,"t":"BIT"},{"x":1221,"y":18,"t":"PPT"},{"x":1215,"y":7,"t":"ABC"},{"x":1209,"y":6,"t":"DOM"},{"x":1208,"y":6,"t":"PPT"},{"x":1204,"y":15,"t":"PPT"},{"x":1204,"y":7,"t":"BIT"},{"x":1203,"y":9,"t":"VDS"},{"x":1199,"y":10,"t":"PPT"},{"x":1198,"y":16,"t":"DOM"},{"x":1192,"y":13,"t":"PPT"},{"x":1190,"y":21,"t":"PPT"},{"x":1189,"y":15,"t":"PPT"},{"x":1188,"y":14,"t":"PPT"},{"x":1187,"y":17,"t":"PPT"},{"x":1179,"y":17,"t":"PPT"},{"x":1179,"y":10,"t":"VDS"},{"x":1174,"y":14,"t":"PPT"},{"x":1164,"y":14,"t":"PPT"},{"x":1163,"y":9,"t":"PPT"},{"x":1162,"y":12,"t":"PPT"},{"x":1153,"y":18,"t":"PPT"},{"x":1150,"y":14,"t":"DOM"},{"x":1148,"y":6,"t":"SDC"},{"x":1145,"y":6,"t":"PPT"},{"x":1142,"y":18,"t":"PPT"},{"x":1138,"y":7,"t":"PPT"},{"x":1138,"y":16,"t":"BIT"},{"x":1133,"y":15,"t":"PPT"},{"x":1126,"y":11,"t":"PPT"},{"x":1113,"y":10,"t":"BIT"},{"x":1113,"y":6,"t":"PPT"},{"x":1112,"y":12,"t":"BIT"},{"x":1110,"y":15,"t":"PPT"},{"x":1108,"y":9,"t":"DOM"},{"x":1105,"y":15,"t":"BIT"},{"x":1102,"y":10,"t":"PPT"},{"x":1099,"y":10,"t":"PPT"},{"x":1091,"y":17,"t":"PPT"},{"x":1091,"y":6,"t":"BIT"},{"x":1077,"y":17,"t":"PPT"},{"x":1076,"y":21,"t":"BIT"},{"x":1075,"y":18,"t":"PPT"},{"x":1072,"y":19,"t":"PPT"},{"x":1068,"y":8,"t":"PPT"},{"x":1066,"y":5,"t":"PPT"},{"x":1065,"y":12,"t":"BIT"},{"x":1060,"y":12,"t":"BIT"},{"x":1059,"y":9,"t":"ABC"},{"x":1051,"y":14,"t":"BIT"},{"x":1048,"y":9,"t":"PPT"},{"x":1047,"y":15,"t":"PPT"},{"x":1045,"y":5,"t":"DOM"},{"x":1040,"y":15,"t":"BIT"},{"x":1016,"y":11,"t":"BIT"},{"x":1013,"y":19,"t":"PPT"},{"x":1005,"y":6,"t":"PPT"},{"x":1002,"y":12,"t":"BIT"},{"x":1001,"y":12,"t":"BIT"},{"x":1001,"y":15,"t":"PPT"},{"x":992,"y":7,"t":"BIT"},{"x":989,"y":11,"t":"PPT"},{"x":987,"y":8,"t":"PPT"},{"x":987,"y":11,"t":"PPT"},{"x":983,"y":8,"t":"PPT"},{"x":970,"y":26,"t":"PPT"},{"x":953,"y":24,"t":"PPT"},{"x":951,"y":6,"t":"PPT"},{"x":951,"y":6,"t":"PPT"},{"x":949,"y":10,"t":"PPT"},{"x":943,"y":8,"t":"PPT"},{"x":928,"y":14,"t":"PPT"},{"x":923,"y":8,"t":"PPT"},{"x":920,"y":12,"t":"ABC"},{"x":914,"y":3,"t":"PPT"},{"x":912,"y":9,"t":"BIT"},{"x":888,"y":10,"t":"PPT"},{"x":879,"y":9,"t":"SDC"},{"x":877,"y":14,"t":"PPT"},{"x":877,"y":5,"t":"BIT"},{"x":875,"y":13,"t":"DOM"},{"x":875,"y":12,"t":"PPT"},{"x":871,"y":6,"t":"PPT"},{"x":869,"y":9,"t":"PPT"},{"x":869,"y":6,"t":"DOM"},{"x":861,"y":12,"t":"PPT"},{"x":858,"y":10,"t":"PPT"},{"x":851,"y":11,"t":"PPT"},{"x":844,"y":6,"t":"PPT"},{"x":844,"y":8,"t":"BIT"},{"x":840,"y":7,"t":"PPT"},{"x":838,"y":5,"t":"PPT"},{"x":837,"y":4,"t":"BIT"},{"x":836,"y":12,"t":"BIT"},{"x":835,"y":10,"t":"PPT"},{"x":834,"y":6,"t":"PPT"},{"x":827,"y":12,"t":"BIT"},{"x":826,"y":9,"t":"PPT"},{"x":819,"y":14,"t":"VDS"},{"x":817,"y":6,"t":"DOM"},{"x":817,"y":4,"t":"PPT"},{"x":816,"y":19,"t":"PPT"},{"x":814,"y":8,"t":"PPT"},{"x":813,"y":4,"t":"IRA"},{"x":812,"y":7,"t":"DOM"},{"x":804,"y":3,"t":"PPT"},{"x":804,"y":3,"t":"PPT"},{"x":803,"y":4,"t":"PPT"},{"x":802,"y":10,"t":"PPT"},{"x":801,"y":6,"t":"PPT"},{"x":793,"y":5,"t":"PPT"},{"x":791,"y":9,"t":"PPT"},{"x":791,"y":9,"t":"PPT"},{"x":777,"y":3,"t":"SDC"},{"x":763,"y":13,"t":"PPT"},{"x":762,"y":6,"t":"SDC"},{"x":761,"y":4,"t":"PPT"},{"x":758,"y":9,"t":"PPT"},{"x":755,"y":20,"t":"PPT"},{"x":752,"y":10,"t":"PPT"},{"x":752,"y":14,"t":"PPT"},{"x":750,"y":9,"t":"PPT"},{"x":748,"y":9,"t":"PPT"},{"x":738,"y":7,"t":"BIT"},{"x":734,"y":12,"t":"PPT"},{"x":728,"y":7,"t":"PPT"},{"x":727,"y":5,"t":"PPT"},{"x":722,"y":3,"t":"VDS"},{"x":719,"y":6,"t":"DOM"},{"x":718,"y":6,"t":"PPT"},{"x":715,"y":5,"t":"PPT"},{"x":715,"y":16,"t":"PPT"},{"x":711,"y":5,"t":"PPT"},{"x":708,"y":4,"t":"DOM"},{"x":705,"y":12,"t":"DOM"},{"x":704,"y":4,"t":"PPT"},{"x":703,"y":8,"t":"PPT"},{"x":700,"y":9,"t":"BMA"},{"x":699,"y":5,"t":"PPT"},{"x":692,"y":3,"t":"DOM"},{"x":688,"y":5,"t":"PPT"},{"x":687,"y":9,"t":"BIT"},{"x":679,"y":6,"t":"DOM"},{"x":674,"y":6,"t":"BIT"},{"x":673,"y":5,"t":"PPT"},{"x":673,"y":8,"t":"DOM"},{"x":672,"y":8,"t":"PPT"},{"x":671,"y":6,"t":"PPT"},{"x":669,"y":4,"t":"PPT"},{"x":667,"y":9,"t":"BIT"},{"x":667,"y":8,"t":"PPT"},{"x":666,"y":5,"t":"PPT"},{"x":665,"y":4,"t":"PPT"},{"x":664,"y":5,"t":"BIT"},{"x":660,"y":6,"t":"PPT"},{"x":659,"y":4,"t":"PPT"},{"x":658,"y":5,"t":"BIT"},{"x":658,"y":19,"t":"PPT"},{"x":655,"y":2,"t":"Outro"},{"x":649,"y":7,"t":"PPT"},{"x":649,"y":10,"t":"PPT"},{"x":646,"y":2,"t":"ABC"},{"x":646,"y":6,"t":"ABC"},{"x":645,"y":11,"t":"PPT"},{"x":640,"y":19,"t":"DOM"},{"x":639,"y":3,"t":"Outro"},{"x":634,"y":8,"t":"BIT"},{"x":632,"y":5,"t":"DOM"},{"x":631,"y":3,"t":"BIT"},{"x":630,"y":10,"t":"PPT"},{"x":630,"y":4,"t":"PPT"},{"x":626,"y":3,"t":"PPT"},{"x":625,"y":1,"t":"TLR"},{"x":622,"y":3,"t":"BIT"},{"x":621,"y":4,"t":"PPT"},{"x":620,"y":5,"t":"PPT"},{"x":620,"y":9,"t":"PPT"},{"x":620,"y":5,"t":"BIT"},{"x":619,"y":5,"t":"BMA"},{"x":618,"y":5,"t":"DOM"},{"x":613,"y":5,"t":"PPT"},{"x":613,"y":6,"t":"PPT"},{"x":613,"y":6,"t":"PPT"},{"x":613,"y":7,"t":"PPT"},{"x":612,"y":5,"t":"Outro"},{"x":608,"y":12,"t":"BIT"},{"x":607,"y":7,"t":"BIT"},{"x":607,"y":4,"t":"PPT"},{"x":606,"y":4,"t":"DOM"},{"x":604,"y":7,"t":"PPT"},{"x":593,"y":6,"t":"DOM"},{"x":591,"y":7,"t":"PPT"},{"x":585,"y":14,"t":"PPT"},{"x":583,"y":8,"t":"PPT"},{"x":580,"y":10,"t":"BIT"},{"x":575,"y":4,"t":"PPT"},{"x":573,"y":1,"t":"BIT"},{"x":572,"y":3,"t":"PPT"},{"x":571,"y":10,"t":"DOM"},{"x":568,"y":7,"t":"BIT"},{"x":568,"y":10,"t":"BIT"},{"x":567,"y":1,"t":"SDC"},{"x":566,"y":6,"t":"DOM"},{"x":566,"y":3,"t":"PPT"},{"x":565,"y":8,"t":"PPT"},{"x":564,"y":10,"t":"PPT"},{"x":563,"y":10,"t":"PPT"},{"x":558,"y":8,"t":"BIT"},{"x":556,"y":4,"t":"PPT"},{"x":553,"y":3,"t":"PPT"},{"x":550,"y":6,"t":"SDC"},{"x":547,"y":3,"t":"Outro"},{"x":544,"y":7,"t":"DOM"},{"x":544,"y":3,"t":"Outro"},{"x":540,"y":7,"t":"SDC"},{"x":539,"y":5,"t":"PPT"},{"x":538,"y":8,"t":"BIT"},{"x":533,"y":6,"t":"PPT"},{"x":532,"y":7,"t":"PPT"},{"x":531,"y":9,"t":"DOM"},{"x":530,"y":6,"t":"BIT"},{"x":528,"y":5,"t":"BIT"},{"x":528,"y":3,"t":"BIT"},{"x":528,"y":4,"t":"PPT"},{"x":527,"y":7,"t":"BIT"},{"x":526,"y":4,"t":"BIT"},{"x":519,"y":6,"t":"BIT"},{"x":516,"y":4,"t":"PPT"},{"x":515,"y":6,"t":"BMA"},{"x":515,"y":4,"t":"BIT"},{"x":515,"y":9,"t":"BIT"},{"x":513,"y":3,"t":"Outro"},{"x":510,"y":5,"t":"DOM"},{"x":509,"y":6,"t":"PPT"},{"x":502,"y":3,"t":"DOM"},{"x":501,"y":7,"t":"BIT"},{"x":498,"y":6,"t":"PPT"},{"x":497,"y":3,"t":"VDS"},{"x":496,"y":5,"t":"SDC"},{"x":494,"y":12,"t":"PPT"},{"x":491,"y":3,"t":"Outro"},{"x":490,"y":6,"t":"Outro"},{"x":488,"y":7,"t":"BIT"},{"x":487,"y":6,"t":"DOM"},{"x":486,"y":6,"t":"PPT"},{"x":483,"y":9,"t":"PPT"},{"x":483,"y":1,"t":"Outro"},{"x":481,"y":7,"t":"PPT"},{"x":480,"y":1,"t":"Outro"},{"x":480,"y":6,"t":"DOM"},{"x":480,"y":5,"t":"SDC"},{"x":478,"y":2,"t":"Outro"},{"x":477,"y":6,"t":"FAU"},{"x":475,"y":10,"t":"BIT"},{"x":474,"y":2,"t":"Outro"},{"x":474,"y":8,"t":"DOM"},{"x":472,"y":2,"t":"PPT"},{"x":471,"y":5,"t":"BIT"},{"x":470,"y":6,"t":"DOM"},{"x":470,"y":7,"t":"PPT"},{"x":470,"y":10,"t":"BIT"},{"x":466,"y":3,"t":"Outro"},{"x":464,"y":7,"t":"DOM"},{"x":461,"y":7,"t":"PPT"},{"x":457,"y":2,"t":"DOM"},{"x":457,"y":2,"t":"Outro"},{"x":455,"y":4,"t":"DOM"},{"x":454,"y":3,"t":"DOM"},{"x":454,"y":14,"t":"BIT"},{"x":452,"y":4,"t":"PPT"},{"x":450,"y":6,"t":"ABC"},{"x":447,"y":7,"t":"PPT"},{"x":445,"y":1,"t":"Outro"},{"x":445,"y":1,"t":"BIT"},{"x":443,"y":2,"t":"VDS"},{"x":443,"y":7,"t":"PPT"},{"x":441,"y":6,"t":"BIT"},{"x":441,"y":6,"t":"BMA"},{"x":441,"y":2,"t":"SDC"},{"x":439,"y":3,"t":"VDS"},{"x":437,"y":2,"t":"PPT"},{"x":434,"y":4,"t":"Outro"},{"x":433,"y":2,"t":"Outro"},{"x":432,"y":3,"t":"VDS"},{"x":432,"y":2,"t":"Outro"},{"x":428,"y":6,"t":"BIT"},{"x":426,"y":2,"t":"BIT"},{"x":419,"y":1,"t":"VDS"},{"x":417,"y":12,"t":"PPT"},{"x":415,"y":6,"t":"BIT"},{"x":412,"y":2,"t":"PPT"},{"x":411,"y":4,"t":"PPT"},{"x":408,"y":1,"t":"Outro"},{"x":408,"y":6,"t":"PPT"},{"x":408,"y":4,"t":"Outro"},{"x":405,"y":4,"t":"BIT"},{"x":405,"y":4,"t":"DOM"},{"x":404,"y":4,"t":"Outro"},{"x":404,"y":7,"t":"PPT"},{"x":400,"y":7,"t":"PPT"},{"x":400,"y":6,"t":"BIT"},{"x":399,"y":6,"t":"BMA"},{"x":399,"y":9,"t":"BIT"},{"x":396,"y":3,"t":"DOM"},{"x":396,"y":4,"t":"PPT"},{"x":393,"y":3,"t":"BIT"},{"x":391,"y":8,"t":"BIT"},{"x":389,"y":10,"t":"PPT"},{"x":387,"y":6,"t":"DOM"},{"x":385,"y":5,"t":"Outro"},{"x":384,"y":3,"t":"ABC"},{"x":383,"y":1,"t":"Outro"},{"x":382,"y":2,"t":"PPT"},{"x":380,"y":1,"t":"Outro"},{"x":379,"y":6,"t":"PPT"},{"x":379,"y":2,"t":"DOM"},{"x":378,"y":3,"t":"Outro"},{"x":375,"y":5,"t":"DOM"},{"x":374,"y":13,"t":"PPT"},{"x":369,"y":1,"t":"PPT"},{"x":368,"y":6,"t":"BIT"},{"x":368,"y":1,"t":"Outro"},{"x":368,"y":10,"t":"Outro"},{"x":367,"y":5,"t":"DOM"},{"x":366,"y":1,"t":"PPT"},{"x":365,"y":10,"t":"BIT"},{"x":363,"y":4,"t":"Outro"},{"x":363,"y":1,"t":"Outro"},{"x":362,"y":6,"t":"PPT"},{"x":358,"y":3,"t":"PPT"},{"x":357,"y":7,"t":"BIT"},{"x":356,"y":3,"t":"BIT"},{"x":356,"y":7,"t":"Outro"},{"x":355,"y":1,"t":"Outro"},{"x":354,"y":2,"t":"DOM"},{"x":353,"y":5,"t":"BIT"},{"x":353,"y":3,"t":"DOM"},{"x":352,"y":8,"t":"BIT"},{"x":352,"y":2,"t":"Outro"},{"x":350,"y":8,"t":"BIT"},{"x":347,"y":8,"t":"BIT"},{"x":346,"y":2,"t":"PPT"},{"x":345,"y":5,"t":"DOM"},{"x":342,"y":5,"t":"PPT"},{"x":341,"y":5,"t":"PPT"},{"x":340,"y":2,"t":"Outro"},{"x":339,"y":1,"t":"Outro"},{"x":338,"y":1,"t":"VDS"},{"x":337,"y":1,"t":"Outro"},{"x":337,"y":5,"t":"Outro"},{"x":335,"y":4,"t":"PPT"},{"x":335,"y":1,"t":"Outro"},{"x":333,"y":6,"t":"BIT"},{"x":333,"y":2,"t":"Outro"},{"x":331,"y":2,"t":"PPT"},{"x":330,"y":3,"t":"BIT"},{"x":327,"y":5,"t":"Outro"},{"x":324,"y":6,"t":"BIT"},{"x":324,"y":1,"t":"Outro"},{"x":323,"y":2,"t":"DOM"},{"x":323,"y":3,"t":"DOM"},{"x":321,"y":2,"t":"BMA"},{"x":321,"y":6,"t":"BIT"},{"x":321,"y":1,"t":"Outro"},{"x":320,"y":8,"t":"PPT"},{"x":319,"y":2,"t":"Outro"},{"x":318,"y":4,"t":"BIT"},{"x":317,"y":1,"t":"SDC"},{"x":314,"y":5,"t":"PPT"},{"x":314,"y":6,"t":"ABC"},{"x":312,"y":9,"t":"BMA"},{"x":312,"y":3,"t":"PPT"},{"x":310,"y":6,"t":"DOM"},{"x":309,"y":3,"t":"Outro"},{"x":308,"y":10,"t":"BIT"},{"x":307,"y":5,"t":"DOM"},{"x":302,"y":1,"t":"Outro"},{"x":301,"y":2,"t":"PPT"},{"x":296,"y":4,"t":"PPT"},{"x":294,"y":2,"t":"VDS"},{"x":293,"y":2,"t":"Outro"},{"x":293,"y":4,"t":"DOM"},{"x":291,"y":4,"t":"SDC"},{"x":289,"y":4,"t":"DOM"},{"x":287,"y":6,"t":"BIT"},{"x":284,"y":5,"t":"BIT"},{"x":282,"y":4,"t":"PPT"},{"x":280,"y":2,"t":"PPT"},{"x":277,"y":4,"t":"PPT"},{"x":276,"y":6,"t":"PPT"},{"x":275,"y":1,"t":"PPT"},{"x":274,"y":6,"t":"DOM"},{"x":273,"y":6,"t":"PPT"},{"x":271,"y":1,"t":"PPT"},{"x":268,"y":2,"t":"PPT"},{"x":266,"y":4,"t":"PPT"},{"x":266,"y":2,"t":"PPT"},{"x":262,"y":1,"t":"PPT"},{"x":262,"y":2,"t":"PPT"},{"x":259,"y":1,"t":"Outro"},{"x":257,"y":1,"t":"PPT"},{"x":254,"y":3,"t":"DOM"},{"x":254,"y":3,"t":"DOM"},{"x":252,"y":5,"t":"PPT"},{"x":251,"y":9,"t":"PPT"},{"x":251,"y":5,"t":"DOM"},{"x":250,"y":5,"t":"BIT"},{"x":250,"y":1,"t":"Outro"},{"x":249,"y":8,"t":"ABC"},{"x":245,"y":3,"t":"VDS"},{"x":244,"y":4,"t":"DOM"},{"x":244,"y":2,"t":"PPT"},{"x":243,"y":2,"t":"DOM"},{"x":242,"y":3,"t":"DOM"},{"x":240,"y":2,"t":"ABC"},{"x":237,"y":12,"t":"BIT"},{"x":236,"y":5,"t":"PPT"},{"x":231,"y":3,"t":"DOM"},{"x":229,"y":2,"t":"Outro"},{"x":227,"y":1,"t":"Outro"},{"x":227,"y":5,"t":"PPT"},{"x":226,"y":1,"t":"PPT"},{"x":225,"y":3,"t":"ABC"},{"x":225,"y":2,"t":"PPT"},{"x":223,"y":1,"t":"Outro"},{"x":220,"y":2,"t":"PPT"},{"x":220,"y":1,"t":"Outro"},{"x":218,"y":2,"t":"Outro"},{"x":211,"y":1,"t":"PPT"},{"x":209,"y":5,"t":"PPT"},{"x":209,"y":3,"t":"Outro"},{"x":208,"y":2,"t":"Outro"},{"x":208,"y":2,"t":"PPT"},{"x":207,"y":3,"t":"PPT"},{"x":206,"y":3,"t":"IRA"},{"x":205,"y":2,"t":"PPT"},{"x":204,"y":4,"t":"SDC"},{"x":203,"y":3,"t":"Outro"},{"x":201,"y":2,"t":"Outro"},{"x":197,"y":3,"t":"PPT"},{"x":197,"y":2,"t":"PPT"},{"x":196,"y":1,"t":"PPT"},{"x":194,"y":1,"t":"VDS"},{"x":192,"y":1,"t":"IRA"},{"x":191,"y":4,"t":"DOM"},{"x":190,"y":2,"t":"Outro"},{"x":189,"y":3,"t":"DOM"},{"x":186,"y":3,"t":"BIT"},{"x":185,"y":5,"t":"PPT"},{"x":185,"y":2,"t":"PPT"},{"x":184,"y":1,"t":"Outro"},{"x":182,"y":8,"t":"BIT"},{"x":180,"y":3,"t":"BMA"},{"x":178,"y":3,"t":"PPT"},{"x":178,"y":4,"t":"DOM"},{"x":178,"y":2,"t":"PPT"},{"x":178,"y":3,"t":"DOM"},{"x":175,"y":7,"t":"PPT"},{"x":175,"y":5,"t":"PPT"},{"x":175,"y":3,"t":"PPT"},{"x":174,"y":1,"t":"BIT"},{"x":174,"y":2,"t":"PPT"},{"x":171,"y":3,"t":"DOM"},{"x":169,"y":1,"t":"PPT"},{"x":167,"y":4,"t":"BIT"},{"x":166,"y":1,"t":"Outro"},{"x":166,"y":6,"t":"PPT"},{"x":165,"y":4,"t":"PPT"},{"x":164,"y":1,"t":"PPT"},{"x":163,"y":3,"t":"Outro"},{"x":163,"y":3,"t":"DOM"},{"x":161,"y":4,"t":"PPT"},{"x":158,"y":2,"t":"BIT"},{"x":157,"y":2,"t":"DOM"},{"x":155,"y":2,"t":"PPT"},{"x":155,"y":2,"t":"DOM"},{"x":150,"y":1,"t":"PPT"},{"x":150,"y":4,"t":"DOM"},{"x":147,"y":2,"t":"PPT"},{"x":147,"y":1,"t":"PPT"},{"x":147,"y":2,"t":"DOM"},{"x":147,"y":3,"t":"BIT"},{"x":143,"y":3,"t":"Outro"},{"x":143,"y":3,"t":"PPT"},{"x":142,"y":4,"t":"BMA"},{"x":141,"y":8,"t":"PPT"},{"x":139,"y":2,"t":"BIT"},{"x":139,"y":1,"t":"DOM"},{"x":137,"y":4,"t":"PPT"},{"x":135,"y":2,"t":"Outro"},{"x":135,"y":2,"t":"PPT"},{"x":135,"y":3,"t":"PPT"},{"x":134,"y":2,"t":"DOM"},{"x":134,"y":2,"t":"PPT"},{"x":132,"y":3,"t":"DOM"},{"x":132,"y":3,"t":"BIT"},{"x":131,"y":2,"t":"PPT"},{"x":131,"y":1,"t":"BIT"},{"x":131,"y":2,"t":"PPT"},{"x":129,"y":2,"t":"PPT"},{"x":129,"y":2,"t":"DOM"},{"x":128,"y":1,"t":"DOM"},{"x":128,"y":6,"t":"FAU"},{"x":127,"y":2,"t":"PPT"},{"x":127,"y":2,"t":"PPT"},{"x":125,"y":1,"t":"DOM"},{"x":125,"y":2,"t":"Outro"},{"x":123,"y":2,"t":"PPT"},{"x":123,"y":1,"t":"PPT"},{"x":122,"y":4,"t":"BIT"},{"x":122,"y":1,"t":"PPT"},{"x":121,"y":3,"t":"PPT"},{"x":121,"y":1,"t":"PPT"},{"x":120,"y":2,"t":"DOM"},{"x":120,"y":1,"t":"DOM"},{"x":117,"y":5,"t":"PPT"},{"x":117,"y":3,"t":"BIT"},{"x":116,"y":4,"t":"Outro"},{"x":116,"y":3,"t":"DOM"},{"x":116,"y":2,"t":"PPT"},{"x":116,"y":1,"t":"PPT"},{"x":114,"y":1,"t":"PPT"},{"x":114,"y":2,"t":"DOM"},{"x":114,"y":2,"t":"DOM"},{"x":111,"y":1,"t":"PPT"},{"x":110,"y":1,"t":"DOM"},{"x":109,"y":1,"t":"DOM"},{"x":108,"y":4,"t":"BIT"},{"x":107,"y":1,"t":"PPT"},{"x":107,"y":2,"t":"DOM"},{"x":107,"y":1,"t":"PPT"},{"x":106,"y":1,"t":"PPT"},{"x":106,"y":1,"t":"PPT"},{"x":106,"y":1,"t":"PPT"},{"x":105,"y":1,"t":"PPT"},{"x":105,"y":1,"t":"PPT"},{"x":104,"y":2,"t":"PPT"},{"x":104,"y":1,"t":"Outro"},{"x":104,"y":1,"t":"PPT"},{"x":103,"y":2,"t":"PPT"},{"x":103,"y":1,"t":"Outro"},{"x":102,"y":1,"t":"PPT"},{"x":102,"y":4,"t":"BIT"},{"x":101,"y":1,"t":"PPT"},{"x":100,"y":1,"t":"PPT"},{"x":100,"y":1,"t":"Outro"},{"x":98,"y":1,"t":"DOM"},{"x":98,"y":2,"t":"PPT"},{"x":98,"y":1,"t":"PPT"},{"x":97,"y":1,"t":"Outro"},{"x":97,"y":1,"t":"PPT"},{"x":96,"y":3,"t":"DOM"},{"x":95,"y":1,"t":"ABC"},{"x":94,"y":4,"t":"PPT"},{"x":94,"y":1,"t":"DOM"},{"x":93,"y":2,"t":"Outro"},{"x":93,"y":1,"t":"DOM"},{"x":93,"y":2,"t":"ABC"},{"x":92,"y":3,"t":"PPT"},{"x":92,"y":2,"t":"PPT"},{"x":92,"y":2,"t":"PPT"},{"x":90,"y":2,"t":"PPT"},{"x":89,"y":1,"t":"PPT"},{"x":88,"y":1,"t":"DOM"},{"x":88,"y":1,"t":"PPT"},{"x":87,"y":3,"t":"BIT"},{"x":87,"y":1,"t":"BIT"},{"x":86,"y":2,"t":"BIT"},{"x":85,"y":3,"t":"CRA"},{"x":84,"y":4,"t":"ABC"},{"x":84,"y":3,"t":"PPT"},{"x":83,"y":1,"t":"PPT"},{"x":82,"y":1,"t":"TLR"},{"x":82,"y":2,"t":"DBI"},{"x":82,"y":3,"t":"FAU"},{"x":82,"y":3,"t":"BIT"},{"x":82,"y":1,"t":"PPT"},{"x":81,"y":2,"t":"PPT"},{"x":81,"y":3,"t":"PPT"},{"x":81,"y":4,"t":"DOM"},{"x":80,"y":2,"t":"ABC"},{"x":79,"y":2,"t":"PPT"},{"x":79,"y":4,"t":"DOM"},{"x":79,"y":3,"t":"ABC"},{"x":78,"y":1,"t":"PPT"},{"x":78,"y":3,"t":"PPT"},{"x":78,"y":1,"t":"DOM"},{"x":77,"y":2,"t":"DOM"},{"x":77,"y":1,"t":"PPT"},{"x":77,"y":3,"t":"DOM"},{"x":76,"y":1,"t":"BIT"},{"x":76,"y":1,"t":"PPT"},{"x":76,"y":2,"t":"PPT"},{"x":75,"y":1,"t":"PPT"},{"x":75,"y":1,"t":"PPT"},{"x":75,"y":3,"t":"FAU"},{"x":74,"y":7,"t":"BIT"},{"x":74,"y":1,"t":"DOM"},{"x":73,"y":1,"t":"BIT"},{"x":73,"y":1,"t":"DOM"},{"x":72,"y":2,"t":"DOM"},{"x":72,"y":3,"t":"PPT"},{"x":71,"y":2,"t":"PPT"},{"x":70,"y":3,"t":"BIT"},{"x":70,"y":3,"t":"BIT"},{"x":69,"y":1,"t":"DOM"},{"x":69,"y":3,"t":"PPT"},{"x":69,"y":3,"t":"SDC"},{"x":69,"y":3,"t":"DOM"},{"x":68,"y":1,"t":"BIT"},{"x":68,"y":4,"t":"BIT"},{"x":68,"y":4,"t":"BIT"},{"x":67,"y":1,"t":"PPT"},{"x":67,"y":2,"t":"PPT"},{"x":67,"y":2,"t":"BIT"},{"x":66,"y":2,"t":"BIT"},{"x":65,"y":2,"t":"BIT"},{"x":65,"y":2,"t":"BIT"},{"x":65,"y":2,"t":"PPT"},{"x":64,"y":3,"t":"FAU"},{"x":64,"y":3,"t":"PPT"},{"x":64,"y":1,"t":"Outro"},{"x":63,"y":3,"t":"BIT"},{"x":61,"y":2,"t":"FAU"},{"x":61,"y":1,"t":"PPT"},{"x":61,"y":3,"t":"PPT"},{"x":60,"y":2,"t":"BIT"},{"x":60,"y":2,"t":"PPT"},{"x":59,"y":2,"t":"BIT"},{"x":59,"y":1,"t":"DOM"},{"x":58,"y":2,"t":"PPT"},{"x":57,"y":1,"t":"PPT"},{"x":57,"y":1,"t":"BIT"},{"x":56,"y":2,"t":"PPT"},{"x":55,"y":2,"t":"BIT"},{"x":55,"y":2,"t":"PPT"},{"x":53,"y":2,"t":"BIT"},{"x":53,"y":1,"t":"DOM"},{"x":53,"y":1,"t":"VDS"},{"x":52,"y":2,"t":"SDC"},{"x":52,"y":2,"t":"BIT"},{"x":51,"y":3,"t":"PPT"},{"x":51,"y":1,"t":"PPT"},{"x":51,"y":2,"t":"BIT"},{"x":51,"y":4,"t":"PPT"},{"x":50,"y":1,"t":"PPT"},{"x":50,"y":2,"t":"PPT"},{"x":50,"y":1,"t":"PPT"},{"x":50,"y":3,"t":"PPT"},{"x":50,"y":2,"t":"PPT"},{"x":50,"y":3,"t":"FAU"},{"x":50,"y":1,"t":"DBI"},{"x":49,"y":2,"t":"PPT"},{"x":49,"y":2,"t":"BIT"},{"x":48,"y":1,"t":"PPT"},{"x":48,"y":1,"t":"SDC"},{"x":48,"y":4,"t":"BIT"},{"x":46,"y":2,"t":"PPT"},{"x":46,"y":3,"t":"PPT"},{"x":46,"y":1,"t":"BIT"},{"x":43,"y":2,"t":"PPT"},{"x":43,"y":1,"t":"BIT"},{"x":42,"y":2,"t":"PPT"},{"x":42,"y":1,"t":"PPT"},{"x":42,"y":1,"t":"BIT"},{"x":42,"y":2,"t":"BIT"},{"x":42,"y":5,"t":"PPT"},{"x":41,"y":1,"t":"DOM"},{"x":41,"y":3,"t":"ABC"},{"x":41,"y":2,"t":"DOM"},{"x":41,"y":2,"t":"PPT"},{"x":40,"y":1,"t":"PPT"},{"x":40,"y":1,"t":"BIT"},{"x":40,"y":1,"t":"BIT"},{"x":40,"y":2,"t":"PPT"},{"x":39,"y":3,"t":"PPT"},{"x":38,"y":1,"t":"PPT"},{"x":38,"y":1,"t":"BIT"},{"x":38,"y":4,"t":"BIT"},{"x":37,"y":1,"t":"PPT"},{"x":37,"y":1,"t":"DOM"},{"x":36,"y":2,"t":"BIT"},{"x":36,"y":1,"t":"DOM"},{"x":35,"y":2,"t":"FAU"},{"x":35,"y":2,"t":"BIT"},{"x":35,"y":1,"t":"DOM"},{"x":33,"y":2,"t":"DOM"},{"x":33,"y":1,"t":"BIT"},{"x":33,"y":1,"t":"DOM"},{"x":32,"y":1,"t":"BIT"},{"x":32,"y":1,"t":"DOM"},{"x":32,"y":1,"t":"BIT"},{"x":31,"y":1,"t":"PPT"},{"x":31,"y":2,"t":"PPT"},{"x":31,"y":1,"t":"PPT"},{"x":30,"y":1,"t":"DOM"},{"x":29,"y":1,"t":"PPT"},{"x":29,"y":1,"t":"PPT"},{"x":28,"y":1,"t":"PPT"},{"x":28,"y":2,"t":"DOM"},{"x":27,"y":1,"t":"BIT"},{"x":27,"y":1,"t":"PPT"},{"x":27,"y":1,"t":"PPT"},{"x":27,"y":1,"t":"PPT"},{"x":26,"y":1,"t":"PPT"},{"x":26,"y":2,"t":"FAU"},{"x":25,"y":1,"t":"PPT"},{"x":25,"y":1,"t":"PPT"},{"x":25,"y":1,"t":"PPT"},{"x":24,"y":1,"t":"BIT"},{"x":23,"y":1,"t":"PPT"},{"x":23,"y":1,"t":"BIT"},{"x":23,"y":1,"t":"PPT"},{"x":21,"y":1,"t":"DOM"},{"x":20,"y":1,"t":"BIT"},{"x":20,"y":1,"t":"PPT"},{"x":20,"y":2,"t":"ABC"},{"x":20,"y":2,"t":"PPT"},{"x":19,"y":1,"t":"FAU"},{"x":19,"y":2,"t":"DOM"},{"x":18,"y":1,"t":"PPT"},{"x":17,"y":1,"t":"DOM"},{"x":16,"y":1,"t":"PPT"},{"x":15,"y":1,"t":"Outro"},{"x":15,"y":1,"t":"VDS"},{"x":14,"y":1,"t":"PPT"},{"x":14,"y":1,"t":"BIT"},{"x":14,"y":1,"t":"PPT"},{"x":13,"y":1,"t":"DOM"},{"x":13,"y":2,"t":"BIT"},{"x":12,"y":1,"t":"BIT"},{"x":11,"y":1,"t":"PPT"},{"x":10,"y":3,"t":"PPT"},{"x":10,"y":1,"t":"PPT"},{"x":9,"y":1,"t":"BMA"},{"x":9,"y":1,"t":"PPT"},{"x":8,"y":1,"t":"PPT"},{"x":8,"y":1,"t":"PPT"},{"x":8,"y":1,"t":"PPT"},{"x":7,"y":1,"t":"PPT"},{"x":7,"y":1,"t":"Outro"},{"x":7,"y":1,"t":"PPT"},{"x":7,"y":1,"t":"PPT"},{"x":6,"y":1,"t":"PPT"},{"x":6,"y":1,"t":"DOM"},{"x":5,"y":1,"t":"SDC"},{"x":5,"y":1,"t":"VDS"},{"x":5,"y":1,"t":"DOM"},{"x":4,"y":1,"t":"ABC"},{"x":3,"y":1,"t":"PPT"},{"x":3,"y":1,"t":"PPT"},{"x":3,"y":1,"t":"PPT"},{"x":3,"y":1,"t":"PPT"},{"x":2,"y":2,"t":"PPT"},{"x":2,"y":1,"t":"PPT"},{"x":2,"y":1,"t":"SDC"},{"x":2,"y":1,"t":"PPT"},{"x":1,"y":1,"t":"PPT"},{"x":1,"y":1,"t":"PPT"},{"x":1,"y":1,"t":"PPT"},{"x":1,"y":1,"t":"PPT"},{"x":1,"y":1,"t":"PPT"}],"fits":{"daily":{"a":0.013601,"b":0.920776,"r2":0.9202,"n":131},"camp":{"a":0.051687,"b":0.800729,"r2":0.9159,"n":145},"adset":{"a":0.003251,"b":1.033889,"r2":0.9221,"n":187},"campday":{"a":0.087033,"b":0.694734,"r2":0.8624,"n":1642}}};
+
+// ── helpers ──────────────────────────────────────────────────────────────────
+const fmtK  = v => v >= 1e6 ? (v/1e6).toFixed(1)+'M' : v >= 1e3 ? (v/1e3).toFixed(0)+'k' : v.toFixed(0);
+const fmtR  = v => 'R$'+fmtK(v);
+const fmtN  = v => v.toLocaleString('pt-BR');
+
+const _tabInited = {};
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  const panels = ['overview','daily','campday','camp','adset','marginal'];
+  const idx = panels.indexOf(id);
+  document.querySelectorAll('.tab')[idx].classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  // Lazy init: inicializa a aba na primeira abertura (canvas precisa estar visível)
+  setTimeout(() => {
+    if (!_tabInited[id]) {
+      _tabInited[id] = true;
+      if (id === 'camp')     initCamp();
+      if (id === 'adset')    initAdset();
+      if (id === 'marginal') initMarginal();
+    }
+    Object.values(Chart.instances).forEach(c => { c.resize(); c.update('none'); });
+  }, 50);
+}
+
+// ── power-law fit (log-log OLS) ────────────────────────────────────────────
+function fitPower(pts) {
+  const v = pts.filter(p=>p.x>0&&p.y>0);
+  const n = v.length;
+  const lx = v.map(p=>Math.log(p.x)); const ly = v.map(p=>Math.log(p.y));
+  const mx = lx.reduce((a,b)=>a+b)/n; const my = ly.reduce((a,b)=>a+b)/n;
+  const b = lx.reduce((s,_,i)=>s+(lx[i]-mx)*(ly[i]-my),0)/lx.reduce((s,_,i)=>s+(lx[i]-mx)**2,0);
+  const a = Math.exp(my - b*mx);
+  const ss_res = v.reduce((s,_,i)=>s+(ly[i]-(Math.log(a)+b*lx[i]))**2,0);
+  const ss_tot = v.reduce((s,_,i)=>s+(ly[i]-my)**2,0);
+  return {a, b, r2: 1-ss_res/ss_tot, n};
+}
+
+// ── curve line from a fit ──────────────────────────────────────────────────
+function curvePoints(a, b, xMin, xMax, steps=120) {
+  const pts = [];
+  for (let i=0;i<=steps;i++) {
+    const x = Math.exp(Math.log(xMin)+(Math.log(xMax)-Math.log(xMin))*i/steps);
+    pts.push({x, y: a*Math.pow(x,b)});
+  }
+  return pts;
+}
+// curva invertida: x=vendas, y=gasto — spend = (sales/a)^(1/b)
+function curvePointsInv(a, b, salesMin, salesMax, steps=120) {
+  const pts = [];
+  for (let i=0;i<=steps;i++) {
+    const s = Math.exp(Math.log(salesMin)+(Math.log(salesMax)-Math.log(salesMin))*i/steps);
+    pts.push({x: s, y: Math.pow(s/a, 1/b)});
+  }
+  return pts;
+}
+
+// marginal CPA = avg_CPA / b = (spend/sales) / b = spend / (b * a * spend^b)
+// = spend^(1-b) / (b*a)
+// ponto ótimo: d(spend)/d(sales) = cpaTarget → sales_opt = (cpaTarget*b*a^(1/b))^(b/(1-b))
+function optimalPoint(a, b, cpaTarget) {
+  const invb = 1/b;
+  const exp = invb - 1; // >0 porque b<1
+  const salesOpt = Math.pow(cpaTarget * b * Math.pow(a, invb), 1/exp);
+  const spendOpt = Math.pow(salesOpt/a, invb);
+  return {sales: salesOpt, spend: spendOpt, cpaAvg: spendOpt/salesOpt, cpaMarg: cpaTarget};
+}
+function marginalCPA(a, b, spend) {
+  return Math.pow(spend, 1-b) / (b*a);
+}
+function avgCPA(a, b, spend) {
+  return spend / (a*Math.pow(spend,b));
+}
+
+// ── color palette ─────────────────────────────────────────────────────────
+const TAG_COLORS = {
+  PPT:'#2DD9B4', DOM:'#4ade80', BIT:'#fbbf24', SDC:'#f472b6',
+  FAU:'#fb923c', BMA:'#2DD9B4', ABC:'#34d399', IRA:'#f87171',
+  VDS:'#e2e8f0', Outro:'#64748b'
+};
+
+// ── KPI builder ────────────────────────────────────────────────────────────
+function makeKPIs(id, items) {
+  const el = document.getElementById(id);
+  el.innerHTML = items.map(({label,value,sub}) =>
+    `<div class="kpi"><div class="label">${label}</div><div class="value">${value}</div><div class="sub">${sub}</div></div>`
+  ).join('');
+}
+
+// ── Chart defaults ─────────────────────────────────────────────────────────
+Chart.defaults.color = '#64748B';
+Chart.defaults.borderColor = '#1E293B';
+Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
+Chart.defaults.font.size = 12;
+
+const BASE_OPTS = {
+  responsive: true,
+  maintainAspectRatio: false,
+  animation: {duration:0},
+  plugins: { legend:{display:false}, tooltip:{} },
+  scales: {
+    x: { grid:{color:'#1E293B'}, ticks:{color:'#64748B',maxTicksLimit:8} },
+    y: { grid:{color:'#1E293B'}, ticks:{color:'#64748B'} }
+  }
+};
+
+// ── FITS ──────────────────────────────────────────────────────────────────
+const fits = RAW.fits;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// OVERVIEW
+// ═══════════════════════════════════════════════════════════════════════════
+makeKPIs('kpi-overview',[
+  {label:'Nível mais rico',value:'Campanha×Dia',sub:`b = ${fits.campday.b.toFixed(2)} · R² = ${fits.campday.r2.toFixed(2)}`},
+  {label:'Retorno decrescente',value:'−31%',sub:'dobrar gasto → +69% vendas (camp×dia)'},
+  {label:'CPA Marginal vs Médio',value:'+45%',sub:'cada venda extra custa 45% mais'},
+  {label:'Pontos analisados',value:fmtN(fits.daily.n+fits.camp.n+fits.adset.n+fits.campday.n),sub:'em 4 níveis de granularidade'},
+]);
+
+// elasticidade bar
+new Chart(document.getElementById('chartElasticidade'),{
+  type:'bar',
+  data:{
+    labels:['Campanha×Dia','Por Campanha','Por Dia','Por Conjunto'],
+    datasets:[{
+      data:[fits.campday.b, fits.camp.b, fits.daily.b, fits.adset.b],
+      backgroundColor:['#00C896','#f472b6','#4ade80','#fb923c'],
+      borderRadius:6
+    }]
+  },
+  options:{...BASE_OPTS,
+    plugins:{...BASE_OPTS.plugins,
+      annotation:{annotations:{line1:{type:'line',yMin:1,yMax:1,borderColor:'#f87171',borderWidth:1,borderDash:[4,4],
+        label:{content:'b=1 (linear)',display:true,color:'#f87171',font:{size:11}}}}}
+    },
+    scales:{
+      x:{...BASE_OPTS.scales.x},
+      y:{...BASE_OPTS.scales.y,min:0,max:1.2,title:{display:true,text:'Elasticidade b',color:'#64748B'}}
+    }
+  }
+});
+
+// R2 bar
+new Chart(document.getElementById('chartR2'),{
+  type:'bar',
+  data:{
+    labels:['Por Dia','Por Conjunto','Por Campanha','Campanha×Dia'],
+    datasets:[{
+      data:[fits.daily.r2, fits.adset.r2, fits.camp.r2, fits.campday.r2],
+      backgroundColor:['#4ade80','#fb923c','#f472b6','#00C896'],
+      borderRadius:6
+    }]
+  },
+  options:{...BASE_OPTS,
+    scales:{
+      x:{...BASE_OPTS.scales.x},
+      y:{...BASE_OPTS.scales.y,min:0.7,max:1.0,title:{display:true,text:'R²',color:'#64748B'}}
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DAILY
+// ═══════════════════════════════════════════════════════════════════════════
+(function(){
+  const pts = RAW.daily;
+  const f = fits.daily;
+  makeKPIs('kpi-daily',[
+    {label:'Pontos (dias)',value:fmtN(f.n),sub:'Jan–Mai 2026'},
+    {label:'Elasticidade b',value:f.b.toFixed(3),sub:'1% gasto → 0.92% vendas'},
+    {label:'R²',value:f.r2.toFixed(3),sub:'qualidade do ajuste'},
+    {label:'CPA Marginal / CPA Médio',value:'×'+(1/f.b).toFixed(2),sub:'cada venda extra custa mais'},
+  ]);
+
+  const salesMin = Math.min(...pts.map(p=>p.y));
+  const salesMax = Math.max(...pts.map(p=>p.y));
+  const curve = curvePointsInv(f.a, f.b, salesMin, salesMax);
+  const ptsInv = pts.map(p=>({x:p.y, y:p.x}));
+
+  const chartDaily = new Chart(document.getElementById('chartScatterDaily'),{
+    type:'scatter',
+    data:{
+      datasets:[
+        {label:'Dias',data:ptsInv,backgroundColor:'#00C89680',borderColor:'transparent',pointRadius:5,pointHoverRadius:7},
+        {label:'Curva ajustada',data:curve,type:'line',borderColor:'#f59e0b',borderWidth:2,pointRadius:0,fill:false,tension:0},
+        {label:'Reta de referência',data:[],type:'line',borderColor:'#2DD9B4',borderWidth:1.5,borderDash:[6,3],pointRadius:0,fill:false,tension:0},
+        {label:'Ponto ótimo',data:[],type:'scatter',backgroundColor:'#f59e0b',borderColor:'#fff',borderWidth:2,pointRadius:10,pointHoverRadius:12}
+      ]
+    },
+    options:{...BASE_OPTS,
+      plugins:{...BASE_OPTS.plugins,legend:{display:true,position:'top',labels:{color:'#64748B',usePointStyle:true}},
+        tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${fmtN(Math.round(ctx.raw.x))} vendas ← Gasto ${fmtR(Math.round(ctx.raw.y))}`}}
+      },
+      scales:{
+        x:{...BASE_OPTS.scales.x,title:{display:true,text:'Vendas no Dia',color:'#64748B'}},
+        y:{...BASE_OPTS.scales.y,title:{display:true,text:'Gasto Diário (R$)',color:'#64748B'},ticks:{callback:v=>fmtR(v)}}
+      }
+    }
+  });
+
+  function updateDailyOptimal(cpaTarget) {
+    const opt = optimalPoint(f.a, f.b, cpaTarget);
+    const xMax = salesMax * 1.1;
+    chartDaily.data.datasets[2].data = [{x:0,y:0},{x:xMax,y:f.b*cpaTarget*xMax}];
+    chartDaily.data.datasets[3].data = [{x:opt.sales, y:opt.spend}];
+    chartDaily.update('none');
+    const col = opt.cpaMarg < 250 ? 'ok' : opt.cpaMarg < 400 ? 'warn' : 'bad';
+    document.getElementById('od-sales').textContent = Math.round(opt.sales);
+    document.getElementById('od-spend').textContent = fmtR(Math.round(opt.spend));
+    document.getElementById('od-cpamed').textContent = fmtR(Math.round(opt.cpaAvg));
+    document.getElementById('od-cpamarg').innerHTML = `<span class="${col}">${fmtR(Math.round(opt.cpaMarg))}</span>`;
+  }
+  updateDailyOptimal(300);
+  document.getElementById('slider-daily').addEventListener('input', function(){
+    const v = +this.value;
+    document.getElementById('cpa-val-daily').textContent = fmtR(v);
+    updateDailyOptimal(v);
+  });
+
+  document.getElementById('formula-daily').textContent =
+    `vendas = ${f.a.toFixed(4)} × gasto^${f.b.toFixed(4)}   |   R² = ${f.r2.toFixed(3)}   |   CPA Marginal = CPA Médio / ${f.b.toFixed(2)}`;
+
+  document.getElementById('insight-daily').innerHTML =
+    `Com <strong>b = ${f.b.toFixed(2)}</strong>, o portfólio exibe leve retorno decrescente a nível de portfólio.
+    Dobrar o orçamento de R$100k → R$200k/dia geraria ~<strong>${(Math.pow(2,f.b)*100-100).toFixed(0)}% mais vendas</strong>, não 100%.
+    O efeito é suavizado porque o mix inclui campanhas eficientes e ineficientes.`;
+
+  // marginal CPA chart
+  const spendRange = Array.from({length:30},(_,i)=>10000+i*10000);
+  new Chart(document.getElementById('chartMarginalDaily'),{
+    type:'line',
+    data:{datasets:[
+      {label:'CPA Médio',data:spendRange.map(s=>({x:s,y:avgCPA(f.a,f.b,s)})),borderColor:'#2DD9B4',borderWidth:2,pointRadius:0,fill:false},
+      {label:'CPA Marginal',data:spendRange.map(s=>({x:s,y:marginalCPA(f.a,f.b,s)})),borderColor:'#fb923c',borderWidth:2,pointRadius:0,fill:false,borderDash:[4,4]}
+    ]},
+    options:{...BASE_OPTS,
+      plugins:{...BASE_OPTS.plugins,legend:{display:true,position:'top',labels:{color:'#64748B',usePointStyle:true}}},
+      scales:{
+        x:{...BASE_OPTS.scales.x,title:{display:true,text:'Gasto Diário (R$)',color:'#64748B'},ticks:{callback:v=>fmtR(v)}},
+        y:{...BASE_OPTS.scales.y,title:{display:true,text:'CPA (R$)',color:'#64748B'}}
+      }
+    }
+  });
+
+  // vendas incrementais por +R$10k
+  const spendLevels = [30000,50000,80000,100000,150000,200000,300000];
+  const dx = 10000;
+  new Chart(document.getElementById('chartIncremental'),{
+    type:'bar',
+    data:{
+      labels:spendLevels.map(s=>'@'+fmtR(s)),
+      datasets:[{
+        label:'+vendas por +R$10k',
+        data:spendLevels.map(s=>f.a*Math.pow(s+dx,f.b)-f.a*Math.pow(s,f.b)),
+        backgroundColor:spendLevels.map(s=>{
+          const inc = f.a*Math.pow(s+dx,f.b)-f.a*Math.pow(s,f.b);
+          return inc > 30 ? '#4ade8099' : inc > 15 ? '#fbbf2499' : '#f8717199';
+        }),
+        borderRadius:6
+      }]
+    },
+    options:{...BASE_OPTS,
+      scales:{
+        x:{...BASE_OPTS.scales.x},
+        y:{...BASE_OPTS.scales.y,title:{display:true,text:'Vendas adicionais',color:'#64748B'}}
+      }
+    }
+  });
+
+  // CPA Marginal × nº da venda
+  // cpa_marginal(sales) = spend / (b * sales) = (sales/a)^(1/b) / (b * sales)
+  const salesRange = Array.from({length:200},(_,i)=>Math.exp(Math.log(salesMin+1)+(Math.log(salesMax*1.1)-Math.log(salesMin+1))*i/199));
+  const cpaMargData = salesRange.map(s=>({
+    x: s,
+    y: Math.pow(s/f.a, 1/f.b) / (f.b * s)
+  }));
+
+  new Chart(document.getElementById('chartCpaPorVenda'),{
+    type:'line',
+    data:{datasets:[
+      {label:'CPA Marginal',data:cpaMargData,borderColor:'#F59E0B',borderWidth:2.5,pointRadius:0,fill:{target:'origin',above:'rgba(245,158,11,0.06)'}},
+      {label:'CPA Médio',data:salesRange.map(s=>({x:s,y:Math.pow(s/f.a,1/f.b)/s})),borderColor:'#2DD9B4',borderWidth:1.5,pointRadius:0,fill:false,borderDash:[4,3]}
+    ]},
+    options:{...BASE_OPTS,
+      plugins:{...BASE_OPTS.plugins,
+        legend:{display:true,position:'top',labels:{color:'#64748B',usePointStyle:true}},
+        annotation:{annotations:{
+          l200:{type:'line',yMin:200,yMax:200,borderColor:'#00C896',borderWidth:1,borderDash:[4,4],label:{content:'R$200',display:true,position:'start',color:'#00C896',font:{size:11}}},
+          l300:{type:'line',yMin:300,yMax:300,borderColor:'#F59E0B',borderWidth:1,borderDash:[4,4],label:{content:'R$300',display:true,position:'start',color:'#F59E0B',font:{size:11}}},
+          l500:{type:'line',yMin:500,yMax:500,borderColor:'#EF4444',borderWidth:1,borderDash:[4,4],label:{content:'R$500',display:true,position:'start',color:'#EF4444',font:{size:11}}}
+        }}
+      },
+      scales:{
+        x:{...BASE_OPTS.scales.x,title:{display:true,text:'Nº de vendas/dia (portfólio)',color:'#64748B'},ticks:{callback:v=>fmtN(Math.round(v))}},
+        y:{...BASE_OPTS.scales.y,title:{display:true,text:'CPA (R$)',color:'#64748B'},min:0,max:800,ticks:{callback:v=>fmtR(v)}}
+      }
+    }
+  });
+})();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CAMPANHA × DIA
+// ═══════════════════════════════════════════════════════════════════════════
+(function(){
+  const pts = RAW.campday;
+  const f = fits.campday;
+  makeKPIs('kpi-campday',[
+    {label:'Observações',value:fmtN(f.n),sub:'campanhas × dias'},
+    {label:'Elasticidade b',value:f.b.toFixed(3),sub:'mais forte retorno decrescente'},
+    {label:'R²',value:f.r2.toFixed(3),sub:'qualidade do ajuste'},
+    {label:'CPA Marginal / Médio',value:'×'+(1/f.b).toFixed(2),sub:`venda extra custa +${((1/f.b-1)*100).toFixed(0)}%`},
+  ]);
+
+  const salesMinCd = Math.max(1, Math.min(...pts.map(p=>p.y)));
+  const salesMaxCd = Math.max(...pts.map(p=>p.y));
+  const curve = curvePointsInv(f.a, f.b, salesMinCd, salesMaxCd);
+
+  const byTag = {};
+  pts.forEach(p=>{const t=p.t||'Outro'; if(!byTag[t]) byTag[t]=[]; byTag[t].push({x:p.y,y:p.x,t});});
+  const tagDatasets = Object.entries(byTag)
+    .sort((a,b)=>b[1].length-a[1].length)
+    .map(([tag,tpts])=>({
+      label:tag, data:tpts,
+      backgroundColor:(TAG_COLORS[tag]||'#64748B')+'99',
+      borderColor:'transparent', pointRadius:4, pointHoverRadius:6
+    }));
+
+  const chartCampday = new Chart(document.getElementById('chartScatterCampday'),{
+    type:'scatter',
+    data:{datasets:[
+      ...tagDatasets,
+      {label:'Curva geral',data:curve,type:'line',borderColor:'#f59e0b',borderWidth:2.5,pointRadius:0,fill:false,tension:0,order:-1},
+      {label:'Reta de referência',data:[],type:'line',borderColor:'#2DD9B4',borderWidth:1.5,borderDash:[6,3],pointRadius:0,fill:false,tension:0},
+      {label:'Ponto ótimo',data:[],type:'scatter',backgroundColor:'#f59e0b',borderColor:'#fff',borderWidth:2,pointRadius:10,pointHoverRadius:12}
+    ]},
+    options:{...BASE_OPTS,
+      plugins:{...BASE_OPTS.plugins,
+        legend:{display:true,position:'top',labels:{color:'#64748B',usePointStyle:true,font:{size:11}}},
+        tooltip:{callbacks:{label:ctx=>ctx.dataset.type==='line'?`Curva: Gasto ${fmtR(Math.round(ctx.raw.y))}`:`${ctx.dataset.label}: ${Math.round(ctx.raw.x)} vendas ← Gasto ${fmtR(Math.round(ctx.raw.y))}`}}
+      },
+      scales:{
+        x:{...BASE_OPTS.scales.x,title:{display:true,text:'Vendas no Dia',color:'#64748B'}},
+        y:{...BASE_OPTS.scales.y,title:{display:true,text:'Gasto Diário da Campanha (R$)',color:'#64748B'},ticks:{callback:v=>fmtR(v)}}
+      }
+    }
+  });
+
+  const cdSalesMax = salesMaxCd * 1.1;
+  function updateCdOptimal(cpaTarget) {
+    const opt = optimalPoint(f.a, f.b, cpaTarget);
+    chartCampday.data.datasets[tagDatasets.length+1].data = [{x:0,y:0},{x:cdSalesMax,y:f.b*cpaTarget*cdSalesMax}];
+    chartCampday.data.datasets[tagDatasets.length+2].data = [{x:opt.sales, y:opt.spend}];
+    chartCampday.update('none');
+    const col = opt.cpaMarg < 250 ? 'ok' : opt.cpaMarg < 400 ? 'warn' : 'bad';
+    document.getElementById('cd-sales').textContent = Math.round(opt.sales);
+    document.getElementById('cd-spend').textContent = fmtR(Math.round(opt.spend));
+    document.getElementById('cd-cpamed').textContent = fmtR(Math.round(opt.cpaAvg));
+    document.getElementById('cd-cpamarg').innerHTML = `<span class="${col}">${fmtR(Math.round(opt.cpaMarg))}</span>`;
+  }
+  updateCdOptimal(300);
+  document.getElementById('slider-cd').addEventListener('input', function(){
+    const v = +this.value;
+    document.getElementById('cpa-val-cd').textContent = fmtR(v);
+    updateCdOptimal(v);
+  });
+
+  document.getElementById('formula-campday').textContent =
+    `vendas = ${f.a.toFixed(4)} × gasto^${f.b.toFixed(4)}   |   R² = ${f.r2.toFixed(3)}   |   elasticidade = ${f.b.toFixed(2)}`;
+
+  document.getElementById('insight-campday').innerHTML =
+    `<strong>b = ${f.b.toFixed(2)}</strong> é o parâmetro mais importante do relatório. Dobrar o gasto diário de uma campanha traz apenas
+    <strong>+${(Math.pow(2,f.b)*100-100).toFixed(0)}% de vendas</strong>, não +100%.
+    A cada real investido, a eficiência marginal cai. Esse parâmetro deve guiar a decisão de escalar ou diversificar campanhas.`;
+
+  // legenda
+  const lgEl = document.getElementById('legend-campday');
+  Object.entries(TAG_COLORS).forEach(([tag,cor])=>{
+    if(byTag[tag]) lgEl.innerHTML += `<div class="legend-item"><div class="legend-dot" style="background:${cor}"></div>${tag} (${byTag[tag].length})</div>`;
+  });
+
+  // elasticidade por produto
+  const prodFits = {};
+  Object.entries(byTag).forEach(([tag,tpts])=>{
+    if(tpts.length>=10) prodFits[tag]=fitPower(tpts);
+  });
+  const sorted = Object.entries(prodFits).sort((a,b)=>a[1].b-b[1].b);
+  new Chart(document.getElementById('chartElastProd'),{
+    type:'bar',
+    data:{
+      labels:sorted.map(e=>e[0]),
+      datasets:[{
+        data:sorted.map(e=>e[1].b),
+        backgroundColor:sorted.map(e=>(TAG_COLORS[e[0]]||'#64748B')+'cc'),
+        borderRadius:6
+      }]
+    },
+    options:{...BASE_OPTS,
+      plugins:{...BASE_OPTS.plugins,
+        annotation:{annotations:{line1:{type:'line',yMin:1,yMax:1,borderColor:'#f87171',borderWidth:1,borderDash:[4,4]}}}
+      },
+      scales:{
+        x:{...BASE_OPTS.scales.x},
+        y:{...BASE_OPTS.scales.y,min:0,max:1.1,title:{display:true,text:'Elasticidade b',color:'#64748B'}}
+      }
+    }
+  });
+
+  // marginal vs média campday
+  const spends = Array.from({length:40},(_,i)=>1000*Math.pow(10,(i/39)*Math.log10(85000/1000)));
+  new Chart(document.getElementById('chartMarginalCampday'),{
+    type:'line',
+    data:{datasets:[
+      {label:'CPA Médio',data:spends.map(s=>({x:s,y:avgCPA(f.a,f.b,s)})),borderColor:'#2DD9B4',borderWidth:2,pointRadius:0,fill:false},
+      {label:'CPA Marginal',data:spends.map(s=>({x:s,y:marginalCPA(f.a,f.b,s)})),borderColor:'#fb923c',borderWidth:2,pointRadius:0,fill:false,borderDash:[4,4]}
+    ]},
+    options:{...BASE_OPTS,
+      plugins:{...BASE_OPTS.plugins,legend:{display:true,position:'top',labels:{color:'#64748B',usePointStyle:true}}},
+      scales:{
+        x:{...BASE_OPTS.scales.x,type:'logarithmic',title:{display:true,text:'Gasto Diário da Campanha (R$)',color:'#64748B'},ticks:{callback:v=>fmtR(v)}},
+        y:{...BASE_OPTS.scales.y,title:{display:true,text:'CPA (R$)',color:'#64748B'}}
+      }
+    }
+  });
+})();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// POR CAMPANHA
+// ═══════════════════════════════════════════════════════════════════════════
+function initCamp(){
+  const pts = RAW.camp;
+  const f = fits.camp;
+  makeKPIs('kpi-camp',[
+    {label:'Campanhas',value:fmtN(f.n),sub:'total com vendas>0'},
+    {label:'Elasticidade b',value:f.b.toFixed(3),sub:'1% gasto → 0.80% vendas'},
+    {label:'R²',value:f.r2.toFixed(3),sub:'qualidade do ajuste'},
+    {label:'CPA Marginal / Médio',value:'×'+(1/f.b).toFixed(2),sub:`+${((1/f.b-1)*100).toFixed(0)}% por venda extra`},
+  ]);
+
+  const salesMinC = Math.max(1, Math.min(...pts.map(p=>p.y)));
+  const salesMaxC = Math.max(...pts.map(p=>p.y));
+  const curve = curvePointsInv(f.a, f.b, salesMinC, salesMaxC);
+  const ptsInvC = pts.map(p=>({x:p.y, y:p.x, t:p.t}));
+
+  new Chart(document.getElementById('chartScatterCamp'),{
+    type:'scatter',
+    data:{datasets:[
+      {label:'Campanhas',data:ptsInvC,backgroundColor:'#f472b680',borderColor:'transparent',pointRadius:5,pointHoverRadius:7},
+      {label:'Curva ajustada',data:curve,type:'line',borderColor:'#f59e0b',borderWidth:2,pointRadius:0,fill:false,tension:0}
+    ]},
+    options:{...BASE_OPTS,
+      plugins:{...BASE_OPTS.plugins,
+        legend:{display:true,position:'top',labels:{color:'#64748B',usePointStyle:true}},
+        tooltip:{callbacks:{label:ctx=>`${ctx.raw.t||'Campanha'}: ${fmtN(ctx.raw.x)} vendas ← Gasto ${fmtR(ctx.raw.y)}`}}
+      },
+      scales:{
+        x:{...BASE_OPTS.scales.x,type:'logarithmic',title:{display:true,text:'Total de Vendas (log)',color:'#64748B'}},
+        y:{...BASE_OPTS.scales.y,type:'logarithmic',title:{display:true,text:'Investimento Total da Campanha (R$)',color:'#64748B'},ticks:{callback:v=>fmtR(v)}}
+      }
+    }
+  });
+
+  document.getElementById('formula-camp').textContent =
+    `vendas = ${f.a.toFixed(4)} × gasto^${f.b.toFixed(4)}   |   R² = ${f.r2.toFixed(3)}   |   n = ${f.n} campanhas`;
+
+  document.getElementById('insight-camp').innerHTML =
+    `Campanhas maiores entregam <strong>menos vendas por real</strong> investido (b = ${f.b.toFixed(2)}).
+    Isso confirma que o portfólio tem campanhas saturadas. Eixos em escala logarítmica para melhor visualização da amplitude.`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// POR CONJUNTO
+// ═══════════════════════════════════════════════════════════════════════════
+function initAdset(){
+  const pts = RAW.adset;
+  const f = fits.adset;
+  makeKPIs('kpi-adset',[
+    {label:'Conjuntos',value:fmtN(f.n),sub:'total com vendas>0'},
+    {label:'Elasticidade b',value:f.b.toFixed(3),sub:'retornos ligeiramente crescentes'},
+    {label:'R²',value:f.r2.toFixed(3),sub:'qualidade do ajuste'},
+    {label:'Nota',value:'Seleção',sub:'conjuntos maiores foram escalados por performar bem'},
+  ]);
+
+  const salesMinA = Math.max(1, Math.min(...pts.map(p=>p.y)));
+  const salesMaxA = Math.max(...pts.map(p=>p.y));
+  const curve = curvePointsInv(f.a, f.b, salesMinA, salesMaxA);
+  const ptsInvA = pts.map(p=>({x:p.y, y:p.x}));
+
+  new Chart(document.getElementById('chartScatterAdset'),{
+    type:'scatter',
+    data:{datasets:[
+      {label:'Conjuntos',data:ptsInvA,backgroundColor:'#fb923c80',borderColor:'transparent',pointRadius:4,pointHoverRadius:6},
+      {label:'Curva ajustada',data:curve,type:'line',borderColor:'#f59e0b',borderWidth:2,pointRadius:0,fill:false,tension:0}
+    ]},
+    options:{...BASE_OPTS,
+      plugins:{...BASE_OPTS.plugins,
+        legend:{display:true,position:'top',labels:{color:'#64748B',usePointStyle:true}},
+        tooltip:{callbacks:{label:ctx=>`${fmtN(ctx.raw.x)} vendas ← Gasto ${fmtR(ctx.raw.y)}`}}
+      },
+      scales:{
+        x:{...BASE_OPTS.scales.x,type:'logarithmic',title:{display:true,text:'Total de Vendas (log)',color:'#64748B'}},
+        y:{...BASE_OPTS.scales.y,type:'logarithmic',title:{display:true,text:'Investimento Total do Conjunto (R$)',color:'#64748B'},ticks:{callback:v=>fmtR(v)}}
+      }
+    }
+  });
+
+  document.getElementById('formula-adset').textContent =
+    `vendas = ${f.a.toFixed(4)} × gasto^${f.b.toFixed(4)}   |   R² = ${f.r2.toFixed(3)}   |   n = ${f.n} conjuntos`;
+
+  document.getElementById('insight-adset').innerHTML =
+    `b = ${f.b.toFixed(2)} ≈ 1: <strong>efeito de seleção</strong> — conjuntos com budget alto foram escalados porque já performavam bem,
+    não porque a escala gera mais eficiência. Não confundir com retorno crescente real.`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CPA MARGINAL
+// ═══════════════════════════════════════════════════════════════════════════
+function initMarginal(){
+  const spends = Array.from({length:50},(_,i)=>10000+i*8000);
+
+  new Chart(document.getElementById('chartAllMarginal'),{
+    type:'line',
+    data:{datasets:[
+      {label:'Campanha×Dia (b=0.69)',data:spends.map(s=>({x:s,y:marginalCPA(fits.campday.a,fits.campday.b,s)})),borderColor:'#2DD9B4',borderWidth:2.5,pointRadius:0,fill:false},
+      {label:'Por Campanha (b=0.80)',data:spends.map(s=>({x:s,y:marginalCPA(fits.camp.a,fits.camp.b,s)})),borderColor:'#f472b6',borderWidth:2,pointRadius:0,fill:false,borderDash:[4,2]},
+      {label:'Por Dia (b=0.92)',data:spends.map(s=>({x:s,y:marginalCPA(fits.daily.a,fits.daily.b,s)})),borderColor:'#4ade80',borderWidth:2,pointRadius:0,fill:false,borderDash:[8,4]},
+    ]},
+    options:{...BASE_OPTS,
+      plugins:{...BASE_OPTS.plugins,
+        legend:{display:true,position:'top',labels:{color:'#64748B',usePointStyle:true,font:{size:12}}},
+        annotation:{annotations:{
+          l300:{type:'line',yMin:300,yMax:300,borderColor:'#fbbf24',borderWidth:1,borderDash:[4,4],label:{content:'R$300',display:true,position:'start',color:'#fbbf24',font:{size:11}}},
+          l500:{type:'line',yMin:500,yMax:500,borderColor:'#f87171',borderWidth:1,borderDash:[4,4],label:{content:'R$500',display:true,position:'start',color:'#f87171',font:{size:11}}}
+        }}
+      },
+      scales:{
+        x:{...BASE_OPTS.scales.x,title:{display:true,text:'Gasto (R$)',color:'#64748B'},ticks:{callback:v=>fmtR(v)}},
+        y:{...BASE_OPTS.scales.y,title:{display:true,text:'CPA Marginal (R$)',color:'#64748B'},min:0}
+      }
+    }
+  });
+
+  // tabela de pontos ótimos
+  const budgets = [20000,30000,50000,80000,100000,150000,200000,300000,400000];
+  const tbl = document.getElementById('tableOptimo');
+  tbl.innerHTML = `<thead><tr>
+    <th>Gasto Diário</th>
+    <th>CPA Médio (camp×dia)</th>
+    <th>CPA Marginal (camp×dia)</th>
+    <th>CPA Médio (portfólio/dia)</th>
+    <th>Vendas Estimadas/dia</th>
+    <th>Avaliação</th>
+  </tr></thead><tbody>${budgets.map(s=>{
+    const cd = fits.campday; const dl = fits.daily;
+    const cpaMed  = avgCPA(cd.a, cd.b, s);
+    const cpaMarg = marginalCPA(cd.a, cd.b, s);
+    const cpaPort = avgCPA(dl.a, dl.b, s);
+    const vendas  = dl.a * Math.pow(s, dl.b);
+    const badge = cpaMarg < 200 ? '<span class="badge badge-active">Ótimo</span>'
+                : cpaMarg < 300 ? '<span class="badge badge-active">Eficiente</span>'
+                : cpaMarg < 500 ? '<span class="badge badge-warning">Atenção</span>'
+                : '<span class="badge badge-danger">Prejuízo</span>';
+    return `<tr>
+      <td><strong>${fmtR(s)}</strong></td>
+      <td>${fmtR(Math.round(cpaMed))}</td>
+      <td><strong>${fmtR(Math.round(cpaMarg))}</strong></td>
+      <td>${fmtR(Math.round(cpaPort))}</td>
+      <td>${Math.round(vendas)}</td>
+      <td>${badge}</td>
+    </tr>`;
+  }).join('')}</tbody>`;
+}
+</script>
+</body>
+</html>
+</div>
+</body>
+</html>

@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ponto Ótimo de Investimento — Meta Ads 2026</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Layout */
+    .page { max-width: 1200px; margin: 0 auto; padding: 40px 28px 60px; }
+
+    /* Header */
+    .report-header { margin-bottom: 40px; border-bottom: 1px solid #1e293b; padding-bottom: 24px; }
+    .report-header h1 { font-size: 1.6rem; font-weight: 700; color: #f8fafc; margin-bottom: 6px; }
+    .report-header p { color: #64748b; font-size: 0.875rem; }
+    .report-header .meta { display: flex; gap: 20px; margin-top: 12px; flex-wrap: wrap; }
+    .report-header .meta span { font-size: 0.78rem; color: #475569; background: #1e293b; padding: 3px 10px; border-radius: 20px; border: 1px solid #334155; }
+
+    /* KPIs */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-bottom: 40px; }
+    .kpi { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 18px 20px; }
+    .kpi-label { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
+    .kpi-value { font-size: 1.55rem; font-weight: 700; color: #f8fafc; line-height: 1; margin-bottom: 4px; }
+    .kpi-sub { font-size: 0.75rem; color: #64748b; }
+    .kpi.c-green  { border-left: 3px solid #10b981; }
+    .kpi.c-blue   { border-left: 3px solid #3b82f6; }
+    .kpi.c-amber  { border-left: 3px solid #f59e0b; }
+    .kpi.c-red    { border-left: 3px solid #ef4444; }
+    .kpi.c-purple { border-left: 3px solid #a78bfa; }
+
+    /* Section */
+    .section { margin-bottom: 40px; }
+    .section-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+    .section-num { font-size: 0.7rem; font-weight: 700; color: #3b82f6; background: #1e3a5f; padding: 2px 8px; border-radius: 4px; }
+    .section-title { font-size: 1rem; font-weight: 600; color: #cbd5e1; }
+
+    /* Cards */
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; }
+    .card + .card { margin-top: 14px; }
+    .card-title { font-size: 0.875rem; font-weight: 600; color: #e2e8f0; margin-bottom: 4px; }
+    .card-desc  { font-size: 0.78rem; color: #64748b; margin-bottom: 20px; line-height: 1.5; }
+
+    /* Grids */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    @media (max-width: 900px) { .two-col, .three-col { grid-template-columns: 1fr; } }
+
+    /* Chart wrapper */
+    .chart-wrap { position: relative; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    th { text-align: left; padding: 10px 14px; color: #94a3b8; font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #334155; white-space: nowrap; }
+    td { padding: 9px 14px; border-bottom: 1px solid #1e293b; color: #cbd5e1; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(51,65,85,0.3); }
+
+    /* Badges */
+    .badge { display: inline-block; padding: 2px 9px; border-radius: 9999px; font-size: 0.68rem; font-weight: 700; white-space: nowrap; }
+    .badge-green  { background: #064e3b; color: #6ee7b7; }
+    .badge-blue   { background: #1e3a5f; color: #93c5fd; }
+    .badge-amber  { background: #451a03; color: #fcd34d; }
+    .badge-red    { background: #450a0a; color: #fca5a5; }
+
+    /* Highlighted box */
+    .highlight-box { border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; }
+    .highlight-box.green  { background: #022c22; border: 1px solid #10b981; }
+    .highlight-box.blue   { background: #0c1f3f; border: 1px solid #3b82f6; }
+    .highlight-box.amber  { background: #1c0f00; border: 1px solid #f59e0b; }
+    .highlight-box.red    { background: #200707; border: 1px solid #ef4444; }
+    .highlight-box h4 { font-size: 0.82rem; font-weight: 700; margin-bottom: 6px; }
+    .highlight-box p, .highlight-box li { font-size: 0.82rem; color: #94a3b8; line-height: 1.65; }
+    .highlight-box ul, .highlight-box ol { padding-left: 16px; }
+
+    /* Separator */
+    hr { border: none; border-top: 1px solid #1e293b; margin: 32px 0; }
+
+    /* Daily recommendation callout */
+    .callout { background: #0c1f3f; border: 1px solid #3b82f6; border-radius: 12px; padding: 24px 28px; margin-bottom: 32px; }
+    .callout h3 { font-size: 1rem; font-weight: 700; color: #93c5fd; margin-bottom: 12px; }
+    .callout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+    .callout-item { }
+    .callout-item .val { font-size: 1.4rem; font-weight: 700; color: #f8fafc; }
+    .callout-item .lbl { font-size: 0.72rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .callout-item .note { font-size: 0.75rem; color: #475569; margin-top: 3px; }
+
+    /* Pivot lines legend */
+    .pivot-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; }
+    .pivot-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #94a3b8; }
+    .pivot-swatch { width: 20px; height: 2px; border-radius: 2px; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ─── HEADER ─────────────────────────────────────────────────────────── -->
+  <header class="report-header">
+    <h1>Ponto Ótimo de Investimento — Meta Ads</h1>
+    <p>Análise de curva marginal · Campanhas de venda apenas · Jan–Mai 2026</p>
+    <div class="meta">
+      <span>145 campanhas</span>
+      <span>131 dias</span>
+      <span>R$7,9M investidos</span>
+      <span>51.890 vendas</span>
+      <span>ROAS acumulado 1,44x</span>
+    </div>
+  </header>
+
+  <!-- ─── RESPOSTA DIRETA ─────────────────────────────────────────────────── -->
+  <div class="callout">
+    <h3>Diagnóstico do investimento diário atual</h3>
+    <div class="callout-grid">
+      <div class="callout-item">
+        <div class="lbl">Gasto atual</div>
+        <div class="val" style="color:#fca5a5">~R$100k/dia</div>
+        <div class="note">Inclui LEAD + VENDA</div>
+      </div>
+      <div class="callout-item">
+        <div class="lbl">Gasto médio VENDA-only</div>
+        <div class="val" style="color:#fcd34d">R$70k/dia</div>
+        <div class="note">Média real jan–mai 2026</div>
+      </div>
+      <div class="callout-item">
+        <div class="lbl">Faixa ótima (always-on)</div>
+        <div class="val" style="color:#6ee7b7">R$30–50k/dia</div>
+        <div class="note">ROAS 1,5–2,4x observado</div>
+      </div>
+      <div class="callout-item">
+        <div class="lbl">Máximo viável (lançamento)</div>
+        <div class="val" style="color:#93c5fd">R$80–100k/dia</div>
+        <div class="note">Apenas durante LAN ativo</div>
+      </div>
+      <div class="callout-item">
+        <div class="lbl">Economia potencial</div>
+        <div class="val" style="color:#a78bfa">R$50–60k/dia</div>
+        <div class="note">Cortando fora de LAN</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── KPIs ────────────────────────────────────────────────────────────── -->
+  <div class="kpi-grid">
+    <div class="kpi c-green">
+      <div class="kpi-label">Investimento total (VENDA)</div>
+      <div class="kpi-value">R$7,9M</div>
+      <div class="kpi-sub">Jan–Mai 2026 · 131 dias</div>
+    </div>
+    <div class="kpi c-green">
+      <div class="kpi-label">Vendas atribuídas</div>
+      <div class="kpi-value">51.890</div>
+      <div class="kpi-sub">CPA médio R$152</div>
+    </div>
+    <div class="kpi c-blue">
+      <div class="kpi-label">ROAS acumulado</div>
+      <div class="kpi-value">1,44x</div>
+      <div class="kpi-sub">Receita bruta / investimento</div>
+    </div>
+    <div class="kpi c-amber">
+      <div class="kpi-label">Break-even (ROAS 1x)</div>
+      <div class="kpi-value">R$7,7M</div>
+      <div class="kpi-sub">rank 119 · 50.646 vendas</div>
+    </div>
+    <div class="kpi c-red">
+      <div class="kpi-label">Gasto abaixo do break-even</div>
+      <div class="kpi-value">R$238k</div>
+      <div class="kpi-sub">3% do portfólio · ROAS &lt; 1x</div>
+    </div>
+    <div class="kpi c-blue">
+      <div class="kpi-label">Elbow principal</div>
+      <div class="kpi-value">R$2,98M</div>
+      <div class="kpi-sub">rank 77 · ROAS 1,5x aqui</div>
+    </div>
+    <div class="kpi c-purple">
+      <div class="kpi-label">Gasto médio diário (real)</div>
+      <div class="kpi-value">R$70k</div>
+      <div class="kpi-sub">Mediana R$48k · máx R$367k</div>
+    </div>
+    <div class="kpi c-green">
+      <div class="kpi-label">Melhor faixa diária</div>
+      <div class="kpi-value">&lt; R$40k</div>
+      <div class="kpi-sub">ROAS médio 1,37–1,41x</div>
+    </div>
+  </div>
+
+  <!-- ─── SEÇÃO 1: SÉRIE TEMPORAL DIÁRIA ─────────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Série temporal diária — Investimento vs. ROAS</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Gasto diário (barras) e ROAS diário (linha)</div>
+      <div class="card-desc">Evidencia os picos de lançamento (LAN) onde o gasto dispara e o ROAS cai. O período evergreen pós-lançamento (marco/24–31, abr/01–07) mostra o nível ótimo de R$20–30k/dia com ROAS 1,7–2,4x.</div>
+      <div class="pivot-legend">
+        <div class="pivot-item"><div class="pivot-swatch" style="background:#ef4444"></div> Gasto diário</div>
+        <div class="pivot-item"><div class="pivot-swatch" style="background:#10b981;height:2px;border-top:2px dashed #10b981"></div> ROAS diário</div>
+        <div class="pivot-item"><div class="pivot-swatch" style="background:#f59e0b;height:2px;border-top:2px dashed #f59e0b"></div> Break-even ROAS 1,0x</div>
+      </div>
+      <br>
+      <div class="chart-wrap" style="height:360px">
+        <canvas id="chartTimeSeries"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SEÇÃO 2: GASTO DIÁRIO × ROAS ────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Relação entre gasto diário e ROAS — por faixa</span>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">ROAS médio por faixa de gasto diário</div>
+        <div class="card-desc">Dias com gasto entre R$20–40k entregam ROAS médio de 1,37x, similar a dias de R$80–100k (1,35x). A faixa R$130–170k é a pior: ROAS médio 1,09x.</div>
+        <div class="chart-wrap" style="height:280px">
+          <canvas id="chartBucketRoas"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Dispersão: gasto diário × ROAS por dia</div>
+        <div class="card-desc">Cada ponto é um dia. Dias de lançamento (pontos à direita) tendem a ter ROAS menor que dias evergreen (pontos à esquerda).</div>
+        <div class="chart-wrap" style="height:280px">
+          <canvas id="chartDailyScatter"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SEÇÃO 3: CURVA MARGINAL DE PORTFÓLIO ─────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Curva marginal do portfólio de campanhas</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Vendas acumuladas e ROAS acumulado conforme o portfólio cresce</div>
+      <div class="card-desc">145 campanhas ordenadas do ROAS mais alto para o mais baixo. Cada "passo" à direita = adicionar a próxima campanha menos eficiente ao portfólio. O elbow em R$2,98M é onde o ROAS marginal cruza 1,5x.</div>
+      <div class="pivot-legend" style="margin-bottom:16px">
+        <div class="pivot-item"><div class="pivot-swatch" style="background:#3b82f6"></div> Vendas acumuladas (eixo esquerdo)</div>
+        <div class="pivot-item"><div class="pivot-swatch" style="background:#10b981"></div> ROAS acumulado (eixo direito)</div>
+        <div class="pivot-item"><div class="pivot-swatch" style="background:#10b981;border-top:2px dashed #10b981"></div> Limiar ROAS 2x</div>
+        <div class="pivot-item"><div class="pivot-swatch" style="background:#3b82f6;border-top:2px dashed #3b82f6"></div> Elbow ROAS 1,5x</div>
+        <div class="pivot-item"><div class="pivot-swatch" style="background:#ef4444;border-top:2px dashed #ef4444"></div> Break-even 1x</div>
+      </div>
+      <div class="chart-wrap" style="height:380px">
+        <canvas id="chartCurve"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SEÇÃO 4: CPA MARGINAL ────────────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Custo marginal por venda — a derivada da curva</span>
+    </div>
+    <div class="card">
+      <div class="card-title">CPA marginal de cada campanha incremental (R$)</div>
+      <div class="card-desc">
+        Mostra o custo da venda trazida por cada campanha adicionada ao portfólio, da mais barata à mais cara.
+        Cor indica eficiência (verde = ROAS ≥ 2x, azul = 1,5–2x, âmbar = 1–1,5x, vermelho = abaixo do break-even).
+        A linha horizontal marca o ticket médio estimado (~R$160).
+      </div>
+      <div class="chart-wrap" style="height:300px">
+        <canvas id="chartMarginalCpa"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SEÇÃO 5: DISTRIBUIÇÃO + DEGRADAÇÃO ──────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Distribuição do orçamento e degradação do ROAS</span>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Orçamento por zona de eficiência</div>
+        <div class="card-desc">Apenas 2,5% do budget opera com ROAS ≥ 2x. Mais de 59% está na zona marginal (1–1,5x).</div>
+        <div class="chart-wrap" style="height:260px">
+          <canvas id="chartDonut"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">ROAS acumulado vs. investimento acumulado</div>
+        <div class="card-desc">Como o retorno global do portfólio se degrada ao adicionar campanhas menos eficientes. Meta mínima: 1,5x.</div>
+        <div class="chart-wrap" style="height:260px">
+          <canvas id="chartRoasDegradation"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SEÇÃO 6: SCATTER CAMPANHAS ──────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Mapa das campanhas — ROAS × Investimento</span>
+    </div>
+    <div class="card">
+      <div class="card-title">Dispersão individual (tamanho da bolha = vendas geradas)</div>
+      <div class="card-desc">Ideal: bolhas grandes no quadrante superior esquerdo (alto ROAS, orçamento controlado). Bolhas grandes abaixo da linha vermelha (break-even 1x) destroem margem.</div>
+      <div class="chart-wrap" style="height:360px">
+        <canvas id="chartScatter"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SEÇÃO 7: ZONAS + PIVÔS ──────────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">Zonas do portfólio e pontos de corte</span>
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Zona</th>
+            <th>Ranks</th>
+            <th>ROAS por campanha</th>
+            <th>Invest. na zona</th>
+            <th>% total</th>
+            <th>Vendas</th>
+            <th>CPA médio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-green">Alta eficiência</span></td>
+            <td>1 – 56</td><td>≥ 2,0x</td>
+            <td>R$196.632</td><td>2,5%</td><td>2.205</td><td>R$89</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-blue">Volume eficiente</span></td>
+            <td>57 – 76</td><td>1,5x – 2,0x</td>
+            <td>R$2.787.304</td><td>35,2%</td><td>19.765</td><td>R$141</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-amber">Volume marginal</span></td>
+            <td>77 – 118</td><td>1,0x – 1,5x</td>
+            <td>R$4.692.963</td><td>59,3%</td><td>28.676</td><td>R$164</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-red">Prejuízo bruto</span></td>
+            <td>119 – 145</td><td>&lt; 1,0x</td>
+            <td>R$238.053</td><td>3,0%</td><td>1.244</td><td>R$191</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px">
+      <div class="highlight-box green">
+        <h4 style="color:#6ee7b7">Corte conservador (ROAS ≥ 2x)</h4>
+        <p>Rank 56 · R$196.632 · 2.205 vendas<br>
+        Apenas campanhas de alta rentabilidade. Cobre 2,5% do orçamento atual.</p>
+      </div>
+      <div class="highlight-box blue">
+        <h4 style="color:#93c5fd">Corte recomendado (ROAS ≥ 1,5x)</h4>
+        <p>Rank 76 · R$2,8M · ~20k vendas<br>
+        Mantém margem operacional saudável com volume relevante. <strong style="color:#93c5fd">Equivale a ~R$21k/dia.</strong></p>
+      </div>
+      <div class="highlight-box amber">
+        <h4 style="color:#fcd34d">Corte no break-even (ROAS ≥ 1x)</h4>
+        <p>Rank 119 · R$7,7M · 50.646 vendas<br>
+        Máximo volume sem destruir receita bruta. <strong style="color:#fcd34d">Equivale a ~R$58k/dia.</strong></p>
+      </div>
+      <div class="highlight-box red">
+        <h4 style="color:#fca5a5">Portfólio atual (completo)</h4>
+        <p>Rank 145 · R$7,9M · 51.890 vendas<br>
+        R$238k rodando abaixo do break-even. <strong style="color:#fca5a5">Equivale a ~R$60k/dia médio VENDA.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SEÇÃO 8: ANÁLISE ESTRATÉGICA ─────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-title">Análise estratégica — Especialista em tráfego pago</span>
+    </div>
+
+    <div class="card" style="display:grid;gap:18px">
+
+      <div class="highlight-box blue">
+        <h4 style="color:#93c5fd">Diagnóstico do portfólio</h4>
+        <p>97,5% do budget opera com ROAS abaixo de 2x. O ROAS consolidado de 1,44x indica estratégia orientada a volume com compressão severa de margem. Para uma empresa com margem bruta de 60–70%, o ROAS mínimo viável é <strong style="color:#e2e8f0">≈ 1,5x</strong> — apenas para cobrir o custo de mídia contra a margem gerada.</p>
+      </div>
+
+      <div class="highlight-box green">
+        <h4 style="color:#6ee7b7">Ponto ótimo diário recomendado</h4>
+        <p>O período pós-lançamento de março (24/mar–31/mar, 2026) com apenas campanhas sempre-ativas revela o <strong style="color:#e2e8f0">nível base ideal:</strong></p>
+        <ul style="margin-top:8px">
+          <li>Gasto médio nesse período: <strong style="color:#e2e8f0">R$21k–30k/dia</strong></li>
+          <li>ROAS médio: <strong style="color:#e2e8f0">1,7x–2,4x</strong></li>
+          <li>CPA médio: <strong style="color:#e2e8f0">R$130–150</strong></li>
+        </ul>
+        <p style="margin-top:8px">Durante lançamentos ativos (LAN), é possível escalar até <strong style="color:#e2e8f0">R$80–100k/dia</strong> — desde que o ROAS diário se mantenha acima de 1,3x. Acima disso, o histórico mostra ROAS caindo para 1,0–1,1x.</p>
+      </div>
+
+      <div>
+        <h4 style="font-size:0.85rem;font-weight:600;color:#f8fafc;margin-bottom:10px">Por que o "joelho" é tão abrupto entre R$196k e R$2,98M?</h4>
+        <p style="font-size:0.82rem;color:#94a3b8;line-height:1.65">
+          (a) <strong style="color:#e2e8f0">Saturação de audiência quente:</strong> os ranks 1–56 atingem segmentos pequenos — remarketing, abandono de carrinho, engajamento recente. Não absorvem mais budget sem elevar o CPA drasticamente.<br><br>
+          (b) <strong style="color:#e2e8f0">Advantage+ como válvula de escala:</strong> os ranks 57–145 são majoritariamente campanhas Advantage+ em broad, que entregam volume comprando audiências progressivamente menos qualificadas.<br><br>
+          (c) <strong style="color:#e2e8f0">Lacuna mid-funnel:</strong> não há campanhas robustas de lookalike (LAL) ou interesse segmentado entre R$196k e R$2,98M. Esta é uma lacuna estrutural do portfólio, não apenas uma característica da curva.
+        </p>
+      </div>
+
+      <div>
+        <h4 style="font-size:0.85rem;font-weight:600;color:#ef4444;margin-bottom:10px">Red flags</h4>
+        <ul style="font-size:0.82rem;color:#94a3b8;line-height:1.8;padding-left:16px">
+          <li><strong style="color:#fca5a5">PPT FNC Brasil (rank 90)</strong> — R$741k · ROAS 1,30x. 3º maior budget, abaixo do break-even operacional.</li>
+          <li><strong style="color:#fca5a5">D48 Envolvimento 365D (rank 145)</strong> — ROAS 0,11x. Deve ser pausada imediatamente.</li>
+          <li><strong style="color:#fca5a5">Zona &lt; 1x ativa</strong> — R$238k em 27 campanhas sem justificativa de payback documentada.</li>
+          <li><strong style="color:#fca5a5">Concentração PPT + DOM</strong> — top 5 por volume concentrados em 2 produtos. Risco de portfólio em saturação de supply criativo.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="font-size:0.85rem;font-weight:600;color:#6ee7b7;margin-bottom:10px">Recomendações priorizadas</h4>
+        <ol style="font-size:0.82rem;color:#94a3b8;line-height:1.8;padding-left:16px">
+          <li><strong style="color:#e2e8f0">Pausar hoje:</strong> ranks 119–145 (R$238k, ROAS &lt; 1x). Sem perda de vendas relevante.</li>
+          <li><strong style="color:#e2e8f0">Cortar R$1,5–2M</strong> dos ranks 90–118 (ROAS &lt; 1,3x) sem hipótese de LTV documentada.</li>
+          <li><strong style="color:#e2e8f0">Criar mid-funnel:</strong> 3–5 campanhas LAL a partir dos compradores dos ranks 1–56, para escalar com ROAS &gt; 2x.</li>
+          <li><strong style="color:#e2e8f0">Consolidar PPT 10R:</strong> "Maximizar Conversões" e "Maximizar Valor" competem com CPAs similares — unificar ou segmentar por estágio de funil.</li>
+          <li><strong style="color:#e2e8f0">Meta diária:</strong> fora de lançamento, limitar a <strong style="color:#e2e8f0">R$30–50k/dia</strong> total. Durante LAN ativo com ROAS histórico &gt; 1,5x, escalar até R$80–100k/dia.</li>
+        </ol>
+      </div>
+
+      <div style="border-top:1px solid #334155;padding-top:16px">
+        <h4 style="font-size:0.82rem;font-weight:600;color:#475569;margin-bottom:6px">Limitações desta análise</h4>
+        <p style="font-size:0.78rem;color:#475569;line-height:1.6">
+          <strong>Atribuição last-click:</strong> não captura impacto assistido de campanhas de brand. ·
+          <strong>LTV:</strong> sem dados de retenção da assinatura, campanha com ROAS 1,2x pode ter payback positivo em 18+ meses. ·
+          <strong>Sazonalidade:</strong> dados misturam lançamentos com always-on — CPAs de LAN não devem guiar campanhas perenes. ·
+          <strong>Qualidade de venda:</strong> "vendas" não discrimina cancelamentos precoces e chargebacks.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── SEÇÃO 9: TOP CAMPANHAS ─────────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <span class="section-title">Top campanhas por investimento</span>
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Campanha</th>
+            <th>Investimento</th>
+            <th>Vendas</th>
+            <th>ROAS</th>
+            <th>CPA</th>
+            <th>Zona</th>
+          </tr>
+        </thead>
+        <tbody id="top-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     JAVASCRIPT — DATA & CHARTS
+═══════════════════════════════════════════════════════════════════════════ -->
+<script>
+// ─── GLOBALS ────────────────────────────────────────────────────────────────
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+Chart.defaults.font.size = 12;
+
+const GRID = 'rgba(51,65,85,0.5)';
+const TICK = '#64748b';
+
+function fmtBRL(v)  { return 'R$' + Math.round(v).toLocaleString('pt-BR'); }
+function fmtK(v)    { return v >= 1e6 ? 'R$' + (v/1e6).toFixed(1)+'M' : v >= 1000 ? 'R$' + (v/1000).toFixed(0)+'k' : 'R$'+v; }
+function zoneColor(roas, a=1) {
+  if (roas >= 2)   return `rgba(16,185,129,${a})`;
+  if (roas >= 1.5) return `rgba(59,130,246,${a})`;
+  if (roas >= 1.0) return `rgba(245,158,11,${a})`;
+  return `rgba(239,68,68,${a})`;
+}
+function zoneName(roas) {
+  if (roas >= 2)   return 'Alta eficiência';
+  if (roas >= 1.5) return 'Volume eficiente';
+  if (roas >= 1.0) return 'Volume marginal';
+  return 'Prejuízo';
+}
+function badgeClass(roas) {
+  if (roas >= 2)   return 'badge-green';
+  if (roas >= 1.5) return 'badge-blue';
+  if (roas >= 1.0) return 'badge-amber';
+  return 'badge-red';
+}
+
+// ─── CAMPAIGN DATA ───────────────────────────────────────────────────────────
+// [rank, name, bucket_spend, bucket_sales, bucket_roas, marginal_cpa, cumul_spend, cumul_sales, cumul_roas]
+const campaigns = [
+[1,"CDL Abandono carrinho",7,1,159.25,7.46,7,1,159.25],[2,"TLR12 Todos ads (MQ)",90,6,24.17,14.96,97,7,34.53],[3,"TLR12 Cadastrados quiz",14,1,17.03,14.02,111,8,32.32],[4,"VDS Segmentados",15,1,16.29,14.66,126,9,30.46],[5,"10R Todos anúncios (MQ)",8,1,15.65,7.67,134,10,29.61],[6,"FAU Todos ads (MQ)",539,25,12.83,21.57,673,35,16.16],[7,"SDC VIT Segmentado",11569,78,11.98,148.32,12242,113,12.21],[8,"ABC Envolvimento 2D",88,5,11.6,17.5,12329,118,12.2],[9,"10R Todos anúncios ABO",250,16,10.47,15.62,12579,134,12.17],[10,"10R Todos anúncios (Q)",222,7,9.99,31.76,12802,141,12.13],[11,"D48 Brasil",1800,25,8.1,72.0,14602,166,11.63],[12,"TLR12 Remarketing 180d",186,6,7.71,30.98,14787,172,11.58],[13,"TLR12 Brasil Ads s/influs",1076,19,7.6,56.61,15863,191,11.31],[14,"DOM Brasil Influs v2",933,19,6.86,49.12,16796,210,11.07],[15,"ABC Brasil Pack 7",79,3,6.32,26.38,16875,213,11.04],[16,"TLR12 Múlt públicos",272,3,6.13,90.54,17147,216,10.97],[17,"INP Abandono carrinho",78,3,6.04,25.84,17224,219,10.94],[18,"10R Todos Q ABO",1484,51,5.69,29.1,18709,270,10.53],[19,"DOM Packs low perf",270,9,4.76,29.97,18978,279,10.44],[20,"VDS Abandono carrinho",53,1,4.49,53.16,19032,280,10.43],[21,"ABC Max Valor v2",379,10,4.21,37.94,19411,290,10.31],[22,"TLR Cross sell membros",2277,39,4.2,58.37,21688,329,9.67],[23,"EXM Recuperação (Q+adv)",572,13,4.05,43.98,22259,342,9.52],[24,"D48 Abandono (Q)",12,1,3.95,12.14,22271,343,9.52],[25,"TLR12 Múlt públicos influs",61,1,3.88,61.48,22333,344,9.5],[26,"DOM ROAS 3",342,8,3.84,42.72,22675,352,9.42],[27,"VNZ Venezuela ABO",845,21,3.75,40.25,23520,373,9.21],[28,"DOM Ads rio",99,2,3.72,49.72,23619,375,9.19],[29,"10R Múlt públicos vídeos",282,7,3.66,40.29,23901,382,9.13],[30,"INP Epstein ABO",5373,120,3.48,44.77,29274,502,8.09],[31,"TLR Aquisição usuários",6150,79,3.45,77.85,35424,581,7.28],[32,"DOM Influs",266,6,3.36,44.33,35690,587,7.25],[33,"TLR12 Todos Membros custo",1665,19,3.29,87.65,37355,606,7.08],[34,"TLR Brasil",28481,229,3.23,124.37,65836,835,5.41],[35,"INP Teste envolvimento 1D",18527,323,3.18,57.36,84364,1158,4.92],[36,"TLR12 Todos Membros influs",155,2,3.09,77.32,84518,1160,4.92],[37,"DOM Pack conjunto v2",400,7,3.02,57.08,84918,1167,4.91],[38,"SDC VIT Membros",7342,22,2.86,333.74,92260,1189,4.75],[39,"INP Epstein Env1D",13240,203,2.85,65.22,105500,1392,4.51],[40,"10R Múlt públicos",3346,34,2.83,98.42,108846,1426,4.46],[41,"DOM Abandono Pre Venda",86,2,2.81,42.77,108932,1428,4.46],[42,"VNZ Venezuela ABO (Q)",3384,55,2.75,61.52,112315,1483,4.4],[43,"DOM Interesse",2266,35,2.68,64.75,114582,1518,4.37],[44,"ABC Visualizou 7D",95,1,2.52,94.73,114677,1519,4.37],[45,"D48 Membros Volume",2371,35,2.51,67.75,117048,1554,4.33],[46,"DOM Abandono",1564,22,2.45,71.11,118612,1576,4.31],[47,"EXM Recuperação (Q)",45524,323,2.44,140.94,164136,1899,3.79],[48,"DOM Pack Max Valor",2638,37,2.41,71.28,166773,1936,3.77],[49,"PEN Gen z",97,1,2.35,96.89,166870,1937,3.77],[50,"TLR12 Brasil influs",208,2,2.3,103.94,167078,1939,3.77],[51,"VDS Brasil LP 10r",6759,48,2.2,140.81,173837,1987,3.7],[52,"10R Alvo saturado dois",6289,54,2.14,116.46,180126,2041,3.65],[53,"CPL BIT LKL2",5406,97,2.06,55.73,185532,2138,3.6],[54,"SDC Mobile App",812,8,2.05,101.44,186343,2146,3.6],[55,"10R Ads tiradentes",7931,40,2.04,198.27,194274,2186,3.53],[56,"VDS Envolvimento 365D",2358,19,1.95,124.11,196632,2205,3.51],[57,"INP Epstein Env1D Adv",31857,347,1.94,91.81,228489,2552,3.3],[58,"DOM Pouco gasto",3728,44,1.91,84.72,232217,2596,3.27],[59,"EXM Recuperação",303162,3009,1.88,100.75,535379,5605,2.49],[60,"DOM Brasil Leomar",1354,17,1.88,79.65,536733,5622,2.49],[61,"DOM Brasil Max valor",126430,1065,1.87,118.71,663163,6687,2.37],[62,"BMA Ads conjuntos",3854,33,1.87,116.78,667017,6720,2.37],[63,"EXM Top Ads",2887,30,1.86,96.25,669904,6750,2.36],[64,"VNZ Venezuela Env1D",9690,94,1.7,103.09,679595,6844,2.35],[65,"10R Alvo oportunidade",2706,22,1.7,123.02,682301,6866,2.35],[66,"10R Lista toda base",8134,77,1.69,105.64,690435,6943,2.34],[67,"CPL BIT Engajou BP",336,12,1.68,28.02,690771,6955,2.34],[68,"DOM Brasil Pre Venda",30152,238,1.65,126.69,720923,7193,2.31],[69,"CRA Brasil",8818,80,1.6,110.23,729741,7273,2.31],[70,"10R Escala Max valor",1036998,7159,1.58,144.85,1766739,14432,1.88],[71,"EXM Recuperação segmentada",10154,93,1.57,109.19,1776893,14525,1.88],[72,"D48 Env 365D Volume",93,3,1.55,30.99,1776986,14528,1.88],[73,"SDC Escala 3.0",186694,1202,1.54,155.32,1963680,15730,1.84],[74,"10R Novos ads março",528736,3051,1.53,173.3,2492416,18781,1.78],[75,"10R Brasil",57072,436,1.53,130.9,2549488,19217,1.77],[76,"FOC Michael Jackson",56494,385,1.51,146.74,2605981,19602,1.77],[77,"DOM Pack conjunto",377954,2368,1.48,159.61,2983936,21970,1.73],[78,"VNZ Teste Env1D",42382,288,1.47,147.16,3026318,22258,1.73],[79,"10R Escala Max conv.",1226085,8256,1.46,148.51,4252403,30514,1.65],[80,"PEN Interesse",166,1,1.45,165.94,4252569,30515,1.65],[81,"BMA Packs low perf",4617,40,1.42,115.44,4257186,30555,1.65],[82,"IRA Brasil",50479,299,1.42,168.83,4307665,30854,1.65],[83,"10R Alvo saudável",5411,36,1.4,150.29,4313076,30890,1.64],[84,"10R Alvo saturado",6750,39,1.37,173.08,4319826,30929,1.64],[85,"SDC Brasil",156016,960,1.35,162.52,4475842,31889,1.63],[86,"D48 Membros nova lp",3190,28,1.35,113.93,4479032,31917,1.63],[87,"IRA Raio X",203895,1224,1.34,166.58,4682926,33141,1.62],[88,"VNZ Env 365D",951,6,1.33,158.47,4683877,33147,1.62],[89,"BPO Teste POC",10376,86,1.32,120.65,4694253,33233,1.62],[90,"FNC Brasil",741253,4845,1.3,152.99,5435506,38078,1.58],[91,"FAU Env 365D lp",12533,76,1.28,164.91,5448039,38154,1.58],[92,"VNZ Brasil",44996,311,1.27,144.68,5493035,38465,1.57],[93,"VNZ Lista base",43370,298,1.27,145.54,5536405,38763,1.57],[94,"BMA Ads divididos",112276,717,1.26,156.59,5648681,39480,1.57],[95,"DOM Campanha Secreta",21790,155,1.26,140.58,5670471,39635,1.56],[96,"IRA Max valor",60505,345,1.26,175.38,5730976,39980,1.56],[97,"DOM Brasil",359251,2228,1.25,161.24,6090227,42208,1.54],[98,"SDC Escala",278802,1409,1.24,197.87,6369029,43617,1.53],[99,"SDC Escala 4.0",159309,903,1.24,176.42,6528338,44520,1.52],[100,"SDC Max valor",167792,863,1.23,194.43,6696130,45383,1.52],[101,"FAU Escala bom",29796,214,1.23,139.23,6725926,45597,1.51],[102,"10R Lista base Escala bom",15174,98,1.23,154.83,6741100,45695,1.51],[103,"VDS Últimos dias",294,2,1.22,147.2,6741394,45697,1.51],[104,"BMA Target ROAS",43197,268,1.2,161.18,6784591,45965,1.51],[105,"PEN Brasil",36285,125,1.17,290.28,6820876,46090,1.51],[106,"CPL BIT LKL",21763,286,1.16,76.09,6842638,46376,1.51],[107,"CPL BIT Pré-cert",3326,58,1.16,57.35,6845964,46434,1.51],[108,"VDS Env 365D Vol",929,6,1.16,154.83,6846893,46440,1.51],[109,"BMA Brasil",105622,631,1.15,167.39,6952515,47071,1.5],[110,"BMA Meta custo",15993,108,1.12,148.09,6968508,47179,1.5],[111,"10R Teste de ads",5114,34,1.1,150.42,6973622,47213,1.5],[112,"SDC Escala 2.0",438761,2060,1.08,212.99,7412383,49273,1.48],[113,"10R Ads do IRA",38204,188,1.08,203.21,7450587,49461,1.47],[114,"FAU Env 365D",82767,469,1.08,176.48,7533355,49930,1.47],[115,"VDS Brasil",2517,16,1.08,157.31,7535872,49946,1.47],[116,"SDC Melhores",114756,536,1.07,214.1,7650628,50482,1.46],[117,"BMA Brasil (2)",8229,55,1.02,149.61,7658856,50537,1.46],[118,"VDS Vol LP 10r",1541,10,1.01,154.07,7660397,50547,1.46],[119,"10R Teste pack",16502,99,1.0,166.69,7676899,50646,1.46],[120,"ABC Brasil",94092,420,0.97,224.03,7770992,51066,1.46],[121,"DOM Env 365 Pre Venda",499,3,0.96,166.39,7771491,51069,1.46],[122,"10R Melhores packs",16217,89,0.93,182.22,7787708,51158,1.46],[123,"DBI Brasil",1491,6,0.87,248.52,7789199,51164,1.46],[124,"IRA Nova lp",9841,47,0.85,209.39,7799041,51211,1.45],[125,"CPL BIT teste público",12323,142,0.81,86.78,7811364,51353,1.45],[126,"ABC Max valor",2735,9,0.8,303.9,7814099,51362,1.45],[127,"10R Teste clips",18201,70,0.8,260.02,7832300,51432,1.45],[128,"VDS Orç adv",3477,14,0.79,248.32,7835777,51446,1.45],[129,"10R Brasil Vídeos",1752,8,0.78,219.01,7837529,51454,1.45],[130,"10R Env 365D Escala ruim",7088,33,0.78,214.78,7844617,51487,1.45],[131,"TLR Clubinho literário",707,2,0.7,353.35,7845323,51489,1.45],[132,"FAU Mix públicos oficina",4488,22,0.68,204.0,7849811,51511,1.45],[133,"FAU Brasil",8006,35,0.68,228.73,7857817,51546,1.45],[134,"ABC Novas legendas",10594,37,0.66,286.31,7868411,51583,1.45],[135,"D48 Segmentados Vol",148,2,0.65,74.19,7868559,51585,1.45],[136,"10R Remarketing sites",9393,40,0.64,234.82,7877952,51625,1.45],[137,"BMA Best ads",4520,21,0.63,215.23,7882472,51646,1.45],[138,"D48 Brasil nova lp",12806,139,0.6,92.13,7895278,51785,1.45],[139,"D48 Direto checkout",6326,58,0.53,109.06,7901603,51843,1.44],[140,"EXM Recuperação (2)",4154,16,0.53,259.61,7905757,51859,1.44],[141,"D48 Vol alto",742,8,0.52,92.78,7906499,51867,1.44],[142,"FAU Escala ruim",4711,15,0.45,314.03,7911210,51882,1.44],[143,"VDS Vol alto",2730,6,0.43,454.97,7913939,51888,1.44],[144,"SDC View gen z",567,1,0.32,567.17,7914507,51889,1.44],[145,"D48 Env 365D",445,1,0.11,445.37,7914952,51890,1.44]
+];
+
+// ─── DAILY DATA ──────────────────────────────────────────────────────────────
+// [date_str, daily_spend, daily_sales, daily_revenue, daily_roas, daily_cpa, qt_campaigns]
+const daily = [
+["01/jan",68627,310,50687,0.74,221,30],["02/jan",66146,320,50531,0.76,207,30],
+["03/jan",54234,342,66451,1.23,159,23],["04/jan",85741,705,124619,1.45,122,19],
+["05/jan",40485,275,51083,1.26,147,19],["06/jan",33315,225,44541,1.34,148,19],
+["07/jan",36056,205,40766,1.13,176,19],["08/jan",48302,201,49879,1.03,240,20],
+["09/jan",32225,151,24450,0.76,213,20],["10/jan",29891,130,22225,0.74,230,9],
+["11/jan",18737,118,18315,0.98,159,9],["12/jan",14148,74,17894,1.26,191,14],
+["13/jan",20316,118,27508,1.35,172,9],["14/jan",18134,107,17726,0.98,169,10],
+["15/jan",18701,126,21673,1.16,148,11],["16/jan",21995,121,23437,1.07,182,9],
+["17/jan",29710,180,30728,1.03,165,9],["18/jan",31369,222,48339,1.54,141,9],
+["19/jan",20700,129,23282,1.12,160,7],["20/jan",22245,151,26833,1.21,147,7],
+["21/jan",26249,136,27072,1.03,193,10],["22/jan",31236,146,29643,0.95,214,10],
+["23/jan",28744,125,22641,0.79,230,10],["24/jan",24365,116,21092,0.87,210,8],
+["25/jan",24157,160,29820,1.23,151,8],["26/jan",21072,116,27243,1.29,182,11],
+["27/jan",30286,98,19627,0.65,309,16],["28/jan",29251,122,25431,0.87,240,24],
+["29/jan",25806,117,32852,1.27,221,17],["30/jan",20117,110,21838,1.09,183,17],
+["31/jan",34199,123,22947,0.67,278,20],
+["01/fev",24704,112,19565,0.79,221,16],["02/fev",18095,96,13588,0.75,188,16],
+["03/fev",17760,93,24848,1.4,191,15],["04/fev",36703,186,37274,1.02,197,19],
+["05/fev",50177,304,53599,1.07,165,20],["06/fev",49836,370,68650,1.38,135,18],
+["07/fev",61303,580,90835,1.48,106,16],["08/fev",59597,604,98939,1.66,99,14],
+["09/fev",29714,291,101484,3.42,102,14],["10/fev",27821,207,120585,4.33,134,16],
+["11/fev",30888,252,47178,1.53,123,16],["12/fev",45687,274,50082,1.1,167,17],
+["13/fev",47267,286,49255,1.04,165,17],["14/fev",54351,274,44631,0.82,198,16],
+["15/fev",38270,197,33245,0.87,194,14],["16/fev",30576,189,33270,1.09,162,13],
+["17/fev",18869,143,22637,1.2,132,13],["18/fev",31614,155,34529,1.09,204,12],
+["19/fev",42468,234,39782,0.94,181,11],["20/fev",15140,122,29945,1.98,124,10],
+["21/fev",36068,281,57794,1.6,128,9],["22/fev",37448,272,45694,1.22,138,9],
+["23/fev",25540,203,47624,1.86,126,12],["24/fev",33111,217,32355,0.98,153,11],
+["25/fev",26828,154,49582,1.85,174,12],["26/fev",36958,169,30890,0.84,219,15],
+["27/fev",63000,351,76968,1.22,179,16],["28/fev",94299,699,138241,1.47,135,15],
+["01/mar",56906,389,67915,1.19,146,14],["02/mar",24502,157,25947,1.06,156,13],
+["03/mar",25619,167,32763,1.28,153,14],["04/mar",44077,196,73262,1.66,225,13],
+["05/mar",52950,251,52783,1.0,211,16],["06/mar",73834,310,73599,1.0,238,16],
+["07/mar",72219,471,97446,1.35,153,15],["08/mar",83979,579,115268,1.37,145,15],
+["09/mar",93292,472,102560,1.1,198,17],["10/mar",110899,593,128669,1.16,187,17],
+["11/mar",117460,680,157346,1.34,173,18],["12/mar",132544,682,159603,1.2,194,19],
+["13/mar",122402,596,159596,1.3,205,18],["14/mar",133638,714,156833,1.17,187,19],
+["15/mar",123246,670,154881,1.26,184,16],["16/mar",71891,326,82944,1.15,220,15],
+["17/mar",85565,360,111544,1.3,238,16],["18/mar",146484,518,188869,1.29,283,19],
+["19/mar",168165,765,194978,1.16,220,19],["20/mar",181472,1014,237480,1.31,179,17],
+["21/mar",301442,1718,383641,1.27,175,17],["22/mar",366862,1942,428829,1.17,189,17],
+["23/mar",266492,1520,352409,1.32,175,16],
+["24/mar",19642,152,30161,1.54,129,8],["25/mar",18236,115,32569,1.79,159,10],
+["26/mar",16962,136,36298,2.14,125,10],["27/mar",18170,138,31494,1.73,132,11],
+["28/mar",30635,207,71957,2.35,148,11],["29/mar",30477,215,47468,1.56,142,9],
+["30/mar",21449,126,39925,1.86,170,11],["31/mar",22632,158,54259,2.4,143,11],
+["01/abr",23047,148,27644,1.2,156,13],["02/abr",24673,184,32708,1.33,134,13],
+["03/abr",46970,381,74854,1.59,123,13],["04/abr",59556,309,59640,1.0,193,11],
+["05/abr",44619,329,57881,1.3,136,12],["06/abr",37074,248,45550,1.23,149,14],
+["07/abr",30420,204,44934,1.48,149,13],
+["08/abr",80076,338,72863,0.91,237,17],["09/abr",105667,513,102496,0.97,206,15],
+["10/abr",126654,672,141302,1.12,188,16],["11/abr",146854,895,164288,1.12,164,16],
+["12/abr",163785,1076,189589,1.16,152,16],["13/abr",112047,598,133949,1.2,187,14],
+["14/abr",125176,572,115682,0.92,219,14],["15/abr",111616,563,141199,1.27,198,15],
+["16/abr",89455,513,107195,1.2,174,15],["17/abr",96944,512,123013,1.27,189,14],
+["18/abr",125640,688,130865,1.04,183,15],["19/abr",107526,638,129487,1.2,169,15],
+["20/abr",97914,618,125557,1.28,158,17],["21/abr",110075,777,145640,1.32,142,19],
+["22/abr",122538,542,121143,0.99,226,25],["23/abr",109026,548,118519,1.09,199,25],
+["24/abr",90665,439,165225,1.82,207,23],["25/abr",127369,629,114574,0.9,202,23],
+["26/abr",144566,761,135467,0.94,190,19],["27/abr",81107,472,102725,1.27,172,20],
+["28/abr",90683,408,121700,1.34,222,21],["29/abr",111905,486,168073,1.5,230,22],
+["30/abr",129913,582,253624,1.95,223,23],
+["01/mai",132157,844,154343,1.17,157,25],["02/mai",162187,831,146988,0.91,195,23],
+["03/mai",165004,884,160736,0.97,187,23],["04/mai",61846,349,118308,1.91,177,24],
+["05/mai",66649,406,100836,1.51,164,23],["06/mai",86189,501,131447,1.53,172,23],
+["07/mai",87711,486,133311,1.52,181,24],["08/mai",101194,598,147770,1.46,169,25],
+["09/mai",192250,930,179339,0.93,207,25],["10/mai",166159,848,152040,0.92,196,25],
+["11/mai",33006,339,93597,2.84,97,24]
+];
+
+const labels    = daily.map(d => d[0]);
+const dSpend    = daily.map(d => d[1]);
+const dRoas     = daily.map(d => d[4]);
+const dCpa      = daily.map(d => d[5]);
+const dSales    = daily.map(d => d[2]);
+
+// ─── CHART: TIME SERIES ──────────────────────────────────────────────────────
+{
+  const ctx = document.getElementById('chartTimeSeries').getContext('2d');
+  // Background color per day based on ROAS
+  const barColors = dRoas.map(r => r >= 1.5 ? 'rgba(59,130,246,0.7)' : r >= 1.0 ? 'rgba(245,158,11,0.6)' : 'rgba(239,68,68,0.65)');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Gasto diário (R$)',
+          data: dSpend,
+          backgroundColor: barColors,
+          yAxisID: 'ySpend',
+          order: 2
+        },
+        {
+          type: 'line',
+          label: 'ROAS diário',
+          data: dRoas,
+          borderColor: '#10b981',
+          backgroundColor: 'transparent',
+          tension: 0.3,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+          borderWidth: 2,
+          yAxisID: 'yRoas',
+          order: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { color: '#94a3b8', usePointStyle: true, padding: 16 } },
+        tooltip: {
+          callbacks: {
+            title: items => items[0].label,
+            label: item => {
+              if (item.datasetIndex === 0) return ' Gasto: ' + fmtBRL(item.raw);
+              return ' ROAS: ' + item.raw.toFixed(2) + 'x';
+            },
+            afterBody: items => {
+              const i = items[0].dataIndex;
+              return [' Vendas: ' + dSales[i], ' CPA: R$' + dCpa[i]];
+            }
+          }
+        },
+        annotation: {
+          annotations: {
+            breakevenLine: {
+              type: 'line', scaleID: 'yRoas', value: 1.0,
+              borderColor: 'rgba(245,158,11,0.6)', borderWidth: 1.5, borderDash: [5,4],
+              label: { display: true, content: 'ROAS 1,0x (break-even)', position: 'end', color: '#fcd34d', backgroundColor: 'rgba(28,16,0,0.8)', font: { size: 10 }, padding: 4 }
+            },
+            targetLine: {
+              type: 'line', scaleID: 'yRoas', value: 1.5,
+              borderColor: 'rgba(59,130,246,0.4)', borderWidth: 1, borderDash: [4,4],
+              label: { display: true, content: 'ROAS 1,5x (alvo)', position: 'start', color: '#93c5fd', backgroundColor: 'rgba(12,31,63,0.8)', font: { size: 10 }, padding: 4 }
+            },
+            optimalLine: {
+              type: 'line', scaleID: 'ySpend', value: 50000,
+              borderColor: 'rgba(16,185,129,0.35)', borderWidth: 1, borderDash: [4,4],
+              label: { display: true, content: 'R$50k/dia (faixa ótima)', position: 'end', color: '#6ee7b7', backgroundColor: 'rgba(2,44,34,0.8)', font: { size: 10 }, padding: 4 }
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: GRID, drawTicks: false },
+          ticks: { color: TICK, maxRotation: 45, font: { size: 10 }, maxTicksLimit: 20 }
+        },
+        ySpend: {
+          position: 'left',
+          grid: { color: GRID },
+          ticks: { color: '#93c5fd', callback: v => fmtK(v) },
+          title: { display: true, text: 'Gasto diário (R$)', color: '#93c5fd', font: { size: 11 } }
+        },
+        yRoas: {
+          position: 'right',
+          grid: { display: false },
+          min: 0,
+          ticks: { color: '#6ee7b7', callback: v => v.toFixed(1) + 'x' },
+          title: { display: true, text: 'ROAS diário', color: '#6ee7b7', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+// ─── CHART: ROAS POR BUCKET DE GASTO DIÁRIO ──────────────────────────────────
+{
+  const ctx = document.getElementById('chartBucketRoas').getContext('2d');
+  const buckets = ['< R$20k','R$20–40k','R$40–60k','R$60–80k','R$80–100k','R$100–130k','R$130–170k','> R$170k'];
+  const roasVals  = [1.41, 1.37, 1.20, 1.24, 1.35, 1.22, 1.09, 1.20];
+  const cpaVals   = [154, 174, 168, 185, 182, 194, 193, 185];
+  const qtDias    = [12, 46, 16, 9, 14, 18, 11, 5];
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: buckets,
+      datasets: [{
+        label: 'ROAS médio',
+        data: roasVals,
+        backgroundColor: roasVals.map(r => zoneColor(r, 0.8)),
+        borderRadius: 4,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: item => ' ROAS médio: ' + item.raw.toFixed(2) + 'x',
+            afterBody: (items) => {
+              const i = items[0].dataIndex;
+              return [' CPA médio: R$' + cpaVals[i], ' Dias nesta faixa: ' + qtDias[i]];
+            }
+          }
+        },
+        annotation: {
+          annotations: {
+            minRoas: {
+              type: 'line', scaleID: 'y', value: 1.5,
+              borderColor: 'rgba(59,130,246,0.5)', borderWidth: 1.5, borderDash: [5,4],
+              label: { display: true, content: 'Alvo 1,5x', position: 'end', color: '#93c5fd', backgroundColor: 'rgba(12,31,63,0.8)', font: { size: 10 }, padding: 3 }
+            },
+            breakeven: {
+              type: 'line', scaleID: 'y', value: 1.0,
+              borderColor: 'rgba(239,68,68,0.4)', borderWidth: 1, borderDash: [4,4],
+              label: { display: true, content: 'Break-even', position: 'end', color: '#fca5a5', backgroundColor: 'rgba(32,7,7,0.8)', font: { size: 10 }, padding: 3 }
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: TICK, font: { size: 10 }, maxRotation: 35 } },
+        y: {
+          min: 0.8, max: 1.6,
+          grid: { color: GRID },
+          ticks: { color: TICK, callback: v => v.toFixed(1) + 'x' },
+          title: { display: true, text: 'ROAS médio do dia', color: '#94a3b8', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+// ─── CHART: DAILY SCATTER ────────────────────────────────────────────────────
+{
+  const ctx = document.getElementById('chartDailyScatter').getContext('2d');
+  const pts = daily.map((d,i) => ({ x: d[1], y: d[4], label: d[0], sales: d[2], cpa: d[5] }));
+  const cols = pts.map(p => zoneColor(p.y, 0.75));
+
+  new Chart(ctx, {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        label: 'Dias',
+        data: pts,
+        backgroundColor: cols,
+        pointRadius: 5,
+        pointHoverRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: item => {
+              const p = item.raw;
+              return [p.label, ' Gasto: ' + fmtBRL(p.x), ' ROAS: ' + p.y.toFixed(2) + 'x', ' Vendas: ' + p.sales, ' CPA: R$' + p.cpa];
+            }
+          }
+        },
+        annotation: {
+          annotations: {
+            h1: { type:'line', scaleID:'y', value:1.5, borderColor:'rgba(59,130,246,0.4)', borderWidth:1, borderDash:[4,4],
+              label:{display:true,content:'1,5x',position:'end',color:'#93c5fd',backgroundColor:'rgba(12,31,63,0.8)',font:{size:9},padding:2} },
+            h2: { type:'line', scaleID:'y', value:1.0, borderColor:'rgba(239,68,68,0.4)', borderWidth:1, borderDash:[4,4],
+              label:{display:true,content:'1,0x',position:'end',color:'#fca5a5',backgroundColor:'rgba(32,7,7,0.8)',font:{size:9},padding:2} },
+            v1: { type:'line', scaleID:'x', value:50000, borderColor:'rgba(16,185,129,0.3)', borderWidth:1, borderDash:[4,4],
+              label:{display:true,content:'R$50k',position:'start',color:'#6ee7b7',backgroundColor:'rgba(2,44,34,0.8)',font:{size:9},padding:2} }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: GRID },
+          ticks: { color: TICK, callback: v => fmtK(v), maxTicksLimit: 6 },
+          title: { display: true, text: 'Gasto diário (R$)', color: '#94a3b8', font: { size: 11 } }
+        },
+        y: {
+          grid: { color: GRID },
+          min: 0.5,
+          ticks: { color: TICK, callback: v => v.toFixed(1) + 'x', maxTicksLimit: 6 },
+          title: { display: true, text: 'ROAS do dia', color: '#94a3b8', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+// ─── CHART: CURVA MARGINAL ────────────────────────────────────────────────────
+{
+  const ctx = document.getElementById('chartCurve').getContext('2d');
+  const cs = campaigns.map(c => c[6]);   // cumul_spend
+  const cv = campaigns.map(c => c[7]);   // cumul_sales
+  const cr = campaigns.map(c => c[8]);   // cumul_roas
+
+  const PIVOT_A = campaigns[55][6];   // rank 56 (ROAS < 2x)
+  const PIVOT_B = campaigns[75][6];   // rank 76 (ROAS < 1.5x) — elbow
+  const PIVOT_C = campaigns[118][6];  // rank 119 (break-even)
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: cs,
+      datasets: [
+        { label: 'Vendas acumuladas', data: cv, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.07)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2.5, yAxisID: 'ySales' },
+        { label: 'ROAS acumulado',    data: cr, borderColor: '#10b981', backgroundColor: 'transparent', tension: 0.35, pointRadius: 0, borderWidth: 2, borderDash: [7,3], yAxisID: 'yRoas' }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { color: '#94a3b8', usePointStyle: true, padding: 16 } },
+        tooltip: {
+          callbacks: {
+            title: items => 'Invest. acumulado: ' + fmtBRL(items[0].label),
+            label: item => item.datasetIndex === 0
+              ? ' Vendas: ' + Number(item.raw).toLocaleString('pt-BR')
+              : ' ROAS: ' + Number(item.raw).toFixed(2) + 'x',
+            afterLabel: item => {
+              const rank = item.dataIndex + 1;
+              return ' Rank: ' + rank + ' — ' + campaigns[item.dataIndex][1];
+            }
+          }
+        },
+        annotation: {
+          annotations: {
+            pivotA: { type:'line', scaleID:'x', value:PIVOT_A, borderColor:'rgba(16,185,129,0.55)', borderWidth:1.5, borderDash:[4,4],
+              label:{display:true, content:'ROAS 2x · R$197k', position:'start', color:'#6ee7b7', backgroundColor:'rgba(2,44,34,0.85)', font:{size:10}, padding:4, yAdjust:-30} },
+            pivotB: { type:'line', scaleID:'x', value:PIVOT_B, borderColor:'rgba(59,130,246,0.55)', borderWidth:2, borderDash:[4,4],
+              label:{display:true, content:'Elbow 1,5x · R$2,8M', position:'start', color:'#93c5fd', backgroundColor:'rgba(12,31,63,0.85)', font:{size:10}, padding:4, yAdjust:-60} },
+            pivotC: { type:'line', scaleID:'x', value:PIVOT_C, borderColor:'rgba(239,68,68,0.55)', borderWidth:1.5, borderDash:[4,4],
+              label:{display:true, content:'Break-even 1x · R$7,7M', position:'start', color:'#fca5a5', backgroundColor:'rgba(32,7,7,0.85)', font:{size:10}, padding:4, yAdjust:-90} }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: GRID },
+          ticks: { color: TICK, maxTicksLimit: 8, callback: v => fmtK(Number(v)) },
+          title: { display: true, text: 'Investimento acumulado no portfólio (R$)', color: '#94a3b8', font: { size: 11 } }
+        },
+        ySales: {
+          position: 'left',
+          grid: { color: GRID },
+          ticks: { color: '#93c5fd', callback: v => v >= 1000 ? (v/1000).toFixed(0)+'k' : v },
+          title: { display: true, text: 'Vendas acumuladas', color: '#93c5fd', font: { size: 11 } }
+        },
+        yRoas: {
+          position: 'right',
+          grid: { display: false },
+          min: 1,
+          ticks: { color: '#6ee7b7', callback: v => v.toFixed(1) + 'x' },
+          title: { display: true, text: 'ROAS acumulado', color: '#6ee7b7', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+// ─── CHART: MARGINAL CPA ─────────────────────────────────────────────────────
+{
+  const ctx = document.getElementById('chartMarginalCpa').getContext('2d');
+  // X = número de venda acumulado (cumul_sales = coluna índice 7)
+  const xSales = campaigns.map(c => c[7]);
+  const cpa    = campaigns.map(c => c[5]);
+  const clr    = campaigns.map(c => zoneColor(c[4], 0.82));
+
+  // Pivôs em unidades de venda acumulada
+  const pivotSales_2x  = campaigns[55][7];   // rank 56: última venda antes de ROAS < 2x  → 2.205
+  const pivotSales_15x = campaigns[75][7];   // rank 76: elbow ROAS 1,5x               → 19.602
+  const pivotSales_1x  = campaigns[118][7];  // rank 119: break-even                    → 50.646
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: xSales,
+      datasets: [{ label: 'CPA marginal', data: cpa, backgroundColor: clr, borderRadius: 2, borderSkipped: false }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: items => campaigns[items[0].dataIndex][1] + ' (rank ' + (items[0].dataIndex+1) + ')',
+            label: item => [
+              ' CPA marginal: R$' + item.raw.toFixed(0),
+              ' ROAS: ' + campaigns[item.dataIndex][4].toFixed(2) + 'x',
+              ' Vendas desta campanha: ' + campaigns[item.dataIndex][3],
+              ' Venda acumulada nº ' + campaigns[item.dataIndex][7].toLocaleString('pt-BR')
+            ]
+          }
+        },
+        annotation: {
+          annotations: {
+            ticketLine: { type:'line', scaleID:'y', value:160,
+              borderColor:'rgba(251,191,36,0.55)', borderWidth:1.5, borderDash:[6,4],
+              label:{display:true,content:'Ticket médio ~R$160',position:'end',color:'#fcd34d',backgroundColor:'rgba(28,16,0,0.85)',font:{size:10},padding:4} },
+            p1: { type:'line', scaleID:'x', value:pivotSales_2x,
+              borderColor:'rgba(16,185,129,0.5)', borderWidth:1.5, borderDash:[4,4],
+              label:{display:true,content:'ROAS 2x · venda '+pivotSales_2x.toLocaleString('pt-BR'),position:'start',color:'#6ee7b7',backgroundColor:'rgba(2,44,34,0.85)',font:{size:9},padding:3,yAdjust:-24} },
+            p2: { type:'line', scaleID:'x', value:pivotSales_15x,
+              borderColor:'rgba(59,130,246,0.6)', borderWidth:2, borderDash:[4,4],
+              label:{display:true,content:'Elbow 1,5x · venda '+pivotSales_15x.toLocaleString('pt-BR'),position:'start',color:'#93c5fd',backgroundColor:'rgba(12,31,63,0.85)',font:{size:9},padding:3,yAdjust:-44} },
+            p3: { type:'line', scaleID:'x', value:pivotSales_1x,
+              borderColor:'rgba(239,68,68,0.5)', borderWidth:1.5, borderDash:[4,4],
+              label:{display:true,content:'Break-even · venda '+pivotSales_1x.toLocaleString('pt-BR'),position:'start',color:'#fca5a5',backgroundColor:'rgba(32,7,7,0.85)',font:{size:9},padding:3,yAdjust:-64} }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: GRID },
+          ticks: {
+            color: TICK,
+            maxTicksLimit: 10,
+            callback: v => Number(v) >= 1000 ? (Number(v)/1000).toFixed(0)+'k' : v
+          },
+          title: { display: true, text: 'Nº de venda acumulada', color: '#94a3b8', font: { size: 11 } }
+        },
+        y: {
+          grid: { color: GRID },
+          ticks: { color: TICK, callback: v => 'R$' + v },
+          title: { display: true, text: 'CPA marginal (R$)', color: '#94a3b8', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+// ─── CHART: DONUT ────────────────────────────────────────────────────────────
+{
+  const ctx = document.getElementById('chartDonut').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Alta eficiência (≥2x)', 'Volume eficiente (1,5–2x)', 'Volume marginal (1–1,5x)', 'Prejuízo (<1x)'],
+      datasets: [{ data: [196632, 2787304, 4692963, 238053],
+        backgroundColor: ['rgba(16,185,129,0.85)','rgba(59,130,246,0.85)','rgba(245,158,11,0.85)','rgba(239,68,68,0.85)'],
+        borderColor: '#0f172a', borderWidth: 3, hoverOffset: 10 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '65%',
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#94a3b8', padding: 14, font: { size: 11 }, usePointStyle: true } },
+        tooltip: { callbacks: {
+          label: item => ' ' + item.label + ': R$' + Math.round(item.raw/1000) + 'k (' + (item.raw/7914952*100).toFixed(1) + '%)'
+        }}
+      }
+    }
+  });
+}
+
+// ─── CHART: ROAS DEGRADATION ─────────────────────────────────────────────────
+{
+  const ctx = document.getElementById('chartRoasDegradation').getContext('2d');
+  const cs = campaigns.map(c => c[6]);
+  const cr = campaigns.map(c => c[8]);
+
+  const grad = ctx.createLinearGradient(0, 0, 0, 260);
+  grad.addColorStop(0, 'rgba(16,185,129,0.2)');
+  grad.addColorStop(0.6, 'rgba(245,158,11,0.08)');
+  grad.addColorStop(1, 'rgba(239,68,68,0.04)');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: cs,
+      datasets: [{ label: 'ROAS acumulado', data: cr, borderColor: '#f59e0b', backgroundColor: grad, fill: true, tension: 0.4, pointRadius: 0, borderWidth: 2.5 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: {
+          title: items => 'Invest. acumulado: ' + fmtBRL(items[0].label),
+          label: item => ' ROAS: ' + item.raw.toFixed(2) + 'x'
+        }},
+        annotation: { annotations: {
+          target: { type:'line', scaleID:'y', value:1.5, borderColor:'rgba(59,130,246,0.45)', borderWidth:1.5, borderDash:[5,4],
+            label:{display:true,content:'Alvo 1,5x',position:'end',color:'#93c5fd',backgroundColor:'rgba(12,31,63,0.85)',font:{size:10},padding:4} },
+          be: { type:'line', scaleID:'y', value:1.0, borderColor:'rgba(239,68,68,0.4)', borderWidth:1, borderDash:[4,4],
+            label:{display:true,content:'Break-even',position:'end',color:'#fca5a5',backgroundColor:'rgba(32,7,7,0.85)',font:{size:10},padding:4} }
+        }}
+      },
+      scales: {
+        x: { grid:{color:GRID}, ticks:{color:TICK,maxTicksLimit:6,callback:v=>fmtK(Number(v))}, title:{display:true,text:'Invest. acumulado (R$)',color:'#94a3b8',font:{size:11}} },
+        y: { min:1.0, grid:{color:GRID}, ticks:{color:TICK,callback:v=>v.toFixed(1)+'x'}, title:{display:true,text:'ROAS acumulado',color:'#94a3b8',font:{size:11}} }
+      }
+    }
+  });
+}
+
+// ─── CHART: SCATTER CAMPANHAS ─────────────────────────────────────────────────
+{
+  const ctx = document.getElementById('chartScatter').getContext('2d');
+  const zones = [
+    { label:'ROAS ≥ 2x · Alta eficiência',    color:'rgba(16,185,129,0.75)', data: campaigns.filter(c=>c[4]>=2)   .map(c=>({x:c[2],y:c[4],r:Math.sqrt(c[3])*2.4,name:c[1],rank:c[0],cpa:c[5],sales:c[3]})) },
+    { label:'ROAS 1,5–2x · Volume eficiente', color:'rgba(59,130,246,0.75)', data: campaigns.filter(c=>c[4]>=1.5&&c[4]<2) .map(c=>({x:c[2],y:c[4],r:Math.sqrt(c[3])*2.4,name:c[1],rank:c[0],cpa:c[5],sales:c[3]})) },
+    { label:'ROAS 1–1,5x · Volume marginal',  color:'rgba(245,158,11,0.75)', data: campaigns.filter(c=>c[4]>=1&&c[4]<1.5).map(c=>({x:c[2],y:c[4],r:Math.sqrt(c[3])*2.4,name:c[1],rank:c[0],cpa:c[5],sales:c[3]})) },
+    { label:'ROAS < 1x · Prejuízo',           color:'rgba(239,68,68,0.75)',  data: campaigns.filter(c=>c[4]<1)    .map(c=>({x:c[2],y:c[4],r:Math.sqrt(c[3])*2.4,name:c[1],rank:c[0],cpa:c[5],sales:c[3]})) }
+  ];
+  new Chart(ctx, {
+    type: 'bubble',
+    data: { datasets: zones.map(z => ({ label:z.label, data:z.data, backgroundColor:z.color, borderColor:'transparent' })) },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { labels:{color:'#94a3b8',usePointStyle:true,padding:14,font:{size:11}} },
+        tooltip: { callbacks: {
+          label: item => {
+            const d = item.raw;
+            return [' '+d.name+' (rank '+d.rank+')', ' Investimento: '+fmtBRL(d.x), ' ROAS: '+d.y.toFixed(2)+'x', ' CPA: R$'+d.cpa, ' Vendas: '+d.sales];
+          }
+        }},
+        annotation: { annotations: {
+          hBe: { type:'line',scaleID:'y',value:1.0,borderColor:'rgba(239,68,68,0.5)',borderWidth:1.5,borderDash:[5,5],
+            label:{display:true,content:'Break-even',position:'end',color:'#fca5a5',backgroundColor:'rgba(32,7,7,0.85)',font:{size:10},padding:4} },
+          hTgt: { type:'line',scaleID:'y',value:1.5,borderColor:'rgba(59,130,246,0.4)',borderWidth:1,borderDash:[5,5],
+            label:{display:true,content:'Alvo 1,5x',position:'end',color:'#93c5fd',backgroundColor:'rgba(12,31,63,0.85)',font:{size:10},padding:4} }
+        }}
+      },
+      scales: {
+        x: { type:'logarithmic', grid:{color:GRID},
+          ticks:{color:TICK,callback:v=>fmtK(v)},
+          title:{display:true,text:'Investimento na campanha (R$, escala logarítmica)',color:'#94a3b8',font:{size:11}} },
+        y: { grid:{color:GRID},
+          ticks:{color:TICK,callback:v=>v.toFixed(1)+'x'},
+          title:{display:true,text:'ROAS individual da campanha',color:'#94a3b8',font:{size:11}} }
+      }
+    }
+  });
+}
+
+// ─── TOP TABLE ────────────────────────────────────────────────────────────────
+{
+  const sorted = [...campaigns].sort((a,b) => b[2]-a[2]).slice(0,15);
+  const tbody = document.getElementById('top-table-body');
+  sorted.forEach(c => {
+    const roas = c[4];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:#64748b;font-variant-numeric:tabular-nums">${c[0]}</td>
+      <td style="color:#e2e8f0;max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c[1]}</td>
+      <td style="font-variant-numeric:tabular-nums">${fmtBRL(c[2])}</td>
+      <td style="font-variant-numeric:tabular-nums">${c[3].toLocaleString('pt-BR')}</td>
+      <td style="font-variant-numeric:tabular-nums;color:${roas>=1.5?'#6ee7b7':roas>=1?'#fcd34d':'#fca5a5'};font-weight:600">${roas.toFixed(2)}x</td>
+      <td style="font-variant-numeric:tabular-nums">R$${c[5].toFixed(0)}</td>
+      <td><span class="badge ${badgeClass(roas)}">${zoneName(roas)}</span></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+</script>
+</body>
+</html>
