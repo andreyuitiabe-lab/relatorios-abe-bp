@@ -65,6 +65,8 @@ td.right{text-align:right;font-variant-numeric:tabular-nums}
 .control .vbox{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:0.85rem}
 .control .vbox strong{color:var(--warning);font-size:1rem}
 input[type=range]{width:100%;accent-color:var(--warning);cursor:pointer}
+.mode-btn{padding:.45rem 1rem;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);color:var(--text-secondary);cursor:pointer;font-size:0.8rem;font-weight:600;font-family:var(--font-sans)}
+.mode-btn.active{background:var(--brand-subtle);border-color:var(--brand);color:var(--brand-light)}
 .formula{font-family:'JetBrains Mono',monospace;background:var(--bg-base);border:1px solid var(--border);border-left:3px solid var(--brand-dark);padding:var(--space-3) var(--space-4);font-size:0.8rem;color:var(--brand-light);margin:var(--space-3) 0;border-radius:0 var(--radius-md) var(--radius-md) 0}
 </style></head><body>
 <div class="page-wrapper">
@@ -94,25 +96,35 @@ input[type=range]{width:100%;accent-color:var(--warning);cursor:pointer}
   <div class="card">
     <p class="section-label">Calibração</p>
     <div class="controls">
+      <div style="display:flex;gap:8px;margin-bottom:var(--space-4);align-items:center">
+        <span style="font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-label);margin-right:8px">Modo do teto:</span>
+        <button id="mode-adaptive" class="mode-btn active" onclick="setMode('adaptive')">Adaptativo (ticket médio)</button>
+        <button id="mode-fixed" class="mode-btn" onclick="setMode('fixed')">Fixo (valor manual)</button>
+      </div>
       <div class="controls-row">
         <div class="control">
           <label>CPA piso (vendas baratas)</label>
           <div class="vbox"><span>R$</span><strong id="vp-piso">130</strong></div>
           <input type="range" id="sl-piso" min="80" max="200" step="10" value="130">
         </div>
-        <div class="control">
+        <div class="control" id="ctrl-adaptive">
           <label>Multiplicador do teto (× ticket médio)</label>
           <div class="vbox"><span>×</span><strong id="vp-mult">1.0</strong></div>
           <input type="range" id="sl-mult" min="0.5" max="1.5" step="0.05" value="1.0">
         </div>
-        <div class="control">
+        <div class="control" id="ctrl-tw">
           <label>Janela do ticket (dias)</label>
           <div class="vbox"><span>últimos</span><strong id="vp-tw">7</strong><span>dias</span></div>
           <input type="range" id="sl-tw" min="3" max="28" step="1" value="7">
         </div>
+        <div class="control" id="ctrl-fixed" style="display:none;grid-column:span 2">
+          <label>CPA teto fixo (R$)</label>
+          <div class="vbox"><span>R$</span><strong id="vp-fixed">200</strong></div>
+          <input type="range" id="sl-fixed" min="100" max="500" step="10" value="200">
+        </div>
       </div>
     </div>
-    <div class="insight">
+    <div class="insight" id="insight-mode">
       <strong>Teto adaptativo:</strong> CPA marginal aceitável = ticket médio dos últimos N dias × multiplicador. Em dias com ticket alto, a faixa sobe; em dias com ticket baixo, ela desce naturalmente.
     </div>
   </div>
@@ -240,21 +252,25 @@ Chart.defaults.font.family="'Inter',system-ui,sans-serif";
 function recalcSeries(cpaPiso, mult, ticketWin) {
   const out = [];
   const allDaily = DATA.daily;
-  // Construir map date→idx
   const dateMap = {};
   allDaily.forEach((d,i)=>{dateMap[d.date]=i;});
-  
+
   for (const r of DATA.series) {
     const idx = dateMap[r.date];
     if (idx === undefined || idx < ticketWin) continue;
-    // Recalcula ticket
-    let sumRev=0, sumSales=0;
-    for (let j=idx-ticketWin;j<idx;j++) {
-      sumRev += allDaily[j].revenue;
-      sumSales += allDaily[j].sales;
+    let ticketAdj, cpaTeto;
+    if (MODE === 'fixed') {
+      ticketAdj = null;
+      cpaTeto = FIXED_TETO;
+    } else {
+      let sumRev=0, sumSales=0;
+      for (let j=idx-ticketWin;j<idx;j++) {
+        sumRev += allDaily[j].revenue;
+        sumSales += allDaily[j].sales;
+      }
+      ticketAdj = sumSales>0 ? sumRev/sumSales : 200;
+      cpaTeto = ticketAdj * mult;
     }
-    const ticketAdj = sumSales>0 ? sumRev/sumSales : 200;
-    const cpaTeto = ticketAdj * mult;
     // s_for_cpa: ln(V*k*cpa)/k
     const valPiso = r.V*r.k*cpaPiso;
     const valTeto = r.V*r.k*cpaTeto;
@@ -270,6 +286,20 @@ function recalcSeries(cpaPiso, mult, ticketWin) {
 }
 
 let CPA_PISO = 130, MULT = 1.0, TW = 7;
+let MODE = 'adaptive', FIXED_TETO = 200;
+
+function setMode(m) {
+  MODE = m;
+  document.getElementById('mode-adaptive').classList.toggle('active', m==='adaptive');
+  document.getElementById('mode-fixed').classList.toggle('active', m==='fixed');
+  document.getElementById('ctrl-adaptive').style.display = m==='adaptive' ? '' : 'none';
+  document.getElementById('ctrl-tw').style.display       = m==='adaptive' ? '' : 'none';
+  document.getElementById('ctrl-fixed').style.display    = m==='fixed'    ? '' : 'none';
+  document.getElementById('insight-mode').innerHTML = m==='adaptive' ?
+    '<strong>Teto adaptativo:</strong> CPA marginal aceitável = ticket médio dos últimos N dias × multiplicador. Em dias com ticket alto, a faixa sobe; em dias com ticket baixo, ela desce naturalmente.' :
+    '<strong>Teto fixo:</strong> CPA marginal aceitável é constante em todos os dias. Mais previsível para o gestor mas não se ajusta a variações de ticket médio.';
+  renderAll();
+}
 let series = recalcSeries(CPA_PISO, MULT, TW);
 let chartRecent, chartHist, chartCpaMarg, chartR2;
 
@@ -292,7 +322,10 @@ function renderAtual() {
     <div class="kpi kpi-status ${statCls}"><div class="label">Status hoje</div><div class="value ${statColor}">${statTxt}</div><div class="sub">${last.date}</div></div>
     <div class="kpi"><div class="label">Gasto</div><div class="value">${fmtR(last.spend)}</div><div class="sub">${fmtN(last.sales)} vendas · ROAS ${last.roas_real.toFixed(2)}</div></div>
     <div class="kpi"><div class="label">Faixa recomendada</div><div class="value brand" style="font-size:1.1rem">${fmtR(last.sPiso)} – ${fmtR(last.sTeto)}</div><div class="sub">${last.extrapTeto?'⚠ teto em extrapolação':'dentro do range observado'}</div></div>
-    <div class="kpi"><div class="label">Ticket médio ${TW}d</div><div class="value">${fmtR(last.ticketAdj)}</div><div class="sub">teto CPA = ${fmtR(last.cpaTeto)}</div></div>
+    ${MODE === 'fixed'
+      ? `<div class="kpi"><div class="label">CPA teto (fixo)</div><div class="value">${fmtR(last.cpaTeto)}</div><div class="sub">configurado manualmente</div></div>`
+      : `<div class="kpi"><div class="label">Ticket médio ${TW}d</div><div class="value">${fmtR(last.ticketAdj)}</div><div class="sub">teto CPA = ${fmtR(last.cpaTeto)}</div></div>`
+    }
     <div class="kpi"><div class="label">CPA marginal estimado</div><div class="value ${last.cpa_marg_now>last.cpaTeto?'warn':'brand'}">${fmtR(last.cpa_marg_now)}</div><div class="sub">vs teto ${fmtR(last.cpaTeto)}</div></div>
     <div class="kpi"><div class="label">R² da curva</div><div class="value">${last.r2.toFixed(2)}</div><div class="sub">qualidade do ajuste</div></div>
   `;
@@ -321,7 +354,7 @@ function renderAtual() {
           label:ctx=>{const r=last14[ctx.dataIndex];
             return ctx.datasetIndex===1?
               [`Gasto: ${fmtR(r.spend)}`,`Status: ${r.status}`,`Vendas: ${fmtN(r.sales)}`,`ROAS real: ${r.roas_real.toFixed(2)}`]:
-              [`Piso: ${fmtR(r.sPiso)}`,`Teto: ${fmtR(r.sTeto)}${r.extrapTeto?' (extrap.)':''}`,`Ticket: ${fmtR(r.ticketAdj)}`];
+              [`Piso: ${fmtR(r.sPiso)}`,`Teto: ${fmtR(r.sTeto)}${r.extrapTeto?' (extrap.)':''}`,r.ticketAdj!=null?`Ticket: ${fmtR(r.ticketAdj)}`:`CPA teto fixo: ${fmtR(r.cpaTeto)}`];
           }
         }}
       },
@@ -410,7 +443,7 @@ function renderEpisodios() {
       <td>${r.date}</td><td>${dow}</td>
       <td class="right">${fmtR(r.spend)}</td>
       <td class="right">${fmtR(r.sTeto)}</td>
-      <td class="right">${fmtR(r.ticketAdj)}</td>
+      <td class="right">${r.ticketAdj!=null ? fmtR(r.ticketAdj) : '—'}</td>
       <td class="right">+${fmtR(excess)}</td>
       <td class="right">${r.roas_real.toFixed(2)}</td>
       <td><span class="badge ${roasBadge}">${roasLabel}</span></td>
@@ -432,6 +465,11 @@ document.getElementById('sl-mult').addEventListener('input', function(){
 document.getElementById('sl-tw').addEventListener('input', function(){
   TW = +this.value;
   document.getElementById('vp-tw').textContent = TW;
+  renderAll();
+});
+document.getElementById('sl-fixed').addEventListener('input', function(){
+  FIXED_TETO = +this.value;
+  document.getElementById('vp-fixed').textContent = FIXED_TETO;
   renderAll();
 });
 
