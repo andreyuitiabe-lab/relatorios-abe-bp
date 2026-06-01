@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="UTF-8">
+<title>Curva Polinomial · Análise Investimento × Vendas</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<style>
+:root{--bg-base:#0D0F12;--bg-card:#111318;--bg-card-alt:#1E293B;--bg-brand:#0A2A22;
+--border:#1E293B;--border-subtle:#334155;
+--text-primary:#F1F5F9;--text-secondary:#CBD5E1;--text-muted:#64748B;--text-label:#475569;
+--brand:#00C896;--brand-light:#2DD9B4;--brand-dark:#007D5E;--brand-subtle:rgba(0,200,150,0.12);
+--positive:#00C896;--negative:#EF4444;--warning:#F59E0B;
+--font-sans:'Inter',system-ui,sans-serif;
+--radius-md:8px;--radius-lg:12px;--radius-pill:999px;
+--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-6:1.5rem;--space-8:2rem;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text-primary);font-family:var(--font-sans);min-height:100vh}
+.page-wrapper{max-width:1400px;margin:0 auto;padding:var(--space-8) var(--space-6)}
+.report-header{border-bottom:1px solid var(--border);padding-bottom:var(--space-8);margin-bottom:var(--space-8)}
+.breadcrumb{font-size:0.75rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--brand);margin-bottom:var(--space-3)}
+h1{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.02em;line-height:1.2;margin-bottom:var(--space-2)}
+.subtitle{color:var(--text-muted);font-size:0.9rem}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-6);margin-bottom:var(--space-6)}
+.card-brand{border-top:2px solid var(--brand)}
+.section-label{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-label);padding-bottom:var(--space-3);border-bottom:1px solid var(--border);margin-bottom:var(--space-6)}
+.chart-wrap{position:relative;height:340px}
+.chart-wrap-lg{position:relative;height:480px}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-4);margin-bottom:var(--space-6)}
+.kpi{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-4)}
+.kpi.kpi-feature{border-top:2px solid var(--brand)}
+.kpi .label{font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-label);margin-bottom:var(--space-2)}
+.kpi .value{font-size:1.5rem;font-weight:700;color:var(--text-primary)}
+.kpi .sub{font-size:0.75rem;color:var(--text-muted);margin-top:2px}
+.kpi .value.brand{color:var(--brand-light)}
+.kpi .value.warn{color:var(--warning)}
+.insight{background:var(--bg-brand);border:1px solid rgba(0,200,150,.15);border-left:3px solid var(--brand);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:var(--space-4) var(--space-6);margin-top:var(--space-4);font-size:0.85rem;color:var(--text-secondary);line-height:1.7}
+.insight strong{color:var(--brand-light)}
+.insight.warn{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2);border-left-color:var(--warning)}
+.insight.warn strong{color:#FCD34D}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-6);margin-bottom:var(--space-6)}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:var(--space-6)}
+.tab{padding:var(--space-3) var(--space-6);cursor:pointer;font-size:0.8rem;font-weight:600;color:var(--text-muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab:hover{color:var(--text-secondary)}
+.tab.active{color:var(--brand);border-bottom-color:var(--brand)}
+.panel{display:none}.panel.active{display:block}
+table{width:100%;border-collapse:collapse}
+thead th{font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-label);padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border);text-align:left}
+tbody td{font-size:0.875rem;color:var(--text-secondary);padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border-subtle)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(255,255,255,.02)}
+td.right{text-align:right;font-variant-numeric:tabular-nums}
+.formula{font-family:'JetBrains Mono',monospace;background:var(--bg-base);border:1px solid var(--border);border-left:3px solid var(--brand-dark);padding:var(--space-3) var(--space-4);font-size:0.78rem;color:var(--brand-light);margin:var(--space-3) 0;border-radius:0 var(--radius-md) var(--radius-md) 0;overflow-x:auto}
+.badge{display:inline-flex;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:.25rem .7rem;border-radius:var(--radius-pill)}
+.badge-active{background:var(--brand-subtle);color:var(--brand-light);border:1px solid rgba(0,200,150,.3)}
+.badge-warning{background:rgba(245,158,11,.12);color:#FCD34D;border:1px solid rgba(245,158,11,.3)}
+.badge-danger{background:rgba(239,68,68,.12);color:#F87171;border:1px solid rgba(239,68,68,.3)}
+</style></head><body>
+<div class="page-wrapper">
+<div class="report-header">
+  <div class="breadcrumb">Brasil Paralelo · Analytics</div>
+  <h1>Curva de Resposta Polinomial</h1>
+  <p class="subtitle">Meta Ads VENDA · Ajuste polinomial grau 1–3 vs Logística · Janela 90d para detecção do joelho da curva</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('overview')">Visão Geral</div>
+  <div class="tab" onclick="showTab('comparison')">Polinomial vs Logística</div>
+  <div class="tab" onclick="showTab('marginal')">CPA Marginal por Nível</div>
+  <div class="tab" onclick="showTab('rolling')">Rolling 90d (grau 3)</div>
+  <div class="tab" onclick="showTab('methodology')">Metodologia</div>
+</div>
+
+<!-- VISÃO GERAL -->
+<div class="panel active" id="tab-overview">
+  <div class="kpi-row" id="kpi-overview"></div>
+  
+  <div class="card card-brand">
+    <p class="section-label">Scatter de dados + curva polinomial grau 3 (histórico completo)</p>
+    <div class="chart-wrap-lg"><canvas id="chartMain"></canvas></div>
+    <div class="insight">
+      <strong>O grau 3 captura o "joelho" da curva.</strong> A curva sobe acelerando até ~R$150k (efeito de aquecimento) e depois começa a saturar. O ponto onde o CPA marginal é mínimo (mais eficiente) marca o limite de escalada ótima.
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="section-label">Equação ajustada</p>
+    <div class="formula" id="formula-main"></div>
+    <div class="insight">
+      Coeficiente cúbico <strong>negativo</strong> indica saturação: a partir de certo ponto, o retorno marginal cai. No grau 2, o coeficiente quadrático é positivo (convexidade), mas só o grau 3 captura a inversão.
+    </div>
+  </div>
+</div>
+
+<!-- COMPARAÇÃO -->
+<div class="panel" id="tab-comparison">
+  <div class="card">
+    <p class="section-label">Curvas sobrepostas — todos os modelos no mesmo gráfico</p>
+    <div class="chart-wrap-lg"><canvas id="chartCompare"></canvas></div>
+    <div class="insight">
+      <strong>Diferença visual:</strong> a logística (linha vermelha) cresce indefinidamente sem inflexão. O grau 3 (azul-claro) tem um joelho real dentro do range observado. O grau 2 (laranja) é uma parábola convexa — não representa saturação.
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <p class="section-label">R² do ajuste no histórico completo</p>
+      <div class="chart-wrap"><canvas id="chartR2"></canvas></div>
+      <div class="insight">
+        Diferença pequena em R² entre os modelos. <strong>Não é R² que muda, é a forma da curva.</strong>
+      </div>
+    </div>
+    <div class="card">
+      <p class="section-label">Coeficientes ajustados</p>
+      <table id="tbl-coefs">
+        <thead><tr><th>Modelo</th><th class="right">R²</th><th>Coeficientes</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- CPA MARGINAL -->
+<div class="panel" id="tab-marginal">
+  <div class="card card-brand">
+    <p class="section-label">CPA marginal previsto em cada nível de gasto</p>
+    <div class="chart-wrap-lg"><canvas id="chartCpaMarg"></canvas></div>
+    <div class="insight">
+      <strong>O que diferencia os modelos:</strong> a logística (verde) prevê CPA marginal quase constante. O grau 3 (azul) mostra que o CPA marginal <strong>cai</strong> com o aumento de gasto até atingir um mínimo, depois <strong>sobe</strong> — comportamento típico de saturação real.
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="section-label">Tabela: CPA marginal por nível de gasto (grau 3)</p>
+    <table id="tbl-cpa">
+      <thead><tr><th>Gasto/dia</th><th class="right">Grau 1 (lei de potência)</th><th class="right">Grau 2 (parábola)</th><th class="right">Grau 3 (S-curve)</th><th class="right">Logística</th><th>Range observado?</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ROLLING -->
+<div class="panel" id="tab-rolling">
+  <div class="card">
+    <p class="section-label">Ponto ótimo estimado ao longo do tempo (rolling 90d, grau 3)</p>
+    <div class="chart-wrap-lg"><canvas id="chartOptimum"></canvas></div>
+    <div class="insight">
+      Linha verde: gasto onde o CPA marginal é mínimo (a cada dia, recalculado com últimos 90 dias). Linha branca: gasto realizado. Quando os dois se aproximam, estamos operando no ponto ótimo.
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <p class="section-label">CPA marginal modelo vs real (rolling 90d)</p>
+      <div class="chart-wrap"><canvas id="chartCpaReal"></canvas></div>
+      <div class="insight">
+        Correlação do grau 3 rolling 90d com o CPA real: <strong>+0.333</strong>. Comparação contra +0.158 da logística rolling 28d.
+      </div>
+    </div>
+    <div class="card">
+      <p class="section-label">R² da curva ao longo do tempo</p>
+      <div class="chart-wrap"><canvas id="chartR2Time"></canvas></div>
+      <div class="insight">
+        Janela de 90d garante estabilidade no ajuste cúbico — sem oscilações ou derivadas negativas.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- METODOLOGIA -->
+<div class="panel" id="tab-methodology">
+  <div class="card">
+    <p class="section-label">Por que polinomial grau 3?</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);font-size:0.88rem;color:var(--text-secondary);line-height:1.7">
+      <div>
+        <h3 style="font-size:0.95rem;color:var(--brand-light);margin-bottom:var(--space-3)">Grau 1 (lei de potência linearizada)</h3>
+        <p>Aproximação linear. Não captura saturação. CPA marginal constante = a₁.</p>
+        <div class="formula">vendas = a₀ + a₁·s</div>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;color:var(--brand-light);margin-bottom:var(--space-3)">Grau 2 (parábola)</h3>
+        <p>Curvatura única. Pode ser convexa (a₂&gt;0, retornos crescentes) ou côncava (a₂&lt;0, retornos decrescentes), mas não pode mudar de regime.</p>
+        <div class="formula">vendas = a₀ + a₁·s + a₂·s²</div>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;color:var(--brand-light);margin-bottom:var(--space-3)">Grau 3 (S-curve)</h3>
+        <p>Pode mudar de regime: começar convexo (aquecimento) e depois côncavo (saturação). Captura o joelho da curva.</p>
+        <div class="formula">vendas = a₀ + a₁·s + a₂·s² + a₃·s³</div>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;color:var(--brand-light);margin-bottom:var(--space-3)">Logística (saturação assintótica)</h3>
+        <p>Tem teto V matemático garantido, mas não captura aquecimento. CPA marginal cai monotonicamente.</p>
+        <div class="formula">vendas = V·(1−e^(−k·s))</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="section-label">Trade-offs honestos</p>
+    <ul style="color:var(--text-secondary);line-height:1.9;padding-left:1.5rem;font-size:0.88rem">
+      <li><strong style="color:var(--brand-light)">Grau 3 + janela 90d:</strong> melhor correlação CPA marg × real (+0.333), captura o joelho, mas reage devagar a mudanças de regime.</li>
+      <li><strong style="color:var(--brand-light)">Logística + janela 28d:</strong> reativa, defensável teoricamente, mas CPA marginal quase constante (limitação estrutural).</li>
+      <li><strong style="color:#FCD34D">Aviso de extrapolação:</strong> o polinomial grau 3 pode ter derivada negativa fora do range observado. Não confiar em recomendações além de ~R$300k/dia.</li>
+      <li><strong style="color:#FCD34D">Endogeneidade:</strong> a curva é descritiva (correlação observada), não causal. Dias de gasto alto foram escolhidos quando havia sinal de demanda, então a curva mistura "saturação" com "seleção".</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<script>
+const DATA = {"fits": {"poly1": {"coefs": [-15.955182928064165, 0.0060354648892776055], "r2": 0.804002727592455}, "poly2": {"coefs": [30.632862019466767, 0.004803610099197281, 5.443968544939111e-09], "r2": 0.808950974079462}, "poly3": {"coefs": [90.8831120063951, 0.00233555893997155, 2.859545265121649e-08, -5.5182197006265544e-14], "r2": 0.8111511872308277}, "logistic": {"V": 35715.87753498724, "k": 1.66973707927574e-07, "r2": 0.8019914364880425}}, "observed": [{"spend": 68627.0, "spend_ads": 34314.547196874904, "sales": 310.0, "date": "2026-01-01"}, {"spend": 66146.0, "spend_ads": 50231.28293710135, "sales": 322.0, "date": "2026-01-02"}, {"spend": 54234.0, "spend_ads": 52233.469038972136, "sales": 342.0, "date": "2026-01-03"}, {"spend": 85741.0, "spend_ads": 68988.54286324655, "sales": 704.0, "date": "2026-01-04"}, {"spend": 40485.0, "spend_ads": 54737.389202551334, "sales": 275.0, "date": "2026-01-05"}, {"spend": 33315.0, "spend_ads": 44026.70296334726, "sales": 225.0, "date": "2026-01-06"}, {"spend": 36056.0, "spend_ads": 40041.90166936247, "sales": 205.0, "date": "2026-01-07"}, {"spend": 48302.0, "spend_ads": 44172.68788720359, "sales": 201.0, "date": "2026-01-08"}, {"spend": 32225.0, "spend_ads": 38199.33567308573, "sales": 151.0, "date": "2026-01-09"}, {"spend": 29891.0, "spend_ads": 34045.623950926245, "sales": 130.0, "date": "2026-01-10"}, {"spend": 18737.0, "spend_ads": 26391.59788811915, "sales": 118.0, "date": "2026-01-11"}, {"spend": 14148.0, "spend_ads": 20270.014831995606, "sales": 74.0, "date": "2026-01-12"}, {"spend": 20316.0, "spend_ads": 20293.31742301706, "sales": 119.0, "date": "2026-01-13"}, {"spend": 18134.0, "spend_ads": 19213.93542283395, "sales": 107.0, "date": "2026-01-14"}, {"spend": 18701.0, "spend_ads": 18957.753074739834, "sales": 126.0, "date": "2026-01-15"}, {"spend": 21995.0, "spend_ads": 20475.664967802968, "sales": 121.0, "date": "2026-01-16"}, {"spend": 29710.0, "spend_ads": 25092.276497695853, "sales": 180.0, "date": "2026-01-17"}, {"spend": 31369.0, "spend_ads": 28230.28934598834, "sales": 224.0, "date": "2026-01-18"}, {"spend": 20700.0, "spend_ads": 24464.152195806757, "sales": 129.0, "date": "2026-01-19"}, {"spend": 22245.0, "spend_ads": 23354.297769096946, "sales": 151.0, "date": "2026-01-20"}, {"spend": 26249.0, "spend_ads": 24801.541062654498, "sales": 136.0, "date": "2026-01-21"}, {"spend": 31236.0, "spend_ads": 28018.696981719415, "sales": 146.0, "date": "2026-01-22"}, {"spend": 28744.0, "spend_ads": 28381.050050355552, "sales": 125.0, "date": "2026-01-23"}, {"spend": 24365.0, "spend_ads": 26372.905087435534, "sales": 116.0, "date": "2026-01-24"}, {"spend": 24157.0, "spend_ads": 25264.865047151092, "sales": 160.0, "date": "2026-01-25"}, {"spend": 21072.0, "spend_ads": 23168.468153935366, "sales": 116.0, "date": "2026-01-26"}, {"spend": 30286.0, "spend_ads": 26727.480330820646, "sales": 98.0, "date": "2026-01-27"}, {"spend": 29251.0, "spend_ads": 27989.37650685141, "sales": 122.0, "date": "2026-01-28"}, {"spend": 25806.0, "spend_ads": 26897.805322428056, "sales": 119.0, "date": "2026-01-29"}, {"spend": 20117.0, "spend_ads": 23507.424268318733, "sales": 110.0, "date": "2026-01-30"}, {"spend": 34199.0, "spend_ads": 28853.398358104183, "sales": 123.0, "date": "2026-01-31"}, {"spend": 24704.0, "spend_ads": 26778.622791222882, "sales": 112.0, "date": "2026-02-01"}, {"spend": 18095.0, "spend_ads": 22436.608844264047, "sales": 96.0, "date": "2026-02-02"}, {"spend": 17760.0, "spend_ads": 20098.259559923095, "sales": 93.0, "date": "2026-02-03"}, {"spend": 36703.0, "spend_ads": 28400.850398266546, "sales": 186.0, "date": "2026-02-04"}, {"spend": 50177.0, "spend_ads": 39289.29032258065, "sales": 304.0, "date": "2026-02-05"}, {"spend": 49836.0, "spend_ads": 44562.92898342844, "sales": 372.0, "date": "2026-02-06"}, {"spend": 61303.0, "spend_ads": 52933.461317789224, "sales": 580.0, "date": "2026-02-07"}, {"spend": 59597.0, "spend_ads": 56265.76827295754, "sales": 604.0, "date": "2026-02-08"}, {"spend": 29714.0, "spend_ads": 42989.968932157346, "sales": 291.0, "date": "2026-02-09"}, {"spend": 27821.0, "spend_ads": 35405.5874507889, "sales": 207.0, "date": "2026-02-10"}, {"spend": 30888.0, "spend_ads": 33146.802911465806, "sales": 252.0, "date": "2026-02-11"}, {"spend": 45687.0, "spend_ads": 39417.15225684377, "sales": 274.0, "date": "2026-02-12"}, {"spend": 47267.0, "spend_ads": 43342.40360728783, "sales": 286.0, "date": "2026-02-13"}, {"spend": 54351.0, "spend_ads": 48847.224188970606, "sales": 274.0, "date": "2026-02-14"}, {"spend": 38270.0, "spend_ads": 43558.67421491135, "sales": 197.0, "date": "2026-02-15"}, {"spend": 30576.0, "spend_ads": 37067.4267097995, "sales": 191.0, "date": "2026-02-16"}, {"spend": 18869.0, "spend_ads": 27968.225165562915, "sales": 143.0, "date": "2026-02-17"}, {"spend": 31614.0, "spend_ads": 29791.3239844966, "sales": 155.0, "date": "2026-02-18"}, {"spend": 42468.0, "spend_ads": 36129.74996185185, "sales": 234.0, "date": "2026-02-19"}, {"spend": 15140.0, "spend_ads": 25634.34034241767, "sales": 122.0, "date": "2026-02-20"}, {"spend": 36068.0, "spend_ads": 30850.960081789606, "sales": 280.0, "date": "2026-02-21"}, {"spend": 37448.0, "spend_ads": 34149.116031373036, "sales": 272.0, "date": "2026-02-22"}, {"spend": 25540.0, "spend_ads": 29844.038331247903, "sales": 203.0, "date": "2026-02-23"}, {"spend": 33111.0, "spend_ads": 31477.5710013123, "sales": 217.0, "date": "2026-02-24"}, {"spend": 26828.0, "spend_ads": 29152.770348216196, "sales": 154.0, "date": "2026-02-25"}, {"spend": 36958.0, "spend_ads": 33055.47779778435, "sales": 169.0, "date": "2026-02-26"}, {"spend": 63000.0, "spend_ads": 48028.003082369454, "sales": 351.0, "date": "2026-02-27"}, {"spend": 94299.0, "spend_ads": 71164.21921445357, "sales": 699.0, "date": "2026-02-28"}, {"spend": 56906.0, "spend_ads": 64035.14859462264, "sales": 389.0, "date": "2026-03-01"}, {"spend": 24502.0, "spend_ads": 44268.36420789207, "sales": 157.0, "date": "2026-03-02"}, {"spend": 25619.0, "spend_ads": 34943.60646382031, "sales": 167.0, "date": "2026-03-03"}, {"spend": 44077.0, "spend_ads": 39510.68788720359, "sales": 196.0, "date": "2026-03-04"}, {"spend": 52950.0, "spend_ads": 46230.66951506088, "sales": 251.0, "date": "2026-03-05"}, {"spend": 73834.0, "spend_ads": 60032.81337931456, "sales": 309.0, "date": "2026-03-06"}, {"spend": 72219.0, "spend_ads": 66126.77767265844, "sales": 471.0, "date": "2026-03-07"}, {"spend": 83979.0, "spend_ads": 75053.61992248299, "sales": 579.0, "date": "2026-03-08"}, {"spend": 93292.0, "spend_ads": 84173.66209906308, "sales": 471.0, "date": "2026-03-09"}, {"spend": 110899.0, "spend_ads": 97537.63356425674, "sales": 593.0, "date": "2026-03-10"}, {"spend": 117460.0, "spend_ads": 107500.10388500622, "sales": 680.0, "date": "2026-03-11"}, {"spend": 132544.0, "spend_ads": 120023.66508987699, "sales": 682.0, "date": "2026-03-12"}, {"spend": 122402.0, "spend_ads": 121214.13635670037, "sales": 599.0, "date": "2026-03-13"}, {"spend": 133638.0, "spend_ads": 127427.14606158633, "sales": 714.0, "date": "2026-03-14"}, {"spend": 123246.0, "spend_ads": 125337.01474044008, "sales": 670.0, "date": "2026-03-15"}, {"spend": 71891.0, "spend_ads": 98614.23603015229, "sales": 326.0, "date": "2026-03-16"}, {"spend": 85565.0, "spend_ads": 92090.54979094822, "sales": 360.0, "date": "2026-03-17"}, {"spend": 146484.0, "spend_ads": 119289.119205298, "sales": 518.0, "date": "2026-03-18"}, {"spend": 168165.0, "spend_ads": 143728.95309305092, "sales": 765.0, "date": "2026-03-19"}, {"spend": 181472.0, "spend_ads": 162602.43769646293, "sales": 1013.0, "date": "2026-03-20"}, {"spend": 301442.0, "spend_ads": 232025.69197668383, "sales": 1708.0, "date": "2026-03-21"}, {"spend": 366862.0, "spend_ads": 299448.3420209357, "sales": 1932.0, "date": "2026-03-22"}, {"spend": 266492.0, "spend_ads": 282972.9560228278, "sales": 1513.0, "date": "2026-03-23"}, {"spend": 19642.0, "spend_ads": 151306.35416730243, "sales": 152.0, "date": "2026-03-24"}, {"spend": 18236.0, "spend_ads": 84769.76311532944, "sales": 114.0, "date": "2026-03-25"}, {"spend": 16962.0, "spend_ads": 50864.34803308206, "sales": 136.0, "date": "2026-03-26"}, {"spend": 18170.0, "spend_ads": 34515.42875453964, "sales": 138.0, "date": "2026-03-27"}, {"spend": 30635.0, "spend_ads": 32573.814081240274, "sales": 207.0, "date": "2026-03-28"}, {"spend": 30477.0, "spend_ads": 31523.832880642105, "sales": 215.0, "date": "2026-03-29"}, {"spend": 21449.0, "spend_ads": 26484.863093966498, "sales": 125.0, "date": "2026-03-30"}, {"spend": 22632.0, "spend_ads": 24557.6798913541, "sales": 158.0, "date": "2026-03-31"}, {"spend": 23047.0, "spend_ads": 23801.38596758934, "sales": 148.0, "date": "2026-04-01"}, {"spend": 24673.0, "spend_ads": 24235.334238715786, "sales": 184.0, "date": "2026-04-02"}, {"spend": 46970.0, "spend_ads": 35600.81777397993, "sales": 381.0, "date": "2026-04-03"}, {"spend": 59556.0, "spend_ads": 47576.54853968933, "sales": 307.0, "date": "2026-04-04"}, {"spend": 44619.0, "spend_ads": 46093.85534226508, "sales": 328.0, "date": "2026-04-05"}, {"spend": 37074.0, "spend_ads": 41578.895352030995, "sales": 248.0, "date": "2026-04-06"}, {"spend": 30420.0, "spend_ads": 35995.84539323101, "sales": 202.0, "date": "2026-04-07"}, {"spend": 80076.0, "spend_ads": 58036.84487441633, "sales": 339.0, "date": "2026-04-08"}, {"spend": 105667.0, "spend_ads": 81853.25656910916, "sales": 513.0, "date": "2026-04-09"}, {"spend": 126654.0, "spend_ads": 104255.30210272527, "sales": 673.0, "date": "2026-04-10"}, {"spend": 146854.0, "spend_ads": 125556.61467329935, "sales": 894.0, "date": "2026-04-11"}, {"spend": 163785.0, "spend_ads": 144672.83910641802, "sales": 1075.0, "date": "2026-04-12"}, {"spend": 112047.0, "spend_ads": 128361.16425061799, "sales": 596.0, "date": "2026-04-13"}, {"spend": 125176.0, "spend_ads": 126770.1649220252, "sales": 572.0, "date": "2026-04-14"}, {"spend": 111616.0, "spend_ads": 119194.44029053621, "sales": 562.0, "date": "2026-04-15"}, {"spend": 89455.0, "spend_ads": 104325.73348185673, "sales": 514.0, "date": "2026-04-16"}, {"spend": 96944.0, "spend_ads": 100635.96954252754, "sales": 512.0, "date": "2026-04-17"}, {"spend": 125640.0, "spend_ads": 113139.185216834, "sales": 686.0, "date": "2026-04-18"}, {"spend": 107526.0, "spend_ads": 110333.32459486678, "sales": 637.0, "date": "2026-04-19"}, {"spend": 97914.0, "spend_ads": 104124.47553941466, "sales": 616.0, "date": "2026-04-20"}, {"spend": 110075.0, "spend_ads": 107100.85171056245, "sales": 779.0, "date": "2026-04-21"}, {"spend": 122538.0, "spend_ads": 114820.83150730918, "sales": 537.0, "date": "2026-04-22"}, {"spend": 109026.0, "spend_ads": 111923.85750907924, "sales": 550.0, "date": "2026-04-23"}, {"spend": 90665.0, "spend_ads": 101294.19983520005, "sales": 438.0, "date": "2026-04-24"}, {"spend": 127369.0, "spend_ads": 114331.61082796718, "sales": 633.0, "date": "2026-04-25"}, {"spend": 144566.0, "spend_ads": 129448.7705008087, "sales": 760.0, "date": "2026-04-26"}, {"spend": 81107.0, "spend_ads": 105276.62364574116, "sales": 467.0, "date": "2026-04-27"}, {"spend": 90683.0, "spend_ads": 97979.48582415236, "sales": 406.0, "date": "2026-04-28"}, {"spend": 111905.0, "spend_ads": 104942.04040650655, "sales": 488.0, "date": "2026-04-29"}, {"spend": 129913.0, "spend_ads": 117427.79940183724, "sales": 579.0, "date": "2026-04-30"}, {"spend": 132157.0, "spend_ads": 124793.05130161441, "sales": 842.0, "date": "2026-05-01"}, {"spend": 162187.0, "spend_ads": 143491.02121036412, "sales": 826.0, "date": "2026-05-02"}, {"spend": 165004.0, "spend_ads": 154248.1112704855, "sales": 876.0, "date": "2026-05-03"}, {"spend": 61846.0, "spend_ads": 108046.35859248631, "sales": 343.0, "date": "2026-05-04"}, {"spend": 66649.0, "spend_ads": 87347.20221564379, "sales": 403.0, "date": "2026-05-05"}, {"spend": 86189.0, "spend_ads": 86767.7366252632, "sales": 495.0, "date": "2026-05-06"}, {"spend": 87711.0, "spend_ads": 87238.83687856687, "sales": 477.0, "date": "2026-05-07"}, {"spend": 101194.0, "spend_ads": 94216.29892880032, "sales": 592.0, "date": "2026-05-08"}, {"spend": 192254.0, "spend_ads": 143236.69963682973, "sales": 911.0, "date": "2026-05-09"}, {"spend": 166239.0, "spend_ads": 154738.4429456465, "sales": 831.0, "date": "2026-05-10"}, {"spend": 47700.0, "spend_ads": 101217.7433698538, "sales": 331.0, "date": "2026-05-11"}, {"spend": 52656.0, "spend_ads": 76936.43754387036, "sales": 369.0, "date": "2026-05-12"}, {"spend": 66907.0, "spend_ads": 71921.35596789453, "sales": 364.0, "date": "2026-05-13"}, {"spend": 63540.0, "spend_ads": 67729.93997009187, "sales": 318.0, "date": "2026-05-14"}, {"spend": 63073.0, "spend_ads": 65400.450056459245, "sales": 400.0, "date": "2026-05-15"}, {"spend": 99191.0, "spend_ads": 82295.22199163793, "sales": 587.0, "date": "2026-05-16"}, {"spend": 118148.0, "spend_ads": 100220.93899349957, "sales": 741.0, "date": "2026-05-17"}, {"spend": 74992.0, "spend_ads": 87605.0959807123, "sales": 420.0, "date": "2026-05-18"}, {"spend": 65063.0, "spend_ads": 76334.09707937864, "sales": 413.0, "date": "2026-05-19"}, {"spend": 68909.0, "spend_ads": 72621.58302560501, "sales": 373.0, "date": "2026-05-20"}, {"spend": 63087.0, "spend_ads": 67853.93899349954, "sales": 583.0, "date": "2026-05-21"}, {"spend": 75040.0, "spend_ads": 71446.77614673303, "sales": 618.0, "date": "2026-05-22"}, {"spend": 154596.0, "spend_ads": 113022.20294808802, "sales": 1248.0, "date": "2026-05-23"}, {"spend": 234844.0, "spend_ads": 173933.7513657033, "sales": 1749.0, "date": "2026-05-24"}, {"spend": 179622.0, "spend_ads": 176778.07989745782, "sales": 1202.0, "date": "2026-05-25"}, {"spend": 207069.0, "spend_ads": 191925.9718008972, "sales": 1326.0, "date": "2026-05-26"}, {"spend": 254013.0, "spend_ads": 222972.55845820488, "sales": 1518.0, "date": "2026-05-27"}, {"spend": 848.0, "spend_ads": 111909.27121799372, "sales": 21.0, "date": "2026-05-29"}], "curve_points": [{"spend": 18957.753074739834, "poly1": 98.46367013412268, "poly2": 123.65505885308309, "poly3": 145.0611889433135, "logistic": 112.87794449162428, "in_range": true}, {"spend": 22661.003990264602, "poly1": 120.81451101095756, "poly2": 142.2830823706681, "poly3": 157.85144090323368, "logistic": 134.8860953612002, "in_range": true}, {"spend": 26364.254905789367, "poly1": 143.1653518877924, "poly2": 161.06042379073364, "poly3": 171.32311746027787, "logistic": 156.8806417954681, "in_range": true}, {"spend": 30067.50582131413, "poly1": 165.51619276462728, "poly2": 179.98708311327977, "poly3": 185.4594035067049, "logistic": 178.86159220406813, "in_range": true}, {"spend": 33770.7567368389, "poly1": 187.86703364146217, "poly2": 199.06306033830654, "poly3": 200.24348393477365, "logistic": 200.82895499144598, "in_range": true}, {"spend": 37474.00765236367, "poly1": 210.21787451829704, "poly2": 218.28835546581385, "poly3": 215.65854363674302, "logistic": 222.78273855684884, "in_range": true}, {"spend": 41177.258567888435, "poly1": 232.56871539513193, "poly2": 237.66296849580178, "poly3": 231.6877675048719, "logistic": 244.72295129432942, "in_range": true}, {"spend": 44880.5094834132, "poly1": 254.91955627196683, "poly2": 257.1868994282703, "poly3": 248.31434043141923, "logistic": 266.6496015927618, "in_range": true}, {"spend": 48583.760398937964, "poly1": 277.27039714880164, "poly2": 276.86014826321934, "poly3": 265.5214473086437, "logistic": 288.5626978358178, "in_range": true}, {"spend": 52287.01131446273, "poly1": 299.62123802563656, "poly2": 296.68271500064907, "poly3": 283.2922730288045, "logistic": 310.46224840200614, "in_range": true}, {"spend": 55990.2622299875, "poly1": 321.9720789024714, "poly2": 316.6545996405593, "poly3": 301.6100024841603, "logistic": 332.34826166463733, "in_range": true}, {"spend": 59693.51314551227, "poly1": 344.3229197793063, "poly2": 336.77580218295014, "poly3": 320.45782056697004, "logistic": 354.2207459918631, "in_range": true}, {"spend": 63396.76406103703, "poly1": 366.67376065614116, "poly2": 357.0463226278215, "poly3": 339.81891216949253, "logistic": 376.07970974665244, "in_range": true}, {"spend": 67100.0149765618, "poly1": 389.024601532976, "poly2": 377.4661609751735, "poly3": 359.6764621839868, "logistic": 397.9251612867997, "in_range": true}, {"spend": 70803.26589208657, "poly1": 411.37544240981094, "poly2": 398.0353172250061, "poly3": 380.0136555027117, "logistic": 419.7571089649525, "in_range": true}, {"spend": 74506.51680761133, "poly1": 433.7262832866458, "poly2": 418.7537913773193, "poly3": 400.813677017926, "logistic": 441.57556112857174, "in_range": true}, {"spend": 78209.76772313609, "poly1": 456.0771241634806, "poly2": 439.621583432113, "poly3": 422.05971162188865, "logistic": 463.3805261199713, "in_range": true}, {"spend": 81913.01863866087, "poly1": 478.4279650403156, "poly2": 460.6386933893874, "poly3": 443.7349442068587, "logistic": 485.1720122763105, "in_range": true}, {"spend": 85616.26955418562, "poly1": 500.77880591715035, "poly2": 481.8051212491423, "poly3": 465.8225596650948, "logistic": 506.9500279295858, "in_range": true}, {"spend": 89319.5204697104, "poly1": 523.1296467939854, "poly2": 503.1208670113779, "poly3": 488.30574288885606, "logistic": 528.7145814066506, "in_range": true}, {"spend": 93022.77138523516, "poly1": 545.4804876708203, "poly2": 524.585930676094, "poly3": 511.16767877040104, "logistic": 550.4656810292074, "in_range": true}, {"spend": 96726.02230075991, "poly1": 567.831328547655, "poly2": 546.2003122432906, "poly3": 534.3915522019887, "logistic": 572.2033351138161, "in_range": true}, {"spend": 100429.2732162847, "poly1": 590.18216942449, "poly2": 567.9640117129679, "poly3": 557.9605480758784, "logistic": 593.9275519718933, "in_range": true}, {"spend": 104132.52413180945, "poly1": 612.5330103013248, "poly2": 589.8770290851257, "poly3": 581.8578512843284, "logistic": 615.6383399097248, "in_range": true}, {"spend": 107835.77504733423, "poly1": 634.8838511781597, "poly2": 611.9393643597643, "poly3": 606.0666467195982, "logistic": 637.3357072284491, "in_range": true}, {"spend": 111539.02596285898, "poly1": 657.2346920549945, "poly2": 634.1510175368832, "poly3": 630.5701192739459, "logistic": 659.0196622240861, "in_range": true}, {"spend": 115242.27687838377, "poly1": 679.5855329318296, "poly2": 656.511988616483, "poly3": 655.3514538396313, "logistic": 680.6902131875243, "in_range": true}, {"spend": 118945.52779390852, "poly1": 701.9363738086644, "poly2": 679.022277598563, "poly3": 680.3938353089126, "logistic": 702.3473684045211, "in_range": true}, {"spend": 122648.7787094333, "poly1": 724.2872146854993, "poly2": 701.6818844831239, "poly3": 705.6804485740489, "logistic": 723.9911361557151, "in_range": true}, {"spend": 126352.02962495806, "poly1": 746.6380555623341, "poly2": 724.4908092701652, "poly3": 731.1944785272989, "logistic": 745.6215247166294, "in_range": true}, {"spend": 130055.28054048284, "poly1": 768.988896439169, "poly2": 747.4490519596873, "poly3": 756.9191100609221, "logistic": 767.2385423576682, "in_range": true}, {"spend": 133758.5314560076, "poly1": 791.3397373160038, "poly2": 770.5566125516897, "poly3": 782.8375280671765, "logistic": 788.842197344128, "in_range": true}, {"spend": 137461.78237153235, "poly1": 813.6905781928386, "poly2": 793.8134910461728, "poly3": 808.9329174383216, "logistic": 810.4324979361905, "in_range": true}, {"spend": 141165.03328705713, "poly1": 836.0414190696737, "poly2": 817.2196874431365, "poly3": 835.1884630666165, "logistic": 832.0094523889303, "in_range": true}, {"spend": 144868.28420258188, "poly1": 858.3922599465084, "poly2": 840.7752017425809, "poly3": 861.5873498443191, "logistic": 853.5730689523263, "in_range": true}, {"spend": 148571.53511810667, "poly1": 880.7431008233434, "poly2": 864.4800339445057, "poly3": 888.1127626636894, "logistic": 875.12335587125, "in_range": true}, {"spend": 152274.78603363142, "poly1": 903.0939417001782, "poly2": 888.3341840489112, "poly3": 914.7478864169857, "logistic": 896.6603213854861, "in_range": true}, {"spend": 155978.03694915617, "poly1": 925.444782577013, "poly2": 912.3376520557971, "poly3": 941.4759059964667, "logistic": 918.1839737297114, "in_range": true}, {"spend": 159681.28786468095, "poly1": 947.795623453848, "poly2": 936.4904379651639, "poly3": 968.2800062943919, "logistic": 939.6943211335235, "in_range": true}, {"spend": 163384.5387802057, "poly1": 970.1464643306828, "poly2": 960.792541777011, "poly3": 995.1433722030197, "logistic": 961.1913718214328, "in_range": true}, {"spend": 167087.7896957305, "poly1": 992.4973052075177, "poly2": 985.243963491339, "poly3": 1022.0491886146093, "logistic": 982.6751340128617, "in_range": true}, {"spend": 170791.04061125524, "poly1": 1014.8481460843526, "poly2": 1009.8447031081472, "poly3": 1048.9806404214191, "logistic": 1004.1456159221497, "in_range": true}, {"spend": 174494.29152678, "poly1": 1037.1989869611873, "poly2": 1034.594760627436, "poly3": 1075.9209125157083, "logistic": 1025.6028257585642, "in_range": true}, {"spend": 178197.54244230478, "poly1": 1059.549827838022, "poly2": 1059.4941360492057, "poly3": 1102.8531897897365, "logistic": 1047.0467717262936, "in_range": true}, {"spend": 181900.79335782956, "poly1": 1081.9006687148571, "poly2": 1084.542829373456, "poly3": 1129.7606571357614, "logistic": 1068.4774620244586, "in_range": true}, {"spend": 185604.04427335432, "poly1": 1104.251509591692, "poly2": 1109.7408406001866, "poly3": 1156.626499446042, "logistic": 1089.8949048471081, "in_range": true}, {"spend": 189307.29518887907, "poly1": 1126.6023504685268, "poly2": 1135.0881697293978, "poly3": 1183.4339016128379, "logistic": 1111.2991083832314, "in_range": true}, {"spend": 193010.54610440382, "poly1": 1148.9531913453616, "poly2": 1160.5848167610898, "poly3": 1210.1660485284078, "logistic": 1132.6900808167463, "in_range": true}, {"spend": 196713.7970199286, "poly1": 1171.3040322221966, "poly2": 1186.2307816952623, "poly3": 1236.8061250850103, "logistic": 1154.067830326519, "in_range": true}, {"spend": 200417.0479354534, "poly1": 1193.6548730990314, "poly2": 1212.0260645319154, "poly3": 1263.3373161749046, "logistic": 1175.4323650863598, "in_range": true}, {"spend": 204120.29885097814, "poly1": 1216.0057139758662, "poly2": 1237.970665271049, "poly3": 1289.742806690349, "logistic": 1196.783693265023, "in_range": true}, {"spend": 207823.5497665029, "poly1": 1238.356554852701, "poly2": 1264.0645839126632, "poly3": 1316.005781523603, "logistic": 1218.121823026212, "in_range": true}, {"spend": 211526.80068202768, "poly1": 1260.707395729536, "poly2": 1290.3078204567582, "poly3": 1342.1094255669254, "logistic": 1239.4467625285936, "in_range": true}, {"spend": 215230.05159755243, "poly1": 1283.0582366063709, "poly2": 1316.7003749033333, "poly3": 1368.036923712575, "logistic": 1260.758519925779, "in_range": true}, {"spend": 218933.30251307721, "poly1": 1305.409077483206, "poly2": 1343.2422472523895, "poly3": 1393.7714608528104, "logistic": 1282.0571033663477, "in_range": true}, {"spend": 222636.553428602, "poly1": 1327.7599183600407, "poly2": 1369.9334375039264, "poly3": 1419.296221879891, "logistic": 1303.3425209938355, "in_range": true}, {"spend": 226339.80434412675, "poly1": 1350.1107592368755, "poly2": 1396.7739456579434, "poly3": 1444.5943916860751, "logistic": 1324.6147809467498, "in_range": true}, {"spend": 230043.0552596515, "poly1": 1372.4616001137103, "poly2": 1423.763771714441, "poly3": 1469.6491551636218, "logistic": 1345.8738913585623, "in_range": true}, {"spend": 233746.30617517626, "poly1": 1394.8124409905452, "poly2": 1450.9029156734193, "poly3": 1494.4436972047906, "logistic": 1367.119860357725, "in_range": true}, {"spend": 237449.55709070104, "poly1": 1417.1632818673802, "poly2": 1478.1913775348783, "poly3": 1518.9612027018393, "logistic": 1388.3526960676536, "in_range": true}, {"spend": 241152.80800622582, "poly1": 1439.5141227442152, "poly2": 1505.6291572988177, "poly3": 1543.1848565470282, "logistic": 1409.572406606756, "in_range": true}, {"spend": 244856.05892175058, "poly1": 1461.86496362105, "poly2": 1533.2162549652378, "poly3": 1567.097843632614, "logistic": 1430.7790000884077, "in_range": true}, {"spend": 248559.30983727533, "poly1": 1484.2158044978848, "poly2": 1560.9526705341386, "poly3": 1590.6833488508582, "logistic": 1451.9724846209767, "in_range": true}, {"spend": 252262.56075280008, "poly1": 1506.5666453747197, "poly2": 1588.8384040055194, "poly3": 1613.924557094018, "logistic": 1473.1528683078227, "in_range": true}, {"spend": 255965.81166832487, "poly1": 1528.9174862515545, "poly2": 1616.8734553793815, "poly3": 1636.8046532543522, "logistic": 1494.320159247285, "in_range": true}, {"spend": 259669.06258384965, "poly1": 1551.2683271283895, "poly2": 1645.057824655724, "poly3": 1659.306822224121, "logistic": 1515.474365532707, "in_range": true}, {"spend": 263372.31349937443, "poly1": 1573.6191680052245, "poly2": 1673.3915118345471, "poly3": 1681.4142488955822, "logistic": 1536.615495252424, "in_range": true}, {"spend": 267075.56441489916, "poly1": 1595.9700088820591, "poly2": 1701.8745169158506, "poly3": 1703.1101181609947, "logistic": 1557.743556489771, "in_range": true}, {"spend": 270778.81533042394, "poly1": 1618.3208497588942, "poly2": 1730.506839899635, "poly3": 1724.377614912618, "logistic": 1578.8585573230866, "in_range": true}, {"spend": 274482.0662459487, "poly1": 1640.671690635729, "poly2": 1759.2884807858998, "poly3": 1745.1999240427106, "logistic": 1599.9605058257218, "in_range": true}, {"spend": 278185.3171614735, "poly1": 1663.022531512564, "poly2": 1788.219439574645, "poly3": 1765.5602304435315, "logistic": 1621.0494100660305, "in_range": true}, {"spend": 281888.5680769982, "poly1": 1685.3733723893986, "poly2": 1817.299716265871, "poly3": 1785.4417190073389, "logistic": 1642.1252781073788, "in_range": true}, {"spend": 285591.818992523, "poly1": 1707.7242132662336, "poly2": 1846.5293108595774, "poly3": 1804.827574626393, "logistic": 1663.1881180081523, "in_range": true}, {"spend": 289295.06990804774, "poly1": 1730.0750541430682, "poly2": 1875.9082233557642, "poly3": 1823.7009821929519, "logistic": 1684.237937821756, "in_range": true}, {"spend": 292998.3208235725, "poly1": 1752.4258950199032, "poly2": 1905.436453754432, "poly3": 1842.0451265992742, "logistic": 1705.2747455966075, "in_range": true}, {"spend": 296701.5717390973, "poly1": 1774.7767358967383, "poly2": 1935.1140020555806, "poly3": 1859.8431927376193, "logistic": 1726.2985493761628, "in_range": true}, {"spend": 300404.8226546221, "poly1": 1797.127576773573, "poly2": 1964.9408682592095, "poly3": 1877.0783655002456, "logistic": 1747.3093571988938, "in_range": false}, {"spend": 304108.07357014687, "poly1": 1819.4784176504081, "poly2": 1994.917052365319, "poly3": 1893.733829779413, "logistic": 1768.3071770983086, "in_range": false}, {"spend": 307811.3244856716, "poly1": 1841.8292585272427, "poly2": 2025.0425543739088, "poly3": 1909.79277046738, "logistic": 1789.2920171029539, "in_range": false}, {"spend": 311514.5754011964, "poly1": 1864.1800994040777, "poly2": 2055.3173742849795, "poly3": 1925.2383724564042, "logistic": 1810.2638852364003, "in_range": false}, {"spend": 315217.82631672116, "poly1": 1886.5309402809128, "poly2": 2085.7415120985306, "poly3": 1940.0538206387457, "logistic": 1831.222789517278, "in_range": false}, {"spend": 318921.0772322459, "poly1": 1908.8817811577474, "poly2": 2116.3149678145624, "poly3": 1954.2222999066635, "logistic": 1852.1687379592404, "in_range": false}, {"spend": 322624.32814777066, "poly1": 1931.2326220345824, "poly2": 2147.0377414330746, "poly3": 1967.7269951524163, "logistic": 1873.1017385710002, "in_range": false}, {"spend": 326327.5790632954, "poly1": 1953.583462911417, "poly2": 2177.9098329540675, "poly3": 1980.551091268262, "logistic": 1894.0217993563178, "in_range": false}, {"spend": 330030.82997882017, "poly1": 1975.9343037882518, "poly2": 2208.9312423775414, "poly3": 1992.6777731464617, "logistic": 1914.9289283139967, "in_range": false}, {"spend": 333734.08089434495, "poly1": 1998.2851446650868, "poly2": 2240.1019697034953, "poly3": 2004.090225679272, "logistic": 1935.8231334379118, "in_range": false}, {"spend": 337437.33180986973, "poly1": 2020.6359855419219, "poly2": 2271.42201493193, "poly3": 2014.7716337589527, "logistic": 1956.7044227169815, "in_range": false}, {"spend": 341140.5827253945, "poly1": 2042.986826418757, "poly2": 2302.891378062846, "poly3": 2024.7051822777635, "logistic": 1977.572804135195, "in_range": false}, {"spend": 344843.8336409193, "poly1": 2065.337667295592, "poly2": 2334.510059096242, "poly3": 2033.8740561279615, "logistic": 1998.428285671601, "in_range": false}, {"spend": 348547.084556444, "poly1": 2087.6885081724267, "poly2": 2366.2780580321178, "poly3": 2042.2614402018062, "logistic": 2019.2708753003237, "in_range": false}, {"spend": 352250.3354719688, "poly1": 2110.0393490492615, "poly2": 2398.195374870475, "poly3": 2049.8505193915585, "logistic": 2040.100580990546, "in_range": false}, {"spend": 355953.5863874936, "poly1": 2132.3901899260964, "poly2": 2430.262009611313, "poly3": 2056.624478589474, "logistic": 2060.91741070653, "in_range": false}, {"spend": 359656.8373030183, "poly1": 2154.741030802931, "poly2": 2462.4779622546307, "poly3": 2062.5665026878137, "logistic": 2081.7213724076255, "in_range": false}, {"spend": 363360.0882185431, "poly1": 2177.091871679766, "poly2": 2494.8432328004296, "poly3": 2067.6597765788374, "logistic": 2102.5124740482447, "in_range": false}, {"spend": 367063.3391340678, "poly1": 2199.442712556601, "poly2": 2527.3578212487087, "poly3": 2071.8874851548003, "logistic": 2123.290723577891, "in_range": false}, {"spend": 370766.59004959266, "poly1": 2221.793553433436, "poly2": 2560.021727599469, "poly3": 2075.2328133079654, "logistic": 2144.0561289411557, "in_range": false}, {"spend": 374469.8409651174, "poly1": 2244.144394310271, "poly2": 2592.8349518527093, "poly3": 2077.6789459305887, "logistic": 2164.8086980777157, "in_range": false}, {"spend": 378173.0918806421, "poly1": 2266.495235187105, "poly2": 2625.7974940084305, "poly3": 2079.209067914931, "logistic": 2185.5484389223443, "in_range": false}, {"spend": 381876.34279616695, "poly1": 2288.8460760639405, "poly2": 2658.9093540666327, "poly3": 2079.806364153249, "logistic": 2206.2753594049004, "in_range": false}, {"spend": 385579.5937116917, "poly1": 2311.1969169407753, "poly2": 2692.170532027315, "poly3": 2079.454019537804, "logistic": 2226.9894674503516, "in_range": false}, {"spend": 389282.84462721646, "poly1": 2333.54775781761, "poly2": 2725.581027890478, "poly3": 2078.135218960854, "logistic": 2247.6907709787583, "in_range": false}], "cpa_marg_levels": [{"spend": 10000, "poly1": 165.6873195926572, "poly2": 203.56277730208447, "poly3": 345.91144199159396, "logistic": 167.9638191131147, "in_range": false}, {"spend": 20000, "poly1": 165.6873195926572, "poly2": 199.14888383341255, "poly3": 292.9837645928292, "logistic": 168.2445088036426, "in_range": true}, {"spend": 30000, "poly1": 165.6873195926572, "poly2": 194.92234268152293, "poly3": 256.2595122694387, "logistic": 168.5256675636569, "in_range": true}, {"spend": 40000, "poly1": 165.6873195926572, "poly2": 190.87147319802594, "poly3": 229.44617670454147, "logistic": 168.80729617703457, "in_range": true}, {"spend": 50000, "poly1": 165.6873195926572, "poly2": 186.98554595367537, "poly3": 209.15086364325433, "logistic": 169.08939542896255, "in_range": true}, {"spend": 60000, "poly1": 165.6873195926572, "poly2": 183.25468784163084, "poly3": 193.38448948311694, "logistic": 169.37196610593995, "in_range": true}, {"spend": 70000, "poly1": 165.6873195926572, "poly2": 179.66979831913048, "poly3": 180.90562755064707, "logistic": 169.65500899578015, "in_range": true}, {"spend": 80000, "poly1": 165.6873195926572, "poly2": 176.22247529158625, "poly3": 170.90122352573252, "logistic": 169.93852488761314, "in_range": true}, {"spend": 90000, "poly1": 165.6873195926572, "poly2": 172.90494936841807, "poly3": 162.81837221769862, "logistic": 170.22251457188761, "in_range": true}, {"spend": 100000, "poly1": 165.6873195926572, "poly2": 169.7100254077811, "poly3": 156.26993515963457, "logistic": 170.50697884037322, "in_range": true}, {"spend": 110000, "poly1": 165.6873195926572, "poly2": 166.63103042450547, "poly3": 150.97883872161705, "logistic": 170.79191848616273, "in_range": true}, {"spend": 120000, "poly1": 165.6873195926572, "poly2": 163.66176706752861, "poly3": 146.74382785543844, "logistic": 171.07733430367435, "in_range": true}, {"spend": 130000, "poly1": 165.6873195926572, "poly2": 160.79647198426764, "poly3": 143.417716796505, "logistic": 171.3632270886538, "in_range": true}, {"spend": 140000, "poly1": 165.6873195926572, "poly2": 158.02977848333356, "poly3": 140.8932420533012, "logistic": 171.6495976381766, "in_range": true}, {"spend": 150000, "poly1": 165.6873195926572, "poly2": 155.35668298663722, "poly3": 139.09373460002934, "logistic": 171.9364467506503, "in_range": true}, {"spend": 160000, "poly1": 165.6873195926572, "poly2": 152.7725148296641, "poly3": 137.96698090845118, "logistic": 172.22377522581675, "in_range": true}, {"spend": 170000, "poly1": 165.6873195926572, "poly2": 150.27290902644756, "poly3": 137.4813025937819, "logistic": 172.51158386475416, "in_range": true}, {"spend": 180000, "poly1": 165.6873195926572, "poly2": 147.8537816651562, "poly3": 137.6232832822456, "logistic": 172.79987346987954, "in_range": true}, {"spend": 190000, "poly1": 165.6873195926572, "poly2": 145.5113076425535, "poly3": 138.3968302679057, "logistic": 173.08864484495084, "in_range": true}, {"spend": 200000, "poly1": 165.6873195926572, "poly2": 143.24190048199, "poly3": 139.8234462824339, "logistic": 173.37789879506906, "in_range": true}, {"spend": 210000, "poly1": 165.6873195926572, "poly2": 141.04219401095528, "poly3": 141.94374722220473, "logistic": 173.6676361266809, "in_range": true}, {"spend": 220000, "poly1": 165.6873195926572, "poly2": 138.90902570131857, "poly3": 144.82042995515053, "logistic": 173.95785764758043, "in_range": true}, {"spend": 230000, "poly1": 165.6873195926572, "poly2": 136.83942149885064, "poly3": 148.54310788525004, "logistic": 174.24856416691188, "in_range": true}, {"spend": 240000, "poly1": 165.6873195926572, "poly2": 134.83058198898607, "poly3": 153.23574350833894, "logistic": 174.5397564951716, "in_range": true}, {"spend": 250000, "poly1": 165.6873195926572, "poly2": 132.87986976349762, "poly3": 159.06790466040442, "logistic": 174.83143544421026, "in_range": true}, {"spend": 260000, "poly1": 165.6873195926572, "poly2": 130.98479786819502, "poly3": 166.27191591828148, "logistic": 175.1236018272355, "in_range": true}, {"spend": 270000, "poly1": 165.6873195926572, "poly2": 129.1430192252458, "poly3": 175.16948433898645, "logistic": 175.41625645881368, "in_range": true}, {"spend": 280000, "poly1": 165.6873195926572, "poly2": 127.35231693551927, "poly3": 186.2142018028786, "logistic": 175.70940015487253, "in_range": true}, {"spend": 290000, "poly1": 165.6873195926572, "poly2": 125.610595376705, "poly3": 200.06189222746107, "logistic": 176.00303373270333, "in_range": true}, {"spend": 300000, "poly1": 165.6873195926572, "poly2": 123.9158720220498, "poly3": 217.6924137018554, "logistic": 176.2971580109631, "in_range": false}, {"spend": 310000, "poly1": 165.6873195926572, "poly2": 122.2662699125623, "poly3": 240.63264130073247, "logistic": 176.59177380967697, "in_range": false}, {"spend": 320000, "poly1": 165.6873195926572, "poly2": 120.66001072259061, "poly3": 271.3941562764802, "logistic": 176.88688195024042, "in_range": false}, {"spend": 330000, "poly1": 165.6873195926572, "poly2": 119.09540836491358, "poly3": 314.4126183502364, "logistic": 177.18248325542157, "in_range": false}, {"spend": 340000, "poly1": 165.6873195926572, "poly2": 117.57086308700067, "poly3": 378.3177300139808, "logistic": 177.47857854936365, "in_range": false}, {"spend": 350000, "poly1": 165.6873195926572, "poly2": 116.0848560149851, "poly3": 482.4116578442041, "logistic": 177.77516865758685, "in_range": false}, {"spend": 360000, "poly1": 165.6873195926572, "poly2": 114.6359441062328, "poly3": 680.5282778294646, "logistic": 178.07225440699122, "in_range": false}, {"spend": 370000, "poly1": 165.6873195926572, "poly2": 113.22275547524838, "poly3": 1200.6739266546765, "logistic": 178.36983662585845, "in_range": false}, {"spend": 380000, "poly1": 165.6873195926572, "poly2": 111.84398506109399, "poly3": 6128.381811674333, "logistic": 178.66791614385457, "in_range": false}, {"spend": 390000, "poly1": 165.6873195926572, "poly2": 110.49839060755959, "poly3": null, "logistic": 178.9664937920319, "in_range": false}, {"spend": 400000, "poly1": 165.6873195926572, "poly2": 109.18478893005893, "poly3": null, "logistic": 179.2655704028317, "in_range": false}], "optimum": {"spend": 172957, "cpa_marg": 137.4580815732559}, "spend_range": {"min": 18957.753074739834, "max": 299448.3420209357}, "rolling_90d": [{"date": "2026-04-01", "r2": 0.850425137598071, "coefs": [-27.34729396466666, 0.007557960642473653, -2.5708760957570232e-08, 7.36537560459466e-14], "cpa_marg_now": 154.81486052704594, "cpa_real": 155.72297297297297, "spend": 23047.0, "sales": 148.0, "optimum_spend": 298957, "optimum_cpa_marg": 83.78851804243116}, {"date": "2026-04-02", "r2": 0.8520748344344582, "coefs": [-28.277289286242336, 0.007534918064639175, -2.5348288035065188e-08, 7.271330137052409e-14], "cpa_marg_now": 155.41478195998673, "cpa_real": 134.0923913043478, "spend": 24673.0, "sales": 184.0, "optimum_spend": 298957, "optimum_cpa_marg": 84.20954421078474}, {"date": "2026-04-03", "r2": 0.8522512653909466, "coefs": [-24.780377763751716, 0.007407978622256139, -2.430758805553652e-08, 7.048120346344203e-14], "cpa_marg_now": 168.2021820855535, "cpa_real": 123.28083989501312, "spend": 46970.0, "sales": 381.0, "optimum_spend": 298957, "optimum_cpa_marg": 84.94758550426027}, {"date": "2026-04-04", "r2": 0.8494496428406759, "coefs": [-22.03718518859395, 0.007383987660930965, -2.435067205671692e-08, 7.08128802257338e-14], "cpa_marg_now": 180.25141670752757, "cpa_real": 193.99348534201954, "spend": 59556.0, "sales": 307.0, "optimum_spend": 298957, "optimum_cpa_marg": 84.66579952646467}, {"date": "2026-04-05", "r2": 0.8575668155879548, "coefs": [-1.9300906046881816, 0.006470635232388848, -1.678657243372812e-08, 5.4735079171668936e-14], "cpa_marg_now": 189.68143825348753, "cpa_real": 136.03353658536585, "spend": 44619.0, "sales": 328.0, "optimum_spend": 298957, "optimum_cpa_marg": 90.0122503223483}, {"date": "2026-04-06", "r2": 0.8572936168618166, "coefs": [-5.490980869730346, 0.006667962753642333, -1.8572544789929702e-08, 5.871184345775695e-14], "cpa_marg_now": 184.22941439548362, "cpa_real": 149.49193548387098, "spend": 37074.0, "sales": 248.0, "optimum_spend": 298957, "optimum_cpa_marg": 88.45375979698716}, {"date": "2026-04-07", "r2": 0.857347006814996, "coefs": [-6.288848323867246, 0.006721300440118544, -1.907705190657517e-08, 5.985638067512976e-14], "cpa_marg_now": 179.19287218848376, "cpa_real": 150.59405940594058, "spend": 30420.0, "sales": 202.0, "optimum_spend": 298957, "optimum_cpa_marg": 87.9978981727051}, {"date": "2026-04-08", "r2": 0.8574464225118148, "coefs": [-6.661293967816002, 0.006747827614674367, -1.933143487717999e-08, 6.04368133683154e-14], "cpa_marg_now": 195.51641259010478, "cpa_real": 236.21238938053096, "spend": 80076.0, "sales": 339.0, "optimum_spend": 298957, "optimum_cpa_marg": 87.76576147108143}, {"date": "2026-04-09", "r2": 0.8576020370659023, "coefs": [-8.379433826220986, 0.006854426355263928, -2.0323155031345274e-08, 6.267114432870916e-14], "cpa_marg_now": 208.89582169907027, "cpa_real": 205.9785575048733, "spend": 105667.0, "sales": 513.0, "optimum_spend": 298957, "optimum_cpa_marg": 86.90602457439265}, {"date": "2026-04-10", "r2": 0.8579669589840859, "coefs": [-12.74598175102599, 0.0070919744313572165, -2.234600226691558e-08, 6.701004919602212e-14], "cpa_marg_now": 216.5614761916241, "cpa_real": 188.19316493313522, "spend": 126654.0, "sales": 673.0, "optimum_spend": 298957, "optimum_cpa_marg": 85.4838641615452}, {"date": "2026-04-11", "r2": 0.8585106831328498, "coefs": [-16.937211721783793, 0.0073022986653656806, -2.369792654458816e-08, 6.931703960343674e-14], "cpa_marg_now": 215.99794752289418, "cpa_real": 164.2662192393736, "spend": 146854.0, "sales": 894.0, "optimum_spend": 298957, "optimum_cpa_marg": 85.3339325144171}, {"date": "2026-04-12", "r2": 0.8574543604057488, "coefs": [-16.521283711196723, 0.00723386753468394, -2.136777085059674e-08, 6.197655695212536e-14], "cpa_marg_now": 202.31667849064223, "cpa_real": 152.35813953488372, "spend": 163785.0, "sales": 1075.0, "optimum_spend": 298957, "optimum_cpa_marg": 90.29104014703577}, {"date": "2026-04-13", "r2": 0.8559078552133965, "coefs": [-2.1197163869086784, 0.0065212213510522895, -1.243422674033324e-08, 3.893872561477734e-14], "cpa_marg_now": 190.33806726211537, "cpa_real": 187.998322147651, "spend": 112047.0, "sales": 596.0, "optimum_spend": 298957, "optimum_cpa_marg": 104.96370710362704}, {"date": "2026-04-14", "r2": 0.8547336301451792, "coefs": [-1.1087917057259296, 0.0065234569689723645, -1.3293064672847634e-08, 4.18759257762043e-14], "cpa_marg_now": 193.34685312522646, "cpa_real": 218.83916083916083, "spend": 125176.0, "sales": 572.0, "optimum_spend": 298957, "optimum_cpa_marg": 102.0057777712668}, {"date": "2026-04-15", "r2": 0.8530496739212577, "coefs": [1.0554889544506296, 0.006483142872259627, -1.3793618825089478e-08, 4.4034841995698223e-14], "cpa_marg_now": 197.17067644108394, "cpa_real": 198.60498220640568, "spend": 111616.0, "sales": 562.0, "optimum_spend": 298957, "optimum_cpa_marg": 99.57555816439383}, {"date": "2026-04-16", "r2": 0.8520544894140599, "coefs": [2.554765416454191, 0.006436262576338432, -1.3872517576376871e-08, 4.483342002003321e-14], "cpa_marg_now": 199.77532249764997, "cpa_real": 174.03696498054475, "spend": 89455.0, "sales": 514.0, "optimum_spend": 298098, "optimum_cpa_marg": 98.83824181742062}, {"date": "2026-04-17", "r2": 0.8511550159724776, "coefs": [6.36941689689807, 0.006291820604181218, -1.286162300238759e-08, 4.291730324882879e-14], "cpa_marg_now": 199.71702360759195, "cpa_real": 189.34375, "spend": 96944.0, "sales": 512.0, "optimum_spend": 298098, "optimum_cpa_marg": 99.35441105434518}, {"date": "2026-04-18", "r2": 0.8508043410779911, "coefs": [7.026572408535382, 0.006247234356345645, -1.2561275976912454e-08, 4.2393394801381274e-14], "cpa_marg_now": 198.69433588053226, "cpa_real": 183.14868804664724, "spend": 125640.0, "sales": 686.0, "optimum_spend": 298098, "optimum_cpa_marg": 99.40564844405672}, {"date": "2026-04-19", "r2": 0.85164798784164, "coefs": [2.038343092361174, 0.006398172888142457, -1.3449024246247716e-08, 4.384960646911564e-14], "cpa_marg_now": 198.73510021543734, "cpa_real": 168.8006279434851, "spend": 107526.0, "sales": 637.0, "optimum_spend": 298098, "optimum_cpa_marg": 99.30817403359356}, {"date": "2026-04-20", "r2": 0.8516216482283357, "coefs": [2.443298039936053, 0.006396601669384687, -1.3345311566708925e-08, 4.3483240018340365e-14], "cpa_marg_now": 198.73690022995515, "cpa_real": 158.9512987012987, "spend": 97914.0, "sales": 616.0, "optimum_spend": 298098, "optimum_cpa_marg": 99.67845927532647}, {"date": "2026-04-21", "r2": 0.8514139694966681, "coefs": [-0.10741022723127067, 0.006491479235659565, -1.4014553705167184e-08, 4.476235801562213e-14], "cpa_marg_now": 198.81149473348896, "cpa_real": 141.30295250320924, "spend": 110075.0, "sales": 779.0, "optimum_spend": 298098, "optimum_cpa_marg": 99.31342220273166}, {"date": "2026-04-22", "r2": 0.8492655106622994, "coefs": [-6.721898448225773, 0.006754780567227966, -1.5672694085386045e-08, 4.758571978591755e-14], "cpa_marg_now": 198.50083419386593, "cpa_real": 228.18994413407822, "spend": 122538.0, "sales": 537.0, "optimum_spend": 298098, "optimum_cpa_marg": 99.04393528002058}, {"date": "2026-04-23", "r2": 0.8477863551742316, "coefs": [-2.6142608073892513, 0.006628673467459455, -1.5042071437983098e-08, 4.676253054429313e-14], "cpa_marg_now": 199.24622062207348, "cpa_real": 198.2290909090909, "spend": 109026.0, "sales": 550.0, "optimum_spend": 298098, "optimum_cpa_marg": 98.74646110654729}, {"date": "2026-04-24", "r2": 0.8467886435129213, "coefs": [2.4783526990708196, 0.006477747228174935, -1.40945317802025e-08, 4.509036304226487e-14], "cpa_marg_now": 199.58846379690948, "cpa_real": 206.99771689497717, "spend": 90665.0, "sales": 438.0, "optimum_spend": 298098, "optimum_cpa_marg": 99.05737231663392}, {"date": "2026-04-25", "r2": 0.8443178063428146, "coefs": [12.079441078818572, 0.006142179415463001, -1.1613300458004974e-08, 4.013526218960991e-14], "cpa_marg_now": 197.60677978050654, "cpa_real": 201.21484992101105, "spend": 127369.0, "sales": 633.0, "optimum_spend": 298098, "optimum_cpa_marg": 100.82753774478711}, {"date": "2026-04-26", "r2": 0.8440935415603024, "coefs": [11.855504558812067, 0.006149876622432692, -1.1640758712462252e-08, 4.014532345113951e-14], "cpa_marg_now": 194.0144046849753, "cpa_real": 190.21842105263158, "spend": 144566.0, "sales": 760.0, "optimum_spend": 298098, "optimum_cpa_marg": 100.88848113651397}, {"date": "2026-04-27", "r2": 0.8442715595873993, "coefs": [15.758670103874627, 0.006010685828536341, -1.0201935120213687e-08, 3.6654320422492436e-14], "cpa_marg_now": 196.79719735238018, "cpa_real": 173.67665952890792, "spend": 81107.0, "sales": 467.0, "optimum_spend": 298098, "optimum_cpa_marg": 103.09376658681663}, {"date": "2026-04-28", "r2": 0.8419994996721072, "coefs": [26.33531491210257, 0.005670832407892722, -7.738727446123928e-09, 3.176966198210686e-14], "cpa_marg_now": 197.2649739828984, "cpa_real": 223.35714285714286, "spend": 90683.0, "sales": 406.0, "optimum_spend": 298098, "optimum_cpa_marg": 104.97121669819423}, {"date": "2026-04-29", "r2": 0.8391868335150283, "coefs": [37.66027615633599, 0.005279335589301302, -4.750793932224072e-09, 2.5654593695668443e-14], "cpa_marg_now": 194.93904130743738, "cpa_real": 229.31352459016392, "spend": 111905.0, "sales": 488.0, "optimum_spend": 298098, "optimum_cpa_marg": 107.68761526585541}, {"date": "2026-04-30", "r2": 0.8373622350406421, "coefs": [45.90617160190547, 0.0050200733404319724, -2.8658990160169917e-09, 2.189915009713611e-14], "cpa_marg_now": 190.37023661754802, "cpa_real": 224.37478411053542, "spend": 129913.0, "sales": 579.0, "optimum_spend": 298098, "optimum_cpa_marg": 109.29594740602342}, {"date": "2026-05-01", "r2": 0.8359738325208363, "coefs": [52.59491170369405, 0.004827568258302903, -1.537984198007768e-09, 1.9331560234263746e-14], "cpa_marg_now": 187.02503827419076, "cpa_real": 156.95605700712588, "spend": 132157.0, "sales": 842.0, "optimum_spend": 298098, "optimum_cpa_marg": 110.32442725368571}, {"date": "2026-05-02", "r2": 0.8344743762287105, "coefs": [58.12078770558995, 0.004640442002881193, 6.477481427329663e-10, 1.3743744731361883e-14], "cpa_marg_now": 176.2030169817739, "cpa_real": 196.35230024213075, "spend": 162187.0, "sales": 826.0, "optimum_spend": 298098, "optimum_cpa_marg": 115.06772763614374}, {"date": "2026-05-03", "r2": 0.8352630703871182, "coefs": [67.36042482993733, 0.004343521356600559, 3.2809815563685538e-09, 7.793136704086018e-15], "cpa_marg_now": 169.14904400715287, "cpa_real": 188.36073059360731, "spend": 165004.0, "sales": 876.0, "optimum_spend": 298098, "optimum_cpa_marg": 119.37190788033023}, {"date": "2026-05-04", "r2": 0.8364477126395038, "coefs": [79.12427993687339, 0.0039655294122235354, 6.505503490485505e-09, 6.606976137885124e-16], "cpa_marg_now": 185.37535555238148, "cpa_real": 180.30903790087464, "spend": 61846.0, "sales": 343.0, "optimum_spend": 298098, "optimum_cpa_marg": 124.68488804323987}, {"date": "2026-05-05", "r2": 0.8291269495905121, "coefs": [100.5136732358664, 0.003260366888838431, 1.1741768278585655e-08, -9.894783482369968e-15], "cpa_marg_now": 196.6525661703239, "cpa_real": 165.3821339950372, "spend": 66649.0, "sales": 403.0, "optimum_spend": 297801, "optimum_cpa_marg": 131.2126222865315}, {"date": "2026-05-06", "r2": 0.8274137305516022, "coefs": [106.56325098701038, 0.003039980896384058, 1.3536050750480448e-08, -1.3719922298449901e-14], "cpa_marg_now": 196.88570922331442, "cpa_real": 174.1191919191919, "spend": 86189.0, "sales": 495.0, "optimum_spend": 297801, "optimum_cpa_marg": 134.1956218101111}, {"date": "2026-05-07", "r2": 0.8271946876949852, "coefs": [102.40842110722038, 0.0031465001386978167, 1.2800978048457262e-08, -1.2282581414763456e-14], "cpa_marg_now": 196.0956944117715, "cpa_real": 183.88050314465409, "spend": 87711.0, "sales": 477.0, "optimum_spend": 297801, "optimum_cpa_marg": 133.28126448220004}, {"date": "2026-05-08", "r2": 0.82817711303744, "coefs": [100.47200733908241, 0.003129149647898407, 1.322314008319378e-08, -1.3468975561879552e-14], "cpa_marg_now": 190.0367648206814, "cpa_real": 170.9358108108108, "spend": 101194.0, "sales": 592.0, "optimum_spend": 297801, "optimum_cpa_marg": 134.74596632705078}, {"date": "2026-05-09", "r2": 0.83555592197011, "coefs": [100.49413617100436, 0.0029313955999260123, 1.5611235907810015e-08, -1.941850916808169e-14], "cpa_marg_now": 161.07247985303843, "cpa_real": 211.03622392974754, "spend": 192254.0, "sales": 911.0, "optimum_spend": 267801, "optimum_cpa_marg": 140.5506815214975}, {"date": "2026-05-10", "r2": 0.8459347707081477, "coefs": [115.12941487543148, 0.0021301508154299414, 2.3675757874237996e-08, -3.840425137596975e-14], "cpa_marg_now": 149.2849677018338, "cpa_real": 200.04693140794222, "spend": 166239.0, "sales": 831.0, "optimum_spend": 205801, "optimum_cpa_marg": 142.9508129180056}, {"date": "2026-05-11", "r2": 0.8474003644351873, "coefs": [111.31121090207752, 0.0022485642155972156, 2.2573307367100653e-08, -3.585866106120456e-14], "cpa_marg_now": 174.9449651608987, "cpa_real": 144.10876132930514, "spend": 47700.0, "sales": 331.0, "optimum_spend": 209801, "optimum_cpa_marg": 143.15869200678304}, {"date": "2026-05-12", "r2": 0.8425523246505527, "coefs": [121.92865184313519, 0.0018530661358585267, 2.5611542235901823e-08, -4.2062981858398375e-14], "cpa_marg_now": 198.13561431048944, "cpa_real": 142.6991869918699, "spend": 52656.0, "sales": 369.0, "optimum_spend": 203801, "optimum_cpa_marg": 141.82097147016103}, {"date": "2026-05-13", "r2": 0.8420172777576462, "coefs": [120.41798677432631, 0.0018488524968079377, 2.580074001648332e-08, -4.2607965496994817e-14], "cpa_marg_now": 204.12709828920373, "cpa_real": 183.81043956043956, "spend": 66907.0, "sales": 364.0, "optimum_spend": 201801, "optimum_cpa_marg": 141.7107441434564}, {"date": "2026-05-14", "r2": 0.8417312344744092, "coefs": [118.94457610577147, 0.0018540340472161553, 2.5896269107961938e-08, -4.294446540117834e-14], "cpa_marg_now": 209.60246115226656, "cpa_real": 199.81132075471697, "spend": 63540.0, "sales": 318.0, "optimum_spend": 201801, "optimum_cpa_marg": 141.65801302172852}, {"date": "2026-05-15", "r2": 0.8416259287894879, "coefs": [119.27449728505873, 0.001782541681882654, 2.6667310693835454e-08, -4.478122651100927e-14], "cpa_marg_now": 212.9457106576873, "cpa_real": 157.6825, "spend": 63073.0, "sales": 400.0, "optimum_spend": 197801, "optimum_cpa_marg": 141.3236797092045}, {"date": "2026-05-16", "r2": 0.8406335180579069, "coefs": [116.80149290891438, 0.0019030971155328488, 2.5572507441838893e-08, -4.232403389032863e-14], "cpa_marg_now": 190.39754873698, "cpa_real": 168.9795570698467, "spend": 99191.0, "sales": 587.0, "optimum_spend": 201801, "optimum_cpa_marg": 141.77468004354097}, {"date": "2026-05-17", "r2": 0.8369509731352258, "coefs": [109.3892831855059, 0.0022792069485781507, 2.2200883495825185e-08, -3.483354207786693e-14], "cpa_marg_now": 176.06983113402814, "cpa_real": 159.44399460188933, "spend": 118148.0, "sales": 741.0, "optimum_spend": 211801, "optimum_cpa_marg": 142.9453062076417}, {"date": "2026-05-18", "r2": 0.8318473073675706, "coefs": [101.80786681988013, 0.002610716674843918, 1.9561274583094182e-08, -2.9367047056756914e-14], "cpa_marg_now": 186.50085630103226, "cpa_real": 178.55238095238096, "spend": 74992.0, "sales": 420.0, "optimum_spend": 221801, "optimum_cpa_marg": 143.80334138618832}, {"date": "2026-05-19", "r2": 0.8297996194185411, "coefs": [109.24774961309296, 0.0023941173222084464, 2.120682753062618e-08, -3.278239710774038e-14], "cpa_marg_now": 197.68054735984293, "cpa_real": 157.53753026634382, "spend": 65063.0, "sales": 413.0, "optimum_spend": 215801, "optimum_cpa_marg": 143.53399264683668}, {"date": "2026-05-20", "r2": 0.8279722983837021, "coefs": [113.42558703545478, 0.0023092942887036347, 2.1739877168049747e-08, -3.378585565713653e-14], "cpa_marg_now": 202.74460310925886, "cpa_real": 184.7426273458445, "spend": 68909.0, "sales": 373.0, "optimum_spend": 213801, "optimum_cpa_marg": 143.4274324301104}, {"date": "2026-05-21", "r2": 0.8269542243753698, "coefs": [113.05350082376486, 0.0023042749383819184, 2.1833272136119397e-08, -3.4035379394956116e-14], "cpa_marg_now": 208.45887443983588, "cpa_real": 108.21097770154374, "spend": 63087.0, "sales": 583.0, "optimum_spend": 213801, "optimum_cpa_marg": 143.4130609180195}, {"date": "2026-05-22", "r2": 0.8194610718338964, "coefs": [115.20902751773077, 0.0024658557973775796, 1.9827396407145616e-08, -2.9092798123076867e-14], "cpa_marg_now": 206.03526913745017, "cpa_real": 121.42394822006473, "spend": 75040.0, "sales": 618.0, "optimum_spend": 227801, "optimum_cpa_marg": 143.470093484843}, {"date": "2026-05-23", "r2": 0.813254165011489, "coefs": [97.99433981283526, 0.0030996548440655374, 1.450288441353185e-08, -1.7506007395667534e-14], "cpa_marg_now": 175.22081375806164, "cpa_real": 123.875, "spend": 154596.0, "sales": 1248.0, "optimum_spend": 275801, "optimum_cpa_marg": 140.75330414193823}, {"date": "2026-05-24", "r2": 0.7810434142868834, "coefs": [76.09766893608766, 0.0037153953281099123, 1.1161924134635688e-08, -1.2508982103445324e-14], "cpa_marg_now": 154.72774068540514, "cpa_real": 134.273299028016, "spend": 234844.0, "sales": 1749.0, "optimum_spend": 297801, "optimum_cpa_marg": 142.1390141951353}, {"date": "2026-05-25", "r2": 0.7626250134236843, "coefs": [161.16698447602013, 0.0003268544570956793, 4.393314931238129e-08, -8.836843312623797e-14], "cpa_marg_now": 132.01285917584133, "cpa_real": 149.4359400998336, "spend": 179622.0, "sales": 1202.0, "optimum_spend": 165801, "optimum_cpa_marg": 131.4503079491555}, {"date": "2026-05-26", "r2": 0.768626544216134, "coefs": [171.23832655426392, -7.839752749307017e-05, 4.7854849295407103e-08, -9.743574493867514e-14], "cpa_marg_now": 132.91733315154153, "cpa_real": 156.1606334841629, "spend": 207069.0, "sales": 1326.0, "optimum_spend": 163801, "optimum_cpa_marg": 128.93045580866615}, {"date": "2026-05-27", "r2": 0.7766338115343209, "coefs": [191.4691345694281, -0.0007174471918142367, 5.3299254592496226e-08, -1.09344104678154e-13], "cpa_marg_now": 148.3153445610289, "cpa_real": 167.33399209486166, "spend": 254013.0, "sales": 1518.0, "optimum_spend": 161801, "optimum_cpa_marg": 125.90406413594724}, {"date": "2026-05-29", "r2": 0.7898345164448041, "coefs": [205.09201961156424, -0.0011009111660749257, 5.631018370705054e-08, -1.1557211277330662e-13], "cpa_marg_now": 139.6611788294327, "cpa_real": 40.38095238095238, "spend": 848.0, "sales": 21.0, "optimum_spend": 161801, "optimum_cpa_marg": 124.31170981650924}]};
+const fmtR = v => 'R$' + (Math.abs(v)>=1e6?(v/1e6).toFixed(2)+'M':Math.abs(v)>=1e3?(v/1e3).toFixed(0)+'k':Math.round(v));
+const fmtN = v => Number(v).toLocaleString('pt-BR');
+
+function showTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  const panels=['overview','comparison','marginal','rolling','methodology'];
+  const idx=panels.indexOf(id);
+  document.querySelectorAll('.tab')[idx].classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  setTimeout(()=>{Object.values(Chart.instances).forEach(c=>{c.resize();c.update('none');})},50);
+}
+
+Chart.defaults.color='#64748B';
+Chart.defaults.borderColor='#1E293B';
+Chart.defaults.font.family="'Inter',system-ui,sans-serif";
+
+// KPIs
+const p3 = DATA.fits.poly3;
+const log = DATA.fits.logistic;
+document.getElementById('kpi-overview').innerHTML = `
+  <div class="kpi kpi-feature"><div class="label">Ponto ótimo estrutural</div><div class="value brand">${fmtR(DATA.optimum.spend)}</div><div class="sub">CPA marginal mínimo: ${fmtR(DATA.optimum.cpa_marg)}</div></div>
+  <div class="kpi"><div class="label">Grau 3 R²</div><div class="value">${p3.r2.toFixed(3)}</div><div class="sub">ajuste no histórico completo</div></div>
+  <div class="kpi"><div class="label">Logística R²</div><div class="value">${log.r2.toFixed(3)}</div><div class="sub">para comparação</div></div>
+  <div class="kpi"><div class="label">Pontos observados</div><div class="value">${DATA.observed.length}</div><div class="sub">${DATA.observed[0].date} → ${DATA.observed[DATA.observed.length-1].date}</div></div>
+  <div class="kpi"><div class="label">Range de gasto</div><div class="value" style="font-size:1.1rem">${fmtR(DATA.spend_range.min)} – ${fmtR(DATA.spend_range.max)}</div><div class="sub">extrapolação fora disso</div></div>
+`;
+
+// Formula
+const c = p3.coefs;
+document.getElementById('formula-main').textContent =
+  `vendas = ${c[0].toFixed(0)} + ${c[1].toExponential(2)}·s + ${c[2].toExponential(2)}·s² + (${c[3].toExponential(2)})·s³   |   R² = ${p3.r2.toFixed(3)}`;
+
+// CHART PRINCIPAL: scatter + curva grau 3
+new Chart(document.getElementById('chartMain'), {
+  type:'scatter',
+  data:{datasets:[
+    {label:'Dados observados',data:DATA.observed.map(o=>({x:o.spend_ads, y:o.sales})),
+     backgroundColor:'rgba(45,217,180,0.5)',borderColor:'transparent',pointRadius:4},
+    {label:'Curva grau 3',type:'line',data:DATA.curve_points.map(p=>({x:p.spend, y:p.poly3})),
+     borderColor:'#00C896',backgroundColor:'transparent',borderWidth:2.5,pointRadius:0,tension:0.2,
+     segment:{borderDash:ctx=>ctx.p1DataIndex>=80?[6,3]:undefined}},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'top',labels:{usePointStyle:true}},
+      annotation:{annotations:{
+        opt:{type:'point',xValue:DATA.optimum.spend,yValue:0,
+             pointStyle:'triangle',radius:0,
+             label:{content:`Ponto ótimo: ${fmtR(DATA.optimum.spend)}`,display:true,position:'start',
+                    backgroundColor:'rgba(245,158,11,0.9)',color:'#fff',font:{size:11,weight:'bold'},
+                    yAdjust:-20}},
+        line:{type:'line',xMin:DATA.optimum.spend,xMax:DATA.optimum.spend,
+              borderColor:'#F59E0B',borderWidth:1.5,borderDash:[5,3]}
+      }}
+    },
+    scales:{
+      x:{title:{display:true,text:'Gasto adstocked (R$)',color:'#64748B'},ticks:{callback:v=>fmtR(v)}},
+      y:{title:{display:true,text:'Vendas/dia',color:'#64748B'}}
+    }
+  }
+});
+
+// CHART COMPARISON: scatter + 4 curvas
+new Chart(document.getElementById('chartCompare'), {
+  type:'scatter',
+  data:{datasets:[
+    {label:'Dados observados',data:DATA.observed.map(o=>({x:o.spend_ads, y:o.sales})),
+     backgroundColor:'rgba(100,116,139,0.5)',borderColor:'transparent',pointRadius:3},
+    {label:'Grau 1',type:'line',data:DATA.curve_points.map(p=>({x:p.spend, y:p.poly1})),
+     borderColor:'#94A3B8',borderWidth:1.5,pointRadius:0,borderDash:[3,3],tension:0},
+    {label:'Grau 2',type:'line',data:DATA.curve_points.map(p=>({x:p.spend, y:p.poly2})),
+     borderColor:'#F59E0B',borderWidth:2,pointRadius:0,tension:0.2},
+    {label:'Grau 3',type:'line',data:DATA.curve_points.map(p=>({x:p.spend, y:p.poly3})),
+     borderColor:'#2DD9B4',borderWidth:2.5,pointRadius:0,tension:0.2},
+    {label:'Logística',type:'line',data:DATA.curve_points.map(p=>({x:p.spend, y:p.logistic})),
+     borderColor:'#EF4444',borderWidth:2,pointRadius:0,tension:0.2},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'top',labels:{usePointStyle:true,font:{size:12}}}},
+    scales:{
+      x:{title:{display:true,text:'Gasto adstocked (R$)',color:'#64748B'},ticks:{callback:v=>fmtR(v)}},
+      y:{title:{display:true,text:'Vendas/dia',color:'#64748B'}}
+    }
+  }
+});
+
+// CHART R²
+new Chart(document.getElementById('chartR2'), {
+  type:'bar',
+  data:{
+    labels:['Grau 1','Grau 2','Grau 3','Logística'],
+    datasets:[{data:[DATA.fits.poly1.r2, DATA.fits.poly2.r2, DATA.fits.poly3.r2, DATA.fits.logistic.r2],
+              backgroundColor:['#94A3B8','#F59E0B','#2DD9B4','#EF4444']}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{y:{min:0.7,max:0.85,title:{display:true,text:'R²',color:'#64748B'}}}}
+});
+
+// Tabela coefs
+document.querySelector('#tbl-coefs tbody').innerHTML = `
+  <tr><td>Grau 1</td><td class="right">${DATA.fits.poly1.r2.toFixed(3)}</td><td style="font-family:monospace;font-size:.78rem">a₀=${DATA.fits.poly1.coefs[0].toFixed(1)}, a₁=${DATA.fits.poly1.coefs[1].toExponential(2)}</td></tr>
+  <tr><td>Grau 2</td><td class="right">${DATA.fits.poly2.r2.toFixed(3)}</td><td style="font-family:monospace;font-size:.78rem">a₀=${DATA.fits.poly2.coefs[0].toFixed(1)}, a₁=${DATA.fits.poly2.coefs[1].toExponential(2)}, a₂=${DATA.fits.poly2.coefs[2].toExponential(2)}</td></tr>
+  <tr><td>Grau 3</td><td class="right">${DATA.fits.poly3.r2.toFixed(3)}</td><td style="font-family:monospace;font-size:.78rem">a₀=${DATA.fits.poly3.coefs[0].toFixed(1)}, a₁=${DATA.fits.poly3.coefs[1].toExponential(2)}, a₂=${DATA.fits.poly3.coefs[2].toExponential(2)}, a₃=${DATA.fits.poly3.coefs[3].toExponential(2)}</td></tr>
+  <tr><td>Logística</td><td class="right">${DATA.fits.logistic.r2.toFixed(3)}</td><td style="font-family:monospace;font-size:.78rem">V=${DATA.fits.logistic.V.toFixed(0)}, k=${DATA.fits.logistic.k.toExponential(2)}</td></tr>
+`;
+
+// CHART CPA MARGINAL
+new Chart(document.getElementById('chartCpaMarg'), {
+  type:'line',
+  data:{datasets:[
+    {label:'Grau 1',data:DATA.cpa_marg_levels.map(p=>({x:p.spend, y:p.poly1})),
+     borderColor:'#94A3B8',borderWidth:1.5,pointRadius:0,borderDash:[3,3]},
+    {label:'Grau 2',data:DATA.cpa_marg_levels.map(p=>({x:p.spend, y:p.poly2})),
+     borderColor:'#F59E0B',borderWidth:2,pointRadius:0},
+    {label:'Grau 3',data:DATA.cpa_marg_levels.map(p=>({x:p.spend, y:p.poly3})),
+     borderColor:'#2DD9B4',borderWidth:2.5,pointRadius:0},
+    {label:'Logística',data:DATA.cpa_marg_levels.map(p=>({x:p.spend, y:p.logistic})),
+     borderColor:'#EF4444',borderWidth:2,pointRadius:0},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'top',labels:{usePointStyle:true}},
+      annotation:{annotations:{
+        opt:{type:'line',xMin:DATA.optimum.spend,xMax:DATA.optimum.spend,
+             borderColor:'#F59E0B',borderWidth:1.5,borderDash:[5,3],
+             label:{content:`Mínimo CPA marg (${fmtR(DATA.optimum.cpa_marg)})`,display:true,
+                    position:'start',backgroundColor:'rgba(245,158,11,0.9)',color:'#fff',font:{size:11}}},
+        rangeMax:{type:'line',xMin:DATA.spend_range.max,xMax:DATA.spend_range.max,
+                  borderColor:'#475569',borderWidth:1,borderDash:[2,2],
+                  label:{content:'fim range observado',display:true,position:'end',
+                         backgroundColor:'rgba(71,85,105,0.8)',color:'#fff',font:{size:10}}}
+      }}
+    },
+    scales:{
+      x:{type:'linear',title:{display:true,text:'Gasto (R$)',color:'#64748B'},ticks:{callback:v=>fmtR(v)}},
+      y:{title:{display:true,text:'CPA marginal (R$)',color:'#64748B'},max:500,
+         ticks:{callback:v=>fmtR(v)}}
+    }
+  }
+});
+
+// Tabela CPA marginal
+document.querySelector('#tbl-cpa tbody').innerHTML = DATA.cpa_marg_levels
+  .filter((_,i)=>i%4===0)  // de 40k em 40k
+  .map(p=>{
+    const inRange = p.in_range ? '<span class="badge badge-active">observado</span>' : '<span class="badge badge-warning">extrapolação</span>';
+    const cell = v => v==null ? '<span style="color:var(--negative)">deriv ≤ 0</span>' : fmtR(v);
+    return `<tr><td>${fmtR(p.spend)}</td><td class="right">${cell(p.poly1)}</td><td class="right">${cell(p.poly2)}</td><td class="right" style="color:var(--brand-light);font-weight:600">${cell(p.poly3)}</td><td class="right">${cell(p.logistic)}</td><td>${inRange}</td></tr>`;
+  }).join('');
+
+// ROLLING
+new Chart(document.getElementById('chartOptimum'), {
+  type:'line',
+  data:{datasets:[
+    {label:'Gasto realizado',data:DATA.rolling_90d.map(r=>({x:r.date, y:r.spend})),
+     borderColor:'#F1F5F9',borderWidth:2,pointRadius:2,tension:0},
+    {label:'Ponto ótimo estimado (CPA marg mín)',data:DATA.rolling_90d.map(r=>({x:r.date, y:r.optimum_spend})),
+     borderColor:'#2DD9B4',backgroundColor:'rgba(45,217,180,0.15)',borderWidth:2,pointRadius:0,
+     fill:false,tension:0.3},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'top',labels:{usePointStyle:true}}},
+    scales:{x:{type:'time',time:{unit:'week'}},
+            y:{title:{display:true,text:'R$/dia',color:'#64748B'},ticks:{callback:v=>fmtR(v)}}}}
+});
+
+new Chart(document.getElementById('chartCpaReal'), {
+  type:'scatter',
+  data:{datasets:[
+    {label:'Pontos rolantes',data:DATA.rolling_90d.filter(r=>r.cpa_marg_now&&r.cpa_real)
+       .map(r=>({x:r.cpa_real, y:r.cpa_marg_now})),
+     backgroundColor:'rgba(45,217,180,0.6)',borderColor:'transparent',pointRadius:4},
+    {label:'Linha y=x',type:'line',data:[{x:50,y:50},{x:300,y:300}],
+     borderColor:'#64748B',borderWidth:1,borderDash:[3,3],pointRadius:0},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'top',labels:{usePointStyle:true}}},
+    scales:{x:{title:{display:true,text:'CPA real (R$)',color:'#64748B'},ticks:{callback:v=>fmtR(v)}},
+            y:{title:{display:true,text:'CPA marg. previsto pelo modelo (R$)',color:'#64748B'},
+               ticks:{callback:v=>fmtR(v)}}}}
+});
+
+new Chart(document.getElementById('chartR2Time'), {
+  type:'line',
+  data:{datasets:[{label:'R²',data:DATA.rolling_90d.map(r=>({x:r.date, y:r.r2})),
+                  borderColor:'#00C896',backgroundColor:'rgba(0,200,150,0.10)',fill:true,
+                  borderWidth:2,pointRadius:0,tension:0.3}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{x:{type:'time',time:{unit:'week'}},
+            y:{title:{display:true,text:'R²',color:'#64748B'},min:0.5,max:1}}}
+});
+</script>
+</body></html>
