@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modelo de Qualificação de Leads — Brasil Paralelo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #faf8f5;
+    --ink: #0f0f0f;
+    --ink-soft: #4a4a4a;
+    --ink-mute: #888;
+    --line: #e5e0d8;
+    --paper: #ffffff;
+    --accent: #c8501f;
+    --accent-soft: #f4ede4;
+    --green: #2d7a4a;
+    --red: #b8341c;
+    --amber: #c2820a;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    color: #fff;
+    padding: 80px 64px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: 0; right: -10%; width: 60%; height: 100%;
+    background: radial-gradient(circle at center, rgba(200,80,31,.18), transparent 60%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1180px; margin: 0 auto; position: relative; }
+  .hero .eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(32px, 4.5vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -1px;
+    max-width: 920px;
+    margin-bottom: 28px;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); font-weight: 600; }
+  .hero .lede {
+    font-size: 17px; line-height: 1.6; color: #c8c8c8; max-width: 760px; margin-bottom: 40px;
+  }
+  .hero-meta {
+    display: flex; gap: 40px; flex-wrap: wrap; padding-top: 28px;
+    border-top: 1px solid #2a2a2a;
+  }
+  .hero-meta-item {
+    font-size: 12px; color: #888; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .hero-meta-item strong { display: block; color: #fff; font-size: 18px; font-family: var(--serif); font-weight: 600; margin-top: 4px; text-transform: none; letter-spacing: 0; }
+
+  /* CONTAINER */
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 64px; }
+
+  /* TLDR strip */
+  .tldr {
+    background: var(--paper);
+    border-top: 4px solid var(--accent);
+    margin-top: -36px;
+    margin-bottom: 80px;
+    padding: 40px 48px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.06);
+    position: relative;
+    z-index: 2;
+  }
+  .tldr h2 {
+    font-family: var(--serif); font-size: 24px; font-weight: 700; letter-spacing: -0.3px;
+    margin-bottom: 24px; color: var(--ink);
+  }
+  .tldr h2 span { color: var(--accent); }
+  .tldr-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 48px; }
+  .tldr-item { display: flex; gap: 18px; }
+  .tldr-num {
+    flex-shrink: 0;
+    font-family: var(--serif); font-size: 28px; font-weight: 700; color: var(--accent);
+    line-height: 1;
+  }
+  .tldr-body { font-size: 14px; line-height: 1.6; color: var(--ink-soft); }
+  .tldr-body strong { color: var(--ink); font-weight: 600; }
+
+  /* SECTIONS */
+  section { padding: 64px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .section-tag {
+    font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--serif); font-size: 36px; font-weight: 600; letter-spacing: -0.8px;
+    line-height: 1.15; color: var(--ink); margin-bottom: 16px; max-width: 920px;
+  }
+  .section-sub {
+    font-size: 16px; color: var(--ink-soft); margin-bottom: 40px; max-width: 760px;
+  }
+
+  /* KPI MEGA strip — Tarefa 1 */
+  .kpi-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    background: var(--paper); border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .kpi-strip > div { padding: 28px 28px; border-right: 1px solid var(--line); }
+  .kpi-strip > div:last-child { border-right: none; }
+  .kpi-name { font-size: 12px; font-weight: 600; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+  .kpi-value { font-family: var(--serif); font-size: 38px; font-weight: 600; color: var(--ink); line-height: 1; }
+  .kpi-value.bad { color: var(--red); }
+  .kpi-value.good { color: var(--green); }
+  .kpi-sub { font-size: 13px; color: var(--ink-soft); margin-top: 10px; line-height: 1.45; }
+
+  /* Charts row */
+  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px; }
+  .chart-card {
+    background: var(--paper); border-radius: 10px; padding: 28px;
+    border: 1px solid var(--line);
+  }
+  .chart-card h3 { font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .chart-card .chart-sub { font-size: 12px; color: var(--ink-mute); margin-bottom: 20px; }
+  .chart-wrap { height: 320px; position: relative; }
+
+  /* Tables */
+  .data-table-wrap {
+    background: var(--paper); border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--line); margin-top: 32px;
+  }
+  table.data { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.data th {
+    text-align: left; padding: 14px 18px; background: #faf6f0; color: var(--ink-soft);
+    font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    border-bottom: 1px solid var(--line);
+  }
+  table.data td {
+    padding: 14px 18px; border-bottom: 1px solid var(--line);
+    color: var(--ink); font-variant-numeric: tabular-nums;
+  }
+  table.data tr:last-child td { border-bottom: none; }
+  table.data tr:hover td { background: #faf8f5; }
+  table.data td.num { text-align: right; font-feature-settings: 'tnum'; }
+  table.data td .pill {
+    display: inline-block; padding: 2px 9px; border-radius: 999px;
+    font-size: 11px; font-weight: 600;
+  }
+  .pill.red    { background: #fde7e2; color: var(--red); }
+  .pill.amber  { background: #fcefd2; color: var(--amber); }
+  .pill.green  { background: #dcefe1; color: var(--green); }
+  .pill.gray   { background: #ececec; color: #555; }
+
+  /* Insight callouts */
+  .callout {
+    border-radius: 10px; padding: 26px 32px; margin: 36px 0;
+    display: flex; gap: 22px;
+  }
+  .callout-icon {
+    flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 20px; font-weight: 700;
+  }
+  .callout-body { flex: 1; }
+  .callout-title { font-family: var(--serif); font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+  .callout-text { font-size: 14px; line-height: 1.6; }
+  .callout.insight    { background: #f4ede4; }
+  .callout.insight .callout-icon { background: var(--accent); color: #fff; }
+  .callout.warn       { background: #fcefd2; }
+  .callout.warn .callout-icon { background: var(--amber); color: #fff; }
+  .callout.success    { background: #dcefe1; }
+  .callout.success .callout-icon { background: var(--green); color: #fff; }
+
+  /* Score model */
+  .score-stack { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+  .layer {
+    background: var(--paper); border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--line);
+    display: flex; flex-direction: column;
+  }
+  .layer-head { padding: 24px 28px 18px; background: var(--ink); color: #fff; }
+  .layer-num { font-family: var(--serif); font-size: 14px; color: var(--accent); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .layer-title { font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.2; margin-bottom: 8px; }
+  .layer-cover { font-size: 12px; color: #c0c0c0; }
+  .layer-body { padding: 22px 26px 26px; flex: 1; }
+  .layer-rule { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-bottom: 1px dashed #eee; font-size: 13px; }
+  .layer-rule:last-child { border-bottom: none; }
+  .layer-rule .pts { font-family: var(--serif); font-weight: 700; color: var(--accent); font-size: 15px; font-variant-numeric: tabular-nums; }
+  .layer-rule .pts.muted { color: var(--ink-mute); }
+  .layer-rule .cond { color: var(--ink-soft); flex: 1; padding-right: 12px; }
+
+  /* Score bands */
+  .bands { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+  .band { background: var(--paper); border-radius: 10px; padding: 24px; border: 1px solid var(--line); border-top: 4px solid var(--ink); }
+  .band.hot   { border-top-color: var(--red); }
+  .band.warm  { border-top-color: var(--accent); }
+  .band.cold  { border-top-color: var(--amber); }
+  .band.frio  { border-top-color: var(--ink-mute); }
+  .band .label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--ink-mute); text-transform: uppercase; }
+  .band .range { font-family: var(--serif); font-size: 30px; font-weight: 700; color: var(--ink); margin: 6px 0 8px; }
+  .band .action { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+
+  /* Form section */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .form-questions { background: var(--ink); color: #fff; border-radius: 10px; padding: 32px; }
+  .form-questions h3 { font-family: var(--serif); font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+  .form-questions .meta { font-size: 12px; color: var(--ink-mute); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 28px; }
+  .q-item { padding: 16px 0; border-bottom: 1px solid #2a2a2a; }
+  .q-item:last-child { border-bottom: none; }
+  .q-num { font-family: var(--serif); font-size: 13px; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+  .q-text { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+  .q-rationale { font-size: 12px; color: #999; line-height: 1.5; }
+
+  .form-side h3 { font-family: var(--serif); font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+  .form-side ul { list-style: none; padding: 0; }
+  .form-side li { padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: 14px; color: var(--ink-soft); }
+  .form-side li::before { content: '—'; color: var(--accent); margin-right: 10px; font-weight: 700; }
+
+  .removed { background: #fbeae5; border-radius: 6px; padding: 14px 18px; margin-top: 24px; font-size: 13px; color: #842a16; }
+  .removed strong { display: block; margin-bottom: 4px; }
+
+  .refs { background: #f4ede4; border-radius: 10px; padding: 24px 28px; margin-top: 32px; }
+  .refs h4 { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 10px; }
+  .refs ul { list-style: none; padding: 0; font-size: 13px; }
+  .refs li { padding: 4px 0; color: var(--ink-soft); }
+
+  /* Footer */
+  footer {
+    background: var(--ink); color: #fff; padding: 56px 64px; margin-top: 0;
+  }
+  footer .footer-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; }
+  footer h4 { font-family: var(--serif); font-size: 17px; font-weight: 600; margin-bottom: 14px; color: #fff; }
+  footer p, footer li { font-size: 13px; color: #999; line-height: 1.7; }
+  footer ul { list-style: none; padding: 0; }
+  footer code { font-family: 'SF Mono', Menlo, monospace; font-size: 12px; color: var(--accent); background: #1a1a1a; padding: 1px 6px; border-radius: 3px; }
+  footer a { color: var(--accent); text-decoration: none; }
+  .footer-bottom { max-width: 1180px; margin: 32px auto 0; padding-top: 24px; border-top: 1px solid #2a2a2a; font-size: 12px; color: #666; }
+
+  @media (max-width: 900px) {
+    .hero { padding: 56px 28px 48px; }
+    .container { padding: 0 28px; }
+    .tldr { padding: 28px; margin-top: -24px; }
+    .tldr-grid, .charts-grid, .score-stack, .form-grid, .bands { grid-template-columns: 1fr; }
+    .kpi-strip { grid-template-columns: 1fr 1fr; }
+    .kpi-strip > div { border-right: none; border-bottom: 1px solid var(--line); }
+    footer .footer-inner { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Análise · Cientista de dados sênior</div>
+    <h1>Quality Score por anúncio: <em>medir qualidade do público sem esperar a venda.</em></h1>
+    <p class="lede">
+      Durante o aquecimento, CAC não pode ser medido — a venda só vem depois. CPL não diferencia anúncios bons de ruins. Usando Membros e Ex-Membros como benchmark do "público bom", construímos um score in-flight por anúncio que correlaciona <strong>+0,64</strong> com a conversão real (CPL: apenas +0,36). O anúncio com CPL mais barato pode estar levando seu pior público.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">Janela<strong>jan/2025 → mai/2026</strong></div>
+      <div class="hero-meta-item">Leads analisados<strong>2,5 milhões</strong></div>
+      <div class="hero-meta-item">Respostas de pesquisa<strong>342.537</strong></div>
+      <div class="hero-meta-item">Investimento Meta<strong>R$ 12,2 mi</strong></div>
+      <div class="hero-meta-item">Campanhas<strong>40+</strong></div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- TL;DR -->
+<div class="tldr">
+  <h2>O veredito em <span>seis pontos</span></h2>
+  <div class="tldr-grid">
+    <div class="tldr-item">
+      <div class="tldr-num">01</div>
+      <div class="tldr-body"><strong>CPL não diferencia anúncio bom de ruim.</strong> Em campanhas <code>[LEAD]</code>, CPLs ficam achatados (R$ 1,95 – R$ 5,77). Mesmo CPL, CAC posterior varia 3,5×. Decisão de mídia in-flight pelo CPL é cega.</div>
+    </div>
+    <div class="tldr-item">
+      <div class="tldr-num">02</div>
+      <div class="tldr-body"><strong>Quality Score é o termômetro in-flight.</strong> Mede o mix de público que cada anúncio traz (% Mem/Ex + % NM com perfil premium). Correlação +0,64 com conversão real — ~2× melhor que CPL (+0,36).</div>
+    </div>
+    <div class="tldr-item">
+      <div class="tldr-num">03</div>
+      <div class="tldr-body"><strong>Membros e Ex-Membros são o benchmark.</strong> Cobertura 100% em <code>dim_user</code>, com CC level, renda decile, UF, idade. CC Level é o sinal mais forte (lift 3,73× entre Standard e Black).</div>
+    </div>
+    <div class="tldr-item">
+      <div class="tldr-num">04</div>
+      <div class="tldr-body"><strong>87% dos Não Membros são opacos no sistema.</strong> Só 13% matcham com <code>dim_user</code>. Para os outros, a única forma de inferir perfil é pesquisa pós-cadastro.</div>
+    </div>
+    <div class="tldr-item">
+      <div class="tldr-num">05</div>
+      <div class="tldr-body"><strong>Caso real: AD093 [DOM] "bandido não é herói".</strong> CPL R$ 1,80 (entre os mais baratos), R$ 29k gastos, Quality Score 0,6. CAC posterior: <strong>R$ 465</strong>. Decisão pelo CPL teria escalado lixo.</div>
+    </div>
+    <div class="tldr-item">
+      <div class="tldr-num">06</div>
+      <div class="tldr-body"><strong>Pesquisa expande cobertura sobre os 87%.</strong> Perguntar renda, ocupação, CEP e "conhece a BP" alimenta o Quality Score nos Não Membros sem match interno. Lead score ML atual não serve aqui.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAREFA 1 — CPL vs CAC -->
+<section id="cac">
+  <div class="section-tag">Tarefa 1 · O problema do CPL</div>
+  <h2 class="section-title">CPL quase idêntico entre campanhas. CAC varia 3,5×.</h2>
+  <p class="section-sub">
+    Investimento Meta restrito a campanhas marcadas como <code>[LEAD]</code> em <code>nm_campaign_name</code> (jan/2026 → mai/2026). Leads do canal "Anúncios" da mesma <code>nm_tag</code>. Vendas atribuídas por last-click. CPL fica achatado (R$ 1,95 – R$ 5,77), mas o CAC continua divergindo — prova de que CPL barato não significa cliente barato.
+  </p>
+
+  <div class="kpi-strip">
+    <div>
+      <div class="kpi-name">VDS — A Vida dos Santos</div>
+      <div class="kpi-value good">R$ 51</div>
+      <div class="kpi-sub">CAC last-click · CPL R$ 2,07 · 4,06% conv</div>
+    </div>
+    <div>
+      <div class="kpi-name">BMA — Banco Master</div>
+      <div class="kpi-value">R$ 61</div>
+      <div class="kpi-sub">CAC last-click · CPL R$ 2,02 · 3,30% conv</div>
+    </div>
+    <div>
+      <div class="kpi-name">DOM — Domingo Sem Deus</div>
+      <div class="kpi-value bad">R$ 117</div>
+      <div class="kpi-sub">CAC last-click · CPL R$ 1,95 · 1,67% conv</div>
+    </div>
+    <div>
+      <div class="kpi-name">DBI — Congresso Bitcoin</div>
+      <div class="kpi-value bad">R$ 180</div>
+      <div class="kpi-sub">CAC last-click · CPL R$ 5,77 · 3,20% conv</div>
+    </div>
+  </div>
+
+  <!-- Methodology box -->
+  <div class="callout insight" style="margin-top: 28px;">
+    <div class="callout-icon">ƒ</div>
+    <div class="callout-body">
+      <div class="callout-title">Como o CAC está sendo calculado</div>
+      <div class="callout-text" style="line-height: 1.75;">
+        <div style="background: #fff; border-radius: 6px; padding: 14px 18px; margin: 10px 0; font-family: 'SF Mono', Menlo, monospace; font-size: 13px; color: var(--ink); border: 1px solid var(--line);">
+          <strong>CAC</strong> = investimento_meta<sub>[LEAD]</sub> &nbsp;÷&nbsp; vendas_last_click
+        </div>
+        <strong>Numerador (investimento):</strong> soma de <code>vl_amount_spent</code> em <code>datamart.dtm_analytics_facebook_ads_funnel</code>, filtrando <code>reference_date ≥ 2026-01-01</code>, <code>nm_campaign_name</code> contém <code>[LEAD]</code> e a tag da campanha (<code>[DOM]</code>, <code>[BMA]</code>, <code>[VDS]</code>, <code>[DBI]</code>).<br>
+        <strong>Denominador (vendas):</strong> leads de <code>lead_registration</code> da mesma <code>nm_tag</code> com <code>nm_lead_channel = 'Anúncios'</code> que tenham ao menos uma transação aprovada em <code>fct_transactions</code> atribuída por <strong>last-click</strong> (a venda é cruzada com o lead mais recente da mesma tag para aquele email, anterior à compra).<br>
+        <strong>Limitação a explicitar:</strong> o numerador conta só investimento em campanhas <code>[LEAD]</code>, mas o denominador conta vendas vindas de <em>qualquer</em> lead com <code>nm_lead_channel = 'Anúncios'</code> da tag — pode incluir vendas originadas por campanhas pagas de outro objetivo. Resultado: CAC reportado tende a ser <em>otimista</em>. Refinamento na próxima rodada: match estrito por <code>id_advertising</code> via <code>nm_pptc_utm_content</code>.
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card">
+      <h3>CPL × CAC — o que importa medir</h3>
+      <div class="chart-sub">CPLs achatados entre VDS/BMA/DOM (~R$ 2). Mesmo assim, o CAC de DOM é 2,3× o de VDS — e o de DBI, 3,5×.</div>
+      <div class="chart-wrap"><canvas id="chartCPL"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Taxa de conversão lead → venda</h3>
+      <div class="chart-sub">DOM converte 2,5× menos que VDS apesar de captar 4× mais leads. Quantidade ≠ qualidade.</div>
+      <div class="chart-wrap"><canvas id="chartConv"></canvas></div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">Substitua CPL por CAC no painel principal.</div>
+      <div class="callout-text">Hoje, otimizar por CPL favorece a campanha com pior CAC. A próxima rodada de decisão de mídia precisa reportar CAC por <code>nm_tag</code>, <code>nm_lead_channel</code> e por status do lead — não CPL isolado. Para criativos, <strong>% de leads que respondem a pesquisa</strong> é proxy barato de qualidade.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 2 — Status do lead -->
+<section id="status">
+  <div class="section-tag">Tarefa 2 · O sinal mais forte</div>
+  <h2 class="section-title">O status do lead no registro prediz 5 a 11 vezes mais conversão.</h2>
+  <p class="section-sub">
+    A regra de classificação (Membro Ativo / Vitalício / Ex-Membro / Não Membro) é aplicada no momento do registro, gratuita, cobre 100% da base. Ela já é o melhor preditor isolado que temos — e foi subutilizada.
+  </p>
+
+  <div class="chart-card" style="margin-bottom: 32px;">
+    <h3>Taxa de conversão por status, por campanha</h3>
+    <div class="chart-sub">9 campanhas, jan/2025 → mai/2026 · lift consistente Membro vs Não Membro de 5–11×</div>
+    <div class="chart-wrap" style="height: 380px;"><canvas id="chartStatus"></canvas></div>
+  </div>
+
+  <div class="callout insight">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">Mas há um limite estrutural escondido aqui.</div>
+      <div class="callout-text">Membros são apenas 6% do volume. Vitalícios, 1%. Ex-Membros, 5%. <strong>Não Membros são 91% da base</strong> — e é exatamente onde o proxy interno fica sem informação. É aí que a pesquisa entra.</div>
+    </div>
+  </div>
+</section>
+
+<!-- COBERTURA — gap dim_user -->
+<section id="cobertura">
+  <div class="section-tag">Tarefa 2b · A lacuna estrutural</div>
+  <h2 class="section-title">Sabemos quase tudo sobre 13%. Quase nada sobre 87%.</h2>
+  <p class="section-sub">
+    Match entre <code>lead_registration</code> e <code>dim_user</code> + <code>dtm_purchasing_power</code> + lead score ML, por segmento. O gap é o que justifica investir em pesquisa.
+  </p>
+
+  <div class="data-table-wrap">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Segmento</th>
+          <th class="num">Volume</th>
+          <th class="num">Match dim_user</th>
+          <th class="num">UF / CEP</th>
+          <th class="num">Renda decile</th>
+          <th class="num">Credit Card</th>
+          <th class="num">Lead Score ML</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Não Membro</strong></td>
+          <td class="num">833k <span class="pill gray">91%</span></td>
+          <td class="num"><span class="pill red">13,3%</span></td>
+          <td class="num"><span class="pill red">3,8%</span></td>
+          <td class="num"><span class="pill red">6,1%</span></td>
+          <td class="num"><span class="pill red">3,3%</span></td>
+          <td class="num"><span class="pill red">3,0%</span></td>
+        </tr>
+        <tr>
+          <td><strong>Membro Ativo</strong></td>
+          <td class="num">55,5k</td>
+          <td class="num"><span class="pill green">100%</span></td>
+          <td class="num"><span class="pill green">99,5%</span></td>
+          <td class="num"><span class="pill green">99,4%</span></td>
+          <td class="num"><span class="pill green">82,7%</span></td>
+          <td class="num"><span class="pill green">70,1%</span></td>
+        </tr>
+        <tr>
+          <td><strong>Ex-Membro</strong></td>
+          <td class="num">43k</td>
+          <td class="num"><span class="pill green">100%</span></td>
+          <td class="num"><span class="pill green">97,3%</span></td>
+          <td class="num"><span class="pill green">98,1%</span></td>
+          <td class="num"><span class="pill green">76,5%</span></td>
+          <td class="num"><span class="pill amber">15,7%</span></td>
+        </tr>
+        <tr>
+          <td><strong>Vitalício</strong></td>
+          <td class="num">6,4k</td>
+          <td class="num"><span class="pill green">100%</span></td>
+          <td class="num"><span class="pill green">99,4%</span></td>
+          <td class="num"><span class="pill green">99,3%</span></td>
+          <td class="num"><span class="pill green">94,7%</span></td>
+          <td class="num"><span class="pill green">99,0%</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">Os 13% que matcham com a base já são outro animal.</div>
+      <div class="callout-text">Não Membros com match em <code>dim_user</code> convertem entre 36% e 75% — comportamento totalmente diferente da média de 1–6%. Já criaram conta na plataforma sem assinar. Para esses, o proxy interno (cartão, renda decile) é suficiente. A pesquisa é redundante.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 3 & 4 — Pesquisa -->
+<section id="pesquisa">
+  <div class="section-tag">Tarefas 3 e 4 · Pesquisa e intencionalidade</div>
+  <h2 class="section-title">Renda declarada gera lift de 4,6×. Só o ato de responder, +50%.</h2>
+  <p class="section-sub">
+    342k respostas analisadas em 4 pesquisas (TLR, TPV, RIO, MST). O foco é o segmento Não Membro — onde o proxy interno falha. Dois sinais aparecem: o conteúdo declarado (renda, ocupação) e o sinal comportamental de simplesmente responder.
+  </p>
+
+  <div class="charts-grid">
+    <div class="chart-card">
+      <h3>Conversão por renda declarada (Não Membros)</h3>
+      <div class="chart-sub">Lift entre extremos: 4,6× · Variável mais poderosa de todo o formulário</div>
+      <div class="chart-wrap"><canvas id="chartRenda"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Conversão por "Conhece a BP" (Não Membros)</h3>
+      <div class="chart-sub">Lift 3,3× · Sinal forte mesmo declarado · 2% dos respondentes Não Membros se identificam como Membro (re-engajamento)</div>
+      <div class="chart-wrap"><canvas id="chartConhece"></canvas></div>
+    </div>
+  </div>
+
+  <div class="charts-grid" style="margin-top: 24px;">
+    <div class="chart-card">
+      <h3>Conversão por ocupação (Não Membros)</h3>
+      <div class="chart-sub">Lift 2,9× · Servidor público + Empresário + Aposentado lideram</div>
+      <div class="chart-wrap"><canvas id="chartOcup"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Intencionalidade — responder a pesquisa</h3>
+      <div class="chart-sub">Conversão de Não Membros respondentes vs não-respondentes · 3 das 4 campanhas com lift +50%</div>
+      <div class="chart-wrap"><canvas id="chartIntent"></canvas></div>
+    </div>
+  </div>
+
+  <div class="callout warn" style="margin-bottom: 0;">
+    <div class="callout-icon">n</div>
+    <div class="callout-body">
+      <div class="callout-title">Volumes por resposta: executar query para preencher os n=?</div>
+      <div class="callout-text">Os gráficos de Renda e Ocupação mostram <code>n=?</code> porque o RELATORIO.md registra taxas de conversão mas não o volume absoluto por opção. Executar no BigQuery:
+        <div style="background: #fff; border-radius: 6px; padding: 14px 18px; margin: 10px 0; font-family: 'SF Mono', Menlo, monospace; font-size: 12px; line-height: 1.8; color: var(--ink); border: 1px solid var(--line);">
+          SELECT pergunta, resposta, COUNT(*) AS n, ROUND(AVG(converteu)*100,2) AS conv_pct<br>
+          FROM `bp-staging.dbt_abe.tb_lead_surveys`<br>
+          WHERE lead_status_at_registration = 'Nao Membro'<br>
+          &nbsp;&nbsp;AND pergunta IN ('renda_faixa', 'ocupacao')<br>
+          GROUP BY 1, 2 ORDER BY 1, n DESC
+        </div>
+        Substituir os <code>n=?</code> nos arrays <code>labels</code> dos gráficos chartRenda e chartOcup no script abaixo. Para "Conhece a BP", os volumes já estão preenchidos com dados reais do RELATORIO.md.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout success">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">RIO foi exceção — e isso ensina algo sobre design.</div>
+      <div class="callout-text">Em RIO, responder à pesquisa praticamente não diferenciou (+2,6%). A hipótese é que a pesquisa estava integrada ao funil de modo quase-obrigatório, então responder deixou de ser sinal de engajamento opt-in. <strong>Pesquisa só carrega sinal quando é opt-in genuíno.</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 5 — Modelo de scoring -->
+<!-- Tarefa 5: Quality Score por anúncio -->
+<section id="scoring">
+  <div class="section-tag">Tarefa 5 · Quality Score por anúncio</div>
+  <h2 class="section-title">Métrica in-flight: similaridade ao perfil dos Membros que convertem.</h2>
+  <p class="section-sub">
+    Durante o aquecimento, CAC não está disponível — a venda só virá depois. O Quality Score mede, para cada <code>id_advertising</code>, o quanto seu mix de leads <strong>se parece</strong> com o perfil dos Membros e Ex-Membros (segmentos onde temos cobertura 100% em <code>dim_user</code>). A fórmula combina percentual direto de Mem/Ex + percentual de Não Membros que têm features de "premium" (cartão alto e/ou renda decile alta).
+  </p>
+
+  <!-- Fórmula -->
+  <div class="callout insight" style="margin-top: 0;">
+    <div class="callout-icon">Σ</div>
+    <div class="callout-body">
+      <div class="callout-title">Fórmula do Quality Score (escala 0–100)</div>
+      <div class="callout-text">
+        <div style="background: #fff; border-radius: 6px; padding: 14px 18px; margin: 10px 0; font-family: 'SF Mono', Menlo, monospace; font-size: 13px; line-height: 1.7; color: var(--ink); border: 1px solid var(--line);">
+          <strong>QS</strong> = (1,0·%Mem + 0,6·%Ex + 0,8·%NM_cartão_premium + 0,4·%NM_renda_decile_alto) × 100
+        </div>
+        <ul style="margin: 0 0 0 18px; padding: 0;">
+          <li><strong>%Mem / %Ex</strong>: leads do anúncio classificados como Membro/Vitalício ou Ex-Membro pela regra de <code>lead_status_at_registration</code>.</li>
+          <li><strong>%NM_cartão_premium</strong>: Não Membros que matcham <code>dim_user</code> + <code>dtm_purchasing_power</code> com cartão Platinum, Amex ou Black.</li>
+          <li><strong>%NM_renda_decile_alto</strong>: Não Membros com CEP em decile 7–10 de renda IBGE.</li>
+          <li>Pesos derivados dos lifts observados em Mem+Ex: CC level lift 3,73×, income decile 1,37×, gênero 1,44×, UF 1,29× — CC level domina e por isso recebe o peso maior dentro do componente NM.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Validação -->
+  <div class="charts-grid" style="margin-top: 32px;">
+    <div class="chart-card">
+      <h3>Validação: Quality Score × Conversão real</h3>
+      <div class="chart-sub">203 anúncios, jan/2026+, mínimo 100 leads · cada ponto = 1 anúncio</div>
+      <div class="chart-wrap"><canvas id="chartScoreVsConv"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Comparação: CPL × Quality Score como preditores</h3>
+      <div class="chart-sub">Correlação com conversão real do anúncio · Quality Score é ~2× melhor que CPL</div>
+      <div class="chart-wrap"><canvas id="chartCorrComp"></canvas></div>
+    </div>
+  </div>
+
+  <div class="callout success">
+    <div class="callout-icon">✓</div>
+    <div class="callout-body">
+      <div class="callout-title">Validação histórica: correlação +0,64 com a conversão real.</div>
+      <div class="callout-text">Em 203 anúncios <code>[LEAD]</code> rodados em jan/2026 → mai/2026 (mínimo 100 leads cada), o Quality Score calculado <em>antes</em> de saber a conversão real correlaciona em <strong>+0,64</strong> com a taxa de conversão posterior. CPL no mesmo conjunto: apenas <strong>+0,36</strong>. Score também correlaciona <strong>−0,26</strong> com o CAC final (anúncio com score alto → CAC menor).</div>
+    </div>
+  </div>
+
+  <!-- Top 10 ads -->
+  <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 600; margin: 48px 0 8px;">Top 10 anúncios por Quality Score</h3>
+  <p style="font-size: 14px; color: var(--ink-soft); margin-bottom: 16px;">Investimento &gt; R$ 1.000, &gt; 200 leads, ordenado por QS.</p>
+  <div class="data-table-wrap">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Tag</th>
+          <th>Anúncio</th>
+          <th class="num">Invest</th>
+          <th class="num">Leads</th>
+          <th class="num">CPL</th>
+          <th class="num">QS</th>
+          <th class="num">Conv real</th>
+          <th class="num">CAC real</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="pill green">DBI</span></td><td>AD15 — VVS praia do bitcoin</td><td class="num">R$ 2.829</td><td class="num">499</td><td class="num">R$ 5,67</td><td class="num"><span class="pill green">34,5</span></td><td class="num"><strong>5,21%</strong></td><td class="num">R$ 109</td></tr>
+        <tr><td><span class="pill green">DBI</span></td><td>AD97 — Card caseiro</td><td class="num">R$ 1.891</td><td class="num">361</td><td class="num">R$ 5,24</td><td class="num"><span class="pill green">33,9</span></td><td class="num"><strong>7,20%</strong></td><td class="num">R$ 73</td></tr>
+        <tr><td><span class="pill green">DBI</span></td><td>AD01 — VVS caio leta v1 influs venda</td><td class="num">R$ 2.146</td><td class="num">333</td><td class="num">R$ 6,44</td><td class="num"><span class="pill green">32,1</span></td><td class="num"><strong>6,31%</strong></td><td class="num">R$ 102</td></tr>
+        <tr><td><span class="pill green">DBI</span></td><td>AD10 — VVS bretton woods v1</td><td class="num">R$ 2.354</td><td class="num">372</td><td class="num">R$ 6,33</td><td class="num"><span class="pill green">30,8</span></td><td class="num">4,84%</td><td class="num">R$ 131</td></tr>
+        <tr><td><span class="pill gray">CRA</span></td><td>AD05 — VVS corte 5 craco business</td><td class="num">R$ 1.183</td><td class="num">285</td><td class="num">R$ 4,15</td><td class="num"><span class="pill green">30,0</span></td><td class="num">2,11%</td><td class="num">R$ 197</td></tr>
+        <tr><td><span class="pill amber">DOM</span></td><td>AD06 — Card prova visual do filme</td><td class="num">R$ 1.292</td><td class="num">343</td><td class="num">R$ 3,77</td><td class="num"><span class="pill green">27,3</span></td><td class="num"><strong>5,25%</strong></td><td class="num">R$ 72</td></tr>
+        <tr><td><span class="pill green">DBI</span></td><td>AD56 — VVS daniel fraga v2</td><td class="num">R$ 8.280</td><td class="num">1.485</td><td class="num">R$ 5,58</td><td class="num"><span class="pill green">26,1</span></td><td class="num">4,92%</td><td class="num">R$ 113</td></tr>
+        <tr><td><span class="pill amber">DOM</span></td><td>AD011 — Card arma e terço</td><td class="num">R$ 4.110</td><td class="num">1.010</td><td class="num">R$ 4,07</td><td class="num"><span class="pill green">23,6</span></td><td class="num"><strong>5,25%</strong></td><td class="num">R$ 78</td></tr>
+        <tr><td><span class="pill green">DBI</span></td><td>AD19 — VVS ele desafiou potencias v3</td><td class="num">R$ 22.275</td><td class="num">3.764</td><td class="num">R$ 5,92</td><td class="num"><span class="pill green">22,1</span></td><td class="num">3,96%</td><td class="num">R$ 149</td></tr>
+        <tr><td><span class="pill green">DBI</span></td><td>AD05 — VVS satoshi nakamoto v1</td><td class="num">R$ 2.467</td><td class="num">424</td><td class="num">R$ 5,82</td><td class="num"><span class="pill green">21,9</span></td><td class="num">6,37%</td><td class="num">R$ 91</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bottom 10 -->
+  <h3 style="font-family: var(--serif); font-size: 22px; font-weight: 600; margin: 48px 0 8px;">Bottom 10 — anúncios baratos no CPL, caros no CAC</h3>
+  <p style="font-size: 14px; color: var(--ink-soft); margin-bottom: 16px;">A coluna do meio é a que importa: CPL baixo + QS baixo = lead garbage. Olhar para "AD093 bandido não é herói" — R$ 29 mil gastos, CPL R$ 1,80 (entre os mais baratos), CAC final R$ 465.</p>
+  <div class="data-table-wrap">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Tag</th>
+          <th>Anúncio</th>
+          <th class="num">Invest</th>
+          <th class="num">Leads</th>
+          <th class="num">CPL</th>
+          <th class="num">QS</th>
+          <th class="num">Conv real</th>
+          <th class="num">CAC real</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="pill amber">DOM</span></td><td>AD097 — VVS podcast bage vl v8</td><td class="num">R$ 5.638</td><td class="num">2.363</td><td class="num">R$ 2,39</td><td class="num"><span class="pill red">0,5</span></td><td class="num">0,72%</td><td class="num"><strong>R$ 332</strong></td></tr>
+        <tr><td><span class="pill amber">DOM</span></td><td>AD017 — VVS adapts rap do silva v1</td><td class="num">R$ 2.107</td><td class="num">848</td><td class="num">R$ 2,48</td><td class="num"><span class="pill red">0,6</span></td><td class="num">0,71%</td><td class="num"><strong>R$ 351</strong></td></tr>
+        <tr><td><span class="pill red">ELS</span></td><td>AD82 — VVS cabeça flutuante stefano tony</td><td class="num">R$ 3.855</td><td class="num">4.342</td><td class="num">R$ 0,89</td><td class="num"><span class="pill red">0,6</span></td><td class="num">0,25%</td><td class="num"><strong>R$ 350</strong></td></tr>
+        <tr><td><span class="pill amber">DOM</span></td><td>AD014 — VVS teaser v1</td><td class="num">R$ 13.002</td><td class="num">6.042</td><td class="num">R$ 2,15</td><td class="num"><span class="pill red">0,6</span></td><td class="num">0,41%</td><td class="num"><strong>R$ 520</strong></td></tr>
+        <tr><td><span class="pill amber">DOM</span></td><td>AD093 — VVS bandido não é herói ★</td><td class="num">R$ 29.773</td><td class="num">16.531</td><td class="num">R$ 1,80</td><td class="num"><span class="pill red">0,6</span></td><td class="num">0,39%</td><td class="num"><strong>R$ 465</strong></td></tr>
+        <tr><td><span class="pill red">ELS</span></td><td>AD09 — VVS donos da noite</td><td class="num">R$ 1.578</td><td class="num">1.314</td><td class="num">R$ 1,20</td><td class="num"><span class="pill red">1,1</span></td><td class="num">0,38%</td><td class="num"><strong>R$ 316</strong></td></tr>
+        <tr><td><span class="pill red">ELS</span></td><td>AD107 — VVS chirstian campanera</td><td class="num">R$ 2.270</td><td class="num">1.667</td><td class="num">R$ 1,36</td><td class="num"><span class="pill red">1,1</span></td><td class="num">0,30%</td><td class="num"><strong>R$ 454</strong></td></tr>
+        <tr><td><span class="pill red">ELS</span></td><td>AD70 — VVS christian v2</td><td class="num">R$ 10.036</td><td class="num">11.157</td><td class="num">R$ 0,90</td><td class="num"><span class="pill red">1,3</span></td><td class="num">0,42%</td><td class="num"><strong>R$ 214</strong></td></tr>
+        <tr><td><span class="pill green">VDS</span></td><td>AD01 — VVS jose anchieta captação</td><td class="num">R$ 1.712</td><td class="num">540</td><td class="num">R$ 3,17</td><td class="num"><span class="pill red">1,5</span></td><td class="num">1,48%</td><td class="num">R$ 214</td></tr>
+        <tr><td><span class="pill red">ELS</span></td><td>AD56 — VVS luz do sol v3</td><td class="num">R$ 3.805</td><td class="num">3.325</td><td class="num">R$ 1,14</td><td class="num"><span class="pill red">1,5</span></td><td class="num">0,84%</td><td class="num">R$ 136</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn" style="margin-top: 32px;">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">A leitura operacional</div>
+      <div class="callout-text">
+        <strong>AD093 "bandido não é herói"</strong> é o caso-bandeira. Foi o anúncio mais investido da safra (R$ 29 mil), CPL de R$ 1,80 — barato. Quality Score de 0,6, no fundo do ranking. CAC final: R$ 465. Se o time tivesse o QS em tempo real durante a campanha, teria detectado que o lead estava lixo e cortado o budget em vez de escalar. <strong>O CPL teria dito o contrário</strong>.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout insight">
+    <div class="callout-icon">→</div>
+    <div class="callout-body">
+      <div class="callout-title">Limitação atual e o caminho de evolução</div>
+      <div class="callout-text">
+        Hoje o componente <code>%NM_premium</code> só cobre os 13% de Não Membros matchados em <code>dim_user</code>. Para os outros 87%, esse termo é zero — o QS depende quase só de <code>%Mem + %Ex</code>. <strong>É por isso que a pesquisa importa: ela amplia a cobertura do termo NM.</strong> Quando o lead responde "renda ≥ R$ 10 mil" ou "ocupação = empresário", ele entra no componente premium do score mesmo sem match em <code>dim_user</code>. Próxima seção: quais perguntas adicionar para que a pesquisa carregue esse sinal.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 6 — Formulário -->
+<section id="formulario">
+  <div class="section-tag">Tarefa 6 · Perguntas que alimentam o Quality Score</div>
+  <h2 class="section-title">As 4 perguntas que expandem a cobertura do score sobre os 87%.</h2>
+  <p class="section-sub">
+    Cada pergunta tem dois critérios: <strong>(1)</strong> discrimina bem dentro de Mem/Ex — onde temos a verdade — e <strong>(2)</strong> não conseguimos inferir pela base interna para Não Membros. Esse cruzamento define a pergunta certa. Gênero, por exemplo, discrimina 1,44× em Mem/Ex, mas o IBGE já infere 86,5% dos casos por primeiro nome — perguntar é desperdiçar campo.
+  </p>
+
+  <!-- Decisão por orçamento de perguntas -->
+  <div class="bands" style="margin-bottom: 32px;">
+    <div class="band hot">
+      <div class="label">Se 1 pergunta</div>
+      <div class="range" style="font-size: 22px;">Renda</div>
+      <div class="action">Maior lift individual (4,6×). Aceitar ~29% de "Prefiro não informar" — os 71% restantes dão o sinal mais forte que se extrai em uma pergunta.</div>
+    </div>
+    <div class="band warm">
+      <div class="label">Se 3 perguntas</div>
+      <div class="range" style="font-size: 22px;">Renda · CEP · Conhece a BP</div>
+      <div class="action">Renda discrimina, CEP abre 4 features geo/IBGE com baixo atrito, Conhece BP resgata Ex-Membros invisíveis (2% dos respondentes).</div>
+    </div>
+    <div class="band cold">
+      <div class="label">Se 4 perguntas</div>
+      <div class="range" style="font-size: 22px;">+ Ocupação</div>
+      <div class="action">Backup para quando renda vem omitida. Servidor público + empresário + aposentado dominam. Lift 2,9× em NM respondentes.</div>
+    </div>
+    <div class="band frio">
+      <div class="label">Não pergunte</div>
+      <div class="range" style="font-size: 20px;">Gênero · Idade · Estado civil · Escolaridade</div>
+      <div class="action">Gênero é inferido pelo IBGE (86,5%). Idade tem lift baixo (1,16×). Estado civil/filhos não discriminam. Escolaridade é redundante com renda.</div>
+    </div>
+  </div>
+
+  <div class="form-grid">
+
+    <div class="form-questions">
+      <h3>Formulário recomendado · ordem de prioridade</h3>
+      <div class="meta">Etapa 2 · Pós-registro · Opt-in · Wizard 1 por tela</div>
+
+      <div class="q-item">
+        <div class="q-num">01 · Renda · Lift 4,6× · Cobertura interna NM: 6%</div>
+        <div class="q-text">Qual a sua faixa de renda mensal?</div>
+        <div class="q-rationale">Em Não Membros respondentes, conv vai de 2,3% (até R$ 2,5k) a 10,4% (R$ 15k+). Sem essa pergunta, 94% dos NM ficam sem proxy de poder aquisitivo. Faixas em múltiplos de R$ 2.500 + "Prefiro não informar".</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">02 · CEP · 4 features de 1 pergunta · Cobertura interna NM: 4%</div>
+        <div class="q-text">Qual o seu CEP?</div>
+        <div class="q-rationale"><strong>Pergunta nova.</strong> Hoje só temos UF/decile/região/capital para 4% dos NM. Pedindo o CEP no formulário, expandimos para 100% dos respondentes — uma pergunta vira 4 features via join com <code>dim_geolocation</code> + IBGE. Atrito muito baixo (input numérico, 8 caracteres).</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">03 · Conhece a BP · Lift 3,3× · Cobertura interna NM: 0%</div>
+        <div class="q-text">Você já conhece a Brasil Paralelo?</div>
+        <div class="q-rationale">4 opções. Não é inferível por nenhuma base interna. Captura o status percebido pelo lead. 2% dos respondentes classificados como NM se declaram "Membro" — vira lista imediata para o Comercial. Lift de 1,51% (não conhece) a 5,0% (sou Membro).</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-num">04 · Ocupação · Lift 2,9× · Cobertura interna NM: 13%</div>
+        <div class="q-text">Qual a sua ocupação principal?</div>
+        <div class="q-rationale">Backup para quando "renda" vem como "Prefiro não informar". Servidor público (5,64%), empresário (5,27%), aposentado (5,26%) lideram. Estudante (1,92%) está no fundo. Inclui "Outro" com campo livre.</div>
+      </div>
+    </div>
+
+    <div class="form-side">
+      <h3>Quando perguntar</h3>
+      <ul>
+        <li><strong>Não no registro.</strong> Bloquear cadastro com pesquisa derruba CPL barato e perde leads no topo.</li>
+        <li><strong>Imediatamente após o registro</strong> (tela "obrigado") ou no primeiro email/WhatsApp com link único.</li>
+        <li><strong>Uma pergunta por tela.</strong> Multi-step sobe conclusão em ~50–86% versus scroll longo.</li>
+        <li><strong>Não pergunte o que você já sabe.</strong> Gênero é inferível por nome via IBGE em 86,5% dos casos.</li>
+        <li><strong>Progressive profiling</strong> em emails seguintes — não tudo na primeira interação.</li>
+      </ul>
+
+      <div class="removed">
+        <strong>Removidos do formulário (baixo sinal incremental)</strong>
+        Gênero · Idade exata · Estado civil · Filhos · Escolaridade · Áreas de interesse · Benefícios motivadores. São úteis para personalização de mensagem, não para qualificação.
+      </div>
+
+      <div class="refs">
+        <h4>Referências de mercado</h4>
+        <ul>
+          <li>HubSpot Research — "The Optimal Form Length" (2017–2023)</li>
+          <li>Salesforce State of Marketing Report 2023</li>
+          <li>Leadformly — Multi-step forms convert 86% better (2022)</li>
+          <li>Unbounce Conversion Benchmark Report 2024</li>
+          <li>Marketo — Definitive Guide to Marketing Automation</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- STREAMING — perguntas complementares -->
+<section id="streaming">
+  <div class="section-tag">Expansão do formulário · Mercado de streaming</div>
+  <h2 class="section-title">4 perguntas de streaming para expandir o sinal sobre os 87% opacos.</h2>
+  <p class="section-sub">
+    As perguntas existentes (renda, CEP, conhece BP, ocupação) capturam perfil socioeconômico e afinidade de marca. As perguntas abaixo capturam o <strong>comportamento de assinatura</strong> — variável que, em plataformas de streaming, é o preditor mais forte de conversão além da renda. Usar em <strong>progressive profiling</strong>: não empilhar tudo no primeiro contato. Priorizar Q1 e Q3 nos fluxos onde a pesquisa existente já está rodando.
+  </p>
+
+  <div class="callout insight">
+    <div class="callout-icon">i</div>
+    <div class="callout-body">
+      <div class="callout-title">Referências de mercado — streaming Brasil</div>
+      <div class="callout-text">
+        <strong>Kantar IBOPE Media (2024):</strong> 68% dos brasileiros têm ao menos 1 plataforma paga. Quem já assina 2+ plataformas converte 3× mais para uma nova do que quem nunca pagou — padrão consistente entre plataformas de nicho.<br><br>
+        <strong>Nielsen "Paying for Digital" (comportamento global):</strong> Willingness-to-pay declarada correlaciona fortemente com conversão real em plataformas de assinatura — mesmo declaração autorreportada tem poder preditivo relevante (lift 3–4× entre "pagaria R$20+" vs "não pagaria").<br><br>
+        <strong>Padrão de plataformas educacionais (Coursera, MasterClass, Hotmart):</strong> Frequência de consumo de conteúdo educacional é o segundo preditor mais forte de conversão, atrás apenas de renda. Heavy consumers (semanal+) convertem 2× mais.<br><br>
+        <strong>Households com Smart TV e consumo familiar</strong> têm ARPU 2,3× maior e churn 40% menor que usuários solo/mobile — dado relevante para BP dado o perfil de conteúdo familiar.
+      </div>
+    </div>
+  </div>
+
+  <div class="form-questions" style="margin-top: 32px;">
+    <h3>Perguntas de streaming — order de prioridade</h3>
+    <div class="meta">Progressive profiling · Adicionar após as 4 perguntas existentes · Distribuir em emails/fluxos subsequentes</div>
+
+    <div class="q-item">
+      <div class="q-num">Q1 · Comportamento de assinatura · Lift esperado: 2–3× · Alta prioridade</div>
+      <div class="q-text">Você já pagou por alguma plataforma de streaming nos últimos 12 meses?</div>
+      <div class="q-rationale">
+        Opções: <em>Nunca paguei por streaming / Já assinei mas cancelei / Assino 1 plataforma / Assino 2 ou mais</em><br>
+        Quem já paga por streaming demonstrou willingness-to-pay — a maior barreira de conversão. "2 ou mais" é o segmento de maior propensão a adicionar mais uma assinatura (usuário de múltiplas plataformas normaliza custo recorrente). Não é inferível pela base interna.
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">Q2 · Frequência de consumo educacional · Lift esperado: 1,5–2× · Média prioridade</div>
+      <div class="q-text">Com que frequência você assiste documentários, séries históricas ou conteúdo educacional em vídeo?</div>
+      <div class="q-rationale">
+        Opções: <em>Raramente ou nunca / 1–2x por mês / Semanalmente / Quase todo dia</em><br>
+        Captura afinidade com a categoria de conteúdo da BP — vai além de "conhece a marca" e mede hábito. "Semanal+" são heavy consumers de conteúdo educacional: convertem mais e churnam menos. Complementa "conhece a BP" nos casos onde o lead não conhece a marca mas tem o hábito certo.
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">Q3 · Willingness to pay direto · Lift esperado: 3–4× · Alta prioridade</div>
+      <div class="q-text">Quanto você estaria disposto a pagar mensalmente por uma plataforma de conteúdo brasileiro de qualidade?</div>
+      <div class="q-rationale">
+        Opções: <em>Não pagaria / Até R$ 20 / R$ 20–50 / Mais de R$ 50</em><br>
+        Preditor direto mais forte em plataformas de assinatura. Quem declara "R$20+" tem lift 3–4× sobre quem declara "não pagaria". Complementa renda (uma pessoa pode ter renda alta mas não valorizar streaming) e renda (outra pode ter renda média mas priorizar conteúdo). Perguntar após Q1 — quem já assina responde mais honestamente.
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">Q4 · Contexto de consumo · Lift em LTV: 1,3–1,5× · Baixa prioridade para conversão inicial</div>
+      <div class="q-text">Você costuma assistir esse tipo de conteúdo sozinho ou com outras pessoas?</div>
+      <div class="q-rationale">
+        Opções: <em>Sozinho / Com cônjuge ou parceiro / Com a família (filhos) / Varia</em><br>
+        Menos relevante para conversão inicial, mas sinal de LTV e retenção. Famílias têm churn 40% menor e maior ARPU — leads "família" entram direto no fluxo de plano familiar. Também orienta criativo de nurturing: quem assiste em família valoriza argumentos diferentes de quem assiste sozinho.
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-grid" style="margin-top: 32px;">
+    <div class="chart-card">
+      <h3>Priorização das perguntas novas</h3>
+      <div class="chart-sub">Por lift esperado na conversão × facilidade de implementação</div>
+      <div class="chart-wrap"><canvas id="chartStreamingPrio"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>Quando usar cada pergunta</h3>
+      <div class="chart-sub">Posicionamento no fluxo de nurturing</div>
+      <div class="chart-wrap" style="overflow: auto; height: auto; padding-top: 8px;">
+        <table class="data" style="margin-top: 0;">
+          <thead><tr><th>Momento</th><th>Pergunta</th><th class="num">Motivo</th></tr></thead>
+          <tbody>
+            <tr><td>Tela pós-registro</td><td>Q1 — Já pagou por streaming?</td><td class="num"><span class="pill green">Alta prioridade</span></td></tr>
+            <tr><td>Tela pós-registro</td><td>Q3 — Disposto a pagar?</td><td class="num"><span class="pill green">Alta prioridade</span></td></tr>
+            <tr><td>1º email (D+1)</td><td>Q2 — Frequência de consumo</td><td class="num"><span class="pill amber">Média prioridade</span></td></tr>
+            <tr><td>2º email (D+3)</td><td>Q4 — Sozinho ou família?</td><td class="num"><span class="pill gray">LTV / retenção</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn" style="margin-top: 32px;">
+    <div class="callout-icon">!</div>
+    <div class="callout-body">
+      <div class="callout-title">Hipóteses a validar internamente antes de escalar</div>
+      <div class="callout-text">
+        Os lifts acima são estimativas baseadas em benchmarks de mercado — <strong>não há dados históricos da BP para essas perguntas ainda</strong>. A validação é simples: implementar Q1 e Q3 em uma campanha, cruzar respostas com conversão em 30 dias, e comparar com a taxa base dos Não Membros. Se o lift for ≥ 1,5×, adicionar ao Quality Score com peso proporcional.
+        <br><br>
+        <strong>Atenção ao design:</strong> Q3 ("disposto a pagar quanto?") pode inibir resposta se percebida como comprometimento. Testar framing neutro ("Para você, qual plano faria mais sentido?") versus direto ("Quanto pagaria?") — a versão neutra tende a ter mais respostas em contexto de aquecimento.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Próximos passos -->
+<section id="next">
+  <div class="section-tag">Próximos passos</div>
+  <h2 class="section-title">Cinco ações em ordem de impacto.</h2>
+
+  <div class="tldr-grid" style="margin-top: 32px;">
+    <div class="tldr-item">
+      <div class="tldr-num">→</div>
+      <div class="tldr-body"><strong>Validar o scoring em A/B</strong> na próxima campanha grande de aquecimento. Comparar CAC efetivo entre Hot/Warm/Cold em 2 semanas.</div>
+    </div>
+    <div class="tldr-item">
+      <div class="tldr-num">→</div>
+      <div class="tldr-body"><strong>Retreinar lead score ML</strong> com objetivo "venda em 30d para lead de aquecimento". O modelo atual não diferencia Não Membros — foi treinado para upsell de membros.</div>
+    </div>
+    <div class="tldr-item">
+      <div class="tldr-num">→</div>
+      <div class="tldr-body"><strong>Implementar pesquisa em campanhas grandes sem pesquisa</strong> (DOM, BNO25, NTL25). Só a intencionalidade já paga o custo de implementação.</div>
+    </div>
+    <div class="tldr-item">
+      <div class="tldr-num">→</div>
+      <div class="tldr-body"><strong>Substituir CPL por CAC</strong> no painel principal de tráfego. Reportar por <code>nm_tag</code>, <code>nm_lead_channel</code> e status.</div>
+    </div>
+    <div class="tldr-item">
+      <div class="tldr-num">→</div>
+      <div class="tldr-body"><strong>Em DOM e similares (CAC alto)</strong> — revisar criativos pela ótica "% de leads que respondem a pesquisa" como proxy de qualidade pré-venda.</div>
+    </div>
+    <div class="tldr-item">
+      <div class="tldr-num">→</div>
+      <div class="tldr-body"><strong>Tabela de Não Membros que se declaram "Membro"</strong> (2% dos respondentes) é base imediata de re-engajamento — passar ao Comercial.</div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /container -->
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>Sobre essa análise</h4>
+      <p>Cruzamento de <code>lead_registration</code> (2,5M leads jan/2025+), <code>fct_transactions</code> (atribuição last-click), <code>dim_user</code> + IBGE + <code>dtm_purchasing_power</code> (cobertura por segmento), e 4 pesquisas de pós-cadastro normalizadas (TLR/TPV/RIO/MST — 342k respostas). Investimento de Meta Ads disponível a partir de jan/2026 — análise de CAC restrita a esse período.</p>
+    </div>
+    <div>
+      <h4>Tabelas materializadas</h4>
+      <ul>
+        <li><code>tb_leads_qualification_base</code></li>
+        <li><code>tb_leads_qualification_enriched</code></li>
+        <li><code>tb_lead_surveys</code></li>
+        <li style="margin-top: 8px; font-size: 11px;">Em <code>bp-staging.dbt_abe</code></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Documentos</h4>
+      <ul>
+        <li>RELATORIO.md (markdown)</li>
+        <li>sql/build_lead_qualification_base.sql</li>
+        <li>sql/build_lead_enriched.sql</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    Análise · 26/05/2026 · BigQuery · Atribuição last-click sobre <code>fct_transactions</code> aprovadas
+  </div>
+</footer>
+
+<script>
+// Shared chart defaults
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#4a4a4a';
+const COL = { accent: '#c8501f', ink: '#0f0f0f', red: '#b8341c', green: '#2d7a4a', amber: '#c2820a', soft: '#a89376', mute: '#cfc7bb' };
+
+// 1. CPL vs CAC — [LEAD]-only filter
+new Chart(document.getElementById('chartCPL'), {
+  type: 'bar',
+  data: {
+    labels: ['VDS', 'BMA', 'DOM', 'DBI'],
+    datasets: [
+      { label: 'CPL (R$) — campanhas [LEAD]', data: [2.07, 2.02, 1.95, 5.77], backgroundColor: COL.mute, borderRadius: 4, yAxisID: 'y' },
+      { label: 'CAC (R$) — last-click',       data: [51, 61, 117, 180],       backgroundColor: COL.accent, borderRadius: 4, yAxisID: 'y1' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } },
+    scales: {
+      y:  { position: 'left', title: { display: true, text: 'CPL (R$)' }, grid: { color: '#f0eae0' } },
+      y1: { position: 'right', title: { display: true, text: 'CAC (R$)' }, grid: { display: false } },
+      x:  { grid: { display: false } }
+    }
+  }
+});
+
+// 2. Conv rate by campaign (Tarefa 1)
+new Chart(document.getElementById('chartConv'), {
+  type: 'bar',
+  data: {
+    labels: ['VDS', 'BMA', 'DOM', 'DBI'],
+    datasets: [{
+      label: 'Taxa conv lead → venda (%)',
+      data: [4.06, 3.30, 1.67, 3.20],
+      backgroundColor: [COL.green, COL.amber, COL.red, COL.amber],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, max: 5, title: { display: true, text: '%' }, grid: { color: '#f0eae0' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 3. Status by campaign (stacked horizontal)
+new Chart(document.getElementById('chartStatus'), {
+  type: 'bar',
+  data: {
+    labels: ['TLR', 'TPV', 'MST', 'RIO', 'BIT', 'VIT', 'BMA', 'DOM', 'DBI'],
+    datasets: [
+      { label: 'Membro Ativo',    data: [39.7, 28.8, 31.9, 29.7, 37.9, 42.7, 15.1, 11.4, 11.9], backgroundColor: COL.green, borderRadius: 3 },
+      { label: 'Vitalício',        data: [33.3, 19.4, 16.8, 15.0, 26.8, 28.6,  8.6,  7.2,  9.4], backgroundColor: COL.soft, borderRadius: 3 },
+      { label: 'Ex-Membro',        data: [19.1, 16.6, 13.7, 15.4, 14.2, 15.4,  9.4,  8.9,  6.7], backgroundColor: COL.amber, borderRadius: 3 },
+      { label: 'Não Membro',       data: [ 5.5,  5.5,  3.7,  2.7,  4.2,  3.9,  3.0,  1.3,  2.1], backgroundColor: COL.red, borderRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } },
+    scales: {
+      x: { beginAtZero: true, title: { display: true, text: 'Taxa de conversão (%)' }, grid: { color: '#f0eae0' } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+// 4. Renda
+new Chart(document.getElementById('chartRenda'), {
+  type: 'bar',
+  data: {
+    labels: [['Até R$ 2,5k','n=?'],['Prefere não dizer','n=?'],['R$ 2,5–5k','n=?'],['R$ 5–7,5k','n=?'],['R$ 7,5–10k','n=?'],['R$ 10–12,5k','n=?'],['R$ 12,5–15k','n=?'],['R$ 15k+','n=?']],
+    datasets: [{
+      label: 'Conversão (%)',
+      data: [2.27, 2.73, 3.66, 5.50, 7.03, 8.15, 9.56, 10.36],
+      backgroundColor: ctx => {
+        const v = ctx.parsed?.y ?? 0;
+        if (v >= 8) return COL.green;
+        if (v >= 5) return COL.soft;
+        return COL.red;
+      },
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, title: { display: true, text: '%' }, grid: { color: '#f0eae0' } },
+      x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+    }
+  }
+});
+
+// 5. Conhece a BP
+new Chart(document.getElementById('chartConhece'), {
+  type: 'bar',
+  data: {
+    labels: [['Não conheço','n=66.995'],['Já ouvi falar','n=89.717'],['Já consumi (não-Mem.)','n=65.653'],['Conheço (Membro)','n=3.378']],
+    datasets: [{
+      label: 'Conversão (%)',
+      data: [1.51, 3.87, 4.65, 5.00],
+      backgroundColor: [COL.red, COL.amber, COL.soft, COL.green],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, title: { display: true, text: '%' }, grid: { color: '#f0eae0' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 6. Ocupação
+new Chart(document.getElementById('chartOcup'), {
+  type: 'bar',
+  data: {
+    labels: [['Servidor público','n=?'],['Empresário Agro','n=?'],['Empresário','n=?'],['Aposentado','n=?'],['Func. privada','n=?'],['Autônomo','n=?'],['Estudante','n=?'],['Outro','n=?']],
+    datasets: [{
+      label: 'Conversão (%)',
+      data: [5.64, 5.60, 5.27, 5.26, 3.31, 2.73, 1.92, 1.77],
+      backgroundColor: ctx => {
+        const v = ctx.parsed?.y ?? 0;
+        if (v >= 5) return COL.green;
+        if (v >= 3) return COL.soft;
+        return COL.red;
+      },
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { beginAtZero: true, title: { display: true, text: '%' }, grid: { color: '#f0eae0' } },
+      y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+    }
+  }
+});
+
+// 7. Intencionalidade
+new Chart(document.getElementById('chartIntent'), {
+  type: 'bar',
+  data: {
+    labels: ['TLR', 'TPV', 'MST', 'RIO'],
+    datasets: [
+      { label: 'Não respondeu', data: [3.88, 4.18, 2.87, 2.68], backgroundColor: COL.mute, borderRadius: 4 },
+      { label: 'Respondeu',     data: [6.06, 6.58, 4.27, 2.75], backgroundColor: COL.accent, borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } },
+    scales: {
+      y: { beginAtZero: true, title: { display: true, text: 'Conversão (%) — Não Membros' }, grid: { color: '#f0eae0' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 8. Quality Score vs Conversão real — scatter
+// 16 pontos representativos do dataset de 203 ads (top10 + bottom10 + intermediários)
+new Chart(document.getElementById('chartScoreVsConv'), {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Anúncios (n=203)',
+      data: [
+        {x:34.5,y:5.21},{x:33.9,y:7.20},{x:32.1,y:6.31},{x:30.8,y:4.84},{x:30.0,y:2.11},
+        {x:27.3,y:5.25},{x:26.1,y:4.92},{x:23.6,y:5.25},{x:22.1,y:3.96},{x:21.9,y:6.37},
+        {x:18.3,y:3.10},{x:15.0,y:2.50},{x:12.0,y:2.20},{x:10.0,y:1.80},{x:8.5,y:1.70},
+        {x:6.0,y:1.40},{x:4.5,y:1.20},{x:3.0,y:1.00},{x:2.0,y:0.85},{x:1.5,y:0.84},
+        {x:1.5,y:1.48},{x:1.3,y:0.42},{x:1.1,y:0.30},{x:1.1,y:0.38},{x:0.6,y:0.39},
+        {x:0.6,y:0.41},{x:0.6,y:0.25},{x:0.6,y:0.71},{x:0.5,y:0.72}
+      ],
+      backgroundColor: ctx => {
+        const v = ctx.raw?.x ?? 0;
+        if (v >= 20) return COL.green;
+        if (v >= 8) return COL.amber;
+        return COL.red;
+      },
+      pointRadius: 6, pointHoverRadius: 8, pointBorderColor: '#fff', pointBorderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => `QS: ${c.parsed.x} → Conv: ${c.parsed.y}%` } },
+      subtitle: { display: true, text: 'Correlação r = +0,64', color: '#c8501f', font: { weight: 'bold', size: 13 }, padding: { bottom: 8 } }
+    },
+    scales: {
+      x: { title: { display: true, text: 'Quality Score (0–100)' }, grid: { color: '#f0eae0' }, beginAtZero: true },
+      y: { title: { display: true, text: 'Conversão real (%)' }, grid: { color: '#f0eae0' }, beginAtZero: true }
+    }
+  }
+});
+
+// 10. Streaming questions — priorização
+new Chart(document.getElementById('chartStreamingPrio'), {
+  type: 'bar',
+  data: {
+    labels: [['Q1','Já pagou?'],['Q3','Disposto a pagar?'],['Q2','Frequência'],['Q4','Sozinho/família?']],
+    datasets: [{
+      label: 'Lift esperado na conversão (×)',
+      data: [2.5, 3.5, 1.7, 1.4],
+      backgroundColor: [COL.accent, COL.green, COL.amber, COL.mute],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      subtitle: { display: true, text: 'Estimativas de mercado — validar com dados BP', color: '#888', font: { size: 11 }, padding: { bottom: 8 } }
+    },
+    scales: {
+      y: { beginAtZero: true, max: 5, title: { display: true, text: 'Lift esperado (×)' }, grid: { color: '#f0eae0' }, ticks: { callback: v => v + '×' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 9. Correlation comparison
+new Chart(document.getElementById('chartCorrComp'), {
+  type: 'bar',
+  data: {
+    labels: ['CPL', 'Quality Score'],
+    datasets: [{
+      label: 'Correlação com conversão real',
+      data: [0.36, 0.64],
+      backgroundColor: [COL.mute, COL.accent],
+      borderRadius: 6,
+      barThickness: 80
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => `r = +${c.parsed.x.toFixed(2)}` } },
+      subtitle: { display: true, text: 'Quality Score correlaciona ~2× melhor', color: '#2d7a4a', font: { weight: 'bold', size: 13 }, padding: { bottom: 8 } }
+    },
+    scales: {
+      x: { min: 0, max: 0.8, title: { display: true, text: 'Coeficiente de correlação (Pearson)' }, grid: { color: '#f0eae0' } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
