@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qualificação de Leads — EVG · Brasil Paralelo</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; }
+    .header { background: #1a1a2e; color: #fff; padding: 40px 48px 32px; }
+    .header h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+    .header .subtitle { font-size: 14px; color: #aaa; }
+    .header .tag { display: inline-block; background: #3b82f6; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-right: 8px; vertical-align: middle; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+    .section { background: #fff; border-radius: 8px; padding: 28px 32px; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 24px; }
+    .section h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+    .section-sub { font-size: 13px; color: #888; margin-bottom: 20px; }
+    .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .kpi-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .kpi { background: #fff; border-radius: 8px; padding: 20px 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .kpi .label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+    .kpi .value { font-size: 28px; font-weight: 700; color: #1a1a2e; }
+    .kpi .sub { font-size: 12px; color: #666; margin-top: 4px; }
+    .kpi.highlight { border-top: 3px solid #3b82f6; }
+    .kpi.positive { border-top: 3px solid #16a34a; }
+    .kpi.warn { border-top: 3px solid #f59e0b; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 10px 12px; background: #f0f0f0; color: #555; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; }
+    td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafafa; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .bold { font-weight: 700; }
+    .muted { color: #aaa; }
+    .badge { border-radius: 3px; padding: 2px 7px; font-size: 11px; font-weight: 600; }
+    .badge-green  { background: #dcfce7; color: #16a34a; }
+    .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+    .badge-yellow { background: #fef9c3; color: #854d0e; }
+    .badge-red    { background: #fee2e2; color: #dc2626; }
+    .badge-gray   { background: #f0f0f0; color: #555; }
+    .insight-box { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 14px 18px; border-radius: 0 6px 6px 0; margin-top: 16px; font-size: 13px; line-height: 1.6; color: #1e3a5f; }
+    .insight-box strong { display: block; margin-bottom: 4px; }
+    .warn-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.6; color: #78350f; margin-top: 12px; }
+    .rec-box { background: #f0fdf4; border-left: 4px solid #16a34a; padding: 16px 20px; border-radius: 0 6px 6px 0; margin-bottom: 16px; font-size: 13px; line-height: 1.7; color: #14532d; }
+    .rec-box strong { display: block; font-size: 14px; margin-bottom: 6px; }
+    .rec-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #16a34a; color: #fff; border-radius: 50%; font-size: 12px; font-weight: 700; margin-right: 8px; flex-shrink: 0; }
+    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .charts-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .chart-box { background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .chart-box h3 { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 16px; }
+    .chart-container { position: relative; height: 240px; }
+    .bar-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .bar-label { width: 180px; font-size: 12px; color: #555; flex-shrink: 0; text-align: right; }
+    .bar-track { flex: 1; background: #f0f0f0; border-radius: 4px; height: 24px; }
+    .bar-fill { height: 24px; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 600; color: #fff; min-width: 32px; }
+    .bar-val { font-size: 12px; color: #555; width: 80px; flex-shrink: 0; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .divider { border: none; border-top: 1px solid #f0f0f0; margin: 20px 0; }
+    .score-pill { display: inline-flex; align-items: center; gap: 6px; background: #1a1a2e; color: #fff; border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600; }
+    footer { text-align: center; font-size: 12px; color: #999; padding: 32px; }
+    @media (max-width: 768px) {
+      .kpi-row, .kpi-row-3 { grid-template-columns: 1fr 1fr; }
+      .charts-row, .charts-row-3, .two-col { grid-template-columns: 1fr; }
+      .header { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span class="tag">EVG</span> Qualificação de Leads — Análise Estratégica</h1>
+  <div class="subtitle">Brasil Paralelo · Campanha O Brasil Evangélico · 21/mai – 08/jun/2026 · bp-datawarehouse.datamart.dtm_analytics_lead_conversion</div>
+</div>
+
+<div class="container">
+
+  <!-- KPIs -->
+  <div class="kpi-row">
+    <div class="kpi highlight">
+      <div class="label">Total de leads</div>
+      <div class="value">34.249</div>
+      <div class="sub">21/mai – 08/jun/2026</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Compradores únicos</div>
+      <div class="value">390</div>
+      <div class="sub">conversão geral 1,14%</div>
+    </div>
+    <div class="kpi positive">
+      <div class="label">Receita total</div>
+      <div class="value">R$ 135.902</div>
+      <div class="sub">RPL médio R$ 3,97</div>
+    </div>
+    <div class="kpi warn">
+      <div class="label">Investimento Meta Ads</div>
+      <div class="value">R$ 61.134</div>
+      <div class="sub">CPL médio R$ 2,09 (leads com ID)</div>
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 1: MIX DE TIPOS ─────────────────────────────────────────────── -->
+  <div class="section">
+    <h2>Quem são os leads — e quanto cada tipo vale</h2>
+    <div class="section-sub">Classificação pelo histórico de assinatura no momento do cadastro</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo de lead</th>
+          <th class="num">Leads</th>
+          <th class="num">% base</th>
+          <th class="num">Conversão</th>
+          <th class="num">Receita total</th>
+          <th class="num">Ticket médio</th>
+          <th class="num">RPL</th>
+          <th class="num">CPL máximo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">Membro Ativo (Vitalício)</td>
+          <td class="num">189</td><td class="num muted">0,6%</td>
+          <td class="num"><span class="badge badge-green">6,88%</span></td>
+          <td class="num bold">R$ 27.406</td>
+          <td class="num">R$ 2.108</td>
+          <td class="num bold">R$ 145</td>
+          <td class="num"><span class="badge badge-green">R$ 145</span></td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">Membro Ativo</td>
+          <td class="num">2.333</td><td class="num muted">6,8%</td>
+          <td class="num"><span class="badge badge-green">3,64%</span></td>
+          <td class="num bold">R$ 33.193</td>
+          <td class="num">R$ 391</td>
+          <td class="num bold">R$ 14,23</td>
+          <td class="num"><span class="badge badge-green">R$ 14</span></td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">Ex-Membro</td>
+          <td class="num">2.834</td><td class="num muted">8,3%</td>
+          <td class="num"><span class="badge badge-blue">2,79%</span></td>
+          <td class="num">R$ 21.768</td>
+          <td class="num">R$ 276</td>
+          <td class="num bold">R$ 7,68</td>
+          <td class="num"><span class="badge badge-blue">R$ 7–8</span></td>
+        </tr>
+        <tr>
+          <td>Não Membro</td>
+          <td class="num">28.893</td><td class="num muted">84,4%</td>
+          <td class="num"><span class="badge badge-yellow">0,74%</span></td>
+          <td class="num">R$ 53.535</td>
+          <td class="num">R$ 251</td>
+          <td class="num">R$ 1,85</td>
+          <td class="num"><span class="badge badge-yellow">R$ 1,85*</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="warn-box">
+      * CPL máximo do Não Membro neste lançamento. Considerando reativação em campanhas futuras (leads &gt;1 ano convertem 50% mais), o CPL sustentável sobe para R$ 3–4.
+    </div>
+    <div class="insight-box">
+      <strong>84% dos leads são Não Membros — mas Membros e Ex-Membros geram 40% da receita</strong>
+      Com apenas 15,7% da base, os segmentos qualificados (Membro + Ex-Membro) respondem por R$ 82.367 — mais do que os Não Membros (R$ 53.535). O CPL atual não discrimina esses grupos porque todos entram pela mesma campanha Advantage Aberta.
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 2: AD SETS ───────────────────────────────────────────────────── -->
+  <div class="section">
+    <h2>Performance por Ad Set</h2>
+    <div class="section-sub">Todos os ad sets rodam como [ADVANTAGE] Aberto — sem segmentação de público</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Ad Set</th>
+          <th class="num">Leads</th>
+          <th class="num">Investimento</th>
+          <th class="num">CPL</th>
+          <th class="num">% Qualif.</th>
+          <th class="num">RPL (Membro)</th>
+          <th class="num">RPL (Ex-Memb)</th>
+          <th class="num">RPL (Não Memb)</th>
+          <th class="num">Folga geral</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">Pack 1</td>
+          <td class="num">2.006</td>
+          <td class="num">R$ 5.937</td>
+          <td class="num">R$ 2,95</td>
+          <td class="num"><span class="badge badge-green">18,4%</span></td>
+          <td class="num">R$ 11,04</td>
+          <td class="num">R$ 5,92</td>
+          <td class="num">R$ 3,22</td>
+          <td class="num"><span class="badge badge-green">+R$ 1,22</span></td>
+        </tr>
+        <tr>
+          <td>Pack 1 | Adapt</td>
+          <td class="num">9.985</td>
+          <td class="num">R$ 22.620</td>
+          <td class="num">R$ 2,27</td>
+          <td class="num">16,9%</td>
+          <td class="num">R$ 6,13</td>
+          <td class="num">R$ 5,95</td>
+          <td class="num">R$ 1,31</td>
+          <td class="num"><span class="badge badge-yellow">-R$ 0,04</span></td>
+        </tr>
+        <tr>
+          <td>Pack 3</td>
+          <td class="num">6.961</td>
+          <td class="num">R$ 14.184</td>
+          <td class="num">R$ 2,03</td>
+          <td class="num">14,6%</td>
+          <td class="num">R$ 10,02</td>
+          <td class="num">R$ 4,72</td>
+          <td class="num">R$ 0,98</td>
+          <td class="num"><span class="badge badge-yellow">-R$ 0,20</span></td>
+        </tr>
+        <tr>
+          <td>Pack 2</td>
+          <td class="num">9.966</td>
+          <td class="num">R$ 18.393</td>
+          <td class="num"><span class="badge badge-blue">R$ 1,84</span></td>
+          <td class="num"><span class="badge badge-red">11,4%</span></td>
+          <td class="num">R$ 6,44</td>
+          <td class="num">R$ 4,88</td>
+          <td class="num">R$ 1,16</td>
+          <td class="num"><span class="badge badge-red">-R$ 0,18</span></td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">Orgânico / sem ID</td>
+          <td class="num">5.277</td>
+          <td class="num muted">R$ 0</td>
+          <td class="num muted">—</td>
+          <td class="num"><span class="badge badge-green">21%</span></td>
+          <td class="num bold">R$ 38,22</td>
+          <td class="num bold">R$ 17,97</td>
+          <td class="num bold">R$ 5,11</td>
+          <td class="num"><span class="badge badge-green">+∞</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="insight-box">
+      <strong>Pack 1 é o único ad set positivo — e o Pack 2, o mais barato, atraiu a audiência mais fria</strong>
+      O CPL mais baixo (Pack 2, R$1,84) não é o melhor resultado: esse ad set atraiu 88% de Não Membros vs 81% do Pack 1. O algoritmo encontrou leads mais baratos mas piores. Sem segmentação de público, o Meta otimiza por volume de lead, não por qualidade.
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 3: ANÚNCIOS COM MELHOR MIX ─────────────────────────────────── -->
+  <div class="section">
+    <h2>Anúncios com melhor mix de leads qualificados</h2>
+    <div class="section-sub">Ordenado por % de leads Membro + Ex-Membro (mín. 100 leads)</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Anúncio</th>
+          <th class="num">Leads</th>
+          <th class="num">CPL</th>
+          <th class="num">% Qualif.</th>
+          <th class="num">% Membros</th>
+          <th class="num">% Ex-Memb</th>
+          <th class="num">RPL geral</th>
+          <th class="num">Ticket médio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">AD35 — VVS alinhamento político</td>
+          <td class="num">387</td><td class="num">R$ 1,47</td>
+          <td class="num"><span class="badge badge-green">29,7%</span></td>
+          <td class="num">18,3%</td><td class="num">11,4%</td>
+          <td class="num">R$ 3,41</td><td class="num">R$ 659</td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">AD15 — Card caseiro 1</td>
+          <td class="num">152</td><td class="num"><span class="badge badge-green">R$ 1,07</span></td>
+          <td class="num"><span class="badge badge-green">23,0%</span></td>
+          <td class="num">11,2%</td><td class="num">11,8%</td>
+          <td class="num">R$ 3,29</td><td class="num">R$ 167</td>
+        </tr>
+        <tr>
+          <td>AD07 — Card convite</td>
+          <td class="num">283</td><td class="num">R$ 2,33</td>
+          <td class="num">22,6%</td>
+          <td class="num">11,3%</td><td class="num">11,3%</td>
+          <td class="num">R$ 2,69</td><td class="num">R$ 254</td>
+        </tr>
+        <tr>
+          <td>AD08 — Card convite</td>
+          <td class="num">1.100</td><td class="num">R$ 2,11</td>
+          <td class="num">19,3%</td>
+          <td class="num">9,2%</td><td class="num">10,1%</td>
+          <td class="num bold">R$ 4,35</td><td class="num">R$ 299</td>
+        </tr>
+        <tr>
+          <td>AD05 — VVS a virada curto</td>
+          <td class="num">1.743</td><td class="num">R$ 1,56</td>
+          <td class="num">15,5%</td>
+          <td class="num">7,6%</td><td class="num">8,0%</td>
+          <td class="num">R$ 3,14</td><td class="num">R$ 249</td>
+        </tr>
+        <tr>
+          <td>AD03 — VVS 1990 curto</td>
+          <td class="num">7.973</td><td class="num">R$ 2,22</td>
+          <td class="num">17,1%</td>
+          <td class="num">8,2%</td><td class="num">8,9%</td>
+          <td class="num">R$ 2,20</td><td class="num">R$ 209</td>
+        </tr>
+        <tr class="muted">
+          <td>AD28 — VVS uma história</td>
+          <td class="num">4.618</td><td class="num">R$ 2,05</td>
+          <td class="num"><span class="badge badge-red">9,1%</span></td>
+          <td class="num">4,0%</td><td class="num">5,1%</td>
+          <td class="num">R$ 0,89</td><td class="num">R$ 179</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="insight-box">
+      <strong>AD35 tem o maior % de qualificados (30%) com o segundo menor CPL (R$1,47)</strong>
+      O conteúdo de "alinhamento político" ressoa desproporcionalmente com quem já tem vínculo com a BP. AD15 (Card caseiro 1) tem o menor CPL de toda a campanha (R$1,07) com 23% de qualificados — excelente custo-benefício para prospecção de ex-membros.
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 4: PESQUISA — RENDA ─────────────────────────────────────────── -->
+  <div class="section">
+    <h2>Pesquisa: Renda é o melhor discriminador entre Não Membros</h2>
+    <div class="section-sub">Conversão de Não Membros por faixa de renda declarada no formulário</div>
+
+    <div class="two-col">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Renda declarada</th>
+              <th class="num">Leads NM</th>
+              <th class="num">Conv%</th>
+              <th class="num">RPL</th>
+              <th class="num">CPL ideal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">Acima de R$ 20k</td>
+              <td class="num">46</td>
+              <td class="num"><span class="badge badge-green">4,35%</span></td>
+              <td class="num bold">R$ 5,69</td>
+              <td class="num"><span class="badge badge-green">R$ 5,69</span></td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">R$ 10k – 20k</td>
+              <td class="num">101</td>
+              <td class="num"><span class="badge badge-green">3,96%</span></td>
+              <td class="num bold">R$ 9,79</td>
+              <td class="num"><span class="badge badge-green">R$ 9,79</span></td>
+            </tr>
+            <tr>
+              <td>R$ 2k – 5k</td>
+              <td class="num">1.050</td>
+              <td class="num">1,52%</td>
+              <td class="num">R$ 3,81</td>
+              <td class="num">R$ 3,81</td>
+            </tr>
+            <tr>
+              <td>R$ 5k – 10k</td>
+              <td class="num">1.167</td>
+              <td class="num">1,29%</td>
+              <td class="num">R$ 2,51</td>
+              <td class="num">R$ 2,51</td>
+            </tr>
+            <tr>
+              <td>Até R$ 5k</td>
+              <td class="num">3.039</td>
+              <td class="num">1,02%</td>
+              <td class="num">R$ 2,07</td>
+              <td class="num">R$ 2,07</td>
+            </tr>
+            <tr class="muted">
+              <td>Prefiro não informar</td>
+              <td class="num">2.187</td>
+              <td class="num">0,73%</td>
+              <td class="num">R$ 2,02</td>
+              <td class="num muted">—</td>
+            </tr>
+            <tr>
+              <td class="muted">Até R$ 2k</td>
+              <td class="num muted">1.526</td>
+              <td class="num"><span class="badge badge-red">0,59%</span></td>
+              <td class="num muted">R$ 0,95</td>
+              <td class="num"><span class="badge badge-red">R$ 0,95</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3 style="font-size:14px;font-weight:600;color:#333;margin-bottom:16px;">Conversão de Não Membros por renda</h3>
+        <div style="height:220px;position:relative;">
+          <canvas id="chartRenda"></canvas>
+        </div>
+        <div class="insight-box" style="margin-top:16px;">
+          <strong>Não Membro com renda R$10k+ se comporta como Ex-Membro</strong>
+          4% de conversão — comparável aos 2,79% de Ex-Membros. Para esse segmento, o CPL máximo sobe de R$1,85 para R$8–10. A pergunta de renda no formulário é o sinal de qualificação mais forte disponível.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 5: PESQUISA — RELAÇÃO BP ────────────────────────────────────── -->
+  <div class="section">
+    <h2>Pesquisa: Relação com o Brasil Paralelo</h2>
+    <div class="section-sub">Conversão de Não Membros por relação autodeclarada com a BP</div>
+
+    <div class="two-col">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Relação declarada</th>
+              <th class="num">Leads NM</th>
+              <th class="num">Conv%</th>
+              <th class="num">RPL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">"Assino hoje" (não consta sistema)</td>
+              <td class="num">183</td>
+              <td class="num"><span class="badge badge-green">3,28%</span></td>
+              <td class="num bold">R$ 10,60</td>
+            </tr>
+            <tr>
+              <td>"Já ouvi falar, nunca assisti"</td>
+              <td class="num">1.771</td>
+              <td class="num">1,07%</td>
+              <td class="num">R$ 2,29</td>
+            </tr>
+            <tr>
+              <td>"Já assinei no passado" (status = NM)</td>
+              <td class="num">363</td>
+              <td class="num">0,83%</td>
+              <td class="num">R$ 3,03</td>
+            </tr>
+            <tr>
+              <td>"Consome conteúdo gratuito"</td>
+              <td class="num">3.241</td>
+              <td class="num">0,71%</td>
+              <td class="num">R$ 1,33</td>
+            </tr>
+            <tr>
+              <td class="muted bold">"Nunca ouvi falar"</td>
+              <td class="num muted">420</td>
+              <td class="num"><span class="badge badge-red">0,24%</span></td>
+              <td class="num muted">R$ 0,57</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="warn-box">
+          <strong>Anomalia: "Assino hoje" com status = Não Membro</strong>
+          183 leads dizem assinar hoje mas não constam como assinantes. Possíveis causas: trial gratuito, acesso por outra conta, ou erro de sincronização. Convertem 3,28% com RPL R$10,60 — vale investigar e segmentar.
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:14px;font-weight:600;color:#333;margin-bottom:16px;">Conversão por relação com BP (Não Membros)</h3>
+        <div style="height:200px;position:relative;">
+          <canvas id="chartRelacao"></canvas>
+        </div>
+        <div class="insight-box" style="margin-top:16px;">
+          <strong>"Nunca ouvi falar" converte 4× menos que a média dos demais</strong>
+          0,24% vs 0,71–1,07% dos outros grupos. CPL máximo desse público é R$0,57 — muito abaixo do CPL médio atual de R$2. Sinal negativo claro para exclusão ou orçamento mínimo.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 6: PESQUISA — STREAMING ─────────────────────────────────────── -->
+  <div class="section">
+    <h2>Pesquisa: Streaming como proxy de disposição a pagar por conteúdo</h2>
+    <div class="section-sub">Conversão de Não Membros por plataforma de streaming declarada</div>
+
+    <div class="charts-row">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Streaming</th>
+              <th class="num">Leads NM</th>
+              <th class="num">Conv%</th>
+              <th class="num">RPL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">Brasil Paralelo</td>
+              <td class="num">427</td>
+              <td class="num"><span class="badge badge-green">1,64%</span></td>
+              <td class="num bold">R$ 4,85</td>
+            </tr>
+            <tr>
+              <td>Prime Video</td>
+              <td class="num">1.486</td>
+              <td class="num">1,14%</td>
+              <td class="num">R$ 3,41</td>
+            </tr>
+            <tr>
+              <td>Plataformas educacionais</td>
+              <td class="num">441</td>
+              <td class="num">1,13%</td>
+              <td class="num bold">R$ 5,13</td>
+            </tr>
+            <tr>
+              <td>Disney+</td>
+              <td class="num">698</td>
+              <td class="num">1,00%</td>
+              <td class="num">R$ 2,77</td>
+            </tr>
+            <tr>
+              <td>Netflix</td>
+              <td class="num">3.368</td>
+              <td class="num">0,98%</td>
+              <td class="num">R$ 2,38</td>
+            </tr>
+            <tr>
+              <td>HBO Max</td>
+              <td class="num">614</td>
+              <td class="num">0,81%</td>
+              <td class="num">R$ 2,39</td>
+            </tr>
+            <tr>
+              <td class="muted">Nenhum</td>
+              <td class="num muted">3.102</td>
+              <td class="num"><span class="badge badge-yellow">0,71%</span></td>
+              <td class="num muted">R$ 1,54</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="insight-box">
+          <strong>BP streaming entre Não Membros: acesso informal com alta intenção</strong>
+          Quem declara assinar BP mas não está na base provavelmente acessa via outra conta ou trial. Convertem 2,3× mais que quem não assina nada (1,64% vs 0,71%) — são leads de muito alta intenção.
+        </div>
+        <div class="insight-box" style="margin-top:12px;">
+          <strong>Plataformas educacionais têm RPL maior que Prime Video</strong>
+          Hotmart, Udemy, Coursera — pessoas que já pagam por conteúdo de qualidade convertem com RPL R$5,13, acima do Prime Video (R$3,41). São um público-alvo secundário valioso, especialmente em campanhas de certificação.
+        </div>
+        <div class="warn-box" style="margin-top:12px;">
+          Quem não assina nenhum streaming (25% da base) tem a menor conversão (0,71%). Mas entre os Membros Ativos, "nenhum streaming" tem 7,5% de conversão — ou seja, esse sinal negativo é válido apenas para Não Membros.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 7: CANAL ORGÂNICO ───────────────────────────────────────────── -->
+  <div class="section">
+    <h2>Canal orgânico — o maior RPL sem custo de mídia</h2>
+    <div class="section-sub">Leads sem ID de anúncio (~14% da base) — orgânico, Portal, CRM, Redes Sociais</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Canal</th>
+          <th class="num">Leads</th>
+          <th class="num">% sem_id</th>
+          <th class="num">Conv%</th>
+          <th class="num">RPL</th>
+          <th class="num">Custo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">Portal</td>
+          <td class="num">980</td><td class="num">20,2%</td>
+          <td class="num"><span class="badge badge-green">8,06%</span></td>
+          <td class="num bold">R$ 64,03</td>
+          <td class="num"><span class="badge badge-green">R$ 0</span></td>
+        </tr>
+        <tr>
+          <td>Anúncios (sem ID atribuído)</td>
+          <td class="num">3.312</td><td class="num">68,2%</td>
+          <td class="num">1,30%</td>
+          <td class="num">R$ 3,61</td>
+          <td class="num muted">R$ 0 (ID não rastreado)</td>
+        </tr>
+        <tr>
+          <td>Redes Sociais</td>
+          <td class="num">473</td><td class="num">9,7%</td>
+          <td class="num">0,42%</td>
+          <td class="num">R$ 1,29</td>
+          <td class="num"><span class="badge badge-green">R$ 0</span></td>
+        </tr>
+        <tr>
+          <td class="muted">CRM</td>
+          <td class="num muted">30</td><td class="num muted">0,6%</td>
+          <td class="num">3,33%</td>
+          <td class="num">R$ 7,96</td>
+          <td class="num"><span class="badge badge-green">R$ 0</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="insight-box">
+      <strong>Portal converte 6× mais que anúncios pagos — RPL R$64 com custo zero</strong>
+      Esses 980 leads chegaram por artigos, notícias ou colunas do Portal. Já têm intenção formada antes de se cadastrar. O RPL de R$64 sugere alto ticket médio — provavelmente Clube do Livro e planos superiores. Investimento em conteúdo editorial tem ROI muito superior ao paid media para este perfil.
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 8: REATIVAÇÃO TEMPORAL ─────────────────────────────────────── -->
+  <div class="section">
+    <h2>Valor de longo prazo do lead frio</h2>
+    <div class="section-sub">Leads EVG classificados por janela desde o primeiro cadastro em qualquer campanha</div>
+
+    <div class="two-col">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Janela</th>
+              <th class="num">Leads</th>
+              <th class="num">Conv%</th>
+              <th class="num">RPL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">Captado há &gt;1 ano</td>
+              <td class="num">15.348</td>
+              <td class="num"><span class="badge badge-green">1,35%</span></td>
+              <td class="num bold">R$ 5,24</td>
+            </tr>
+            <tr>
+              <td>Captado há 3–12 meses</td>
+              <td class="num">2.889</td>
+              <td class="num">1,18%</td>
+              <td class="num">R$ 3,51</td>
+            </tr>
+            <tr>
+              <td>Captado há até 3 meses</td>
+              <td class="num">2.829</td>
+              <td class="num">1,06%</td>
+              <td class="num">R$ 3,98</td>
+            </tr>
+            <tr>
+              <td>Novo na EVG (nunca captado)</td>
+              <td class="num">13.183</td>
+              <td class="num">0,90%</td>
+              <td class="num">R$ 2,58</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="insight-box" style="margin-top:16px;">
+          <strong>Lead na base há &gt;1 ano converte 50% mais que lead novo</strong>
+          O investimento em prospecção hoje retorna nas próximas 2–4 campanhas. Com RPL acumulado de R$4–5 ao longo de múltiplos lançamentos, o CPL sustentável para Não Membros sobe de R$1,85 para R$3–4.
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:14px;font-weight:600;color:#333;margin-bottom:16px;">Conversão por janela temporal</h3>
+        <div style="height:200px;position:relative;">
+          <canvas id="chartJanela"></canvas>
+        </div>
+        <div style="margin-top:16px;">
+          <div class="bar-wrap">
+            <div class="bar-label">&gt;1 ano</div>
+            <div class="bar-track"><div class="bar-fill" style="width:100%;background:#16a34a;">1,35%</div></div>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar-label">3–12 meses</div>
+            <div class="bar-track"><div class="bar-fill" style="width:87%;background:#3b82f6;">1,18%</div></div>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar-label">até 3 meses</div>
+            <div class="bar-track"><div class="bar-fill" style="width:78%;background:#6366f1;">1,06%</div></div>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar-label">Novo</div>
+            <div class="bar-track"><div class="bar-fill" style="width:67%;background:#94a3b8;">0,90%</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 9: RECOMENDAÇÕES ────────────────────────────────────────────── -->
+  <div class="section">
+    <h2>Recomendações Estratégicas</h2>
+    <div class="section-sub">Três mudanças em ordem de impacto e facilidade de implementação</div>
+
+    <div class="rec-box">
+      <strong><span class="rec-num">1</span>Separar audiências no Meta: retargeting vs prospecting em ad sets distintos</strong>
+      Hoje toda a campanha roda como Advantage Aberto — o algoritmo mistura ex-assinantes e leads frios no mesmo ad set e otimiza por volume de lead barato. Com audiências separadas, é possível colocar CPL alvo diferente por segmento (até R$8 para retargeting de ex-membros, até R$2 para cold) e medir eficiência real de cada público.
+      <br><br>
+      <strong>Impacto esperado:</strong> redução do CPL médio sem perda de qualidade — ex-membros tendem a ter CPL menor no retargeting porque o algoritmo os encontra mais facilmente.
+    </div>
+
+    <div class="rec-box">
+      <strong><span class="rec-num">2</span>Usar a pesquisa para segmentar o fluxo de nurturing no mesmo dia do cadastro</strong>
+      Os dados mostram que 73% das vendas acontecem no dia do cadastro. Com as respostas da pesquisa disponíveis em tempo real, é possível criar duas sequências no Insider:
+      <br><br>
+      • <strong>Alta intenção</strong> (renda R$10k+ OU "Assino hoje" OU ex-assinante informal): CTA direto em até 2h, sequência de 3 e-mails em 24h<br>
+      • <strong>Baixa intenção</strong> ("nunca ouvi falar" OU renda &lt;R$2k): sequência educacional de 5–7 dias sem pressão de venda imediata
+    </div>
+
+    <div class="rec-box">
+      <strong><span class="rec-num">3</span>Tratar CPL de Não Membros como investimento de base, não custo de aquisição imediata</strong>
+      O CPL de break-even neste lançamento é R$1,85 para Não Membros. Mas leads na base há mais de 1 ano convertem 50% mais em campanhas futuras (RPL R$5,24 vs R$2,58 de leads novos). O CAC real de um lead frio, distribuído ao longo de 3–4 campanhas, é próximo de R$4–5 — não R$1,85.
+      <br><br>
+      <strong>Implicação prática:</strong> aceitar CPL de até R$3 para prospecting frio não é ineficiente — é construção de base com retorno diferido. A métrica de controle deve ser <em>RPL acumulado por coorte de lead</em>, não CPL por campanha isolada.
+    </div>
+
+    <hr class="divider">
+
+    <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;color:#1a1a2e;">Tabela de referência: CPL ideal por segmento</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Segmento</th>
+          <th class="num">Conv% referência</th>
+          <th class="num">CPL max (este lançamento)</th>
+          <th class="num">CPL max (longo prazo)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Membro Ativo</td><td class="num">3,64%</td><td class="num">R$ 14</td><td class="num">R$ 14+</td></tr>
+        <tr><td>Ex-Membro</td><td class="num">2,79%</td><td class="num">R$ 7–8</td><td class="num">R$ 7–8</td></tr>
+        <tr><td>Não Membro + renda R$10k+</td><td class="num">~4%</td><td class="num">R$ 8–10</td><td class="num">R$ 10+</td></tr>
+        <tr><td>Não Membro + assina BP (informal)</td><td class="num">1,64%</td><td class="num">R$ 3,50</td><td class="num">R$ 5</td></tr>
+        <tr><td>Não Membro + plat. educacionais</td><td class="num">1,13%</td><td class="num">R$ 2,50</td><td class="num">R$ 4</td></tr>
+        <tr><td>Não Membro (geral)</td><td class="num">0,74%</td><td class="num">R$ 1,85</td><td class="num">R$ 3–4</td></tr>
+        <tr><td class="muted">Não Membro + "nunca ouvi falar"</td><td class="num muted">0,24%</td><td class="num"><span class="badge badge-red">R$ 0,50</span></td><td class="num muted">R$ 1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  Brasil Paralelo · Análise: André Abe · Fonte: bp-datawarehouse.datamart.dtm_analytics_lead_conversion + dtm_analytics_facebook_ads_funnel · Gerado em 11/06/2026
+</footer>
+
+<script>
+// Renda chart
+new Chart(document.getElementById('chartRenda'), {
+  type: 'bar',
+  data: {
+    labels: ['Acima R$20k','R$10k–20k','R$2k–5k','R$5k–10k','Até R$5k','Pref. não inf.','Até R$2k'],
+    datasets: [{
+      label: 'Conversão (%)',
+      data: [4.35, 3.96, 1.52, 1.29, 1.02, 0.73, 0.59],
+      backgroundColor: ['#16a34a','#16a34a','#3b82f6','#3b82f6','#94a3b8','#94a3b8','#ef4444'],
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: { x: { beginAtZero: true, ticks: { callback: v => v + '%' } } }
+  }
+});
+
+// Relação BP chart
+new Chart(document.getElementById('chartRelacao'), {
+  type: 'bar',
+  data: {
+    labels: ['"Assino hoje" (informal)','Nunca assisti','Já assinei (NM)','Consome grátis','Nunca ouvi falar'],
+    datasets: [{
+      label: 'Conversão (%)',
+      data: [3.28, 1.07, 0.83, 0.71, 0.24],
+      backgroundColor: ['#16a34a','#3b82f6','#6366f1','#94a3b8','#ef4444'],
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: { x: { beginAtZero: true, ticks: { callback: v => v + '%' } } }
+  }
+});
+
+// Janela temporal chart
+new Chart(document.getElementById('chartJanela'), {
+  type: 'bar',
+  data: {
+    labels: ['>1 ano','3–12 meses','até 3 meses','Novo'],
+    datasets: [
+      {
+        label: 'Conv%',
+        data: [1.35, 1.18, 1.06, 0.90],
+        backgroundColor: ['#16a34a','#3b82f6','#6366f1','#94a3b8'],
+        yAxisID: 'y',
+      },
+      {
+        label: 'RPL (R$)',
+        data: [5.24, 3.51, 3.98, 2.58],
+        type: 'line',
+        borderColor: '#f59e0b',
+        backgroundColor: '#f59e0b22',
+        pointBackgroundColor: '#f59e0b',
+        yAxisID: 'y2',
+        tension: 0.3,
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } },
+    scales: {
+      y:  { beginAtZero: true, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Conv%' } },
+      y2: { beginAtZero: true, position: 'right', ticks: { callback: v => 'R$' + v }, grid: { drawOnChartArea: false }, title: { display: true, text: 'RPL' } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
