@@ -731,6 +731,299 @@
     </table>
   </div>
 
+
+  <!-- ── SEÇÃO 10: CURVA DE CONVERSÃO ─────────────────────────────────────── -->
+  <div class="section">
+    <h2>Quando as vendas acontecem — curva de conversão</h2>
+    <div class="section-sub">Dias entre cadastro no EVG e primeira compra (487 transações com valor atribuído)</div>
+
+    <div class="kpi-row-3">
+      <div class="kpi positive">
+        <div class="label">D0 — mesmo dia</div>
+        <div class="value">289</div>
+        <div class="sub">59% das vendas · R$ 78.156</div>
+      </div>
+      <div class="kpi">
+        <div class="label">D1–D7</div>
+        <div class="value">113</div>
+        <div class="sub">23% das vendas · R$ 42.397</div>
+      </div>
+      <div class="kpi warn">
+        <div class="label">D-1 (antes do cadastro)</div>
+        <div class="value">48</div>
+        <div class="sub">10% das vendas · R$ 9.752</div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-box">
+        <h3>Vendas acumuladas (% do total) por dia pós-cadastro</h3>
+        <div class="chart-container">
+          <canvas id="chartCurva"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>Vendas por janela × tipo de lead</h3>
+        <div class="chart-container">
+          <canvas id="chartJanelaStatus"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Janela</th>
+          <th class="num">Vendas</th>
+          <th class="num">% do total</th>
+          <th class="num">% acumulado</th>
+          <th class="num">Receita</th>
+          <th class="num">Ticket médio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="muted">
+          <td>D-1 (comprou antes de cadastrar)</td>
+          <td class="num">48</td><td class="num">9,9%</td><td class="num">9,9%</td>
+          <td class="num">R$ 9.752</td><td class="num">R$ 203</td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">D0 — mesmo dia</td>
+          <td class="num bold">289</td><td class="num bold">59,3%</td><td class="num">69,2%</td>
+          <td class="num bold">R$ 78.156</td><td class="num">R$ 270</td>
+        </tr>
+        <tr>
+          <td>D1</td>
+          <td class="num">31</td><td class="num">6,4%</td><td class="num">75,6%</td>
+          <td class="num">R$ 13.236</td><td class="num">R$ 427</td>
+        </tr>
+        <tr>
+          <td>D2</td>
+          <td class="num">23</td><td class="num">4,7%</td><td class="num">80,3%</td>
+          <td class="num">R$ 8.183</td><td class="num">R$ 356</td>
+        </tr>
+        <tr>
+          <td>D3</td>
+          <td class="num">18</td><td class="num">3,7%</td><td class="num">84,0%</td>
+          <td class="num">R$ 10.507</td><td class="num">R$ 584</td>
+        </tr>
+        <tr>
+          <td>D4–D7</td>
+          <td class="num">41</td><td class="num">8,4%</td><td class="num">92,4%</td>
+          <td class="num">R$ 9.897</td><td class="num">R$ 241</td>
+        </tr>
+        <tr>
+          <td>D8–D14</td>
+          <td class="num">29</td><td class="num">6,0%</td><td class="num">98,4%</td>
+          <td class="num">R$ 4.397</td><td class="num">R$ 152</td>
+        </tr>
+        <tr class="muted">
+          <td>D15+</td>
+          <td class="num">8</td><td class="num">1,6%</td><td class="num">100%</td>
+          <td class="num">R$ 1.572</td><td class="num">R$ 197</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box" style="margin-top:16px;">
+      <strong>D3 tem ticket médio R$584 — leads pensam mais nas compras grandes</strong>
+      Membros Ativos respondem pela maioria das vendas de D3 (9 vendas, R$5.689 = R$632 ticket médio). São upgrades e produtos premium onde a decisão é mais demorada. O CRM deve fazer follow-up ativo nos dias 2–5 para esse segmento.
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 11: CANAL DA VENDA ──────────────────────────────────────────── -->
+  <div class="section">
+    <h2>De onde vêm as vendas — e quanto é realmente da campanha</h2>
+    <div class="section-sub">Canal atribuído na transação vs canal de cadastro do lead</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Canal da venda</th>
+          <th class="num">Vendas</th>
+          <th class="num">Receita</th>
+          <th class="num">% receita</th>
+          <th class="num">Ticket médio</th>
+          <th class="num">Janela típica</th>
+          <th class="num">Causalidade</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">Comercial</td>
+          <td class="num">68</td>
+          <td class="num bold">R$ 48.632</td>
+          <td class="num">35,8%</td>
+          <td class="num bold">R$ 715</td>
+          <td class="num">D1–D3</td>
+          <td class="num"><span class="badge badge-blue">Indireta</span></td>
+        </tr>
+        <tr>
+          <td class="bold">Pesquisas de marca</td>
+          <td class="num">273</td>
+          <td class="num">R$ 43.810</td>
+          <td class="num">32,2%</td>
+          <td class="num">R$ 163</td>
+          <td class="num">D0 (92%)</td>
+          <td class="num"><span class="badge badge-yellow">Parcial</span></td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">Anúncios (retargeting)</td>
+          <td class="num">62</td>
+          <td class="num">R$ 22.138</td>
+          <td class="num">16,3%</td>
+          <td class="num">R$ 357</td>
+          <td class="num">D0–D14</td>
+          <td class="num"><span class="badge badge-green">Direta</span></td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">CRM (Insider)</td>
+          <td class="num">40</td>
+          <td class="num">R$ 12.308</td>
+          <td class="num">9,1%</td>
+          <td class="num">R$ 307</td>
+          <td class="num">D1–D14</td>
+          <td class="num"><span class="badge badge-green">Direta</span></td>
+        </tr>
+        <tr>
+          <td>Portal</td>
+          <td class="num">17</td>
+          <td class="num">R$ 3.509</td>
+          <td class="num">2,6%</td>
+          <td class="num">R$ 206</td>
+          <td class="num">D0</td>
+          <td class="num"><span class="badge badge-blue">Indireta</span></td>
+        </tr>
+        <tr>
+          <td>Renovação</td>
+          <td class="num">15</td>
+          <td class="num">R$ 2.911</td>
+          <td class="num">2,1%</td>
+          <td class="num">R$ 194</td>
+          <td class="num">D1–D14</td>
+          <td class="num"><span class="badge badge-yellow">Parcial</span></td>
+        </tr>
+        <tr class="muted">
+          <td>YouTube, Redes Sociais, CS</td>
+          <td class="num">12</td>
+          <td class="num">R$ 2.150</td>
+          <td class="num">1,6%</td>
+          <td class="num">R$ 179</td>
+          <td class="num">D0–D3</td>
+          <td class="num"><span class="badge badge-gray">Misto</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="charts-row" style="margin-top:20px;">
+      <div class="chart-box">
+        <h3>Receita por canal</h3>
+        <div class="chart-container">
+          <canvas id="chartCanal"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>Distribuição temporal por canal (% das vendas do canal)</h3>
+        <div style="margin-top:8px;font-size:12px;color:#555;">
+          <div style="display:grid;grid-template-columns:140px 1fr;gap:6px;align-items:center;margin-bottom:6px;">
+            <span class="bold">Pesq. de marca</span>
+            <div style="display:flex;gap:2px;height:20px;">
+              <div style="width:14.3%;background:#ef4444;border-radius:2px 0 0 2px;" title="D-1: 14%"></div>
+              <div style="width:78.4%;background:#16a34a;" title="D0: 78%"></div>
+              <div style="width:3.7%;background:#3b82f6;" title="D1-3: 4%"></div>
+              <div style="width:3.3%;background:#94a3b8;border-radius:0 2px 2px 0;" title="D4+: 3%"></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:140px 1fr;gap:6px;align-items:center;margin-bottom:6px;">
+            <span class="bold">Comercial</span>
+            <div style="display:flex;gap:2px;height:20px;">
+              <div style="width:2.9%;background:#ef4444;border-radius:2px 0 0 2px;" title="D-1: 3%"></div>
+              <div style="width:35.3%;background:#16a34a;" title="D0: 35%"></div>
+              <div style="width:45.6%;background:#3b82f6;" title="D1-3: 46%"></div>
+              <div style="width:14.7%;background:#94a3b8;border-radius:0 2px 2px 0;" title="D4+: 15%"></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:140px 1fr;gap:6px;align-items:center;margin-bottom:6px;">
+            <span class="bold">Anúncios</span>
+            <div style="display:flex;gap:2px;height:20px;">
+              <div style="width:8.1%;background:#ef4444;border-radius:2px 0 0 2px;" title="D-1: 8%"></div>
+              <div style="width:35.5%;background:#16a34a;" title="D0: 35%"></div>
+              <div style="width:17.7%;background:#3b82f6;" title="D1-3: 18%"></div>
+              <div style="width:38.7%;background:#94a3b8;border-radius:0 2px 2px 0;" title="D4+: 39%"></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:140px 1fr;gap:6px;align-items:center;margin-bottom:6px;">
+            <span class="bold">CRM</span>
+            <div style="display:flex;gap:2px;height:20px;">
+              <div style="width:22.5%;background:#16a34a;border-radius:2px 0 0 2px;" title="D0: 23%"></div>
+              <div style="width:27.5%;background:#3b82f6;" title="D1-3: 28%"></div>
+              <div style="width:42.5%;background:#94a3b8;" title="D4-14: 43%"></div>
+              <div style="width:7.5%;background:#6366f1;border-radius:0 2px 2px 0;" title="D15+: 8%"></div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:#888;margin-top:10px;display:flex;gap:12px;">
+            <span><span style="display:inline-block;width:10px;height:10px;background:#ef4444;border-radius:2px;vertical-align:middle;"></span> Antes</span>
+            <span><span style="display:inline-block;width:10px;height:10px;background:#16a34a;border-radius:2px;vertical-align:middle;"></span> D0</span>
+            <span><span style="display:inline-block;width:10px;height:10px;background:#3b82f6;border-radius:2px;vertical-align:middle;"></span> D1–D3</span>
+            <span><span style="display:inline-block;width:10px;height:10px;background:#94a3b8;border-radius:2px;vertical-align:middle;"></span> D4+</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box" style="margin-top:4px;">
+      <strong>48 vendas (D-1) aconteceram antes do cadastro no EVG</strong>
+      Dessas, 39 vieram de "Pesquisas de marca" — pessoas que já tinham intenção de compra e provavelmente encontraram o EVG como formulário de relacionamento, não como funil de conversão. Comprar antes de se cadastrar numa campanha de aquecimento é sinal de base qualificada, não de conversão atribuível à campanha.
+    </div>
+
+    <div class="insight-box" style="margin-top:12px;">
+      <strong>Hipótese validada parcialmente: "Pesquisas de marca" e Comercial têm causalidade difusa</strong>
+      <br><br>
+      <strong>Pesquisas de marca (R$43.810):</strong> 92% dessas vendas acontecem no D0 ou antes — sugerem intenção prévia. São pessoas que provavelmente já iam comprar, e o cadastro no EVG aconteceu antes ou em paralelo. A campanha pode ter acelerado, mas não causou a decisão.
+      <br><br>
+      <strong>Comercial (R$48.632):</strong> ticket médio R$715 — são vendas de Mecenas, Vitalício e planos altos, onde o lead gerado pela campanha entrou na base e foi qualificado pelo time comercial. A campanha trouxe o lead, mas a conversão foi resultado de relacionamento direto.
+      <br><br>
+      <strong>Conversão "real" da campanha (Anúncios + CRM):</strong> R$34.446 em 102 vendas (25% da receita). São as vendas com causalidade mais clara — usuário viu o anúncio, clicou, e converteu via funil digital ou sequência de e-mail.
+      <br><br>
+      <strong>Contra-hipótese:</strong> o cadastro pode ser o gatilho que transforma intenção difusa em compra. Sem o EVG, a pessoa com "Pesquisa de marca" pode ter adiado. Esse efeito não é mensurável sem grupo de controle.
+    </div>
+
+    <hr class="divider">
+
+    <h3 style="font-size:15px;font-weight:700;margin-bottom:16px;color:#1a1a2e;">Implicações por canal</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Canal</th>
+          <th>O que indica</th>
+          <th>Ação recomendada</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">Pesquisas de marca (D0)</td>
+          <td>Intenção prévia — já estava no funil BP</td>
+          <td>Capturar esses leads com conteúdo editorial (Portal) antes da campanha; eles convertem sem pressão</td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">Comercial (D1–D3)</td>
+          <td>Leads qualificados que precisam de contato humano para fechar high-ticket</td>
+          <td>Acionar Comercial automaticamente para leads com score alto (renda R$10k+ ou Membro Ativo) no D1</td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">CRM D4–D14</td>
+          <td>Leads que precisam de múltiplos touchpoints para converter</td>
+          <td>Sequência de 7–10 dias com conteúdo de valor (não só CTA) — esse grupo tem menor ticket mas persiste</td>
+        </tr>
+        <tr>
+          <td class="bold">Anúncios D4+</td>
+          <td>Retargeting de quem clicou mas não converteu imediatamente</td>
+          <td>Pixel de retargeting na página de confirmação; campanha separada do aquecimento</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>
 
 <footer>
@@ -804,6 +1097,79 @@ new Chart(document.getElementById('chartJanela'), {
     scales: {
       y:  { beginAtZero: true, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Conv%' } },
       y2: { beginAtZero: true, position: 'right', ticks: { callback: v => 'R$' + v }, grid: { drawOnChartArea: false }, title: { display: true, text: 'RPL' } }
+    }
+  }
+});
+
+// Curva de conversão acumulada
+new Chart(document.getElementById('chartCurva'), {
+  type: 'line',
+  data: {
+    labels: ['D-1','D0','D1','D2','D3','D4','D5','D6','D7','D8–D14','D15+'],
+    datasets: [
+      {
+        label: 'Acumulado (%)',
+        data: [9.9, 69.2, 75.6, 80.3, 84.0, 86.1, 87.7, 90.6, 92.5, 98.4, 100],
+        borderColor: '#3b82f6',
+        backgroundColor: '#3b82f633',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 4,
+        yAxisID: 'y',
+      },
+      {
+        label: 'Vendas no dia',
+        data: [48, 289, 31, 23, 18, 10, 8, 14, 9, 29, 8],
+        type: 'bar',
+        backgroundColor: '#e2e8f0',
+        yAxisID: 'y2',
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } },
+    scales: {
+      y:  { min: 0, max: 100, ticks: { callback: v => v + '%' }, position: 'left', title: { display: true, text: 'Acumulado' } },
+      y2: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Vendas/dia' } }
+    }
+  }
+});
+
+// Vendas por janela × status
+new Chart(document.getElementById('chartJanelaStatus'), {
+  type: 'bar',
+  data: {
+    labels: ['D-1','D0','D1–D3','D4–D7','D8–D14','D15+'],
+    datasets: [
+      { label: 'Vitalício',  data: [1,9,7,0,0,0],    backgroundColor: '#1d4ed8' },
+      { label: 'Membro',     data: [11,53,27,9,4,3],   backgroundColor: '#3b82f6' },
+      { label: 'Ex-Membro',  data: [14,64,12,6,8,2],   backgroundColor: '#6366f1' },
+      { label: 'Não Membro', data: [22,163,26,26,17,3], backgroundColor: '#94a3b8' },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } },
+    scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } }
+  }
+});
+
+// Canal de venda (receita)
+new Chart(document.getElementById('chartCanal'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Comercial','Pesquisas de marca','Anúncios','CRM','Portal','Renovação','Outros'],
+    datasets: [{
+      data: [48632, 43810, 22138, 12308, 3509, 2911, 2150],
+      backgroundColor: ['#1d4ed8','#f59e0b','#16a34a','#6366f1','#0ea5e9','#94a3b8','#e2e8f0'],
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right', labels: { font: { size: 11 }, padding: 8 } },
+      tooltip: { callbacks: { label: ctx => ` R$ ${ctx.parsed.toLocaleString('pt-BR')}` } }
     }
   }
 });
