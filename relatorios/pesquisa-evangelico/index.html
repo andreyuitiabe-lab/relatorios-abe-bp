@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campanha EVG — Perfil da Base e Performance · Brasil Paralelo</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; }
+    .header { background: #1a1a2e; color: #fff; padding: 40px 48px 32px; }
+    .header h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+    .header .subtitle { font-size: 14px; color: #aaa; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+    .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .kpi-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+    .kpi { background: #fff; border-radius: 8px; padding: 20px 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .kpi .label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+    .kpi .value { font-size: 28px; font-weight: 700; color: #1a1a2e; }
+    .kpi .sub { font-size: 12px; color: #666; margin-top: 4px; }
+    .kpi.highlight { border-top: 3px solid #3b82f6; }
+    .kpi.positive { border-top: 3px solid #16a34a; }
+
+    .section { background: #fff; border-radius: 8px; padding: 28px 32px; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 24px; }
+    .section h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+    .section .section-sub { font-size: 13px; color: #888; margin-bottom: 20px; }
+
+    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .charts-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .chart-box { background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .chart-box h3 { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 16px; }
+    .chart-container { position: relative; height: 240px; }
+    .chart-container-lg { position: relative; height: 300px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 10px 12px; background: #f0f0f0; color: #555; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; }
+    td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafafa; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .bold { font-weight: 700; }
+    .muted { color: #888; }
+
+    .badge { border-radius: 3px; padding: 2px 7px; font-size: 11px; font-weight: 600; }
+    .badge-green { background: #dcfce7; color: #16a34a; }
+    .badge-blue  { background: #dbeafe; color: #1d4ed8; }
+    .badge-yellow { background: #fef9c3; color: #854d0e; }
+    .badge-red   { background: #fee2e2; color: #dc2626; }
+
+    .insight-box { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 14px 18px; border-radius: 0 6px 6px 0; margin-top: 16px; font-size: 13px; line-height: 1.6; color: #1e3a5f; }
+    .insight-box strong { display: block; margin-bottom: 4px; font-size: 13px; }
+    .warn-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.6; color: #78350f; margin-top: 12px; }
+
+    .funnel-row { display: flex; align-items: center; gap: 0; margin-bottom: 8px; }
+    .funnel-label { width: 200px; font-size: 13px; color: #444; flex-shrink: 0; }
+    .funnel-bar-wrap { flex: 1; background: #f0f0f0; border-radius: 4px; height: 28px; position: relative; }
+    .funnel-bar { height: 28px; border-radius: 4px; display: flex; align-items: center; padding-left: 10px; font-size: 12px; font-weight: 600; color: #fff; min-width: 40px; }
+    .funnel-pct { margin-left: 10px; font-size: 12px; color: #666; }
+
+    .divider { border: none; border-top: 1px solid #f0f0f0; margin: 20px 0; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .tag { background: #f0f0f0; border-radius: 20px; padding: 4px 12px; font-size: 12px; color: #444; }
+
+    footer { text-align: center; font-size: 12px; color: #999; padding: 32px; }
+
+    @media (max-width: 768px) {
+      .kpi-row, .kpi-row-3 { grid-template-columns: 1fr 1fr; }
+      .charts-row, .charts-row-3, .two-col { grid-template-columns: 1fr; }
+      .header { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Campanha EVG — Perfil da Base e Performance</h1>
+  <div class="subtitle">Brasil Paralelo · bp-staging.dbt_abe.dtm_analytics_lead_conversion · Período: 21/mai – 08/jun/2026 · 30.046 cadastros</div>
+</div>
+
+<div class="container">
+
+  <!-- KPIs Gerais -->
+  <div class="kpi-row">
+    <div class="kpi highlight">
+      <div class="label">Total de cadastros</div>
+      <div class="value">30.046</div>
+      <div class="sub">21/mai – 08/jun/2026</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Responderam a survey</div>
+      <div class="value">11.422</div>
+      <div class="sub">38% dos cadastros</div>
+    </div>
+    <div class="kpi positive">
+      <div class="label">Vendas totais</div>
+      <div class="value">425</div>
+      <div class="sub">conversão geral de 1,41%</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Receita total</div>
+      <div class="value">R$ 97.508</div>
+      <div class="sub">RPL médio: R$ 3,25</div>
+    </div>
+  </div>
+
+  <!-- Funil geral -->
+  <div class="section">
+    <h2>Funil da Campanha</h2>
+    <div class="section-sub">Do cadastro à compra — visão geral de todos os leads</div>
+
+    <div style="max-width: 700px; margin: 0 auto;">
+      <div class="funnel-row">
+        <div class="funnel-label">Cadastros</div>
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" style="width:100%; background:#1a1a2e;">30.046 <span style="font-weight:400; margin-left:4px;">100%</span></div>
+        </div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">Responderam survey</div>
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" style="width:38%; background:#2563eb;">11.422</div>
+          <span class="funnel-pct">38%</span>
+        </div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">Compradores únicos</div>
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" style="width:3.5%; background:#16a34a; min-width:60px;">334</div>
+          <span class="funnel-pct">1,1% dos cadastros</span>
+        </div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">Vendas totais</div>
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar" style="width:4.7%; background:#0f9668; min-width:60px;">425</div>
+          <span class="funnel-pct">1,4% dos cadastros</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box" style="margin-top:24px;">
+      <strong>Janela de conversão é curtíssima</strong>
+      63–68% das vendas ocorrem no dia do cadastro. Após 7 dias, a curva praticamente fecha. A sequência de nurturing nas primeiras 24h é o momento de maior alavancagem.
+    </div>
+  </div>
+
+  <!-- Quem são os leads -->
+  <div class="section">
+    <h2>Quem são os leads</h2>
+    <div class="section-sub">Perfil declarado na survey — 11.422 respondentes</div>
+
+    <div class="charts-row">
+      <div class="chart-box">
+        <h3>Relação com o Brasil Paralelo</h3>
+        <div class="chart-container">
+          <canvas id="chartRelacao"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>Faixa de renda declarada</h3>
+        <div class="chart-container">
+          <canvas id="chartRenda"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <strong>Base predominantemente de não-membros aquecidos</strong>
+      ~48% consomem conteúdo gratuito (YouTube/redes) e ~26% já ouviram falar mas nunca assistiram. Apenas 14% são ex-assinantes e 7% ainda assinam hoje. A campanha está captando a audiência de topo de funil com sucesso.
+    </div>
+  </div>
+
+  <!-- Onde estão -->
+  <div class="section">
+    <h2>Onde estão os leads e compradores</h2>
+    <div class="section-sub">Distribuição geográfica — cadastros vs conversão por UF</div>
+
+    <div class="charts-row">
+      <div>
+        <h3 style="font-size:14px; font-weight:600; color:#333; margin-bottom:16px;">Top 10 estados por volume de cadastros</h3>
+        <table>
+          <thead>
+            <tr><th>Estado</th><th class="num">Cadastros</th><th class="num">Compradores</th><th class="num">Conv.</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="bold">SP</td><td class="num">1.789</td><td class="num">99</td><td class="num"><span class="badge badge-blue">5,5%</span></td></tr>
+            <tr><td class="bold">RJ</td><td class="num">1.013</td><td class="num">53</td><td class="num"><span class="badge badge-blue">5,2%</span></td></tr>
+            <tr><td>MG</td><td class="num">684</td><td class="num">28</td><td class="num">4,1%</td></tr>
+            <tr><td>BA</td><td class="num">420</td><td class="num">18</td><td class="num">4,3%</td></tr>
+            <tr><td>RS</td><td class="num">351</td><td class="num">21</td><td class="num">6,0%</td></tr>
+            <tr><td>SC</td><td class="num">299</td><td class="num">14</td><td class="num">4,7%</td></tr>
+            <tr><td>PR</td><td class="num">275</td><td class="num">12</td><td class="num">4,4%</td></tr>
+            <tr><td>DF</td><td class="num">182</td><td class="num">12</td><td class="num"><span class="badge badge-green">6,6%</span></td></tr>
+            <tr><td>ES</td><td class="num">166</td><td class="num">9</td><td class="num">5,4%</td></tr>
+            <tr><td>PE</td><td class="num">140</td><td class="num">5</td><td class="num">3,6%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3 style="font-size:14px; font-weight:600; color:#333; margin-bottom:16px;">Estados com maior taxa de conversão (mín. 30 cadastros)</h3>
+        <table>
+          <thead>
+            <tr><th>Estado</th><th class="num">Cadastros</th><th class="num">Conv.</th><th class="num">Ticket médio</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="bold">AP</td><td class="num">30</td><td class="num"><span class="badge badge-green">16,7%</span></td><td class="num">R$ 131</td></tr>
+            <tr><td class="bold">AL</td><td class="num">63</td><td class="num"><span class="badge badge-green">11,1%</span></td><td class="num">R$ 374</td></tr>
+            <tr><td>RO</td><td class="num">65</td><td class="num"><span class="badge badge-green">7,7%</span></td><td class="num">R$ 366</td></tr>
+            <tr><td>AM</td><td class="num">91</td><td class="num"><span class="badge badge-green">7,7%</span></td><td class="num">R$ 152</td></tr>
+            <tr><td>DF</td><td class="num">182</td><td class="num"><span class="badge badge-blue">6,6%</span></td><td class="num">R$ 293</td></tr>
+            <tr><td>RS</td><td class="num">351</td><td class="num"><span class="badge badge-blue">6,0%</span></td><td class="num">R$ 277</td></tr>
+            <tr><td>SP</td><td class="num">1.789</td><td class="num">5,5%</td><td class="num">R$ 250</td></tr>
+            <tr><td>ES</td><td class="num">166</td><td class="num">5,4%</td><td class="num">R$ 163</td></tr>
+          </tbody>
+        </table>
+        <div class="warn-box" style="margin-top:16px;">
+          Norte e Centro-Oeste convertem acima da média com volume de tráfego baixo — possível subinvestimento de mídia nessas regiões.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quem compra -->
+  <div class="section">
+    <h2>Quem compra</h2>
+    <div class="section-sub">Conversão por segmento — entre os que responderam a survey</div>
+
+    <div class="charts-row">
+      <div>
+        <h3 style="font-size:14px; font-weight:600; color:#333; margin-bottom:16px;">Conversão por relação com BP</h3>
+        <table>
+          <thead>
+            <tr><th>Segmento</th><th class="num">Leads</th><th class="num">Compradores</th><th class="num">Conversão</th></tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">Já assinou no passado</td><td class="num">757</td><td class="num">24</td>
+              <td class="num"><span class="badge badge-green">3,17%</span></td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">Assina hoje</td><td class="num">358</td><td class="num">11</td>
+              <td class="num"><span class="badge badge-green">3,07%</span></td>
+            </tr>
+            <tr>
+              <td>Nunca assistiu</td><td class="num">1.305</td><td class="num">15</td>
+              <td class="num">1,15%</td>
+            </tr>
+            <tr>
+              <td>Consome gratuito</td><td class="num">2.406</td><td class="num">24</td>
+              <td class="num">1,00%</td>
+            </tr>
+            <tr>
+              <td>Nunca ouviu falar</td><td class="num">296</td><td class="num">1</td>
+              <td class="num"><span class="badge badge-yellow">0,34%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3 style="font-size:14px; font-weight:600; color:#333; margin-bottom:16px;">Conversão por faixa de renda</h3>
+        <table>
+          <thead>
+            <tr><th>Faixa</th><th class="num">Leads</th><th class="num">Compradores</th><th class="num">Conv.</th></tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">Acima de R$ 20.000</td><td class="num">64</td><td class="num">4</td>
+              <td class="num"><span class="badge badge-green">6,25%</span></td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">R$ 10.000 – R$ 20.000</td><td class="num">158</td><td class="num">9</td>
+              <td class="num"><span class="badge badge-green">5,70%</span></td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">Acima de R$ 15.000</td><td class="num">139</td><td class="num">5</td>
+              <td class="num"><span class="badge badge-green">3,60%</span></td>
+            </tr>
+            <tr>
+              <td>R$ 5.000 – R$ 10.000</td><td class="num">1.310</td><td class="num">36</td>
+              <td class="num">2,75%</td>
+            </tr>
+            <tr>
+              <td>R$ 2.000 – R$ 5.000</td><td class="num">1.303</td><td class="num">28</td>
+              <td class="num">2,15%</td>
+            </tr>
+            <tr>
+              <td>Até R$ 5.000</td><td class="num">2.610</td><td class="num">46</td>
+              <td class="num">1,76%</td>
+            </tr>
+            <tr>
+              <td class="muted">Prefiro não informar</td><td class="num muted">1.835</td><td class="num muted">20</td>
+              <td class="num muted">1,09%</td>
+            </tr>
+            <tr>
+              <td>Até R$ 2.000</td><td class="num">1.726</td><td class="num">12</td>
+              <td class="num"><span class="badge badge-yellow">0,70%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <strong>O segmento mais valioso: ex-assinante com renda acima de R$ 5.000</strong>
+      Ex-assinantes e assinantes ativos convertem 3x mais que a média geral (3,1% vs 1,0%). Combinados com renda acima de R$ 5k, esse grupo atinge 4–6% de conversão. São leads que já confiam na marca — a campanha os está reativando com eficiência.
+    </div>
+  </div>
+
+  <!-- Streaming -->
+  <div class="section">
+    <h2>Consumo de streaming</h2>
+    <div class="section-sub">Pergunta da survey — 6.321 respondentes (múltipla escolha)</div>
+
+    <div class="charts-row">
+      <div>
+        <h3 style="font-size:14px; font-weight:600; color:#333; margin-bottom:16px;">Por plataforma assinada</h3>
+        <table>
+          <thead>
+            <tr><th>Plataforma</th><th class="num">Leads</th><th class="num">% respondentes</th><th class="num">Compradores</th><th class="num">Conversão</th></tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">Brasil Paralelo</td><td class="num">687</td><td class="num">10,9%</td><td class="num">19</td>
+              <td class="num"><span class="badge badge-green">2,77%</span></td>
+            </tr>
+            <tr>
+              <td>Plataformas educacionais</td><td class="num">443</td><td class="num">7,0%</td><td class="num">8</td>
+              <td class="num"><span class="badge badge-blue">1,81%</span></td>
+            </tr>
+            <tr>
+              <td>Prime Video</td><td class="num">1.336</td><td class="num">21,1%</td><td class="num">24</td>
+              <td class="num">1,80%</td>
+            </tr>
+            <tr>
+              <td>Netflix</td><td class="num">2.878</td><td class="num">45,5%</td><td class="num">48</td>
+              <td class="num">1,67%</td>
+            </tr>
+            <tr>
+              <td>Disney+</td><td class="num">647</td><td class="num">10,2%</td><td class="num">9</td>
+              <td class="num">1,39%</td>
+            </tr>
+            <tr>
+              <td>HBO Max</td><td class="num">545</td><td class="num">8,6%</td><td class="num">7</td>
+              <td class="num">1,28%</td>
+            </tr>
+            <tr>
+              <td>Globoplay</td><td class="num">485</td><td class="num">7,7%</td><td class="num">5</td>
+              <td class="num">1,03%</td>
+            </tr>
+            <tr>
+              <td class="muted">Nenhum</td><td class="num muted">2.400</td><td class="num muted">38,0%</td><td class="num muted">26</td>
+              <td class="num muted">1,08%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h3 style="font-size:14px; font-weight:600; color:#333; margin-bottom:16px;">Por quantidade de streamings assinados</h3>
+        <table>
+          <thead>
+            <tr><th>Qtd. streamings</th><th class="num">Leads</th><th class="num">%</th><th class="num">Compradores</th><th class="num">Conversão</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0 (Nenhum)</td><td class="num">2.351</td><td class="num">37,2%</td><td class="num">26</td>
+              <td class="num">1,11%</td>
+            </tr>
+            <tr>
+              <td>1</td><td class="num">2.306</td><td class="num">36,5%</td><td class="num">40</td>
+              <td class="num">1,73%</td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">2</td><td class="num bold">861</td><td class="num">13,6%</td><td class="num bold">19</td>
+              <td class="num"><span class="badge badge-green">2,21%</span></td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">3</td><td class="num bold">400</td><td class="num">6,3%</td><td class="num bold">8</td>
+              <td class="num"><span class="badge badge-green">2,00%</span></td>
+            </tr>
+            <tr>
+              <td>4+</td><td class="num">403</td><td class="num">6,4%</td><td class="num">5</td>
+              <td class="num"><span class="badge badge-yellow">1,24%</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="chart-box" style="margin-top:16px; padding:16px; box-shadow:none; border:1px solid #f0f0f0;">
+          <h3 style="font-size:13px;">Conversão por qtd. de streamings</h3>
+          <div style="height:160px; position:relative;">
+            <canvas id="chartStreaming"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <strong>Assinantes do Brasil Paralelo convertem quase 3x mais que a média</strong>
+      Leads que já assinam BP dentro da campanha têm 2,77% de conversão — o maior entre todas as plataformas. Quem assina 2–3 streamings (perfil de maior consumo de conteúdo) converte mais que quem não assina nada (2,21% vs 1,11%). Quem assina 4+ plataformas, porém, cai para 1,24% — possível saturação de gastos mensais.
+    </div>
+  </div>
+
+  <!-- O que compra -->
+  <div class="section">
+    <h2>O que compra</h2>
+    <div class="section-sub">Mix de produtos e receita por item</div>
+
+    <div class="charts-row">
+      <div class="chart-box">
+        <h3>Volume de vendas por produto</h3>
+        <div class="chart-container">
+          <canvas id="chartProdutos"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>Receita por produto</h3>
+        <div class="chart-container">
+          <canvas id="chartReceitaProduto"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th class="num">Vendas</th>
+          <th class="num">% vendas</th>
+          <th class="num">Ticket médio</th>
+          <th class="num">Receita estimada</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">Combo Religioso Econômico V2</td>
+          <td class="num">166</td><td class="num">39,1%</td>
+          <td class="num">R$ 131</td><td class="num">R$ 21.746</td>
+        </tr>
+        <tr>
+          <td>Extensão Assinatura Supporter</td>
+          <td class="num">74</td><td class="num">17,4%</td>
+          <td class="num">R$ 131</td><td class="num">R$ 9.694</td>
+        </tr>
+        <tr>
+          <td>Combo Essencial Religioso</td>
+          <td class="num">43</td><td class="num">10,1%</td>
+          <td class="num">R$ 239</td><td class="num">R$ 10.277</td>
+        </tr>
+        <tr>
+          <td>Apoiador</td>
+          <td class="num">37</td><td class="num">8,7%</td>
+          <td class="num">R$ 131</td><td class="num">R$ 4.847</td>
+        </tr>
+        <tr>
+          <td>Básico</td>
+          <td class="num">33</td><td class="num">7,8%</td>
+          <td class="num">R$ 212</td><td class="num">R$ 6.996</td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td class="bold">Clube do Livro</td>
+          <td class="num bold">23</td><td class="num">5,4%</td>
+          <td class="num bold">R$ 1.225</td>
+          <td class="num bold">R$ 28.175 <span class="badge badge-green" style="margin-left:4px;">28,9% da receita</span></td>
+        </tr>
+        <tr>
+          <td>Premium GBB</td>
+          <td class="num">10</td><td class="num">2,4%</td>
+          <td class="num">R$ 512</td><td class="num">R$ 5.120</td>
+        </tr>
+        <tr>
+          <td class="muted">Outros</td>
+          <td class="num muted">39</td><td class="num muted">9,2%</td>
+          <td class="num muted">—</td><td class="num muted">R$ 10.653</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box" style="margin-top:20px;">
+      <strong>Clube do Livro é o produto de maior impacto financeiro</strong>
+      Com apenas 5,4% das vendas, o Clube do Livro responde por ~29% da receita total (ticket de R$ 1.225 — 9x o produto mais vendido). O Combo Religioso domina em volume mas o Clube do Livro sustenta a receita. Há espaço para testar order bump de upgrade para leads de renda alta.
+    </div>
+  </div>
+
+  <!-- Survey vs Não survey -->
+  <div class="section">
+    <h2>Impacto da survey na conversão</h2>
+    <div class="section-sub">Quem responde a pesquisa converte mais?</div>
+
+    <div class="charts-row">
+      <div>
+        <table>
+          <thead>
+            <tr><th>Grupo</th><th class="num">Leads</th><th class="num">Compradores</th><th class="num">Conversão</th></tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">Respondeu a survey</td><td class="num">11.467</td><td class="num">178</td>
+              <td class="num"><span class="badge badge-green">1,55%</span></td>
+            </tr>
+            <tr>
+              <td>Não respondeu</td><td class="num">18.635</td><td class="num">160</td>
+              <td class="num">0,86%</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="insight-box" style="margin-top:16px;">
+          <strong>Quem responde a survey converte +80% mais</strong>
+          1,55% vs 0,86% — a survey não é só coleta de dados, ela aquece o lead. O ato de responder perguntas sobre hábitos e relação com a marca aumenta o engajamento e predispõe à compra. Vale testar tornar a survey mais central no funil.
+        </div>
+      </div>
+      <div class="chart-box">
+        <h3>Conversão: respondeu vs não respondeu</h3>
+        <div class="chart-container">
+          <canvas id="chartSurveyVsNao"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Curva de conversão ao longo do tempo -->
+  <div class="section">
+    <h2>Curva de conversão ao longo do tempo</h2>
+    <div class="section-sub">Dias após o cadastro — 381 vendas com data mapeada</div>
+
+    <div class="charts-row">
+      <div class="chart-box" style="grid-column: span 2;">
+        <h3>% acumulado de vendas por dia após cadastro</h3>
+        <div class="chart-container-lg">
+          <canvas id="chartCurva"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <table style="max-width:600px;">
+      <thead>
+        <tr><th>Dia</th><th class="num">Vendas no dia</th><th class="num">Acumulado</th><th class="num">% acumulado</th></tr>
+      </thead>
+      <tbody>
+        <tr style="background:#f0fdf4;"><td class="bold">Dia 0</td><td class="num bold">279</td><td class="num bold">279</td><td class="num bold">73,2%</td></tr>
+        <tr><td>Dia 1</td><td class="num">25</td><td class="num">304</td><td class="num">79,8%</td></tr>
+        <tr><td>Dia 2</td><td class="num">21</td><td class="num">325</td><td class="num">85,3%</td></tr>
+        <tr><td>Dia 3</td><td class="num">16</td><td class="num">341</td><td class="num">89,5%</td></tr>
+        <tr><td>Dia 4</td><td class="num">7</td><td class="num">348</td><td class="num">91,3%</td></tr>
+        <tr><td>Dia 5</td><td class="num">7</td><td class="num">355</td><td class="num">93,2%</td></tr>
+        <tr><td>Dia 6</td><td class="num">7</td><td class="num">362</td><td class="num">95,0%</td></tr>
+        <tr><td>Dia 7</td><td class="num">7</td><td class="num">369</td><td class="num">96,9%</td></tr>
+        <tr class="muted"><td>Dias 9–15</td><td class="num">12</td><td class="num">381</td><td class="num">100%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="insight-box" style="margin-top:20px;">
+      <strong>73% das vendas acontecem no dia do cadastro — e 90% em até 3 dias</strong>
+      A curva é fortíssima no dia 0 e cai exponencialmente. Após o dia 7, praticamente nenhuma venda nova entra. Isso significa que o funil de nurturing nas primeiras 72h é onde toda a alavancagem está. Uma sequência de e-mail/WhatsApp mais agressiva nesse janela pode mover a agulha mais do que qualquer otimização de tráfego.
+    </div>
+  </div>
+
+  <!-- Comparação de variantes -->
+  <div class="section">
+    <h2>Comparação de Variantes (A/B Test)</h2>
+    <div class="section-sub">Variante <strong>e</strong> (período completo) vs variante <strong>a</strong> (a partir de 05/06 17h)</div>
+
+    <div class="kpi-row-3" style="margin-bottom:20px;">
+      <div class="kpi">
+        <div class="label">RPL — Variante a</div>
+        <div class="value" style="color:#16a34a;">R$ 3,93</div>
+        <div class="sub">receita por lead cadastrado</div>
+      </div>
+      <div class="kpi">
+        <div class="label">RPL — Variante e</div>
+        <div class="value">R$ 2,74</div>
+        <div class="sub">receita por lead cadastrado</div>
+      </div>
+      <div class="kpi positive">
+        <div class="label">Diferença de RPL</div>
+        <div class="value">+43%</div>
+        <div class="sub">variante a sobre variante e</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Métrica</th>
+          <th class="num">Variante a <span class="badge badge-blue" style="margin-left:4px;">05/06 17h →</span></th>
+          <th class="num">Variante e <span class="badge badge-yellow" style="margin-left:4px;">período completo</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Cadastros</td><td class="num bold">5.572</td><td class="num">4.623</td></tr>
+        <tr><td>Taxa de resposta survey</td><td class="num bold">70,1%</td><td class="num">56,7%</td></tr>
+        <tr><td>Vendas totais</td><td class="num bold">86</td><td class="num">58</td></tr>
+        <tr><td>Conversão cadastro→venda</td><td class="num bold">1,15%</td><td class="num">1,06%</td></tr>
+        <tr><td>Receita total</td><td class="num bold">R$ 21.886</td><td class="num">R$ 12.659</td></tr>
+        <tr><td>Ticket médio</td><td class="num bold">R$ 254</td><td class="num">R$ 218</td></tr>
+        <tr style="background:#f0fdf4;"><td class="bold">RPL (receita / cadastro)</td><td class="num bold" style="color:#16a34a;">R$ 3,93</td><td class="num">R$ 2,74</td></tr>
+        <tr><td>% vendas no dia 0</td><td class="num">94,2%</td><td class="num">72,4%</td></tr>
+        <tr><td>Clube do Livro (% receita)</td><td class="num bold">33,7%</td><td class="num">18,8%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box" style="margin-top:16px;">
+      <strong>Ressalva metodológica:</strong> as variantes foram exibidas em momentos diferentes da campanha — a variante <strong>a</strong> está ativa na fase final (maior pressão de venda) e tem apenas 65h de janela vs 170h da variante e. Vendas tardias (dias 4–7) da variante a ainda não puderam acontecer. Comparação definitiva recomendada em ~2 semanas.
+    </div>
+  </div>
+
+  <!-- Insights executivos -->
+  <div class="section">
+    <h2>Pontos-chave para a reunião</h2>
+    <div class="section-sub">O que os dados dizem sobre a campanha EVG</div>
+
+    <div style="display:flex; flex-direction:column; gap:12px; margin-top:4px;">
+
+      <div class="insight-box">
+        <strong>1. A base é de simpatizantes, não de desconhecidos</strong>
+        74% dos leads já têm algum contato com o BP (consomem gratuito, ex-assinantes ou assinantes). A campanha está convertendo a audiência orgânica — o que é eficiente em custo, mas sinaliza que o teto de crescimento dessa base específica tem limite.
+      </div>
+
+      <div class="insight-box">
+        <strong>2. Ex-assinantes são o ouro da campanha</strong>
+        Convertem 3x mais que leads frios (3,17% vs 1,0%). Um fluxo de reativação dedicado para ex-assinantes dentro da campanha pode dobrar a receita desse segmento sem aumentar tráfego.
+      </div>
+
+      <div class="insight-box">
+        <strong>3. Clube do Livro sustenta 29% da receita com apenas 5% das vendas</strong>
+        É o produto mais estratégico do mix. Posicionar o Clube do Livro como oferta principal para leads de renda alta (R$ 10k+) — que convertem a 5,5%+ — tem alto potencial de impacto na receita média por campanha.
+      </div>
+
+      <div class="insight-box">
+        <strong>4. Norte e Centro-Oeste são regiões subexploradas</strong>
+        AP (16,7%), AL (11,1%), RO e AM (~7,7%) têm taxas de conversão 3–15x acima da média nacional, com volume baixo de cadastros — indicativo de subinvestimento de mídia. Realocar parte do budget para essas regiões pode elevar o ROI total da campanha.
+      </div>
+
+      <div class="insight-box">
+        <strong>5. A janela de compra é o dia do cadastro</strong>
+        63–68% das vendas ocorrem no dia 0. O funil de nurturing pós-cadastro precisa ser agressivo nas primeiras 12–24h. Após o terceiro dia, as taxas caem para quase zero. Qualquer melhoria na automação de e-mail/WhatsApp nessa janela tem retorno imediato.
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Brasil Paralelo · Análise de dados: André Abe · Fonte: bp-staging.dbt_abe.dtm_analytics_lead_conversion · Gerado em 08/06/2026
+</footer>
+
+<script>
+  // Survey vs Não respondeu
+  new Chart(document.getElementById('chartSurveyVsNao'), {
+    type: 'bar',
+    data: {
+      labels: ['Respondeu survey', 'Não respondeu'],
+      datasets: [{
+        label: 'Conversão (%)',
+        data: [1.55, 0.86],
+        backgroundColor: ['#16a34a', '#e5e7eb'],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { callback: v => v + '%' }, max: 2.5 }
+      }
+    }
+  });
+
+  // Curva de conversão acumulada
+  new Chart(document.getElementById('chartCurva'), {
+    type: 'line',
+    data: {
+      labels: [0,1,2,3,4,5,6,7,9,10,11,12,13,14,15],
+      datasets: [
+        {
+          label: '% acumulado de vendas',
+          data: [73.2,79.8,85.3,89.5,91.3,93.2,95.0,96.9,97.6,98.2,98.7,99.2,99.5,99.7,100.0],
+          borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)',
+          fill: true, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#2563eb'
+        },
+        {
+          label: 'Vendas por dia',
+          data: [279,25,21,16,7,7,7,7,3,2,2,2,1,1,1],
+          borderColor: '#16a34a', backgroundColor: 'transparent',
+          tension: 0.3, pointRadius: 4, pointBackgroundColor: '#16a34a',
+          yAxisID: 'y2'
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', labels: { font: { size: 12 } } } },
+      scales: {
+        x: { grid: { display: false }, title: { display: true, text: 'Dias após cadastro' } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { callback: v => v + '%' }, max: 110, title: { display: true, text: '% acumulado' } },
+        y2: { position: 'right', grid: { display: false }, title: { display: true, text: 'Vendas no dia' } }
+      }
+    }
+  });
+
+  // Streaming — conversão por qtd
+  new Chart(document.getElementById('chartStreaming'), {
+    type: 'bar',
+    data: {
+      labels: ['0','1','2','3','4+'],
+      datasets: [{
+        label: 'Conversão (%)',
+        data: [1.11, 1.73, 2.21, 2.00, 1.24],
+        backgroundColor: ['#e5e7eb','#60a5fa','#16a34a','#4ade80','#fbbf24'],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, title: { display: true, text: 'Qtd. streamings', font: { size: 11 } } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { callback: v => v + '%' }, max: 3 }
+      }
+    }
+  });
+
+  // Relação com BP
+  new Chart(document.getElementById('chartRelacao'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Consome gratuito', 'Nunca assistiu', 'Ex-assinante', 'Assina hoje', 'Nunca ouviu falar'],
+      datasets: [{
+        data: [47.5, 26.0, 14.2, 6.8, 5.5],
+        backgroundColor: ['#2563eb','#60a5fa','#16a34a','#4ade80','#e5e7eb'],
+        borderWidth: 2, borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 12 } }
+      }
+    }
+  });
+
+  // Renda
+  new Chart(document.getElementById('chartRenda'), {
+    type: 'bar',
+    data: {
+      labels: ['Até R$ 5k', 'R$ 5k–10k', 'R$ 10k–15k', 'Acima R$ 15k', 'Não informou'],
+      datasets: [{
+        label: '% respondentes',
+        data: [47.5, 15.2, 3.9, 2.6, 30.8],
+        backgroundColor: ['#2563eb','#3b82f6','#60a5fa','#93c5fd','#e5e7eb'],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { callback: v => v + '%' } },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+
+  // Produtos — volume
+  new Chart(document.getElementById('chartProdutos'), {
+    type: 'bar',
+    data: {
+      labels: ['Combo Rel. Econ. V2','Ext. Supporter','Combo Essencial','Apoiador','Básico','Clube do Livro','Premium GBB'],
+      datasets: [{
+        data: [166, 74, 43, 37, 33, 23, 10],
+        backgroundColor: ['#2563eb','#3b82f6','#3b82f6','#60a5fa','#60a5fa','#16a34a','#93c5fd'],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 30 } },
+        y: { grid: { color: '#f0f0f0' } }
+      }
+    }
+  });
+
+  // Produtos — receita
+  new Chart(document.getElementById('chartReceitaProduto'), {
+    type: 'bar',
+    data: {
+      labels: ['Combo Rel. Econ. V2','Clube do Livro','Combo Essencial','Ext. Supporter','Básico','Premium GBB','Apoiador'],
+      datasets: [{
+        data: [21746, 28175, 10277, 9694, 6996, 5120, 4847],
+        backgroundColor: ['#3b82f6','#16a34a','#3b82f6','#60a5fa','#60a5fa','#93c5fd','#93c5fd'],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 30 } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { callback: v => 'R$' + (v/1000).toFixed(0) + 'k' } }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
