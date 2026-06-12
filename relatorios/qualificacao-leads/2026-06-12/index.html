@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custo & ROI da Pesquisa de Qualificação — EVG · Brasil Paralelo</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #222; }
+    .header { background: #1a1a2e; color: #fff; padding: 40px 48px 32px; }
+    .header h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+    .header .subtitle { font-size: 14px; color: #aaa; }
+    .header .tag { display: inline-block; background: #3b82f6; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-right: 8px; vertical-align: middle; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+    .section { background: #fff; border-radius: 8px; padding: 28px 32px; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 24px; }
+    .section h2 { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+    .section-sub { font-size: 13px; color: #888; margin-bottom: 20px; }
+    .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
+    .kpi { background: #fff; border-radius: 8px; padding: 20px 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .kpi .label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+    .kpi .value { font-size: 26px; font-weight: 700; color: #1a1a2e; }
+    .kpi .sub { font-size: 12px; color: #666; margin-top: 4px; }
+    .kpi.highlight { border-top: 3px solid #3b82f6; }
+    .kpi.positive { border-top: 3px solid #16a34a; }
+    .kpi.warn { border-top: 3px solid #f59e0b; }
+    .kpi.danger { border-top: 3px solid #dc2626; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 10px 12px; background: #f0f0f0; color: #555; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; }
+    td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafafa; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .bold { font-weight: 700; }
+    .muted { color: #aaa; }
+    .badge { border-radius: 3px; padding: 2px 7px; font-size: 11px; font-weight: 600; }
+    .badge-green  { background: #dcfce7; color: #16a34a; }
+    .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+    .badge-yellow { background: #fef9c3; color: #854d0e; }
+    .badge-red    { background: #fee2e2; color: #dc2626; }
+    .badge-gray   { background: #f0f0f0; color: #555; }
+    .insight-box { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 14px 18px; border-radius: 0 6px 6px 0; margin-top: 16px; font-size: 13px; line-height: 1.6; color: #1e3a5f; }
+    .insight-box strong { display: block; margin-bottom: 4px; }
+    .warn-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.6; color: #78350f; margin-top: 12px; }
+    .rec-box { background: #f0fdf4; border-left: 4px solid #16a34a; padding: 16px 20px; border-radius: 0 6px 6px 0; margin-bottom: 16px; font-size: 13px; line-height: 1.7; color: #14532d; }
+    .rec-box strong { display: block; font-size: 14px; margin-bottom: 6px; }
+    .rec-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #16a34a; color: #fff; border-radius: 50%; font-size: 12px; font-weight: 700; margin-right: 8px; }
+    .bar-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .bar-label { width: 220px; font-size: 12px; color: #555; flex-shrink: 0; text-align: right; }
+    .bar-track { flex: 1; background: #f0f0f0; border-radius: 4px; height: 24px; }
+    .bar-fill { height: 24px; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 600; color: #fff; min-width: 32px; }
+    .bar-val { font-size: 12px; color: #555; width: 70px; flex-shrink: 0; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .divider { border: none; border-top: 1px solid #f0f0f0; margin: 20px 0; }
+    footer { text-align: center; font-size: 12px; color: #999; padding: 32px; }
+    @media (max-width: 768px) {
+      .kpi-row { grid-template-columns: 1fr 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      .header { padding: 24px; }
+      .bar-label { width: 120px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span class="tag">EVG</span> Custo &amp; ROI da Pesquisa de Qualificação de Leads</h1>
+  <div class="subtitle">Brasil Paralelo · Campanha O Brasil Evangélico · 23/mai – 12/jun/2026 · dtm_analytics_lead_conversion + dtm_analytics_facebook_ads_funnel + GA4</div>
+</div>
+
+<div class="container">
+
+  <!-- KPIs -->
+  <div class="kpi-row">
+    <div class="kpi highlight">
+      <div class="label">Cadastros</div>
+      <div class="value">35.871</div>
+      <div class="sub">42% responderam</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Compradores</div>
+      <div class="value">404</div>
+      <div class="sub">conversão 1,13%</div>
+    </div>
+    <div class="kpi positive">
+      <div class="label">Receita atribuída</div>
+      <div class="value">R$ 147,2k</div>
+      <div class="sub">ticket médio R$ 288</div>
+    </div>
+    <div class="kpi warn">
+      <div class="label">Investimento Meta</div>
+      <div class="value">R$ 77,4k</div>
+      <div class="sub">CAC R$ 192/venda</div>
+    </div>
+    <div class="kpi danger">
+      <div class="label">Custo da pesquisa</div>
+      <div class="value">R$ 10–15k</div>
+      <div class="sub">−9% RPV/visitante</div>
+    </div>
+  </div>
+
+  <!-- RESUMO EXECUTIVO -->
+  <div class="section" style="background:#1a1a2e;color:#e2e8f0;">
+    <h2 style="color:#fff;margin-bottom:16px;">Resumo executivo</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;font-size:13px;line-height:1.7;">
+      <div>
+        <p style="color:#94a3b8;margin-bottom:10px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">O que os dados mostram</p>
+        <p style="margin-bottom:8px;">• <strong style="color:#fff;">A pesquisa prediz compra:</strong> lead score 5–6 converte ~5% vs 0,8% do score 0 — separação de 6x.</p>
+        <p style="margin-bottom:8px;">• <strong style="color:#fff;">O CPL não prediz qualidade</strong> (correlação +0,18). O formulário prediz (+0,46). Otimizar só por CPL está cego para qualidade.</p>
+        <p style="margin-bottom:8px;">• <strong style="color:#fff;">A pesquisa custa R$10–15k de receita</strong> (−11,5% de completion por 3 perguntas) e derruba o RPV/visitante de R$1,70 → R$1,54.</p>
+        <p style="margin-bottom:8px;">• <strong style="color:#fff;">Mas o RPV por lead sobe +2%</strong> — quem abandona o formulário é desproporcionalmente lead ruim.</p>
+      </div>
+      <div>
+        <p style="color:#94a3b8;margin-bottom:10px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Para dar ROI</p>
+        <p style="margin-bottom:8px;"><span style="background:#3b82f6;color:#fff;border-radius:3px;padding:1px 6px;font-size:11px;font-weight:700;margin-right:6px;">1</span>Melhorar a eficiência de mídia em <strong style="color:#fff;">~20%</strong> (CAC R$192 → ~R$155) realocando budget dos piores anúncios para os melhores.</p>
+        <p style="margin-bottom:8px;"><span style="background:#3b82f6;color:#fff;border-radius:3px;padding:1px 6px;font-size:11px;font-weight:700;margin-right:6px;">2</span>Trocar a métrica de <strong style="color:#fff;">CPL → CPLQ</strong> (custo por lead qualificado) e otimizar o Meta por evento de valor.</p>
+        <p style="margin-bottom:8px;"><span style="background:#3b82f6;color:#fff;border-radius:3px;padding:1px 6px;font-size:11px;font-weight:700;margin-right:6px;">3</span>Aplicar <strong style="color:#fff;">CPL ideal por faixa</strong>: vale pagar R$13 por lead quente e R$2 por lead frio.</p>
+        <p style="margin-top:14px;color:#64748b;font-size:12px;">A pesquisa só se paga se agirmos sobre ela. Coletar sem reotimizar = só custo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. A PESQUISA PREDIZ COMPRA -->
+  <div class="section">
+    <h2>1. A pesquisa prediz compra</h2>
+    <div class="section-sub">Taxa de compra por resposta · 15.487 leads responderam o formulário</div>
+    <div class="two-col">
+      <div>
+        <h3 style="font-size:14px;margin-bottom:14px;color:#333;">Relação com a BP — maior preditor</h3>
+        <div class="bar-wrap"><div class="bar-label">Assino hoje</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#16a34a;">3,95%</div></div></div>
+        <div class="bar-wrap"><div class="bar-label">Já assinei no passado</div><div class="bar-track"><div class="bar-fill" style="width:67%;background:#3b82f6;">2,65%</div></div></div>
+        <div class="bar-wrap"><div class="bar-label">Já ouvi falar</div><div class="bar-track"><div class="bar-fill" style="width:30%;background:#64748b;">1,17%</div></div></div>
+        <div class="bar-wrap"><div class="bar-label">Consumo conteúdo gratuito</div><div class="bar-track"><div class="bar-fill" style="width:22%;background:#94a3b8;">0,85%</div></div></div>
+        <div class="bar-wrap"><div class="bar-label">Nunca ouvi falar</div><div class="bar-track"><div class="bar-fill" style="width:6%;background:#dc2626;">0,24%</div></div></div>
+      </div>
+      <div>
+        <h3 style="font-size:14px;margin-bottom:14px;color:#333;">Renda — segundo preditor (monotônico)</h3>
+        <div class="bar-wrap"><div class="bar-label">Acima de R$ 20.000</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#16a34a;">7,02%</div></div></div>
+        <div class="bar-wrap"><div class="bar-label">R$ 10–20.000</div><div class="bar-track"><div class="bar-fill" style="width:91%;background:#16a34a;">6,37%</div></div></div>
+        <div class="bar-wrap"><div class="bar-label">R$ 5–10.000</div><div class="bar-track"><div class="bar-fill" style="width:41%;background:#3b82f6;">2,88%</div></div></div>
+        <div class="bar-wrap"><div class="bar-label">Até R$ 5.000</div><div class="bar-track"><div class="bar-fill" style="width:20%;background:#64748b;">1,37%</div></div></div>
+        <div class="bar-wrap"><div class="bar-label">Até R$ 2.000</div><div class="bar-track"><div class="bar-fill" style="width:12%;background:#94a3b8;">0,85%</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. STREAMINGS -->
+  <div class="section">
+    <h2>2. Combinação de streamings × conversão</h2>
+    <div class="section-sub">Ter "Brasil Paralelo" entre os streamings é o sinal mais forte · acumular serviços sem BP é o pior perfil</div>
+    <table>
+      <thead><tr><th>Perfil de streaming</th><th class="num">Cadastros</th><th class="num">Compradores</th><th class="num">Tx compra</th><th>Sinal</th></tr></thead>
+      <tbody>
+        <tr><td class="bold">Tem BP + 2 serviços</td><td class="num">269</td><td class="num">11</td><td class="num bold">4,09%</td><td><span class="badge badge-green">forte</span></td></tr>
+        <tr><td>Tem BP + 3+ serviços</td><td class="num">356</td><td class="num">13</td><td class="num">3,65%</td><td><span class="badge badge-green">forte</span></td></tr>
+        <tr><td>Tem BP + 1 serviço</td><td class="num">450</td><td class="num">9</td><td class="num">2,00%</td><td><span class="badge badge-blue">bom</span></td></tr>
+        <tr><td>Sem BP, 2 serviços</td><td class="num">1.050</td><td class="num">16</td><td class="num">1,52%</td><td><span class="badge badge-gray">médio</span></td></tr>
+        <tr><td>Sem BP, 1 serviço</td><td class="num">3.165</td><td class="num">47</td><td class="num">1,48%</td><td><span class="badge badge-gray">médio</span></td></tr>
+        <tr><td>Nenhum streaming</td><td class="num">3.809</td><td class="num">31</td><td class="num">0,81%</td><td><span class="badge badge-yellow">fraco</span></td></tr>
+        <tr><td class="bold">Sem BP, 3+ serviços</td><td class="num">841</td><td class="num">6</td><td class="num bold">0,71%</td><td><span class="badge badge-red">pior</span></td></tr>
+      </tbody>
+    </table>
+    <div class="insight-box"><strong>Leitura</strong>Marcar "Brasil Paralelo" é micro-confissão de que a pessoa já paga por conteúdo da casa. Quem acumula muitos streamings mas não tem BP é consumidor de entretenimento mainstream — o pior alvo (0,71%).</div>
+  </div>
+
+  <!-- 3. CONVERSÃO AO LONGO DO TEMPO -->
+  <div class="section">
+    <h2>3. Conversão ao longo do tempo</h2>
+    <div class="section-sub">Por semana de cadastro · a taxa de resposta subiu de 5,6% → 64,7% (pesquisa ganhou peso na campanha)</div>
+    <table>
+      <thead><tr><th>Semana (cadastro)</th><th class="num">Cadastros</th><th class="num">Taxa resposta</th><th class="num">Tx compra</th></tr></thead>
+      <tbody>
+        <tr><td>18/mai</td><td class="num">2.907</td><td class="num">5,6%</td><td class="num">1,03%</td></tr>
+        <tr><td>25/mai</td><td class="num">11.786</td><td class="num">29,6%</td><td class="num">1,21%</td></tr>
+        <tr><td>01/jun</td><td class="num">14.569</td><td class="num">52,0%</td><td class="num bold">1,39%</td></tr>
+        <tr><td>08/jun</td><td class="num">6.622</td><td class="num">64,7%</td><td class="num muted">0,44% *</td></tr>
+      </tbody>
+    </table>
+    <div class="warn-box">* A queda da última semana é <strong>maturação, não piora real</strong>: leads recém-cadastrados ainda não tiveram tempo de comprar. A taxa real desta coorte deve subir nas próximas semanas.</div>
+  </div>
+
+  <!-- 4. CPL NÃO PREDIZ QUALIDADE -->
+  <div class="section">
+    <h2>4. O CPL engana — o formulário não</h2>
+    <div class="section-sub">Anúncios Facebook (vol ≥300 cadastros) · correlação com a taxa de compra real</div>
+    <div class="two-col">
+      <div>
+        <h3 style="font-size:14px;margin-bottom:14px;color:#333;">Poder preditivo (correlação com venda)</h3>
+        <div class="bar-wrap"><div class="bar-label">% quente + renda (form)</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#16a34a;">+0,46</div></div></div>
+        <div class="bar-wrap"><div class="bar-label">% renda alta (form)</div><div class="bar-track"><div class="bar-fill" style="width:78%;background:#3b82f6;">+0,36</div></div></div>
+        <div class="bar-wrap"><div class="bar-label">% leads quentes (form)</div><div class="bar-track"><div class="bar-fill" style="width:48%;background:#64748b;">+0,22</div></div></div>
+        <div class="bar-wrap"><div class="bar-label">CPL</div><div class="bar-track"><div class="bar-fill" style="width:39%;background:#dc2626;">+0,18</div></div></div>
+        <p style="font-size:12px;color:#888;margin-top:10px;">O sinal do formulário é ~2,5x mais preditivo que o CPL.</p>
+      </div>
+      <div>
+        <h3 style="font-size:14px;margin-bottom:14px;color:#333;">Mesma faixa de CPL, qualidade oposta</h3>
+        <table>
+          <thead><tr><th>Anúncio</th><th class="num">CPL</th><th class="num">Tx</th><th class="num">CPA</th></tr></thead>
+          <tbody>
+            <tr><td>AD08 Card convite</td><td class="num">R$2,11</td><td class="num bold">1,45%</td><td class="num">R$145</td></tr>
+            <tr><td>AD21 VVS 1990</td><td class="num bold">R$1,03</td><td class="num">0,98%</td><td class="num">R$105</td></tr>
+            <tr><td>AD28 uma história</td><td class="num">R$2,95</td><td class="num">0,52%</td><td class="num">R$572</td></tr>
+            <tr><td>AD45 linha do tempo</td><td class="num">R$3,08</td><td class="num badge-red bold" style="border-radius:3px;">0,34%</td><td class="num">R$908</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:12px;color:#888;margin-top:10px;">AD28 e AD45 têm CPL ok mas CPA 4–8x os melhores. O formulário os denuncia no cadastro (menor % de leads quentes).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. LEAD SCORE + CPL IDEAL -->
+  <div class="section">
+    <h2>5. Lead score &amp; CPL ideal por faixa</h2>
+    <div class="section-sub">Score = relação BP (0–3) + renda (0–3) · validado contra compra real · CPL ideal mantém o mesmo CAC (base R$3 @ 1,13%)</div>
+    <div class="two-col">
+      <div>
+        <h3 style="font-size:14px;margin-bottom:14px;color:#333;">Validação do score (separação 6x)</h3>
+        <table>
+          <thead><tr><th>Score</th><th class="num">Cadastros</th><th class="num">Tx compra</th><th class="num">CPL ideal</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-green">5–6</span></td><td class="num">473</td><td class="num bold">4,86%</td><td class="num bold">R$12,90</td></tr>
+            <tr><td><span class="badge badge-blue">3–4</span></td><td class="num">1.980</td><td class="num">2,71%</td><td class="num">R$7,19</td></tr>
+            <tr><td><span class="badge badge-gray">2</span></td><td class="num">3.192</td><td class="num">2,04%</td><td class="num">R$5,42</td></tr>
+            <tr><td><span class="badge badge-gray">1</span></td><td class="num">3.357</td><td class="num">1,13%</td><td class="num">R$3,00</td></tr>
+            <tr><td><span class="badge badge-red">0</span></td><td class="num">4.287</td><td class="num">0,79%</td><td class="num">R$2,10</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3 style="font-size:14px;margin-bottom:14px;color:#333;">CPL ideal por tipo de resposta</h3>
+        <table>
+          <thead><tr><th>Faixa de lead</th><th class="num">Tx compra</th><th class="num">CPL ideal</th></tr></thead>
+          <tbody>
+            <tr><td>Renda 15k+</td><td class="num">6,50%</td><td class="num bold">R$17,26</td></tr>
+            <tr><td>Streaming inclui BP</td><td class="num">4,09%</td><td class="num">R$10,86</td></tr>
+            <tr><td>"Assino hoje"</td><td class="num">3,95%</td><td class="num">R$10,49</td></tr>
+            <tr><td>"Já assinei no passado"</td><td class="num">2,65%</td><td class="num">R$7,04</td></tr>
+            <tr><td class="muted">Lead médio (hoje)</td><td class="num muted">1,13%</td><td class="num muted">R$3,00</td></tr>
+            <tr><td>Muitos streamings sem BP</td><td class="num">0,71%</td><td class="num">R$1,88</td></tr>
+            <tr><td>"Nunca ouvi falar"</td><td class="num">0,24%</td><td class="num">R$0,64</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="insight-box"><strong>Implicação</strong>Vale pagar 4–6x mais por um lead quente do que por um frio. Hoje pagamos o mesmo CPL para os dois — desperdício direto de budget.</div>
+  </div>
+
+  <!-- 6. CUSTO DA PESQUISA / RPV / ROI -->
+  <div class="section">
+    <h2>6. Quanto custa a pesquisa &amp; o número para dar ROI</h2>
+    <div class="section-sub">Referência de mercado: −4 pontos de completion por pergunta · pesquisa EVG = 3 perguntas → −11,5%</div>
+    <div class="two-col">
+      <div>
+        <h3 style="font-size:14px;margin-bottom:14px;color:#333;">Custo de fricção</h3>
+        <table>
+          <tbody>
+            <tr><td>Cadastros hoje (com pesquisa)</td><td class="num bold">35.871</td></tr>
+            <tr><td>Cadastros estimados sem pesquisa</td><td class="num">40.544</td></tr>
+            <tr><td>Leads perdidos pela fricção</td><td class="num bold">~4.673</td></tr>
+            <tr><td>Receita perdida</td><td class="num bold">R$ 10,6k – 15,2k</td></tr>
+            <tr><td>RPV / visitante COM pesquisa</td><td class="num">R$ 1,54</td></tr>
+            <tr><td>RPV / visitante SEM pesquisa</td><td class="num">R$ 1,70 <span class="badge badge-red">−9%</span></td></tr>
+            <tr><td>RPV / <b>lead</b> COM pesquisa</td><td class="num">R$ 4,10 <span class="badge badge-green">+2%</span></td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:12px;color:#888;margin-top:10px;">A pesquisa reduz o RPV por visitante (fricção no topo) mas aumenta o RPV por lead (qualidade). O problema é volume que some, não qualidade do que fica.</p>
+      </div>
+      <div>
+        <h3 style="font-size:14px;margin-bottom:14px;color:#333;">O número para dar ROI</h3>
+        <div class="rec-box" style="margin-bottom:14px;">
+          <strong>Meta: melhorar eficiência de mídia em ~20%</strong>
+          A pesquisa custa ~R$15k. Sobre o investimento Facebook de R$77,4k, basta melhorar a eficiência em <b>20%</b> (CAC R$192 → ~R$155) para se pagar.
+        </div>
+        <div class="insight-box" style="margin-top:0;">
+          <strong>É alcançável</strong>Os piores anúncios (AD28, AD45) têm CPA R$572–908 vs R$105–145 dos melhores. Cortar/realocar 15–20% do budget dos piores já cobre o custo da pesquisa — e o restante vira ganho líquido.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECOMENDAÇÕES -->
+  <div class="section">
+    <h2>7. Recomendações</h2>
+    <div class="section-sub">Em ordem de impacto</div>
+    <div class="rec-box"><strong><span class="rec-num">1</span>Trocar a métrica de otimização: CPL → CPLQ</strong>Custo por lead qualificado (score ≥3). AD28/AD45 têm CPL ok mas CPLQ péssimo — subiriam no radar de corte.</div>
+    <div class="rec-box"><strong><span class="rec-num">2</span>Realimentar o Meta com evento de valor</strong>Passar score/renda como valor do evento (value-based), em vez de cadastro genérico. O algoritmo passa a buscar quem se parece com comprador, não com cadastrador.</div>
+    <div class="rec-box"><strong><span class="rec-num">3</span>Aplicar CPL ideal por faixa</strong>Usar a tabela da seção 5 como teto de lance/avaliação por público. Cortar AD28 e AD45, realocar para o padrão AD21/AD08.</div>
+    <div class="rec-box"><strong><span class="rec-num">4</span>Reduzir fricção: testar pesquisa de 2 perguntas</strong>Relação BP + renda são os dois maiores preditores. Cortar a 3ª pergunta recupera ~4pp de completion sem perder poder preditivo.</div>
+    <div class="rec-box"><strong><span class="rec-num">5</span>Validar com A/B test</strong>Otimização por cadastro vs por lead-qualificado, mesmo budget, comparar <b>CAC</b> (não CPL) após a janela de maturação de venda.</div>
+  </div>
+
+  <!-- CAVEATS -->
+  <div class="section">
+    <h2>Notas de validação</h2>
+    <div class="section-sub">Honestidade metodológica</div>
+    <ul style="font-size:13px;line-height:1.8;color:#444;padding-left:20px;">
+      <li>Lead score (relação BP + renda) é <b>monotônico</b>, separação 6x entre topo e base.</li>
+      <li>Razão de conversão respondente/cadastro: 1,25x bruta, <b>1,12x pós-cadastro</b> (descontando atribuição inflada por compra simultânea). A vantagem do respondente é majoritariamente <b>seleção, não causa</b> — o formulário revela o lead bom, não o fabrica.</li>
+      <li><code>qt_vendas</code> atribui por last-click e inclui ~70% de compras simultâneas/anteriores ao cadastro. Para captação incremental real, filtrar <code>days_to_purchase ≥ 1</code>.</li>
+      <li>Custo da pesquisa modelado pela referência de mercado (−4pp/pergunta). Se a pesquisa estiver na página de obrigado (pós-cadastro) e não no fluxo de cadastro, a perda real é menor.</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  Brasil Paralelo · Análise gerada com Claude Code · Junho 2026 · Fontes: dtm_analytics_lead_conversion, dtm_analytics_facebook_ads_funnel, GA4 (property 378996649)
+</footer>
+
+</body>
+</html>
