@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pesquisa de Qualificação de Leads — EVG · Brasil Paralelo</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#0e1424; --ink2:#1a2236; --paper:#f4f6fb; --card:#ffffff;
+    --line:#e6e9f2; --muted:#6b7689; --soft:#9aa3b5;
+    --blue:#3b6ef5; --green:#16a34a; --red:#e23b3b; --amber:#f5a524; --violet:#7c5cfc;
+    --grad: linear-gradient(135deg,#1a2236 0%,#0e1424 100%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;background:var(--paper);color:#1c2230;-webkit-font-smoothing:antialiased;line-height:1.5}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* HEADER */
+  header{background:var(--grad);color:#fff;padding:46px 0 40px;position:relative;overflow:hidden}
+  header::after{content:"";position:absolute;right:-80px;top:-80px;width:340px;height:340px;background:radial-gradient(circle,rgba(59,110,245,.25),transparent 70%);border-radius:50%}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#9fb3e8;margin-bottom:14px}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px rgba(59,110,245,.25)}
+  header h1{font-size:32px;font-weight:800;letter-spacing:-.02em;max-width:760px;line-height:1.15}
+  header h1 b{color:#7da2ff;font-weight:800}
+  header .meta{margin-top:14px;color:#aab4c8;font-size:13.5px;max-width:720px}
+  .pill{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:3px 11px;font-size:11.5px;font-weight:600;margin-right:7px;color:#dbe4f5}
+
+  /* KPI STRIP */
+  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-top:30px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden}
+  .kpi{padding:18px 20px;border-right:1px solid rgba(255,255,255,.08)}
+  .kpi:last-child{border-right:none}
+  .kpi .k-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#8e9bb5;font-weight:600;margin-bottom:7px}
+  .kpi .k-val{font-size:26px;font-weight:800;letter-spacing:-.02em;color:#fff;line-height:1}
+  .kpi .k-sub{font-size:11.5px;color:#9aa6be;margin-top:6px}
+  .kpi .k-val.up{color:#5ee08f}.kpi .k-val.down{color:#ff8a8a}.kpi .k-val.warn{color:#ffce6b}
+
+  /* SECTIONS */
+  main{padding:34px 0 10px}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 30px;margin-bottom:22px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+  .sec-num{font-size:12px;font-weight:800;color:var(--blue);background:#eef3ff;border-radius:7px;padding:3px 9px;letter-spacing:.02em}
+  .sec h2{font-size:20px;font-weight:800;letter-spacing:-.01em;color:#141b2d}
+  .sec .sub{font-size:13px;color:var(--muted);margin:7px 0 22px;max-width:780px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .grid2.tilt{grid-template-columns:1.15fr .85fr}
+  .chart-card{background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:18px 18px 14px}
+  .chart-card h3{font-size:13.5px;font-weight:700;color:#2a3346;margin-bottom:4px}
+  .chart-card .ch-sub{font-size:11.5px;color:var(--soft);margin-bottom:14px}
+  .cbox{position:relative;width:100%}
+  .h220{height:230px}.h260{height:262px}.h300{height:300px}.h340{height:340px}
+
+  /* big stat */
+  .bigstat{display:flex;flex-direction:column;justify-content:center;gap:4px;background:var(--grad);color:#fff;border-radius:12px;padding:24px 26px}
+  .bigstat .bs-num{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1}
+  .bigstat .bs-cap{font-size:13px;color:#aeb9d2;line-height:1.5}
+  .bigstat .bs-num.g{color:#5ee08f}.bigstat .bs-num.r{color:#ff8a8a}
+
+  /* boxes */
+  .box{border-radius:10px;padding:15px 18px;font-size:13px;line-height:1.62}
+  .box .bx-t{font-weight:700;display:block;margin-bottom:4px;font-size:12px;letter-spacing:.02em;text-transform:uppercase}
+  .box.insight{background:#eef3ff;border-left:3px solid var(--blue);color:#1d3a7a;margin-top:18px}
+  .box.warn{background:#fff8ec;border-left:3px solid var(--amber);color:#7a4d09;margin-top:14px}
+  .box.good{background:#eefaf0;border-left:3px solid var(--green);color:#0f4d24}
+
+  /* table */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;padding:9px 12px;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;border-bottom:1.5px solid var(--line)}
+  td{padding:9px 12px;border-bottom:1px solid #f1f3f9}
+  tr:last-child td{border-bottom:none}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .b{font-weight:700}.mut{color:var(--soft)}
+  .tag{display:inline-block;border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700}
+  .t-g{background:#dcfae6;color:#15803d}.t-b{background:#e0ecff;color:#1d4ed8}.t-y{background:#fef3c7;color:#92600a}.t-r{background:#fde2e2;color:#c81e1e}.t-n{background:#eef1f6;color:#5b6576}
+
+  /* exec summary */
+  .exec{background:var(--grad);color:#e7ecf6;border:none}
+  .exec h2{color:#fff}
+  .exec .cols{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:18px}
+  .exec .lab{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#8da0c8;margin-bottom:12px;font-weight:700}
+  .exec p{font-size:13.5px;line-height:1.66;margin-bottom:11px;color:#c9d3e8}
+  .exec p b{color:#fff}
+  .exec .n{display:inline-flex;width:21px;height:21px;align-items:center;justify-content:center;background:var(--blue);color:#fff;border-radius:6px;font-size:11px;font-weight:800;margin-right:8px}
+
+  /* rec */
+  .rec{display:flex;gap:14px;padding:15px 0;border-bottom:1px solid #f1f3f9}
+  .rec:last-child{border-bottom:none}
+  .rec .rn{flex:0 0 30px;height:30px;border-radius:9px;background:#eef3ff;color:var(--blue);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .rec .rt{font-weight:700;font-size:14px;color:#1a2236;margin-bottom:2px}
+  .rec .rd{font-size:12.5px;color:var(--muted);line-height:1.55}
+
+  footer{text-align:center;color:var(--soft);font-size:12px;padding:30px 20px 50px;line-height:1.7}
+
+  @media(max-width:860px){
+    .kpis{grid-template-columns:repeat(2,1fr)}.kpi{border-bottom:1px solid rgba(255,255,255,.08)}
+    .grid2,.grid2.tilt,.exec .cols{grid-template-columns:1fr}
+    header h1{font-size:25px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span> Brasil Paralelo · Campanha O Brasil Evangélico</div>
+    <h1>Pesquisa de Qualificação de Leads: <b>o que ela custa e o que ela revela</b></h1>
+    <div class="meta">
+      <span class="pill">23/mai – 12/jun 2026</span>
+      <span class="pill">35.871 cadastros</span>
+      <span class="pill">dtm_analytics_lead_conversion + facebook_ads_funnel + GA4</span>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="k-label">Cadastros</div><div class="k-val">35.871</div><div class="k-sub">42% responderam</div></div>
+      <div class="kpi"><div class="k-label">Compradores</div><div class="k-val">404</div><div class="k-sub">conversão 1,13%</div></div>
+      <div class="kpi"><div class="k-label">Receita atribuída</div><div class="k-val up">R$147,2k</div><div class="k-sub">ticket R$288</div></div>
+      <div class="kpi"><div class="k-label">Investimento Meta</div><div class="k-val warn">R$77,4k</div><div class="k-sub">CAC R$192</div></div>
+      <div class="kpi"><div class="k-label">Custo da pesquisa</div><div class="k-val down">R$10–15k</div><div class="k-sub">receita perdida</div></div>
+      <div class="kpi"><div class="k-label">RPV / visitante</div><div class="k-val down">−9%</div><div class="k-sub">R$1,70 → R$1,54</div></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- EXEC -->
+  <section class="sec exec">
+    <h2>Resumo executivo</h2>
+    <div class="cols">
+      <div>
+        <div class="lab">O que os dados mostram</div>
+        <p>• <b>A pesquisa prediz compra:</b> lead score 5–6 converte ~5% vs 0,8% do score 0 — separação de 6×.</p>
+        <p>• <b>O CPL não prediz qualidade</b> (correlação +0,18). O formulário prediz (+0,46). Otimizar só por CPL está cego para qualidade.</p>
+        <p>• <b>A pesquisa custa R$10–15k</b> de receita (−11,5% de completion por 3 perguntas) e derruba o RPV/visitante 9%.</p>
+        <p>• <b>Mas o RPV por lead sobe +2%</b> — quem abandona o formulário é desproporcionalmente lead ruim.</p>
+      </div>
+      <div>
+        <div class="lab">Para a pesquisa dar ROI</div>
+        <p><span class="n">1</span>Melhorar a eficiência de mídia em <b>~20%</b> (CAC R$192 → ~R$155) realocando budget dos piores anúncios para os melhores.</p>
+        <p><span class="n">2</span>Trocar a métrica de <b>CPL → CPLQ</b> (custo por lead qualificado) e otimizar o Meta por evento de valor.</p>
+        <p><span class="n">3</span>Aplicar <b>CPL ideal por faixa</b>: vale pagar R$13 por lead quente e R$2 por lead frio.</p>
+        <p style="color:#8da0c8;font-size:12.5px;margin-top:6px">A pesquisa só se paga se agirmos sobre ela. Coletar sem reotimizar = só custo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MIX -->
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Mix das respostas do formulário</h2></div>
+    <p class="sub">Distribuição de cada pergunta. A base difere por pergunta — nem todo respondente completa as 3, sinal de fadiga de formulário.</p>
+    <div class="grid2" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="chart-card"><h3>Relação com a BP</h3><div class="ch-sub">7.950 respostas</div><div class="cbox h260"><canvas id="mixRel"></canvas></div></div>
+      <div class="chart-card"><h3>Renda declarada</h3><div class="ch-sub">12.179 respostas</div><div class="cbox h260"><canvas id="mixRenda"></canvas></div></div>
+      <div class="chart-card"><h3>Streamings que assina</h3><div class="ch-sub">14.921 respostas · múltipla escolha</div><div class="cbox h260"><canvas id="mixStream"></canvas></div></div>
+    </div>
+    <div class="box insight"><span class="bx-t">Leitura</span>A EVG capta majoritariamente público <b>frio e de baixa renda</b> — 47% só consomem grátis, 32% ganham até R$5k, 26% não assinam nenhum streaming. A pesquisa é o que permite achar a minoria valiosa (7% que assinam, 6% de renda alta, 7,5% com BP) dentro desse volume.</div>
+  </section>
+
+  <!-- PREDIZ -->
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">02</span><h2>A pesquisa prediz quem compra</h2></div>
+    <p class="sub">Taxa de compra por resposta. Os dois sinais são monotônicos — quanto mais "quente" a relação e mais alta a renda, maior a conversão.</p>
+    <div class="grid2">
+      <div class="chart-card"><h3>Conversão por relação com a marca</h3><div class="ch-sub">% de cada grupo que comprou</div><div class="cbox h260"><canvas id="convRel"></canvas></div></div>
+      <div class="chart-card"><h3>Conversão por faixa de renda</h3><div class="ch-sub">% de cada grupo que comprou</div><div class="cbox h260"><canvas id="convRenda"></canvas></div></div>
+    </div>
+  </section>
+
+  <!-- STREAMING BUBBLE -->
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Combinações de streaming: muito volume nos perfis ruins</h2></div>
+    <p class="sub">Cada bolha é uma combinação de streamings. Eixo X = volume de cadastros · Eixo Y = taxa de compra · tamanho = nº de compradores. As bolhas verdes contêm "Brasil Paralelo".</p>
+    <div class="chart-card"><div class="cbox h340"><canvas id="bubble"></canvas></div></div>
+    <div class="box insight"><span class="bx-t">O padrão</span>O grosso do volume está em baixo (esquerda inferior): <b>"Nenhum" (3.705 leads, 0,84%)</b> e <b>"Netflix sozinho" (2.221, 1,35%)</b> dominam o cadastro mas convertem mal. As joias — combos com <b>Brasil Paralelo (1,8–4%)</b> — ficam em baixo volume, no alto do gráfico. Combos pesados de entretenimento sem BP (Globoplay+Netflix, HBO+Prime, 5 serviços) zeram conversão.</div>
+  </section>
+
+  <!-- CPL NAO PREDIZ -->
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">04</span><h2>O CPL engana — o formulário não</h2></div>
+    <p class="sub">Correlação de cada variável (disponível no momento do cadastro) com a taxa de compra real do anúncio. O sinal do formulário é ~2,5× mais preditivo que o CPL.</p>
+    <div class="grid2 tilt">
+      <div class="chart-card"><h3>Poder preditivo (correlação com venda)</h3><div class="ch-sub">anúncios Facebook, vol ≥300 cadastros</div><div class="cbox h260"><canvas id="corr"></canvas></div></div>
+      <div>
+        <div class="chart-card" style="margin-bottom:0">
+          <h3>Mesma faixa de CPL, qualidade oposta</h3><div class="ch-sub">4 anúncios da campanha</div>
+          <table style="margin-top:6px">
+            <thead><tr><th>Anúncio</th><th class="num">CPL</th><th class="num">Tx</th><th class="num">CPA</th></tr></thead>
+            <tbody>
+              <tr><td>AD08 Card convite</td><td class="num">R$2,11</td><td class="num b">1,45%</td><td class="num">R$145</td></tr>
+              <tr><td>AD21 VVS 1990</td><td class="num b">R$1,03</td><td class="num">0,98%</td><td class="num">R$105</td></tr>
+              <tr><td>AD28 uma história</td><td class="num">R$2,95</td><td class="num">0,52%</td><td class="num">R$572</td></tr>
+              <tr><td>AD45 linha do tempo</td><td class="num">R$3,08</td><td class="num"><span class="tag t-r">0,34%</span></td><td class="num">R$908</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="box warn" style="margin-top:14px"><span class="bx-t">O ponto</span>AD28 e AD45 têm CPL ok mas CPA <b>4–8× pior</b>. O formulário os denuncia no cadastro (menor % de leads quentes) — semanas antes da venda maturar.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAD SCORE -->
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Lead score &amp; CPL ideal por faixa</h2></div>
+    <p class="sub">Score = relação BP (0–3) + renda (0–3). Validado contra compra real. O CPL ideal mantém o mesmo CAC do cadastro base (R$3 @ 1,13%).</p>
+    <div class="grid2">
+      <div class="chart-card"><h3>Conversão por lead score (separação 6×)</h3><div class="ch-sub">curva monotônica — quanto maior o score, maior a compra</div><div class="cbox h260"><canvas id="score"></canvas></div></div>
+      <div class="chart-card">
+        <h3>CPL ideal por tipo de lead</h3><div class="ch-sub">quanto vale pagar por cada perfil</div>
+        <table style="margin-top:6px">
+          <thead><tr><th>Faixa de lead</th><th class="num">Tx</th><th class="num">CPL ideal</th></tr></thead>
+          <tbody>
+            <tr><td>Renda 15k+</td><td class="num">6,50%</td><td class="num b" style="color:var(--green)">R$17,26</td></tr>
+            <tr><td>Streaming inclui BP</td><td class="num">4,09%</td><td class="num b">R$10,86</td></tr>
+            <tr><td>"Assino hoje"</td><td class="num">3,95%</td><td class="num b">R$10,49</td></tr>
+            <tr><td>"Já assinei no passado"</td><td class="num">2,65%</td><td class="num">R$7,04</td></tr>
+            <tr><td class="mut">Lead médio (hoje)</td><td class="num mut">1,13%</td><td class="num mut">R$3,00</td></tr>
+            <tr><td>Muitos streamings sem BP</td><td class="num">0,71%</td><td class="num">R$1,88</td></tr>
+            <tr><td>"Nunca ouvi falar"</td><td class="num">0,24%</td><td class="num" style="color:var(--red)">R$0,64</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="box insight"><span class="bx-t">Implicação</span>Vale pagar <b>4–6× mais</b> por um lead quente do que por um frio. Hoje pagamos o mesmo CPL para os dois — desperdício direto de budget.</div>
+  </section>
+
+  <!-- TEMPO -->
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Conversão ao longo do tempo</h2></div>
+    <p class="sub">Por semana de cadastro. A taxa de resposta ao formulário subiu de 5,6% → 64,7% — a pesquisa foi ganhando peso na campanha.</p>
+    <div class="grid2 tilt">
+      <div class="chart-card"><h3>Taxa de compra por semana</h3><div class="ch-sub">linha azul: conversão · barra clara: taxa de resposta</div><div class="cbox h260"><canvas id="tempo"></canvas></div></div>
+      <div class="box warn" style="align-self:center"><span class="bx-t">Atenção na leitura</span>A queda da última semana (08/jun, 0,44%) é <b>maturação, não piora real</b>: leads recém-cadastrados ainda não tiveram tempo de comprar. A conversão real desta coorte deve subir nas próximas semanas conforme as vendas amadurecem.</div>
+    </div>
+  </section>
+
+  <!-- CUSTO / ROI -->
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">07</span><h2>Quanto custa a pesquisa &amp; o número para dar ROI</h2></div>
+    <p class="sub">Referência de mercado: −4 pontos de completion por pergunta. A pesquisa EVG tem 3 perguntas → −11,5% de leads.</p>
+    <div class="grid2 tilt">
+      <div class="chart-card"><h3>RPV por visitante: efeito da fricção</h3><div class="ch-sub">receita por visitante da página de cadastro</div><div class="cbox h260"><canvas id="rpv"></canvas></div></div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="bigstat"><div class="bs-num r">~4.673</div><div class="bs-cap">leads perdidos pela fricção das 3 perguntas (−11,5%)</div></div>
+        <div class="bigstat"><div class="bs-num">≈20%</div><div class="bs-cap">melhora de eficiência de mídia necessária para a pesquisa se pagar (CAC R$192 → ~R$155)</div></div>
+        <div class="box good" style="margin:0"><span class="bx-t">É alcançável</span>Os piores anúncios têm CPA R$572–908 vs R$105–145 dos melhores. Realocar 15–20% do budget dos piores já cobre o custo da pesquisa.</div>
+      </div>
+    </div>
+    <div class="box insight"><span class="bx-t">O paradoxo do RPV</span>A pesquisa <b>reduz o RPV por visitante</b> (−9%, fricção no topo) mas <b>aumenta o RPV por lead</b> (+2%, qualidade) — porque quem abandona é lead ruim. O problema não é a qualidade do que fica; é o volume que some.</div>
+  </section>
+
+  <!-- REC -->
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">08</span><h2>Recomendações</h2></div>
+    <p class="sub">Em ordem de impacto.</p>
+    <div class="rec"><div class="rn">1</div><div><div class="rt">Trocar a métrica de otimização: CPL → CPLQ</div><div class="rd">Custo por lead qualificado (score ≥3). AD28/AD45 têm CPL ok mas CPLQ péssimo — subiriam no radar de corte.</div></div></div>
+    <div class="rec"><div class="rn">2</div><div><div class="rt">Realimentar o Meta com evento de valor</div><div class="rd">Passar score/renda como valor do evento (value-based), em vez de cadastro genérico. O algoritmo passa a buscar quem se parece com comprador, não com cadastrador.</div></div></div>
+    <div class="rec"><div class="rn">3</div><div><div class="rt">Aplicar CPL ideal por faixa</div><div class="rd">Usar a tabela da seção 5 como teto de lance/avaliação por público. Cortar AD28 e AD45, realocar para o padrão AD21/AD08.</div></div></div>
+    <div class="rec"><div class="rn">4</div><div><div class="rt">Reduzir fricção: testar pesquisa de 2 perguntas</div><div class="rd">Relação BP + renda são os dois maiores preditores. Cortar a 3ª pergunta recupera ~4pp de completion sem perder poder preditivo.</div></div></div>
+    <div class="rec"><div class="rn">5</div><div><div class="rt">Validar com A/B test</div><div class="rd">Otimização por cadastro vs por lead-qualificado, mesmo budget, comparar CAC (não CPL) após a janela de maturação de venda.</div></div></div>
+  </section>
+
+  <!-- CAVEATS -->
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">—</span><h2>Notas de validação</h2></div>
+    <p class="sub">Honestidade metodológica.</p>
+    <table>
+      <tbody>
+        <tr><td><b>Lead score</b></td><td>Monotônico, separação 6× entre topo e base.</td></tr>
+        <tr><td><b>Respondente = seleção, não causa</b></td><td>Razão de conversão respondente/cadastro: 1,25× bruta, 1,12× pós-cadastro. O formulário revela o lead bom, não o fabrica.</td></tr>
+        <tr><td><b>Atribuição inflada</b></td><td><code>qt_vendas</code> usa last-click e inclui ~70% de compras simultâneas/anteriores ao cadastro. Para captação incremental real, filtrar <code>days_to_purchase ≥ 1</code>.</td></tr>
+        <tr><td><b>Custo da pesquisa</b></td><td>Modelado pela referência de mercado (−4pp/pergunta). Se a pesquisa estiver na página de obrigado (pós-cadastro), a perda real é menor.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  Brasil Paralelo · Análise gerada com Claude Code · Junho 2026<br>
+  Fontes: dtm_analytics_lead_conversion · dtm_analytics_facebook_ads_funnel · GA4 (property 378996649)
+</footer>
+
+<script>
+const FONT="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.family=FONT;
+Chart.defaults.font.size=12;
+Chart.defaults.color="#6b7689";
+const BLUE="#3b6ef5",GREEN="#16a34a",RED="#e23b3b",AMBER="#f5a524",VIOLET="#7c5cfc",GREY="#aab2c4";
+
+// plugin: value labels at end of horizontal/vertical bars
+const valueLabels=(fmt)=>({
+  id:'vlab',
+  afterDatasetsDraw(c){
+    const{ctx}=c;ctx.save();
+    c.data.datasets.forEach((ds,di)=>{
+      const meta=c.getDatasetMeta(di);
+      if(meta.hidden)return;
+      meta.data.forEach((el,i)=>{
+        const v=ds.data[i];if(v==null)return;
+        ctx.fillStyle="#3a4254";ctx.font="700 11px "+FONT;
+        if(c.options.indexAxis==='y'){ctx.textAlign="left";ctx.textBaseline="middle";ctx.fillText(fmt(v),el.x+8,el.y);}
+        else{ctx.textAlign="center";ctx.textBaseline="bottom";ctx.fillText(fmt(v),el.x,el.y-5);}
+      });
+    });ctx.restore();
+  }
+});
+const pct=v=>v.toLocaleString('pt-BR')+'%';
+const grad=(t,a,b)=>{const g=t.ctx.createLinearGradient(0,0,t.chartArea?.right||300,0);g.addColorStop(0,a);g.addColorStop(1,b);return g;};
+
+// 01 mix relação
+new Chart(mixRel,{type:'bar',data:{labels:['Consumo grátis','Já ouvi falar','Já assinei','Assino hoje','Nunca ouvi'],
+  datasets:[{data:[47.1,25.0,14.5,7.3,6.0],backgroundColor:[GREY,GREY,BLUE,GREEN,RED],borderRadius:5,barThickness:20}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>pct(c.raw)}}},
+  scales:{x:{display:false,max:54},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v+'%')]});
+
+// 01 mix renda
+new Chart(mixRenda,{type:'bar',data:{labels:['Até R$5k','Não informa','Até R$2k','R$5–10k','R$2–5k','R$10k+'],
+  datasets:[{data:[32.1,22.4,14.5,14.0,11.0,6.0],backgroundColor:[GREY,'#cfd5e2',GREY,BLUE,GREY,GREEN],borderRadius:5,barThickness:20}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>pct(c.raw)}}},
+  scales:{x:{display:false,max:38},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v+'%')]});
+
+// 01 mix streaming
+new Chart(mixStream,{type:'bar',data:{labels:['Netflix','Nenhum','Prime Video','Brasil Paralelo','Disney+','HBO Max','Globoplay','Educacional'],
+  datasets:[{data:[30.4,26.0,14.0,7.5,6.6,5.5,5.5,4.6],backgroundColor:[GREY,AMBER,GREY,GREEN,GREY,'#cfd5e2','#cfd5e2',BLUE],borderRadius:5,barThickness:15}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>pct(c.raw)}}},
+  scales:{x:{display:false,max:36},y:{grid:{display:false},ticks:{font:{size:10.5}}}}},plugins:[valueLabels(v=>v+'%')]});
+
+// 02 conversão relação
+const cRel=[3.95,2.65,1.17,0.85,0.24];
+new Chart(convRel,{type:'bar',data:{labels:['Assino hoje','Já assinei','Já ouvi falar','Consumo grátis','Nunca ouvi'],
+  datasets:[{data:cRel,backgroundColor:[GREEN,'#4d9e63','#86a8c2',GREY,RED],borderRadius:6,barThickness:26}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Tx compra '+c.raw.toLocaleString('pt-BR')+'%'}}},
+  scales:{x:{display:false,max:4.6},y:{grid:{display:false}}}},plugins:[valueLabels(v=>v.toLocaleString('pt-BR')+'%')]});
+
+// 02 conversão renda
+new Chart(convRenda,{type:'bar',data:{labels:['Acima R$20k','R$10–20k','Acima R$15k','R$5–10k','R$2–5k','Até R$5k','Não informa','Até R$2k'],
+  datasets:[{data:[7.02,6.37,3.90,2.88,2.47,1.37,1.01,0.85],backgroundColor:[GREEN,GREEN,'#4d9e63',BLUE,BLUE,'#86a8c2',GREY,GREY],borderRadius:6,barThickness:18}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Tx compra '+c.raw.toLocaleString('pt-BR')+'%'}}},
+  scales:{x:{display:false,max:8.2},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v.toLocaleString('pt-BR')+'%')]});
+
+// 03 bubble streaming
+const sd=[
+ {l:'Nenhum',x:3705,y:0.84,c:31,bp:0},{l:'Netflix',x:2221,y:1.35,c:30,bp:0},
+ {l:'Netflix+Prime',x:478,y:1.46,c:7,bp:0},{l:'Brasil Paralelo',x:441,y:1.81,c:8,bp:1},
+ {l:'Prime Video',x:413,y:2.18,c:9,bp:0},{l:'Educacional',x:213,y:0.94,c:2,bp:0},
+ {l:'BP+Netflix',x:175,y:4.00,c:7,bp:1},{l:'Globo+Netflix',x:133,y:0,c:0,bp:0},
+ {l:'Globoplay',x:132,y:1.52,c:2,bp:0},{l:'Disney+Netflix+Prime',x:131,y:0.76,c:1,bp:0},
+ {l:'Disney+HBO+Netflix+Prime',x:119,y:1.68,c:2,bp:0},{l:'Disney+Netflix',x:112,y:0.89,c:1,bp:0},
+ {l:'Netflix+Educacional',x:86,y:3.49,c:3,bp:0},{l:'5 serviços',x:85,y:0,c:0,bp:0},
+ {l:'HBO Max',x:84,y:2.38,c:2,bp:0},{l:'HBO+Netflix+Prime',x:78,y:0,c:0,bp:0},
+ {l:'Disney+',x:69,y:1.45,c:1,bp:0},{l:'BP+Netflix+Prime',x:67,y:2.99,c:2,bp:1},
+ {l:'Globo+Netflix+Prime',x:63,y:1.59,c:1,bp:0},{l:'HBO+Netflix',x:62,y:4.84,c:3,bp:0},
+ {l:'Disney+Prime',x:41,y:2.44,c:1,bp:0},{l:'HBO+Prime',x:40,y:0,c:0,bp:0},{l:'Netflix+Educ+Prime',x:40,y:0,c:0,bp:0}
+];
+const mk=d=>d.map(o=>({x:o.x,y:o.y,r:Math.max(5,Math.sqrt(o.c)*5),l:o.l,c:o.c}));
+new Chart(bubble,{type:'bubble',data:{datasets:[
+  {label:'Contém Brasil Paralelo',data:mk(sd.filter(o=>o.bp)),backgroundColor:'rgba(22,163,74,.65)',borderColor:GREEN,borderWidth:1.5},
+  {label:'Sem Brasil Paralelo',data:mk(sd.filter(o=>!o.bp)),backgroundColor:'rgba(59,110,245,.4)',borderColor:BLUE,borderWidth:1}
+]},options:{
+  plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:12}}},
+    tooltip:{callbacks:{label:c=>`${c.raw.l}: ${c.raw.x.toLocaleString('pt-BR')} cad · ${c.raw.y.toLocaleString('pt-BR')}% · ${c.raw.c} compr`}}},
+  scales:{
+    x:{type:'logarithmic',title:{display:true,text:'Volume de cadastros (escala log)',font:{size:11,weight:'600'}},grid:{color:'#eef1f7'},ticks:{callback:v=>[40,100,400,1000,4000].includes(v)?v:''}},
+    y:{title:{display:true,text:'Taxa de compra (%)',font:{size:11,weight:'600'}},grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},min:-0.3,max:5.4}}
+}});
+
+// 04 correlação
+new Chart(corr,{type:'bar',data:{labels:['Formulário\n(quente+renda)','% renda alta','% leads quentes','CPL'],
+  datasets:[{data:[0.46,0.36,0.22,0.18],backgroundColor:[GREEN,'#4d9e63','#86a8c2',RED],borderRadius:6,barThickness:30}]},
+  options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'corr '+c.raw.toLocaleString('pt-BR')}}},
+  scales:{y:{display:true,max:0.52,grid:{color:'#eef1f7'},ticks:{stepSize:0.1}},x:{grid:{display:false},ticks:{font:{size:11},callback:function(v){return this.getLabelForValue(v).split('\n')}}}}},
+  plugins:[valueLabels(v=>'+'+v.toLocaleString('pt-BR'))]});
+
+// 05 lead score
+new Chart(score,{type:'line',data:{labels:['0','1','2','3','4','5','6'],
+  datasets:[{data:[0.79,1.13,2.04,2.75,2.68,4.87,4.85],borderColor:VIOLET,backgroundColor:'rgba(124,92,252,.12)',fill:true,tension:.3,
+    pointRadius:5,pointBackgroundColor:'#fff',pointBorderColor:VIOLET,pointBorderWidth:2.5}]},
+  options:{plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>'Score '+c[0].label,label:c=>'Tx compra '+c.raw.toLocaleString('pt-BR')+'%'}}},
+  scales:{y:{title:{display:true,text:'Taxa de compra (%)',font:{size:11}},grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},max:5.6},x:{title:{display:true,text:'Lead score (relação BP + renda)',font:{size:11}},grid:{display:false}}}},
+  plugins:[valueLabels(v=>v.toLocaleString('pt-BR')+'%')]});
+
+// 06 tempo (linha conversão + barra resposta)
+new Chart(tempo,{data:{labels:['18/mai','25/mai','01/jun','08/jun'],
+  datasets:[
+    {type:'bar',label:'Taxa de resposta',data:[5.6,29.6,52.0,64.7],backgroundColor:'rgba(170,178,196,.35)',borderRadius:5,yAxisID:'y1',order:2,barThickness:46},
+    {type:'line',label:'Taxa de compra',data:[1.03,1.21,1.39,0.44],borderColor:BLUE,backgroundColor:BLUE,tension:.3,yAxisID:'y',order:1,
+      pointRadius:[5,5,5,7],pointBackgroundColor:['#fff','#fff','#fff',AMBER],pointBorderColor:[BLUE,BLUE,BLUE,AMBER],pointBorderWidth:2.5,borderWidth:2.5}
+  ]},
+  options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:11.5}}},
+    tooltip:{callbacks:{label:c=>c.dataset.label+' '+c.raw.toLocaleString('pt-BR')+'%'+(c.dataIndex===3&&c.dataset.type==='line'?' (maturação)':'')}}},
+  scales:{y:{position:'left',title:{display:true,text:'Tx compra',font:{size:10}},grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},max:1.6},
+    y1:{position:'right',title:{display:true,text:'Tx resposta',font:{size:10}},grid:{display:false},ticks:{callback:v=>v+'%'},max:75},
+    x:{grid:{display:false}}}}});
+
+// 07 RPV waterfall-ish
+new Chart(rpv,{type:'bar',data:{labels:['SEM pesquisa','COM pesquisa'],
+  datasets:[{data:[1.70,1.54],backgroundColor:[GREY,RED],borderRadius:7,barThickness:64}]},
+  options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'RPV R$ '+c.raw.toLocaleString('pt-BR',{minimumFractionDigits:2})}}},
+  scales:{y:{grid:{color:'#eef1f7'},ticks:{callback:v=>'R$'+v.toLocaleString('pt-BR',{minimumFractionDigits:2})},max:1.9},x:{grid:{display:false},ticks:{font:{size:12,weight:'600'}}}}},
+  plugins:[valueLabels(v=>'R$'+v.toLocaleString('pt-BR',{minimumFractionDigits:2}))]});
+</script>
+</body>
+</html>
