@@ -333,9 +333,10 @@ const valueLabels=(fmt)=>({
       if(meta.hidden)return;
       meta.data.forEach((el,i)=>{
         const v=ds.data[i];if(v==null)return;
+        const label=fmt(v);if(label==null)return;
         ctx.fillStyle="#3a4254";ctx.font="700 11px "+FONT;
-        if(c.options.indexAxis==='y'){ctx.textAlign="left";ctx.textBaseline="middle";ctx.fillText(fmt(v),el.x+8,el.y);}
-        else{ctx.textAlign="center";ctx.textBaseline="bottom";ctx.fillText(fmt(v),el.x,el.y-5);}
+        if(c.options.indexAxis==='y'){ctx.textAlign="left";ctx.textBaseline="middle";ctx.fillText(label,el.x+8,el.y);}
+        else{ctx.textAlign="center";ctx.textBaseline="bottom";ctx.fillText(label,el.x,el.y-5);}
       });
     });ctx.restore();
   }
