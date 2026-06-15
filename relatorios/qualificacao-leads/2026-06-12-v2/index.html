@@ -166,9 +166,23 @@
     </div>
   </section>
 
+  <!-- RESPONDENTE VS NAO -->
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Responder o formulário já é um sinal — e o que isso diz sobre otimizar por cadastro</h2></div>
+    <p class="sub">Quem responde a pesquisa converte e vale mais que quem não responde. Mas atenção: é majoritariamente seleção (quem responde já é mais engajado), não efeito causal do formulário.</p>
+    <div class="grid2 tilt">
+      <div class="chart-card"><h3>Conversão: respondente vs não-respondente</h3><div class="ch-sub">bruta (todas as vendas) vs pós-cadastro (compra ≥1 dia após cadastrar)</div><div class="cbox h260"><canvas id="respVsNao"></canvas></div></div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="bigstat"><div class="bs-num g">R$5,37</div><div class="bs-cap">receita por lead de quem <b>responde</b> · vs R$3,20 de quem não responde (<b>+68%</b>)</div></div>
+        <div class="bigstat"><div class="bs-num">15.533</div><div class="bs-cap">respondentes (1,44% compra · R$83,3k receita) vs 20.398 não-respondentes (0,90% · R$65,3k)</div></div>
+      </div>
+    </div>
+    <div class="box warn"><span class="bx-t">Leitura para otimização por evento</span>O gap bruto (+60%) <b>encolhe para +33% quando olhamos só compras pós-cadastro</b> (0,45% vs 0,34%) — prova de que o formulário <b>revela</b> o lead bom, não o cria. Implicação prática: otimizar a campanha pelo <b>evento de cadastro genérico</b> trata respondente (R$5,37) e não-respondente (R$3,20) como iguais. Otimizar pelo <b>evento de resposta do formulário</b> (ou resposta qualificada) aponta o Meta para um público +68% mais valioso — desde que o CPL do evento mais raro não suba mais que esse prêmio.</div>
+  </section>
+
   <!-- STREAMING BUBBLE -->
   <section class="sec">
-    <div class="sec-head"><span class="sec-num">03</span><h2>Combinações de streaming: muito volume nos perfis ruins</h2></div>
+    <div class="sec-head"><span class="sec-num">04</span><h2>Combinações de streaming: muito volume nos perfis ruins</h2></div>
     <p class="sub">Cada bolha é uma combinação de streamings. Eixo X = volume de cadastros · Eixo Y = taxa de compra · tamanho = nº de compradores. As bolhas verdes contêm "Brasil Paralelo".</p>
     <div class="chart-card"><div class="cbox h340"><canvas id="bubble"></canvas></div></div>
     <div class="box insight"><span class="bx-t">O padrão</span>O grosso do volume está em baixo (esquerda inferior): <b>"Nenhum" (3.705 leads, 0,84%)</b> e <b>"Netflix sozinho" (2.221, 1,35%)</b> dominam o cadastro mas convertem mal. As joias — combos com <b>Brasil Paralelo (1,8–4%)</b> — ficam em baixo volume, no alto do gráfico. Combos pesados de entretenimento sem BP (Globoplay+Netflix, HBO+Prime, 5 serviços) zeram conversão.</div>
@@ -176,7 +190,7 @@
 
   <!-- CPL NAO PREDIZ -->
   <section class="sec">
-    <div class="sec-head"><span class="sec-num">04</span><h2>O CPL engana — o formulário não</h2></div>
+    <div class="sec-head"><span class="sec-num">05</span><h2>O CPL engana — o formulário não</h2></div>
     <p class="sub">Correlação de cada variável (disponível no momento do cadastro) com a taxa de compra real do anúncio. O sinal do formulário é ~2,5× mais preditivo que o CPL.</p>
     <div class="grid2 tilt">
       <div class="chart-card"><h3>Poder preditivo (correlação com venda)</h3><div class="ch-sub">anúncios Facebook, vol ≥300 cadastros</div><div class="cbox h260"><canvas id="corr"></canvas></div></div>
@@ -200,7 +214,7 @@
 
   <!-- LEAD SCORE -->
   <section class="sec">
-    <div class="sec-head"><span class="sec-num">05</span><h2>Lead score &amp; CPL ideal por faixa</h2></div>
+    <div class="sec-head"><span class="sec-num">06</span><h2>Lead score &amp; CPL ideal por faixa</h2></div>
     <p class="sub">Score = relação BP (0–3) + renda (0–3). Validado contra compra real. O CPL ideal mantém o mesmo CAC do cadastro base (R$3 @ 1,13%).</p>
     <div class="grid2">
       <div class="chart-card"><h3>Conversão por lead score (separação 6×)</h3><div class="ch-sub">curva monotônica — quanto maior o score, maior a compra</div><div class="cbox h260"><canvas id="score"></canvas></div></div>
@@ -223,9 +237,31 @@
     <div class="box insight"><span class="bx-t">Implicação</span>Vale pagar <b>4–6× mais</b> por um lead quente do que por um frio. Hoje pagamos o mesmo CPL para os dois — desperdício direto de budget.</div>
   </section>
 
+  <!-- BENCHMARK CAMPANHAS -->
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">07</span><h2>O padrão se repete em outras campanhas com formulário</h2></div>
+    <p class="sub">Comparação com 4 campanhas que usaram pesquisa de qualificação (RIO · MST · Teller · TPV), nas perguntas comparáveis. Escalas de renda e relação normalizadas. Fonte: bp-staging.dbt_abe.tb_lead_surveys.</p>
+    <div class="grid2">
+      <div class="chart-card"><h3>Conversão por faixa de renda</h3><div class="ch-sub">cada linha = uma campanha · renda alta sempre converte mais</div><div class="cbox h300"><canvas id="benchRenda"></canvas></div></div>
+      <div class="chart-card"><h3>Conversão por relação com a marca</h3><div class="ch-sub">membro/assinante sempre no topo, "não conhece" sempre na base</div><div class="cbox h300"><canvas id="benchRel"></canvas></div></div>
+    </div>
+    <div class="box insight"><span class="bx-t">O sinal do formulário é universal — e EVG é o de público mais frio</span>Em <b>todas</b> as campanhas, renda alta converte 2–4× a baixa e "membro/assina" converte muito mais que "não conhece". Isso valida o formulário como ferramenta de qualificação <b>transferível entre campanhas</b>, não um artefato da EVG. Porém a <b>EVG converte abaixo de todas em cada faixa</b> (1–4% vs 5–29% das demais): é topo de funil frio e ticket baixo, enquanto Teller/TPV são high-ticket com lead mais quente. "Prefiro não informar" a renda converte sempre como renda baixa — não é neutro, é sinal negativo.</div>
+    <div style="overflow-x:auto;margin-top:8px">
+    <table>
+      <thead><tr><th>Campanha</th><th class="num">Mix renda 10k+</th><th class="num">Mix "membro"</th><th class="num">Mix "não conhece"</th><th>Perfil</th></tr></thead>
+      <tbody>
+        <tr><td class="b">EVG</td><td class="num">6%</td><td class="num">21%</td><td class="num">6%</td><td><span class="tag t-b">topo frio, ticket baixo</span></td></tr>
+        <tr><td>RIO</td><td class="num">3%</td><td class="num">3%</td><td class="num">37%</td><td><span class="tag t-y">topo muito frio</span></td></tr>
+        <tr><td>MST</td><td class="num">3%</td><td class="num">5%</td><td class="num">13%</td><td><span class="tag t-n">intermediário</span></td></tr>
+        <tr><td>TPV</td><td class="num">6%</td><td class="num">25%</td><td class="num">5%</td><td><span class="tag t-g">público quente</span></td></tr>
+        <tr><td>TLR (Teller)</td><td class="num">14%</td><td class="num mut">—</td><td class="num mut">—</td><td><span class="tag t-g">renda alta, high-ticket</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
   <!-- TEMPO -->
   <section class="sec">
-    <div class="sec-head"><span class="sec-num">06</span><h2>Conversão ao longo do tempo</h2></div>
+    <div class="sec-head"><span class="sec-num">08</span><h2>Conversão ao longo do tempo</h2></div>
     <p class="sub">Por semana de cadastro. A taxa de resposta ao formulário subiu de 5,6% → 64,7% — a pesquisa foi ganhando peso na campanha.</p>
     <div class="grid2 tilt">
       <div class="chart-card"><h3>Taxa de compra por semana</h3><div class="ch-sub">linha azul: conversão · barra clara: taxa de resposta</div><div class="cbox h260"><canvas id="tempo"></canvas></div></div>
@@ -235,7 +271,7 @@
 
   <!-- CUSTO / ROI -->
   <section class="sec">
-    <div class="sec-head"><span class="sec-num">07</span><h2>Quanto custa a pesquisa &amp; o número para dar ROI</h2></div>
+    <div class="sec-head"><span class="sec-num">09</span><h2>Quanto custa a pesquisa &amp; o número para dar ROI</h2></div>
     <p class="sub">Referência de mercado: −4 pontos de completion por pergunta. A pesquisa EVG tem 3 perguntas → −11,5% de leads.</p>
     <div class="grid2 tilt">
       <div class="chart-card"><h3>RPV por visitante: efeito da fricção</h3><div class="ch-sub">receita por visitante da página de cadastro</div><div class="cbox h260"><canvas id="rpv"></canvas></div></div>
@@ -250,7 +286,7 @@
 
   <!-- REC -->
   <section class="sec">
-    <div class="sec-head"><span class="sec-num">08</span><h2>Recomendações</h2></div>
+    <div class="sec-head"><span class="sec-num">10</span><h2>Recomendações</h2></div>
     <p class="sub">Em ordem de impacto.</p>
     <div class="rec"><div class="rn">1</div><div><div class="rt">Trocar a métrica de otimização: CPL → CPLQ</div><div class="rd">Custo por lead qualificado (score ≥3). AD28/AD45 têm CPL ok mas CPLQ péssimo — subiriam no radar de corte.</div></div></div>
     <div class="rec"><div class="rn">2</div><div><div class="rt">Realimentar o Meta com evento de valor</div><div class="rd">Passar score/renda como valor do evento (value-based), em vez de cadastro genérico. O algoritmo passa a buscar quem se parece com comprador, não com cadastrador.</div></div></div>
@@ -398,6 +434,38 @@ new Chart(rpv,{type:'bar',data:{labels:['SEM pesquisa','COM pesquisa'],
   options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'RPV R$ '+c.raw.toLocaleString('pt-BR',{minimumFractionDigits:2})}}},
   scales:{y:{grid:{color:'#eef1f7'},ticks:{callback:v=>'R$'+v.toLocaleString('pt-BR',{minimumFractionDigits:2})},max:1.9},x:{grid:{display:false},ticks:{font:{size:12,weight:'600'}}}}},
   plugins:[valueLabels(v=>'R$'+v.toLocaleString('pt-BR',{minimumFractionDigits:2}))]});
+
+// 03 respondente vs nao
+new Chart(respVsNao,{type:'bar',data:{labels:['Conversão bruta','Conversão pós-cadastro'],
+  datasets:[
+    {label:'Respondeu',data:[1.44,0.451],backgroundColor:GREEN,borderRadius:6,barThickness:40},
+    {label:'Não respondeu',data:[0.90,0.343],backgroundColor:GREY,borderRadius:6,barThickness:40}
+  ]},
+  options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:12}}},
+    tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw.toLocaleString('pt-BR')+'%'}}},
+  scales:{y:{grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},max:1.7},x:{grid:{display:false},ticks:{font:{size:12,weight:'600'}}}}}});
+
+// 07 benchmark renda (linha por campanha)
+const RENDA_X=['Até R$5k','R$5–10k','R$10k+'];
+const benchR={EVG:[1.45,2.87,3.63],RIO:[2.48,5.52,10.86],MST:[4.45,7.46,13.6],TPV:[9.31,13.31,17.14],TLR:[12.8,20.05,28.78]};
+const CCOL={EVG:RED,RIO:BLUE,MST:VIOLET,TPV:AMBER,TLR:GREEN};
+new Chart(benchRenda,{type:'line',data:{labels:RENDA_X,
+  datasets:Object.keys(benchR).map(k=>({label:k,data:benchR[k],borderColor:CCOL[k],backgroundColor:CCOL[k],
+    borderWidth:k==='EVG'?3:2,tension:.25,pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:CCOL[k],pointBorderWidth:2}))},
+  options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:11.5}}},
+    tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw.toLocaleString('pt-BR')+'%'}}},
+  scales:{y:{grid:{color:'#eef1f7'},title:{display:true,text:'Taxa de compra (%)',font:{size:11}},ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}});
+
+// 07 benchmark relação (linha por campanha)
+const REL_X=['Membro/assina','Consome\nnão-membro','Só ouviu\nfalar','Não conhece'];
+const benchL={EVG:[3.14,0.89,1.11,0.21],RIO:[18.14,5.07,3.11,1.15],MST:[19.12,5.26,4.1,2.19],TPV:[20.09,7.52,7.06,4.05]};
+new Chart(benchRel,{type:'line',data:{labels:REL_X,
+  datasets:Object.keys(benchL).map(k=>({label:k,data:benchL[k],borderColor:CCOL[k],backgroundColor:CCOL[k],
+    borderWidth:k==='EVG'?3:2,tension:.25,pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:CCOL[k],pointBorderWidth:2}))},
+  options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:11.5}}},
+    tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw.toLocaleString('pt-BR')+'%'}}},
+  scales:{y:{grid:{color:'#eef1f7'},title:{display:true,text:'Taxa de compra (%)',font:{size:11}},ticks:{callback:v=>v+'%'}},
+    x:{grid:{display:false},ticks:{font:{size:10.5},callback:function(v){return this.getLabelForValue(v).split('\n')}}}}}});
 </script>
 </body>
 </html>
