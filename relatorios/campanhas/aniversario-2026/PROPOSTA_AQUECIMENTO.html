@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta — Investimento e Meta de Leads | Campanha Aniversário BP 2026</title>
+<style>
+  :root{
+    --bg:#0f1117;--surface:#1a1d27;--surface2:#22263a;--border:#2e3250;
+    --accent:#4f8ef7;--accent2:#7c5cbf;--green:#2eb87e;--yellow:#e8b84b;--red:#e05c5c;
+    --text:#d4d8f0;--muted:#7a82a8;--heading:#eef0ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;line-height:1.7;padding:0 0 80px}
+  header{background:linear-gradient(135deg,#131629,#1e2240);border-bottom:1px solid var(--border);padding:40px 0 32px}
+  header .wrap{max-width:1080px;margin:0 auto;padding:0 40px}
+  header h1{font-size:26px;color:var(--heading);font-weight:700;letter-spacing:-.5px}
+  header p{color:var(--muted);margin-top:6px;font-size:13px}
+  .badge{display:inline-block;background:var(--accent2);color:#fff;font-size:11px;padding:2px 10px;border-radius:20px;margin-right:6px;font-weight:600}
+  .badge.green{background:var(--green)}.badge.yellow{background:#9a7320}
+  .container{max-width:1080px;margin:0 auto;padding:0 40px}
+  section{margin-top:46px}
+  h2{font-size:19px;color:var(--heading);font-weight:700;border-left:3px solid var(--accent);padding-left:12px;margin-bottom:18px}
+  h3{font-size:14px;color:var(--heading);font-weight:600;margin:20px 0 10px}
+  p{margin-bottom:10px}
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:14px;margin-bottom:22px}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+  .kpi .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+  .kpi .value{font-size:23px;font-weight:700;color:var(--heading)}
+  .kpi .sub{font-size:11px;color:var(--muted);margin-top:4px}
+  .kpi.accent{border-color:var(--accent)}.kpi.green{border-color:var(--green)}.kpi.yellow{border-color:var(--yellow)}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--surface);border-radius:10px;overflow:hidden;border:1px solid var(--border);margin-bottom:22px}
+  thead tr{background:var(--surface2)}
+  th{padding:11px 14px;text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:600;border-bottom:1px solid var(--border)}
+  td{padding:10px 14px;border-bottom:1px solid var(--border)}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--surface2)}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .bold td{font-weight:700;color:var(--heading);background:rgba(79,142,247,.08)}
+  .hl{background:rgba(46,184,126,.08)!important}
+  .callout{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:16px;font-size:13px}
+  .callout.warn{border-color:var(--yellow)}.callout.success{border-color:var(--green)}.callout.red{border-color:var(--red)}
+  .callout strong{color:var(--heading)}
+  code{font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px;color:#a8c4ff}
+  .scenario-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:22px}
+  .scenario{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px}
+  .scenario.pess{border-top:3px solid var(--red)}.scenario.real{border-top:3px solid var(--yellow)}.scenario.otim{border-top:3px solid var(--green)}
+  .scenario .total{font-size:26px;font-weight:700;margin:10px 0 2px}
+  .scenario.pess .total{color:var(--red)}.scenario.real .total{color:var(--yellow)}.scenario.otim .total{color:var(--green)}
+  .sl{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px}
+  .sl:last-child{border-bottom:none}.sl .v{font-weight:600;color:var(--heading)}
+  ul.b{padding-left:18px}ul.b li{margin-bottom:6px}
+  .note{font-size:11px;color:var(--muted);margin-top:4px}
+  .tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:4px;font-weight:600;margin-left:6px}
+  .tag.v{background:rgba(79,142,247,.2);color:#9cc0ff}.tag.b{background:rgba(124,92,191,.25);color:#c3aef0}
+  .footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
+  .step{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px}
+  .step b{color:var(--heading)}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div style="margin-bottom:12px">
+    <span class="badge">Proposta — Aquecimento</span>
+    <span class="badge green">Investimento + Meta de Leads</span>
+    <span class="badge yellow">Jun/2026</span>
+  </div>
+  <h1>Campanha de Aniversário BP — Estratégia de Investimento e Meta de Leads</h1>
+  <p>Evento: 16/jul/2026 · Janela ~1,5 mês (jul+ago) · Meta R$15M (R$8M jul + R$7M ago) a 55% CM · Duas frentes: Vitalício + Bundle (rebranding de planos)</p>
+  <p class="note">Ancorado em dados reais de BigQuery (BPDay 2025, funil de leads, base ativa Jun/2026). Supera a versão preliminar <code>index.html</code>.</p>
+</div></header>
+
+<div class="container">
+
+<!-- ===================== RESUMO EXECUTIVO ===================== -->
+<section>
+  <h2>Resumo Executivo</h2>
+
+  <div class="callout success">
+    <strong>R$15M é meta segura — o desafio é eficiência, não volume.</strong> A campanha análoga (BPDay 2025) faturou R$29,2M no mesmo período do ano. A base entrega a meta praticamente sozinha. O trabalho da proposta é: (1) não desperdiçar verba perseguindo volume de lead que não traciona receita, e (2) preservar os 55% de CM.
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi accent"><div class="label">Meta</div><div class="value">R$15M</div><div class="sub">a 55% CM, em ~1,5 mês</div></div>
+    <div class="kpi green"><div class="label">Forecast realista</div><div class="value">~R$26M</div><div class="sub">+73% sobre a meta</div></div>
+    <div class="kpi"><div class="label">Investimento de mídia</div><div class="value">R$150–300k</div><div class="sub">~1–2% da receita</div></div>
+    <div class="kpi yellow"><div class="label">Meta de leads novos (frio)</div><div class="value">~50k</div><div class="sub">bundle, CPL R$3</div></div>
+    <div class="kpi"><div class="label">Alcance de CRM</div><div class="value">base 9m+</div><div class="sub">o motor real — custo ~zero</div></div>
+  </div>
+
+  <p><strong>A proposta em uma frase:</strong> investir pesado em <strong>alcance de CRM sobre a base madura</strong> (que compra na abertura da oferta, em geral sem virar lead) e uma <strong>cota enxuta de aquisição fria a CPL R$3</strong> para o bundle (sangue novo / pipeline futuro) — com teto de gasto frio para blindar a CM. <strong>Não</strong> definir a campanha por uma meta inflada de leads: o histórico prova que volume de tráfego não traciona receita.</p>
+</section>
+
+<!-- ===================== OS 4 ACHADOS ===================== -->
+<section>
+  <h2>Os 4 achados que fundamentam a proposta</h2>
+
+  <h3>① A receita NÃO vem dos leads — vem da base comprando na oferta</h3>
+  <p>Compradores de Vitalício no BPDay 2025 (R$20,3M), por origem:</p>
+  <table>
+    <thead><tr><th>Origem do comprador</th><th class="num">Compradores</th><th class="num">Receita</th><th class="num">% receita</th></tr></thead>
+    <tbody>
+      <tr><td>Lead da campanha de Vitalício (VIT)</td><td class="num">962</td><td class="num">R$1,9M</td><td class="num">9,4%</td></tr>
+      <tr><td>Lead de outra campanha</td><td class="num">3.229</td><td class="num">R$7,4M</td><td class="num">36,4%</td></tr>
+      <tr class="hl"><td><strong>NUNCA se cadastrou como lead</strong></td><td class="num"><strong>4.575</strong></td><td class="num"><strong>R$11,0M</strong></td><td class="num"><strong>54,2%</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>54% da receita de Vitalício veio de quem nunca virou lead.</strong> A base compra direto na abertura da oferta. Logo, "X leads → R$Y" é um modelo errado para esta campanha.</div>
+
+  <h3>② Volume de leads não traciona receita</h3>
+  <table>
+    <thead><tr><th>Correlação (histórico)</th><th class="num">Valor</th><th>Leitura</th></tr></thead>
+    <tbody>
+      <tr><td>Leads (mês) × receita total (mesmo mês)</td><td class="num">−0,04</td><td>nula</td></tr>
+      <tr><td>Leads × receita Vitalício (mesmo mês)</td><td class="num">−0,44</td><td>negativa</td></tr>
+      <tr><td>Leads (mês) × receita do mês seguinte (lag)</td><td class="num">+0,28</td><td>fraca (R²~8%)</td></tr>
+      <tr><td>Receita/lead × conversão</td><td class="num">+0,81</td><td><strong>o que manda é qualidade</strong></td></tr>
+    </tbody>
+  </table>
+  <p class="note">Prova viva: Black Friday 2024 fez <strong>R$40,3M com só 17,5k leads</strong>; campanhas de documentário captaram 250–297k leads e fizeram R$9–11M. Mais tráfego frio não compra mais receita — e ainda dilui a conversão.</p>
+
+  <h3>③ O Vitalício está saturado — é colheita de fluxo, não mineração de estoque</h3>
+  <table>
+    <thead><tr><th>Base elegível 12m+ — campanhas de Vitalício já vistas</th><th class="num">Membros</th><th class="num">%</th></tr></thead>
+    <tbody>
+      <tr><td>0 — nunca viu a oferta</td><td class="num">4.615</td><td class="num">1,4%</td></tr>
+      <tr><td>1 campanha</td><td class="num">103.910</td><td class="num">30,8%</td></tr>
+      <tr><td>2 campanhas</td><td class="num">68.386</td><td class="num">20,3%</td></tr>
+      <tr class="hl"><td><strong>3 campanhas (recusou BF23+BF24+BPD25)</strong></td><td class="num"><strong>159.749</strong></td><td class="num"><strong>47,4%</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><strong>~99% da base madura já recebeu a oferta e não comprou; 47% recusaram 3×.</strong> A conversão de 1,41% (24m+) em 2025 já é o regime pós-saturação. O estoque de 337k não é reservatório de demanda nova — está exaurido. <strong>O endereçável renovável é o FLUXO: ~99 mil membros cruzam 12 meses nos próximos 6 meses (~16,5k/mês).</strong></div>
+
+  <h3>④ Duas frentes, dois perfis opostos</h3>
+  <table>
+    <thead><tr><th>Frente</th><th>Perfil</th><th class="num">Conversão</th><th class="num">Receita/lead</th><th class="num">Ticket</th></tr></thead>
+    <tbody>
+      <tr><td>Vitalício <span class="tag v">base</span></td><td>Membro maduro 9m+ (upsell)</td><td class="num">38% (lead base) / ~1,2% da base</td><td class="num">R$240</td><td class="num">R$2.300</td></tr>
+      <tr><td>Bundle <span class="tag b">aquisição</span></td><td>91% Não Membro (entrada)</td><td class="num">1,4% frio / 8,8% base</td><td class="num">R$14 (frio)</td><td class="num">R$155–195</td></tr>
+    </tbody>
+  </table>
+  <p class="note">Segmentação obrigatória: <strong>9m+ → Vitalício</strong>; <strong>&lt;9m + ex-membro + frio → bundle</strong>. Evita canibalização e usa cada segmento no produto certo.</p>
+</section>
+
+<!-- ===================== TAMANHO DA BASE ===================== -->
+<section>
+  <h2>Tamanho da base e mercado endereçável</h2>
+  <table>
+    <thead><tr><th>Camada</th><th class="num">Tamanho</th><th>O que é</th></tr></thead>
+    <tbody>
+      <tr><td>Base ativa total</td><td class="num">623,6k</td><td>todos os membros ativos (Jun/2026)</td></tr>
+      <tr><td>Elegível p/ Vitalício (sem vitalício)</td><td class="num">558,3k</td><td>universo bruto</td></tr>
+      <tr><td>Universo trabalhável (9m+)</td><td class="num">383,4k</td><td>exclui &lt;9m (convertem &lt;0,3%)</td></tr>
+      <tr class="hl"><td><strong>Núcleo alta propensão (12m+)</strong></td><td class="num"><strong>337,3k</strong></td><td>sweet spot — mas 99% já exposto</td></tr>
+      <tr><td>Convertível por campanha (pós-saturação)</td><td class="num">~8,8k compradores</td><td>realizado BPDay 2025 (R$20,3M)</td></tr>
+      <tr><td>Fluxo renovável (cruzam 12m / 6 meses)</td><td class="num">~99k</td><td>fonte de demanda nova do Vitalício</td></tr>
+    </tbody>
+  </table>
+  <p>Slice premium para puxar ticket: <strong>Premium GBB elegível ≈ 42k</strong> (ticket R$2.463, maior propensão) e <strong>Black recorrente ≈ 2k</strong> (alvo Black Vitalício, ticket R$4.822 — ângulo novo, lançado só em out/2024).</p>
+</section>
+
+<!-- ===================== META DE LEADS ===================== -->
+<section>
+  <h2>Meta de leads de aquecimento</h2>
+  <div class="callout"><strong>A meta de leads é de QUALIDADE e COBERTURA, não de volume bruto.</strong> Divide-se em alcance de CRM sobre a base (motor da receita, sem mídia) + cota de aquisição fria para o bundle (pipeline novo, CPL R$3).</div>
+
+  <table>
+    <thead><tr><th>Componente</th><th>Mecanismo</th><th class="num">Meta</th><th class="num">Mídia</th><th>Função</th></tr></thead>
+    <tbody>
+      <tr><td>Cobertura CRM — base Vitalício 9m+ <span class="tag v">base</span></td><td>e-mail+push+WhatsApp segmentado por faixa (12-18m, 24m+, Premium, Black)</td><td class="num">alcance 250–350k</td><td class="num">R$0</td><td>motor do Vitalício</td></tr>
+      <tr><td>Bundle para base jovem/ex-membro <span class="tag b">base</span></td><td>oferta do bundle via CRM p/ &lt;9m + ex-membros</td><td class="num">~15–20k leads</td><td class="num">R$0</td><td>bundle eficiente (8,8%)</td></tr>
+      <tr class="hl"><td><strong>Aquisição fria — bundle <span class="tag b">frio</span></strong></td><td>Meta/Google lead-gen, CPL R$3</td><td class="num"><strong>~50k leads novos</strong></td><td class="num"><strong>~R$150k</strong></td><td>sangue novo / pipeline futuro</td></tr>
+      <tr class="bold"><td>TOTAL pool de aquecimento</td><td>—</td><td class="num">~70–90k + CRM amplo</td><td class="num">R$150–300k</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <p class="note">Referência: BPDay 2025 captou ~69k leads no aquecimento. A proposta fica em linha — não maior, porque volume extra não traciona receita (achado ②). Como o bundle mantém o ticket atual, o frio é decisão de pipeline/LTV (não receita da campanha): escalar para 100–150k leads só se houver apetite de crescer base de assinantes futura, não para "bater a meta".</p>
+</section>
+
+<!-- ===================== INVESTIMENTO ===================== -->
+<section>
+  <h2>Estratégia de investimento</h2>
+  <div class="callout success"><strong>Mídia não é o gargalo de CM.</strong> A R$3 de CPL, a aquisição é barata. A 55% CM sobre R$15M, o orçamento de custo variável é ~R$6,75M — a mídia proposta (R$150–300k) é ~2–4% disso. Com o parcelamento 18x fora da equação de risco, a CM ≥55% fica travada: o único vetor a controlar é <strong>não estourar o teto de gasto frio</strong>.</div>
+
+  <h3>Ordem de prioridade do investimento</h3>
+  <div class="step"><b>1º — Capacidade de CRM (maior ROI, custo ~zero).</b> Garantir alcance/entregabilidade sobre a base 9m+. É de onde vêm 54%+ da receita. Investir em segmentação fina e cadência, não em mídia.</div>
+  <div class="step"><b>2º — Comercial sobre base de alto ticket.</b> Black recorrente + Premium GBB + ex-Mecenas → Black/Premium Vitalício. Puxa o ticket médio.</div>
+  <div class="step"><b>3º — Bundle para base jovem/ex-membros via CRM.</b> Converte 8,8% (6× o frio), custo ~zero.</div>
+  <div class="step"><b>4º — Indicação/MGM.</b> Amplia base sem CPL.</div>
+  <div class="step"><b>5º — Aquisição fria do bundle, CPL R$3, com TETO.</b> Último. ~R$150k para ~50k leads. Avaliada por CAC×LTV (≈ empata na 1ª compra, lucra na renovação), não por receita in-campaign.</div>
+
+  <h3>Orçamento de mídia por cenário de CPL (frente bundle / frio)</h3>
+  <table>
+    <thead><tr><th>Volume de leads frios</th><th class="num">CPL R$3</th><th class="num">CPL R$5</th><th>Leitura</th></tr></thead>
+    <tbody>
+      <tr><td>50.000</td><td class="num">R$150k</td><td class="num">R$250k</td><td>recomendado</td></tr>
+      <tr><td>100.000</td><td class="num">R$300k</td><td class="num">R$500k</td><td>pipeline/LTV — não receita in-campaign</td></tr>
+      <tr><td>150.000</td><td class="num">R$450k</td><td class="num">R$750k</td><td>teto operacional</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== FORECAST ===================== -->
+<section>
+  <h2>Expectativa de vendas pós-lançamento</h2>
+  <p class="note">Ancorado no realizado do BPDay 2025 (mesma estação e formato): Vitalício R$20,3M · Assinaturas novas R$4,9M · Renovações R$2,8M · Mecenas R$1,1M = <strong>R$29,2M</strong>. Forecast ajusta para continuidade da saturação do Vitalício, compensada por base maior e upside do rebranding.</p>
+
+  <div class="scenario-grid">
+    <div class="scenario pess">
+      <h3>Pessimista</h3><div class="total">R$17,5M</div><p class="note">+17% vs meta</p>
+      <div style="margin-top:12px">
+        <div class="sl"><span>Vitalício</span><span class="v">R$11M</span></div>
+        <div class="sl"><span>Assinaturas/bundle</span><span class="v">R$2,5M</span></div>
+        <div class="sl"><span>Renovações</span><span class="v">R$3M</span></div>
+        <div class="sl"><span>Mecenas/outros</span><span class="v">R$1M</span></div>
+      </div>
+      <p class="note" style="margin-top:10px">Saturação pior, CRM subperforma, rebranding confunde. CM ~57%.</p>
+    </div>
+    <div class="scenario real">
+      <h3>Realista</h3><div class="total">R$26M</div><p class="note">+73% vs meta</p>
+      <div style="margin-top:12px">
+        <div class="sl"><span>Vitalício</span><span class="v">R$16M</span></div>
+        <div class="sl"><span>Assinaturas/bundle</span><span class="v">R$5M</span></div>
+        <div class="sl"><span>Renovações</span><span class="v">R$3,5M</span></div>
+        <div class="sl"><span>Mecenas/outros</span><span class="v">R$1,5M</span></div>
+      </div>
+      <p class="note" style="margin-top:10px">CRM forte (mix base ≥40%), segmentação limpa. CM ~56%.</p>
+    </div>
+    <div class="scenario otim">
+      <h3>Otimista</h3><div class="total">R$33,5M</div><p class="note">+123% vs meta</p>
+      <div style="margin-top:12px">
+        <div class="sl"><span>Vitalício</span><span class="v">R$19M</span></div>
+        <div class="sl"><span>Assinaturas/bundle</span><span class="v">R$7,5M</span></div>
+        <div class="sl"><span>Renovações</span><span class="v">R$4,5M</span></div>
+        <div class="sl"><span>Mecenas/outros</span><span class="v">R$2,5M</span></div>
+      </div>
+      <p class="note" style="margin-top:10px">Black Vitalício destrava resistentes, rebranding dá fôlego de volume na assinatura, ex-membros reativados. CM ~55%.</p>
+    </div>
+  </div>
+  <div class="callout"><strong>Em todos os cenários a meta de R$15M fecha com folga e a CM fica ≥55%.</strong> A meta é conservadora; o risco real não é não bater — é deixar CM na mesa por gasto frio mal calibrado ou subir custo de parcelamento.</div>
+</section>
+
+<!-- ===================== KPIs ===================== -->
+<section>
+  <h2>Governança — KPIs da campanha</h2>
+  <table>
+    <thead><tr><th>KPI</th><th class="num">Alvo</th><th>Por quê</th></tr></thead>
+    <tbody>
+      <tr><td>Mix de base no funil</td><td class="num">≥35%</td><td>Linha que separou sucesso (BIT 30%) de fracasso (DBI 16,5%)</td></tr>
+      <tr><td>CPL frio</td><td class="num">~R$3 (≤R$5)</td><td>Padrão de assinatura; acima disso o frio não se paga</td></tr>
+      <tr><td>Gasto frio / receita</td><td class="num">≤3–5%</td><td>Blinda os 55% de CM</td></tr>
+      <tr><td>CM blended</td><td class="num">≥55%</td><td>Restrição-mãe</td></tr>
+      <tr><td>Alcance CRM da base 9m+</td><td class="num">medir</td><td>Define se o Vitalício atinge o potencial</td></tr>
+      <tr><td>Conversão por faixa (1ª semana)</td><td class="num">vs Jun-Jul/25</td><td>Detecta saturação cedo e recalibra</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== RISCOS ===================== -->
+<section>
+  <h2>Premissas a validar e riscos</h2>
+  <div class="callout success"><strong>Premissas de produto resolvidas.</strong> O bundle é apenas um <strong>rebranding dos planos atuais</strong> — testes finais de precificação em curso, mas <strong>o ticket médio será mantido no patamar de hoje</strong> (~R$155–195). Não há uplift de ticket: a frente bundle ≈ venda de assinatura atual (R$4,9M no BPDay 2025). O <strong>parcelamento 18x do Vitalício não é vetor de risco de CM</strong> — confirmado. Com isso, a CM ≥55% fica praticamente travada; o único vetor a controlar é não estourar o gasto frio.</div>
+  <table>
+    <thead><tr><th>#</th><th>Risco</th><th>Mitigação</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Saturação do Vitalício (99% da base já viu; teto ~R$15–20M)</td><td>Ângulo novo (Black Vitalício); priorizar fluxo (12m+ recentes) sobre 3×-expostos; não projetar acima de 2025</td></tr>
+      <tr><td>2</td><td>Repetir o "DBI": gastar frio sem ativar base</td><td>Mix base ≥35% como gate; se cair na 1ª semana, pausar escala de frio</td></tr>
+      <tr><td>3</td><td>Capacidade de CRM insuficiente</td><td>Medir alcance/entregabilidade da base 9m+ antes do lançamento</td></tr>
+      <tr><td>4</td><td>Rebranding canibaliza/confunde o Vitalício</td><td>Segmentação dura: 9m+ → Vitalício; &lt;9m/ex/frio → bundle</td></tr>
+      <tr><td>5</td><td>Decisão de budget pelo CPL (demanda orgânica infla CPL no aniversário)</td><td>Decidir por % que vira base (proxy de qualidade), não por CPL absoluto</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===================== PLANO DE AÇÃO ===================== -->
+<section>
+  <h2>Plano de ação — recomendação</h2>
+  <ul class="b">
+    <li><strong>Meta de leads:</strong> ~50k leads novos (frio) para o bundle a CPL R$3 (~R$150k) + cobertura ampla de CRM sobre a base 9m+ (sem mídia). Pool total de aquecimento ~70–90k.</li>
+    <li><strong>Investimento de mídia:</strong> R$150–300k (1–2% da receita). Escalar o frio é decisão de pipeline/LTV (crescer base de assinantes futura), não de receita da campanha.</li>
+    <li><strong>Foco do esforço (não-mídia):</strong> CRM + Comercial sobre a base madura — é o que entrega os R$15M+.</li>
+    <li><strong>Forecast:</strong> R$26M realista (R$17,5M pessimista), todos ≥55% CM. Meta de R$15M é piso seguro.</li>
+    <li><strong>Premissas de produto resolvidas:</strong> bundle mantém o ticket atual (~R$155–195, sem uplift) e parcelamento 18x não é risco de CM. A CM ≥55% fica travada desde que o gasto frio respeite o teto.</li>
+  </ul>
+</section>
+
+<div class="footer">
+  <p>Proposta — 16/jun/2026. Fontes: BigQuery (bp-datawarehouse): fct_transactions, dtm_analytics_lead_conversion, dim_subscriptions. Análises de apoio: ANALISE_GROWTH.md, ANALISE_DADOS_FRENTES.md, METAS_LEADS_FRENTES.md. Premissas de ticket/conversão do bundle são provisórias até validação de Produto.</p>
+  <p style="margin-top:6px">André Abe · andreyuitiabe@gmail.com</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forecast de Campanha — Calculador Parametrizável | Brasil Paralelo</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #22263a; --border: #2e3250;
+    --accent: #4f8ef7; --accent2: #7c5cbf; --green: #2eb87e; --yellow: #e8b84b;
+    --red: #e05c5c; --text: #d4d8f0; --muted: #7a82a8; --heading: #eef0ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 14px; line-height: 1.6; padding: 0 0 80px; }
+  header { background: linear-gradient(135deg, #131629, #1e2240); border-bottom: 1px solid var(--border); padding: 36px 60px 28px; }
+  header h1 { font-size: 24px; color: var(--heading); font-weight: 700; letter-spacing: -0.5px; }
+  header p { color: var(--muted); margin-top: 6px; font-size: 13px; }
+  .badge { display: inline-block; background: var(--accent2); color: #fff; font-size: 11px; padding: 2px 10px; border-radius: 20px; margin-right: 6px; font-weight: 600; }
+  .badge.green { background: var(--green); }
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+  section { margin-top: 36px; }
+  h2 { font-size: 17px; color: var(--heading); font-weight: 700; border-left: 3px solid var(--accent); padding-left: 12px; margin-bottom: 18px; }
+  .layout { display: grid; grid-template-columns: 360px 1fr; gap: 28px; align-items: start; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+  .panel.inputs { position: sticky; top: 20px; }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; font-weight: 600; }
+  .field select, .field input { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 9px 11px; font-size: 13px; font-family: inherit; }
+  .field select:focus, .field input:focus { outline: none; border-color: var(--accent); }
+  .field .hint { font-size: 11px; color: var(--muted); margin-top: 4px; font-style: italic; }
+  .checkgroup { display: flex; flex-wrap: wrap; gap: 8px; }
+  .checkgroup label { display: flex; align-items: center; gap: 6px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 7px 11px; font-size: 12px; text-transform: none; letter-spacing: 0; cursor: pointer; margin: 0; color: var(--text); }
+  .checkgroup input { width: auto; }
+  .checkgroup label.on { border-color: var(--accent); background: #1e2a47; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; margin-bottom: 22px; }
+  .kpi { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .kpi .label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .kpi .value { font-size: 22px; font-weight: 700; color: var(--heading); }
+  .kpi .sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .kpi.accent { border-color: var(--accent); } .kpi.green { border-color: var(--green); } .kpi.yellow { border-color: var(--yellow); } .kpi.red { border-color: var(--red); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--surface2); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 20px; }
+  th, td { padding: 9px 13px; text-align: right; border-bottom: 1px solid var(--border); }
+  th:first-child, td:first-child { text-align: left; }
+  th { background: #1b1f31; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  tr.total td { font-weight: 700; color: var(--heading); background: #1b1f31; }
+  .scenario-head { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .col-pess { color: var(--yellow); } .col-real { color: var(--accent); } .col-otim { color: var(--green); }
+  .note { font-size: 12px; color: var(--muted); background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent2); border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 14px; }
+  .gap-pos { color: var(--green); } .gap-neg { color: var(--red); }
+  details { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin-top: 16px; }
+  summary { cursor: pointer; color: var(--heading); font-weight: 600; font-size: 13px; }
+  details p, details li { font-size: 12.5px; color: var(--text); margin: 8px 0; }
+  details ul { padding-left: 20px; }
+  code { background: var(--surface2); padding: 1px 5px; border-radius: 4px; font-size: 12px; color: var(--accent); }
+  .big-result { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+  .big-card { flex: 1; min-width: 200px; background: linear-gradient(135deg, #1a1d2e, #232842); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+  .big-card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .big-card .value { font-size: 28px; font-weight: 800; color: var(--heading); margin-top: 4px; }
+  .big-card.real { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Forecast de Campanha — Calculador Parametrizável</h1>
+  <p><span class="badge">Brasil Paralelo</span><span class="badge green">Coeficientes validados no BigQuery — 15/jun/2026</span> Estime investimento em tráfego e potencial de vendas a partir do tipo de campanha e da meta.</p>
+</header>
+
+<div class="container">
+  <div class="layout">
+
+    <!-- ===================== INPUTS ===================== -->
+    <div class="panel inputs">
+      <h2 style="margin-top:0;">Parâmetros</h2>
+
+      <div class="field">
+        <label>Tipo de campanha</label>
+        <select id="tipo">
+          <option value="bf">Oferta / Black Friday</option>
+          <option value="bpday" selected>Aniversário / BPDay</option>
+          <option value="doc">Lançamento documentário</option>
+          <option value="tatica">Tática / avulsa</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Nível de produção</label>
+        <select id="producao">
+          <option value="alto">Alto (documentário inédito)</option>
+          <option value="medio" selected>Médio</option>
+          <option value="baixo">Baixo (só oferta sobre catálogo)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Mês / sazonalidade</label>
+        <select id="mes">
+          <option value="1">Janeiro</option><option value="2">Fevereiro</option>
+          <option value="3">Março</option><option value="4">Abril</option>
+          <option value="5">Maio</option><option value="6" selected>Junho</option>
+          <option value="7">Julho</option><option value="8">Agosto</option>
+          <option value="9">Setembro</option><option value="10">Outubro</option>
+          <option value="11">Novembro</option><option value="12">Dezembro</option>
+        </select>
+        <div class="hint" id="hint-mes"></div>
+      </div>
+
+      <div class="field">
+        <label>Produto(s) foco</label>
+        <div class="checkgroup" id="produtos">
+          <label class="on"><input type="checkbox" value="vitalicio" checked> Vitalício (upsell)</label>
+          <label><input type="checkbox" value="aquisicao"> Assinaturas (aquisição)</label>
+          <label><input type="checkbox" value="cert"> Certificações</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Meta de receita (R$)</label>
+        <input type="number" id="meta" value="15000000" step="500000">
+      </div>
+
+      <div class="field">
+        <label>CPL médio esperado (R$)</label>
+        <input type="number" id="cpl" value="60" step="5">
+        <div class="hint">Premissa de mídia. Default R$60 (lead de aquecimento pago, BPDay). Editar com o número do time.</div>
+      </div>
+
+      <div class="field">
+        <label>Duração da janela de venda (dias)</label>
+        <input type="number" id="duracao" value="40" step="1">
+        <div class="hint">BPDay 2025 = 40d. Janela longa = mais conversão da base.</div>
+      </div>
+
+      <div class="field">
+        <label>Leads de aquecimento (opcional — fixar volume)</label>
+        <input type="number" id="leads_fix" placeholder="deixe vazio = calcular pela meta">
+        <div class="hint">Se preenchido, o modelo usa este volume e ignora a derivação pela meta de aquisição.</div>
+      </div>
+    </div>
+
+    <!-- ===================== OUTPUTS ===================== -->
+    <div>
+      <section style="margin-top:0;">
+        <h2>Forecast de receita</h2>
+        <div class="big-result">
+          <div class="big-card"><div class="label">Pessimista</div><div class="value col-pess" id="r-pess">—</div></div>
+          <div class="big-card real"><div class="label">Realista</div><div class="value col-real" id="r-real">—</div></div>
+          <div class="big-card"><div class="label">Otimista</div><div class="value col-otim" id="r-otim">—</div></div>
+        </div>
+        <div class="note" id="gap-note"></div>
+      </section>
+
+      <section>
+        <h2>Decomposição da receita (cenário realista)</h2>
+        <table id="tbl-decomp">
+          <thead><tr><th>Motor</th><th>Pessimista</th><th>Realista</th><th>Otimista</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Motor 1 — Upsell da base (Vitalício) por faixa de maturidade</h2>
+        <table id="tbl-upsell">
+          <thead><tr><th>Faixa</th><th>Base elegível</th><th>Conv. ajustada</th><th>Compradores</th><th>Receita (realista)</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="note" id="depl-note"></div>
+      </section>
+
+      <section>
+        <h2>Plano de aquecimento e investimento em tráfego</h2>
+        <div class="kpi-grid">
+          <div class="kpi accent"><div class="label">Leads de aquecimento (total)</div><div class="value" id="k-leads">—</div><div class="sub" id="k-leads-sub"></div></div>
+          <div class="kpi"><div class="label">Leads CRM (grátis ~12%)</div><div class="value" id="k-crm">—</div></div>
+          <div class="kpi yellow"><div class="label">Leads pagos (~70%)</div><div class="value" id="k-pago">—</div></div>
+          <div class="kpi red"><div class="label">Investimento em tráfego</div><div class="value" id="k-invest">—</div><div class="sub" id="k-invest-sub"></div></div>
+          <div class="kpi green"><div class="label">ROAS projetado (realista)</div><div class="value" id="k-roas">—</div><div class="sub">receita ÷ tráfego</div></div>
+          <div class="kpi"><div class="label">Receita / lead (blended)</div><div class="value" id="k-rpl">—</div></div>
+        </div>
+        <div class="note" id="canal-note"></div>
+      </section>
+
+      <details>
+        <summary>Lógica do modelo e origem dos coeficientes</summary>
+        <p><strong>Dois motores independentes.</strong> Vitalício é produto de <em>upsell/fidelização</em> (comprado por membro maduro); assinaturas/certificações são <em>aquisição</em>. O modelo soma os dois conforme os produtos foco selecionados.</p>
+        <p><strong>Motor 1 — Upsell Vitalício:</strong> Σ(base elegível por faixa × conversão da faixa × mult. sazonal × fator de depleção) × ticket médio ponderado <code>R$2.300</code>. Conversão base = BPDay 2025 validada (0-3m 0,27% → 24m+ 1,50%). Multiplicador sazonal: novembro converte ~3-6× melhor que junho (oferta + proximidade da renovação anual) — junho/julho = 1,0×, novembro = 3,2×, demais meses interpolados.</p>
+        <p><strong>Fator de depleção (validado):</strong> uma mesma cohort exposta à oferta campanha após campanha extrai <code>~0,60</code> do volume anterior (BF2024/BF2023 = 0,59-0,61 nas cohorts 2020-2022). As faixas maduras (12m+) já passaram por várias campanhas → recebem fator de depleção mais forte. As faixas jovens (0-9m, pool fresco) não.</p>
+        <p><strong>Motor 2 — Aquisição:</strong> leads novos × taxa lead→comprador × ticket do produto. Taxa de aquisição ancorada em campanhas de documentário (R$/lead R$4-71, ELS R$252 ticket). Sensível a tipo/produção: documentário inédito puxa <em>volume</em> de leads com baixa eficiência; oferta sobre catálogo tem alta eficiência e pouco topo de funil.</p>
+        <p><strong>Mix de canal (validado):</strong> dos leads de aquecimento, ~70% pago, ~12% CRM owned (custo zero), ~12% orgânico, ~6% sem atribuição. Investimento = leads pagos × CPL. CPL é <strong>parâmetro de entrada</strong> (a tabela Meta no BQ está quebrada — premissa de mídia, default R$60).</p>
+        <p><strong>Cenários:</strong> pessimista −30% / otimista +35% sobre o realista, refletindo a variância histórica entre campanhas (BF2025 colapsou, BPDay2025 superou).</p>
+        <p style="color:var(--yellow);"><strong>Premissas frágeis:</strong> (1) rebranding de assinaturas não tem histórico — taxa de aquisição é estimativa a validar; (2) CPL é input do time, não medido; (3) multiplicador sazonal de novembro é extrapolado de 2 campanhas BF.</p>
+      </details>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ COEFICIENTES VALIDADOS NO BIGQUERY (15/jun/2026) ============
+const FAIXAS = [
+  { nome:'0-3m',  base:72658,  conv:0.0027, madura:false },
+  { nome:'3-6m',  base:48818,  conv:0.0024, madura:false },
+  { nome:'6-9m',  base:52880,  conv:0.0059, madura:false },
+  { nome:'9-12m', base:46188,  conv:0.0067, madura:false },
+  { nome:'12-18m',base:96645,  conv:0.0106, madura:true  },
+  { nome:'18-24m',base:59681,  conv:0.0095, madura:true  },
+  { nome:'24m+',  base:181221, conv:0.0150, madura:true  },
+];
+const TICKET_VIT = 2300;          // ponderado por mix de tiers BPDay2025
+// IMPORTANTE: a conversão de referência (FAIXAS.conv) já é a BPDay2025 — ou seja, JÁ
+// embute a depleção acumulada até jun/2025. Para projetar jun/2026 aplica-se UM ciclo
+// adicional de depleção sobre as faixas maduras. O fator bruto medido por ciclo é 0,60
+// (BF24/BF23); aqui usa-se a forma incremental abrandada (0,80) porque parte de uma base
+// já depletada e a oferta foi reforçada com Black. Editável conforme agressividade.
+const DEPLECAO_MADURA = 0.80;     // 1 ciclo incremental sobre faixas 12m+ (cohort trabalhada)
+const DEPLECAO_JOVEM = 1.0;       // pool fresco, sem penalidade
+
+// mix de canal dos leads de aquecimento (BPDay2025 validado)
+const MIX = { pago:0.702, crm:0.119, organico:0.123, semAtrib:0.056 };
+
+// multiplicador sazonal de eficiência do upsell (junho=1.0, novembro=3.2)
+const SAZON = {1:1.4,2:1.3,3:1.2,4:1.1,5:1.0,6:1.0,7:1.05,8:1.2,9:1.5,10:2.0,11:3.2,12:2.4};
+
+// multiplicador por tipo de campanha sobre o motor de upsell
+const TIPO_UPSELL = { bf:1.25, bpday:1.0, doc:0.45, tatica:0.6 };
+// volume relativo de leads de aquisição por tipo (doc puxa volume, bf foca conversão)
+const TIPO_LEADVOL = { bf:0.7, bpday:1.0, doc:1.8, tatica:0.8 };
+// eficiência de conversão lead->comprador por tipo (bf converte melhor que doc)
+const TIPO_AQCONV = { bf:0.085, bpday:0.045, doc:0.025, tatica:0.05 };
+
+// produção: alto puxa volume de leads e topo de funil, baixo o contrário
+const PROD_LEADVOL = { alto:1.4, medio:1.0, baixo:0.6 };
+const PROD_AQCONV  = { alto:0.85, medio:1.0, baixo:1.15 }; // baixo = audiência mais quente
+
+// ticket médio do produto de aquisição (assinatura/cert) — premissa
+const TICKET_AQ = 280;            // ~ELS Meta Ads R$252, arredondado
+
+const fmtBRL = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+const fmtMi  = v => 'R$ ' + (v/1e6).toFixed(2) + 'M';
+const fmtInt = v => Math.round(v).toLocaleString('pt-BR');
+
+function selectedProdutos(){
+  return [...document.querySelectorAll('#produtos input:checked')].map(c=>c.value);
+}
+
+function calc(){
+  const tipo = document.getElementById('tipo').value;
+  const prod = document.getElementById('producao').value;
+  const mes  = +document.getElementById('mes').value;
+  const meta = +document.getElementById('meta').value;
+  const cpl  = +document.getElementById('cpl').value;
+  const dur  = +document.getElementById('duracao').value;
+  const leadsFix = document.getElementById('leads_fix').value;
+  const produtos = selectedProdutos();
+
+  const saz = SAZON[mes] || 1.0;
+  document.getElementById('hint-mes').textContent =
+    'Multiplicador de eficiência do upsell: ' + saz.toFixed(2) + '× (junho/julho = base 1,0)';
+
+  // fator de janela: janela curta reduz conversão da base; satura ~40d
+  const fatorJanela = Math.min(1, 0.4 + 0.6 * (dur/40));
+
+  // ---------- MOTOR 1: UPSELL VITALÍCIO ----------
+  let upsellRows = [], upsellReceita = 0;
+  const ativaVit = produtos.includes('vitalicio');
+  for (const f of FAIXAS){
+    const depl = f.madura ? DEPLECAO_MADURA : DEPLECAO_JOVEM;
+    const convAdj = f.conv * saz * depl * TIPO_UPSELL[tipo] * fatorJanela;
+    const compradores = ativaVit ? f.base * convAdj : 0;
+    const receita = compradores * TICKET_VIT;
+    upsellReceita += receita;
+    upsellRows.push({ nome:f.nome, base:f.base, conv:convAdj, compradores, receita });
+  }
+
+  // ---------- MOTOR 2: AQUISIÇÃO ----------
+  const ativaAq = produtos.includes('aquisicao') || produtos.includes('cert');
+  // leads de aquecimento: fixo (input) ou derivado para complementar a meta
+  let leads;
+  const aqConv = TIPO_AQCONV[tipo] * PROD_AQCONV[prod];
+  if (leadsFix !== '' && !isNaN(+leadsFix)){
+    leads = +leadsFix;
+  } else {
+    // base de referência BPDay2025 ~70k leads, escalada por tipo/produção
+    leads = 70000 * TIPO_LEADVOL[tipo] * PROD_LEADVOL[prod];
+  }
+  const compradoresAq = ativaAq ? leads * aqConv : 0;
+  const aquisicaoReceita = compradoresAq * TICKET_AQ;
+
+  // ---------- CENÁRIOS ----------
+  const realista = upsellReceita + aquisicaoReceita;
+  const pess = realista * 0.70;
+  const otim = realista * 1.35;
+
+  document.getElementById('r-pess').textContent = fmtMi(pess);
+  document.getElementById('r-real').textContent = fmtMi(realista);
+  document.getElementById('r-otim').textContent = fmtMi(otim);
+
+  // gap vs meta
+  const gap = realista - meta;
+  const gn = document.getElementById('gap-note');
+  if (gap >= 0)
+    gn.innerHTML = `Cenário realista <strong class="gap-pos">supera a meta em ${fmtMi(gap)}</strong> (meta ${fmtMi(meta)}). Margem confortável — a meta está coberta já no realista.`;
+  else
+    gn.innerHTML = `Cenário realista fica <strong class="gap-neg">${fmtMi(-gap)} abaixo da meta</strong> (meta ${fmtMi(meta)}). Para fechar o gap: aumentar volume de leads, escalar tier Black ou estender janela de venda.`;
+
+  // ---------- DECOMPOSIÇÃO ----------
+  const decomp = [
+    ['Upsell base (Vitalício)', upsellReceita*0.70, upsellReceita, upsellReceita*1.35],
+    ['Aquisição (assinaturas/cert)', aquisicaoReceita*0.70, aquisicaoReceita, aquisicaoReceita*1.35],
+  ];
+  const tb = document.querySelector('#tbl-decomp tbody'); tb.innerHTML='';
+  for (const [n,p,r,o] of decomp){
+    tb.innerHTML += `<tr><td>${n}</td><td class="col-pess">${fmtMi(p)}</td><td class="col-real">${fmtMi(r)}</td><td class="col-otim">${fmtMi(o)}</td></tr>`;
+  }
+  tb.innerHTML += `<tr class="total"><td>Total</td><td>${fmtMi(pess)}</td><td>${fmtMi(realista)}</td><td>${fmtMi(otim)}</td></tr>`;
+
+  // ---------- TABELA UPSELL ----------
+  const tu = document.querySelector('#tbl-upsell tbody'); tu.innerHTML='';
+  let totalComp=0;
+  for (const r of upsellRows){
+    totalComp += r.compradores;
+    tu.innerHTML += `<tr><td>${r.nome}</td><td>${fmtInt(r.base)}</td><td>${(r.conv*100).toFixed(2)}%</td><td>${fmtInt(r.compradores)}</td><td>${fmtMi(r.receita)}</td></tr>`;
+  }
+  tu.innerHTML += `<tr class="total"><td>Total</td><td>${fmtInt(FAIXAS.reduce((s,f)=>s+f.base,0))}</td><td>—</td><td>${fmtInt(totalComp)}</td><td>${fmtMi(upsellReceita)}</td></tr>`;
+
+  document.getElementById('depl-note').innerHTML =
+    `<strong>Depleção aplicada:</strong> faixas maduras (12m+) recebem fator ${DEPLECAO_MADURA} — já foram trabalhadas em campanhas anteriores (penetração de Vitalício de 18-30% nas cohorts 2020-2023). Faixas jovens (0-9m) são pool fresco (fator ${DEPLECAO_JOVEM}). Multiplicador sazonal ${saz.toFixed(2)}× e fator de janela ${fatorJanela.toFixed(2)} também aplicados.`;
+
+  // ---------- AQUECIMENTO E TRÁFEGO ----------
+  const leadsCRM = leads * MIX.crm;
+  const leadsPago = leads * MIX.pago;
+  const invest = leadsPago * cpl;
+  const roas = invest > 0 ? realista / invest : 0;
+  const rpl = leads > 0 ? realista / leads : 0;
+
+  document.getElementById('k-leads').textContent = fmtInt(leads);
+  document.getElementById('k-leads-sub').textContent = ativaAq ? `conv. aquisição ${(aqConv*100).toFixed(1)}%` : 'aquec. p/ engajar base';
+  document.getElementById('k-crm').textContent = fmtInt(leadsCRM);
+  document.getElementById('k-pago').textContent = fmtInt(leadsPago);
+  document.getElementById('k-invest').textContent = fmtMi(invest);
+  document.getElementById('k-invest-sub').textContent = `${fmtInt(leadsPago)} leads × ${fmtBRL(cpl)}`;
+  document.getElementById('k-roas').textContent = roas.toFixed(1) + '×';
+  document.getElementById('k-rpl').textContent = fmtBRL(rpl);
+
+  document.getElementById('canal-note').innerHTML =
+    `<strong>Mix validado (BPDay2025):</strong> ~70% pago · ~12% CRM owned (grátis) · ~12% orgânico · ~6% sem atribuição. Só os leads pagos custam CPL. O ROAS aqui é sobre <em>toda</em> a receita (base + aquisição) ÷ investimento em tráfego — não confundir com ROAS direto de pixel.`;
+}
+
+// liga eventos
+document.querySelectorAll('select, input').forEach(el => el.addEventListener('input', calc));
+document.querySelectorAll('#produtos label').forEach(l => {
+  l.querySelector('input').addEventListener('change', () => {
+    l.classList.toggle('on', l.querySelector('input').checked);
+  });
+});
+calc();
+</script>
+</body>
+</html>
