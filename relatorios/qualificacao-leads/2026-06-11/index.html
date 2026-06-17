@@ -783,6 +783,190 @@
     </div>
   </div>
 
+  <!-- ── SEÇÃO 8b: VOLUME DE FATURAMENTO ─────────────────────────────────── -->
+  <div class="section">
+    <h2>Volume de faturamento por produto</h2>
+    <div class="section-sub">Transações de leads EVG durante a janela da campanha — total R$ 219.206</div>
+
+    <div class="charts-row">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th class="num">Transações</th>
+              <th class="num">Receita</th>
+              <th class="num">% receita</th>
+              <th class="num">Ticket médio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">Clube do Livro</td>
+              <td class="num">78</td>
+              <td class="num bold">R$ 87.648</td>
+              <td class="num"><span class="badge badge-green">40,0%</span></td>
+              <td class="num bold">R$ 1.124</td>
+            </tr>
+            <tr>
+              <td>Combos Religiosos</td>
+              <td class="num">331</td>
+              <td class="num">R$ 51.164</td>
+              <td class="num">23,3%</td>
+              <td class="num">R$ 155</td>
+            </tr>
+            <tr>
+              <td>Extensão de Assinatura</td>
+              <td class="num">139</td>
+              <td class="num">R$ 21.097</td>
+              <td class="num">9,6%</td>
+              <td class="num">R$ 152</td>
+            </tr>
+            <tr>
+              <td>Básico</td>
+              <td class="num">70</td>
+              <td class="num">R$ 15.408</td>
+              <td class="num">7,0%</td>
+              <td class="num">R$ 220</td>
+            </tr>
+            <tr>
+              <td>Apoiador</td>
+              <td class="num">95</td>
+              <td class="num">R$ 12.493</td>
+              <td class="num">5,7%</td>
+              <td class="num">R$ 132</td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">Mecenas</td>
+              <td class="num">3</td>
+              <td class="num">R$ 12.240</td>
+              <td class="num">5,6%</td>
+              <td class="num bold">R$ 4.080</td>
+            </tr>
+            <tr>
+              <td>Premium / GBB</td>
+              <td class="num">14</td>
+              <td class="num">R$ 7.538</td>
+              <td class="num">3,4%</td>
+              <td class="num">R$ 538</td>
+            </tr>
+            <tr>
+              <td>Intermediário</td>
+              <td class="num">21</td>
+              <td class="num">R$ 5.782</td>
+              <td class="num">2,6%</td>
+              <td class="num">R$ 275</td>
+            </tr>
+            <tr class="muted">
+              <td>Vitalício / Black</td>
+              <td class="num">2</td>
+              <td class="num">R$ 5.668</td>
+              <td class="num">2,6%</td>
+              <td class="num">R$ 2.834</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="chart-box">
+        <h3>Receita por produto</h3>
+        <div class="chart-container">
+          <canvas id="chartProdutos"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <strong>Clube do Livro gera 40% da receita com apenas 10% das transações</strong>
+      78 compradores, ticket médio R$1.124 — o Clube do Livro é o produto que mais monetiza os leads EVG, muito acima de qualquer plano de streaming. Isso é esperado para uma campanha com tema bíblico-cultural. Mecenas (3 vendas, R$12.240) confirma que EVG traz leads high-ticket: R$4.080 por transação.
+    </div>
+    <div class="warn-box" style="margin-top:12px;">
+      O Combo Religioso Econômico V2 (R$131 ticket) é o mais vendido em volume (331 transações) mas gera apenas 23% da receita. É o ponto de entrada do funil — leads que compram o Combo têm potencial de upgrade para Clube do Livro e Premium em campanhas futuras.
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO 8c: STREAMINGS E CONVERSÃO ──────────────────────────────────── -->
+  <div class="section">
+    <h2>Conversão por quantidade de streamings assinados</h2>
+    <div class="section-sub">A pergunta de streaming no formulário é multi-seleção — quantas plataformas o lead marca prediz propensão de compra</div>
+
+    <div class="two-col">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Qtd. de streamings</th>
+              <th class="num">Leads</th>
+              <th class="num">Conv%</th>
+              <th class="num">RPL</th>
+              <th class="num">Receita</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="muted">
+              <td>Não respondeu</td>
+              <td class="num muted">25.765</td>
+              <td class="num"><span class="badge badge-yellow">0,88%</span></td>
+              <td class="num">R$ 3,47</td>
+              <td class="num muted">R$ 89.414</td>
+            </tr>
+            <tr>
+              <td>1 streaming</td>
+              <td class="num">14.123</td>
+              <td class="num">1,22%</td>
+              <td class="num">R$ 3,55</td>
+              <td class="num">R$ 50.104</td>
+            </tr>
+            <tr>
+              <td>0 — nenhum streaming</td>
+              <td class="num">4.786</td>
+              <td class="num">1,80%</td>
+              <td class="num">R$ 4,03</td>
+              <td class="num">R$ 19.271</td>
+            </tr>
+            <tr style="background:#eff6ff;">
+              <td class="bold">2 streamings</td>
+              <td class="num">2.908</td>
+              <td class="num"><span class="badge badge-blue">1,99%</span></td>
+              <td class="num bold">R$ 6,77</td>
+              <td class="num">R$ 19.699</td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">3 streamings</td>
+              <td class="num">1.245</td>
+              <td class="num"><span class="badge badge-green">2,17%</span></td>
+              <td class="num bold">R$ 20,81</td>
+              <td class="num bold">R$ 25.910</td>
+            </tr>
+            <tr style="background:#f0fdf4;">
+              <td class="bold">4+ streamings</td>
+              <td class="num">1.176</td>
+              <td class="num"><span class="badge badge-green">2,55%</span></td>
+              <td class="num bold">R$ 12,59</td>
+              <td class="num">R$ 14.807</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="insight-box" style="margin-top:16px;">
+          <strong>Quem assina 3+ streamings converte 3× mais e tem RPL 6× maior que quem assina 1</strong>
+          Multi-assinantes de streaming são consumidores habituais de conteúdo digital — já sabem que conteúdo bom tem preço e têm propensão natural a pagar. Para esse grupo, o CPL máximo sobe de R$2 para R$6–8.
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:14px;font-weight:600;color:#333;margin-bottom:16px;">Conv% × RPL por quantidade de streamings</h3>
+        <div style="height:220px;position:relative;">
+          <canvas id="chartStreamingQtd"></canvas>
+        </div>
+        <div class="insight-box" style="margin-top:16px;">
+          <strong>"Nenhum streaming" converte melhor que "1 streaming" — por quê?</strong>
+          Leads sem nenhum streaming (1,80% conv) superam quem tem apenas 1 (1,22%). Uma hipótese: quem tem só Netflix/Globoplay é o consumidor médio de entretenimento; quem não assina nada pode ser um perfil mais seletivo que prefere conteúdo pago de nicho — como a BP. Seria útil cruzar com renda para confirmar.
+        </div>
+        <div class="warn-box" style="margin-top:12px;">
+          <strong>Acrescentar ao score de qualificação:</strong> leads com 3+ streamings têm RPL de R$20 — equivalente a Ex-Membros. Vale tratar esse grupo com a mesma prioridade de nurturing e CPL máximo similar (R$7–8).
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ── SEÇÃO 9: RECOMENDAÇÕES ────────────────────────────────────────────── -->
   <div class="section">
     <h2>Recomendações Estratégicas</h2>
@@ -1188,6 +1372,59 @@ new Chart(document.getElementById('chartJanela'), {
       {
         label: 'RPL (R$)',
         data: [5.24, 3.51, 3.98, 2.58],
+        type: 'line',
+        borderColor: '#f59e0b',
+        backgroundColor: '#f59e0b22',
+        pointBackgroundColor: '#f59e0b',
+        yAxisID: 'y2',
+        tension: 0.3,
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } },
+    scales: {
+      y:  { beginAtZero: true, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Conv%' } },
+      y2: { beginAtZero: true, position: 'right', ticks: { callback: v => 'R$' + v }, grid: { drawOnChartArea: false }, title: { display: true, text: 'RPL' } }
+    }
+  }
+});
+
+// Produtos (doughnut)
+new Chart(document.getElementById('chartProdutos'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Clube do Livro','Combos Religiosos','Extensão Assinatura','Básico','Apoiador','Mecenas','Premium/GBB','Intermediário','Vitalício/Black'],
+    datasets: [{
+      data: [87648, 51164, 21097, 15408, 12493, 12240, 7538, 5782, 5668],
+      backgroundColor: ['#16a34a','#3b82f6','#6366f1','#0ea5e9','#94a3b8','#1d4ed8','#f59e0b','#cbd5e1','#374151'],
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right', labels: { font: { size: 10 }, padding: 6 } },
+      tooltip: { callbacks: { label: ctx => ` R$ ${ctx.parsed.toLocaleString('pt-BR')}` } }
+    }
+  }
+});
+
+// Streaming quantidade — conv e RPL
+new Chart(document.getElementById('chartStreamingQtd'), {
+  type: 'bar',
+  data: {
+    labels: ['Não resp.','1','0','2','3','4+'],
+    datasets: [
+      {
+        label: 'Conv%',
+        data: [0.88, 1.22, 1.80, 1.99, 2.17, 2.55],
+        backgroundColor: ['#cbd5e1','#94a3b8','#6366f1','#3b82f6','#16a34a','#15803d'],
+        yAxisID: 'y',
+      },
+      {
+        label: 'RPL (R$)',
+        data: [3.47, 3.55, 4.03, 6.77, 20.81, 12.59],
         type: 'line',
         borderColor: '#f59e0b',
         backgroundColor: '#f59e0b22',
