@@ -186,6 +186,21 @@
     <p class="sub">Cada bolha é uma combinação de streamings. Eixo X = volume de cadastros · Eixo Y = taxa de compra · tamanho = nº de compradores. As bolhas verdes contêm "Brasil Paralelo".</p>
     <div class="chart-card"><div class="cbox h340"><canvas id="bubble"></canvas></div></div>
     <div class="box insight"><span class="bx-t">O padrão</span>O grosso do volume está em baixo (esquerda inferior): <b>"Nenhum" (3.705 leads, 0,84%)</b> e <b>"Netflix sozinho" (2.221, 1,35%)</b> dominam o cadastro mas convertem mal. As joias — combos com <b>Brasil Paralelo (1,8–4%)</b> — ficam em baixo volume, no alto do gráfico. Combos pesados de entretenimento sem BP (Globoplay+Netflix, HBO+Prime, 5 serviços) zeram conversão.</div>
+    <div class="box insight" style="margin-top:12px"><span class="bx-t">Novo achado — Globoplay é o sinal mais forte</span>Análise de combinações específicas (n≥30 por combo) revelou que <b>qualquer combinação que inclui Globoplay converte entre 4,9% e 6,7%</b> — acima de qualquer outro sinal do formulário, incluindo renda. Globoplay = interesse em conteúdo brasileiro. A tabela abaixo mostra os combos mais relevantes.</div>
+    <div style="overflow-x:auto;margin-top:12px">
+    <table>
+      <thead><tr><th>Combinação de streaming</th><th class="num">Leads</th><th class="num">Conv%</th><th class="num">RPL</th><th>Sinal</th></tr></thead>
+      <tbody>
+        <tr><td class="b">Disney+ · Globoplay · Netflix · Prime Video</td><td class="num">60</td><td class="num b" style="color:var(--green)">6,67%</td><td class="num">R$ 32</td><td><span class="tag t-g">Globoplay</span></td></tr>
+        <tr><td class="b">Brasil Paralelo · Globoplay · Netflix</td><td class="num">33</td><td class="num b" style="color:var(--green)">6,06%</td><td class="num">R$ 7,93</td><td><span class="tag t-g">Globoplay + BP</span></td></tr>
+        <tr><td class="b">Globoplay · Netflix · Prime Video</td><td class="num">121</td><td class="num b" style="color:var(--green)">4,96%</td><td class="num">R$ 11,33</td><td><span class="tag t-g">Globoplay</span></td></tr>
+        <tr><td>Brasil Paralelo · Disney+ · Netflix · Prime Video</td><td class="num">45</td><td class="num">4,44%</td><td class="num b" style="color:var(--green)">R$ 63,47</td><td><span class="tag t-b">BP multi-premium</span></td></tr>
+        <tr><td>Brasil Paralelo · Netflix</td><td class="num">302</td><td class="num">3,64%</td><td class="num">R$ 9,79</td><td><span class="tag t-b">BP</span></td></tr>
+        <tr><td>Netflix · Plataformas Educacionais</td><td class="num">201</td><td class="num">2,99%</td><td class="num">R$ 13,93</td><td><span class="tag t-n">edu</span></td></tr>
+        <tr><td>Netflix · Prime Video</td><td class="num">872</td><td class="num">1,83%</td><td class="num">R$ 9,23</td><td><span class="tag t-n">base</span></td></tr>
+        <tr class="mut"><td>Netflix (apenas)</td><td class="num">4.101</td><td class="num" style="color:var(--red)">1,39%</td><td class="num">R$ 3,82</td><td><span class="tag t-r">fraco</span></td></tr>
+      </tbody>
+    </table></div>
   </section>
 
   <!-- CPL NAO PREDIZ -->
@@ -224,6 +239,7 @@
           <thead><tr><th>Faixa de lead</th><th class="num">Tx</th><th class="num">CPL ideal</th></tr></thead>
           <tbody>
             <tr><td>Renda 15k+</td><td class="num">6,50%</td><td class="num b" style="color:var(--green)">R$17,26</td></tr>
+            <tr><td><b>Globoplay em qualquer combo</b></td><td class="num"><b>4,9–6,7%</b></td><td class="num b" style="color:var(--green)">R$13–18</td></tr>
             <tr><td>Streaming inclui BP</td><td class="num">4,09%</td><td class="num b">R$10,86</td></tr>
             <tr><td>"Assino hoje"</td><td class="num">3,95%</td><td class="num b">R$10,49</td></tr>
             <tr><td>"Já assinei no passado"</td><td class="num">2,65%</td><td class="num">R$7,04</td></tr>
@@ -234,7 +250,7 @@
         </table>
       </div>
     </div>
-    <div class="box insight"><span class="bx-t">Implicação</span>Vale pagar <b>4–6× mais</b> por um lead quente do que por um frio. Hoje pagamos o mesmo CPL para os dois — desperdício direto de budget.</div>
+    <div class="box insight"><span class="bx-t">Implicação</span>Vale pagar <b>4–6× mais</b> por um lead quente do que por um frio. Hoje pagamos o mesmo CPL para os dois — desperdício direto de budget. <b>Globoplay em qualquer combo</b> entra entre Renda 15k+ e Streaming inclui BP como novo sinal de topo — identificável no momento do cadastro, antes de qualquer conversão.</div>
   </section>
 
   <!-- BENCHMARK CAMPANHAS -->
