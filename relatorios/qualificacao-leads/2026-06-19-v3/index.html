@@ -72,6 +72,10 @@
   .b{font-weight:700}.mut{color:var(--soft)}
   .tag{display:inline-block;border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700}
   .t-g{background:#dcfae6;color:#15803d}.t-b{background:#e0ecff;color:#1d4ed8}.t-y{background:#fef3c7;color:#92600a}.t-r{background:#fde2e2;color:#c81e1e}.t-n{background:#eef1f6;color:#5b6576}
+  .sf-bar{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 10px;align-items:center}
+  .sf-btn{cursor:pointer;border:1.5px solid var(--line);background:var(--card);color:var(--muted);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;transition:all .15s}
+  .sf-btn:hover{border-color:var(--blue);color:var(--blue)}
+  .sf-btn.sf-on{background:var(--blue);color:#fff;border-color:var(--blue)}
 
   /* exec summary */
   .exec{background:var(--grad);color:#e7ecf6;border:none}
@@ -652,19 +656,21 @@
     <div class="chart-card"><div class="cbox h340"><canvas id="bubble"></canvas></div></div>
     <div class="box insight"><span class="bx-t">O padrão</span>O grosso do volume está em baixo (esquerda inferior): <b>"Nenhum" (3.705 leads, 0,84%)</b> e <b>"Netflix sozinho" (2.221, 1,35%)</b> dominam o cadastro mas convertem mal. As joias — combos com <b>Brasil Paralelo (1,8–4%)</b> — ficam em baixo volume, no alto do gráfico. Combos pesados de entretenimento sem BP (Globoplay+Netflix, HBO+Prime, 5 serviços) zeram conversão.</div>
     <div class="box insight" style="margin-top:12px"><span class="bx-t">Novo achado — Globoplay é o sinal mais forte</span>Análise de combinações específicas (n≥30 por combo) revelou que <b>qualquer combinação que inclui Globoplay converte entre 4,9% e 6,7%</b> — acima de qualquer outro sinal do formulário, incluindo renda. Globoplay = interesse em conteúdo brasileiro. A tabela abaixo mostra os combos mais relevantes.</div>
-    <div style="overflow-x:auto;margin-top:12px">
+    <div class="sf-bar">
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--soft)">filtrar por:</span>
+      <button class="sf-btn sf-on" onclick="sfFilter('',this)">Todos</button>
+      <button class="sf-btn" onclick="sfFilter('Brasil Paralelo',this)">Brasil Paralelo</button>
+      <button class="sf-btn" onclick="sfFilter('Globoplay',this)">Globoplay</button>
+      <button class="sf-btn" onclick="sfFilter('Netflix',this)">Netflix</button>
+      <button class="sf-btn" onclick="sfFilter('Prime Video',this)">Prime Video</button>
+      <button class="sf-btn" onclick="sfFilter('Disney+',this)">Disney+</button>
+      <button class="sf-btn" onclick="sfFilter('Plataformas Educacionais',this)">Educacionais</button>
+    </div>
+    <p id="sfCount" style="font-size:12px;color:var(--soft);margin-bottom:8px"></p>
+    <div style="overflow-x:auto">
     <table>
       <thead><tr><th>Combinação de streaming</th><th class="num">Leads</th><th class="num">Conv%</th><th class="num">RPL</th><th>Sinal</th></tr></thead>
-      <tbody>
-        <tr><td class="b">Disney+ · Globoplay · Netflix · Prime Video</td><td class="num">60</td><td class="num b" style="color:var(--green)">6,67%</td><td class="num">R$ 32</td><td><span class="tag t-g">Globoplay</span></td></tr>
-        <tr><td class="b">Brasil Paralelo · Globoplay · Netflix</td><td class="num">33</td><td class="num b" style="color:var(--green)">6,06%</td><td class="num">R$ 7,93</td><td><span class="tag t-g">Globoplay + BP</span></td></tr>
-        <tr><td class="b">Globoplay · Netflix · Prime Video</td><td class="num">121</td><td class="num b" style="color:var(--green)">4,96%</td><td class="num">R$ 11,33</td><td><span class="tag t-g">Globoplay</span></td></tr>
-        <tr><td>Brasil Paralelo · Disney+ · Netflix · Prime Video</td><td class="num">45</td><td class="num">4,44%</td><td class="num b" style="color:var(--green)">R$ 63,47</td><td><span class="tag t-b">BP multi-premium</span></td></tr>
-        <tr><td>Brasil Paralelo · Netflix</td><td class="num">302</td><td class="num">3,64%</td><td class="num">R$ 9,79</td><td><span class="tag t-b">BP</span></td></tr>
-        <tr><td>Netflix · Plataformas Educacionais</td><td class="num">201</td><td class="num">2,99%</td><td class="num">R$ 13,93</td><td><span class="tag t-n">edu</span></td></tr>
-        <tr><td>Netflix · Prime Video</td><td class="num">872</td><td class="num">1,83%</td><td class="num">R$ 9,23</td><td><span class="tag t-n">base</span></td></tr>
-        <tr class="mut"><td>Netflix (apenas)</td><td class="num">4.101</td><td class="num" style="color:var(--red)">1,39%</td><td class="num">R$ 3,82</td><td><span class="tag t-r">fraco</span></td></tr>
-      </tbody>
+      <tbody id="sfBody"></tbody>
     </table></div>
   </section>
 
@@ -1191,6 +1197,39 @@ new Chart(taxaResposta,{data:{labels:trLabels,
     y:{min:0,max:80,grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},title:{display:true,text:'Taxa de resposta',font:{size:10}}},
     x:{grid:{display:false},ticks:{font:{size:9.5},maxRotation:35}}
   }}});
+
+// Seção 05 — filtro interativo de combinações de streaming
+const sfData=[
+  {c:"Disney+ · Globoplay · Netflix · Prime Video",n:60,cv:6.67,rpl:32.00,s:"Globoplay"},
+  {c:"Brasil Paralelo · Globoplay · Netflix",n:33,cv:6.06,rpl:7.93,s:"Globoplay + BP"},
+  {c:"Globoplay · Netflix · Prime Video",n:121,cv:4.96,rpl:11.33,s:"Globoplay"},
+  {c:"Brasil Paralelo · Disney+ · Netflix · Prime Video",n:45,cv:4.44,rpl:63.47,s:"BP"},
+  {c:"Brasil Paralelo · Netflix",n:302,cv:3.64,rpl:9.79,s:"BP"},
+  {c:"Netflix · Plataformas Educacionais",n:201,cv:2.99,rpl:13.93,s:"edu"},
+  {c:"Netflix · Prime Video",n:872,cv:1.83,rpl:9.23,s:""},
+  {c:"Netflix (apenas)",n:4101,cv:1.39,rpl:3.82,s:""},
+];
+const sfTagHtml={
+  "Globoplay + BP":"<span class='tag t-g'>Globoplay + BP</span>",
+  "Globoplay":"<span class='tag t-g'>Globoplay</span>",
+  "BP":"<span class='tag t-b'>BP</span>",
+  "BP multi-premium":"<span class='tag t-b'>BP multi-premium</span>",
+  "edu":"<span class='tag t-n'>edu</span>",
+  "":"",
+};
+function sfFilter(term,btn){
+  document.querySelectorAll('.sf-btn').forEach(b=>b.classList.remove('sf-on'));
+  btn.classList.add('sf-on');
+  const rows=term?sfData.filter(d=>d.c.toLowerCase().includes(term.toLowerCase())):sfData;
+  document.getElementById('sfCount').textContent=rows.length+' combinaç'+(rows.length===1?'ão':'ões')+' · clique em uma plataforma para filtrar';
+  const hl=s=>term?s.replace(new RegExp(term.replace(/[+.]/g,'\\$&'),'gi'),m=>`<b style="color:var(--blue)">${m}</b>`):s;
+  document.getElementById('sfBody').innerHTML=rows.map(d=>{
+    const cs=d.cv>=3?`style="color:${GREEN}"`:d.cv<1.2?`style="color:${RED}"`:'';
+    const w=d.cv>=3?'b':'';
+    return`<tr${d.cv<1?` class="mut"`:''}><td>${hl(d.c)}</td><td class="num">${d.n.toLocaleString('pt-BR')}</td><td class="num ${w}" ${cs}>${d.cv.toFixed(2).replace('.',',')}%</td><td class="num">R$ ${d.rpl.toFixed(2).replace('.',',')}</td><td>${sfTagHtml[d.s]||''}</td></tr>`;
+  }).join('');
+}
+sfFilter('',document.querySelector('.sf-btn'));
 </script>
 </body>
 </html>
