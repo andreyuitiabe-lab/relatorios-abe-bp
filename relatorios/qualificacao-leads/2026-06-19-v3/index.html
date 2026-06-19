@@ -427,20 +427,147 @@
       </table>
       <div class="box insight" style="margin-top:10px"><span class="bx-t">Ticket + conversão = receita por lead é a métrica certa</span>Netflix tem a maior receita absoluta (R$85k) mas por ter 11k leads é o menos eficiente (R$7,62/lead). Plataformas educacionais têm o <b>maior ticket (R$878)</b> — sinal de perfil de renda mais alta. Brasil Paralelo gera R$18,82/lead — <b>6× mais que "Nenhum"</b>. Para targeting, RPL é o que importa, não só a taxa de conversão isolada.</div>
     </div>
+
+    <!-- DADOS CRM -->
+    <div style="margin-top:28px;padding-top:24px;border-top:1.5px solid var(--line)">
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:6px">Dados de CRM — disponíveis sem formulário</div>
+      <p style="font-size:12.5px;color:var(--muted);margin-bottom:18px">Informações que já temos no cadastro, independentemente de o lead responder à pesquisa. São os sinais mais fortes e mais confiáveis.</p>
+
+      <!-- Status de membro -->
+      <div style="margin-bottom:28px">
+        <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px">Status de membro no momento do cadastro <span style="font-weight:400;color:var(--soft)">(55.939 leads)</span></div>
+        <table>
+          <thead><tr>
+            <th>Status</th>
+            <th class="num">Leads</th>
+            <th class="num">% do total</th>
+            <th class="num">Compradores</th>
+            <th class="num">Conv%</th>
+            <th class="num">Receita</th>
+            <th class="num">Ticket médio</th>
+            <th class="num">Receita/lead</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="tag t-g">Membro Ativo (Vitalício)</span></td>
+              <td class="num">278</td><td class="num">0,5%</td>
+              <td class="num b">23</td>
+              <td class="num b" style="color:var(--green)">8,27%</td>
+              <td class="num b">R$ 38.131</td>
+              <td class="num b" style="color:var(--green)">R$ 1.658</td>
+              <td class="num b" style="color:var(--green)">R$ 137,16</td>
+            </tr>
+            <tr>
+              <td><span class="tag t-b">Membro Ativo</span></td>
+              <td class="num">3.571</td><td class="num">6%</td>
+              <td class="num b">137</td>
+              <td class="num b" style="color:var(--green)">3,84%</td>
+              <td class="num b">R$ 59.763</td>
+              <td class="num">R$ 436</td>
+              <td class="num b">R$ 16,74</td>
+            </tr>
+            <tr>
+              <td><span class="tag t-y">Ex-Membro</span></td>
+              <td class="num">4.283</td><td class="num">8%</td>
+              <td class="num">151</td>
+              <td class="num">3,53%</td>
+              <td class="num">R$ 52.112</td>
+              <td class="num">R$ 345</td>
+              <td class="num">R$ 12,17</td>
+            </tr>
+            <tr class="mut">
+              <td><span class="tag t-r">Não Membro</span></td>
+              <td class="num">47.807</td><td class="num">85%</td>
+              <td class="num">394</td>
+              <td class="num" style="color:var(--red)">0,82%</td>
+              <td class="num">R$ 99.887</td>
+              <td class="num mut">R$ 254</td>
+              <td class="num" style="color:var(--red)">R$ 2,09</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="box insight" style="margin-top:10px"><span class="bx-t">O sinal mais forte — e sem precisar de formulário</span>Vitalícios que se cadastram no EVG compram a <b>8,27%</b> com ticket de <b>R$1.658</b> (provavelmente bundle ou upgrade) — R$137/lead, 65× mais que um Não Membro (R$2,09/lead). Membros ativos e ex-membros (14% do volume, 39% da receita) justificam um CPL até 8× maior. O formulário não cria esse sinal — o CRM já sabe quem é quem.</div>
+      </div>
+
+      <!-- Global rank -->
+      <div>
+        <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px">Quantas vezes o lead já se cadastrou em alguma campanha <span style="font-weight:400;color:var(--soft)">(cd_global_rank — posição global)</span></div>
+        <table>
+          <thead><tr>
+            <th>Histórico de cadastros</th>
+            <th class="num">Leads</th>
+            <th class="num">% do total</th>
+            <th class="num">Compradores</th>
+            <th class="num">Conv%</th>
+            <th class="num">Receita</th>
+            <th class="num">Ticket médio</th>
+            <th class="num">Receita/lead</th>
+          </tr></thead>
+          <tbody>
+            <tr class="mut">
+              <td><span class="tag t-r">1ª vez — nunca se cadastrou antes</span></td>
+              <td class="num">24.295</td><td class="num">43%</td>
+              <td class="num">239</td>
+              <td class="num">0,98%</td>
+              <td class="num">R$ 77.965</td>
+              <td class="num mut">R$ 326</td>
+              <td class="num" style="color:var(--red)">R$ 3,21</td>
+            </tr>
+            <tr>
+              <td><span class="tag t-n">2ª vez</span></td>
+              <td class="num">7.908</td><td class="num">14%</td>
+              <td class="num">98</td>
+              <td class="num">1,24%</td>
+              <td class="num">R$ 29.416</td>
+              <td class="num">R$ 300</td>
+              <td class="num">R$ 3,72</td>
+            </tr>
+            <tr>
+              <td><span class="tag t-b">3ª a 5ª vez</span></td>
+              <td class="num">14.896</td><td class="num">27%</td>
+              <td class="num">223</td>
+              <td class="num">1,50%</td>
+              <td class="num">R$ 80.476</td>
+              <td class="num">R$ 361</td>
+              <td class="num">R$ 5,40</td>
+            </tr>
+            <tr>
+              <td><span class="tag t-b">6ª a 10ª vez</span></td>
+              <td class="num">6.398</td><td class="num">11%</td>
+              <td class="num">102</td>
+              <td class="num">1,59%</td>
+              <td class="num">R$ 42.151</td>
+              <td class="num">R$ 413</td>
+              <td class="num">R$ 6,59</td>
+            </tr>
+            <tr>
+              <td><span class="tag t-g">11ª vez ou mais</span></td>
+              <td class="num">2.442</td><td class="num">4%</td>
+              <td class="num b">43</td>
+              <td class="num b" style="color:var(--green)">1,76%</td>
+              <td class="num b">R$ 19.885</td>
+              <td class="num b">R$ 462</td>
+              <td class="num b" style="color:var(--green)">R$ 8,14</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="box warn" style="margin-top:10px"><span class="bx-t">Tendência real, mas diferença menor do que parece</span>A tendência é monotônica e estatisticamente sólida nos extremos (1ª vez 0,98% vs 11+ 1,76%). Mas a diferença absoluta é pequena — <b>2× entre extremos</b>, muito menos que as 10× do status de membro. O histórico de cadastros é um proxy de engajamento, mas quem determina conversão mesmo é o status de membro + perfil declarado. Leads novos de alta renda ou membros cadastrando pela 1ª vez valem mais que um não-membro no 10º cadastro.</div>
+      </div>
+    </div>
   </section>
 
   <!-- RESPONDENTE VS NAO -->
   <section class="sec">
     <div class="sec-head"><span class="sec-num">04</span><h2>Responder o formulário já é um sinal — e o que isso diz sobre otimizar por cadastro</h2></div>
-    <p class="sub">Quem responde a pesquisa converte e vale mais que quem não responde. Mas atenção: é majoritariamente seleção (quem responde já é mais engajado), não efeito causal do formulário.</p>
+    <p class="sub">Comparação <b>comparável</b>: apenas leads registrados a partir de 5/jun, quando o formulário estava ativo. Os primeiros 15 dias da campanha não tinham formulário — incluí-los inflava artificialmente o grupo "não respondeu".</p>
     <div class="grid2 tilt">
-      <div class="chart-card"><h3>Conversão: respondente vs não-respondente</h3><div class="ch-sub">bruta (todas as vendas) vs pós-cadastro (compra ≥1 dia após cadastrar)</div><div class="cbox h260"><canvas id="respVsNao"></canvas></div></div>
+      <div class="chart-card"><h3>Conversão: respondente vs não-respondente</h3><div class="ch-sub">apenas período com formulário ativo (5/jun–hoje) · bruta vs pós-cadastro</div><div class="cbox h260"><canvas id="respVsNao"></canvas></div></div>
       <div style="display:flex;flex-direction:column;gap:14px">
-        <div class="bigstat"><div class="bs-num g">R$5,37</div><div class="bs-cap">receita por lead de quem <b>responde</b> · vs R$3,20 de quem não responde (<b>+68%</b>)</div></div>
-        <div class="bigstat"><div class="bs-num">15.533</div><div class="bs-cap">respondentes (1,44% compra · R$83,3k receita) vs 20.398 não-respondentes (0,90% · R$65,3k)</div></div>
+        <div class="bigstat"><div class="bs-num g">R$6,51</div><div class="bs-cap">receita por lead de quem <b>responde</b> · vs R$2,82 de quem não responde (<b>+131%</b>)</div></div>
+        <div class="bigstat"><div class="bs-num">4.747</div><div class="bs-cap">respondentes (1,20% compra · R$30,9k receita) vs 2.792 não-respondentes comparáveis (0,61% · R$7,9k)</div></div>
       </div>
     </div>
-    <div class="box warn"><span class="bx-t">Leitura para otimização por evento</span>O gap bruto (+60%) <b>encolhe para +33% quando olhamos só compras pós-cadastro</b> (0,45% vs 0,34%) — prova de que o formulário <b>revela</b> o lead bom, não o cria. Implicação prática: otimizar a campanha pelo <b>evento de cadastro genérico</b> trata respondente (R$5,37) e não-respondente (R$3,20) como iguais. Otimizar pelo <b>evento de resposta do formulário</b> (ou resposta qualificada) aponta o Meta para um público +68% mais valioso — desde que o CPL do evento mais raro não suba mais que esse prêmio.</div>
+    <div class="box warn"><span class="bx-t">Leitura para otimização por evento</span>No período comparável, o gap de conversão é de <b>+97%</b> (1,20% vs 0,61%) e o gap de receita por lead é de <b>+131%</b> (R$6,51 vs R$2,82). O dado bruto anterior (+68%) estava subestimado porque incluía ~36k leads pré-formulário, que eram "não-respondentes por design". Implicação prática: otimizar a campanha pelo <b>evento de cadastro genérico</b> trata respondente (R$6,51) e não-respondente (R$2,82) como iguais. Otimizar pelo <b>evento de resposta do formulário</b> aponta o Meta para um público +131% mais valioso em receita — desde que o CPL do evento mais raro não suba mais que esse prêmio.</div>
   </section>
 
   <!-- STREAMING BUBBLE -->
@@ -761,8 +888,8 @@ new Chart(rpv,{type:'bar',data:{labels:['SEM pesquisa','COM pesquisa'],
 // 03 respondente vs nao
 new Chart(respVsNao,{type:'bar',data:{labels:['Conversão bruta','Conversão pós-cadastro'],
   datasets:[
-    {label:'Respondeu',data:[1.44,0.451],backgroundColor:GREEN,borderRadius:6,barThickness:40},
-    {label:'Não respondeu',data:[0.90,0.343],backgroundColor:GREY,borderRadius:6,barThickness:40}
+    {label:'Respondeu',data:[1.20,0.15],backgroundColor:GREEN,borderRadius:6,barThickness:40},
+    {label:'Não respondeu',data:[0.61,0.07],backgroundColor:GREY,borderRadius:6,barThickness:40}
   ]},
   options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:12}}},
     tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw.toLocaleString('pt-BR')+'%'}}},
