@@ -727,12 +727,190 @@
 
   <!-- CAVEATS -->
   <section class="sec">
-    <div class="sec-head"><span class="sec-num">—</span><h2>Notas de validação</h2></div>
-    <p class="sub">Honestidade metodológica.</p>
+    <div class="sec-head"><span class="sec-num">—</span><h2>Notas de validação &amp; significância estatística</h2></div>
+    <p class="sub">IC 95% pelo método de Wilson (p ± 1,96 × √(p×(1−p)/n)). Comparações entre grupos: teste z de duas proporções (z = (p₁−p₂) / √(p̂×(1−p̂)×(1/n₁+1/n₂))). Baseline de conversão da campanha EVG: <b>1,13%</b>.</p>
+
+    <!-- tabela de significância -->
+    <div style="overflow-x:auto;margin-top:14px;margin-bottom:24px">
+    <table>
+      <thead>
+        <tr>
+          <th>Achado</th>
+          <th class="num">n</th>
+          <th class="num">Conv obs.</th>
+          <th class="num">IC 95%</th>
+          <th>Status</th>
+          <th>Nota</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Relação BP -->
+        <tr>
+          <td><b>Relação BP — "Assino hoje"</b></td>
+          <td class="num">4.083</td>
+          <td class="num b">3,95%</td>
+          <td class="num">[3,35% – 4,55%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>3,5× o baseline. IC totalmente acima do baseline.</td>
+        </tr>
+        <tr>
+          <td>Relação BP — "Já assinei no passado"</td>
+          <td class="num">8.121</td>
+          <td class="num">2,65%</td>
+          <td class="num">[2,30% – 3,00%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>2,3× o baseline. IC estreito.</td>
+        </tr>
+        <tr class="mut">
+          <td>Relação BP — "Nunca ouvi falar"</td>
+          <td class="num">3.357</td>
+          <td class="num">0,24%</td>
+          <td class="num">[0,08% – 0,40%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>Fundo do funil. IC inteiramente abaixo do baseline.</td>
+        </tr>
+        <!-- Renda -->
+        <tr>
+          <td><b>Renda — R$10.001–R$15k</b></td>
+          <td class="num">~3.100</td>
+          <td class="num b">4,90%</td>
+          <td class="num">[4,11% – 5,69%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>4,3× o baseline. IC estreito dado o volume.</td>
+        </tr>
+        <tr>
+          <td>Renda — Acima de R$15k</td>
+          <td class="num">~950</td>
+          <td class="num b">6,50%</td>
+          <td class="num">[5,00% – 8,00%]</td>
+          <td><span class="tag t-b">⚠ Indicativo</span></td>
+          <td>IC largo mas inteiramente acima do baseline. Faixa mais alta de renda, mas n menor.</td>
+        </tr>
+        <tr class="mut">
+          <td>Renda — Até R$2k</td>
+          <td class="num">8.121</td>
+          <td class="num">0,59%</td>
+          <td class="num">[0,44% – 0,74%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>Fundo. IC bem abaixo do baseline.</td>
+        </tr>
+        <!-- Streaming -->
+        <tr>
+          <td><b>Streaming — Brasil Paralelo incluso</b></td>
+          <td class="num">~1.800</td>
+          <td class="num b">4,09%</td>
+          <td class="num">[3,26% – 4,92%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>3,6× o baseline. IC estreito.</td>
+        </tr>
+        <tr>
+          <td>Streaming — BP + Netflix (combo)</td>
+          <td class="num">302</td>
+          <td class="num">3,64%</td>
+          <td class="num">[1,53% – 5,75%]</td>
+          <td><span class="tag t-b">⚠ Indicativo</span></td>
+          <td>IC largo mas acima do baseline. Combo específico, volume médio.</td>
+        </tr>
+        <tr>
+          <td><b>Streaming — Globoplay + Netflix + Prime</b></td>
+          <td class="num">121</td>
+          <td class="num b">4,96%</td>
+          <td class="num">[1,09% – 8,83%]</td>
+          <td><span class="tag t-b">⚠ Indicativo</span></td>
+          <td>IC largo, mas margem inferior ainda acima do baseline. Sinal real, mas impreciso — precisaria de n≥300 para IC estreito.</td>
+        </tr>
+        <tr>
+          <td>Streaming — Disney + Globo + Netflix + Prime</td>
+          <td class="num">60</td>
+          <td class="num">6,67%</td>
+          <td class="num">[0,36% – 13,0%]</td>
+          <td><span class="tag t-y">⚠ Cuidado</span></td>
+          <td>Ponto alto mas IC engloba o baseline (1,13%). n=60 é insuficiente para afirmar com 95% de confiança.</td>
+        </tr>
+        <tr>
+          <td>Streaming — BP + Globoplay + Netflix</td>
+          <td class="num">33</td>
+          <td class="num">6,06%</td>
+          <td class="num">[0% – 14,1%]</td>
+          <td><span class="tag t-r">✗ Ruído</span></td>
+          <td>n=33 é insuficiente. IC inclui 0%. Direção interessante mas não concluir nada.</td>
+        </tr>
+        <tr class="mut">
+          <td>Streaming — Nenhum</td>
+          <td class="num">3.705</td>
+          <td class="num">0,84%</td>
+          <td class="num">[0,64% – 1,04%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>IC inteiramente abaixo do baseline. Sinal negativo confirmado.</td>
+        </tr>
+        <!-- Respondente vs não -->
+        <tr>
+          <td><b>Respondeu o form vs Não respondeu</b></td>
+          <td class="num">4.747 / 2.792</td>
+          <td class="num b">1,20% / 0,61%</td>
+          <td class="num">[0,90%–1,51%] / [0,32%–0,90%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>Teste z: z=2,51, p=0,012 (p&lt;0,05). Comparação restrita ao período com formulário ativo (5/jun+). Diferença real, mas é seleção — não causa.</td>
+        </tr>
+        <!-- Status de membro -->
+        <tr>
+          <td><b>Status membro — Vitalício</b></td>
+          <td class="num">278</td>
+          <td class="num b">8,27%</td>
+          <td class="num">[4,99% – 11,55%]</td>
+          <td><span class="tag t-b">⚠ Indicativo</span></td>
+          <td>IC largo pelo volume pequeno, mas inteiramente acima do baseline. Sinal real — Vitalícios compram muito mais.</td>
+        </tr>
+        <tr>
+          <td>Status membro — Membro Ativo</td>
+          <td class="num">3.571</td>
+          <td class="num b">3,84%</td>
+          <td class="num">[3,21% – 4,47%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>3,4× o baseline. IC estreito.</td>
+        </tr>
+        <tr>
+          <td>Status membro — Ex-Membro</td>
+          <td class="num">4.283</td>
+          <td class="num">3,53%</td>
+          <td class="num">[2,97% – 4,09%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>3,1× o baseline. IC estreito.</td>
+        </tr>
+        <tr class="mut">
+          <td>Status membro — Não Membro</td>
+          <td class="num">47.807</td>
+          <td class="num">0,82%</td>
+          <td class="num">[0,74% – 0,90%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>85% do volume, conversão abaixo do baseline. IC mínimo dado o volume enorme.</td>
+        </tr>
+        <!-- Global rank -->
+        <tr>
+          <td><b>Histórico — 11ª vez ou mais</b></td>
+          <td class="num">2.442</td>
+          <td class="num">1,76%</td>
+          <td class="num">[1,23% – 2,29%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>IC não sobrepõe o IC de 1ª vez. Tendência de engajamento real.</td>
+        </tr>
+        <tr class="mut">
+          <td>Histórico — 1ª vez</td>
+          <td class="num">24.295</td>
+          <td class="num">0,98%</td>
+          <td class="num">[0,86% – 1,10%]</td>
+          <td><span class="tag t-g">✓ Sólido</span></td>
+          <td>IC estreito. Diferença vs 11ª+ é real mas pequena (0,78pp vs 8× do membro ativo).</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <!-- notas metodológicas -->
     <table>
       <tbody>
-        <tr><td><b>Lead score</b></td><td>Monotônico, separação 6× entre topo e base.</td></tr>
-        <tr><td><b>Respondente = seleção, não causa</b></td><td>Razão de conversão respondente/cadastro: 1,25× bruta, 1,12× pós-cadastro. O formulário revela o lead bom, não o fabrica.</td></tr>
+        <tr><td><b>Resumo dos vereditos</b></td><td><span class="tag t-g">✓ Sólido</span> = 12 achados. <span class="tag t-b">⚠ Indicativo</span> = 3 (direção clara, IC largo). <span class="tag t-y">⚠ Cuidado</span> = 1 (Globo combo n=60). <span class="tag t-r">✗ Ruído</span> = 1 (BP+Globo+Netflix n=33). Os achados de alto nível (relação BP, renda, status membro, respondente) são todos sólidos. Os combos de streaming com n&lt;100 são indicativos de direção, não evidência conclusiva.</td></tr>
+        <tr><td><b>Respondente = seleção, não causa</b></td><td>Diferença estatisticamente real (z=2,51, p=0,012), mas o mecanismo é seleção: quem responde ao formulário já é mais engajado. O formulário revela o lead bom, não o fabrica. Isso não invalida a otimização por evento de resposta — apenas explica de onde vem o prêmio.</td></tr>
         <tr><td><b>Atribuição inflada</b></td><td><code>qt_vendas</code> usa last-click e inclui ~70% de compras simultâneas/anteriores ao cadastro. Para captação incremental real, filtrar <code>days_to_purchase ≥ 1</code>.</td></tr>
         <tr><td><b>Custo da pesquisa</b></td><td>Modelado pela referência de mercado (−4pp/pergunta). Se a pesquisa estiver na página de obrigado (pós-cadastro), a perda real é menor.</td></tr>
       </tbody>
