@@ -655,7 +655,7 @@
     <p class="sub">Cada bolha é uma combinação de streamings. Eixo X = volume de cadastros · Eixo Y = taxa de compra · tamanho = nº de compradores. As bolhas verdes contêm "Brasil Paralelo".</p>
     <div class="chart-card"><div class="cbox h340"><canvas id="bubble"></canvas></div></div>
     <div class="box insight"><span class="bx-t">O padrão</span>O grosso do volume está em baixo (esquerda inferior): <b>"Nenhum" (3.705 leads, 0,84%)</b> e <b>"Netflix sozinho" (2.221, 1,35%)</b> dominam o cadastro mas convertem mal. As joias — combos com <b>Brasil Paralelo (1,8–4%)</b> — ficam em baixo volume, no alto do gráfico. Combos pesados de entretenimento sem BP (Globoplay+Netflix, HBO+Prime, 5 serviços) zeram conversão.</div>
-    <div class="box insight" style="margin-top:12px"><span class="bx-t">Novo achado — Globoplay é o sinal mais forte</span>Análise de combinações específicas (n≥30 por combo) revelou que <b>qualquer combinação que inclui Globoplay converte entre 4,9% e 6,7%</b> — acima de qualquer outro sinal do formulário, incluindo renda. Globoplay = interesse em conteúdo brasileiro. A tabela abaixo mostra os combos mais relevantes.</div>
+    <div class="box insight" style="margin-top:12px"><span class="bx-t">Achado — Globoplay aparece nos combos de maior conversão</span>Combinações que incluem Globoplay tendem a converter acima da média (ex: Globoplay+Netflix+Prime: 2,63%; Disney+Globo+Netflix+Prime: 3,70%). O sinal indica interesse em conteúdo brasileiro. Porém com n=27–38 por combo os ICs são largos — o padrão é indicativo, não conclusivo. Use o filtro abaixo para explorar por plataforma.</div>
     <div class="sf-bar">
       <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--soft)">filtrar por:</span>
       <button class="sf-btn sf-on" onclick="sfFilter('',this)">Todos</button>
@@ -752,19 +752,19 @@
     <p class="sub">Por semana de cadastro. A taxa de resposta reflete as 3 fases (ver seção 09): semanas recentes chegam a 64–70% com o form na página de confirmação.</p>
     <div class="grid2 tilt">
       <div class="chart-card"><h3>Taxa de compra por semana</h3><div class="ch-sub">linha azul: conversão · barra clara: taxa de resposta</div><div class="cbox h260"><canvas id="tempo"></canvas></div></div>
-      <div class="box warn" style="align-self:center"><span class="bx-t">Atenção na leitura</span>A queda da última semana (08/jun, 0,44%) é <b>maturação, não piora real</b>: leads recém-cadastrados ainda não tiveram tempo de comprar. A conversão real desta coorte deve subir nas próximas semanas conforme as vendas amadurecem.</div>
+      <div class="box warn" style="align-self:center"><span class="bx-t">Atenção na leitura</span>A queda da última semana (08/jun, 0,28%) é <b>maturação, não piora real</b>: leads recém-cadastrados ainda não tiveram tempo de comprar. A conversão real desta coorte deve subir nas próximas semanas conforme as vendas amadurecem.</div>
     </div>
   </section>
 
   <!-- TAXA RESPOSTA EVOLUCAO (v3) -->
   <section class="sec">
     <div class="sec-head"><span class="sec-num">10</span><h2>Evolução da taxa de resposta: 3 fases do formulário</h2></div>
-    <p class="sub">A taxa saltou de ~8% para 67–70% em dois saltos. Cada salto corresponde a uma mudança no posicionamento do formulário — não a uma mudança de público.</p>
+    <p class="sub">A taxa foi de ~3% para 70% em três fases. Cada fase corresponde a uma mudança no posicionamento do formulário — não a uma mudança de público.</p>
     <div class="grid2">
       <div class="chart-card"><h3>Taxa de resposta diária — variante A</h3><div class="ch-sub">% dos cadastros que responderam o formulário · por data de cadastro</div><div class="cbox h300"><canvas id="taxaResposta"></canvas></div></div>
       <div style="display:flex;flex-direction:column;gap:12px">
-        <div class="box insight"><span class="bx-t">Fase 1 — Sem formulário (23/mai–4/jun)</span>Taxa de ~8–11%: ruído de leads que encontravam o form em outros contextos (remarketing, CRM). Sem form na jornada de cadastro.</div>
-        <div class="box warn"><span class="bx-t">Fase 2 — Form na página de cadastro (5–6/jun)</span>Form adicionado às variantes a/g/h dentro do fluxo. Taxa saltou para ~46% — mas com fricção antes do cadastro, potencialmente impactando a LP.</div>
+        <div class="box insight"><span class="bx-t">Fase 1 — Sem formulário (até 26/mai)</span>Taxa de ~3–5%: ruído de leads que chegavam ao form por outros contextos (remarketing, CRM). Sem form na jornada principal de cadastro.</div>
+        <div class="box warn"><span class="bx-t">Fase 2 — Form na página de cadastro (27/mai–5/jun)</span>Form introduzido em 27/mai nas variantes a/g/h. Taxa subiu de 17% inicial para ~42–46% — rampagem de ~10 dias enquanto o posicionamento era ajustado.</div>
         <div class="box good"><span class="bx-t">Fase 3 — Form na confirmação (6/jun em diante)</span>Form movido para a página de confirmação (pós-cadastro). Taxa estabilizou em <b>67–70% sem custo de fricção no cadastro</b>. Volume: 2.700–5.600 respostas/dia.</div>
       </div>
     </div>
@@ -1035,48 +1035,46 @@ const grad=(t,a,b)=>{const g=t.ctx.createLinearGradient(0,0,t.chartArea?.right||
 
 // 01 mix relação
 new Chart(mixRel,{type:'bar',data:{labels:['Consumo grátis','Já ouvi falar','Já assinei','Assino hoje','Nunca ouvi'],
-  datasets:[{data:[47.1,25.0,14.5,7.3,6.0],backgroundColor:[GREY,GREY,BLUE,GREEN,RED],borderRadius:5,barThickness:20}]},
+  datasets:[{data:[46.8,25.6,14.8,6.9,5.9],backgroundColor:[GREY,GREY,BLUE,GREEN,RED],borderRadius:5,barThickness:20}]},
   options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>pct(c.raw)}}},
   scales:{x:{display:false,max:54},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v+'%')]});
 
 // 01 mix renda
 new Chart(mixRenda,{type:'bar',data:{labels:['Até R$5k','Não informa','Até R$2k','R$5–10k','R$2–5k','R$10k+'],
-  datasets:[{data:[32.1,22.4,14.5,14.0,11.0,6.0],backgroundColor:[GREY,'#cfd5e2',GREY,BLUE,GREY,GREEN],borderRadius:5,barThickness:20}]},
+  datasets:[{data:[28.6,20.1,18.8,14.3,14.2,6.3],backgroundColor:[GREY,'#cfd5e2',GREY,BLUE,GREY,GREEN],borderRadius:5,barThickness:20}]},
   options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>pct(c.raw)}}},
-  scales:{x:{display:false,max:38},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v+'%')]});
+  scales:{x:{display:false,max:34},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v+'%')]});
 
 // 01 mix streaming
 new Chart(mixStream,{type:'bar',data:{labels:['Netflix','Nenhum','Prime Video','Brasil Paralelo','Disney+','HBO Max','Globoplay','Educacional'],
-  datasets:[{data:[30.4,26.0,14.0,7.5,6.6,5.5,5.5,4.6],backgroundColor:[GREY,AMBER,GREY,GREEN,GREY,'#cfd5e2','#cfd5e2',BLUE],borderRadius:5,barThickness:15}]},
+  datasets:[{data:[25.2,20.9,11.7,6.0,5.7,4.8,4.3,3.9],backgroundColor:[GREY,AMBER,GREY,GREEN,GREY,'#cfd5e2','#cfd5e2',BLUE],borderRadius:5,barThickness:15}]},
   options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>pct(c.raw)}}},
-  scales:{x:{display:false,max:36},y:{grid:{display:false},ticks:{font:{size:10.5}}}}},plugins:[valueLabels(v=>v+'%')]});
+  scales:{x:{display:false,max:30},y:{grid:{display:false},ticks:{font:{size:10.5}}}}},plugins:[valueLabels(v=>v+'%')]});
 
 // 02 conversão relação
-const cRel=[3.95,2.65,1.17,0.85,0.24];
-new Chart(convRel,{type:'bar',data:{labels:['Assino hoje','Já assinei','Já ouvi falar','Consumo grátis','Nunca ouvi'],
+const cRel=[3.37,2.38,0.92,0.91,0.33];
+new Chart(convRel,{type:'bar',data:{labels:['Assino hoje','Já assinei','Consumo grátis','Já ouvi falar','Nunca ouvi'],
   datasets:[{data:cRel,backgroundColor:[GREEN,'#4d9e63','#86a8c2',GREY,RED],borderRadius:6,barThickness:26}]},
   options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Tx compra '+c.raw.toLocaleString('pt-BR')+'%'}}},
-  scales:{x:{display:false,max:4.6},y:{grid:{display:false}}}},plugins:[valueLabels(v=>v.toLocaleString('pt-BR')+'%')]});
+  scales:{x:{display:false,max:4.0},y:{grid:{display:false}}}},plugins:[valueLabels(v=>v.toLocaleString('pt-BR')+'%')]});
 
 // 02 conversão renda
 new Chart(convRenda,{type:'bar',data:{labels:['Acima R$20k','R$10–20k','Acima R$15k','R$5–10k','R$2–5k','Até R$5k','Não informa','Até R$2k'],
-  datasets:[{data:[7.02,6.37,3.90,2.88,2.47,1.37,1.01,0.85],backgroundColor:[GREEN,GREEN,'#4d9e63',BLUE,BLUE,'#86a8c2',GREY,GREY],borderRadius:6,barThickness:18}]},
+  datasets:[{data:[6.25,5.06,3.57,2.36,1.92,1.56,0.98,0.64],backgroundColor:[GREEN,GREEN,'#4d9e63',BLUE,BLUE,'#86a8c2',GREY,GREY],borderRadius:6,barThickness:18}]},
   options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Tx compra '+c.raw.toLocaleString('pt-BR')+'%'}}},
-  scales:{x:{display:false,max:8.2},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v.toLocaleString('pt-BR')+'%')]});
+  scales:{x:{display:false,max:7.2},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v.toLocaleString('pt-BR')+'%')]});
 
 // 03 bubble streaming
 const sd=[
- {l:'Nenhum',x:3705,y:0.84,c:31,bp:0},{l:'Netflix',x:2221,y:1.35,c:30,bp:0},
- {l:'Netflix+Prime',x:478,y:1.46,c:7,bp:0},{l:'Brasil Paralelo',x:441,y:1.81,c:8,bp:1},
- {l:'Prime Video',x:413,y:2.18,c:9,bp:0},{l:'Educacional',x:213,y:0.94,c:2,bp:0},
- {l:'BP+Netflix',x:175,y:4.00,c:7,bp:1},{l:'Globo+Netflix',x:133,y:0,c:0,bp:0},
- {l:'Globoplay',x:132,y:1.52,c:2,bp:0},{l:'Disney+Netflix+Prime',x:131,y:0.76,c:1,bp:0},
- {l:'Disney+HBO+Netflix+Prime',x:119,y:1.68,c:2,bp:0},{l:'Disney+Netflix',x:112,y:0.89,c:1,bp:0},
- {l:'Netflix+Educacional',x:86,y:3.49,c:3,bp:0},{l:'5 serviços',x:85,y:0,c:0,bp:0},
- {l:'HBO Max',x:84,y:2.38,c:2,bp:0},{l:'HBO+Netflix+Prime',x:78,y:0,c:0,bp:0},
- {l:'Disney+',x:69,y:1.45,c:1,bp:0},{l:'BP+Netflix+Prime',x:67,y:2.99,c:2,bp:1},
- {l:'Globo+Netflix+Prime',x:63,y:1.59,c:1,bp:0},{l:'HBO+Netflix',x:62,y:4.84,c:3,bp:0},
- {l:'Disney+Prime',x:41,y:2.44,c:1,bp:0},{l:'HBO+Prime',x:40,y:0,c:0,bp:0},{l:'Netflix+Educ+Prime',x:40,y:0,c:0,bp:0}
+ {l:'Nenhum',x:2364,y:1.02,c:24,bp:0},{l:'Netflix',x:1456,y:1.37,c:20,bp:0},
+ {l:'Netflix+Prime',x:317,y:1.26,c:4,bp:0},{l:'Brasil Paralelo',x:278,y:1.44,c:4,bp:1},
+ {l:'Prime Video',x:269,y:1.86,c:5,bp:0},{l:'Educacional',x:145,y:0.69,c:1,bp:0},
+ {l:'BP+Netflix',x:118,y:2.54,c:3,bp:1},{l:'Disney+Netflix+Prime',x:95,y:1.05,c:1,bp:0},
+ {l:'Disney+HBO+Netflix+Prime',x:89,y:1.12,c:1,bp:0},{l:'Globo+Netflix',x:83,y:0,c:0,bp:0},
+ {l:'Globoplay',x:70,y:1.43,c:1,bp:0},{l:'Disney+Netflix',x:65,y:1.54,c:1,bp:0},
+ {l:'Disney+Globo+HBO+Netflix+Prime',x:64,y:0,c:0,bp:0},{l:'Netflix+Educacional',x:57,y:5.26,c:3,bp:0},
+ {l:'HBO Max',x:53,y:1.89,c:1,bp:0},{l:'HBO+Netflix+Prime',x:52,y:0,c:0,bp:0},
+ {l:'HBO+Netflix',x:46,y:4.35,c:2,bp:0},{l:'Disney+',x:46,y:2.17,c:1,bp:0},
 ];
 const mk=d=>d.map(o=>({x:o.x,y:o.y,r:Math.max(5,Math.sqrt(o.c)*5),l:o.l,c:o.c}));
 new Chart(bubble,{type:'bubble',data:{datasets:[
@@ -1100,10 +1098,10 @@ new Chart(corr,{type:'bar',data:{labels:['Formulário\n(quente+renda)','% renda 
 // 05 lead score
 new Chart(score,{data:{labels:['0','1','2','3','4','5','6'],
   datasets:[
-    {type:'bar',label:'Cadastros',data:[2794,3780,1352,1147,579,321,99],
+    {type:'bar',label:'Cadastros',data:[3794,4388,1284,1012,244,115,25],
      backgroundColor:'rgba(124,92,252,.15)',borderColor:'rgba(124,92,252,.3)',borderWidth:1,
      borderRadius:4,yAxisID:'y2',order:2},
-    {type:'line',label:'Taxa de compra',data:[0.72,0.85,2.14,2.35,3.11,5.30,3.03],
+    {type:'line',label:'Taxa de compra',data:[0.95,1.03,2.34,2.57,3.69,3.48,4.00],
      borderColor:VIOLET,backgroundColor:'rgba(124,92,252,.08)',fill:true,tension:.3,
      pointRadius:5,pointBackgroundColor:'#fff',pointBorderColor:VIOLET,pointBorderWidth:2.5,
      yAxisID:'y',order:1}
@@ -1127,13 +1125,13 @@ new Chart(score,{data:{labels:['0','1','2','3','4','5','6'],
 // 06 tempo (linha conversão + barra resposta)
 new Chart(tempo,{data:{labels:['18/mai','25/mai','01/jun','08/jun'],
   datasets:[
-    {type:'bar',label:'Taxa de resposta',data:[5.6,29.6,52.0,64.7],backgroundColor:'rgba(170,178,196,.35)',borderRadius:5,yAxisID:'y1',order:2,barThickness:46},
-    {type:'line',label:'Taxa de compra',data:[1.03,1.21,1.39,0.44],borderColor:BLUE,backgroundColor:BLUE,tension:.3,yAxisID:'y',order:1,
+    {type:'bar',label:'Taxa de resposta',data:[4.4,27.0,50.2,66.9],backgroundColor:'rgba(170,178,196,.35)',borderRadius:5,yAxisID:'y1',order:2,barThickness:46},
+    {type:'line',label:'Taxa de compra',data:[0.91,1.00,1.10,0.28],borderColor:BLUE,backgroundColor:BLUE,tension:.3,yAxisID:'y',order:1,
       pointRadius:[5,5,5,7],pointBackgroundColor:['#fff','#fff','#fff',AMBER],pointBorderColor:[BLUE,BLUE,BLUE,AMBER],pointBorderWidth:2.5,borderWidth:2.5}
   ]},
   options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:11.5}}},
     tooltip:{callbacks:{label:c=>c.dataset.label+' '+c.raw.toLocaleString('pt-BR')+'%'+(c.dataIndex===3&&c.dataset.type==='line'?' (maturação)':'')}}},
-  scales:{y:{position:'left',title:{display:true,text:'Tx compra',font:{size:10}},grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},max:1.6},
+  scales:{y:{position:'left',title:{display:true,text:'Tx compra',font:{size:10}},grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},max:1.4},
     y1:{position:'right',title:{display:true,text:'Tx resposta',font:{size:10}},grid:{display:false},ticks:{callback:v=>v+'%'},max:75},
     x:{grid:{display:false}}}}});
 
@@ -1178,8 +1176,9 @@ new Chart(benchRel,{type:'line',data:{labels:REL_X,
 
 // 09 taxa de resposta diária (v3)
 const trLabels=['23/mai','25/mai','27/mai','29/mai','31/mai','02/jun','04/jun','05/jun','06/jun','08/jun','10/jun','12/jun','14/jun','16/jun','18/jun'];
-const trData=   [9,       10,      8,       11,      9,       10,      9,       46,      68,      70,      69,      71,      67,      68,      70];
-const phaseColors=trData.map((v,i)=>i<7?'rgba(170,178,196,.7)':i===7?AMBER:GREEN);
+const trData=   [5,       3,       17,      38,      39,      42,      41,      46,      70,      67,      69,      71,      67,      68,      70];
+// fases: i<2 = sem form (cinza), i<8 = form na pag de cadastro (âmbar), i>=8 = form na confirmação (verde)
+const phaseColors=trData.map((v,i)=>i<2?'rgba(170,178,196,.7)':i<8?AMBER:GREEN);
 new Chart(taxaResposta,{data:{labels:trLabels,
   datasets:[
     {type:'bar',label:'Fase (barra)',data:trData,backgroundColor:phaseColors,borderRadius:4,barThickness:18,yAxisID:'y',order:2},
@@ -1200,14 +1199,30 @@ new Chart(taxaResposta,{data:{labels:trLabels,
 
 // Seção 05 — filtro interativo de combinações de streaming
 const sfData=[
-  {c:"Disney+ · Globoplay · Netflix · Prime Video",n:60,cv:6.67,rpl:32.00,s:"Globoplay"},
-  {c:"Brasil Paralelo · Globoplay · Netflix",n:33,cv:6.06,rpl:7.93,s:"Globoplay + BP"},
-  {c:"Globoplay · Netflix · Prime Video",n:121,cv:4.96,rpl:11.33,s:"Globoplay"},
-  {c:"Brasil Paralelo · Disney+ · Netflix · Prime Video",n:45,cv:4.44,rpl:63.47,s:"BP"},
-  {c:"Brasil Paralelo · Netflix",n:302,cv:3.64,rpl:9.79,s:"BP"},
-  {c:"Netflix · Plataformas Educacionais",n:201,cv:2.99,rpl:13.93,s:"edu"},
-  {c:"Netflix · Prime Video",n:872,cv:1.83,rpl:9.23,s:""},
-  {c:"Netflix (apenas)",n:4101,cv:1.39,rpl:3.82,s:""},
+  {c:"Netflix · Plataformas educacionais",n:57,cv:5.26,rpl:16.76,s:"edu"},
+  {c:"Brasil Paralelo · Prime Video",n:20,cv:5.00,rpl:6.54,s:"BP"},
+  {c:"Brasil Paralelo · Plataformas educacionais",n:22,cv:4.55,rpl:75.82,s:"BP"},
+  {c:"HBO Max · Netflix",n:46,cv:4.35,rpl:5.69,s:""},
+  {c:"Disney+ · Globoplay · Netflix · Prime Video",n:27,cv:3.70,rpl:4.84,s:"Globoplay"},
+  {c:"Disney+ · Prime Video",n:27,cv:3.70,rpl:8.84,s:""},
+  {c:"Globoplay · Netflix · Prime Video",n:38,cv:2.63,rpl:6.28,s:"Globoplay"},
+  {c:"Brasil Paralelo · Netflix · Prime Video",n:39,cv:2.56,rpl:42.77,s:"BP"},
+  {c:"Brasil Paralelo · Netflix",n:118,cv:2.54,rpl:4.43,s:"BP"},
+  {c:"Disney+",n:46,cv:2.17,rpl:36.26,s:""},
+  {c:"Prime Video",n:269,cv:1.86,rpl:3.85,s:""},
+  {c:"HBO Max",n:53,cv:1.89,rpl:2.47,s:""},
+  {c:"Disney+ · Netflix",n:65,cv:1.54,rpl:3.67,s:""},
+  {c:"Brasil Paralelo",n:278,cv:1.44,rpl:6.73,s:"BP"},
+  {c:"Globoplay",n:70,cv:1.43,rpl:3.74,s:"Globoplay"},
+  {c:"Netflix",n:1456,cv:1.37,rpl:2.64,s:""},
+  {c:"Disney+ · Netflix · Prime Video",n:95,cv:1.05,rpl:1.38,s:""},
+  {c:"Nenhum",n:2364,cv:1.02,rpl:2.41,s:""},
+  {c:"Netflix · Prime Video",n:317,cv:1.26,rpl:2.82,s:""},
+  {c:"Disney+ · HBO Max · Netflix · Prime Video",n:89,cv:1.12,rpl:9.55,s:""},
+  {c:"Plataformas educacionais",n:145,cv:0.69,rpl:1.80,s:"edu"},
+  {c:"Globoplay · Netflix",n:83,cv:0.00,rpl:0.00,s:"Globoplay"},
+  {c:"Disney+ · Globoplay · HBO Max · Netflix · Prime Video",n:64,cv:0.00,rpl:0.00,s:"Globoplay"},
+  {c:"HBO Max · Netflix · Prime Video",n:52,cv:0.00,rpl:0.00,s:""},
 ];
 const sfTagHtml={
   "Globoplay + BP":"<span class='tag t-g'>Globoplay + BP</span>",
