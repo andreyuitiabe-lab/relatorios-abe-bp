@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-22T15:46:20",
+  "updated_at": "2026-06-22T18:48:48",
   "campaign": "EVG",
   "mixRel": {
     "labels": [
@@ -10,10 +10,10 @@
       "Assino hoje"
     ],
     "data": [
-      47.2,
+      47.1,
       26.2,
       12.5,
-      8.0,
+      8.1,
       6.1
     ]
   },
@@ -21,17 +21,13 @@
     "labels": [
       "Até R$5k",
       "Não informa",
-      "Até R$2k",
       "R$5–10k",
-      "R$2–5k",
       "R$10k+"
     ],
     "data": [
-      41.7,
+      49.3,
       31.1,
-      4.3,
-      13.7,
-      3.2,
+      13.8,
       5.8
     ]
   },
@@ -57,14 +53,14 @@
       6.4
     ],
     "conv": [
-      1.63,
-      1.06,
+      1.69,
+      1.08,
+      2.11,
+      2.63,
+      2.28,
+      1.79,
       2.02,
-      2.56,
-      2.18,
-      1.7,
-      1.91,
-      1.75
+      1.81
     ]
   },
   "convRel": {
@@ -76,10 +72,10 @@
       "Nunca ouvi"
     ],
     "data": [
-      3.45,
-      3.17,
-      1.21,
-      1.11,
+      3.52,
+      3.18,
+      1.29,
+      1.14,
       0.2
     ]
   },
@@ -97,11 +93,11 @@
     "data": [
       6.33,
       6.25,
-      4.39,
-      2.86,
+      4.6,
+      2.93,
       2.61,
-      1.29,
-      1.06,
+      1.34,
+      1.08,
       0.81
     ]
   },
@@ -115,15 +111,22 @@
     },
     {
       "l": "Disney++Globo+Netflix+Prime",
-      "x": 154,
-      "y": 7.14,
+      "x": 157,
+      "y": 7.01,
       "c": 11,
       "bp": 0
     },
     {
+      "l": "BP+Globo+Netflix",
+      "x": 72,
+      "y": 6.94,
+      "c": 5,
+      "bp": 1
+    },
+    {
       "l": "Disney++Prime",
-      "x": 165,
-      "y": 4.85,
+      "x": 167,
+      "y": 4.79,
       "c": 8,
       "bp": 0
     },
@@ -149,20 +152,6 @@
       "bp": 1
     },
     {
-      "l": "BP+Globo+Netflix",
-      "x": 73,
-      "y": 4.11,
-      "c": 3,
-      "bp": 1
-    },
-    {
-      "l": "BP+Disney++Prime",
-      "x": 25,
-      "y": 4.0,
-      "c": 1,
-      "bp": 1
-    },
-    {
       "l": "BP+Disney++Globo+Netflix+Prime",
       "x": 26,
       "y": 3.85,
@@ -170,9 +159,16 @@
       "bp": 1
     },
     {
-      "l": "BP+Disney++Globo+HBO+Netflix+Edu+Prime",
-      "x": 52,
+      "l": "BP+Disney++Prime",
+      "x": 26,
       "y": 3.85,
+      "c": 1,
+      "bp": 1
+    },
+    {
+      "l": "BP+Disney++Globo+HBO+Netflix+Edu+Prime",
+      "x": 53,
+      "y": 3.77,
       "c": 2,
       "bp": 1
     },
@@ -185,16 +181,9 @@
     },
     {
       "l": "BP+Edu",
-      "x": 96,
-      "y": 3.13,
+      "x": 97,
+      "y": 3.09,
       "c": 3,
-      "bp": 1
-    },
-    {
-      "l": "BP+Netflix",
-      "x": 557,
-      "y": 3.05,
-      "c": 17,
       "bp": 1
     },
     {
@@ -205,16 +194,23 @@
       "bp": 1
     },
     {
+      "l": "BP+Netflix",
+      "x": 562,
+      "y": 3.02,
+      "c": 17,
+      "bp": 1
+    },
+    {
       "l": "BP+HBO+Netflix+Prime",
-      "x": 34,
-      "y": 2.94,
+      "x": 35,
+      "y": 2.86,
       "c": 1,
       "bp": 1
     },
     {
       "l": "HBO+Netflix",
-      "x": 225,
-      "y": 2.67,
+      "x": 226,
+      "y": 2.65,
       "c": 6,
       "bp": 0
     },
@@ -230,6 +226,20 @@
       "x": 38,
       "y": 2.63,
       "c": 1,
+      "bp": 0
+    },
+    {
+      "l": "BP+Netflix+Prime",
+      "x": 238,
+      "y": 2.52,
+      "c": 6,
+      "bp": 1
+    },
+    {
+      "l": "Disney++HBO+Netflix+Prime",
+      "x": 482,
+      "y": 2.49,
+      "c": 12,
       "bp": 0
     },
     {
@@ -255,15 +265,22 @@
     },
     {
       "l": "Globo+Netflix+Prime",
-      "x": 255,
-      "y": 2.35,
+      "x": 258,
+      "y": 2.33,
       "c": 6,
       "bp": 0
     },
     {
-      "l": "BP+Disney++Netflix",
-      "x": 43,
+      "l": "Disney++Globo+HBO+Netflix+Edu+Prime",
+      "x": 86,
       "y": 2.33,
+      "c": 2,
+      "bp": 0
+    },
+    {
+      "l": "BP+Disney++Netflix",
+      "x": 44,
+      "y": 2.27,
       "c": 1,
       "bp": 1
     },
@@ -276,8 +293,8 @@
     },
     {
       "l": "Disney++Netflix+Edu+Prime",
-      "x": 89,
-      "y": 2.25,
+      "x": 90,
+      "y": 2.22,
       "c": 2,
       "bp": 0
     },
@@ -289,64 +306,50 @@
       "bp": 0
     },
     {
-      "l": "BP+Netflix+Prime",
-      "x": 238,
-      "y": 2.1,
-      "c": 5,
-      "bp": 1
+      "l": "Netflix+Prime",
+      "x": 1789,
+      "y": 2.07,
+      "c": 37,
+      "bp": 0
     },
     {
-      "l": "Disney++HBO+Netflix+Prime",
-      "x": 477,
-      "y": 2.1,
-      "c": 10,
+      "l": "Disney++Netflix+Prime",
+      "x": 581,
+      "y": 2.07,
+      "c": 12,
       "bp": 0
     },
     {
       "l": "BP",
-      "x": 1261,
-      "y": 2.06,
+      "x": 1268,
+      "y": 2.05,
       "c": 26,
       "bp": 1
     },
     {
       "l": "Disney++HBO+Netflix+Edu+Prime",
-      "x": 98,
-      "y": 2.04,
+      "x": 99,
+      "y": 2.02,
       "c": 2,
       "bp": 0
     },
     {
-      "l": "Netflix+Prime",
-      "x": 1774,
-      "y": 2.03,
-      "c": 36,
-      "bp": 0
-    },
-    {
       "l": "Globo+Nenhum",
-      "x": 50,
-      "y": 2.0,
+      "x": 51,
+      "y": 1.96,
       "c": 1,
       "bp": 0
     },
     {
-      "l": "Disney++Netflix+Prime",
-      "x": 572,
-      "y": 1.92,
-      "c": 11,
-      "bp": 0
-    },
-    {
       "l": "Netflix+Edu",
-      "x": 436,
+      "x": 437,
       "y": 1.83,
       "c": 8,
       "bp": 0
     },
     {
       "l": "Disney++Globo+HBO+Netflix+Prime",
-      "x": 337,
+      "x": 338,
       "y": 1.78,
       "c": 6,
       "bp": 0
@@ -367,15 +370,15 @@
     },
     {
       "l": "Edu",
-      "x": 821,
-      "y": 1.46,
+      "x": 830,
+      "y": 1.45,
       "c": 12,
       "bp": 0
     },
     {
       "l": "Globo",
-      "x": 486,
-      "y": 1.44,
+      "x": 492,
+      "y": 1.42,
       "c": 7,
       "bp": 0
     },
@@ -387,31 +390,24 @@
       "bp": 0
     },
     {
-      "l": "Disney++Netflix",
-      "x": 478,
-      "y": 1.26,
-      "c": 6,
-      "bp": 0
-    },
-    {
       "l": "Prime",
-      "x": 1503,
-      "y": 1.26,
-      "c": 19,
+      "x": 1514,
+      "y": 1.32,
+      "c": 20,
       "bp": 0
     },
     {
       "l": "Netflix",
-      "x": 8569,
-      "y": 1.25,
-      "c": 107,
+      "x": 8632,
+      "y": 1.3,
+      "c": 112,
       "bp": 0
     },
     {
-      "l": "Disney++Globo+HBO+Netflix+Edu+Prime",
-      "x": 85,
-      "y": 1.18,
-      "c": 1,
+      "l": "Disney++Netflix",
+      "x": 480,
+      "y": 1.25,
+      "c": 6,
       "bp": 0
     },
     {
@@ -423,30 +419,30 @@
     },
     {
       "l": "HBO+Netflix+Prime",
-      "x": 257,
-      "y": 1.17,
+      "x": 258,
+      "y": 1.16,
       "c": 3,
       "bp": 0
     },
     {
       "l": "BP+Disney++Globo+HBO+Netflix+Prime",
-      "x": 87,
-      "y": 1.15,
+      "x": 88,
+      "y": 1.14,
       "c": 1,
       "bp": 1
     },
     {
       "l": "Disney+",
-      "x": 269,
-      "y": 1.12,
+      "x": 273,
+      "y": 1.1,
       "c": 3,
       "bp": 0
     },
     {
       "l": "Nenhum",
-      "x": 15164,
-      "y": 1.02,
-      "c": 154,
+      "x": 15270,
+      "y": 1.03,
+      "c": 158,
       "bp": 0
     },
     {
@@ -457,39 +453,25 @@
       "bp": 0
     },
     {
-      "l": "HBO",
-      "x": 250,
-      "y": 0.8,
-      "c": 2,
-      "bp": 0
-    },
-    {
       "l": "Edu+Prime",
-      "x": 126,
+      "x": 127,
       "y": 0.79,
       "c": 1,
       "bp": 0
     },
     {
+      "l": "HBO",
+      "x": 252,
+      "y": 0.79,
+      "c": 2,
+      "bp": 0
+    },
+    {
       "l": "Globo+Netflix",
-      "x": 581,
-      "y": 0.52,
+      "x": 583,
+      "y": 0.51,
       "c": 3,
       "bp": 0
-    },
-    {
-      "l": "Globo+Nenhum+Netflix",
-      "x": 26,
-      "y": 0.0,
-      "c": 0,
-      "bp": 0
-    },
-    {
-      "l": "BP+Disney++HBO+Netflix+Prime",
-      "x": 89,
-      "y": 0.0,
-      "c": 0,
-      "bp": 1
     },
     {
       "l": "Nenhum+Edu",
@@ -507,10 +489,24 @@
     },
     {
       "l": "Disney++Globo+Netflix",
-      "x": 97,
+      "x": 98,
       "y": 0.0,
       "c": 0,
       "bp": 0
+    },
+    {
+      "l": "HBO+Netflix+Edu",
+      "x": 24,
+      "y": 0.0,
+      "c": 0,
+      "bp": 0
+    },
+    {
+      "l": "BP+Disney++HBO+Netflix+Edu+Prime",
+      "x": 33,
+      "y": 0.0,
+      "c": 0,
+      "bp": 1
     },
     {
       "l": "Disney++Netflix+Edu",
@@ -527,36 +523,8 @@
       "bp": 0
     },
     {
-      "l": "BP+Globo",
-      "x": 37,
-      "y": 0.0,
-      "c": 0,
-      "bp": 1
-    },
-    {
-      "l": "BP+Edu+Prime",
-      "x": 25,
-      "y": 0.0,
-      "c": 0,
-      "bp": 1
-    },
-    {
-      "l": "HBO+Netflix+Edu",
-      "x": 24,
-      "y": 0.0,
-      "c": 0,
-      "bp": 0
-    },
-    {
-      "l": "BP+Disney++HBO+Netflix+Edu+Prime",
-      "x": 32,
-      "y": 0.0,
-      "c": 0,
-      "bp": 1
-    },
-    {
       "l": "Disney++HBO+Netflix",
-      "x": 105,
+      "x": 106,
       "y": 0.0,
       "c": 0,
       "bp": 0
@@ -577,10 +545,38 @@
     },
     {
       "l": "Disney++Globo",
-      "x": 22,
+      "x": 24,
       "y": 0.0,
       "c": 0,
       "bp": 0
+    },
+    {
+      "l": "Globo+Nenhum+Netflix",
+      "x": 27,
+      "y": 0.0,
+      "c": 0,
+      "bp": 0
+    },
+    {
+      "l": "BP+Disney++HBO+Netflix+Prime",
+      "x": 89,
+      "y": 0.0,
+      "c": 0,
+      "bp": 1
+    },
+    {
+      "l": "BP+Globo",
+      "x": 37,
+      "y": 0.0,
+      "c": 0,
+      "bp": 1
+    },
+    {
+      "l": "BP+Edu+Prime",
+      "x": 26,
+      "y": 0.0,
+      "c": 0,
+      "bp": 1
     }
   ],
   "streamCombos": [
@@ -593,16 +589,23 @@
     },
     {
       "c": "Disney+ · Globoplay · Netflix · Prime Video",
-      "n": 154,
-      "cv": 7.14,
-      "rpl": 20.57,
+      "n": 157,
+      "cv": 7.01,
+      "rpl": 20.18,
       "s": "Globoplay"
     },
     {
+      "c": "Brasil Paralelo · Globoplay · Netflix",
+      "n": 72,
+      "cv": 6.94,
+      "rpl": 10.6,
+      "s": "Globoplay + BP"
+    },
+    {
       "c": "Disney+ · Prime Video",
-      "n": 165,
-      "cv": 4.85,
-      "rpl": 9.24,
+      "n": 167,
+      "cv": 4.79,
+      "rpl": 9.13,
       "s": ""
     },
     {
@@ -627,20 +630,6 @@
       "s": "BP"
     },
     {
-      "c": "Brasil Paralelo · Globoplay · Netflix",
-      "n": 73,
-      "cv": 4.11,
-      "rpl": 5.23,
-      "s": "Globoplay + BP"
-    },
-    {
-      "c": "Brasil Paralelo · Disney+ · Prime Video",
-      "n": 25,
-      "cv": 4.0,
-      "rpl": 5.23,
-      "s": "BP"
-    },
-    {
       "c": "Brasil Paralelo · Disney+ · Globoplay · Netflix · Prime Video",
       "n": 26,
       "cv": 3.85,
@@ -648,10 +637,17 @@
       "s": "Globoplay + BP"
     },
     {
-      "c": "Brasil Paralelo · Disney+ · Globoplay · HBO Max · Netflix · Plataformas educacionais · Prime Video",
-      "n": 52,
+      "c": "Brasil Paralelo · Disney+ · Prime Video",
+      "n": 26,
       "cv": 3.85,
-      "rpl": 34.36,
+      "rpl": 5.03,
+      "s": "BP"
+    },
+    {
+      "c": "Brasil Paralelo · Disney+ · Globoplay · HBO Max · Netflix · Plataformas educacionais · Prime Video",
+      "n": 53,
+      "cv": 3.77,
+      "rpl": 33.71,
       "s": "Globoplay + BP"
     },
     {
@@ -663,17 +659,10 @@
     },
     {
       "c": "Brasil Paralelo · Plataformas educacionais",
-      "n": 96,
-      "cv": 3.13,
-      "rpl": 31.43,
+      "n": 97,
+      "cv": 3.09,
+      "rpl": 31.1,
       "s": "BP + edu"
-    },
-    {
-      "c": "Brasil Paralelo · Netflix",
-      "n": 557,
-      "cv": 3.05,
-      "rpl": 9.56,
-      "s": "BP"
     },
     {
       "c": "Brasil Paralelo · HBO Max · Netflix",
@@ -683,17 +672,24 @@
       "s": "BP"
     },
     {
+      "c": "Brasil Paralelo · Netflix",
+      "n": 562,
+      "cv": 3.02,
+      "rpl": 9.48,
+      "s": "BP"
+    },
+    {
       "c": "Brasil Paralelo · HBO Max · Netflix · Prime Video",
-      "n": 34,
-      "cv": 2.94,
-      "rpl": 34.94,
+      "n": 35,
+      "cv": 2.86,
+      "rpl": 33.94,
       "s": "BP"
     },
     {
       "c": "HBO Max · Netflix",
-      "n": 225,
-      "cv": 2.67,
-      "rpl": 4.07,
+      "n": 226,
+      "cv": 2.65,
+      "rpl": 4.05,
       "s": ""
     },
     {
@@ -709,6 +705,20 @@
       "cv": 2.63,
       "rpl": 12.57,
       "s": "Globoplay"
+    },
+    {
+      "c": "Brasil Paralelo · Netflix · Prime Video",
+      "n": 238,
+      "cv": 2.52,
+      "rpl": 29.33,
+      "s": "BP"
+    },
+    {
+      "c": "Disney+ · HBO Max · Netflix · Prime Video",
+      "n": 482,
+      "cv": 2.49,
+      "rpl": 9.97,
+      "s": ""
     },
     {
       "c": "Brasil Paralelo · Netflix · Plataformas educacionais",
@@ -733,16 +743,23 @@
     },
     {
       "c": "Globoplay · Netflix · Prime Video",
-      "n": 255,
-      "cv": 2.35,
-      "rpl": 5.28,
+      "n": 258,
+      "cv": 2.33,
+      "rpl": 5.22,
+      "s": "Globoplay"
+    },
+    {
+      "c": "Disney+ · Globoplay · HBO Max · Netflix · Plataformas educacionais · Prime Video",
+      "n": 86,
+      "cv": 2.33,
+      "rpl": 8.33,
       "s": "Globoplay"
     },
     {
       "c": "Brasil Paralelo · Disney+ · Netflix",
-      "n": 43,
-      "cv": 2.33,
-      "rpl": 5.55,
+      "n": 44,
+      "cv": 2.27,
+      "rpl": 5.43,
       "s": "BP"
     },
     {
@@ -754,9 +771,9 @@
     },
     {
       "c": "Disney+ · Netflix · Plataformas educacionais · Prime Video",
-      "n": 89,
-      "cv": 2.25,
-      "rpl": 4.57,
+      "n": 90,
+      "cv": 2.22,
+      "rpl": 4.52,
       "s": "edu"
     },
     {
@@ -767,66 +784,52 @@
       "s": "Globoplay"
     },
     {
-      "c": "Brasil Paralelo · Netflix · Prime Video",
-      "n": 238,
-      "cv": 2.1,
-      "rpl": 22.33,
-      "s": "BP"
+      "c": "Netflix · Prime Video",
+      "n": 1789,
+      "cv": 2.07,
+      "rpl": 7.08,
+      "s": ""
     },
     {
-      "c": "Disney+ · HBO Max · Netflix · Prime Video",
-      "n": 477,
-      "cv": 2.1,
-      "rpl": 9.3,
+      "c": "Disney+ · Netflix · Prime Video",
+      "n": 581,
+      "cv": 2.07,
+      "rpl": 6.3,
       "s": ""
     },
     {
       "c": "Brasil Paralelo",
-      "n": 1261,
-      "cv": 2.06,
-      "rpl": 8.36,
+      "n": 1268,
+      "cv": 2.05,
+      "rpl": 8.49,
       "s": "BP"
     },
     {
       "c": "Disney+ · HBO Max · Netflix · Plataformas educacionais · Prime Video",
-      "n": 98,
-      "cv": 2.04,
-      "rpl": 7.31,
+      "n": 99,
+      "cv": 2.02,
+      "rpl": 7.24,
       "s": "edu"
     },
     {
-      "c": "Netflix · Prime Video",
-      "n": 1774,
-      "cv": 2.03,
-      "rpl": 7.01,
-      "s": ""
-    },
-    {
       "c": "Globoplay · Nenhum",
-      "n": 50,
-      "cv": 2.0,
-      "rpl": 2.62,
+      "n": 51,
+      "cv": 1.96,
+      "rpl": 2.56,
       "s": "Globoplay"
     },
     {
-      "c": "Disney+ · Netflix · Prime Video",
-      "n": 572,
-      "cv": 1.92,
-      "rpl": 5.98,
-      "s": ""
-    },
-    {
       "c": "Netflix · Plataformas educacionais",
-      "n": 436,
+      "n": 437,
       "cv": 1.83,
-      "rpl": 7.52,
+      "rpl": 7.5,
       "s": "edu"
     },
     {
       "c": "Disney+ · Globoplay · HBO Max · Netflix · Prime Video",
-      "n": 337,
+      "n": 338,
       "cv": 1.78,
-      "rpl": 6.18,
+      "rpl": 6.16,
       "s": "Globoplay"
     },
     {
@@ -845,16 +848,16 @@
     },
     {
       "c": "Plataformas educacionais",
-      "n": 821,
-      "cv": 1.46,
-      "rpl": 2.96,
+      "n": 830,
+      "cv": 1.45,
+      "rpl": 2.93,
       "s": "edu"
     },
     {
       "c": "Globoplay",
-      "n": 486,
-      "cv": 1.44,
-      "rpl": 3.29,
+      "n": 492,
+      "cv": 1.42,
+      "rpl": 3.25,
       "s": "Globoplay"
     },
     {
@@ -865,32 +868,25 @@
       "s": "Globoplay"
     },
     {
-      "c": "Disney+ · Netflix",
-      "n": 478,
-      "cv": 1.26,
-      "rpl": 1.87,
-      "s": ""
-    },
-    {
       "c": "Prime Video",
-      "n": 1503,
-      "cv": 1.26,
-      "rpl": 2.22,
+      "n": 1514,
+      "cv": 1.32,
+      "rpl": 2.38,
       "s": ""
     },
     {
       "c": "Netflix",
-      "n": 8569,
-      "cv": 1.25,
-      "rpl": 3.47,
+      "n": 8632,
+      "cv": 1.3,
+      "rpl": 3.53,
       "s": ""
     },
     {
-      "c": "Disney+ · Globoplay · HBO Max · Netflix · Plataformas educacionais · Prime Video",
-      "n": 85,
-      "cv": 1.18,
-      "rpl": 2.81,
-      "s": "Globoplay"
+      "c": "Disney+ · Netflix",
+      "n": 480,
+      "cv": 1.25,
+      "rpl": 1.86,
+      "s": ""
     },
     {
       "c": "Globoplay · HBO Max · Netflix · Prime Video",
@@ -901,30 +897,30 @@
     },
     {
       "c": "HBO Max · Netflix · Prime Video",
-      "n": 257,
-      "cv": 1.17,
-      "rpl": 12.27,
+      "n": 258,
+      "cv": 1.16,
+      "rpl": 12.22,
       "s": ""
     },
     {
       "c": "Brasil Paralelo · Disney+ · Globoplay · HBO Max · Netflix · Prime Video",
-      "n": 87,
-      "cv": 1.15,
-      "rpl": 3.17,
+      "n": 88,
+      "cv": 1.14,
+      "rpl": 3.14,
       "s": "Globoplay + BP"
     },
     {
       "c": "Disney+",
-      "n": 269,
-      "cv": 1.12,
-      "rpl": 7.17,
+      "n": 273,
+      "cv": 1.1,
+      "rpl": 7.6,
       "s": ""
     },
     {
       "c": "Nenhum",
-      "n": 15164,
-      "cv": 1.02,
-      "rpl": 2.48,
+      "n": 15270,
+      "cv": 1.03,
+      "rpl": 2.55,
       "s": ""
     },
     {
@@ -935,39 +931,25 @@
       "s": ""
     },
     {
-      "c": "HBO Max",
-      "n": 250,
-      "cv": 0.8,
-      "rpl": 1.48,
-      "s": ""
-    },
-    {
       "c": "Plataformas educacionais · Prime Video",
-      "n": 126,
+      "n": 127,
       "cv": 0.79,
-      "rpl": 2.19,
+      "rpl": 2.17,
       "s": "edu"
     },
     {
+      "c": "HBO Max",
+      "n": 252,
+      "cv": 0.79,
+      "rpl": 1.47,
+      "s": ""
+    },
+    {
       "c": "Globoplay · Netflix",
-      "n": 581,
-      "cv": 0.52,
+      "n": 583,
+      "cv": 0.51,
       "rpl": 1.35,
       "s": "Globoplay"
-    },
-    {
-      "c": "Globoplay · Nenhum · Netflix",
-      "n": 26,
-      "cv": 0.0,
-      "rpl": 0.0,
-      "s": "Globoplay"
-    },
-    {
-      "c": "Brasil Paralelo · Disney+ · HBO Max · Netflix · Prime Video",
-      "n": 89,
-      "cv": 0.0,
-      "rpl": 0.0,
-      "s": "BP"
     },
     {
       "c": "Nenhum · Plataformas educacionais",
@@ -985,10 +967,24 @@
     },
     {
       "c": "Disney+ · Globoplay · Netflix",
-      "n": 97,
+      "n": 98,
       "cv": 0.0,
       "rpl": 0.0,
       "s": "Globoplay"
+    },
+    {
+      "c": "HBO Max · Netflix · Plataformas educacionais",
+      "n": 24,
+      "cv": 0.0,
+      "rpl": 0.0,
+      "s": "edu"
+    },
+    {
+      "c": "Brasil Paralelo · Disney+ · HBO Max · Netflix · Plataformas educacionais · Prime Video",
+      "n": 33,
+      "cv": 0.0,
+      "rpl": 0.0,
+      "s": "BP + edu"
     },
     {
       "c": "Disney+ · Netflix · Plataformas educacionais",
@@ -1005,36 +1001,8 @@
       "s": "edu"
     },
     {
-      "c": "Brasil Paralelo · Globoplay",
-      "n": 37,
-      "cv": 0.0,
-      "rpl": 0.0,
-      "s": "Globoplay + BP"
-    },
-    {
-      "c": "Brasil Paralelo · Plataformas educacionais · Prime Video",
-      "n": 25,
-      "cv": 0.0,
-      "rpl": 0.0,
-      "s": "BP + edu"
-    },
-    {
-      "c": "HBO Max · Netflix · Plataformas educacionais",
-      "n": 24,
-      "cv": 0.0,
-      "rpl": 0.0,
-      "s": "edu"
-    },
-    {
-      "c": "Brasil Paralelo · Disney+ · HBO Max · Netflix · Plataformas educacionais · Prime Video",
-      "n": 32,
-      "cv": 0.0,
-      "rpl": 0.0,
-      "s": "BP + edu"
-    },
-    {
       "c": "Disney+ · HBO Max · Netflix",
-      "n": 105,
+      "n": 106,
       "cv": 0.0,
       "rpl": 0.0,
       "s": ""
@@ -1055,30 +1023,58 @@
     },
     {
       "c": "Disney+ · Globoplay",
-      "n": 22,
+      "n": 24,
       "cv": 0.0,
       "rpl": 0.0,
       "s": "Globoplay"
+    },
+    {
+      "c": "Globoplay · Nenhum · Netflix",
+      "n": 27,
+      "cv": 0.0,
+      "rpl": 0.0,
+      "s": "Globoplay"
+    },
+    {
+      "c": "Brasil Paralelo · Disney+ · HBO Max · Netflix · Prime Video",
+      "n": 89,
+      "cv": 0.0,
+      "rpl": 0.0,
+      "s": "BP"
+    },
+    {
+      "c": "Brasil Paralelo · Globoplay",
+      "n": 37,
+      "cv": 0.0,
+      "rpl": 0.0,
+      "s": "Globoplay + BP"
+    },
+    {
+      "c": "Brasil Paralelo · Plataformas educacionais · Prime Video",
+      "n": 26,
+      "cv": 0.0,
+      "rpl": 0.0,
+      "s": "BP + edu"
     }
   ],
   "score": {
     "leads": [
-      7149,
-      23647,
-      4296,
-      5863,
-      1616,
-      777,
-      148
+      7189,
+      23791,
+      4334,
+      5903,
+      1626,
+      784,
+      149
     ],
     "conv": [
       0.71,
-      0.93,
-      2.37,
-      2.44,
-      3.65,
-      4.63,
-      5.41
+      0.97,
+      2.4,
+      2.49,
+      3.69,
+      4.72,
+      6.04
     ]
   },
   "tempo": {
@@ -1093,18 +1089,18 @@
     "taxaResposta": [
       12.7,
       33.4,
-      54.3,
+      54.4,
       65.9,
       66.5,
-      70.9
+      71.2
     ],
     "taxaCompra": [
       1.26,
-      1.32,
+      1.33,
       1.69,
       0.91,
-      0.95,
-      0.5
+      0.96,
+      0.77
     ]
   },
   "taxaResposta": {
@@ -1215,14 +1211,14 @@
     ]
   },
   "benchEvgRenda": [
-    1.34,
-    2.86,
-    3.41
+    1.37,
+    2.93,
+    3.48
   ],
   "benchEvgRel": [
-    3.26,
-    1.11,
-    1.21,
+    3.29,
+    1.14,
+    1.29,
     0.2
   ],
   "matrizCruz": {
@@ -1230,8 +1226,8 @@
       {
         "qa": "Assino hoje",
         "qb": "Acima de R$ 15.000",
-        "n": 135,
-        "conv": 5.19
+        "n": 136,
+        "conv": 5.88
       },
       {
         "qa": "Assino hoje",
@@ -1242,20 +1238,20 @@
       {
         "qa": "Assino hoje",
         "qb": "Até R$ 2.000",
-        "n": 2,
+        "n": 1,
         "conv": 0.0
       },
       {
         "qa": "Assino hoje",
         "qb": "Até R$ 5.000",
-        "n": 803,
-        "conv": 2.24
+        "n": 809,
+        "conv": 2.22
       },
       {
         "qa": "Assino hoje",
         "qb": "Prefiro não informar",
-        "n": 488,
-        "conv": 3.07
+        "n": 491,
+        "conv": 3.05
       },
       {
         "qa": "Assino hoje",
@@ -1278,8 +1274,8 @@
       {
         "qa": "Assino hoje",
         "qb": "R$ 5.000 – R$ 10.000",
-        "n": 425,
-        "conv": 3.53
+        "n": 430,
+        "conv": 3.72
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
@@ -1296,20 +1292,20 @@
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "Até R$ 5.000",
-        "n": 7614,
-        "conv": 0.95
+        "n": 7672,
+        "conv": 0.99
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "Prefiro não informar",
-        "n": 5601,
-        "conv": 0.91
+        "n": 5633,
+        "conv": 0.94
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "R$ 10.000 – R$ 15.000",
-        "n": 462,
-        "conv": 1.52
+        "n": 463,
+        "conv": 1.51
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
@@ -1320,20 +1316,20 @@
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "R$ 2.000 – R$ 5.000",
-        "n": 66,
-        "conv": 3.03
+        "n": 68,
+        "conv": 2.94
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "R$ 5.000 – R$ 10.000",
-        "n": 2095,
-        "conv": 2.0
+        "n": 2116,
+        "conv": 2.03
       },
       {
         "qa": "Já assinei no passado",
         "qb": "Acima de R$ 15.000",
-        "n": 186,
-        "conv": 6.99
+        "n": 187,
+        "conv": 6.95
       },
       {
         "qa": "Já assinei no passado",
@@ -1344,20 +1340,20 @@
       {
         "qa": "Já assinei no passado",
         "qb": "Até R$ 5.000",
-        "n": 1962,
-        "conv": 2.91
+        "n": 1980,
+        "conv": 2.98
       },
       {
         "qa": "Já assinei no passado",
         "qb": "Prefiro não informar",
-        "n": 971,
-        "conv": 1.96
+        "n": 982,
+        "conv": 1.93
       },
       {
         "qa": "Já assinei no passado",
         "qb": "R$ 10.000 – R$ 15.000",
-        "n": 240,
-        "conv": 3.75
+        "n": 243,
+        "conv": 3.7
       },
       {
         "qa": "Já assinei no passado",
@@ -1374,14 +1370,14 @@
       {
         "qa": "Já assinei no passado",
         "qb": "R$ 5.000 – R$ 10.000",
-        "n": 917,
-        "conv": 4.25
+        "n": 925,
+        "conv": 4.22
       },
       {
         "qa": "Já ouvi falar, mas nunca assisti nada",
         "qb": "Acima de R$ 15.000",
         "n": 175,
-        "conv": 3.43
+        "conv": 4.0
       },
       {
         "qa": "Já ouvi falar, mas nunca assisti nada",
@@ -1392,20 +1388,20 @@
       {
         "qa": "Já ouvi falar, mas nunca assisti nada",
         "qb": "Até R$ 5.000",
-        "n": 4112,
-        "conv": 0.95
+        "n": 4145,
+        "conv": 1.01
       },
       {
         "qa": "Já ouvi falar, mas nunca assisti nada",
         "qb": "Prefiro não informar",
-        "n": 3278,
-        "conv": 0.73
+        "n": 3301,
+        "conv": 0.79
       },
       {
         "qa": "Já ouvi falar, mas nunca assisti nada",
         "qb": "R$ 10.000 – R$ 15.000",
-        "n": 288,
-        "conv": 1.74
+        "n": 291,
+        "conv": 1.72
       },
       {
         "qa": "Já ouvi falar, mas nunca assisti nada",
@@ -1422,31 +1418,31 @@
       {
         "qa": "Já ouvi falar, mas nunca assisti nada",
         "qb": "R$ 5.000 – R$ 10.000",
-        "n": 1223,
-        "conv": 2.7
+        "n": 1229,
+        "conv": 2.93
       },
       {
         "qa": "Nunca ouvi falar",
         "qb": "Acima de R$ 15.000",
-        "n": 35,
+        "n": 36,
         "conv": 0.0
       },
       {
         "qa": "Nunca ouvi falar",
         "qb": "Até R$ 5.000",
-        "n": 1112,
+        "n": 1123,
         "conv": 0.18
       },
       {
         "qa": "Nunca ouvi falar",
         "qb": "Prefiro não informar",
-        "n": 1403,
+        "n": 1414,
         "conv": 0.14
       },
       {
         "qa": "Nunca ouvi falar",
         "qb": "R$ 10.000 – R$ 15.000",
-        "n": 37,
+        "n": 39,
         "conv": 0.0
       },
       {
@@ -1458,22 +1454,22 @@
       {
         "qa": "Nunca ouvi falar",
         "qb": "R$ 5.000 – R$ 10.000",
-        "n": 189,
-        "conv": 0.53
+        "n": 191,
+        "conv": 0.52
       }
     ],
     "rel_stream": [
       {
         "qa": "Assino hoje",
         "qb": "Brasil Paralelo",
-        "n": 1422,
-        "conv": 2.88
+        "n": 1431,
+        "conv": 2.94
       },
       {
         "qa": "Assino hoje",
         "qb": "Disney+",
-        "n": 349,
-        "conv": 3.15
+        "n": 351,
+        "conv": 3.42
       },
       {
         "qa": "Assino hoje",
@@ -1485,7 +1481,7 @@
         "qa": "Assino hoje",
         "qb": "HBO Max",
         "n": 251,
-        "conv": 1.59
+        "conv": 1.99
       },
       {
         "qa": "Assino hoje",
@@ -1496,152 +1492,152 @@
       {
         "qa": "Assino hoje",
         "qb": "Netflix",
-        "n": 1198,
-        "conv": 3.09
+        "n": 1204,
+        "conv": 3.24
       },
       {
         "qa": "Assino hoje",
         "qb": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
-        "n": 271,
-        "conv": 3.69
+        "n": 273,
+        "conv": 3.66
       },
       {
         "qa": "Assino hoje",
         "qb": "Prime Video",
-        "n": 672,
-        "conv": 2.98
+        "n": 675,
+        "conv": 3.26
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "Brasil Paralelo",
-        "n": 705,
-        "conv": 1.84
+        "n": 709,
+        "conv": 1.97
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "Disney+",
-        "n": 1402,
-        "conv": 1.14
+        "n": 1413,
+        "conv": 1.27
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "Globoplay",
-        "n": 1142,
-        "conv": 1.31
+        "n": 1148,
+        "conv": 1.57
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "HBO Max",
-        "n": 1109,
-        "conv": 0.9
+        "n": 1115,
+        "conv": 0.99
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "Nenhum",
-        "n": 8201,
-        "conv": 1.02
+        "n": 8256,
+        "conv": 1.04
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "Netflix",
-        "n": 6506,
-        "conv": 1.31
+        "n": 6549,
+        "conv": 1.34
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
-        "n": 1276,
-        "conv": 1.02
+        "n": 1283,
+        "conv": 1.17
       },
       {
         "qa": "Consumo conteúdo gratuito (YouTube, redes sociais)",
         "qb": "Prime Video",
-        "n": 2925,
-        "conv": 1.33
+        "n": 2944,
+        "conv": 1.39
       },
       {
         "qa": "Já assinei no passado",
         "qb": "Brasil Paralelo",
-        "n": 710,
-        "conv": 3.1
+        "n": 714,
+        "conv": 3.22
       },
       {
         "qa": "Já assinei no passado",
         "qb": "Disney+",
-        "n": 615,
-        "conv": 4.55
+        "n": 623,
+        "conv": 4.49
       },
       {
         "qa": "Já assinei no passado",
         "qb": "Globoplay",
-        "n": 322,
-        "conv": 3.73
+        "n": 327,
+        "conv": 3.98
       },
       {
         "qa": "Já assinei no passado",
         "qb": "HBO Max",
-        "n": 421,
-        "conv": 4.28
+        "n": 425,
+        "conv": 4.24
       },
       {
         "qa": "Já assinei no passado",
         "qb": "Nenhum",
-        "n": 1433,
+        "n": 1446,
+        "conv": 2.14
+      },
+      {
+        "qa": "Já assinei no passado",
+        "qb": "Netflix",
+        "n": 2190,
+        "conv": 3.88
+      },
+      {
+        "qa": "Já assinei no passado",
+        "qb": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
+        "n": 517,
+        "conv": 3.48
+      },
+      {
+        "qa": "Já assinei no passado",
+        "qb": "Prime Video",
+        "n": 1345,
+        "conv": 3.79
+      },
+      {
+        "qa": "Já ouvi falar, mas nunca assisti nada",
+        "qb": "Brasil Paralelo",
+        "n": 193,
+        "conv": 2.07
+      },
+      {
+        "qa": "Já ouvi falar, mas nunca assisti nada",
+        "qb": "Disney+",
+        "n": 1029,
+        "conv": 2.72
+      },
+      {
+        "qa": "Já ouvi falar, mas nunca assisti nada",
+        "qb": "Globoplay",
+        "n": 910,
         "conv": 2.09
       },
       {
-        "qa": "Já assinei no passado",
-        "qb": "Netflix",
-        "n": 2170,
-        "conv": 3.87
-      },
-      {
-        "qa": "Já assinei no passado",
-        "qb": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
-        "n": 510,
-        "conv": 3.53
-      },
-      {
-        "qa": "Já assinei no passado",
-        "qb": "Prime Video",
-        "n": 1331,
-        "conv": 3.83
-      },
-      {
-        "qa": "Já ouvi falar, mas nunca assisti nada",
-        "qb": "Brasil Paralelo",
-        "n": 192,
-        "conv": 2.08
-      },
-      {
-        "qa": "Já ouvi falar, mas nunca assisti nada",
-        "qb": "Disney+",
-        "n": 1019,
-        "conv": 2.55
-      },
-      {
-        "qa": "Já ouvi falar, mas nunca assisti nada",
-        "qb": "Globoplay",
-        "n": 904,
-        "conv": 2.1
-      },
-      {
         "qa": "Já ouvi falar, mas nunca assisti nada",
         "qb": "HBO Max",
-        "n": 709,
-        "conv": 1.83
+        "n": 713,
+        "conv": 1.96
       },
       {
         "qa": "Já ouvi falar, mas nunca assisti nada",
         "qb": "Nenhum",
-        "n": 3784,
-        "conv": 0.9
+        "n": 3810,
+        "conv": 0.92
       },
       {
         "qa": "Já ouvi falar, mas nunca assisti nada",
         "qb": "Netflix",
-        "n": 4771,
-        "conv": 1.26
+        "n": 4800,
+        "conv": 1.4
       },
       {
         "qa": "Já ouvi falar, mas nunca assisti nada",
@@ -1652,8 +1648,8 @@
       {
         "qa": "Já ouvi falar, mas nunca assisti nada",
         "qb": "Prime Video",
-        "n": 1940,
-        "conv": 1.86
+        "n": 1954,
+        "conv": 2.05
       },
       {
         "qa": "Nunca ouvi falar",
@@ -1664,44 +1660,44 @@
       {
         "qa": "Nunca ouvi falar",
         "qb": "Disney+",
-        "n": 239,
+        "n": 243,
         "conv": 0.0
       },
       {
         "qa": "Nunca ouvi falar",
         "qb": "Globoplay",
-        "n": 303,
-        "conv": 0.66
+        "n": 308,
+        "conv": 0.65
       },
       {
         "qa": "Nunca ouvi falar",
         "qb": "HBO Max",
-        "n": 173,
-        "conv": 0.58
+        "n": 175,
+        "conv": 0.57
       },
       {
         "qa": "Nunca ouvi falar",
         "qb": "Nenhum",
-        "n": 1434,
+        "n": 1445,
         "conv": 0.14
       },
       {
         "qa": "Nunca ouvi falar",
         "qb": "Netflix",
-        "n": 1258,
+        "n": 1272,
         "conv": 0.16
       },
       {
         "qa": "Nunca ouvi falar",
         "qb": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
-        "n": 112,
+        "n": 113,
         "conv": 0.0
       },
       {
         "qa": "Nunca ouvi falar",
         "qb": "Prime Video",
-        "n": 373,
-        "conv": 0.54
+        "n": 378,
+        "conv": 0.53
       }
     ],
     "renda_stream": [
@@ -1709,49 +1705,49 @@
         "qa": "Acima de R$ 15.000",
         "qb": "Brasil Paralelo",
         "n": 152,
-        "conv": 7.24
+        "conv": 7.89
       },
       {
         "qa": "Acima de R$ 15.000",
         "qb": "Disney+",
-        "n": 273,
-        "conv": 5.13
+        "n": 274,
+        "conv": 5.11
       },
       {
         "qa": "Acima de R$ 15.000",
         "qb": "Globoplay",
-        "n": 154,
-        "conv": 4.55
+        "n": 153,
+        "conv": 4.58
       },
       {
         "qa": "Acima de R$ 15.000",
         "qb": "HBO Max",
-        "n": 174,
-        "conv": 3.45
+        "n": 173,
+        "conv": 3.47
       },
       {
         "qa": "Acima de R$ 15.000",
         "qb": "Nenhum",
-        "n": 111,
-        "conv": 2.7
+        "n": 112,
+        "conv": 2.68
       },
       {
         "qa": "Acima de R$ 15.000",
         "qb": "Netflix",
-        "n": 616,
-        "conv": 4.22
+        "n": 618,
+        "conv": 4.53
       },
       {
         "qa": "Acima de R$ 15.000",
         "qb": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
-        "n": 118,
-        "conv": 2.54
+        "n": 117,
+        "conv": 2.56
       },
       {
         "qa": "Acima de R$ 15.000",
         "qb": "Prime Video",
         "n": 437,
-        "conv": 4.58
+        "conv": 4.81
       },
       {
         "qa": "Acima de R$ 20.000",
@@ -1792,7 +1788,7 @@
       {
         "qa": "Até R$ 2.000",
         "qb": "Disney+",
-        "n": 2,
+        "n": 1,
         "conv": 0.0
       },
       {
@@ -1816,7 +1812,7 @@
       {
         "qa": "Até R$ 2.000",
         "qb": "Netflix",
-        "n": 5,
+        "n": 4,
         "conv": 0.0
       },
       {
@@ -1828,146 +1824,146 @@
       {
         "qa": "Até R$ 5.000",
         "qb": "Brasil Paralelo",
-        "n": 1165,
-        "conv": 2.15
+        "n": 1174,
+        "conv": 2.3
       },
       {
         "qa": "Até R$ 5.000",
         "qb": "Disney+",
-        "n": 1439,
-        "conv": 1.25
+        "n": 1452,
+        "conv": 1.38
       },
       {
         "qa": "Até R$ 5.000",
         "qb": "Globoplay",
-        "n": 1221,
-        "conv": 0.98
+        "n": 1231,
+        "conv": 1.22
       },
       {
         "qa": "Até R$ 5.000",
         "qb": "HBO Max",
-        "n": 1073,
-        "conv": 0.84
+        "n": 1079,
+        "conv": 0.93
       },
       {
         "qa": "Até R$ 5.000",
         "qb": "Nenhum",
-        "n": 6680,
-        "conv": 1.09
+        "n": 6733,
+        "conv": 1.13
       },
       {
         "qa": "Até R$ 5.000",
         "qb": "Netflix",
-        "n": 6902,
-        "conv": 1.3
+        "n": 6964,
+        "conv": 1.35
       },
       {
         "qa": "Até R$ 5.000",
         "qb": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
-        "n": 1143,
-        "conv": 1.14
+        "n": 1150,
+        "conv": 1.22
       },
       {
         "qa": "Até R$ 5.000",
         "qb": "Prime Video",
-        "n": 2990,
-        "conv": 1.44
+        "n": 3013,
+        "conv": 1.49
       },
       {
         "qa": "Prefiro não informar",
         "qb": "Brasil Paralelo",
-        "n": 803,
-        "conv": 2.12
+        "n": 809,
+        "conv": 2.1
       },
       {
         "qa": "Prefiro não informar",
         "qb": "Disney+",
-        "n": 788,
-        "conv": 1.52
-      },
-      {
-        "qa": "Prefiro não informar",
-        "qb": "Globoplay",
-        "n": 734,
+        "n": 799,
         "conv": 1.63
       },
       {
         "qa": "Prefiro não informar",
+        "qb": "Globoplay",
+        "n": 742,
+        "conv": 1.62
+      },
+      {
+        "qa": "Prefiro não informar",
         "qb": "HBO Max",
-        "n": 587,
-        "conv": 2.04
+        "n": 594,
+        "conv": 2.02
       },
       {
         "qa": "Prefiro não informar",
         "qb": "Nenhum",
-        "n": 6056,
-        "conv": 0.79
+        "n": 6099,
+        "conv": 0.8
       },
       {
         "qa": "Prefiro não informar",
         "qb": "Netflix",
-        "n": 4425,
-        "conv": 1.22
+        "n": 4456,
+        "conv": 1.26
       },
       {
         "qa": "Prefiro não informar",
         "qb": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
-        "n": 623,
-        "conv": 1.61
+        "n": 629,
+        "conv": 1.59
       },
       {
         "qa": "Prefiro não informar",
         "qb": "Prime Video",
-        "n": 1584,
-        "conv": 1.45
+        "n": 1599,
+        "conv": 1.56
       },
       {
         "qa": "R$ 10.000 – R$ 15.000",
         "qb": "Brasil Paralelo",
-        "n": 184,
-        "conv": 2.17
+        "n": 185,
+        "conv": 2.16
       },
       {
         "qa": "R$ 10.000 – R$ 15.000",
         "qb": "Disney+",
-        "n": 283,
-        "conv": 2.12
+        "n": 287,
+        "conv": 2.09
       },
       {
         "qa": "R$ 10.000 – R$ 15.000",
         "qb": "Globoplay",
-        "n": 196,
-        "conv": 1.53
+        "n": 199,
+        "conv": 1.51
       },
       {
         "qa": "R$ 10.000 – R$ 15.000",
         "qb": "HBO Max",
-        "n": 209,
-        "conv": 1.91
+        "n": 211,
+        "conv": 1.9
       },
       {
         "qa": "R$ 10.000 – R$ 15.000",
         "qb": "Nenhum",
-        "n": 213,
-        "conv": 1.41
+        "n": 215,
+        "conv": 1.4
       },
       {
         "qa": "R$ 10.000 – R$ 15.000",
         "qb": "Netflix",
-        "n": 806,
-        "conv": 1.86
+        "n": 813,
+        "conv": 1.85
       },
       {
         "qa": "R$ 10.000 – R$ 15.000",
         "qb": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
-        "n": 191,
-        "conv": 1.05
+        "n": 192,
+        "conv": 1.04
       },
       {
         "qa": "R$ 10.000 – R$ 15.000",
         "qb": "Prime Video",
-        "n": 525,
-        "conv": 1.9
+        "n": 532,
+        "conv": 1.88
       },
       {
         "qa": "R$ 10.000 – R$ 20.000",
@@ -2026,7 +2022,7 @@
       {
         "qa": "R$ 2.000 – R$ 5.000",
         "qb": "Disney+",
-        "n": 6,
+        "n": 8,
         "conv": 0.0
       },
       {
@@ -2038,7 +2034,7 @@
       {
         "qa": "R$ 2.000 – R$ 5.000",
         "qb": "HBO Max",
-        "n": 7,
+        "n": 9,
         "conv": 0.0
       },
       {
@@ -2050,13 +2046,13 @@
       {
         "qa": "R$ 2.000 – R$ 5.000",
         "qb": "Netflix",
-        "n": 67,
-        "conv": 2.99
+        "n": 69,
+        "conv": 2.9
       },
       {
         "qa": "R$ 2.000 – R$ 5.000",
         "qb": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
-        "n": 9,
+        "n": 10,
         "conv": 0.0
       },
       {
@@ -2068,50 +2064,50 @@
       {
         "qa": "R$ 5.000 – R$ 10.000",
         "qb": "Brasil Paralelo",
-        "n": 629,
-        "conv": 3.34
+        "n": 633,
+        "conv": 3.32
       },
       {
         "qa": "R$ 5.000 – R$ 10.000",
         "qb": "Disney+",
-        "n": 774,
-        "conv": 4.13
+        "n": 783,
+        "conv": 4.34
       },
       {
         "qa": "R$ 5.000 – R$ 10.000",
         "qb": "Globoplay",
-        "n": 552,
-        "conv": 3.8
+        "n": 556,
+        "conv": 3.96
       },
       {
         "qa": "R$ 5.000 – R$ 10.000",
         "qb": "HBO Max",
-        "n": 570,
-        "conv": 2.98
+        "n": 573,
+        "conv": 3.32
       },
       {
         "qa": "R$ 5.000 – R$ 10.000",
         "qb": "Nenhum",
-        "n": 1307,
-        "conv": 2.52
+        "n": 1320,
+        "conv": 2.5
       },
       {
         "qa": "R$ 5.000 – R$ 10.000",
         "qb": "Netflix",
-        "n": 2810,
-        "conv": 2.74
+        "n": 2831,
+        "conv": 2.9
       },
       {
         "qa": "R$ 5.000 – R$ 10.000",
         "qb": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
-        "n": 592,
-        "conv": 3.04
+        "n": 597,
+        "conv": 3.18
       },
       {
         "qa": "R$ 5.000 – R$ 10.000",
         "qb": "Prime Video",
-        "n": 1564,
-        "conv": 3.2
+        "n": 1580,
+        "conv": 3.35
       }
     ]
   }
