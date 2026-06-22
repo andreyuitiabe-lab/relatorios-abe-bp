@@ -100,6 +100,24 @@
     .grid2,.grid2.tilt,.exec .cols{grid-template-columns:1fr}
     header h1{font-size:25px}
   }
+
+  /* ── matriz cruzada ───────────────────────────────────────────── */
+  .mz-bar{display:flex;gap:20px;align-items:flex-end;margin-bottom:16px;flex-wrap:wrap}
+  .mz-sel{display:flex;flex-direction:column;gap:6px}
+  .mz-sel label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--soft)}
+  .mz-sel select{padding:7px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--card);color:var(--text);font-size:13px;font-family:inherit;cursor:pointer;min-width:190px}
+  .mz-sel select:focus{outline:none;border-color:var(--blue)}
+  .mz-x{font-size:22px;color:var(--soft);padding-bottom:6px}
+  .mz-legend{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .mz-leg{padding:3px 10px;border-radius:4px;font-size:11px;font-weight:600;border:1px solid rgba(0,0,0,.07);color:#1e293b}
+  .mz-table{border-collapse:collapse;font-size:12px}
+  .mz-table th{padding:5px 8px;font-size:11px;font-weight:600;text-align:center;color:var(--muted);background:var(--bg);border:1px solid var(--line);white-space:nowrap;max-width:90px;overflow:hidden;text-overflow:ellipsis}
+  .mz-table th.mz-th-row{text-align:left;max-width:150px}
+  .mz-row-label{font-size:12px;font-weight:600;color:var(--text);padding:5px 10px;border:1px solid var(--line);white-space:nowrap;background:var(--bg)}
+  .mz-cell{padding:5px 7px;border:1px solid rgba(0,0,0,.04);text-align:center;min-width:56px}
+  .mz-pct{display:block;font-size:12px;font-weight:700;color:#1e293b}
+  .mz-n{display:block;font-size:10px;color:#64748b;margin-top:1px}
+  .mz-empty{color:#94a3b8!important;background:#f8fafc!important}
 </style>
 </head>
 <body>
@@ -635,6 +653,41 @@
     </div>
   </section>
 
+  <!-- MATRIZ CRUZADA -->
+  <section class="sec">
+    <div class="sec-head"><span class="sec-num">×</span><h2>Cruzamento entre perguntas do formulário</h2></div>
+    <p class="sub">Selecione duas perguntas para ver a taxa de conversão de cada combinação de respostas.</p>
+    <div class="mz-bar">
+      <div class="mz-sel">
+        <label>Pergunta A <small style="font-weight:400;text-transform:none">(linhas)</small></label>
+        <select id="mzSelA">
+          <option value="relacao_bp">Relação com a BP</option>
+          <option value="renda">Faixa de renda</option>
+          <option value="streaming">Streaming</option>
+        </select>
+      </div>
+      <div class="mz-x">×</div>
+      <div class="mz-sel">
+        <label>Pergunta B <small style="font-weight:400;text-transform:none">(colunas)</small></label>
+        <select id="mzSelB">
+          <option value="renda">Faixa de renda</option>
+          <option value="relacao_bp">Relação com a BP</option>
+          <option value="streaming">Streaming</option>
+        </select>
+      </div>
+    </div>
+    <div class="mz-legend">
+      <span class="mz-leg" style="background:#bbf7d0">≥ 5%</span>
+      <span class="mz-leg" style="background:#dcfce7">≥ 3%</span>
+      <span class="mz-leg" style="background:#f0fdf4">≥ 1,5%</span>
+      <span class="mz-leg" style="background:#fff7ed">&lt; 1,5%</span>
+      <span class="mz-leg" style="background:#fef2f2">0%</span>
+      <span class="mz-leg" style="background:#f1f5f9;border-style:dashed">n &lt; 5</span>
+    </div>
+    <p id="mzNote" class="nota" style="display:none;margin-top:8px"></p>
+    <div style="overflow-x:auto;margin-top:12px"><div id="mzWrap"></div></div>
+  </section>
+
   <!-- RESPONDENTE VS NAO -->
   <section class="sec">
     <div class="sec-head"><span class="sec-num">04</span><h2>Responder o formulário já é um sinal — e o que isso diz sobre otimizar por cadastro</h2></div>
@@ -1001,7 +1054,7 @@
 </main>
 
 <footer>
-  Brasil Paralelo · Análise gerada com Claude Code · Junho 2026<br>
+  Brasil Paralelo · Análise gerada com Claude Code · Junho 2026 · <span id="lastUpdate"></span><br>
   Fontes: dtm_analytics_lead_conversion · dtm_analytics_facebook_ads_funnel · GA4 (property 378996649)
 </footer>
 
@@ -1012,7 +1065,7 @@ Chart.defaults.font.size=12;
 Chart.defaults.color="#6b7689";
 const BLUE="#3b6ef5",GREEN="#16a34a",RED="#e23b3b",AMBER="#f5a524",VIOLET="#7c5cfc",GREY="#aab2c4";
 
-// plugin: value labels at end of horizontal/vertical bars
+// plugin: value labels at end of bars
 const valueLabels=(fmt)=>({
   id:'vlab',
   afterDatasetsDraw(c){
@@ -1033,209 +1086,96 @@ const valueLabels=(fmt)=>({
 const pct=v=>v.toLocaleString('pt-BR')+'%';
 const grad=(t,a,b)=>{const g=t.ctx.createLinearGradient(0,0,t.chartArea?.right||300,0);g.addColorStop(0,a);g.addColorStop(1,b);return g;};
 
-// 01 mix relação
-new Chart(mixRel,{type:'bar',data:{labels:['Consumo grátis','Já ouvi falar','Já assinei','Assino hoje','Nunca ouvi'],
-  datasets:[{data:[46.8,25.6,14.8,6.9,5.9],backgroundColor:[GREY,GREY,BLUE,GREEN,RED],borderRadius:5,barThickness:20}]},
-  options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>pct(c.raw)}}},
-  scales:{x:{display:false,max:54},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v+'%')]});
-
-// 01 mix renda
-new Chart(mixRenda,{type:'bar',data:{labels:['Até R$5k','Não informa','Até R$2k','R$5–10k','R$2–5k','R$10k+'],
-  datasets:[{data:[28.6,20.1,18.8,14.3,14.2,6.3],backgroundColor:[GREY,'#cfd5e2',GREY,BLUE,GREY,GREEN],borderRadius:5,barThickness:20}]},
-  options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>pct(c.raw)}}},
-  scales:{x:{display:false,max:34},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v+'%')]});
-
-// 01 mix streaming
-new Chart(mixStream,{type:'bar',data:{labels:['Netflix','Nenhum','Prime Video','Brasil Paralelo','Disney+','HBO Max','Globoplay','Educacional'],
-  datasets:[{data:[25.2,20.9,11.7,6.0,5.7,4.8,4.3,3.9],backgroundColor:[GREY,AMBER,GREY,GREEN,GREY,'#cfd5e2','#cfd5e2',BLUE],borderRadius:5,barThickness:15}]},
-  options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>pct(c.raw)}}},
-  scales:{x:{display:false,max:30},y:{grid:{display:false},ticks:{font:{size:10.5}}}}},plugins:[valueLabels(v=>v+'%')]});
-
-// 02 conversão relação
-const cRel=[3.37,2.38,0.92,0.91,0.33];
-new Chart(convRel,{type:'bar',data:{labels:['Assino hoje','Já assinei','Consumo grátis','Já ouvi falar','Nunca ouvi'],
-  datasets:[{data:cRel,backgroundColor:[GREEN,'#4d9e63','#86a8c2',GREY,RED],borderRadius:6,barThickness:26}]},
-  options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Tx compra '+c.raw.toLocaleString('pt-BR')+'%'}}},
-  scales:{x:{display:false,max:4.0},y:{grid:{display:false}}}},plugins:[valueLabels(v=>v.toLocaleString('pt-BR')+'%')]});
-
-// 02 conversão renda
-new Chart(convRenda,{type:'bar',data:{labels:['Acima R$20k','R$10–20k','Acima R$15k','R$5–10k','R$2–5k','Até R$5k','Não informa','Até R$2k'],
-  datasets:[{data:[6.25,5.06,3.57,2.36,1.92,1.56,0.98,0.64],backgroundColor:[GREEN,GREEN,'#4d9e63',BLUE,BLUE,'#86a8c2',GREY,GREY],borderRadius:6,barThickness:18}]},
-  options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Tx compra '+c.raw.toLocaleString('pt-BR')+'%'}}},
-  scales:{x:{display:false,max:7.2},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v.toLocaleString('pt-BR')+'%')]});
-
-// 03 bubble streaming
-const sd=[
- {l:'Nenhum',x:2364,y:1.02,c:24,bp:0},{l:'Netflix',x:1456,y:1.37,c:20,bp:0},
- {l:'Netflix+Prime',x:317,y:1.26,c:4,bp:0},{l:'Brasil Paralelo',x:278,y:1.44,c:4,bp:1},
- {l:'Prime Video',x:269,y:1.86,c:5,bp:0},{l:'Educacional',x:145,y:0.69,c:1,bp:0},
- {l:'BP+Netflix',x:118,y:2.54,c:3,bp:1},{l:'Disney+Netflix+Prime',x:95,y:1.05,c:1,bp:0},
- {l:'Disney+HBO+Netflix+Prime',x:89,y:1.12,c:1,bp:0},{l:'Globo+Netflix',x:83,y:0,c:0,bp:0},
- {l:'Globoplay',x:70,y:1.43,c:1,bp:0},{l:'Disney+Netflix',x:65,y:1.54,c:1,bp:0},
- {l:'Disney+Globo+HBO+Netflix+Prime',x:64,y:0,c:0,bp:0},{l:'Netflix+Educacional',x:57,y:5.26,c:3,bp:0},
- {l:'HBO Max',x:53,y:1.89,c:1,bp:0},{l:'HBO+Netflix+Prime',x:52,y:0,c:0,bp:0},
- {l:'HBO+Netflix',x:46,y:4.35,c:2,bp:0},{l:'Disney+',x:46,y:2.17,c:1,bp:0},
-];
-const mk=d=>d.map(o=>({x:o.x,y:o.y,r:Math.max(5,Math.sqrt(o.c)*5),l:o.l,c:o.c}));
-new Chart(bubble,{type:'bubble',data:{datasets:[
-  {label:'Contém Brasil Paralelo',data:mk(sd.filter(o=>o.bp)),backgroundColor:'rgba(22,163,74,.65)',borderColor:GREEN,borderWidth:1.5},
-  {label:'Sem Brasil Paralelo',data:mk(sd.filter(o=>!o.bp)),backgroundColor:'rgba(59,110,245,.4)',borderColor:BLUE,borderWidth:1}
-]},options:{
-  plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:12}}},
-    tooltip:{callbacks:{label:c=>`${c.raw.l}: ${c.raw.x.toLocaleString('pt-BR')} cad · ${c.raw.y.toLocaleString('pt-BR')}% · ${c.raw.c} compr`}}},
-  scales:{
-    x:{type:'logarithmic',title:{display:true,text:'Volume de cadastros (escala log)',font:{size:11,weight:'600'}},grid:{color:'#eef1f7'},ticks:{callback:v=>[40,100,400,1000,4000].includes(v)?v:''}},
-    y:{title:{display:true,text:'Taxa de compra (%)',font:{size:11,weight:'600'}},grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},min:-0.3,max:5.4}}
-}});
-
-// 04 correlação
-new Chart(corr,{type:'bar',data:{labels:['Formulário\n(quente+renda)','% renda alta','% leads quentes','CPL'],
-  datasets:[{data:[0.46,0.36,0.22,0.18],backgroundColor:[GREEN,'#4d9e63','#86a8c2',RED],borderRadius:6,barThickness:30}]},
-  options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'corr '+c.raw.toLocaleString('pt-BR')}}},
-  scales:{y:{display:true,max:0.52,grid:{color:'#eef1f7'},ticks:{stepSize:0.1}},x:{grid:{display:false},ticks:{font:{size:11},callback:function(v){return this.getLabelForValue(v).split('\n')}}}}},
-  plugins:[valueLabels(v=>'+'+v.toLocaleString('pt-BR'))]});
-
-// 05 lead score
-new Chart(score,{data:{labels:['0','1','2','3','4','5','6'],
-  datasets:[
-    {type:'bar',label:'Cadastros',data:[3794,4388,1284,1012,244,115,25],
-     backgroundColor:'rgba(124,92,252,.15)',borderColor:'rgba(124,92,252,.3)',borderWidth:1,
-     borderRadius:4,yAxisID:'y2',order:2},
-    {type:'line',label:'Taxa de compra',data:[0.95,1.03,2.34,2.57,3.69,3.48,4.00],
-     borderColor:VIOLET,backgroundColor:'rgba(124,92,252,.08)',fill:true,tension:.3,
-     pointRadius:5,pointBackgroundColor:'#fff',pointBorderColor:VIOLET,pointBorderWidth:2.5,
-     yAxisID:'y',order:1}
-  ]},
-  options:{plugins:{
-    legend:{display:false},
-    tooltip:{callbacks:{
-      title:c=>'Score '+c[0].label,
-      label:c=>c.dataset.label==='Cadastros'
-        ? 'Leads: '+c.raw.toLocaleString('pt-BR')
-        : 'Tx compra: '+c.raw.toLocaleString('pt-BR')+'%'
-    }}
-  },
-  scales:{
-    y:{title:{display:true,text:'Taxa de compra (%)',font:{size:11}},grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},max:6,position:'left'},
-    y2:{title:{display:true,text:'Leads',font:{size:11},color:'#94a3b8'},ticks:{color:'#94a3b8'},grid:{display:false},position:'right'},
-    x:{title:{display:true,text:'Lead score (relação BP + renda)',font:{size:11}},grid:{display:false}}
-  }},
-  plugins:[valueLabels(v=>typeof v==='number'&&v<10?v.toLocaleString('pt-BR')+'%':null)]});
-
-// 06 tempo (linha conversão + barra resposta)
-new Chart(tempo,{data:{labels:['18/mai','25/mai','01/jun','08/jun'],
-  datasets:[
-    {type:'bar',label:'Taxa de resposta',data:[4.4,27.0,50.2,66.9],backgroundColor:'rgba(170,178,196,.35)',borderRadius:5,yAxisID:'y1',order:2,barThickness:46},
-    {type:'line',label:'Taxa de compra',data:[0.91,1.00,1.10,0.28],borderColor:BLUE,backgroundColor:BLUE,tension:.3,yAxisID:'y',order:1,
-      pointRadius:[5,5,5,7],pointBackgroundColor:['#fff','#fff','#fff',AMBER],pointBorderColor:[BLUE,BLUE,BLUE,AMBER],pointBorderWidth:2.5,borderWidth:2.5}
-  ]},
-  options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:11.5}}},
-    tooltip:{callbacks:{label:c=>c.dataset.label+' '+c.raw.toLocaleString('pt-BR')+'%'+(c.dataIndex===3&&c.dataset.type==='line'?' (maturação)':'')}}},
-  scales:{y:{position:'left',title:{display:true,text:'Tx compra',font:{size:10}},grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},max:1.4},
-    y1:{position:'right',title:{display:true,text:'Tx resposta',font:{size:10}},grid:{display:false},ticks:{callback:v=>v+'%'},max:75},
-    x:{grid:{display:false}}}}});
-
-// 07 RPV waterfall-ish
-new Chart(rpv,{type:'bar',data:{labels:['SEM pesquisa','COM pesquisa'],
-  datasets:[{data:[1.70,1.54],backgroundColor:[GREY,RED],borderRadius:7,barThickness:64}]},
-  options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'RPV R$ '+c.raw.toLocaleString('pt-BR',{minimumFractionDigits:2})}}},
-  scales:{y:{grid:{color:'#eef1f7'},ticks:{callback:v=>'R$'+v.toLocaleString('pt-BR',{minimumFractionDigits:2})},max:1.9},x:{grid:{display:false},ticks:{font:{size:12,weight:'600'}}}}},
-  plugins:[valueLabels(v=>'R$'+v.toLocaleString('pt-BR',{minimumFractionDigits:2}))]});
-
-// 03 respondente vs nao
-new Chart(respVsNao,{type:'bar',data:{labels:['Conversão bruta','Conversão pós-cadastro'],
-  datasets:[
-    {label:'Respondeu',data:[1.20,0.15],backgroundColor:GREEN,borderRadius:6,barThickness:40},
-    {label:'Não respondeu',data:[0.61,0.07],backgroundColor:GREY,borderRadius:6,barThickness:40}
-  ]},
-  options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:12}}},
-    tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw.toLocaleString('pt-BR')+'%'}}},
-  scales:{y:{grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},max:1.7},x:{grid:{display:false},ticks:{font:{size:12,weight:'600'}}}}}});
-
-// 07 benchmark renda (linha por campanha)
-const RENDA_X=['Até R$5k','R$5–10k','R$10k+'];
-const benchR={EVG:[1.45,2.87,3.63],RIO:[2.48,5.52,10.86],MST:[4.45,7.46,13.6],TPV:[9.31,13.31,17.14],TLR:[12.8,20.05,28.78]};
+// benchmark data para campanhas não-EVG (estático)
 const CCOL={EVG:RED,RIO:BLUE,MST:VIOLET,TPV:AMBER,TLR:GREEN};
-new Chart(benchRenda,{type:'line',data:{labels:RENDA_X,
-  datasets:Object.keys(benchR).map(k=>({label:k,data:benchR[k],borderColor:CCOL[k],backgroundColor:CCOL[k],
-    borderWidth:k==='EVG'?3:2,tension:.25,pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:CCOL[k],pointBorderWidth:2}))},
-  options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:11.5}}},
-    tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw.toLocaleString('pt-BR')+'%'}}},
-  scales:{y:{grid:{color:'#eef1f7'},title:{display:true,text:'Taxa de compra (%)',font:{size:11}},ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}});
+const BENCH_R_OTHER={RIO:[2.48,5.52,10.86],MST:[4.45,7.46,13.6],TPV:[9.31,13.31,17.14],TLR:[12.8,20.05,28.78]};
+const BENCH_L_OTHER={RIO:[18.14,5.07,3.11,1.15],MST:[19.12,5.26,4.1,2.19],TPV:[20.09,7.52,7.06,4.05]};
 
-// 07 benchmark relação (linha por campanha)
-const REL_X=['Membro/assina','Consome\nnão-membro','Só ouviu\nfalar','Não conhece'];
-const benchL={EVG:[3.14,0.89,1.11,0.21],RIO:[18.14,5.07,3.11,1.15],MST:[19.12,5.26,4.1,2.19],TPV:[20.09,7.52,7.06,4.05]};
-new Chart(benchRel,{type:'line',data:{labels:REL_X,
-  datasets:Object.keys(benchL).map(k=>({label:k,data:benchL[k],borderColor:CCOL[k],backgroundColor:CCOL[k],
-    borderWidth:k==='EVG'?3:2,tension:.25,pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:CCOL[k],pointBorderWidth:2}))},
-  options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:11.5}}},
-    tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw.toLocaleString('pt-BR')+'%'}}},
-  scales:{y:{grid:{color:'#eef1f7'},title:{display:true,text:'Taxa de compra (%)',font:{size:11}},ticks:{callback:v=>v+'%'}},
-    x:{grid:{display:false},ticks:{font:{size:10.5},callback:function(v){return this.getLabelForValue(v).split('\n')}}}}}});
+// mapeamento label → cor
+const REL_COL={"Consumo grátis":GREY,"Já ouvi falar":GREY,"Já assinei":BLUE,"Assino hoje":GREEN,"Nunca ouvi":RED};
+const RENDA_COL={"Até R$5k":GREY,"Não informa":"#cfd5e2","Até R$2k":GREY,"R$5–10k":BLUE,"R$2–5k":GREY,"R$10k+":GREEN};
+const CONV_REL_COL={"Assino hoje":GREEN,"Já assinei":"#4d9e63","Consumo grátis":"#86a8c2","Já ouvi falar":GREY,"Nunca ouvi":RED};
+const STREAM_COL={"Netflix":GREY,"Nenhum":AMBER,"Prime Video":GREY,"Brasil Paralelo":GREEN,"Disney+":GREY,"HBO Max":"#cfd5e2","Globoplay":"#cfd5e2","Educacional":BLUE};
 
-// 09 taxa de resposta diária (v3)
-const trLabels=['23/mai','25/mai','27/mai','29/mai','31/mai','02/jun','04/jun','05/jun','06/jun','08/jun','10/jun','12/jun','14/jun','16/jun','18/jun'];
-const trData=   [5,       3,       17,      38,      39,      42,      41,      46,      70,      67,      69,      71,      67,      68,      70];
-// fases: i<2 = sem form (cinza), i<8 = form na pag de cadastro (âmbar), i>=8 = form na confirmação (verde)
-const phaseColors=trData.map((v,i)=>i<2?'rgba(170,178,196,.7)':i<8?AMBER:GREEN);
-new Chart(taxaResposta,{data:{labels:trLabels,
-  datasets:[
-    {type:'bar',label:'Fase (barra)',data:trData,backgroundColor:phaseColors,borderRadius:4,barThickness:18,yAxisID:'y',order:2},
-    {type:'line',label:'Taxa de resposta',data:trData,borderColor:BLUE,backgroundColor:'rgba(59,110,245,.06)',fill:true,tension:.3,
-      pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:BLUE,pointBorderWidth:2,yAxisID:'y',order:1,borderWidth:2}
-  ]},
-  options:{plugins:{
-    legend:{display:false},
-    tooltip:{callbacks:{
-      title:c=>trLabels[c[0].dataIndex],
-      label:c=>`Taxa: ${c.raw}%${c.dataIndex<7?' (sem form)':c.dataIndex===7?' (form cadastro)':' (form confirmação)'}`
-    }}
-  },
-  scales:{
-    y:{min:0,max:80,grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},title:{display:true,text:'Taxa de resposta',font:{size:10}}},
-    x:{grid:{display:false},ticks:{font:{size:9.5},maxRotation:35}}
-  }}});
-
-// Seção 05 — filtro interativo de combinações de streaming
-const sfData=[
-  {c:"Netflix · Plataformas educacionais",n:57,cv:5.26,rpl:16.76,s:"edu"},
-  {c:"Brasil Paralelo · Prime Video",n:20,cv:5.00,rpl:6.54,s:"BP"},
-  {c:"Brasil Paralelo · Plataformas educacionais",n:22,cv:4.55,rpl:75.82,s:"BP"},
-  {c:"HBO Max · Netflix",n:46,cv:4.35,rpl:5.69,s:""},
-  {c:"Disney+ · Globoplay · Netflix · Prime Video",n:27,cv:3.70,rpl:4.84,s:"Globoplay"},
-  {c:"Disney+ · Prime Video",n:27,cv:3.70,rpl:8.84,s:""},
-  {c:"Globoplay · Netflix · Prime Video",n:38,cv:2.63,rpl:6.28,s:"Globoplay"},
-  {c:"Brasil Paralelo · Netflix · Prime Video",n:39,cv:2.56,rpl:42.77,s:"BP"},
-  {c:"Brasil Paralelo · Netflix",n:118,cv:2.54,rpl:4.43,s:"BP"},
-  {c:"Disney+",n:46,cv:2.17,rpl:36.26,s:""},
-  {c:"Prime Video",n:269,cv:1.86,rpl:3.85,s:""},
-  {c:"HBO Max",n:53,cv:1.89,rpl:2.47,s:""},
-  {c:"Disney+ · Netflix",n:65,cv:1.54,rpl:3.67,s:""},
-  {c:"Brasil Paralelo",n:278,cv:1.44,rpl:6.73,s:"BP"},
-  {c:"Globoplay",n:70,cv:1.43,rpl:3.74,s:"Globoplay"},
-  {c:"Netflix",n:1456,cv:1.37,rpl:2.64,s:""},
-  {c:"Disney+ · Netflix · Prime Video",n:95,cv:1.05,rpl:1.38,s:""},
-  {c:"Nenhum",n:2364,cv:1.02,rpl:2.41,s:""},
-  {c:"Netflix · Prime Video",n:317,cv:1.26,rpl:2.82,s:""},
-  {c:"Disney+ · HBO Max · Netflix · Prime Video",n:89,cv:1.12,rpl:9.55,s:""},
-  {c:"Plataformas educacionais",n:145,cv:0.69,rpl:1.80,s:"edu"},
-  {c:"Globoplay · Netflix",n:83,cv:0.00,rpl:0.00,s:"Globoplay"},
-  {c:"Disney+ · Globoplay · HBO Max · Netflix · Prime Video",n:64,cv:0.00,rpl:0.00,s:"Globoplay"},
-  {c:"HBO Max · Netflix · Prime Video",n:52,cv:0.00,rpl:0.00,s:""},
-];
+// filtro de streaming
 const sfTagHtml={
   "Globoplay + BP":"<span class='tag t-g'>Globoplay + BP</span>",
   "Globoplay":"<span class='tag t-g'>Globoplay</span>",
   "BP":"<span class='tag t-b'>BP</span>",
-  "BP multi-premium":"<span class='tag t-b'>BP multi-premium</span>",
+  "BP + edu":"<span class='tag t-b'>BP + edu</span>",
   "edu":"<span class='tag t-n'>edu</span>",
   "":"",
 };
+// ── matriz cruzada ──────────────────────────────────────────────────────
+let _mzData=null;
+const MZ_Q_LABEL={relacao_bp:'Relação com a BP',renda:'Faixa de renda',streaming:'Streaming'};
+const MZ_Q_ORDER={
+  relacao_bp:['Assino hoje','Já assinei no passado','Consumo conteúdo gratuito (YouTube, redes sociais)','Já ouvi falar, mas nunca assisti nada','Nunca ouvi falar'],
+  renda:['Acima de R$ 20.000','Acima de R$ 15.000','R$ 10.000 – R$ 20.000','R$ 10.000 – R$ 15.000','R$ 5.000 – R$ 10.000','R$ 2.000 – R$ 5.000','Até R$ 5.000','Até R$ 2.000','Prefiro não informar'],
+  streaming:['Netflix','Prime Video','Globoplay','Disney+','HBO Max','Brasil Paralelo','Plataformas educacionais (Hotmart, Udemy, Coursera)','Nenhum']
+};
+const MZ_SHORT={
+  'Assino hoje':'Assino hoje','Já assinei no passado':'Já assinei',
+  'Consumo conteúdo gratuito (YouTube, redes sociais)':'Consumo grátis',
+  'Já ouvi falar, mas nunca assisti nada':'Já ouvi falar','Nunca ouvi falar':'Nunca ouvi',
+  'Acima de R$ 20.000':'>R$20k','Acima de R$ 15.000':'>R$15k',
+  'R$ 10.000 – R$ 20.000':'R$10–20k','R$ 10.000 – R$ 15.000':'R$10–15k',
+  'R$ 5.000 – R$ 10.000':'R$5–10k','R$ 2.000 – R$ 5.000':'R$2–5k',
+  'Até R$ 5.000':'≤R$5k','Até R$ 2.000':'≤R$2k','Prefiro não informar':'Não inf.',
+  'Plataformas educacionais (Hotmart, Udemy, Coursera)':'Educacional'
+};
+const MZ_DS={'relacao_bp|renda':'rel_renda','relacao_bp|streaming':'rel_stream','renda|streaming':'renda_stream'};
+const MZ_NAT_ROW={rel_renda:'relacao_bp',rel_stream:'relacao_bp',renda_stream:'renda'};
+function mzColor(conv,n){
+  if(!n||n<5)return'#f8fafc';
+  if(conv>=5)return'#bbf7d0';
+  if(conv>=3)return'#dcfce7';
+  if(conv>=1.5)return'#f0fdf4';
+  if(conv>0)return'#fff7ed';
+  return'#fef2f2';
+}
+function renderMatriz(qa,qb,D){
+  if(!D)return;
+  const note=document.getElementById('mzNote'),wrap=document.getElementById('mzWrap');
+  if(qa===qb){note.style.display='block';note.textContent='Selecione perguntas diferentes nas duas listas.';wrap.innerHTML='';return;}
+  const dsKey=MZ_DS[[qa,qb].sort().join('|')];
+  const rows=D.matrizCruz?.[dsKey]||[];
+  if(!rows.length){wrap.innerHTML='<p style="color:var(--soft);font-size:13px;padding:16px 0">Execute <code>python refresh.py</code> para carregar a matriz.</p>';return;}
+  const natRow=MZ_NAT_ROW[dsKey],transp=(qa!==natRow);
+  const sortBy=(arr,ord)=>[...arr].sort((a,b)=>(ord.indexOf(a)+1||999)-(ord.indexOf(b)+1||999));
+  const rowVals=sortBy([...new Set(rows.map(r=>transp?r.qb:r.qa))],MZ_Q_ORDER[qa]);
+  const colVals=sortBy([...new Set(rows.map(r=>transp?r.qa:r.qb))],MZ_Q_ORDER[qb]);
+  const lk={};rows.forEach(r=>{const rk=transp?r.qb:r.qa,ck=transp?r.qa:r.qb;lk[rk+'||'+ck]={n:r.n,conv:r.conv};});
+  const sh=s=>MZ_SHORT[s]||s;
+  let h=`<table class="mz-table"><thead><tr><th class="mz-th-row">${MZ_Q_LABEL[qa]}</th>`;
+  colVals.forEach(c=>{h+=`<th title="${c}">${sh(c)}</th>`;});
+  h+='</tr></thead><tbody>';
+  rowVals.forEach(r=>{
+    h+=`<tr><td class="mz-row-label">${sh(r)}</td>`;
+    colVals.forEach(c=>{
+      const d=lk[r+'||'+c]||{n:0,conv:0},bg=mzColor(d.conv,d.n);
+      if(!d.n||d.n<5){h+=`<td class="mz-cell mz-empty" style="background:${bg}">—</td>`;}
+      else{const ns=d.n>=1000?Math.round(d.n/100)/10+'k':d.n;
+        h+=`<td class="mz-cell" style="background:${bg}" title="${r} × ${c} · ${d.n} leads · ${d.conv}%"><span class="mz-pct">${d.conv.toFixed(1).replace('.',',')}%</span><span class="mz-n">n=${ns}</span></td>`;}
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  wrap.innerHTML=h;
+  const isStream=qa==='streaming'||qb==='streaming';
+  note.style.display=isStream?'block':'none';
+  if(isStream)note.textContent='Streaming é múltipla escolha: um lead que assina Netflix + Prime Video aparece em ambas as colunas. Os totais não somam leads únicos.';
+}
+document.addEventListener('change',function(e){
+  if(e.target.id==='mzSelA'||e.target.id==='mzSelB')
+    renderMatriz(document.getElementById('mzSelA').value,document.getElementById('mzSelB').value,_mzData);
+});
+
+let _sfData=[];
 function sfFilter(term,btn){
   document.querySelectorAll('.sf-btn').forEach(b=>b.classList.remove('sf-on'));
   btn.classList.add('sf-on');
-  const rows=term?sfData.filter(d=>d.c.toLowerCase().includes(term.toLowerCase())):sfData;
+  const rows=term?_sfData.filter(d=>d.c.toLowerCase().includes(term.toLowerCase())):_sfData;
   document.getElementById('sfCount').textContent=rows.length+' combinaç'+(rows.length===1?'ão':'ões')+' · clique em uma plataforma para filtrar';
   const hl=s=>term?s.replace(new RegExp(term.replace(/[+.]/g,'\\$&'),'gi'),m=>`<b style="color:var(--blue)">${m}</b>`):s;
   document.getElementById('sfBody').innerHTML=rows.map(d=>{
@@ -1244,7 +1184,171 @@ function sfFilter(term,btn){
     return`<tr${d.cv<1?` class="mut"`:''}><td>${hl(d.c)}</td><td class="num">${d.n.toLocaleString('pt-BR')}</td><td class="num ${w}" ${cs}>${d.cv.toFixed(2).replace('.',',')}%</td><td class="num">R$ ${d.rpl.toFixed(2).replace('.',',')}</td><td>${sfTagHtml[d.s]||''}</td></tr>`;
   }).join('');
 }
-sfFilter('',document.querySelector('.sf-btn'));
+
+function initCharts(D){
+  // atualizar rodapé com data de atualização
+  const upd=document.getElementById('lastUpdate');
+  if(upd) upd.textContent='Dados de '+new Date(D.updated_at).toLocaleDateString('pt-BR');
+
+  // 01 mix relação
+  new Chart(mixRel,{type:'bar',data:{labels:D.mixRel.labels,
+    datasets:[{data:D.mixRel.data,backgroundColor:D.mixRel.labels.map(l=>REL_COL[l]||GREY),borderRadius:5,barThickness:20}]},
+    options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>pct(c.raw)}}},
+    scales:{x:{display:false,max:Math.ceil(Math.max(...D.mixRel.data)*1.15)},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v+'%')]});
+
+  // 01 mix renda
+  new Chart(mixRenda,{type:'bar',data:{labels:D.mixRenda.labels,
+    datasets:[{data:D.mixRenda.data,backgroundColor:D.mixRenda.labels.map(l=>RENDA_COL[l]||GREY),borderRadius:5,barThickness:20}]},
+    options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>pct(c.raw)}}},
+    scales:{x:{display:false,max:Math.ceil(Math.max(...D.mixRenda.data)*1.2)},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v+'%')]});
+
+  // 01 mix streaming
+  new Chart(mixStream,{type:'bar',data:{labels:D.mixStream.labels,
+    datasets:[{data:D.mixStream.data,backgroundColor:D.mixStream.labels.map(l=>STREAM_COL[l]||GREY),borderRadius:5,barThickness:15}]},
+    options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>pct(c.raw)}}},
+    scales:{x:{display:false,max:Math.ceil(Math.max(...D.mixStream.data)*1.2)},y:{grid:{display:false},ticks:{font:{size:10.5}}}}},plugins:[valueLabels(v=>v+'%')]});
+
+  // 02 conversão relação
+  new Chart(convRel,{type:'bar',data:{labels:D.convRel.labels,
+    datasets:[{data:D.convRel.data,backgroundColor:D.convRel.labels.map(l=>CONV_REL_COL[l]||GREY),borderRadius:6,barThickness:26}]},
+    options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Tx compra '+c.raw.toLocaleString('pt-BR')+'%'}}},
+    scales:{x:{display:false,max:Math.ceil(Math.max(...D.convRel.data)*1.2)},y:{grid:{display:false}}}},plugins:[valueLabels(v=>v.toLocaleString('pt-BR')+'%')]});
+
+  // 02 conversão renda
+  const rendaCol=D.convRenda.data.map(v=>v>=5?GREEN:v>=3?'#4d9e63':v>=2?BLUE:v>=1.5?BLUE:v>=1?'#86a8c2':GREY);
+  new Chart(convRenda,{type:'bar',data:{labels:D.convRenda.labels,
+    datasets:[{data:D.convRenda.data,backgroundColor:rendaCol,borderRadius:6,barThickness:18}]},
+    options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Tx compra '+c.raw.toLocaleString('pt-BR')+'%'}}},
+    scales:{x:{display:false,max:Math.ceil(Math.max(...D.convRenda.data)*1.15)},y:{grid:{display:false},ticks:{font:{size:11}}}}},plugins:[valueLabels(v=>v.toLocaleString('pt-BR')+'%')]});
+
+  // 03 bubble streaming
+  const mk=arr=>arr.map(o=>({x:o.x,y:o.y,r:Math.max(5,Math.sqrt(o.c)*5),l:o.l,c:o.c}));
+  new Chart(bubble,{type:'bubble',data:{datasets:[
+    {label:'Contém Brasil Paralelo',data:mk(D.bubble.filter(o=>o.bp)),backgroundColor:'rgba(22,163,74,.65)',borderColor:GREEN,borderWidth:1.5},
+    {label:'Sem Brasil Paralelo',data:mk(D.bubble.filter(o=>!o.bp)),backgroundColor:'rgba(59,110,245,.4)',borderColor:BLUE,borderWidth:1}
+  ]},options:{
+    plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:12}}},
+      tooltip:{callbacks:{label:c=>`${c.raw.l}: ${c.raw.x.toLocaleString('pt-BR')} cad · ${c.raw.y.toLocaleString('pt-BR')}% · ${c.raw.c} compr`}}},
+    scales:{
+      x:{type:'logarithmic',title:{display:true,text:'Volume de cadastros (escala log)',font:{size:11,weight:'600'}},grid:{color:'#eef1f7'},ticks:{callback:v=>[40,100,400,1000,4000].includes(v)?v:''}},
+      y:{title:{display:true,text:'Taxa de compra (%)',font:{size:11,weight:'600'}},grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},min:-0.3,max:5.4}}}});
+
+  // 04 correlação (estático — não muda entre refreshes)
+  new Chart(corr,{type:'bar',data:{labels:['Formulário\n(quente+renda)','% renda alta','% leads quentes','CPL'],
+    datasets:[{data:[0.46,0.36,0.22,0.18],backgroundColor:[GREEN,'#4d9e63','#86a8c2',RED],borderRadius:6,barThickness:30}]},
+    options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'corr '+c.raw.toLocaleString('pt-BR')}}},
+    scales:{y:{display:true,max:0.52,grid:{color:'#eef1f7'},ticks:{stepSize:0.1}},x:{grid:{display:false},ticks:{font:{size:11},callback:function(v){return this.getLabelForValue(v).split('\n')}}}}},
+    plugins:[valueLabels(v=>'+'+v.toLocaleString('pt-BR'))]});
+
+  // 05 lead score
+  new Chart(score,{data:{labels:['0','1','2','3','4','5','6'],
+    datasets:[
+      {type:'bar',label:'Cadastros',data:D.score.leads,
+       backgroundColor:'rgba(124,92,252,.15)',borderColor:'rgba(124,92,252,.3)',borderWidth:1,
+       borderRadius:4,yAxisID:'y2',order:2},
+      {type:'line',label:'Taxa de compra',data:D.score.conv,
+       borderColor:VIOLET,backgroundColor:'rgba(124,92,252,.08)',fill:true,tension:.3,
+       pointRadius:5,pointBackgroundColor:'#fff',pointBorderColor:VIOLET,pointBorderWidth:2.5,
+       yAxisID:'y',order:1}
+    ]},
+    options:{plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{title:c=>'Score '+c[0].label,label:c=>c.dataset.label==='Cadastros'?'Leads: '+c.raw.toLocaleString('pt-BR'):'Tx compra: '+c.raw.toLocaleString('pt-BR')+'%'}}
+    },
+    scales:{
+      y:{title:{display:true,text:'Taxa de compra (%)',font:{size:11}},grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},max:6,position:'left'},
+      y2:{title:{display:true,text:'Leads',font:{size:11},color:'#94a3b8'},ticks:{color:'#94a3b8'},grid:{display:false},position:'right'},
+      x:{title:{display:true,text:'Lead score (relação BP + renda)',font:{size:11}},grid:{display:false}}
+    }},
+    plugins:[valueLabels(v=>typeof v==='number'&&v<10?v.toLocaleString('pt-BR')+'%':null)]});
+
+  // 06 tempo semanal
+  const tn=D.tempo.taxaCompra.length;
+  const ptBg=D.tempo.taxaCompra.map((_,i)=>'#fff');
+  const ptBdr=D.tempo.taxaCompra.map((_,i)=>i===tn-1?AMBER:BLUE);
+  const ptR=D.tempo.taxaCompra.map((_,i)=>i===tn-1?7:5);
+  new Chart(tempo,{data:{labels:D.tempo.labels,
+    datasets:[
+      {type:'bar',label:'Taxa de resposta',data:D.tempo.taxaResposta,backgroundColor:'rgba(170,178,196,.35)',borderRadius:5,yAxisID:'y1',order:2,barThickness:46},
+      {type:'line',label:'Taxa de compra',data:D.tempo.taxaCompra,borderColor:BLUE,backgroundColor:BLUE,tension:.3,yAxisID:'y',order:1,
+        pointRadius:ptR,pointBackgroundColor:ptBg,pointBorderColor:ptBdr,pointBorderWidth:2.5,borderWidth:2.5}
+    ]},
+    options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:11.5}}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+' '+c.raw.toLocaleString('pt-BR')+'%'+(c.dataIndex===tn-1&&c.dataset.type==='line'?' (maturação)':'')}}},
+    scales:{y:{position:'left',title:{display:true,text:'Tx compra',font:{size:10}},grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},max:1.4},
+      y1:{position:'right',title:{display:true,text:'Tx resposta',font:{size:10}},grid:{display:false},ticks:{callback:v=>v+'%'},max:75},
+      x:{grid:{display:false}}}}});
+
+  // 07 RPV (estático)
+  new Chart(rpv,{type:'bar',data:{labels:['SEM pesquisa','COM pesquisa'],
+    datasets:[{data:[1.70,1.54],backgroundColor:[GREY,RED],borderRadius:7,barThickness:64}]},
+    options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'RPV R$ '+c.raw.toLocaleString('pt-BR',{minimumFractionDigits:2})}}},
+    scales:{y:{grid:{color:'#eef1f7'},ticks:{callback:v=>'R$'+v.toLocaleString('pt-BR',{minimumFractionDigits:2})},max:1.9},x:{grid:{display:false},ticks:{font:{size:12,weight:'600'}}}}},
+    plugins:[valueLabels(v=>'R$'+v.toLocaleString('pt-BR',{minimumFractionDigits:2}))]});
+
+  // respondente vs não (estático — requer query com filtro manual de data)
+  new Chart(respVsNao,{type:'bar',data:{labels:['Conversão bruta','Conversão pós-cadastro'],
+    datasets:[
+      {label:'Respondeu',data:[1.20,0.15],backgroundColor:GREEN,borderRadius:6,barThickness:40},
+      {label:'Não respondeu',data:[0.61,0.07],backgroundColor:GREY,borderRadius:6,barThickness:40}
+    ]},
+    options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:12}}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw.toLocaleString('pt-BR')+'%'}}},
+    scales:{y:{grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},max:1.7},x:{grid:{display:false},ticks:{font:{size:12,weight:'600'}}}}}});
+
+  // 07 benchmark renda
+  const benchR={EVG:D.benchEvgRenda,...BENCH_R_OTHER};
+  new Chart(benchRenda,{type:'line',data:{labels:['Até R$5k','R$5–10k','R$10k+'],
+    datasets:Object.keys(benchR).map(k=>({label:k,data:benchR[k],borderColor:CCOL[k],backgroundColor:CCOL[k],
+      borderWidth:k==='EVG'?3:2,tension:.25,pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:CCOL[k],pointBorderWidth:2}))},
+    options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:11.5}}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw.toLocaleString('pt-BR')+'%'}}},
+    scales:{y:{grid:{color:'#eef1f7'},title:{display:true,text:'Taxa de compra (%)',font:{size:11}},ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}});
+
+  // 07 benchmark relação
+  const benchL={EVG:D.benchEvgRel,...BENCH_L_OTHER};
+  const REL_X=['Membro/assina','Consome\nnão-membro','Só ouviu\nfalar','Não conhece'];
+  new Chart(benchRel,{type:'line',data:{labels:REL_X,
+    datasets:Object.keys(benchL).map(k=>({label:k,data:benchL[k],borderColor:CCOL[k],backgroundColor:CCOL[k],
+      borderWidth:k==='EVG'?3:2,tension:.25,pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:CCOL[k],pointBorderWidth:2}))},
+    options:{plugins:{legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,font:{size:11.5}}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw.toLocaleString('pt-BR')+'%'}}},
+    scales:{y:{grid:{color:'#eef1f7'},title:{display:true,text:'Taxa de compra (%)',font:{size:11}},ticks:{callback:v=>v+'%'}},
+      x:{grid:{display:false},ticks:{font:{size:10.5},callback:function(v){return this.getLabelForValue(v).split('\n')}}}}}});
+
+  // 09 taxa de resposta diária
+  const phaseColors=D.taxaResposta.phases.map(p=>p==='grey'?'rgba(170,178,196,.7)':p==='amber'?AMBER:GREEN);
+  new Chart(taxaResposta,{data:{labels:D.taxaResposta.labels,
+    datasets:[
+      {type:'bar',label:'Fase (barra)',data:D.taxaResposta.data,backgroundColor:phaseColors,borderRadius:4,barThickness:18,yAxisID:'y',order:2},
+      {type:'line',label:'Taxa de resposta',data:D.taxaResposta.data,borderColor:BLUE,backgroundColor:'rgba(59,110,245,.06)',fill:true,tension:.3,
+        pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:BLUE,pointBorderWidth:2,yAxisID:'y',order:1,borderWidth:2}
+    ]},
+    options:{plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{
+        title:c=>D.taxaResposta.labels[c[0].dataIndex],
+        label:c=>`Taxa: ${c.raw}%${D.taxaResposta.phases[c.dataIndex]==='grey'?' (sem form)':D.taxaResposta.phases[c.dataIndex]==='amber'?' (form cadastro)':' (form confirmação)'}`
+      }}
+    },
+    scales:{
+      y:{min:0,max:80,grid:{color:'#eef1f7'},ticks:{callback:v=>v+'%'},title:{display:true,text:'Taxa de resposta',font:{size:10}}},
+      x:{grid:{display:false},ticks:{font:{size:9.5},maxRotation:35}}
+    }}});
+
+  // filtro de streaming
+  _sfData=D.streamCombos;
+  sfFilter('',document.querySelector('.sf-btn'));
+
+  // matriz cruzada
+  _mzData=D;renderMatriz('relacao_bp','renda',D);
+}
+
+// carregar data.json e inicializar todos os gráficos
+fetch('./data.json')
+  .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+  .then(D=>initCharts(D))
+  .catch(err=>console.error('Falha ao carregar data.json:',err));
 </script>
 </body>
 </html>
