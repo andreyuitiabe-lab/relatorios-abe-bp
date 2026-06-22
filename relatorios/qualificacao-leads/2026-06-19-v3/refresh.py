@@ -239,18 +239,24 @@ STREAM_SHORT = {"Plataformas educacionais (Hotmart, Udemy, Coursera)": "Educacio
 STREAM_ORDER = ["Netflix","Nenhum","Prime Video","Brasil Paralelo","Disney+","HBO Max","Globoplay","Educacional"]
 
 RENDA_MIX_MAP = {
-    "Até R$ 5.000": "Até R$5k", "Prefiro não informar": "Não informa",
-    "Até R$ 2.000": "Até R$2k", "R$ 5.000 – R$ 10.000": "R$5–10k",
-    "R$ 2.000 – R$ 5.000": "R$2–5k", "R$ 10.000 – R$ 15.000": "R$10k+",
-    "R$ 10.000 – R$ 20.000": "R$10k+", "Acima de R$ 15.000": "R$10k+",
-    "Acima de R$ 20.000": "R$10k+",
+    "Até R$ 5.000":          "Até R$5k",
+    "Até R$ 2.000":          "Até R$5k",
+    "R$ 2.000 – R$ 5.000":  "Até R$5k",
+    "R$ 5.000 – R$ 10.000": "R$5–10k",
+    "R$ 10.000 – R$ 15.000":"R$10–15k",
+    "R$ 10.000 – R$ 20.000":"R$10–15k",  # opção antiga → mais próxima atual
+    "Acima de R$ 15.000":   ">R$15k",
+    "Acima de R$ 20.000":   ">R$15k",    # opção antiga → mais próxima atual
+    "Prefiro não informar":  "Não informa",
 }
-RENDA_MIX_ORDER = ["Até R$5k","Não informa","Até R$2k","R$5–10k","R$2–5k","R$10k+"]
-RENDA_CONV_ORDER = [
-    ("Acima de R$ 20.000","Acima R$20k"), ("R$ 10.000 – R$ 20.000","R$10–20k"),
-    ("Acima de R$ 15.000","Acima R$15k"), ("R$ 5.000 – R$ 10.000","R$5–10k"),
-    ("R$ 2.000 – R$ 5.000","R$2–5k"),    ("Até R$ 5.000","Até R$5k"),
-    ("Prefiro não informar","Não informa"),("Até R$ 2.000","Até R$2k"),
+RENDA_MIX_ORDER = ["Até R$5k","Não informa","R$5–10k","R$10–15k",">R$15k"]
+# grupos para o conv chart — agrega opções antigas nas faixas atuais
+RENDA_CONV_GROUPS = [
+    ("Até R$5k",    ["Até R$ 5.000","Até R$ 2.000","R$ 2.000 – R$ 5.000"]),
+    ("R$5–10k",     ["R$ 5.000 – R$ 10.000"]),
+    ("R$10–15k",    ["R$ 10.000 – R$ 15.000","R$ 10.000 – R$ 20.000"]),
+    (">R$15k",      ["Acima de R$ 15.000","Acima de R$ 20.000"]),
+    ("Não informa", ["Prefiro não informar"]),
 ]
 
 REL_MIX_SHORT = {
@@ -363,8 +369,7 @@ def build() -> dict:
         "data":   [round(renda_agg.get(l, 0) / renda_total * 100, 1) for l in RENDA_MIX_ORDER],
     }
     conv_renda_pairs = sorted(
-        [(lbl, fi(renda_by_ans[k]["conv_pct"]) if k in renda_by_ans else 0.0)
-         for k, lbl in RENDA_CONV_ORDER],
+        [(lbl, weighted_conv(renda_by_ans, keys)) for lbl, keys in RENDA_CONV_GROUPS],
         key=lambda x: -x[1]
     )
     conv_renda = {"labels": [p[0] for p in conv_renda_pairs], "data": [p[1] for p in conv_renda_pairs]}
