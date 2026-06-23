@@ -35,32 +35,54 @@ CDL_BASE = """
   cdl_compradores AS (
     SELECT
       t.id_gateway_customer,
-      c.nm_email,
       t.id_transaction,
-      t.dt_ordered_at AS dt_compra_cdl
+      t.dt_ordered_at AS dt_compra_cdl,
+      dpi.id_person
     FROM `bp-datawarehouse.masterdata.fct_transactions` t
     JOIN `bp-datawarehouse.masterdata.dim_contact` c USING (id_gateway_customer)
+    JOIN `bp-datawarehouse.masterdata.dim_person_identity` dpi
+      ON dpi.nm_identifier = c.nm_email
+      AND dpi.nm_identifier_type = 'email'
     WHERE t.nm_gateway_plan = 'clube-do-livro'
       AND t.nm_status = 'approved'
-      AND t.nm_gateway_product NOT LIKE '%Bundle%'
+      AND t.nm_gateway_product IN (
+        'Comercial - Clube do Livro',
+        'Comercial - Clube do Livro + Black',
+        'Comercial - Clube do Livro + Black 18x',
+        'Comercial - Clube do Livro 18x',
+        'Comercial - Clube do Livro [18x]',
+        'Comercial - Clube do Livro - Bronze 18x',
+        'Brasil Paralelo - Clube do Livro',
+        'Clube do Livro - CS'
+      )
       AND c.nm_email IS NOT NULL
-    QUALIFY ROW_NUMBER() OVER (PARTITION BY t.id_gateway_customer ORDER BY t.dt_ordered_at ASC) = 1
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY dpi.id_person ORDER BY t.dt_ordered_at ASC) = 1
   ),
   subscription_history AS (
-    SELECT u.nm_email, s.dt_started_at, s.dt_expires_in, s.nm_subscription_recurrence
+    SELECT
+      dpi.id_person,
+      s.dt_started_at,
+      s.dt_expires_in,
+      s.nm_subscription_recurrence
     FROM `bp-datawarehouse.masterdata.dim_subscriptions` s
-    LEFT JOIN `bp-datawarehouse.masterdata.dim_user` u ON s.id_user = u.id_user
+    JOIN `bp-datawarehouse.masterdata.dim_contact` c ON c.id_gateway_customer = s.id_gateway_customer
+    JOIN `bp-datawarehouse.masterdata.dim_person_identity` dpi
+      ON dpi.nm_identifier = c.nm_email
+      AND dpi.nm_identifier_type = 'email'
     WHERE s.nm_type = 'paid'
-      AND u.nm_email IN (SELECT nm_email FROM cdl_compradores)
+      AND dpi.id_person IN (SELECT id_person FROM cdl_compradores)
   ),
   vitalicio_fct AS (
-    SELECT DISTINCT dc.nm_email
+    SELECT DISTINCT cdl.id_person
     FROM `bp-datawarehouse.masterdata.fct_transactions` t
-    JOIN `bp-datawarehouse.masterdata.dim_contact` dc USING (id_gateway_customer)
-    JOIN cdl_compradores c ON c.nm_email = dc.nm_email
+    JOIN `bp-datawarehouse.masterdata.dim_contact` c USING (id_gateway_customer)
+    JOIN `bp-datawarehouse.masterdata.dim_person_identity` dpi
+      ON dpi.nm_identifier = c.nm_email
+      AND dpi.nm_identifier_type = 'email'
+    JOIN cdl_compradores cdl USING (id_person)
     WHERE t.bl_lifetime_offer = TRUE
       AND t.nm_status = 'approved'
-      AND DATE(t.dt_ordered_at) < DATE(c.dt_compra_cdl)
+      AND DATE(t.dt_ordered_at) < DATE(cdl.dt_compra_cdl)
   )
 """
 
@@ -69,11 +91,11 @@ CDL_BASE = """
 Q_TOTAIS = f"""
 WITH {CDL_BASE}
 SELECT
-  COUNT(DISTINCT p.nm_email)            AS compradores,
-  ROUND(SUM(t.vl_payment_gross), 0)     AS receita_total,
-  ROUND(AVG(t.vl_payment_gross), 0)     AS ticket_medio,
-  MIN(DATE(p.dt_compra_cdl))            AS periodo_inicio,
-  MAX(DATE(p.dt_compra_cdl))            AS periodo_fim
+  COUNT(DISTINCT p.id_person)            AS compradores,
+  ROUND(SUM(t.vl_payment_gross), 0)      AS receita_total,
+  ROUND(AVG(t.vl_payment_gross), 0)      AS ticket_medio,
+  MIN(DATE(p.dt_compra_cdl))             AS periodo_inicio,
+  MAX(DATE(p.dt_compra_cdl))             AS periodo_fim
 FROM cdl_compradores p
 JOIN `bp-datawarehouse.masterdata.fct_transactions` t USING (id_transaction)
 """
@@ -82,10 +104,10 @@ Q_STATUS = f"""
 WITH {CDL_BASE},
 member_classification AS (
   SELECT
-    p.nm_email,
+    p.id_person,
     CASE
       WHEN COUNTIF(s.nm_subscription_recurrence = 'vitalício' AND s.dt_started_at < p.dt_compra_cdl) > 0
-        OR MAX(IF(vf.nm_email IS NOT NULL, 1, 0)) = 1
+        OR MAX(IF(vf.id_person IS NOT NULL, 1, 0)) = 1
         THEN 'Vitalício'
       WHEN COUNTIF(p.dt_compra_cdl > s.dt_started_at AND p.dt_compra_cdl <= s.dt_expires_in) > 0
         THEN 'Membro Ativo'
@@ -94,9 +116,9 @@ member_classification AS (
       ELSE 'Nunca foi Membro'
     END AS status
   FROM cdl_compradores p
-  LEFT JOIN subscription_history s ON p.nm_email = s.nm_email
-  LEFT JOIN vitalicio_fct vf ON vf.nm_email = p.nm_email
-  GROUP BY p.nm_email
+  LEFT JOIN subscription_history s USING (id_person)
+  LEFT JOIN vitalicio_fct vf USING (id_person)
+  GROUP BY p.id_person
 )
 SELECT
   status,
@@ -109,13 +131,16 @@ ORDER BY qt DESC
 
 Q_ANTIGUIDADE = f"""
 WITH {CDL_BASE},
-primeira_compra_via_email AS (
+primeira_compra AS (
   SELECT
-    c.nm_email,
+    cdl.id_person,
     MIN(t.dt_ordered_at) AS dt_primeira_bp
   FROM `bp-datawarehouse.masterdata.fct_transactions` t
   JOIN `bp-datawarehouse.masterdata.dim_contact` dc USING (id_gateway_customer)
-  JOIN cdl_compradores c ON c.nm_email = dc.nm_email
+  JOIN `bp-datawarehouse.masterdata.dim_person_identity` dpi
+    ON dpi.nm_identifier = dc.nm_email
+    AND dpi.nm_identifier_type = 'email'
+  JOIN cdl_compradores cdl USING (id_person)
   WHERE t.nm_status = 'approved'
   GROUP BY 1
 )
@@ -132,7 +157,7 @@ SELECT
   ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 1) AS pct,
   ROUND(AVG(DATE_DIFF(DATE(c.dt_compra_cdl), DATE(p.dt_primeira_bp), DAY))) AS media_dias
 FROM cdl_compradores c
-JOIN primeira_compra_via_email p USING (nm_email)
+JOIN primeira_compra p USING (id_person)
 GROUP BY 1
 ORDER BY media_dias
 """
@@ -141,22 +166,26 @@ Q_PRODUTOS_ANTES = f"""
 WITH {CDL_BASE},
 historico AS (
   SELECT
-    c.id_gateway_customer,
+    cdl.id_person,
     t.nm_plan_label,
     t.nm_gateway_plan
   FROM `bp-datawarehouse.masterdata.fct_transactions` t
-  JOIN cdl_compradores c USING (id_gateway_customer)
+  JOIN `bp-datawarehouse.masterdata.dim_contact` dc USING (id_gateway_customer)
+  JOIN `bp-datawarehouse.masterdata.dim_person_identity` dpi
+    ON dpi.nm_identifier = dc.nm_email
+    AND dpi.nm_identifier_type = 'email'
+  JOIN cdl_compradores cdl USING (id_person)
   WHERE t.nm_status = 'approved'
     AND t.bl_is_renovation = FALSE
     AND t.nm_gateway_plan NOT IN ('clube-do-livro', 'outros')
     AND t.nm_plan_label IS NOT NULL
-    AND DATE(t.dt_ordered_at) < DATE(c.dt_compra_cdl)
+    AND DATE(t.dt_ordered_at) < DATE(cdl.dt_compra_cdl)
 ),
-total_cdl AS (SELECT COUNT(DISTINCT id_gateway_customer) AS n FROM cdl_compradores)
+total_cdl AS (SELECT COUNT(DISTINCT id_person) AS n FROM cdl_compradores)
 SELECT
   nm_plan_label,
-  COUNT(DISTINCT id_gateway_customer) AS compradores,
-  ROUND(COUNT(DISTINCT id_gateway_customer) * 100.0 / MAX(total_cdl.n), 1) AS pct_base
+  COUNT(DISTINCT id_person) AS compradores,
+  ROUND(COUNT(DISTINCT id_person) * 100.0 / MAX(total_cdl.n), 1) AS pct_base
 FROM historico, total_cdl
 GROUP BY 1
 HAVING compradores >= 50
@@ -168,10 +197,10 @@ Q_CANAL = f"""
 WITH {CDL_BASE}
 SELECT
   CASE WHEN t.bl_is_commercial_channel THEN 'Comercial' ELSE 'Digital' END AS canal,
-  COUNT(DISTINCT p.id_gateway_customer) AS qt,
-  ROUND(COUNT(DISTINCT p.id_gateway_customer) * 100.0 / SUM(COUNT(DISTINCT p.id_gateway_customer)) OVER(), 1) AS pct,
-  ROUND(AVG(t.vl_payment_gross), 0)     AS ticket_medio,
-  ROUND(SUM(t.vl_payment_gross), 0)     AS receita
+  COUNT(DISTINCT p.id_person)  AS qt,
+  ROUND(COUNT(DISTINCT p.id_person) * 100.0 / SUM(COUNT(DISTINCT p.id_person)) OVER(), 1) AS pct,
+  ROUND(AVG(t.vl_payment_gross), 0)    AS ticket_medio,
+  ROUND(SUM(t.vl_payment_gross), 0)    AS receita
 FROM cdl_compradores p
 JOIN `bp-datawarehouse.masterdata.fct_transactions` t USING (id_transaction)
 GROUP BY 1
@@ -182,14 +211,18 @@ Q_CONSUMO = f"""
 WITH {CDL_BASE},
 historico AS (
   SELECT
-    c.id_gateway_customer,
+    cdl.id_person,
     SUM(CASE WHEN t.bl_is_renovation = FALSE THEN t.vl_payment_gross ELSE 0 END) AS vl_total,
     COUNT(DISTINCT t.nm_gateway_plan) AS qt_planos
   FROM `bp-datawarehouse.masterdata.fct_transactions` t
-  JOIN cdl_compradores c USING (id_gateway_customer)
+  JOIN `bp-datawarehouse.masterdata.dim_contact` dc USING (id_gateway_customer)
+  JOIN `bp-datawarehouse.masterdata.dim_person_identity` dpi
+    ON dpi.nm_identifier = dc.nm_email
+    AND dpi.nm_identifier_type = 'email'
+  JOIN cdl_compradores cdl USING (id_person)
   WHERE t.nm_status = 'approved'
     AND t.nm_gateway_plan != 'clube-do-livro'
-    AND DATE(t.dt_ordered_at) < DATE(c.dt_compra_cdl)
+    AND DATE(t.dt_ordered_at) < DATE(cdl.dt_compra_cdl)
   GROUP BY 1
 )
 SELECT
