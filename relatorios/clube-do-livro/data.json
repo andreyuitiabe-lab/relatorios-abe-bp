@@ -1,0 +1,194 @@
+{
+  "updated_at": "2026-06-23T16:56:38",
+  "totais": {
+    "compradores": 16923,
+    "receita_total": 20848866,
+    "ticket_medio": 1232,
+    "periodo_inicio": "2026-05-05",
+    "periodo_fim": "2026-06-23"
+  },
+  "status": [
+    {
+      "label": "Membro Ativo",
+      "qt": 6089,
+      "pct": 36.0
+    },
+    {
+      "label": "Vitalício",
+      "qt": 5490,
+      "pct": 32.4
+    },
+    {
+      "label": "Nunca foi Membro",
+      "qt": 3116,
+      "pct": 18.4
+    },
+    {
+      "label": "Ex-Membro",
+      "qt": 2228,
+      "pct": 13.2
+    }
+  ],
+  "antiguidade": [
+    {
+      "label": "CDL como 1ª compra",
+      "qt": 3332,
+      "pct": 19.7,
+      "media_dias": 0
+    },
+    {
+      "label": "< 6 meses",
+      "qt": 534,
+      "pct": 3.2,
+      "media_dias": 84
+    },
+    {
+      "label": "6–12 meses",
+      "qt": 840,
+      "pct": 5.0,
+      "media_dias": 261
+    },
+    {
+      "label": "1–2 anos",
+      "qt": 2201,
+      "pct": 13.0,
+      "media_dias": 550
+    },
+    {
+      "label": "2–4 anos",
+      "qt": 3934,
+      "pct": 23.2,
+      "media_dias": 1194
+    },
+    {
+      "label": "Mais de 4 anos",
+      "qt": 6082,
+      "pct": 35.9,
+      "media_dias": 2021
+    }
+  ],
+  "produtos_antes": [
+    {
+      "plano": "Básico",
+      "compradores": 6653,
+      "pct": 39.3
+    },
+    {
+      "plano": "Premium GBB",
+      "compradores": 5441,
+      "pct": 32.2
+    },
+    {
+      "plano": "Patriota",
+      "compradores": 3084,
+      "pct": 18.2
+    },
+    {
+      "plano": "Acesso Total",
+      "compradores": 2710,
+      "pct": 16.0
+    },
+    {
+      "plano": "Premium GBB Vitalício",
+      "compradores": 2568,
+      "pct": 15.2
+    },
+    {
+      "plano": "Apoiador",
+      "compradores": 2372,
+      "pct": 14.0
+    },
+    {
+      "plano": "Black Vitalício",
+      "compradores": 2199,
+      "pct": 13.0
+    },
+    {
+      "plano": "Núcleo",
+      "compradores": 1651,
+      "pct": 9.8
+    },
+    {
+      "plano": "Teller",
+      "compradores": 1578,
+      "pct": 9.3
+    },
+    {
+      "plano": "Básico Vitalício",
+      "compradores": 1517,
+      "pct": 9.0
+    },
+    {
+      "plano": "Mecenas",
+      "compradores": 1118,
+      "pct": 6.6
+    },
+    {
+      "plano": "Travessia",
+      "compradores": 862,
+      "pct": 5.1
+    },
+    {
+      "plano": "Intermediário",
+      "compradores": 846,
+      "pct": 5.0
+    },
+    {
+      "plano": "Sociedade Do Livro",
+      "compradores": 589,
+      "pct": 3.5
+    },
+    {
+      "plano": "Black",
+      "compradores": 339,
+      "pct": 2.0
+    },
+    {
+      "plano": "Funil Bitcoin",
+      "compradores": 326,
+      "pct": 1.9
+    },
+    {
+      "plano": "Escola Da Familia",
+      "compradores": 227,
+      "pct": 1.3
+    },
+    {
+      "plano": "Clube Da Musica",
+      "compradores": 219,
+      "pct": 1.3
+    },
+    {
+      "plano": "Ciencia Politica",
+      "compradores": 201,
+      "pct": 1.2
+    },
+    {
+      "plano": "Funil Geopolitica",
+      "compradores": 182,
+      "pct": 1.1
+    }
+  ],
+  "canal": [
+    {
+      "canal": "Comercial",
+      "qt": 8849,
+      "pct": 52.3,
+      "ticket_medio": 1213,
+      "receita": 10734068
+    },
+    {
+      "canal": "Digital",
+      "qt": 8074,
+      "pct": 47.7,
+      "ticket_medio": 1253,
+      "receita": 10114798
+    }
+  ],
+  "consumo": {
+    "gasto_medio": 3164,
+    "mediana_gasto": 1302,
+    "media_planos": 2.6,
+    "com_historico": 13582
+  }
+}
