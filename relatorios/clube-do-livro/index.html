@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil de Compra — Clube do Livro</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:     #f8fafc;
+      --card:   #ffffff;
+      --line:   #e2e8f0;
+      --text:   #1e293b;
+      --muted:  #475569;
+      --soft:   #94a3b8;
+      --blue:   #3b6ef5;
+      --green:  #16a34a;
+      --amber:  #f5a524;
+      --violet: #7c5cfc;
+      --grey:   #aab2c4;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6;
+    }
+    .wrap   { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+    section { margin-bottom: 56px; }
+    h1      { font-size: 26px; font-weight: 700; }
+    h2      { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .sub    { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .label  { font-size: 11px; font-weight: 600; text-transform: uppercase;
+              letter-spacing: .06em; color: var(--soft); margin-bottom: 12px; }
+    .card   { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 640px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+    .bigstat .bs-num { font-size: 36px; font-weight: 800; color: var(--blue); line-height: 1; }
+    .bigstat .bs-num.v { color: var(--violet); }
+    .bigstat .bs-num.g { color: var(--green); }
+    .bigstat .bs-cap { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    table  { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th     { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px;
+             text-transform: uppercase; letter-spacing: .05em;
+             border-bottom: 2px solid var(--line); padding: 8px 10px; }
+    td     { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    tr:last-child td { border-bottom: none; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .tag   { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .t-b   { background: #dbeafe; color: #1d4ed8; }
+    .t-v   { background: #ede9fe; color: #5b21b6; }
+    .t-a   { background: #fef3c7; color: #92400e; }
+    .t-n   { background: #f1f5f9; color: #475569; }
+
+    .nota  { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px;
+             padding: 12px 16px; font-size: 12.5px; color: var(--muted); margin-top: 16px; }
+    .nota strong { color: var(--text); }
+
+    header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+    footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+             font-size: 12px; color: var(--soft); }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; justify-content: center; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+    .legend-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Análise de Produto</p>
+  <h1>Perfil de Compra — Clube do Livro</h1>
+  <p class="sub" id="headerSub">Carregando...</p>
+</header>
+
+<main>
+
+  <!-- 1. Totais -->
+  <section>
+    <div class="grid-4">
+      <div class="card" style="text-align:center">
+        <div class="label">Compradores únicos</div>
+        <div class="bigstat"><div class="bs-num" id="statCompradores">—</div></div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Receita total</div>
+        <div class="bigstat"><div class="bs-num g" id="statReceita">—</div></div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Ticket médio</div>
+        <div class="bigstat"><div class="bs-num" id="statTicket">—</div></div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Período</div>
+        <div style="font-size:13px;font-weight:600;margin-top:8px" id="statPeriodo">—</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Status de membro -->
+  <section>
+    <h2>Status no momento da compra</h2>
+    <div class="grid-2">
+      <div class="card" style="text-align:center">
+        <p class="label">Quem eram antes de comprar o CDL</p>
+        <canvas id="chartStatus" height="260"></canvas>
+        <div class="legend" id="legendStatus"></div>
+      </div>
+      <div class="card">
+        <table>
+          <thead><tr><th>Status</th><th class="num">Compradores</th><th class="num">%</th></tr></thead>
+          <tbody id="tabelaStatus"></tbody>
+        </table>
+        <div class="nota">
+          <strong>Vitalício (32%):</strong> quase 1 em 3 compradores já tinham o produto máximo da plataforma.
+          O CDL é o produto que captura esse público sem "próximo passo" na assinatura.<br><br>
+          <strong>Nunca foi Membro (18%) + Ex-Membro (13%):</strong> ~3.300 entraram pelo CDL e assinaram no mesmo dia via cross-sell. Os 2.228 ex-membros são base que voltou.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Antiguidade -->
+  <section>
+    <h2>Há quanto tempo são clientes da BP</h2>
+    <p class="sub" style="margin-bottom:16px">Medido da primeira compra na BP até a data do CDL</p>
+    <div class="card">
+      <canvas id="chartAntig" height="200"></canvas>
+    </div>
+    <div class="nota">
+      <strong>59% têm 2+ anos de BP</strong> — o CDL vendeu principalmente para a base mais fiel e antiga.
+      Os 19,7% "1ª compra" são clientes novos que entraram pelo CDL, a maioria convertida para assinante no mesmo checkout.
+    </div>
+  </section>
+
+  <!-- 4. Consumo histórico -->
+  <section>
+    <h2>Perfil de consumo histórico</h2>
+    <p class="sub" style="margin-bottom:16px">Compras na BP <em>antes</em> do CDL — entre os <span id="comHistorico">—</span> com histórico anterior</p>
+    <div class="grid-3">
+      <div class="card" style="text-align:center">
+        <div class="label">Gasto médio antes do CDL</div>
+        <div class="bigstat"><div class="bs-num" id="statGastoMedio">—</div></div>
+        <div class="bs-cap" style="text-align:center;margin-top:8px">todos os produtos anteriores</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Mediana do gasto</div>
+        <div class="bigstat"><div class="bs-num v" id="statMediana">—</div></div>
+        <div class="bs-cap" style="text-align:center;margin-top:8px">metade gastou menos que isso</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Produtos distintos</div>
+        <div class="bigstat"><div class="bs-num" id="statPlanos">—</div></div>
+        <div class="bs-cap" style="text-align:center;margin-top:8px">média de planos diferentes por pessoa</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Produtos anteriores -->
+  <section>
+    <h2>Produtos que tinham antes do CDL</h2>
+    <p class="sub" style="margin-bottom:16px">% da base CDL que já havia comprado cada produto (não exclusivo — uma pessoa pode aparecer em vários)</p>
+    <div class="card">
+      <canvas id="chartProdutos" height="320"></canvas>
+    </div>
+    <div class="nota">
+      <strong>GBB domina:</strong> Básico (39%) + Premium GBB (32%) — o CDL penetrou bem na camada mid-tier da assinatura, não só no topo.
+      <strong>Sociedade do Livro (3,5% = ~589 pessoas)</strong> já tinham um produto de clube similar — alta propensão esperada.
+    </div>
+  </section>
+
+  <!-- 6. Canal -->
+  <section>
+    <h2>Canal de venda</h2>
+    <div class="grid-2">
+      <div class="card">
+        <p class="label">% de compradores por canal</p>
+        <canvas id="chartCanal" height="160"></canvas>
+      </div>
+      <div class="card">
+        <table>
+          <thead><tr><th>Canal</th><th class="num">Compradores</th><th class="num">Ticket médio</th><th class="num">Receita</th></tr></thead>
+          <tbody id="tabelaCanal"></tbody>
+        </table>
+        <div class="nota" style="margin-top:16px">
+          Divisão próxima de 50/50 — diferente de certificações e vitalícios onde o Comercial domina.
+          O CDL converteu bem pelo digital e o ticket digital é levemente maior (planos Biblioteca/Acervo).
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
+  Fontes: masterdata.fct_transactions · masterdata.dim_subscriptions · masterdata.dim_user · masterdata.dim_contact
+</footer>
+
+</div>
+<script>
+const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.family = FONT;
+Chart.defaults.font.size   = 12;
+Chart.defaults.color       = "#6b7689";
+
+const BLUE="#3b6ef5", GREEN="#16a34a", AMBER="#f5a524", VIOLET="#7c5cfc", GREY="#aab2c4";
+
+const STATUS_COLORS = {"Membro Ativo":BLUE,"Vitalício":VIOLET,"Nunca foi Membro":GREY,"Ex-Membro":AMBER};
+const STATUS_TAGS   = {
+  "Membro Ativo":    '<span class="tag t-b">Membro Ativo</span>',
+  "Vitalício":       '<span class="tag t-v">Vitalício</span>',
+  "Nunca foi Membro":'<span class="tag t-n">Nunca foi Membro</span>',
+  "Ex-Membro":       '<span class="tag t-a">Ex-Membro</span>',
+};
+
+function fmtBRL(v){
+  if(v>=1e6) return 'R$ '+(v/1e6).toFixed(1).replace('.',',')+'M';
+  if(v>=1e3) return 'R$ '+(v/1e3).toFixed(0)+'k';
+  return 'R$ '+v.toLocaleString('pt-BR');
+}
+function fmtNum(v){return v.toLocaleString('pt-BR');}
+function fmtPct(v){return v.toFixed(1).replace('.', ',')+'%';}
+
+const labelsH = fmt => ({
+  id:'vlH',
+  afterDatasetsDraw(c){
+    const {ctx}=c; ctx.save();
+    c.data.datasets.forEach((ds,di)=>{
+      c.getDatasetMeta(di).data.forEach((el,i)=>{
+        const v=ds.data[i]; if(!v) return;
+        ctx.fillStyle="#3a4254"; ctx.font="600 11px "+FONT;
+        ctx.textAlign="left"; ctx.textBaseline="middle";
+        ctx.fillText(fmt(v), el.x+6, el.y);
+      });
+    }); ctx.restore();
+  }
+});
+
+const labelsV = {
+  id:'vlV',
+  afterDatasetsDraw(c){
+    const {ctx}=c; ctx.save();
+    c.data.datasets.forEach((ds,di)=>{
+      c.getDatasetMeta(di).data.forEach((el,i)=>{
+        const v=ds.data[i]; if(!v) return;
+        ctx.fillStyle="#3a4254"; ctx.font="700 13px "+FONT;
+        ctx.textAlign="center"; ctx.textBaseline="bottom";
+        ctx.fillText(fmtPct(v), el.x, el.y-6);
+      });
+    }); ctx.restore();
+  }
+};
+
+function initCharts(D){
+  document.getElementById('lastUpdate').textContent =
+    'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
+
+  const fmtDate = s => new Date(s+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
+  document.getElementById('headerSub').textContent =
+    fmtDate(D.totais.periodo_inicio)+' a '+fmtDate(D.totais.periodo_fim);
+
+  // totais
+  document.getElementById('statCompradores').textContent = fmtNum(D.totais.compradores);
+  document.getElementById('statReceita').textContent     = fmtBRL(D.totais.receita_total);
+  document.getElementById('statTicket').textContent      = fmtBRL(D.totais.ticket_medio);
+  const ms = s => new Date(s+'T12:00:00').toLocaleDateString('pt-BR',{month:'short',year:'numeric'});
+  document.getElementById('statPeriodo').textContent = ms(D.totais.periodo_inicio)+' – '+ms(D.totais.periodo_fim);
+
+  // status donut
+  new Chart(document.getElementById('chartStatus'),{
+    type:'doughnut',
+    data:{labels:D.status.map(r=>r.label),datasets:[{
+      data:D.status.map(r=>r.qt),
+      backgroundColor:D.status.map(r=>STATUS_COLORS[r.label]||GREY),
+      borderWidth:2, borderColor:'#fff'
+    }]},
+    options:{cutout:'62%',plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>' '+fmtNum(c.raw)+' — '+fmtPct(D.status[c.dataIndex].pct)}}}}
+  });
+  document.getElementById('legendStatus').innerHTML = D.status.map(r=>
+    `<div class="legend-item"><div class="legend-dot" style="background:${STATUS_COLORS[r.label]||GREY}"></div>${r.label} ${fmtPct(r.pct)}</div>`
+  ).join('');
+  document.getElementById('tabelaStatus').innerHTML = D.status.map(r=>
+    `<tr><td>${STATUS_TAGS[r.label]||r.label}</td><td class="num">${fmtNum(r.qt)}</td><td class="num"><strong>${fmtPct(r.pct)}</strong></td></tr>`
+  ).join('');
+
+  // antiguidade bar-H
+  new Chart(document.getElementById('chartAntig'),{
+    type:'bar',
+    data:{labels:D.antiguidade.map(r=>r.label),datasets:[{
+      data:D.antiguidade.map(r=>r.pct),
+      backgroundColor:[GREY,GREY,GREY,BLUE,BLUE,BLUE],
+      borderRadius:6, barThickness:26
+    }]},
+    options:{indexAxis:'y',
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:c=>' '+fmtPct(c.raw)+' ('+fmtNum(D.antiguidade[c.dataIndex].qt)+')'}}},
+      scales:{x:{display:false,max:Math.max(...D.antiguidade.map(r=>r.pct))*1.25},y:{grid:{display:false}}}},
+    plugins:[labelsH(v=>fmtPct(v))]
+  });
+
+  // consumo
+  document.getElementById('comHistorico').textContent   = fmtNum(D.consumo.com_historico);
+  document.getElementById('statGastoMedio').textContent = fmtBRL(D.consumo.gasto_medio);
+  document.getElementById('statMediana').textContent    = fmtBRL(D.consumo.mediana_gasto);
+  document.getElementById('statPlanos').textContent     = D.consumo.media_planos.toFixed(1).replace('.',',');
+
+  // produtos bar-H (top 12)
+  const top = D.produtos_antes.slice(0,12);
+  new Chart(document.getElementById('chartProdutos'),{
+    type:'bar',
+    data:{labels:top.map(r=>r.plano),datasets:[{
+      data:top.map(r=>r.pct),backgroundColor:BLUE,borderRadius:6,barThickness:20
+    }]},
+    options:{indexAxis:'y',
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:c=>' '+fmtPct(c.raw)+' ('+fmtNum(top[c.dataIndex].compradores)+')'}}},
+      scales:{x:{display:false,max:Math.max(...top.map(r=>r.pct))*1.3},y:{grid:{display:false}}}},
+    plugins:[labelsH(v=>fmtPct(v))]
+  });
+
+  // canal
+  new Chart(document.getElementById('chartCanal'),{
+    type:'bar',
+    data:{labels:D.canal.map(r=>r.canal),datasets:[{
+      data:D.canal.map(r=>r.pct),backgroundColor:[BLUE,VIOLET],borderRadius:8,barThickness:60
+    }]},
+    options:{
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:c=>' '+fmtPct(c.raw)+' ('+fmtNum(D.canal[c.dataIndex].qt)+')'}}},
+      scales:{x:{grid:{display:false}},y:{display:false,max:100}}},
+    plugins:[labelsV]
+  });
+  document.getElementById('tabelaCanal').innerHTML = D.canal.map(r=>
+    `<tr><td><strong>${r.canal}</strong></td><td class="num">${fmtNum(r.qt)}</td><td class="num">${fmtBRL(r.ticket_medio)}</td><td class="num">${fmtBRL(r.receita)}</td></tr>`
+  ).join('');
+}
+
+fetch('./data.json')
+  .then(r=>{if(!r.ok) throw new Error('HTTP '+r.status); return r.json();})
+  .then(D=>initCharts(D))
+  .catch(err=>{
+    console.error(err);
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
+        ⚠ Erro ao carregar dados: ${err.message}. Para visualização local: <code>python -m http.server</code>
+      </div>`);
+  });
+</script>
+</body>
+</html>
