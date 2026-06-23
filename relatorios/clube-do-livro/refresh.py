@@ -131,6 +131,21 @@ ORDER BY qt DESC
 
 Q_ANTIGUIDADE = f"""
 WITH {CDL_BASE},
+member_classification AS (
+  SELECT
+    p.id_person,
+    CASE
+      WHEN COUNTIF(s.nm_subscription_recurrence = 'vitalício' AND s.dt_started_at < p.dt_compra_cdl) > 0
+        OR MAX(IF(vf.id_person IS NOT NULL, 1, 0)) = 1 THEN 'Vitalício'
+      WHEN COUNTIF(p.dt_compra_cdl > s.dt_started_at AND p.dt_compra_cdl <= s.dt_expires_in) > 0 THEN 'Membro Ativo'
+      WHEN COUNTIF(s.dt_started_at < p.dt_compra_cdl) > 0 THEN 'Ex-Membro'
+      ELSE 'Nunca foi Membro'
+    END AS status
+  FROM cdl_compradores p
+  LEFT JOIN subscription_history s USING (id_person)
+  LEFT JOIN vitalicio_fct vf USING (id_person)
+  GROUP BY p.id_person
+),
 primeira_compra AS (
   SELECT
     cdl.id_person,
@@ -146,11 +161,11 @@ primeira_compra AS (
 )
 SELECT
   CASE
-    WHEN DATE_DIFF(DATE(c.dt_compra_cdl), DATE(p.dt_primeira_bp), DAY) <= 7   THEN 'CDL como 1ª compra'
-    WHEN DATE_DIFF(DATE(c.dt_compra_cdl), DATE(p.dt_primeira_bp), DAY) <= 180  THEN '< 6 meses'
-    WHEN DATE_DIFF(DATE(c.dt_compra_cdl), DATE(p.dt_primeira_bp), DAY) <= 365  THEN '6–12 meses'
-    WHEN DATE_DIFF(DATE(c.dt_compra_cdl), DATE(p.dt_primeira_bp), DAY) <= 730  THEN '1–2 anos'
-    WHEN DATE_DIFF(DATE(c.dt_compra_cdl), DATE(p.dt_primeira_bp), DAY) <= 1460 THEN '2–4 anos'
+    WHEN mc.status = 'Nunca foi Membro'                                          THEN 'CDL como 1ª compra'
+    WHEN DATE_DIFF(DATE(c.dt_compra_cdl), DATE(p.dt_primeira_bp), DAY) <= 180   THEN '< 6 meses'
+    WHEN DATE_DIFF(DATE(c.dt_compra_cdl), DATE(p.dt_primeira_bp), DAY) <= 365   THEN '6–12 meses'
+    WHEN DATE_DIFF(DATE(c.dt_compra_cdl), DATE(p.dt_primeira_bp), DAY) <= 730   THEN '1–2 anos'
+    WHEN DATE_DIFF(DATE(c.dt_compra_cdl), DATE(p.dt_primeira_bp), DAY) <= 1460  THEN '2–4 anos'
     ELSE 'Mais de 4 anos'
   END AS faixa,
   COUNT(*) AS qt,
@@ -158,6 +173,7 @@ SELECT
   ROUND(AVG(DATE_DIFF(DATE(c.dt_compra_cdl), DATE(p.dt_primeira_bp), DAY))) AS media_dias
 FROM cdl_compradores c
 JOIN primeira_compra p USING (id_person)
+JOIN member_classification mc USING (id_person)
 GROUP BY 1
 ORDER BY media_dias
 """
