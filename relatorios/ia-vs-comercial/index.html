@@ -726,9 +726,9 @@ ORDER BY canal, tipo_hotlead, origem, qt_leads DESC`;
     },
     {
       tipo: "COMPRA NEGADA", origem: "NOVA COMPRA",
-      porque: "Pagamento rejeitado pelo gateway. Na maioria dos casos é troca de método de pagamento (cartão → PIX) — fluxo automático resolve sem humano. Produtos de ticket alto são exceção: CDL e best têm margem para negociação ativa que o bot não consegue fazer.",
-      ia:  { produtos: ["supporter", "good", "bp-econômico", "bp-essencial", "clube-do-livro ⭐"], nota: "⭐ CDL CN: IA 8,6% vs COM 9,7% — diferença marginal. Custo humano não se paga nesse volume." },
-      com: { produtos: ["best"], nota: "Ticket R$2.770 com pagamento negado. Vendedor consegue renegociar forma de pagamento e manter a venda." },
+      porque: "Pagamento rejeitado pelo gateway. Na maioria dos casos é troca de método de pagamento (cartão → PIX) — fluxo automático resolve sem humano. Exceções: CDL e best têm margem para negociação ativa que o bot não consegue fazer.",
+      ia:  { produtos: ["supporter", "good", "bp-econômico", "bp-essencial"], nota: "8,4% de conversão. Troca de cartão/PIX via bot sem custo humano." },
+      com: { produtos: ["clube-do-livro", "best"], nota: "CDL CN: COM 9,7% vs IA 8,6% e R$136 vs R$110/lead (+24%). Best: ticket R$2.770 — vendedor renegociação forma de pagamento e mantém a venda." },
     },
     {
       tipo: "OPORTUNIDADE DE VENDA", origem: "NOVA COMPRA",
