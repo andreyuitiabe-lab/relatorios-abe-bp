@@ -1,0 +1,2701 @@
+{
+  "updated_at": "2026-06-24T10:47:00",
+  "periodo": "Junho 2026",
+  "resumo": {
+    "Comercial": {
+      "leads": 20588,
+      "convertidos": 904,
+      "pct": 4.39,
+      "ticket": 795.03,
+      "receita": 718710.84,
+      "rpl": 34.91
+    },
+    "IA": {
+      "leads": 22302,
+      "convertidos": 1487,
+      "pct": 6.67,
+      "ticket": 270.53,
+      "receita": 402284.48,
+      "rpl": 18.04
+    }
+  },
+  "por_tipo": [
+    {
+      "label": "Abandono De Carrinho | Nova Compra",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "ia": {
+        "leads": 8681,
+        "pct": 9.26,
+        "ticket": 259.54,
+        "rpl": 24.04
+      },
+      "comercial": {
+        "leads": 3136,
+        "pct": 7.43,
+        "ticket": 924.54,
+        "rpl": 68.69
+      }
+    },
+    {
+      "label": "Compra Negada | Nova Compra",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "ia": {
+        "leads": 4174,
+        "pct": 8.36,
+        "ticket": 256.6,
+        "rpl": 21.45
+      },
+      "comercial": {
+        "leads": 1763,
+        "pct": 6.13,
+        "ticket": 1040.0,
+        "rpl": 63.71
+      }
+    },
+    {
+      "label": "Oportunidade De Venda | Nova Compra",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "ia": {
+        "leads": 5979,
+        "pct": 4.58,
+        "ticket": 334.2,
+        "rpl": 15.32
+      },
+      "comercial": {
+        "leads": 14058,
+        "pct": 3.73,
+        "ticket": 717.77,
+        "rpl": 26.81
+      }
+    },
+    {
+      "label": "Abandono De Carrinho | Renovação",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "RENOVAÇÃO",
+      "ia": {
+        "leads": 77,
+        "pct": 11.69,
+        "ticket": 302.27,
+        "rpl": 35.33
+      },
+      "comercial": {
+        "leads": 36,
+        "pct": 2.78,
+        "ticket": 429.0,
+        "rpl": 11.92
+      }
+    },
+    {
+      "label": "Compra Negada | Renovação",
+      "tipo": "COMPRA NEGADA",
+      "origem": "RENOVAÇÃO",
+      "ia": {
+        "leads": 3236,
+        "pct": 1.55,
+        "ticket": 190.87,
+        "rpl": 2.95
+      },
+      "comercial": {
+        "leads": 9,
+        "pct": 0.0,
+        "ticket": 0.0,
+        "rpl": 0.0
+      }
+    },
+    {
+      "label": "Oportunidade De Venda | Renovação",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "RENOVAÇÃO",
+      "ia": {
+        "leads": 155,
+        "pct": 0.65,
+        "ticket": 228.0,
+        "rpl": 1.47
+      },
+      "comercial": {
+        "leads": 1586,
+        "pct": 2.33,
+        "ticket": 370.67,
+        "rpl": 8.65
+      }
+    }
+  ],
+  "por_produto": [
+    {
+      "canal": "Comercial",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "good",
+      "leads": 868,
+      "convertidos": 51,
+      "pct": 5.88,
+      "ticket": 284.96,
+      "receita": 14533.2,
+      "rpl": 16.74
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "clube-do-livro",
+      "leads": 787,
+      "convertidos": 118,
+      "pct": 14.99,
+      "ticket": 1371.8,
+      "receita": 161872.8,
+      "rpl": 205.68
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "supporter",
+      "leads": 550,
+      "convertidos": 17,
+      "pct": 3.09,
+      "ticket": 273.81,
+      "receita": 4654.8,
+      "rpl": 8.46
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "combo-essencial-religioso",
+      "leads": 394,
+      "convertidos": 8,
+      "pct": 2.03,
+      "ticket": 216.0,
+      "receita": 1728.0,
+      "rpl": 4.39
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "ebooks-audiolivros-clube-do-livro",
+      "leads": 132,
+      "convertidos": 10,
+      "pct": 7.58,
+      "ticket": 1451.59,
+      "receita": 14515.92,
+      "rpl": 109.97
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "combo-religioso-economico-v2",
+      "leads": 108,
+      "convertidos": 1,
+      "pct": 0.93,
+      "ticket": 228.0,
+      "receita": 228.0,
+      "rpl": 2.11
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "best",
+      "leads": 99,
+      "convertidos": 7,
+      "pct": 7.07,
+      "ticket": 489.77,
+      "receita": 3428.4,
+      "rpl": 34.63
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "bp-economico-combo-el-salvador-novo",
+      "leads": 44,
+      "convertidos": 2,
+      "pct": 4.55,
+      "ticket": 204.0,
+      "receita": 408.0,
+      "rpl": 9.27
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "extensao-assinatura-supporter",
+      "leads": 43,
+      "convertidos": 4,
+      "pct": 9.3,
+      "ticket": 695.7,
+      "receita": 2782.8,
+      "rpl": 64.72
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "bp-essencial-combo-el-salvador-novo",
+      "leads": 29,
+      "convertidos": 0,
+      "pct": 0.0,
+      "ticket": 0.0,
+      "receita": 0.0,
+      "rpl": 0.0
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "BOLETO EXPIRADO",
+      "origem": "RENOVAÇÃO",
+      "produto": "clube-do-livro",
+      "leads": 66,
+      "convertidos": 30,
+      "pct": 45.45,
+      "ticket": 1296.0,
+      "receita": 38880.0,
+      "rpl": 589.09
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "BOLETO EXPIRADO",
+      "origem": "RENOVAÇÃO",
+      "produto": "best",
+      "leads": 49,
+      "convertidos": 1,
+      "pct": 2.04,
+      "ticket": 442.8,
+      "receita": 442.8,
+      "rpl": 9.04
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "CHAT",
+      "origem": "NOVA COMPRA",
+      "produto": "good",
+      "leads": 272,
+      "convertidos": 26,
+      "pct": 9.56,
+      "ticket": 339.76,
+      "receita": 8833.8,
+      "rpl": 32.48
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "CHAT",
+      "origem": "NOVA COMPRA",
+      "produto": "supporter",
+      "leads": 250,
+      "convertidos": 14,
+      "pct": 5.6,
+      "ticket": 201.34,
+      "receita": 2818.8,
+      "rpl": 11.28
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "CHAT",
+      "origem": "NOVA COMPRA",
+      "produto": "combo-religioso-economico-v2",
+      "leads": 42,
+      "convertidos": 3,
+      "pct": 7.14,
+      "ticket": 1209.32,
+      "receita": 3627.96,
+      "rpl": 86.38
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "CHAT",
+      "origem": "NOVA COMPRA",
+      "produto": "clube-do-livro",
+      "leads": 37,
+      "convertidos": 6,
+      "pct": 16.22,
+      "ticket": 1555.0,
+      "receita": 9330.0,
+      "rpl": 252.16
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "CHAT",
+      "origem": "NOVA COMPRA",
+      "produto": "combo-essencial-religioso",
+      "leads": 32,
+      "convertidos": 2,
+      "pct": 6.25,
+      "ticket": 221.4,
+      "receita": 442.8,
+      "rpl": 13.84
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "CHAT",
+      "origem": "NOVA COMPRA",
+      "produto": "extensao-assinatura-good",
+      "leads": 28,
+      "convertidos": 1,
+      "pct": 3.57,
+      "ticket": 238.8,
+      "receita": 238.8,
+      "rpl": 8.53
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "CHAT",
+      "origem": "NOVA COMPRA",
+      "produto": "extensao-assinatura-supporter",
+      "leads": 27,
+      "convertidos": 3,
+      "pct": 11.11,
+      "ticket": 276.0,
+      "receita": 828.0,
+      "rpl": 30.67
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "CHAT",
+      "origem": "RENOVAÇÃO",
+      "produto": "good",
+      "leads": 110,
+      "convertidos": 13,
+      "pct": 11.82,
+      "ticket": 529.32,
+      "receita": 6881.16,
+      "rpl": 62.56
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "CHAT",
+      "origem": "RENOVAÇÃO",
+      "produto": "supporter",
+      "leads": 108,
+      "convertidos": 12,
+      "pct": 11.11,
+      "ticket": 232.0,
+      "receita": 2784.0,
+      "rpl": 25.78
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "clube-do-livro",
+      "leads": 548,
+      "convertidos": 53,
+      "pct": 9.67,
+      "ticket": 1409.7,
+      "receita": 74713.92,
+      "rpl": 136.34
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "good",
+      "leads": 423,
+      "convertidos": 15,
+      "pct": 3.55,
+      "ticket": 624.0,
+      "receita": 9360.0,
+      "rpl": 22.13
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "supporter",
+      "leads": 312,
+      "convertidos": 12,
+      "pct": 3.85,
+      "ticket": 222.16,
+      "receita": 2665.86,
+      "rpl": 8.54
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "ebooks-audiolivros-clube-do-livro",
+      "leads": 126,
+      "convertidos": 7,
+      "pct": 5.56,
+      "ticket": 1650.27,
+      "receita": 11551.92,
+      "rpl": 91.68
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "combo-essencial-religioso",
+      "leads": 94,
+      "convertidos": 3,
+      "pct": 3.19,
+      "ticket": 204.0,
+      "receita": 612.0,
+      "rpl": 6.51
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "best",
+      "leads": 59,
+      "convertidos": 4,
+      "pct": 6.78,
+      "ticket": 1443.69,
+      "receita": 5774.76,
+      "rpl": 97.88
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "extensao-assinatura-supporter",
+      "leads": 50,
+      "convertidos": 2,
+      "pct": 4.0,
+      "ticket": 276.0,
+      "receita": 552.0,
+      "rpl": 11.04
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "extensao-assinatura-good",
+      "leads": 40,
+      "convertidos": 1,
+      "pct": 2.5,
+      "ticket": 238.8,
+      "receita": 238.8,
+      "rpl": 5.97
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "combo-religioso-economico-v2",
+      "leads": 29,
+      "convertidos": 4,
+      "pct": 13.79,
+      "ticket": 252.0,
+      "receita": 1008.0,
+      "rpl": 34.76
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "bp-essencial-combo-el-salvador-novo",
+      "leads": 21,
+      "convertidos": 0,
+      "pct": 0.0,
+      "ticket": 0.0,
+      "receita": 0.0,
+      "rpl": 0.0
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "supporter",
+      "leads": 3968,
+      "convertidos": 163,
+      "pct": 4.11,
+      "ticket": 275.79,
+      "receita": 44954.4,
+      "rpl": 11.33
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "good",
+      "leads": 2510,
+      "convertidos": 99,
+      "pct": 3.94,
+      "ticket": 351.18,
+      "receita": 34767.06,
+      "rpl": 13.85
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "clube-do-livro",
+      "leads": 2355,
+      "convertidos": 43,
+      "pct": 1.83,
+      "ticket": 2494.31,
+      "receita": 107255.4,
+      "rpl": 45.54
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "extensao-assinatura-supporter",
+      "leads": 1359,
+      "convertidos": 83,
+      "pct": 6.11,
+      "ticket": 288.95,
+      "receita": 23983.2,
+      "rpl": 17.65
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "ebooks-audiolivros-clube-do-livro",
+      "leads": 928,
+      "convertidos": 37,
+      "pct": 3.99,
+      "ticket": 2267.55,
+      "receita": 83899.32,
+      "rpl": 90.41
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "combo-religioso-economico-v2",
+      "leads": 567,
+      "convertidos": 40,
+      "pct": 7.05,
+      "ticket": 273.0,
+      "receita": 10920.0,
+      "rpl": 19.26
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "bp-economico-combo-el-salvador-novo",
+      "leads": 544,
+      "convertidos": 9,
+      "pct": 1.65,
+      "ticket": 361.2,
+      "receita": 3250.8,
+      "rpl": 5.98
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "extensao-assinatura-good",
+      "leads": 537,
+      "convertidos": 5,
+      "pct": 0.93,
+      "ticket": 618.48,
+      "receita": 3092.4,
+      "rpl": 5.76
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "combo-essencial-religioso",
+      "leads": 286,
+      "convertidos": 0,
+      "pct": 0.0,
+      "ticket": 0.0,
+      "receita": 0.0,
+      "rpl": 0.0
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "best",
+      "leads": 254,
+      "convertidos": 12,
+      "pct": 4.72,
+      "ticket": 2769.56,
+      "receita": 33234.72,
+      "rpl": 130.85
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "bp-essencial-combo-el-salvador-novo",
+      "leads": 184,
+      "convertidos": 1,
+      "pct": 0.54,
+      "ticket": 828.0,
+      "receita": 828.0,
+      "rpl": 4.5
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "extensao-assinatura-premium",
+      "leads": 102,
+      "convertidos": 1,
+      "pct": 0.98,
+      "ticket": 3114.0,
+      "receita": 3114.0,
+      "rpl": 30.53
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "analises-clube-livro",
+      "leads": 96,
+      "convertidos": 1,
+      "pct": 1.04,
+      "ticket": 3279.96,
+      "receita": 3279.96,
+      "rpl": 34.17
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "combo-religioso-filmes",
+      "leads": 75,
+      "convertidos": 5,
+      "pct": 6.67,
+      "ticket": 276.0,
+      "receita": 1380.0,
+      "rpl": 18.4
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "teller",
+      "leads": 71,
+      "convertidos": 1,
+      "pct": 1.41,
+      "ticket": 178.8,
+      "receita": 178.8,
+      "rpl": 2.52
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "guia-analises",
+      "leads": 66,
+      "convertidos": 1,
+      "pct": 1.52,
+      "ticket": 1188.0,
+      "receita": 1188.0,
+      "rpl": 18.0
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "better",
+      "leads": 34,
+      "convertidos": 15,
+      "pct": 44.12,
+      "ticket": 338.4,
+      "receita": 5076.0,
+      "rpl": 149.29
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "black",
+      "leads": 33,
+      "convertidos": 5,
+      "pct": 15.15,
+      "ticket": 2443.18,
+      "receita": 12215.88,
+      "rpl": 370.18
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "supporter-combo-crac",
+      "leads": 29,
+      "convertidos": 2,
+      "pct": 6.9,
+      "ticket": 411.0,
+      "receita": 822.0,
+      "rpl": 28.34
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "RENOVAÇÃO",
+      "produto": "good",
+      "leads": 610,
+      "convertidos": 21,
+      "pct": 3.44,
+      "ticket": 125.14,
+      "receita": 2628.0,
+      "rpl": 4.31
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "RENOVAÇÃO",
+      "produto": "best",
+      "leads": 600,
+      "convertidos": 12,
+      "pct": 2.0,
+      "ticket": 656.9,
+      "receita": 7882.8,
+      "rpl": 13.14
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "RENOVAÇÃO",
+      "produto": "better",
+      "leads": 245,
+      "convertidos": 3,
+      "pct": 1.22,
+      "ticket": 1028.0,
+      "receita": 3084.0,
+      "rpl": 12.59
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "RENOVAÇÃO",
+      "produto": "teller",
+      "leads": 85,
+      "convertidos": 0,
+      "pct": 0.0,
+      "ticket": 0.0,
+      "receita": 0.0,
+      "rpl": 0.0
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "RENOVAÇÃO",
+      "produto": "supporter",
+      "leads": 32,
+      "convertidos": 1,
+      "pct": 3.13,
+      "ticket": 120.0,
+      "receita": 120.0,
+      "rpl": 3.75
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "PIX EXPIRADO",
+      "origem": "RENOVAÇÃO",
+      "produto": "best",
+      "leads": 319,
+      "convertidos": 12,
+      "pct": 3.76,
+      "ticket": 1206.05,
+      "receita": 14472.66,
+      "rpl": 45.37
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "PIX EXPIRADO",
+      "origem": "RENOVAÇÃO",
+      "produto": "bp-economico-combo-el-salvador-novo",
+      "leads": 154,
+      "convertidos": 0,
+      "pct": 0.0,
+      "ticket": 0.0,
+      "receita": 0.0,
+      "rpl": 0.0
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "PIX EXPIRADO",
+      "origem": "RENOVAÇÃO",
+      "produto": "clube-do-livro",
+      "leads": 127,
+      "convertidos": 80,
+      "pct": 62.99,
+      "ticket": 1330.85,
+      "receita": 106468.0,
+      "rpl": 838.33
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "PIX EXPIRADO",
+      "origem": "RENOVAÇÃO",
+      "produto": "supporter",
+      "leads": 126,
+      "convertidos": 25,
+      "pct": 19.84,
+      "ticket": 195.02,
+      "receita": 4875.6,
+      "rpl": 38.7
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "PIX EXPIRADO",
+      "origem": "RENOVAÇÃO",
+      "produto": "better",
+      "leads": 88,
+      "convertidos": 6,
+      "pct": 6.82,
+      "ticket": 276.0,
+      "receita": 1656.0,
+      "rpl": 18.82
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "PIX EXPIRADO",
+      "origem": "RENOVAÇÃO",
+      "produto": "good",
+      "leads": 67,
+      "convertidos": 20,
+      "pct": 29.85,
+      "ticket": 257.06,
+      "receita": 5141.16,
+      "rpl": 76.73
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "PIX EXPIRADO",
+      "origem": "RENOVAÇÃO",
+      "produto": "bp-essencial-combo-el-salvador-novo",
+      "leads": 36,
+      "convertidos": 0,
+      "pct": 0.0,
+      "ticket": 0.0,
+      "receita": 0.0,
+      "rpl": 0.0
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "PIX EXPIRADO",
+      "origem": "RENOVAÇÃO",
+      "produto": "combo-religioso-filmes",
+      "leads": 27,
+      "convertidos": 0,
+      "pct": 0.0,
+      "ticket": 0.0,
+      "receita": 0.0,
+      "rpl": 0.0
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "PIX EXPIRADO",
+      "origem": "RENOVAÇÃO",
+      "produto": "ebooks-audiolivros-clube-do-livro",
+      "leads": 26,
+      "convertidos": 22,
+      "pct": 84.62,
+      "ticket": 1083.82,
+      "receita": 23844.0,
+      "rpl": 917.08
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "Portal",
+      "origem": "",
+      "produto": "desconhecido",
+      "leads": 50,
+      "convertidos": 10,
+      "pct": 20.0,
+      "ticket": 1229.28,
+      "receita": 12292.8,
+      "rpl": 245.86
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "[ANTIGO] LP Fascismo",
+      "origem": "",
+      "produto": "desconhecido",
+      "leads": 773,
+      "convertidos": 148,
+      "pct": 19.15,
+      "ticket": 1250.19,
+      "receita": 185028.36,
+      "rpl": 239.36
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "[ANTIGO] LP Fascismo",
+      "origem": "",
+      "produto": "clube-do-livro",
+      "leads": 41,
+      "convertidos": 20,
+      "pct": 48.78,
+      "ticket": 1326.0,
+      "receita": 26520.0,
+      "rpl": 646.83
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "[APP] Tech",
+      "origem": "Mobile",
+      "produto": "desconhecido",
+      "leads": 58,
+      "convertidos": 11,
+      "pct": 18.97,
+      "ticket": 1029.82,
+      "receita": 11328.0,
+      "rpl": 195.31
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "[ATT] Checkout",
+      "origem": "Clube do Livro (engajados) 26.05",
+      "produto": "desconhecido",
+      "leads": 23,
+      "convertidos": 2,
+      "pct": 8.7,
+      "ticket": 1308.0,
+      "receita": 2616.0,
+      "rpl": 113.74
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "[ATT] Encerramento Geral",
+      "origem": "CDL",
+      "produto": "desconhecido",
+      "leads": 1689,
+      "convertidos": 31,
+      "pct": 1.84,
+      "ticket": 1315.74,
+      "receita": 40788.0,
+      "rpl": 24.15
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "[ATT] GEO8-mb-basico-SP-RJ-MG",
+      "origem": "",
+      "produto": "desconhecido",
+      "leads": 91,
+      "convertidos": 8,
+      "pct": 8.79,
+      "ticket": 1233.0,
+      "receita": 9864.0,
+      "rpl": 108.4
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "[ATT] Membros Premium e Black -> Clube",
+      "origem": "",
+      "produto": "desconhecido",
+      "leads": 161,
+      "convertidos": 13,
+      "pct": 8.07,
+      "ticket": 1216.62,
+      "receita": 15816.0,
+      "rpl": 98.24
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "[ATT] Repique 90K Membros Ativos",
+      "origem": "",
+      "produto": "desconhecido",
+      "leads": 195,
+      "convertidos": 13,
+      "pct": 6.67,
+      "ticket": 1280.31,
+      "receita": 16644.0,
+      "rpl": 85.35
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "[ATT] Vitalício Oferta",
+      "origem": "",
+      "produto": "desconhecido",
+      "leads": 107,
+      "convertidos": 10,
+      "pct": 9.35,
+      "ticket": 1394.95,
+      "receita": 13949.52,
+      "rpl": 130.37
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "[ATT] [CM] CDL",
+      "origem": "Engajados",
+      "produto": "desconhecido",
+      "leads": 214,
+      "convertidos": 22,
+      "pct": 10.28,
+      "ticket": 1470.91,
+      "receita": 32359.92,
+      "rpl": 151.21
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "[ATT] [CM] DISPARO DO DIA  08/06",
+      "origem": "Assistiram Curso -> CDL",
+      "produto": "desconhecido",
+      "leads": 343,
+      "convertidos": 47,
+      "pct": 13.7,
+      "ticket": 1390.55,
+      "receita": 65355.93,
+      "rpl": 190.54
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "[LP] Testes 2024",
+      "origem": "",
+      "produto": "desconhecido",
+      "leads": 317,
+      "convertidos": 47,
+      "pct": 14.83,
+      "ticket": 1094.56,
+      "receita": 51444.26,
+      "rpl": 162.28
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "new",
+      "origem": "LP PPT",
+      "produto": "desconhecido",
+      "leads": 310,
+      "convertidos": 36,
+      "pct": 11.61,
+      "ticket": 516.42,
+      "receita": 18591.3,
+      "rpl": 59.97
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "new",
+      "origem": "LP PPT",
+      "produto": "good",
+      "leads": 22,
+      "convertidos": 7,
+      "pct": 31.82,
+      "ticket": 220.8,
+      "receita": 1545.6,
+      "rpl": 70.25
+    },
+    {
+      "canal": "Comercial",
+      "tipo": "vds_a_vida_dos_santos",
+      "origem": "",
+      "produto": "desconhecido",
+      "leads": 148,
+      "convertidos": 3,
+      "pct": 2.03,
+      "ticket": 552.0,
+      "receita": 1656.0,
+      "rpl": 11.19
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "supporter",
+      "leads": 4088,
+      "convertidos": 403,
+      "pct": 9.86,
+      "ticket": 161.2,
+      "receita": 64962.0,
+      "rpl": 15.89
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "good",
+      "leads": 2030,
+      "convertidos": 208,
+      "pct": 10.25,
+      "ticket": 232.28,
+      "receita": 48313.26,
+      "rpl": 23.8
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "combo-religioso-economico-v2",
+      "leads": 1128,
+      "convertidos": 60,
+      "pct": 5.32,
+      "ticket": 163.62,
+      "receita": 9817.2,
+      "rpl": 8.7
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "bp-economico-combo-el-salvador-novo",
+      "leads": 552,
+      "convertidos": 38,
+      "pct": 6.88,
+      "ticket": 141.79,
+      "receita": 5388.0,
+      "rpl": 9.76
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "clube-do-livro",
+      "leads": 270,
+      "convertidos": 46,
+      "pct": 17.04,
+      "ticket": 1300.17,
+      "receita": 59808.02,
+      "rpl": 221.51
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "best",
+      "leads": 233,
+      "convertidos": 24,
+      "pct": 10.3,
+      "ticket": 446.32,
+      "receita": 10711.8,
+      "rpl": 45.97
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "bp-essencial-combo-el-salvador-novo",
+      "leads": 184,
+      "convertidos": 10,
+      "pct": 5.43,
+      "ticket": 236.4,
+      "receita": 2364.0,
+      "rpl": 12.85
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "ebooks-audiolivros-clube-do-livro",
+      "leads": 42,
+      "convertidos": 5,
+      "pct": 11.9,
+      "ticket": 1140.0,
+      "receita": 5700.0,
+      "rpl": 135.71
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "desconhecido",
+      "leads": 37,
+      "convertidos": 0,
+      "pct": 0.0,
+      "ticket": 0.0,
+      "receita": 0.0,
+      "rpl": 0.0
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "apoiador-combo-bp-10-anos",
+      "leads": 34,
+      "convertidos": 1,
+      "pct": 2.94,
+      "ticket": 120.0,
+      "receita": 120.0,
+      "rpl": 3.53
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "NOVA COMPRA",
+      "produto": "supporter-combo-crac",
+      "leads": 32,
+      "convertidos": 0,
+      "pct": 0.0,
+      "ticket": 0.0,
+      "receita": 0.0,
+      "rpl": 0.0
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "RENOVAÇÃO",
+      "produto": "good",
+      "leads": 31,
+      "convertidos": 2,
+      "pct": 6.45,
+      "ticket": 228.0,
+      "receita": 456.0,
+      "rpl": 14.71
+    },
+    {
+      "canal": "IA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "origem": "RENOVAÇÃO",
+      "produto": "supporter",
+      "leads": 28,
+      "convertidos": 2,
+      "pct": 7.14,
+      "ticket": 120.0,
+      "receita": 240.0,
+      "rpl": 8.57
+    },
+    {
+      "canal": "IA",
+      "tipo": "CHAT",
+      "origem": "NOVA COMPRA",
+      "produto": "supporter",
+      "leads": 43,
+      "convertidos": 4,
+      "pct": 9.3,
+      "ticket": 195.0,
+      "receita": 780.0,
+      "rpl": 18.14
+    },
+    {
+      "canal": "IA",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "supporter",
+      "leads": 1765,
+      "convertidos": 151,
+      "pct": 8.56,
+      "ticket": 144.99,
+      "receita": 21894.0,
+      "rpl": 12.4
+    },
+    {
+      "canal": "IA",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "good",
+      "leads": 1278,
+      "convertidos": 110,
+      "pct": 8.61,
+      "ticket": 212.81,
+      "receita": 23409.6,
+      "rpl": 18.32
+    },
+    {
+      "canal": "IA",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "combo-religioso-economico-v2",
+      "leads": 270,
+      "convertidos": 13,
+      "pct": 4.81,
+      "ticket": 160.52,
+      "receita": 2086.8,
+      "rpl": 7.73
+    },
+    {
+      "canal": "IA",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "clube-do-livro",
+      "leads": 234,
+      "convertidos": 20,
+      "pct": 8.55,
+      "ticket": 1287.27,
+      "receita": 25745.4,
+      "rpl": 110.02
+    },
+    {
+      "canal": "IA",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "bp-economico-combo-el-salvador-novo",
+      "leads": 205,
+      "convertidos": 19,
+      "pct": 9.27,
+      "ticket": 154.04,
+      "receita": 2926.8,
+      "rpl": 14.28
+    },
+    {
+      "canal": "IA",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "best",
+      "leads": 187,
+      "convertidos": 25,
+      "pct": 13.37,
+      "ticket": 412.94,
+      "receita": 10323.6,
+      "rpl": 55.21
+    },
+    {
+      "canal": "IA",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "bp-essencial-combo-el-salvador-novo",
+      "leads": 94,
+      "convertidos": 4,
+      "pct": 4.26,
+      "ticket": 228.0,
+      "receita": 912.0,
+      "rpl": 9.7
+    },
+    {
+      "canal": "IA",
+      "tipo": "COMPRA NEGADA",
+      "origem": "NOVA COMPRA",
+      "produto": "desconhecido",
+      "leads": 61,
+      "convertidos": 3,
+      "pct": 4.92,
+      "ticket": 156.0,
+      "receita": 468.0,
+      "rpl": 7.67
+    },
+    {
+      "canal": "IA",
+      "tipo": "COMPRA NEGADA",
+      "origem": "RENOVAÇÃO",
+      "produto": "supporter",
+      "leads": 1432,
+      "convertidos": 15,
+      "pct": 1.05,
+      "ticket": 171.2,
+      "receita": 2568.0,
+      "rpl": 1.79
+    },
+    {
+      "canal": "IA",
+      "tipo": "COMPRA NEGADA",
+      "origem": "RENOVAÇÃO",
+      "produto": "good",
+      "leads": 1369,
+      "convertidos": 27,
+      "pct": 1.97,
+      "ticket": 182.62,
+      "receita": 4930.8,
+      "rpl": 3.6
+    },
+    {
+      "canal": "IA",
+      "tipo": "COMPRA NEGADA",
+      "origem": "RENOVAÇÃO",
+      "produto": "best",
+      "leads": 294,
+      "convertidos": 8,
+      "pct": 2.72,
+      "ticket": 255.6,
+      "receita": 2044.8,
+      "rpl": 6.96
+    },
+    {
+      "canal": "IA",
+      "tipo": "COMPRA NEGADA",
+      "origem": "RENOVAÇÃO",
+      "produto": "desconhecido",
+      "leads": 141,
+      "convertidos": 0,
+      "pct": 0.0,
+      "ticket": 0.0,
+      "receita": 0.0,
+      "rpl": 0.0
+    },
+    {
+      "canal": "IA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "supporter",
+      "leads": 2881,
+      "convertidos": 130,
+      "pct": 4.51,
+      "ticket": 270.41,
+      "receita": 35152.8,
+      "rpl": 12.2
+    },
+    {
+      "canal": "IA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "good",
+      "leads": 1956,
+      "convertidos": 86,
+      "pct": 4.4,
+      "ticket": 385.71,
+      "receita": 33171.0,
+      "rpl": 16.96
+    },
+    {
+      "canal": "IA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "extensao-assinatura-supporter",
+      "leads": 299,
+      "convertidos": 29,
+      "pct": 9.7,
+      "ticket": 280.1,
+      "receita": 8122.8,
+      "rpl": 27.17
+    },
+    {
+      "canal": "IA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "combo-religioso-economico-v2",
+      "leads": 202,
+      "convertidos": 6,
+      "pct": 2.97,
+      "ticket": 400.6,
+      "receita": 2403.6,
+      "rpl": 11.9
+    },
+    {
+      "canal": "IA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "best",
+      "leads": 175,
+      "convertidos": 4,
+      "pct": 2.29,
+      "ticket": 1188.0,
+      "receita": 4752.0,
+      "rpl": 27.15
+    },
+    {
+      "canal": "IA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "bp-economico-combo-el-salvador-novo",
+      "leads": 149,
+      "convertidos": 8,
+      "pct": 5.37,
+      "ticket": 258.0,
+      "receita": 2064.0,
+      "rpl": 13.85
+    },
+    {
+      "canal": "IA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "extensao-assinatura-good",
+      "leads": 135,
+      "convertidos": 3,
+      "pct": 2.22,
+      "ticket": 507.0,
+      "receita": 1521.0,
+      "rpl": 11.27
+    },
+    {
+      "canal": "IA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "bp-essencial-combo-el-salvador-novo",
+      "leads": 74,
+      "convertidos": 2,
+      "pct": 2.7,
+      "ticket": 507.0,
+      "receita": 1014.0,
+      "rpl": 13.7
+    },
+    {
+      "canal": "IA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "extensao-assinatura-premium",
+      "leads": 40,
+      "convertidos": 1,
+      "pct": 2.5,
+      "ticket": 1308.0,
+      "receita": 1308.0,
+      "rpl": 32.7
+    },
+    {
+      "canal": "IA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "NOVA COMPRA",
+      "produto": "guia-analises",
+      "leads": 31,
+      "convertidos": 4,
+      "pct": 12.9,
+      "ticket": 446.4,
+      "receita": 1785.6,
+      "rpl": 57.6
+    },
+    {
+      "canal": "IA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "RENOVAÇÃO",
+      "produto": "good",
+      "leads": 98,
+      "convertidos": 0,
+      "pct": 0.0,
+      "ticket": 0.0,
+      "receita": 0.0,
+      "rpl": 0.0
+    },
+    {
+      "canal": "IA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "origem": "RENOVAÇÃO",
+      "produto": "supporter",
+      "leads": 38,
+      "convertidos": 1,
+      "pct": 2.63,
+      "ticket": 228.0,
+      "receita": 228.0,
+      "rpl": 6.0
+    }
+  ],
+  "por_matriz": [
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "apoiador-combo-bp-10-anos",
+      "ia": {
+        "leads": 34,
+        "vendas": 1,
+        "receita": 120.0,
+        "ticket": 120.0,
+        "pct_conv": 2.94,
+        "rpl": 3.53
+      },
+      "comercial": {
+        "leads": 0,
+        "vendas": 0,
+        "receita": 0,
+        "ticket": 0,
+        "pct_conv": 0,
+        "rpl": 0
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "best",
+      "ia": {
+        "leads": 233,
+        "vendas": 24,
+        "receita": 10711.8,
+        "ticket": 446.32,
+        "pct_conv": 10.3,
+        "rpl": 45.97
+      },
+      "comercial": {
+        "leads": 99,
+        "vendas": 7,
+        "receita": 3428.4,
+        "ticket": 489.77,
+        "pct_conv": 7.07,
+        "rpl": 34.63
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "bp-economico-combo-el-salvador-novo",
+      "ia": {
+        "leads": 552,
+        "vendas": 38,
+        "receita": 5388.0,
+        "ticket": 141.79,
+        "pct_conv": 6.88,
+        "rpl": 9.76
+      },
+      "comercial": {
+        "leads": 44,
+        "vendas": 2,
+        "receita": 408.0,
+        "ticket": 204.0,
+        "pct_conv": 4.55,
+        "rpl": 9.27
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "bp-essencial-combo-el-salvador-novo",
+      "ia": {
+        "leads": 184,
+        "vendas": 10,
+        "receita": 2364.0,
+        "ticket": 236.4,
+        "pct_conv": 5.43,
+        "rpl": 12.85
+      },
+      "comercial": {
+        "leads": 29,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "clube-do-livro",
+      "ia": {
+        "leads": 270,
+        "vendas": 46,
+        "receita": 59808.02,
+        "ticket": 1300.17,
+        "pct_conv": 17.04,
+        "rpl": 221.51
+      },
+      "comercial": {
+        "leads": 787,
+        "vendas": 118,
+        "receita": 161872.8,
+        "ticket": 1371.8,
+        "pct_conv": 14.99,
+        "rpl": 205.68
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "combo-essencial-religioso",
+      "ia": {
+        "leads": 1,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 394,
+        "vendas": 8,
+        "receita": 1728.0,
+        "ticket": 216.0,
+        "pct_conv": 2.03,
+        "rpl": 4.39
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "combo-religioso-economico-v2",
+      "ia": {
+        "leads": 1128,
+        "vendas": 60,
+        "receita": 9817.2,
+        "ticket": 163.62,
+        "pct_conv": 5.32,
+        "rpl": 8.7
+      },
+      "comercial": {
+        "leads": 108,
+        "vendas": 1,
+        "receita": 228.0,
+        "ticket": 228.0,
+        "pct_conv": 0.93,
+        "rpl": 2.11
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "desconhecido",
+      "ia": {
+        "leads": 37,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 2,
+        "vendas": 1,
+        "receita": 1188.0,
+        "ticket": 1188.0,
+        "pct_conv": 50.0,
+        "rpl": 594.0
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "ebooks-audiolivros-clube-do-livro",
+      "ia": {
+        "leads": 42,
+        "vendas": 5,
+        "receita": 5700.0,
+        "ticket": 1140.0,
+        "pct_conv": 11.9,
+        "rpl": 135.71
+      },
+      "comercial": {
+        "leads": 132,
+        "vendas": 10,
+        "receita": 14515.92,
+        "ticket": 1451.59,
+        "pct_conv": 7.58,
+        "rpl": 109.97
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "extensao-assinatura-supporter",
+      "ia": {
+        "leads": 2,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 43,
+        "vendas": 4,
+        "receita": 2782.8,
+        "ticket": 695.7,
+        "pct_conv": 9.3,
+        "rpl": 64.72
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "good",
+      "ia": {
+        "leads": 2030,
+        "vendas": 208,
+        "receita": 48313.26,
+        "ticket": 232.28,
+        "pct_conv": 10.25,
+        "rpl": 23.8
+      },
+      "comercial": {
+        "leads": 868,
+        "vendas": 51,
+        "receita": 14533.2,
+        "ticket": 284.96,
+        "pct_conv": 5.88,
+        "rpl": 16.74
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "supporter",
+      "ia": {
+        "leads": 4088,
+        "vendas": 403,
+        "receita": 64962.0,
+        "ticket": 161.2,
+        "pct_conv": 9.86,
+        "rpl": 15.89
+      },
+      "comercial": {
+        "leads": 550,
+        "vendas": 17,
+        "receita": 4654.8,
+        "ticket": 273.81,
+        "pct_conv": 3.09,
+        "rpl": 8.46
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "supporter-combo-crac",
+      "ia": {
+        "leads": 32,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 6,
+        "vendas": 2,
+        "receita": 261.6,
+        "ticket": 130.8,
+        "pct_conv": 33.33,
+        "rpl": 43.6
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "COMPRA NEGADA",
+      "produto": "best",
+      "ia": {
+        "leads": 187,
+        "vendas": 25,
+        "receita": 10323.6,
+        "ticket": 412.94,
+        "pct_conv": 13.37,
+        "rpl": 55.21
+      },
+      "comercial": {
+        "leads": 59,
+        "vendas": 4,
+        "receita": 5774.76,
+        "ticket": 1443.69,
+        "pct_conv": 6.78,
+        "rpl": 97.88
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "COMPRA NEGADA",
+      "produto": "bp-economico-combo-el-salvador-novo",
+      "ia": {
+        "leads": 205,
+        "vendas": 19,
+        "receita": 2926.8,
+        "ticket": 154.04,
+        "pct_conv": 9.27,
+        "rpl": 14.28
+      },
+      "comercial": {
+        "leads": 15,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "COMPRA NEGADA",
+      "produto": "bp-essencial-combo-el-salvador-novo",
+      "ia": {
+        "leads": 94,
+        "vendas": 4,
+        "receita": 912.0,
+        "ticket": 228.0,
+        "pct_conv": 4.26,
+        "rpl": 9.7
+      },
+      "comercial": {
+        "leads": 21,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "COMPRA NEGADA",
+      "produto": "clube-do-livro",
+      "ia": {
+        "leads": 234,
+        "vendas": 20,
+        "receita": 25745.4,
+        "ticket": 1287.27,
+        "pct_conv": 8.55,
+        "rpl": 110.02
+      },
+      "comercial": {
+        "leads": 548,
+        "vendas": 53,
+        "receita": 74713.92,
+        "ticket": 1409.7,
+        "pct_conv": 9.67,
+        "rpl": 136.34
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "COMPRA NEGADA",
+      "produto": "combo-essencial-religioso",
+      "ia": {
+        "leads": 2,
+        "vendas": 1,
+        "receita": 228.0,
+        "ticket": 228.0,
+        "pct_conv": 50.0,
+        "rpl": 114.0
+      },
+      "comercial": {
+        "leads": 94,
+        "vendas": 3,
+        "receita": 612.0,
+        "ticket": 204.0,
+        "pct_conv": 3.19,
+        "rpl": 6.51
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "COMPRA NEGADA",
+      "produto": "combo-religioso-economico-v2",
+      "ia": {
+        "leads": 270,
+        "vendas": 13,
+        "receita": 2086.8,
+        "ticket": 160.52,
+        "pct_conv": 4.81,
+        "rpl": 7.73
+      },
+      "comercial": {
+        "leads": 29,
+        "vendas": 4,
+        "receita": 1008.0,
+        "ticket": 252.0,
+        "pct_conv": 13.79,
+        "rpl": 34.76
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "COMPRA NEGADA",
+      "produto": "desconhecido",
+      "ia": {
+        "leads": 61,
+        "vendas": 3,
+        "receita": 468.0,
+        "ticket": 156.0,
+        "pct_conv": 4.92,
+        "rpl": 7.67
+      },
+      "comercial": {
+        "leads": 1,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "COMPRA NEGADA",
+      "produto": "ebooks-audiolivros-clube-do-livro",
+      "ia": {
+        "leads": 19,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 126,
+        "vendas": 7,
+        "receita": 11551.92,
+        "ticket": 1650.27,
+        "pct_conv": 5.56,
+        "rpl": 91.68
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "COMPRA NEGADA",
+      "produto": "extensao-assinatura-good",
+      "ia": {
+        "leads": 3,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 40,
+        "vendas": 1,
+        "receita": 238.8,
+        "ticket": 238.8,
+        "pct_conv": 2.5,
+        "rpl": 5.97
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "COMPRA NEGADA",
+      "produto": "extensao-assinatura-supporter",
+      "ia": {
+        "leads": 7,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 50,
+        "vendas": 2,
+        "receita": 552.0,
+        "ticket": 276.0,
+        "pct_conv": 4.0,
+        "rpl": 11.04
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "COMPRA NEGADA",
+      "produto": "good",
+      "ia": {
+        "leads": 1278,
+        "vendas": 110,
+        "receita": 23409.6,
+        "ticket": 212.81,
+        "pct_conv": 8.61,
+        "rpl": 18.32
+      },
+      "comercial": {
+        "leads": 423,
+        "vendas": 15,
+        "receita": 9360.0,
+        "ticket": 624.0,
+        "pct_conv": 3.55,
+        "rpl": 22.13
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "COMPRA NEGADA",
+      "produto": "supporter",
+      "ia": {
+        "leads": 1765,
+        "vendas": 151,
+        "receita": 21894.0,
+        "ticket": 144.99,
+        "pct_conv": 8.56,
+        "rpl": 12.4
+      },
+      "comercial": {
+        "leads": 312,
+        "vendas": 12,
+        "receita": 2665.86,
+        "ticket": 222.16,
+        "pct_conv": 3.85,
+        "rpl": 8.54
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "analises-clube-livro",
+      "ia": {
+        "leads": 1,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 96,
+        "vendas": 1,
+        "receita": 3279.96,
+        "ticket": 3279.96,
+        "pct_conv": 1.04,
+        "rpl": 34.17
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "best",
+      "ia": {
+        "leads": 175,
+        "vendas": 4,
+        "receita": 4752.0,
+        "ticket": 1188.0,
+        "pct_conv": 2.29,
+        "rpl": 27.15
+      },
+      "comercial": {
+        "leads": 254,
+        "vendas": 12,
+        "receita": 33234.72,
+        "ticket": 2769.56,
+        "pct_conv": 4.72,
+        "rpl": 130.85
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "better",
+      "ia": {
+        "leads": 1,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 34,
+        "vendas": 15,
+        "receita": 5076.0,
+        "ticket": 338.4,
+        "pct_conv": 44.12,
+        "rpl": 149.29
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "black",
+      "ia": {
+        "leads": 0,
+        "vendas": 0,
+        "receita": 0,
+        "ticket": 0,
+        "pct_conv": 0,
+        "rpl": 0
+      },
+      "comercial": {
+        "leads": 33,
+        "vendas": 5,
+        "receita": 12215.88,
+        "ticket": 2443.18,
+        "pct_conv": 15.15,
+        "rpl": 370.18
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "bp-economico-combo-el-salvador-novo",
+      "ia": {
+        "leads": 149,
+        "vendas": 8,
+        "receita": 2064.0,
+        "ticket": 258.0,
+        "pct_conv": 5.37,
+        "rpl": 13.85
+      },
+      "comercial": {
+        "leads": 544,
+        "vendas": 9,
+        "receita": 3250.8,
+        "ticket": 361.2,
+        "pct_conv": 1.65,
+        "rpl": 5.98
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "bp-essencial-combo-el-salvador-novo",
+      "ia": {
+        "leads": 74,
+        "vendas": 2,
+        "receita": 1014.0,
+        "ticket": 507.0,
+        "pct_conv": 2.7,
+        "rpl": 13.7
+      },
+      "comercial": {
+        "leads": 184,
+        "vendas": 1,
+        "receita": 828.0,
+        "ticket": 828.0,
+        "pct_conv": 0.54,
+        "rpl": 4.5
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "clube-do-livro",
+      "ia": {
+        "leads": 0,
+        "vendas": 0,
+        "receita": 0,
+        "ticket": 0,
+        "pct_conv": 0,
+        "rpl": 0
+      },
+      "comercial": {
+        "leads": 2355,
+        "vendas": 43,
+        "receita": 107255.4,
+        "ticket": 2494.31,
+        "pct_conv": 1.83,
+        "rpl": 45.54
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "combo-essencial-religioso",
+      "ia": {
+        "leads": 3,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 286,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "combo-religioso-economico-v2",
+      "ia": {
+        "leads": 202,
+        "vendas": 6,
+        "receita": 2403.6,
+        "ticket": 400.6,
+        "pct_conv": 2.97,
+        "rpl": 11.9
+      },
+      "comercial": {
+        "leads": 567,
+        "vendas": 40,
+        "receita": 10920.0,
+        "ticket": 273.0,
+        "pct_conv": 7.05,
+        "rpl": 19.26
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "combo-religioso-filmes",
+      "ia": {
+        "leads": 0,
+        "vendas": 0,
+        "receita": 0,
+        "ticket": 0,
+        "pct_conv": 0,
+        "rpl": 0
+      },
+      "comercial": {
+        "leads": 75,
+        "vendas": 5,
+        "receita": 1380.0,
+        "ticket": 276.0,
+        "pct_conv": 6.67,
+        "rpl": 18.4
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "ebooks-audiolivros-clube-do-livro",
+      "ia": {
+        "leads": 0,
+        "vendas": 0,
+        "receita": 0,
+        "ticket": 0,
+        "pct_conv": 0,
+        "rpl": 0
+      },
+      "comercial": {
+        "leads": 928,
+        "vendas": 37,
+        "receita": 83899.32,
+        "ticket": 2267.55,
+        "pct_conv": 3.99,
+        "rpl": 90.41
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "extensao-assinatura-good",
+      "ia": {
+        "leads": 135,
+        "vendas": 3,
+        "receita": 1521.0,
+        "ticket": 507.0,
+        "pct_conv": 2.22,
+        "rpl": 11.27
+      },
+      "comercial": {
+        "leads": 537,
+        "vendas": 5,
+        "receita": 3092.4,
+        "ticket": 618.48,
+        "pct_conv": 0.93,
+        "rpl": 5.76
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "extensao-assinatura-premium",
+      "ia": {
+        "leads": 40,
+        "vendas": 1,
+        "receita": 1308.0,
+        "ticket": 1308.0,
+        "pct_conv": 2.5,
+        "rpl": 32.7
+      },
+      "comercial": {
+        "leads": 102,
+        "vendas": 1,
+        "receita": 3114.0,
+        "ticket": 3114.0,
+        "pct_conv": 0.98,
+        "rpl": 30.53
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "extensao-assinatura-supporter",
+      "ia": {
+        "leads": 299,
+        "vendas": 29,
+        "receita": 8122.8,
+        "ticket": 280.1,
+        "pct_conv": 9.7,
+        "rpl": 27.17
+      },
+      "comercial": {
+        "leads": 1359,
+        "vendas": 83,
+        "receita": 23983.2,
+        "ticket": 288.95,
+        "pct_conv": 6.11,
+        "rpl": 17.65
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "good",
+      "ia": {
+        "leads": 1956,
+        "vendas": 86,
+        "receita": 33171.0,
+        "ticket": 385.71,
+        "pct_conv": 4.4,
+        "rpl": 16.96
+      },
+      "comercial": {
+        "leads": 2510,
+        "vendas": 99,
+        "receita": 34767.06,
+        "ticket": 351.18,
+        "pct_conv": 3.94,
+        "rpl": 13.85
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "guia-analises",
+      "ia": {
+        "leads": 31,
+        "vendas": 4,
+        "receita": 1785.6,
+        "ticket": 446.4,
+        "pct_conv": 12.9,
+        "rpl": 57.6
+      },
+      "comercial": {
+        "leads": 66,
+        "vendas": 1,
+        "receita": 1188.0,
+        "ticket": 1188.0,
+        "pct_conv": 1.52,
+        "rpl": 18.0
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "supporter",
+      "ia": {
+        "leads": 2881,
+        "vendas": 130,
+        "receita": 35152.8,
+        "ticket": 270.41,
+        "pct_conv": 4.51,
+        "rpl": 12.2
+      },
+      "comercial": {
+        "leads": 3968,
+        "vendas": 163,
+        "receita": 44954.4,
+        "ticket": 275.79,
+        "pct_conv": 4.11,
+        "rpl": 11.33
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "supporter-combo-crac",
+      "ia": {
+        "leads": 16,
+        "vendas": 1,
+        "receita": 276.0,
+        "ticket": 276.0,
+        "pct_conv": 6.25,
+        "rpl": 17.25
+      },
+      "comercial": {
+        "leads": 29,
+        "vendas": 2,
+        "receita": 822.0,
+        "ticket": 411.0,
+        "pct_conv": 6.9,
+        "rpl": 28.34
+      }
+    },
+    {
+      "origem": "NOVA COMPRA",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "teller",
+      "ia": {
+        "leads": 0,
+        "vendas": 0,
+        "receita": 0,
+        "ticket": 0,
+        "pct_conv": 0,
+        "rpl": 0
+      },
+      "comercial": {
+        "leads": 71,
+        "vendas": 1,
+        "receita": 178.8,
+        "ticket": 178.8,
+        "pct_conv": 1.41,
+        "rpl": 2.52
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "good",
+      "ia": {
+        "leads": 31,
+        "vendas": 2,
+        "receita": 456.0,
+        "ticket": 228.0,
+        "pct_conv": 6.45,
+        "rpl": 14.71
+      },
+      "comercial": {
+        "leads": 13,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "ABANDONO DE CARRINHO",
+      "produto": "supporter",
+      "ia": {
+        "leads": 28,
+        "vendas": 2,
+        "receita": 240.0,
+        "ticket": 120.0,
+        "pct_conv": 7.14,
+        "rpl": 8.57
+      },
+      "comercial": {
+        "leads": 6,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "COMPRA NEGADA",
+      "produto": "best",
+      "ia": {
+        "leads": 294,
+        "vendas": 8,
+        "receita": 2044.8,
+        "ticket": 255.6,
+        "pct_conv": 2.72,
+        "rpl": 6.96
+      },
+      "comercial": {
+        "leads": 6,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "COMPRA NEGADA",
+      "produto": "desconhecido",
+      "ia": {
+        "leads": 141,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 0,
+        "vendas": 0,
+        "receita": 0,
+        "ticket": 0,
+        "pct_conv": 0,
+        "rpl": 0
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "COMPRA NEGADA",
+      "produto": "good",
+      "ia": {
+        "leads": 1369,
+        "vendas": 27,
+        "receita": 4930.8,
+        "ticket": 182.62,
+        "pct_conv": 1.97,
+        "rpl": 3.6
+      },
+      "comercial": {
+        "leads": 0,
+        "vendas": 0,
+        "receita": 0,
+        "ticket": 0,
+        "pct_conv": 0,
+        "rpl": 0
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "COMPRA NEGADA",
+      "produto": "supporter",
+      "ia": {
+        "leads": 1432,
+        "vendas": 15,
+        "receita": 2568.0,
+        "ticket": 171.2,
+        "pct_conv": 1.05,
+        "rpl": 1.79
+      },
+      "comercial": {
+        "leads": 0,
+        "vendas": 0,
+        "receita": 0,
+        "ticket": 0,
+        "pct_conv": 0,
+        "rpl": 0
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "best",
+      "ia": {
+        "leads": 16,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 600,
+        "vendas": 12,
+        "receita": 7882.8,
+        "ticket": 656.9,
+        "pct_conv": 2.0,
+        "rpl": 13.14
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "better",
+      "ia": {
+        "leads": 0,
+        "vendas": 0,
+        "receita": 0,
+        "ticket": 0,
+        "pct_conv": 0,
+        "rpl": 0
+      },
+      "comercial": {
+        "leads": 245,
+        "vendas": 3,
+        "receita": 3084.0,
+        "ticket": 1028.0,
+        "pct_conv": 1.22,
+        "rpl": 12.59
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "good",
+      "ia": {
+        "leads": 98,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 610,
+        "vendas": 21,
+        "receita": 2628.0,
+        "ticket": 125.14,
+        "pct_conv": 3.44,
+        "rpl": 4.31
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "supporter",
+      "ia": {
+        "leads": 38,
+        "vendas": 1,
+        "receita": 228.0,
+        "ticket": 228.0,
+        "pct_conv": 2.63,
+        "rpl": 6.0
+      },
+      "comercial": {
+        "leads": 32,
+        "vendas": 1,
+        "receita": 120.0,
+        "ticket": 120.0,
+        "pct_conv": 3.12,
+        "rpl": 3.75
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "OPORTUNIDADE DE VENDA",
+      "produto": "teller",
+      "ia": {
+        "leads": 0,
+        "vendas": 0,
+        "receita": 0,
+        "ticket": 0,
+        "pct_conv": 0,
+        "rpl": 0
+      },
+      "comercial": {
+        "leads": 85,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      }
+    }
+  ]
+}
