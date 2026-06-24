@@ -119,6 +119,27 @@
     .c-lo  { color: #475569; }
     .c-zero{ color: #cbd5e1; }
 
+    /* roteamento */
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) { .grid-3 { grid-template-columns: 1fr; } }
+    .rota-card { border: 1px solid var(--line); border-radius: 12px; background: var(--card); padding: 20px; }
+    .rota-card ul { list-style: none; padding: 0; font-size: 12.5px; line-height: 1.9; }
+    .rota-card li { padding: 2px 0; }
+    .rota-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; display: block; }
+    .rota-footer { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); }
+    .rota-ia   { border-top: 3px solid var(--blue); }
+    .rota-com  { border-top: 3px solid var(--green); }
+    .rota-trans{ border-top: 3px solid var(--amber); }
+    .alert-box { border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; font-size: 13px; line-height: 1.6; }
+    .alert-violet { background: #f5f3ff; border: 1px solid #c4b5fd; color: #5b21b6; }
+    .delta-up   { color: #065f46; font-weight: 700; }
+    .delta-down { color: #991b1b; font-weight: 700; }
+    .delta-eq   { color: #475569; }
+    .steps-card { border: 1px solid var(--line); border-radius: 12px; background: var(--card); padding: 20px; }
+    .steps-num  { width: 28px; height: 28px; border-radius: 50%; background: var(--text); color: #fff;
+                  font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+                  margin-bottom: 12px; }
+
     header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
     footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
              font-size: 12px; color: var(--soft); }
@@ -248,42 +269,126 @@
   </div>
 </section>
 
-<!-- 5. Conclusões -->
-<section>
-  <h2>Conclusões</h2>
+<!-- 5. Roteamento Estratégico -->
+<section id="roteamento">
+  <h2>Matriz de Roteamento Estratégico</h2>
 
-  <div class="conclusao verde">
-    <h3>1. Comercial entrega mais receita por lead — mesmo com conversão menor</h3>
-    <p>Comercial: R$34,16/lead com 4,34% de conversão. IA: R$18,30/lead com 6,75%. Apesar da IA converter mais leads, o ticket do Comercial (R$788) é 3× maior que o da IA (R$271) — o que compensa amplamente e resulta em 1,9× mais receita por lead.</p>
+  <div class="alert-box alert-violet">
+    <strong>Premissa estratégica:</strong> Em empate técnico, o lead vai para a IA. O custo de oportunidade do tempo humano justifica concentrar o Comercial em alto ticket — especialmente Renovação PIX/Boleto (R$589–917/lead).
   </div>
 
-  <div class="conclusao">
-    <h3>2. Nova Compra: Comercial superior em R$/lead nos 3 tipos</h3>
-    <p>
-      Abandono de Carrinho NC: Comercial R$65,54/lead vs IA R$24,63 (2,7×).<br>
-      Compra Negada NC: Comercial R$63,33/lead vs IA R$21,73 (2,9×).<br>
-      Oportunidade de Venda NC: Comercial R$26,44/lead vs IA R$15,14 (1,7×).<br>
-      Em todos os três tipos de Nova Compra, o Comercial gera mais receita por lead. A IA converte mais, mas em produtos de ticket muito menor.
+  <!-- Diagnóstico -->
+  <div class="card" style="border-left:4px solid var(--amber);margin-bottom:32px">
+    <p class="label">Diagnóstico — ilusão de produto, não de eficiência</p>
+    <p style="font-size:13px;line-height:1.75">
+      A leitura superficial indica que Comercial gera <strong>R$34,91/lead</strong> vs <strong>R$18,04/lead</strong> da IA — uma diferença de 94%.
+      Esse gap é 100% explicado pelo mix de produto: Comercial trabalha CDL e ebooks (ticket médio R$795); IA trabalha supporter e good (ticket médio R$271).<br><br>
+      Nos cruzamentos <strong>head-to-head</strong> — mesmo produto nos dois canais — a IA empata ou supera o Comercial em 6 de 8 casos.
+      O caso mais surpreendente: <strong>CDL em Abandono de Carrinho</strong> — IA converte <strong>17,04%</strong> vs <strong>14,99%</strong> do Comercial, gerando <strong>R$221/lead</strong>.
+      Pela premissa estratégica, esse volume deve migrar integralmente para a IA.
     </p>
   </div>
 
-  <div class="conclusao amber">
-    <h3>3. Renovação Abandono de Carrinho: IA domina com clareza</h3>
-    <p>IA 12,5% conversão / R$37,78/lead vs Comercial 2,78% / R$11,92/lead. A IA é 3× melhor em R$/lead neste segmento — vale priorizar automação para renovações em abandono de carrinho.</p>
+  <!-- Head-to-head por tipo -->
+  <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">Confronto por tipo de hotlead</h3>
+  <div class="card" style="padding:0;margin-bottom:32px">
+    <div class="table-wrap">
+      <table id="tabelaHH">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Origem</th>
+            <th class="num" style="background:#dbeafe22">IA — Conv%</th>
+            <th class="num" style="background:#dbeafe22">IA — R$/Lead</th>
+            <th class="num" style="background:#d1fae522">COM — Conv%</th>
+            <th class="num" style="background:#d1fae522">COM — R$/Lead</th>
+            <th class="num">Δ Conv%</th>
+            <th>Veredicto</th>
+          </tr>
+        </thead>
+        <tbody id="hhBody"></tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="conclusao roxo">
-    <h3>4. Estratégia recomendada por segmento</h3>
-    <p>
-      <strong>IA → Renovação Abandono de Carrinho:</strong> 12,5% conversão, R$38/lead — melhor que Comercial neste segmento.<br><br>
-      <strong>Comercial → Nova Compra (todos os tipos):</strong> mesmo convertendo menos, R$/lead até 3× maior por trabalhar produtos de alto ticket (CDL, Mecenas, Black, extensões).<br><br>
-      <strong>Oportunidade de Venda:</strong> baixa conversão (~4%) nos dois canais, mas Comercial entrega R$26 vs R$15 por lead por causa do ticket alto.
-    </p>
+  <!-- 3 caminhos -->
+  <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">3 Caminhos de Roteamento</h3>
+  <div class="grid-3" style="margin-bottom:32px">
+
+    <div class="rota-card rota-ia">
+      <span class="rota-label" style="color:var(--blue)">🤖 Caminho 1 — Exclusivo IA</span>
+      <ul>
+        <li>Abandono | Nova Compra<br><strong>supporter, good, combo, bp-econômico, bp-essencial</strong></li>
+        <li>Compra Negada | Nova Compra<br><strong>supporter, good, bp-econômico, bp-essencial</strong></li>
+        <li>OV | Nova Compra<br><strong>supporter, good, extensão</strong></li>
+        <li>Abandono | Nova Compra<br><strong>clube-do-livro</strong> ⭐ (IA 17% &gt; COM 15%)</li>
+        <li>Abandono/CN | <strong>Renovação → todos</strong><br>(IA 4× melhor em Abandono Renovação)</li>
+      </ul>
+      <div class="rota-footer">~18.000 leads/mês · sem perda de receita</div>
+    </div>
+
+    <div class="rota-card rota-com">
+      <span class="rota-label" style="color:var(--green)">👤 Caminho 2 — Exclusivo Comercial</span>
+      <ul>
+        <li>OV | Nova Compra<br><strong>clube-do-livro, ebooks, best</strong></li>
+        <li>Compra Negada | Nova Compra<br><strong>clube-do-livro</strong> (COM +24% R$/lead)</li>
+        <li><strong>PIX/Boleto Expirado | Renovação</strong><br>CDL, ebooks 🔴 — SLA &lt;2h</li>
+        <li>OV | <strong>Renovação → todos</strong><br>(COM 5,9× mais em R$/lead)</li>
+      </ul>
+      <div class="rota-footer">~4–6k leads/mês · maior concentração de receita · R$589–917/lead na Renovação</div>
+    </div>
+
+    <div class="rota-card rota-trans">
+      <span class="rota-label" style="color:#92400e">🔄 Caminho 3 — Transbordo IA → COM</span>
+      <ul>
+        <li>Abandono/CN de <strong>best</strong> que responde positivamente<br>→ COM assume (upgrade R$2.770)</li>
+        <li>CDL Compra Negada com objeção de pagamento<br>→ COM fecha (+24% R$/lead)</li>
+        <li>OV Renovação que respondeu ao bot<br>→ COM fecha (5,9× R$/lead)</li>
+      </ul>
+      <div class="rota-footer">Gatilho: sinal de intenção premium detectado pela IA</div>
+    </div>
+
   </div>
 
-  <div class="conclusao red">
-    <h3>5. Cuidado com a base suja</h3>
-    <p>29k deals no stage 0 (HOT LEAD) sem mensagem do vendedor foram excluídos. A maioria das "conversões" nesses leads ocorreu antes do deal existir no Pipedrive — são compras orgânicas, não atribuíveis ao Comercial. Incluí-los distorce a taxa do Comercial de 4,3% real para ~1,4% aparente.</p>
+  <!-- Próximos passos -->
+  <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Próximos Passos</h3>
+  <div class="grid-3" style="margin-bottom:24px">
+
+    <div class="steps-card">
+      <div class="steps-num">1</div>
+      <p style="font-size:13px;font-weight:700;margin-bottom:6px">Roteamento por produto no CRM</p>
+      <p style="font-size:12px;color:var(--muted);line-height:1.6">
+        Criar regra de distribuição de deals usando <code>nm_source_gateway_plan</code> + tipo do título do deal (gerado no checkout).
+        Apenas CDL OV, ebooks OV, best OV, CDL CN e Renovação PIX/Boleto → Comercial. Todo o resto → IA.
+      </p>
+      <div style="margin-top:10px;font-size:11px;color:var(--soft)">Esta semana</div>
+    </div>
+
+    <div class="steps-card">
+      <div class="steps-num">2</div>
+      <p style="font-size:13px;font-weight:700;margin-bottom:6px">Fila prioritária "Renovação Urgente"</p>
+      <p style="font-size:12px;color:var(--muted);line-height:1.6">
+        SLA &lt;2h para PIX Expirado/Boleto Expirado em CDL e ebooks.
+        Alocar os 2–3 melhores closers exclusivamente nessa fila.
+        Cada hora de delay = menor probabilidade de o PIX ainda ser válido. R$589–917/lead vs R$18 na IA.
+      </p>
+      <div style="margin-top:10px;font-size:11px;color:var(--soft)">Esta semana</div>
+    </div>
+
+    <div class="steps-card">
+      <div class="steps-num">3</div>
+      <p style="font-size:13px;font-weight:700;margin-bottom:6px">KPIs de calibragem semanal</p>
+      <p style="font-size:12px;color:var(--muted);line-height:1.6">
+        Monitorar: R$/lead Comercial (meta &gt;R$60, base R$35), Conv% IA (manter ≥6,7%), Conv% Renovação PIX/Boleto (manter ≥50%).
+        Revisar a matriz a cada lançamento de produto novo.
+      </p>
+      <div style="margin-top:10px;font-size:11px;color:var(--soft)">Próximas 2 semanas</div>
+    </div>
+
+  </div>
+
+  <div class="nota">
+    ⚠️ <strong>Atenção — leads "desconhecido":</strong> 773 deals no Comercial com <code>nm_source_gateway_plan = 'desconhecido'</code> apresentam 19,15% de conversão e R$239/lead — acima de todos os produtos identificados. Investigar se é falha de tracking no checkout (LP direto, campanha legada). Esse volume representa ~R$185k/mês sem produto identificado e, portanto, sem roteamento possível.
   </div>
 </section>
 
@@ -501,6 +606,36 @@ WHERE SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(0)]
 GROUP BY 1,2,3,4
 HAVING qt_leads >= 20
 ORDER BY canal, tipo_hotlead, origem, qt_leads DESC`;
+
+  // Head-to-head por tipo — tabela de roteamento
+  const VEREDICTOS = {
+    "ABANDONO DE CARRINHO|RENOVAÇÃO":    { txt: "IA dominante (4× R$/lead)", cls: "t-ia" },
+    "COMPRA NEGADA|RENOVAÇÃO":           { txt: "IA (COM sem volume)", cls: "t-ia" },
+    "OPORTUNIDADE DE VENDA|RENOVAÇÃO":   { txt: "Comercial", cls: "t-com" },
+    "ABANDONO DE CARRINHO|NOVA COMPRA":  { txt: "Rotear por produto", cls: "t-md" },
+    "COMPRA NEGADA|NOVA COMPRA":         { txt: "Rotear por produto", cls: "t-md" },
+    "OPORTUNIDADE DE VENDA|NOVA COMPRA": { txt: "Rotear por produto", cls: "t-md" },
+  };
+  let hhHtml = "";
+  (D.por_tipo || []).forEach(r => {
+    const ia = r.ia, com = r.comercial;
+    const delta = ia.pct - com.pct;
+    const dSign = delta > 0.3 ? "▲" : delta < -0.3 ? "▼" : "≈";
+    const dCls  = delta > 0.3 ? "delta-up" : delta < -0.3 ? "delta-down" : "delta-eq";
+    const key   = `${r.tipo}|${r.origem}`;
+    const v     = VEREDICTOS[key] || { txt: "—", cls: "" };
+    hhHtml += `<tr>
+      <td>${r.tipo.charAt(0)+r.tipo.slice(1).toLowerCase()}</td>
+      <td>${(r.origem||"—").charAt(0)+(r.origem||"—").slice(1).toLowerCase()}</td>
+      <td class="num" style="background:#dbeafe18">${mPct(ia.pct)}</td>
+      <td class="num" style="background:#dbeafe18">${mBrlD(ia.rpl)}</td>
+      <td class="num" style="background:#d1fae518">${com.leads ? mPct(com.pct) : "—"}</td>
+      <td class="num" style="background:#d1fae518">${com.leads ? mBrlD(com.rpl) : "—"}</td>
+      <td class="num"><span class="${dCls}">${dSign} ${Math.abs(delta).toFixed(1)}pp</span></td>
+      <td><span class="tag ${v.cls}">${v.txt}</span></td>
+    </tr>`;
+  });
+  document.getElementById("hhBody").innerHTML = hhHtml;
 
   document.getElementById("sqlResumo").textContent =
 `-- Resumo por canal: IA vs Comercial com abordagem
