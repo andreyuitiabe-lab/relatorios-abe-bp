@@ -166,6 +166,26 @@
     .combo-com-side li::before { content: "•"; color: var(--green); margin-right: 6px; font-weight: 700; }
     .combo-side-nota { font-size: 11.5px; color: var(--muted); line-height: 1.55; margin-top: 8px; font-style: italic; }
 
+    /* prod-table dentro dos combo cards */
+    .prod-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 4px; }
+    .prod-table th { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+                     color: var(--soft); border-bottom: 2px solid var(--line); padding: 6px 8px; white-space: nowrap; }
+    .prod-table th.right, .prod-table td.right { text-align: right; }
+    .prod-table td { padding: 6px 8px; border-bottom: 1px solid #f1f5f9; white-space: nowrap; }
+    .prod-table tr:last-child td { border-bottom: none; }
+    .prod-table tr:hover td { background: #f8fafc; }
+    .prod-table .prod-name { font-weight: 500; color: var(--text); max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
+    .prod-table .ia-val  { color: var(--blue); font-weight: 600; }
+    .prod-table .com-val { color: var(--green); font-weight: 600; }
+    .prod-table .na-val  { color: #cbd5e1; }
+    .prod-table .rota-ia  { color: var(--blue);  font-weight: 700; font-size: 11px; }
+    .prod-table .rota-com { color: var(--green); font-weight: 700; font-size: 11px; }
+    .prod-table .th-ia  { color: var(--blue);  background: #eff6ff; }
+    .prod-table .th-com { color: var(--green); background: #f0fdf4; }
+    .prod-table .sep-ia  { background: #eff6ff44; }
+    .prod-table .sep-com { background: #f0fdf444; }
+    .combo-nota-bottom { font-size: 11.5px; color: var(--muted); line-height: 1.55; margin-top: 12px; font-style: italic; padding-top: 12px; border-top: 1px solid var(--line); }
+
     /* contexto */
     .contexto-box { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
     @media (max-width: 800px) { .contexto-box { grid-template-columns: 1fr 1fr; } }
@@ -721,71 +741,130 @@ ORDER BY canal, tipo_hotlead, origem, qt_leads DESC`;
     {
       tipo: "ABANDONO DE CARRINHO", origem: "NOVA COMPRA",
       porque: "Lead chegou ao checkout, colocou produtos no carrinho e não finalizou. Intenção de compra declarada — o bot fecha bem por ser rápido e direto. A exceção esperada (CDL, ticket R$1.300) não aconteceu: a IA já converte mais que o Comercial nesse produto.",
-      ia:  { produtos: ["supporter", "good", "combo-religioso", "bp-econômico", "bp-essencial", "clube-do-livro ⭐"], nota: "⭐ CDL Abandono: IA 17,0% vs COM 15,0% de conversão — R$221/lead vs R$206. Bot é mais eficiente mesmo no produto premium." },
-      com: { produtos: ["ebooks", "best"], nota: "Ticket acima de R$1.500. Volume pequeno no abandono — pode ir direto para COM sem triagem do bot." },
+      nota: "⭐ CDL Abandono: IA 17,0% vs COM 15,0% de conversão (R$221 vs R$206/lead). Bot é mais eficiente mesmo no produto premium. Ebooks e best: volume pequeno, ticket alto — vale abordagem direta do COM.",
+      overrides: { "ebooks": "com", "best": "com" },
+      default_routing: "ia",
     },
     {
       tipo: "COMPRA NEGADA", origem: "NOVA COMPRA",
       porque: "Pagamento rejeitado pelo gateway. Na maioria dos casos é troca de método de pagamento (cartão → PIX) — fluxo automático resolve sem humano. Exceções: CDL e best têm margem para negociação ativa que o bot não consegue fazer.",
-      ia:  { produtos: ["supporter", "good", "bp-econômico", "bp-essencial"], nota: "8,4% de conversão. Troca de cartão/PIX via bot sem custo humano." },
-      com: { produtos: ["clube-do-livro", "best"], nota: "CDL CN: COM 9,7% vs IA 8,6% e R$136 vs R$110/lead (+24%). Best: ticket R$2.770 — vendedor renegociação forma de pagamento e mantém a venda." },
+      nota: "CDL CN: COM 9,7% vs IA 8,6% e R$136 vs R$110/lead (+24%). Best: ticket R$2.770 — vendedor renegociação forma de pagamento e mantém a venda.",
+      overrides: { "clube-do-livro": "com", "best": "com", "ebooks": "com" },
+      default_routing: "ia",
     },
     {
       tipo: "OPORTUNIDADE DE VENDA", origem: "NOVA COMPRA",
       porque: "Lead qualificado que não chegou ao checkout. Conv% baixa nos dois canais (~4%). A decisão de roteamento não é sobre conv% — é sobre ticket: o mesmo esforço de abordagem gera retornos muito diferentes dependendo do produto.",
-      ia:  { produtos: ["supporter", "good", "extensão de assinatura"], nota: "IA converte levemente mais (4,6% vs 3,7%). R$/lead menor, mas custo de atendimento também é zero — margem positiva." },
-      com: { produtos: ["clube-do-livro", "ebooks", "best"], nota: "COM gera R$45–131/lead vs R$15 da IA nesses produtos. O ticket paga o custo do vendedor mesmo com conv% baixa." },
+      nota: "COM gera R$45–131/lead vs R$15 da IA nos produtos premium. O ticket paga o custo do vendedor mesmo com conv% baixa.",
+      overrides: { "clube-do-livro": "com", "ebooks": "com", "best": "com" },
+      default_routing: "ia",
     },
     {
       tipo: "ABANDONO DE CARRINHO", origem: "RENOVAÇÃO",
       porque: "Assinante tentou renovar e não finalizou. Resultado mais claro da análise: IA converte 4× mais que o Comercial nesse segmento. Hipótese: renovante já conhece o produto, só precisa de um lembrete — bot é suficiente e menos intrusivo que ligação de vendedor.",
-      ia:  { produtos: ["todos os produtos"], nota: "11,7% conv na IA vs 2,8% no COM. R$/lead da IA 3× maior (R$35 vs R$12). Mandar para Comercial piora o resultado." },
-      com: { produtos: [], nota: "" },
+      nota: "11,7% conv na IA vs 2,8% no COM. R$/lead da IA 3× maior (R$35 vs R$12). Mandar para Comercial piora o resultado.",
+      overrides: {},
+      default_routing: "ia",
     },
     {
       tipo: "COMPRA NEGADA", origem: "RENOVAÇÃO",
       porque: "Renovação com pagamento negado. Bot atende por padrão — Comercial não tem histórico relevante (9 leads no período). Provavelmente é problema de cartão; bot resolve a troca de método sem fricção.",
-      ia:  { produtos: ["todos os produtos"], nota: "1,6% conv. Volume baixo e estável — bot mantém o fluxo sem ocupar vendedor." },
-      com: { produtos: [], nota: "" },
+      nota: "1,6% conv. Volume baixo e estável — bot mantém o fluxo sem ocupar vendedor.",
+      overrides: {},
+      default_routing: "ia",
     },
     {
       tipo: "OPORTUNIDADE DE VENDA", origem: "RENOVAÇÃO",
       porque: "Assinante ativo com potencial de upgrade ou renovação antecipada. É o segmento de maior R$/lead de toda a base, com picos absurdos em PIX/Boleto expirado. Assinante já tem vínculo com o produto — vendedor usa isso para fechar upgrade. Bot não tem essa leverage.",
-      ia:  { produtos: [], nota: "" },
-      com: { produtos: ["todos — prioridade máxima 🔴"], nota: "PIX Expirado CDL: R$838/lead · 63% conv. PIX Expirado ebooks: R$917/lead · 85% conv. SLA <2h obrigatório — PIX expira." },
+      nota: "PIX Expirado CDL: R$838/lead · 63% conv. PIX Expirado ebooks: R$917/lead · 85% conv. SLA &lt;2h obrigatório — PIX expira.",
+      overrides: {},
+      default_routing: "com",
     },
   ];
 
+  // Helpers de formatação
+  const fmt1 = v => v != null ? v.toLocaleString("pt-BR",{minimumFractionDigits:1,maximumFractionDigits:1}) : "—";
+  const fmtR = v => v ? "R$" + Math.round(v).toLocaleString("pt-BR") : "—";
+  const fmtN = v => v ? v.toLocaleString("pt-BR") : "—";
+
+  // Índice por tipo+origem → dados agregados
   const tipoMap = {};
   (D.por_tipo || []).forEach(t => { tipoMap[`${t.tipo}|${t.origem}`] = t; });
 
-  const fmt1 = v => v != null ? v.toLocaleString("pt-BR",{minimumFractionDigits:1,maximumFractionDigits:1}) : "—";
-  const fmtR = v => v ? "R$" + Math.round(v).toLocaleString("pt-BR") : "—";
+  // Índice por tipo+origem → lista de rows de por_matriz (ordenadas por total leads desc)
+  const matrizByCombo = {};
+  (D.por_matriz || []).forEach(r => {
+    const k = `${r.tipo}|${r.origem}`;
+    if (!matrizByCombo[k]) matrizByCombo[k] = [];
+    matrizByCombo[k].push(r);
+  });
+  Object.values(matrizByCombo).forEach(arr =>
+    arr.sort((a, b) => (b.ia.leads + b.comercial.leads) - (a.ia.leads + a.comercial.leads))
+  );
+
+  // Encurtar nomes de produto longos
+  function shortName(p) {
+    if (p.startsWith("ebooks"))           return "ebooks";
+    if (p.startsWith("extensao"))         return "extensão de assinatura";
+    if (p.startsWith("combo-religioso"))  return "combo-religioso";
+    if (p.startsWith("bp-economico"))     return "bp-econômico";
+    if (p.startsWith("bp-essencial"))     return "bp-essencial";
+    if (p.startsWith("apoiador"))         return "apoiador";
+    return p;
+  }
+
+  // Roteamento: override por prefixo de produto, senão default do combo
+  function getRouting(produto, cfg) {
+    const p = produto.toLowerCase();
+    for (const [k, v] of Object.entries(cfg.overrides)) {
+      if (p.startsWith(k)) return v;
+    }
+    return cfg.default_routing;
+  }
 
   let comboHtml = "";
   COMBOS.forEach(cfg => {
     const t   = tipoMap[`${cfg.tipo}|${cfg.origem}`] || {};
     const ia  = t.ia        || {};
     const com = t.comercial || {};
-    const hasIA  = cfg.ia.produtos.length  > 0;
-    const hasCom = cfg.com.produtos.length > 0;
+    const comPerf = com.leads ? `${fmt1(com.pct)}% · ${fmtR(com.rpl)}/lead` : "sem volume";
 
-    const iaSide = hasIA ? `
-      <div class="combo-ia-side">
-        <span class="combo-canal-lbl ia">🤖 IA — Lambda</span>
-        <ul>${cfg.ia.produtos.map(p => `<li>${p}</li>`).join("")}</ul>
-        ${cfg.ia.nota ? `<p class="combo-side-nota">${cfg.ia.nota}</p>` : ""}
-      </div>` : "";
-
-    const comSide = hasCom ? `
-      <div class="combo-com-side">
-        <span class="combo-canal-lbl com">👤 Comercial</span>
-        <ul>${cfg.com.produtos.map(p => `<li>${p}</li>`).join("")}</ul>
-        ${cfg.com.nota ? `<p class="combo-side-nota">${cfg.com.nota}</p>` : ""}
-      </div>` : "";
-
-    const splitCls = (!hasIA || !hasCom) ? "one-col" : "";
-    const comPerf  = com.leads ? `${fmt1(com.pct)}% · ${fmtR(com.rpl)}/lead` : "sem volume";
+    const rows = matrizByCombo[`${cfg.tipo}|${cfg.origem}`] || [];
+    let tableHtml = "";
+    if (rows.length > 0) {
+      const prodRows = rows.map(r => {
+        const rota = getRouting(r.produto, cfg);
+        const iaD  = r.ia         || {};
+        const comD = r.comercial  || {};
+        const iaPct  = iaD.leads  ? `<span class="ia-val">${fmt1(iaD.pct_conv)}%</span>`   : `<span class="na-val">—</span>`;
+        const iaRpl  = iaD.leads  ? `<span class="ia-val">${fmtR(iaD.rpl)}</span>`         : `<span class="na-val">—</span>`;
+        const comPct = comD.leads ? `<span class="com-val">${fmt1(comD.pct_conv)}%</span>` : `<span class="na-val">—</span>`;
+        const comRpl = comD.leads ? `<span class="com-val">${fmtR(comD.rpl)}</span>`       : `<span class="na-val">—</span>`;
+        const iaLeads  = iaD.leads  ? `<span style="color:#94a3b8;font-size:10px">${fmtN(iaD.leads)}</span>`  : `<span class="na-val">—</span>`;
+        const comLeads = comD.leads ? `<span style="color:#94a3b8;font-size:10px">${fmtN(comD.leads)}</span>` : `<span class="na-val">—</span>`;
+        const rotaBadge = rota === "ia"
+          ? `<span class="rota-ia">🤖 IA</span>`
+          : `<span class="rota-com">👤 COM</span>`;
+        return `<tr>
+          <td class="prod-name">${shortName(r.produto)}</td>
+          <td class="right">${iaLeads}</td><td class="right">${iaPct}</td><td class="right">${iaRpl}</td>
+          <td class="right">${comLeads}</td><td class="right">${comPct}</td><td class="right">${comRpl}</td>
+          <td class="right">${rotaBadge}</td>
+        </tr>`;
+      }).join("");
+      tableHtml = `
+        <table class="prod-table">
+          <thead><tr>
+            <th>Produto</th>
+            <th class="right th-ia">Leads</th><th class="right th-ia">Conv%</th><th class="right th-ia">R$/lead</th>
+            <th class="right th-com">Leads</th><th class="right th-com">Conv%</th><th class="right th-com">R$/lead</th>
+            <th class="right">Canal</th>
+          </tr></thead>
+          <tbody>${prodRows}</tbody>
+        </table>`;
+    } else {
+      tableHtml = `<p style="font-size:12px;color:var(--muted);font-style:italic;margin-top:8px">Sem dados por produto com volume suficiente no período.</p>`;
+    }
 
     comboHtml += `
       <div class="combo-card">
@@ -801,7 +880,8 @@ ORDER BY canal, tipo_hotlead, origem, qt_leads DESC`;
           </div>
         </div>
         <p class="combo-porque">${cfg.porque}</p>
-        <div class="combo-split ${splitCls}">${iaSide}${comSide}</div>
+        ${tableHtml}
+        ${cfg.nota ? `<p class="combo-nota-bottom">${cfg.nota}</p>` : ""}
       </div>`;
   });
   document.getElementById("comboCards").innerHTML = comboHtml;
