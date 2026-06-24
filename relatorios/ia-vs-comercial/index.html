@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IA vs Comercial — Hotleads</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:     #f8fafc;
+      --card:   #ffffff;
+      --line:   #e2e8f0;
+      --text:   #1e293b;
+      --muted:  #475569;
+      --soft:   #94a3b8;
+      --blue:   #3b6ef5;
+      --green:  #16a34a;
+      --red:    #e23b3b;
+      --amber:  #f5a524;
+      --violet: #7c5cfc;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6;
+    }
+    .wrap   { max-width: 1080px; margin: 0 auto; padding: 48px 24px 80px; }
+    section { margin-bottom: 56px; }
+    h1      { font-size: 26px; font-weight: 700; }
+    h2      { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .sub    { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .label  { font-size: 11px; font-weight: 600; text-transform: uppercase;
+              letter-spacing: .06em; color: var(--soft); margin-bottom: 12px; }
+    .card   { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* resumo 2 grupos */
+    .res2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 700px) { .res2 { grid-template-columns: 1fr; } }
+    .res-card { border: 1px solid var(--line); border-radius: 12px; padding: 24px 28px;
+                background: var(--card); }
+    .res-canal { font-size: 11px; font-weight: 700; text-transform: uppercase;
+                 letter-spacing: .08em; margin-bottom: 14px; }
+    .res-canal.ia  { color: var(--blue); }
+    .res-canal.com { color: var(--green); }
+    .res-card.ia-card  { border-top: 3px solid var(--blue); }
+    .res-card.com-card { border-top: 3px solid var(--green); }
+
+    .kpi-big { margin-bottom: 16px; }
+    .kpi-big .v  { font-size: 36px; font-weight: 800; line-height: 1; }
+    .kpi-big .v.ia  { color: var(--blue); }
+    .kpi-big .v.com { color: var(--green); }
+    .kpi-big .l  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .kpi-grid2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+    .kpi2 .v { font-size: 20px; font-weight: 700; }
+    .kpi2 .v.ia  { color: var(--blue); }
+    .kpi2 .v.com { color: var(--green); }
+    .kpi2 .l { font-size: 11px; color: var(--muted); }
+
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 20px;
+             font-size: 11px; font-weight: 600; margin-top: 12px; }
+    .badge.up  { background: #d1fae5; color: #065f46; }
+    .badge.neu { background: #dbeafe; color: #1d4ed8; }
+
+    /* gráficos */
+    .nota { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px;
+            padding: 12px 16px; font-size: 12px; color: var(--muted); margin-top: 16px; }
+
+    /* tabela */
+    .table-wrap { overflow-x: auto; }
+    table   { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    th      { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px;
+              text-transform: uppercase; letter-spacing: .05em;
+              border-bottom: 2px solid var(--line); padding: 8px 10px; white-space: nowrap; }
+    th.num  { text-align: right; }
+    td      { padding: 7px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    tr:last-child td { border-bottom: none; }
+    td.num  { text-align: right; font-variant-numeric: tabular-nums; }
+    tr.sep td { background: #f1f5f9; font-size: 11px; font-weight: 700; text-transform: uppercase;
+                letter-spacing: .06em; color: var(--muted); padding: 6px 10px; }
+
+    .tag  { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .t-ia  { background: #dbeafe; color: #1d4ed8; }
+    .t-com { background: #d1fae5; color: #065f46; }
+    .t-hi  { background: #d1fae5; color: #065f46; }
+    .t-md  { background: #dbeafe; color: #1d4ed8; }
+    .t-lo  { background: #f1f5f9; color: #475569; }
+    .t-zero{ background: #fee2e2; color: #991b1b; }
+
+    /* sql */
+    details { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    summary { padding: 14px 20px; font-weight: 600; cursor: pointer; background: var(--card);
+              list-style: none; display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: '\25B6'; font-size: 10px; color: var(--soft); transition: transform .2s; }
+    details[open] summary::before { transform: rotate(90deg); }
+    .sql-block { background: #0f172a; color: #e2e8f0; padding: 24px; overflow-x: auto; }
+    .sql-block pre { font-family: 'Menlo','Monaco','Fira Code',monospace; font-size: 12px; line-height: 1.7; }
+
+    /* conclusões */
+    .conclusao { border-left: 3px solid var(--blue); padding: 0 0 0 16px; margin-bottom: 20px; }
+    .conclusao h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .conclusao p  { font-size: 13px; color: var(--muted); }
+    .conclusao.verde  { border-color: var(--green); }
+    .conclusao.amber  { border-color: var(--amber); }
+    .conclusao.roxo   { border-color: var(--violet); }
+    .conclusao.red    { border-color: var(--red); }
+
+    /* matriz */
+    #tabelaMatriz th { font-size: 10px; padding: 5px 7px; }
+    #tabelaMatriz td { font-size: 11px; padding: 5px 7px; }
+    #tabelaMatriz td.bl { border-left: 2px solid #93c5fd; }
+    #tabelaMatriz td.bl-g { border-left: 2px solid #6ee7b7; }
+    #tabelaMatriz tr:hover td { background: #f8fafc; }
+    .c-hi  { background: #d1fae5 !important; color: #065f46; font-weight: 700; }
+    .c-md  { background: #dbeafe !important; color: #1d4ed8; font-weight: 600; }
+    .c-lo  { color: #475569; }
+    .c-zero{ color: #cbd5e1; }
+
+    header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+    footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+             font-size: 12px; color: var(--soft); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Comercial</p>
+  <h1>IA vs Comercial — Hotleads</h1>
+  <p class="sub" id="subtitulo">Carregando...</p>
+</header>
+
+<main>
+
+<!-- 1. Resumo 2 grupos -->
+<section>
+  <h2>Resumo — Junho 2026</h2>
+  <p class="sub" style="margin-bottom:20px">
+    Tipos: Abandono de Carrinho · Compra Negada · Oportunidade de Venda ·
+    Comercial = leads com <code>dt_first_message IS NOT NULL</code>
+  </p>
+  <div class="res2" id="resumo2"></div>
+</section>
+
+<!-- 2. Gráficos -->
+<section>
+  <h2>Por Tipo de Hotlead</h2>
+  <div class="grid-2">
+    <div class="card">
+      <p class="label">Taxa de Conversão (%)</p>
+      <canvas id="chartConv" height="320"></canvas>
+    </div>
+    <div class="card">
+      <p class="label">Receita por Lead (R$)</p>
+      <canvas id="chartRpl" height="320"></canvas>
+    </div>
+  </div>
+  <div class="nota">
+    Comercial = <code>dt_first_message IS NOT NULL</code> (vendedor fez pelo menos 1 mensagem) ·
+    IA = stage <code>10. AWSALES LISTA</code> · Conversão = <code>id_transaction IS NOT NULL</code>
+  </div>
+</section>
+
+<!-- 3. Tabela detalhada -->
+<section>
+  <h2>Detalhamento por Produto de Origem</h2>
+  <p class="sub" style="margin-bottom:16px">Mínimo 20 leads por linha.</p>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th colspan="4">Segmento</th>
+            <th class="num">Leads</th>
+            <th class="num">Conv.</th>
+            <th class="num">Conv.%</th>
+            <th class="num">Ticket</th>
+            <th class="num">Receita</th>
+            <th class="num">R$/Lead</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaDetalhada"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Matriz: origem | tipo | produto × IA vs Comercial -->
+<section>
+  <h2>Matriz Completa — Origem · Tipo · Produto de Origem</h2>
+  <p class="sub" style="margin-bottom:8px">
+    <strong>IA</strong> = todos os leads (bot aborda 100%) ·
+    <strong>Comercial</strong> = só abordados (<code>dt_first_message IS NOT NULL</code>) · Mín. 20 leads
+  </p>
+  <div class="card" style="padding:0">
+    <div class="table-wrap">
+      <table id="tabelaMatriz">
+        <thead>
+          <tr>
+            <th rowspan="2" style="min-width:90px">Origem</th>
+            <th rowspan="2" style="min-width:160px">Tipo</th>
+            <th rowspan="2" style="min-width:180px">Produto Origem</th>
+            <th colspan="6" style="text-align:center;background:#dbeafe;color:#1d4ed8;border-left:2px solid #93c5fd">IA (todos os leads)</th>
+            <th colspan="6" style="text-align:center;background:#d1fae5;color:#065f46;border-left:2px solid #6ee7b7">Comercial (abordados)</th>
+          </tr>
+          <tr>
+            <!-- IA sub-headers -->
+            <th class="num" style="border-left:2px solid #93c5fd">Leads</th>
+            <th class="num">Vendas</th>
+            <th class="num">Receita</th>
+            <th class="num">Ticket</th>
+            <th class="num">Conv%</th>
+            <th class="num">R$/Lead</th>
+            <!-- Comercial sub-headers -->
+            <th class="num" style="border-left:2px solid #6ee7b7">Abordados</th>
+            <th class="num">Vendas</th>
+            <th class="num">Receita</th>
+            <th class="num">Ticket</th>
+            <th class="num">Conv%</th>
+            <th class="num">R$/Lead</th>
+          </tr>
+        </thead>
+        <tbody id="matrizBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="nota" style="margin-top:12px">
+    Comparação direta: IA recebe todos os leads; Comercial só conta quem recebeu mensagem do vendedor ·
+    Fundo verde = Conv% ≥ 10% · Fundo azul ≥ 4% · Cinza > 0% · Vermelho = 0%
+  </div>
+</section>
+
+<!-- 4b. Query SQL -->
+<section>
+  <h2>Query de Referência</h2>
+  <details>
+    <summary>Detalhamento por Tipo | Origem | Produto</summary>
+    <div class="sql-block"><pre id="sqlDetalhado"></pre></div>
+  </details>
+  <div style="margin-top:12px">
+    <details>
+      <summary>Resumo IA vs Comercial</summary>
+      <div class="sql-block"><pre id="sqlResumo"></pre></div>
+    </details>
+  </div>
+</section>
+
+<!-- 5. Conclusões -->
+<section>
+  <h2>Conclusões</h2>
+
+  <div class="conclusao verde">
+    <h3>1. Comercial entrega mais receita por lead — mesmo com conversão menor</h3>
+    <p>Comercial: R$34,16/lead com 4,34% de conversão. IA: R$18,30/lead com 6,75%. Apesar da IA converter mais leads, o ticket do Comercial (R$788) é 3× maior que o da IA (R$271) — o que compensa amplamente e resulta em 1,9× mais receita por lead.</p>
+  </div>
+
+  <div class="conclusao">
+    <h3>2. Nova Compra: Comercial superior em R$/lead nos 3 tipos</h3>
+    <p>
+      Abandono de Carrinho NC: Comercial R$65,54/lead vs IA R$24,63 (2,7×).<br>
+      Compra Negada NC: Comercial R$63,33/lead vs IA R$21,73 (2,9×).<br>
+      Oportunidade de Venda NC: Comercial R$26,44/lead vs IA R$15,14 (1,7×).<br>
+      Em todos os três tipos de Nova Compra, o Comercial gera mais receita por lead. A IA converte mais, mas em produtos de ticket muito menor.
+    </p>
+  </div>
+
+  <div class="conclusao amber">
+    <h3>3. Renovação Abandono de Carrinho: IA domina com clareza</h3>
+    <p>IA 12,5% conversão / R$37,78/lead vs Comercial 2,78% / R$11,92/lead. A IA é 3× melhor em R$/lead neste segmento — vale priorizar automação para renovações em abandono de carrinho.</p>
+  </div>
+
+  <div class="conclusao roxo">
+    <h3>4. Estratégia recomendada por segmento</h3>
+    <p>
+      <strong>IA → Renovação Abandono de Carrinho:</strong> 12,5% conversão, R$38/lead — melhor que Comercial neste segmento.<br><br>
+      <strong>Comercial → Nova Compra (todos os tipos):</strong> mesmo convertendo menos, R$/lead até 3× maior por trabalhar produtos de alto ticket (CDL, Mecenas, Black, extensões).<br><br>
+      <strong>Oportunidade de Venda:</strong> baixa conversão (~4%) nos dois canais, mas Comercial entrega R$26 vs R$15 por lead por causa do ticket alto.
+    </p>
+  </div>
+
+  <div class="conclusao red">
+    <h3>5. Cuidado com a base suja</h3>
+    <p>29k deals no stage 0 (HOT LEAD) sem mensagem do vendedor foram excluídos. A maioria das "conversões" nesses leads ocorreu antes do deal existir no Pipedrive — são compras orgânicas, não atribuíveis ao Comercial. Incluí-los distorce a taxa do Comercial de 4,3% real para ~1,4% aparente.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
+  Fonte: <code>bp-datawarehouse.datamart.dtm_seller_conversion_rate</code> ·
+  Tipos: Abandono de Carrinho · Compra Negada · Oportunidade de Venda ·
+  Comercial = <code>dt_first_message IS NOT NULL</code>
+</footer>
+</div>
+
+<script>
+const FONT  = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+const IA_C  = "#3b6ef5";
+const COM_C = "#16a34a";
+Chart.defaults.font.family = FONT;
+Chart.defaults.font.size   = 12;
+Chart.defaults.color       = "#6b7689";
+
+const brl    = v => !v ? "—" : "R$ " + v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const pctFmt = v => (v == null) ? "—" : v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}) + "%";
+const numFmt = v => v == null ? "—" : v.toLocaleString("pt-BR");
+
+const valueLabels = (fmt) => ({
+  id: "vl_" + Math.random(),
+  afterDatasetsDraw(c) {
+    const { ctx } = c; ctx.save();
+    c.data.datasets.forEach((ds, di) => {
+      const meta = c.getDatasetMeta(di);
+      if (meta.hidden) return;
+      meta.data.forEach((el, i) => {
+        const v = ds.data[i]; if (!v) return;
+        ctx.fillStyle = "#3a4254"; ctx.font = "600 10px " + FONT;
+        ctx.textAlign = "left"; ctx.textBaseline = "middle";
+        ctx.fillText(fmt(v), el.x + 6, el.y);
+      });
+    }); ctx.restore();
+  }
+});
+
+function initCharts(D) {
+  document.getElementById("lastUpdate").textContent =
+    "Dados de " + new Date(D.updated_at).toLocaleDateString("pt-BR");
+  document.getElementById("subtitulo").textContent =
+    "Abandono de Carrinho · Compra Negada · Oportunidade de Venda · " + D.periodo;
+
+  const ia  = D.resumo["IA"]        || {};
+  const com = D.resumo["Comercial"] || {};
+
+  document.getElementById("resumo2").innerHTML = `
+    <div class="res-card ia-card">
+      <div class="res-canal ia">IA (AWSALES LISTA)</div>
+      <div class="kpi-big"><div class="v ia">${pctFmt(ia.pct)}</div><div class="l">taxa de conversão</div></div>
+      <div class="kpi-grid2">
+        <div class="kpi2"><div class="v ia">${brl(ia.rpl)}</div><div class="l">R$/lead</div></div>
+        <div class="kpi2"><div class="v ia">${brl(ia.ticket)}</div><div class="l">ticket médio</div></div>
+        <div class="kpi2"><div class="v ia">${brl(ia.receita)}</div><div class="l">receita total</div></div>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:14px">
+        <div><span style="font-size:14px;font-weight:700">${numFmt(ia.leads)}</span> <span style="font-size:11px;color:var(--muted)">leads</span></div>
+        <div><span style="font-size:14px;font-weight:700">${numFmt(ia.convertidos)}</span> <span style="font-size:11px;color:var(--muted)">convertidos</span></div>
+      </div>
+      <span class="badge neu">Supporter · Good · BP Essencial</span>
+    </div>
+
+    <div class="res-card com-card">
+      <div class="res-canal com">Comercial — com abordagem</div>
+      <div class="kpi-big"><div class="v com">${pctFmt(com.pct)}</div><div class="l">taxa de conversão</div></div>
+      <div class="kpi-grid2">
+        <div class="kpi2"><div class="v com">${brl(com.rpl)}</div><div class="l">R$/lead</div></div>
+        <div class="kpi2"><div class="v com">${brl(com.ticket)}</div><div class="l">ticket médio</div></div>
+        <div class="kpi2"><div class="v com">${brl(com.receita)}</div><div class="l">receita total</div></div>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:14px">
+        <div><span style="font-size:14px;font-weight:700">${numFmt(com.leads)}</span> <span style="font-size:11px;color:var(--muted)">leads</span></div>
+        <div><span style="font-size:14px;font-weight:700">${numFmt(com.convertidos)}</span> <span style="font-size:11px;color:var(--muted)">convertidos</span></div>
+      </div>
+      <span class="badge up">${(com.rpl && ia.rpl ? (com.rpl/ia.rpl).toFixed(1) : "—")}× R$/lead vs IA · CDL · Mecenas · Black</span>
+    </div>`;
+
+  // Gráficos
+  const labels  = D.por_tipo.map(t => t.label);
+  const iaConv  = D.por_tipo.map(t => t.ia.pct);
+  const comConv = D.por_tipo.map(t => t.comercial.pct);
+  const iaRpl   = D.por_tipo.map(t => t.ia.rpl);
+  const comRpl  = D.por_tipo.map(t => t.comercial.rpl);
+
+  const baseOpts = (maxVal) => ({
+    indexAxis: "y",
+    plugins: { legend: { position: "top", align: "start", labels: { boxWidth: 12, padding: 16 } } },
+    scales: {
+      x: { max: Math.ceil((maxVal || 1) * 1.3), grid: { color: "#f1f5f9" } },
+      y: { grid: { display: false }, ticks: { font: { size: 11 } } },
+    },
+    animation: { duration: 400 },
+  });
+
+  new Chart(document.getElementById("chartConv"), {
+    type: "bar",
+    data: { labels, datasets: [
+      { label: "IA",        data: iaConv,  backgroundColor: IA_C,  borderRadius: 4, barThickness: 14 },
+      { label: "Comercial", data: comConv, backgroundColor: COM_C, borderRadius: 4, barThickness: 14 },
+    ]},
+    options: { ...baseOpts(Math.max(...iaConv, ...comConv, 1)),
+      plugins: { ...baseOpts().plugins,
+        tooltip: { callbacks: { label: c => c.dataset.label + ": " + pctFmt(c.raw) } } } },
+    plugins: [valueLabels(v => v.toFixed(1).replace(".",",") + "%")],
+  });
+
+  new Chart(document.getElementById("chartRpl"), {
+    type: "bar",
+    data: { labels, datasets: [
+      { label: "IA",        data: iaRpl,  backgroundColor: IA_C,  borderRadius: 4, barThickness: 14 },
+      { label: "Comercial", data: comRpl, backgroundColor: COM_C, borderRadius: 4, barThickness: 14 },
+    ]},
+    options: { ...baseOpts(Math.max(...iaRpl, ...comRpl, 1)),
+      plugins: { ...baseOpts().plugins,
+        tooltip: { callbacks: { label: c => c.dataset.label + ": " + brl(c.raw) } } } },
+    plugins: [valueLabels(v => "R$" + v.toFixed(0))],
+  });
+
+  // Tabela detalhada
+  let html = "", lastKey = "";
+  D.por_produto.forEach(r => {
+    const key = `${r.canal}|${r.tipo}|${r.origem}`;
+    if (key !== lastKey) {
+      lastKey = key;
+      const tag = r.canal === "IA"
+        ? `<span class="tag t-ia">IA</span>`
+        : `<span class="tag t-com">Comercial</span>`;
+      html += `<tr class="sep"><td colspan="10">${tag}&nbsp; ${r.tipo}&nbsp;·&nbsp;${r.origem || "—"}</td></tr>`;
+    }
+    const convCls = r.pct >= 10 ? "t-hi" : r.pct >= 4 ? "t-md" : r.pct > 0 ? "t-lo" : "t-zero";
+    html += `<tr>
+      <td colspan="4" style="padding-left:20px">${r.produto}</td>
+      <td class="num">${numFmt(r.leads)}</td>
+      <td class="num">${numFmt(r.convertidos)}</td>
+      <td class="num"><span class="tag ${convCls}">${pctFmt(r.pct)}</span></td>
+      <td class="num">${brl(r.ticket)}</td>
+      <td class="num">${brl(r.receita)}</td>
+      <td class="num">${brl(r.rpl)}</td>
+    </tr>`;
+  });
+  document.getElementById("tabelaDetalhada").innerHTML = html;
+
+  // Matriz completa
+  const convCls = v => v >= 10 ? "c-hi" : v >= 4 ? "c-md" : v > 0 ? "c-lo" : "c-zero";
+  const mCell   = (v, fmt, cls="") => `<td class="num ${cls}">${v ? fmt(v) : "—"}</td>`;
+  const mPct    = v => v ? v.toLocaleString("pt-BR",{minimumFractionDigits:1,maximumFractionDigits:1}) + "%" : "—";
+  const mBrl    = v => v ? "R$" + v.toLocaleString("pt-BR",{minimumFractionDigits:0,maximumFractionDigits:0}) : "—";
+  const mBrlD   = v => v ? "R$" + v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}) : "—";
+
+  let matHtml = "", lastSep = "";
+  (D.por_matriz || []).forEach(r => {
+    const sep = `${r.origem}|${r.tipo}`;
+    if (sep !== lastSep) {
+      lastSep = sep;
+      matHtml += `<tr class="sep"><td colspan="15" style="font-size:10px">
+        ${r.origem || "—"} &nbsp;·&nbsp; ${r.tipo}
+      </td></tr>`;
+    }
+    const ia  = r.ia,  com = r.comercial;
+    matHtml += `<tr>
+      <td>${r.origem || "—"}</td>
+      <td>${r.tipo}</td>
+      <td>${r.produto}</td>
+      <td class="num bl">${numFmt(ia.leads)||"—"}</td>
+      <td class="num">${numFmt(ia.vendas)||"—"}</td>
+      <td class="num">${mBrl(ia.receita)}</td>
+      <td class="num">${mBrlD(ia.ticket)}</td>
+      <td class="num ${convCls(ia.pct_conv)}">${mPct(ia.pct_conv)}</td>
+      <td class="num">${mBrlD(ia.rpl)}</td>
+      <td class="num bl-g">${numFmt(com.leads)||"—"}</td>
+      <td class="num">${numFmt(com.vendas)||"—"}</td>
+      <td class="num">${mBrl(com.receita)}</td>
+      <td class="num">${mBrlD(com.ticket)}</td>
+      <td class="num ${convCls(com.pct_conv)}">${mPct(com.pct_conv)}</td>
+      <td class="num">${mBrlD(com.rpl)}</td>
+    </tr>`;
+  });
+  document.getElementById("matrizBody").innerHTML = matHtml;
+
+  // SQL
+  document.getElementById("sqlDetalhado").textContent =
+`-- Detalhamento por tipo | origem | produto de origem
+-- Tipos: Abandono de Carrinho, Compra Negada, Oportunidade de Venda
+-- Comercial = dt_first_message IS NOT NULL (qualquer stage exceto IA)
+-- Periodo: ${D.periodo}
+
+SELECT
+  CASE nm_stage WHEN '10. AWSALES LISTA' THEN 'IA' ELSE 'Comercial' END AS canal,
+  SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(0)] AS tipo_hotlead,
+  SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(1)] AS origem,
+  COALESCE(nm_source_gateway_plan, 'desconhecido') AS produto_origem,
+  COUNT(*) AS qt_leads,
+  SUM(CASE WHEN id_transaction IS NOT NULL THEN 1 ELSE 0 END) AS qt_convertidos,
+  ROUND(SUM(CASE WHEN id_transaction IS NOT NULL THEN 1.0 ELSE 0 END)
+        / COUNT(*) * 100, 2) AS pct_conversao,
+  ROUND(AVG(CASE WHEN id_transaction IS NOT NULL
+            THEN vl_payment_gross ELSE NULL END), 2) AS ticket_medio,
+  ROUND(SUM(CASE WHEN id_transaction IS NOT NULL
+            THEN vl_payment_gross ELSE 0 END), 2) AS receita_total,
+  ROUND(SUM(CASE WHEN id_transaction IS NOT NULL
+            THEN vl_payment_gross ELSE 0 END) / COUNT(*), 2) AS receita_por_lead
+FROM \`bp-datawarehouse.datamart.dtm_seller_conversion_rate\`
+WHERE SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(0)]
+        IN ('OPORTUNIDADE DE VENDA','ABANDONO DE CARRINHO','COMPRA NEGADA')
+  AND DATE(dt_created_at) BETWEEN '2026-06-01' AND '2026-06-30'
+  AND (
+    nm_stage = '10. AWSALES LISTA'
+    OR (nm_stage != '10. AWSALES LISTA' AND dt_first_message IS NOT NULL)
+  )
+GROUP BY 1,2,3,4
+HAVING qt_leads >= 20
+ORDER BY canal, tipo_hotlead, origem, qt_leads DESC`;
+
+  document.getElementById("sqlResumo").textContent =
+`-- Resumo por canal: IA vs Comercial com abordagem
+SELECT
+  CASE nm_stage WHEN '10. AWSALES LISTA' THEN 'IA' ELSE 'Comercial' END AS canal,
+  COUNT(*) AS qt_leads,
+  SUM(CASE WHEN id_transaction IS NOT NULL THEN 1 ELSE 0 END) AS qt_convertidos,
+  ROUND(SUM(CASE WHEN id_transaction IS NOT NULL THEN 1.0 ELSE 0 END)
+        / COUNT(*) * 100, 2) AS pct_conversao,
+  ROUND(AVG(CASE WHEN id_transaction IS NOT NULL
+            THEN vl_payment_gross ELSE NULL END), 2) AS ticket_medio,
+  ROUND(SUM(CASE WHEN id_transaction IS NOT NULL
+            THEN vl_payment_gross ELSE 0 END), 2) AS receita_total,
+  ROUND(SUM(CASE WHEN id_transaction IS NOT NULL
+            THEN vl_payment_gross ELSE 0 END) / COUNT(*), 2) AS receita_por_lead
+FROM \`bp-datawarehouse.datamart.dtm_seller_conversion_rate\`
+WHERE SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(0)]
+        IN ('OPORTUNIDADE DE VENDA','ABANDONO DE CARRINHO','COMPRA NEGADA')
+  AND DATE(dt_created_at) BETWEEN '2026-06-01' AND '2026-06-30'
+  AND (
+    nm_stage = '10. AWSALES LISTA'
+    OR (nm_stage != '10. AWSALES LISTA' AND dt_first_message IS NOT NULL)
+  )
+GROUP BY 1 ORDER BY 1`;
+}
+
+fetch("./data.json")
+  .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+  .then(D => initCharts(D))
+  .catch(err => {
+    document.querySelector("main").insertAdjacentHTML("afterbegin",
+      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
+        Erro ao carregar dados: ${err.message}. Use <code>python -m http.server</code> na pasta do relatório.
+      </div>`);
+  });
+</script>
+</body>
+</html>
