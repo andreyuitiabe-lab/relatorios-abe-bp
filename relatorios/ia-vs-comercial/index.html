@@ -185,6 +185,11 @@
     .prod-table .sep-ia  { background: #eff6ff44; }
     .prod-table .sep-com { background: #f0fdf444; }
     .combo-nota-bottom { font-size: 11.5px; color: var(--muted); line-height: 1.55; margin-top: 12px; font-style: italic; padding-top: 12px; border-top: 1px solid var(--line); }
+    /* vencedor por linha */
+    .prod-table tr.win-ia  td.ia-cell  { background: #dbeafe; }
+    .prod-table tr.win-com td.com-cell { background: #dcfce7; }
+    .prod-table tr.win-ia  td.com-cell,
+    .prod-table tr.win-com td.ia-cell  { opacity: .35; }
 
     /* contexto */
     .contexto-box { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
@@ -741,22 +746,22 @@ ORDER BY canal, tipo_hotlead, origem, qt_leads DESC`;
     {
       tipo: "ABANDONO DE CARRINHO", origem: "NOVA COMPRA",
       porque: "Lead chegou ao checkout, colocou produtos no carrinho e não finalizou. Intenção de compra declarada — o bot fecha bem por ser rápido e direto. A exceção esperada (CDL, ticket R$1.300) não aconteceu: a IA já converte mais que o Comercial nesse produto.",
-      nota: "⭐ CDL Abandono: IA 17,0% vs COM 15,0% de conversão (R$221 vs R$206/lead). Bot é mais eficiente mesmo no produto premium. Ebooks e best: volume pequeno, ticket alto — vale abordagem direta do COM.",
-      overrides: { "ebooks": "com", "best": "com" },
+      nota: "IA supera o Comercial em todos os produtos com volume relevante: supporter (+88%), good (+42%), best (+33%), ebooks (+23%), CDL (+8%). Intenção de compra declarada — o bot fecha sem fricção independente do ticket.",
+      overrides: {},
       default_routing: "ia",
     },
     {
       tipo: "COMPRA NEGADA", origem: "NOVA COMPRA",
       porque: "Pagamento rejeitado pelo gateway. Na maioria dos casos é troca de método de pagamento (cartão → PIX) — fluxo automático resolve sem humano. Exceções: CDL e best têm margem para negociação ativa que o bot não consegue fazer.",
-      nota: "CDL CN: COM 9,7% vs IA 8,6% e R$136 vs R$110/lead (+24%). Best: ticket R$2.770 — vendedor renegociação forma de pagamento e mantém a venda.",
-      overrides: { "clube-do-livro": "com", "best": "com", "ebooks": "com" },
+      nota: "CDL: COM R$136 vs IA R$110 (+24%). Best: COM R$98 vs IA R$55 (+78%). Good: COM R$22 vs IA R$18 (+21%) — ticket maior sugere upsell. Combo-religioso: COM R$35 vs IA R$8 (+349%).",
+      overrides: { "clube-do-livro": "com", "best": "com", "ebooks": "com", "good": "com", "combo-religioso": "com" },
       default_routing: "ia",
     },
     {
       tipo: "OPORTUNIDADE DE VENDA", origem: "NOVA COMPRA",
       porque: "Lead qualificado que não chegou ao checkout. Conv% baixa nos dois canais (~4%). A decisão de roteamento não é sobre conv% — é sobre ticket: o mesmo esforço de abordagem gera retornos muito diferentes dependendo do produto.",
-      nota: "COM gera R$45–131/lead vs R$15 da IA nos produtos premium. O ticket paga o custo do vendedor mesmo com conv% baixa.",
-      overrides: { "clube-do-livro": "com", "ebooks": "com", "best": "com" },
+      nota: "COM domina produtos de ticket alto: black R$370, better R$149, best R$131, ebooks R$90, CDL R$46/lead. Combo-religioso: COM R$19 vs IA R$12. IA ganha em supporter, good, extensão — volume alto mas ticket baixo.",
+      overrides: { "clube-do-livro": "com", "ebooks": "com", "best": "com", "combo-religioso": "com", "better": "com", "black": "com" },
       default_routing: "ia",
     },
     {
@@ -845,10 +850,17 @@ ORDER BY canal, tipo_hotlead, origem, qt_leads DESC`;
         const rotaBadge = rota === "ia"
           ? `<span class="rota-ia">🤖 IA</span>`
           : `<span class="rota-com">👤 COM</span>`;
-        return `<tr>
+        let winSide = null;
+        if (iaD.leads || comD.leads) {
+          if (!comD.leads) winSide = "ia";
+          else if (!iaD.leads) winSide = "com";
+          else winSide = iaD.rpl >= comD.rpl ? "ia" : "com";
+        }
+        const trCls = winSide ? `win-${winSide}` : "";
+        return `<tr class="${trCls}">
           <td class="prod-name">${shortName(r.produto)}</td>
-          <td class="right">${iaLeads}</td><td class="right">${iaPct}</td><td class="right">${iaRpl}</td>
-          <td class="right">${comLeads}</td><td class="right">${comPct}</td><td class="right">${comRpl}</td>
+          <td class="right ia-cell">${iaLeads}</td><td class="right ia-cell">${iaPct}</td><td class="right ia-cell">${iaRpl}</td>
+          <td class="right com-cell">${comLeads}</td><td class="right com-cell">${comPct}</td><td class="right com-cell">${comRpl}</td>
           <td class="right">${rotaBadge}</td>
         </tr>`;
       }).join("");
