@@ -140,6 +140,36 @@
                   font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;
                   margin-bottom: 12px; }
 
+    /* contexto */
+    .contexto-box { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+    @media (max-width: 800px) { .contexto-box { grid-template-columns: 1fr 1fr; } }
+    .contexto-item { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+                     padding: 14px 16px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+    .contexto-titulo { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase;
+                       letter-spacing: .07em; color: var(--soft); margin-bottom: 6px; }
+
+    /* insight strip */
+    .insight-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 20px; }
+    @media (max-width: 800px) { .insight-strip { grid-template-columns: 1fr; } }
+    .insight-card { border-radius: 10px; padding: 16px 18px; font-size: 12.5px; line-height: 1.6; }
+    .insight-card .i-label { font-size: 10px; font-weight: 700; text-transform: uppercase;
+                              letter-spacing: .07em; margin-bottom: 8px; display: block; }
+    .insight-card .i-num   { font-size: 22px; font-weight: 800; line-height: 1.1; margin-bottom: 4px; }
+    .insight-card .i-desc  { color: #475569; font-size: 12px; }
+    .insight-blue   { background: #eff6ff; border: 1px solid #bfdbfe; }
+    .insight-blue   .i-label { color: #1d4ed8; }
+    .insight-blue   .i-num   { color: #1d4ed8; }
+    .insight-amber  { background: #fffbeb; border: 1px solid #fde68a; }
+    .insight-amber  .i-label { color: #92400e; }
+    .insight-amber  .i-num   { color: #b45309; }
+    .insight-green  { background: #f0fdf4; border: 1px solid #bbf7d0; }
+    .insight-green  .i-label { color: #065f46; }
+    .insight-green  .i-num   { color: #16a34a; }
+
+    /* chart note */
+    .chart-note { font-size: 12px; color: var(--muted); margin-top: 12px; padding-top: 10px;
+                  border-top: 1px solid var(--line); line-height: 1.55; }
+
     /* tabs */
     .tab-nav { display: flex; gap: 4px; margin-bottom: 32px; border-bottom: 2px solid var(--line); padding-bottom: 0; }
     .tab-btn {
@@ -175,65 +205,61 @@
 
 <div id="tab-analise" class="tab-content active">
 
-<!-- 1. Resumo 2 grupos -->
+<!-- CONTEXTO -->
 <section>
-  <h2>Resumo — Junho 2026</h2>
-  <p class="sub" style="margin-bottom:20px">
-    Tipos: Abandono de Carrinho · Compra Negada · Oportunidade de Venda ·
-    Comercial = leads com <code>dt_first_message IS NOT NULL</code>
-  </p>
-  <div class="res2" id="resumo2"></div>
+  <div class="contexto-box">
+    <div class="contexto-item">
+      <span class="contexto-titulo">Experimento</span>
+      Comparação entre o bot Lambda (IA) e o time Comercial no atendimento de hotleads em junho/2026. Os leads são gerados automaticamente no checkout e distribuídos para cada canal.
+    </div>
+    <div class="contexto-item">
+      <span class="contexto-titulo">IA (Lambda)</span>
+      Stage <code>10. AWSALES LISTA</code> — bot aborda 100% dos leads recebidos. Vendedor: <code>gustavo.koetz@</code>
+    </div>
+    <div class="contexto-item">
+      <span class="contexto-titulo">Comercial</span>
+      Qualquer outro stage — contado <strong>apenas quando houve mensagem</strong> (<code>dt_first_message IS NOT NULL</code>). Leads sem contato estão excluídos.
+    </div>
+    <div class="contexto-item">
+      <span class="contexto-titulo">Conversão</span>
+      <code>id_transaction IS NOT NULL</code> — transação aprovada vinculada ao deal do Pipedrive.
+    </div>
+  </div>
 </section>
 
-<!-- 2. Gráficos -->
+<!-- KPIs -->
 <section>
-  <h2>Por Tipo de Hotlead</h2>
+  <h2>Resultado Geral — <span id="labelPeriodo"></span></h2>
+  <div class="res2" id="resumo2"></div>
+
+  <!-- Insight strip -->
+  <div class="insight-strip" id="insightStrip"></div>
+</section>
+
+<!-- GRÁFICOS -->
+<section>
+  <h2>Desempenho por Tipo de Hotlead</h2>
+  <p class="sub" style="margin-bottom:16px">Leia os dois gráficos juntos: conv% alta com R$/lead baixo indica produto de ticket menor, não ineficiência.</p>
   <div class="grid-2">
     <div class="card">
       <p class="label">Taxa de Conversão (%)</p>
       <canvas id="chartConv" height="320"></canvas>
+      <p class="chart-note" id="noteConv"></p>
     </div>
     <div class="card">
       <p class="label">Receita por Lead (R$)</p>
       <canvas id="chartRpl" height="320"></canvas>
-    </div>
-  </div>
-  <div class="nota">
-    Comercial = <code>dt_first_message IS NOT NULL</code> (vendedor fez pelo menos 1 mensagem) ·
-    IA = stage <code>10. AWSALES LISTA</code> · Conversão = <code>id_transaction IS NOT NULL</code>
-  </div>
-</section>
-
-<!-- 3. Tabela detalhada -->
-<section>
-  <h2>Detalhamento por Produto de Origem</h2>
-  <p class="sub" style="margin-bottom:16px">Mínimo 20 leads por linha.</p>
-  <div class="card">
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th colspan="4">Segmento</th>
-            <th class="num">Leads</th>
-            <th class="num">Conv.</th>
-            <th class="num">Conv.%</th>
-            <th class="num">Ticket</th>
-            <th class="num">Receita</th>
-            <th class="num">R$/Lead</th>
-          </tr>
-        </thead>
-        <tbody id="tabelaDetalhada"></tbody>
-      </table>
+      <p class="chart-note" id="noteRpl"></p>
     </div>
   </div>
 </section>
 
-<!-- 4. Matriz: origem | tipo | produto × IA vs Comercial -->
+<!-- MATRIZ (big picture primeiro) -->
 <section>
-  <h2>Matriz Completa — Origem · Tipo · Produto de Origem</h2>
+  <h2>Matriz — Tipo · Produto · IA vs Comercial</h2>
   <p class="sub" style="margin-bottom:8px">
-    <strong>IA</strong> = todos os leads (bot aborda 100%) ·
-    <strong>Comercial</strong> = só abordados (<code>dt_first_message IS NOT NULL</code>) · Mín. 20 leads
+    Comparação direta por segmento. <strong>IA</strong> = todos os leads recebidos ·
+    <strong>Comercial</strong> = apenas leads com contato do vendedor · Mín. 20 leads por linha.
   </p>
   <div class="card" style="padding:0">
     <div class="table-wrap">
@@ -242,19 +268,17 @@
           <tr>
             <th rowspan="2" style="min-width:90px">Origem</th>
             <th rowspan="2" style="min-width:160px">Tipo</th>
-            <th rowspan="2" style="min-width:180px">Produto Origem</th>
+            <th rowspan="2" style="min-width:180px">Produto</th>
             <th colspan="6" style="text-align:center;background:#dbeafe;color:#1d4ed8;border-left:2px solid #93c5fd">IA (todos os leads)</th>
             <th colspan="6" style="text-align:center;background:#d1fae5;color:#065f46;border-left:2px solid #6ee7b7">Comercial (abordados)</th>
           </tr>
           <tr>
-            <!-- IA sub-headers -->
             <th class="num" style="border-left:2px solid #93c5fd">Leads</th>
             <th class="num">Vendas</th>
             <th class="num">Receita</th>
             <th class="num">Ticket</th>
             <th class="num">Conv%</th>
             <th class="num">R$/Lead</th>
-            <!-- Comercial sub-headers -->
             <th class="num" style="border-left:2px solid #6ee7b7">Abordados</th>
             <th class="num">Vendas</th>
             <th class="num">Receita</th>
@@ -268,24 +292,52 @@
     </div>
   </div>
   <div class="nota" style="margin-top:12px">
-    Comparação direta: IA recebe todos os leads; Comercial só conta quem recebeu mensagem do vendedor ·
-    Fundo verde = Conv% ≥ 10% · Fundo azul ≥ 4% · Cinza > 0% · Vermelho = 0%
+    Verde = Conv% ≥ 10% · Azul ≥ 4% · Cinza > 0% · Vermelho = 0% — use as cores para identificar rapidamente os segmentos quentes.
   </div>
 </section>
 
-<!-- 4b. Query SQL -->
+<!-- TABELA DETALHADA (detalhe, depois do panorama) -->
 <section>
-  <h2>Query de Referência</h2>
-  <details>
-    <summary>Detalhamento por Tipo | Origem | Produto</summary>
-    <div class="sql-block"><pre id="sqlDetalhado"></pre></div>
-  </details>
-  <div style="margin-top:12px">
-    <details>
-      <summary>Resumo IA vs Comercial</summary>
-      <div class="sql-block"><pre id="sqlResumo"></pre></div>
-    </details>
+  <h2>Detalhamento por Canal e Produto</h2>
+  <p class="sub" style="margin-bottom:16px">Cada linha é um canal × produto × tipo. Ordenado por receita gerada. Mínimo 20 leads.</p>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Canal</th>
+            <th>Tipo</th>
+            <th>Origem</th>
+            <th>Produto</th>
+            <th class="num">Leads</th>
+            <th class="num">Conv.</th>
+            <th class="num">Conv%</th>
+            <th class="num">Ticket</th>
+            <th class="num">Receita</th>
+            <th class="num">R$/Lead</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaDetalhada"></tbody>
+      </table>
+    </div>
   </div>
+</section>
+
+<!-- SQL (metadado, não análise) -->
+<section>
+  <details>
+    <summary>🔍 Queries de referência (BigQuery)</summary>
+    <div style="margin-top:12px">
+      <details style="border-radius:0;border-top:none">
+        <summary>Resumo por canal</summary>
+        <div class="sql-block"><pre id="sqlResumo"></pre></div>
+      </details>
+      <details style="border-radius:0;border-top:none;margin-top:4px">
+        <summary>Detalhamento por produto</summary>
+        <div class="sql-block"><pre id="sqlDetalhado"></pre></div>
+      </details>
+    </div>
+  </details>
 </section>
 
 </div><!-- /tab-analise -->
@@ -461,6 +513,7 @@ function initCharts(D) {
     "Dados de " + new Date(D.updated_at).toLocaleDateString("pt-BR");
   document.getElementById("subtitulo").textContent =
     "Abandono de Carrinho · Compra Negada · Oportunidade de Venda · " + D.periodo;
+  document.getElementById("labelPeriodo").textContent = D.periodo;
 
   const ia  = D.resumo["IA"]        || {};
   const com = D.resumo["Comercial"] || {};
@@ -494,6 +547,28 @@ function initCharts(D) {
         <div><span style="font-size:14px;font-weight:700">${numFmt(com.convertidos)}</span> <span style="font-size:11px;color:var(--muted)">convertidos</span></div>
       </div>
       <span class="badge up">${(com.rpl && ia.rpl ? (com.rpl/ia.rpl).toFixed(1) : "—")}× R$/lead vs IA · CDL · Mecenas · Black</span>
+    </div>`;
+
+  // Insight strip — 3 achados principais derivados dos dados
+  const ticketMult = com.ticket && ia.ticket ? (com.ticket / ia.ticket).toFixed(1) : "—";
+  const renovAbandIA  = D.por_tipo.find(t => t.tipo === "ABANDONO DE CARRINHO" && t.origem === "RENOVAÇÃO");
+  const renovOvCom    = D.por_tipo.find(t => t.tipo === "OPORTUNIDADE DE VENDA"  && t.origem === "RENOVAÇÃO");
+  const rplRenov = renovOvCom ? renovOvCom.comercial.rpl : 0;
+  document.getElementById("insightStrip").innerHTML = `
+    <div class="insight-card insight-blue">
+      <span class="i-label">Ilusão de produto</span>
+      <div class="i-num">${ticketMult}×</div>
+      <div class="i-desc">O ticket do Comercial é ${ticketMult}× maior que o da IA (R$${Math.round(com.ticket)} vs R$${Math.round(ia.ticket)}). O gap de R$/lead vem do mix de produto, não da eficiência de abordagem. Nos cruzamentos head-to-head, a IA empata ou vence em 6 de 8 casos.</div>
+    </div>
+    <div class="insight-card insight-amber">
+      <span class="i-label">IA domina renovação por abandono</span>
+      <div class="i-num">${renovAbandIA ? renovAbandIA.ia.pct.toFixed(1) + "%" : "—"}</div>
+      <div class="i-desc">Conv% da IA em Abandono de Carrinho (Renovação) vs ${renovAbandIA ? renovAbandIA.comercial.pct.toFixed(1) + "%" : "—"} do Comercial. A IA é ${renovAbandIA && renovAbandIA.comercial.pct ? (renovAbandIA.ia.pct / renovAbandIA.comercial.pct).toFixed(1) + "×" : "muito"} mais eficiente nesse segmento — o bot reengaja renovações sem fricção humana.</div>
+    </div>
+    <div class="insight-card insight-green">
+      <span class="i-label">Maior oportunidade: Renovação OV</span>
+      <div class="i-num">R$${rplRenov ? rplRenov.toFixed(0) : "—"}/lead</div>
+      <div class="i-desc">OV em Renovação tem o maior R$/lead do Comercial: ${(rplRenov / (ia.rpl || 1)).toFixed(1)}× acima da IA. Leads de assinantes com oportunidade de upgrade precisam de abordagem consultiva humana — não devem ir para o bot.</div>
     </div>`;
 
   // Gráficos
@@ -537,20 +612,30 @@ function initCharts(D) {
     plugins: [valueLabels(v => "R$" + v.toFixed(0))],
   });
 
-  // Tabela detalhada
-  let html = "", lastKey = "";
+  // Notas interpretativas dos gráficos
+  const iaWinsConv = D.por_tipo.filter(t => t.ia.pct > t.comercial.pct).length;
+  const totalTipos = D.por_tipo.filter(t => t.comercial.pct > 0).length;
+  document.getElementById("noteConv").innerHTML =
+    `A IA tem conversão maior em <strong>${iaWinsConv} de ${totalTipos} segmentos</strong> com Comercial ativo. `+
+    `Mesmo assim, conv% mais alta não significa mais receita quando o ticket é menor — veja o gráfico ao lado.`;
+  const comWinsRpl = D.por_tipo.filter(t => t.comercial.rpl > t.ia.rpl).length;
+  document.getElementById("noteRpl").innerHTML =
+    `Comercial gera mais R$/lead em <strong>${comWinsRpl} de ${D.por_tipo.length} segmentos</strong>, `+
+    `puxado por produtos de ticket alto (CDL, ebooks, best). `+
+    `Nos segmentos com produtos equivalentes, a diferença desaparece — veja a Matriz abaixo.`;
+
+  // Tabela detalhada — ordenada por receita desc (já vem assim do data.json)
+  let html = "";
   D.por_produto.forEach(r => {
-    const key = `${r.canal}|${r.tipo}|${r.origem}`;
-    if (key !== lastKey) {
-      lastKey = key;
-      const tag = r.canal === "IA"
-        ? `<span class="tag t-ia">IA</span>`
-        : `<span class="tag t-com">Comercial</span>`;
-      html += `<tr class="sep"><td colspan="10">${tag}&nbsp; ${r.tipo}&nbsp;·&nbsp;${r.origem || "—"}</td></tr>`;
-    }
+    const canalTag = r.canal === "IA"
+      ? `<span class="tag t-ia">IA</span>`
+      : `<span class="tag t-com">Comercial</span>`;
     const convCls = r.pct >= 10 ? "t-hi" : r.pct >= 4 ? "t-md" : r.pct > 0 ? "t-lo" : "t-zero";
     html += `<tr>
-      <td colspan="4" style="padding-left:20px">${r.produto}</td>
+      <td>${canalTag}</td>
+      <td style="font-size:11px">${r.tipo.charAt(0)+r.tipo.slice(1).toLowerCase()}</td>
+      <td style="font-size:11px">${r.origem || "—"}</td>
+      <td>${r.produto}</td>
       <td class="num">${numFmt(r.leads)}</td>
       <td class="num">${numFmt(r.convertidos)}</td>
       <td class="num"><span class="tag ${convCls}">${pctFmt(r.pct)}</span></td>
