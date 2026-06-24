@@ -140,6 +140,18 @@
                   font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;
                   margin-bottom: 12px; }
 
+    /* tabs */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 32px; border-bottom: 2px solid var(--line); padding-bottom: 0; }
+    .tab-btn {
+      padding: 10px 20px; font-size: 13px; font-weight: 600; border: none; background: none;
+      color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent;
+      margin-bottom: -2px; transition: color .15s, border-color .15s; border-radius: 4px 4px 0 0;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); background: #f0f5ff; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
     header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
     footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
              font-size: 12px; color: var(--soft); }
@@ -155,6 +167,13 @@
 </header>
 
 <main>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="tab-analise">📊 Análise de Performance</button>
+  <button class="tab-btn" data-tab="tab-roteamento">🗺️ Roteamento Estratégico</button>
+</nav>
+
+<div id="tab-analise" class="tab-content active">
 
 <!-- 1. Resumo 2 grupos -->
 <section>
@@ -268,6 +287,10 @@
     </details>
   </div>
 </section>
+
+</div><!-- /tab-analise -->
+
+<div id="tab-roteamento" class="tab-content">
 
 <!-- 5. Roteamento Estratégico -->
 <section id="roteamento">
@@ -391,6 +414,8 @@
     ⚠️ <strong>Atenção — leads "desconhecido":</strong> 773 deals no Comercial com <code>nm_source_gateway_plan = 'desconhecido'</code> apresentam 19,15% de conversão e R$239/lead — acima de todos os produtos identificados. Investigar se é falha de tracking no checkout (LP direto, campanha legada). Esse volume representa ~R$185k/mês sem produto identificado e, portanto, sem roteamento possível.
   </div>
 </section>
+
+</div><!-- /tab-roteamento -->
 
 </main>
 
@@ -661,6 +686,17 @@ WHERE SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(0)]
   )
 GROUP BY 1 ORDER BY 1`;
 }
+
+// Tabs
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
 
 fetch("./data.json")
   .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
