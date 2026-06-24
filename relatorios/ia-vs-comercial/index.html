@@ -140,6 +140,32 @@
                   font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;
                   margin-bottom: 12px; }
 
+    /* combo cards */
+    .combo-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; margin-bottom: 14px; }
+    .combo-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; gap: 16px; flex-wrap: wrap; }
+    .combo-labels { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .combo-tipo-badge { background: #f1f5f9; color: var(--text); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+    .combo-orig-badge { background: #e0f2fe; color: #075985; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
+    .combo-perf { display: flex; gap: 10px; align-items: center; font-size: 12px; flex-shrink: 0; }
+    .combo-perf .cp-ia  { color: var(--blue);  font-weight: 600; }
+    .combo-perf .cp-com { color: var(--green); font-weight: 600; }
+    .combo-perf .cp-sep { color: var(--soft); }
+    .combo-porque { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .combo-split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .combo-split.one-col { grid-template-columns: 1fr; }
+    @media (max-width: 700px) { .combo-split { grid-template-columns: 1fr; } }
+    .combo-ia-side  { background: #eff6ff; border-radius: 8px; padding: 14px 16px; }
+    .combo-com-side { background: #f0fdf4; border-radius: 8px; padding: 14px 16px; }
+    .combo-canal-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; display: block; }
+    .combo-canal-lbl.ia  { color: var(--blue); }
+    .combo-canal-lbl.com { color: var(--green); }
+    .combo-ia-side ul, .combo-com-side ul { list-style: none; padding: 0; margin: 0 0 8px; }
+    .combo-ia-side  li { font-size: 12.5px; padding: 2px 0; }
+    .combo-com-side li { font-size: 12.5px; padding: 2px 0; }
+    .combo-ia-side  li::before { content: "•"; color: var(--blue);  margin-right: 6px; font-weight: 700; }
+    .combo-com-side li::before { content: "•"; color: var(--green); margin-right: 6px; font-weight: 700; }
+    .combo-side-nota { font-size: 11.5px; color: var(--muted); line-height: 1.55; margin-top: 8px; font-style: italic; }
+
     /* contexto */
     .contexto-box { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
     @media (max-width: 800px) { .contexto-box { grid-template-columns: 1fr 1fr; } }
@@ -364,63 +390,36 @@
     </p>
   </div>
 
-  <!-- Head-to-head por tipo -->
-  <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">Confronto por tipo de hotlead</h3>
-  <div class="card" style="padding:0;margin-bottom:32px">
-    <div class="table-wrap">
-      <table id="tabelaHH">
-        <thead>
-          <tr>
-            <th>Tipo</th>
-            <th>Origem</th>
-            <th class="num" style="background:#dbeafe22">IA — Conv%</th>
-            <th class="num" style="background:#dbeafe22">IA — R$/Lead</th>
-            <th class="num" style="background:#d1fae522">COM — Conv%</th>
-            <th class="num" style="background:#d1fae522">COM — R$/Lead</th>
-            <th class="num">Δ Conv%</th>
-            <th>Veredicto</th>
-          </tr>
-        </thead>
-        <tbody id="hhBody"></tbody>
-      </table>
-    </div>
-  </div>
+  <!-- Leitura por tipo × produto -->
+  <h3 style="font-size:15px;font-weight:700;margin-bottom:6px">Por que cada combinação vai para um canal?</h3>
+  <p class="sub" style="margin-bottom:20px">Cada card explica a lógica por trás do roteamento — números do BQ + contexto operacional.</p>
+  <div id="comboCards" style="margin-bottom:36px"></div>
 
-  <!-- 3 caminhos -->
-  <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">3 Caminhos de Roteamento</h3>
-  <div class="grid-3" style="margin-bottom:32px">
+  <!-- 2 caminhos -->
+  <h3 style="font-size:15px;font-weight:700;margin-bottom:16px">Roteamento em 2 Caminhos</h3>
+  <div class="grid-2" style="margin-bottom:32px">
 
     <div class="rota-card rota-ia">
-      <span class="rota-label" style="color:var(--blue)">🤖 Caminho 1 — Exclusivo IA</span>
+      <span class="rota-label" style="color:var(--blue)">🤖 Caminho 1 — IA (Lambda)</span>
       <ul>
-        <li>Abandono | Nova Compra<br><strong>supporter, good, combo, bp-econômico, bp-essencial</strong></li>
-        <li>Compra Negada | Nova Compra<br><strong>supporter, good, bp-econômico, bp-essencial</strong></li>
-        <li>OV | Nova Compra<br><strong>supporter, good, extensão</strong></li>
-        <li>Abandono | Nova Compra<br><strong>clube-do-livro</strong> ⭐ (IA 17% &gt; COM 15%)</li>
-        <li>Abandono/CN | <strong>Renovação → todos</strong><br>(IA 4× melhor em Abandono Renovação)</li>
+        <li>Abandono e Compra Negada | Nova Compra<br><strong>supporter, good, combo, bp-econômico, bp-essencial</strong></li>
+        <li>Abandono | Nova Compra<br><strong>clube-do-livro</strong> ⭐ (IA já converte mais que COM)</li>
+        <li>OV | Nova Compra<br><strong>supporter, good, extensão de assinatura</strong></li>
+        <li>Abandono e Compra Negada | <strong>Renovação → todos</strong></li>
       </ul>
-      <div class="rota-footer">~18.000 leads/mês · sem perda de receita</div>
+      <div class="rota-footer">~18.000 leads/mês · sem perda de receita · bot fecha tickets até ~R$1.300</div>
     </div>
 
     <div class="rota-card rota-com">
-      <span class="rota-label" style="color:var(--green)">👤 Caminho 2 — Exclusivo Comercial</span>
+      <span class="rota-label" style="color:var(--green)">👤 Caminho 2 — Comercial</span>
       <ul>
-        <li>OV | Nova Compra<br><strong>clube-do-livro, ebooks, best</strong></li>
-        <li>Compra Negada | Nova Compra<br><strong>clube-do-livro</strong> (COM +24% R$/lead)</li>
-        <li><strong>PIX/Boleto Expirado | Renovação</strong><br>CDL, ebooks 🔴 — SLA &lt;2h</li>
-        <li>OV | <strong>Renovação → todos</strong><br>(COM 5,9× mais em R$/lead)</li>
+        <li>OV | Nova Compra<br><strong>clube-do-livro, ebooks, best</strong> (ticket >R$2k, consultivo)</li>
+        <li>Compra Negada | Nova Compra<br><strong>clube-do-livro, best</strong> (COM +24% R$/lead)</li>
+        <li>Abandono e CN | Nova Compra<br><strong>best</strong> (ticket R$2.770 — não entra no bot)</li>
+        <li><strong>OV | Renovação → todos</strong> (COM 5,9× R$/lead vs IA)</li>
+        <li><strong>PIX/Boleto Expirado | Renovação</strong> — CDL, ebooks 🔴 SLA &lt;2h</li>
       </ul>
-      <div class="rota-footer">~4–6k leads/mês · maior concentração de receita · R$589–917/lead na Renovação</div>
-    </div>
-
-    <div class="rota-card rota-trans">
-      <span class="rota-label" style="color:#92400e">🔄 Caminho 3 — Transbordo IA → COM</span>
-      <ul>
-        <li>Abandono/CN de <strong>best</strong> que responde positivamente<br>→ COM assume (upgrade R$2.770)</li>
-        <li>CDL Compra Negada com objeção de pagamento<br>→ COM fecha (+24% R$/lead)</li>
-        <li>OV Renovação que respondeu ao bot<br>→ COM fecha (5,9× R$/lead)</li>
-      </ul>
-      <div class="rota-footer">Gatilho: sinal de intenção premium detectado pela IA</div>
+      <div class="rota-footer">~5–7k leads/mês · maior concentração de receita · R$589–917/lead na Renovação urgente</div>
     </div>
 
   </div>
@@ -717,35 +716,95 @@ GROUP BY 1,2,3,4
 HAVING qt_leads >= 20
 ORDER BY canal, tipo_hotlead, origem, qt_leads DESC`;
 
-  // Head-to-head por tipo — tabela de roteamento
-  const VEREDICTOS = {
-    "ABANDONO DE CARRINHO|RENOVAÇÃO":    { txt: "IA dominante (4× R$/lead)", cls: "t-ia" },
-    "COMPRA NEGADA|RENOVAÇÃO":           { txt: "IA (COM sem volume)", cls: "t-ia" },
-    "OPORTUNIDADE DE VENDA|RENOVAÇÃO":   { txt: "Comercial", cls: "t-com" },
-    "ABANDONO DE CARRINHO|NOVA COMPRA":  { txt: "Rotear por produto", cls: "t-md" },
-    "COMPRA NEGADA|NOVA COMPRA":         { txt: "Rotear por produto", cls: "t-md" },
-    "OPORTUNIDADE DE VENDA|NOVA COMPRA": { txt: "Rotear por produto", cls: "t-md" },
-  };
-  let hhHtml = "";
-  (D.por_tipo || []).forEach(r => {
-    const ia = r.ia, com = r.comercial;
-    const delta = ia.pct - com.pct;
-    const dSign = delta > 0.3 ? "▲" : delta < -0.3 ? "▼" : "≈";
-    const dCls  = delta > 0.3 ? "delta-up" : delta < -0.3 ? "delta-down" : "delta-eq";
-    const key   = `${r.tipo}|${r.origem}`;
-    const v     = VEREDICTOS[key] || { txt: "—", cls: "" };
-    hhHtml += `<tr>
-      <td>${r.tipo.charAt(0)+r.tipo.slice(1).toLowerCase()}</td>
-      <td>${(r.origem||"—").charAt(0)+(r.origem||"—").slice(1).toLowerCase()}</td>
-      <td class="num" style="background:#dbeafe18">${mPct(ia.pct)}</td>
-      <td class="num" style="background:#dbeafe18">${mBrlD(ia.rpl)}</td>
-      <td class="num" style="background:#d1fae518">${com.leads ? mPct(com.pct) : "—"}</td>
-      <td class="num" style="background:#d1fae518">${com.leads ? mBrlD(com.rpl) : "—"}</td>
-      <td class="num"><span class="${dCls}">${dSign} ${Math.abs(delta).toFixed(1)}pp</span></td>
-      <td><span class="tag ${v.cls}">${v.txt}</span></td>
-    </tr>`;
+  // Combo cards: tipo × produto com lógica de roteamento didática
+  const COMBOS = [
+    {
+      tipo: "ABANDONO DE CARRINHO", origem: "NOVA COMPRA",
+      porque: "Lead chegou ao checkout, colocou produtos no carrinho e não finalizou. Intenção de compra declarada — o bot fecha bem por ser rápido e direto. A exceção esperada (CDL, ticket R$1.300) não aconteceu: a IA já converte mais que o Comercial nesse produto.",
+      ia:  { produtos: ["supporter", "good", "combo-religioso", "bp-econômico", "bp-essencial", "clube-do-livro ⭐"], nota: "⭐ CDL Abandono: IA 17,0% vs COM 15,0% de conversão — R$221/lead vs R$206. Bot é mais eficiente mesmo no produto premium." },
+      com: { produtos: ["ebooks", "best"], nota: "Ticket acima de R$1.500. Volume pequeno no abandono — pode ir direto para COM sem triagem do bot." },
+    },
+    {
+      tipo: "COMPRA NEGADA", origem: "NOVA COMPRA",
+      porque: "Pagamento rejeitado pelo gateway. Na maioria dos casos é troca de método de pagamento (cartão → PIX) — fluxo automático resolve sem humano. Produtos de ticket alto são exceção: CDL e best têm margem para negociação ativa que o bot não consegue fazer.",
+      ia:  { produtos: ["supporter", "good", "bp-econômico", "bp-essencial", "clube-do-livro ⭐"], nota: "⭐ CDL CN: IA 8,6% vs COM 9,7% — diferença marginal. Custo humano não se paga nesse volume." },
+      com: { produtos: ["best"], nota: "Ticket R$2.770 com pagamento negado. Vendedor consegue renegociar forma de pagamento e manter a venda." },
+    },
+    {
+      tipo: "OPORTUNIDADE DE VENDA", origem: "NOVA COMPRA",
+      porque: "Lead qualificado que não chegou ao checkout. Conv% baixa nos dois canais (~4%). A decisão de roteamento não é sobre conv% — é sobre ticket: o mesmo esforço de abordagem gera retornos muito diferentes dependendo do produto.",
+      ia:  { produtos: ["supporter", "good", "extensão de assinatura"], nota: "IA converte levemente mais (4,6% vs 3,7%). R$/lead menor, mas custo de atendimento também é zero — margem positiva." },
+      com: { produtos: ["clube-do-livro", "ebooks", "best"], nota: "COM gera R$45–131/lead vs R$15 da IA nesses produtos. O ticket paga o custo do vendedor mesmo com conv% baixa." },
+    },
+    {
+      tipo: "ABANDONO DE CARRINHO", origem: "RENOVAÇÃO",
+      porque: "Assinante tentou renovar e não finalizou. Resultado mais claro da análise: IA converte 4× mais que o Comercial nesse segmento. Hipótese: renovante já conhece o produto, só precisa de um lembrete — bot é suficiente e menos intrusivo que ligação de vendedor.",
+      ia:  { produtos: ["todos os produtos"], nota: "11,7% conv na IA vs 2,8% no COM. R$/lead da IA 3× maior (R$35 vs R$12). Mandar para Comercial piora o resultado." },
+      com: { produtos: [], nota: "" },
+    },
+    {
+      tipo: "COMPRA NEGADA", origem: "RENOVAÇÃO",
+      porque: "Renovação com pagamento negado. Bot atende por padrão — Comercial não tem histórico relevante (9 leads no período). Provavelmente é problema de cartão; bot resolve a troca de método sem fricção.",
+      ia:  { produtos: ["todos os produtos"], nota: "1,6% conv. Volume baixo e estável — bot mantém o fluxo sem ocupar vendedor." },
+      com: { produtos: [], nota: "" },
+    },
+    {
+      tipo: "OPORTUNIDADE DE VENDA", origem: "RENOVAÇÃO",
+      porque: "Assinante ativo com potencial de upgrade ou renovação antecipada. É o segmento de maior R$/lead de toda a base, com picos absurdos em PIX/Boleto expirado. Assinante já tem vínculo com o produto — vendedor usa isso para fechar upgrade. Bot não tem essa leverage.",
+      ia:  { produtos: [], nota: "" },
+      com: { produtos: ["todos — prioridade máxima 🔴"], nota: "PIX Expirado CDL: R$838/lead · 63% conv. PIX Expirado ebooks: R$917/lead · 85% conv. SLA <2h obrigatório — PIX expira." },
+    },
+  ];
+
+  const tipoMap = {};
+  (D.por_tipo || []).forEach(t => { tipoMap[`${t.tipo}|${t.origem}`] = t; });
+
+  const fmt1 = v => v != null ? v.toLocaleString("pt-BR",{minimumFractionDigits:1,maximumFractionDigits:1}) : "—";
+  const fmtR = v => v ? "R$" + Math.round(v).toLocaleString("pt-BR") : "—";
+
+  let comboHtml = "";
+  COMBOS.forEach(cfg => {
+    const t   = tipoMap[`${cfg.tipo}|${cfg.origem}`] || {};
+    const ia  = t.ia        || {};
+    const com = t.comercial || {};
+    const hasIA  = cfg.ia.produtos.length  > 0;
+    const hasCom = cfg.com.produtos.length > 0;
+
+    const iaSide = hasIA ? `
+      <div class="combo-ia-side">
+        <span class="combo-canal-lbl ia">🤖 IA — Lambda</span>
+        <ul>${cfg.ia.produtos.map(p => `<li>${p}</li>`).join("")}</ul>
+        ${cfg.ia.nota ? `<p class="combo-side-nota">${cfg.ia.nota}</p>` : ""}
+      </div>` : "";
+
+    const comSide = hasCom ? `
+      <div class="combo-com-side">
+        <span class="combo-canal-lbl com">👤 Comercial</span>
+        <ul>${cfg.com.produtos.map(p => `<li>${p}</li>`).join("")}</ul>
+        ${cfg.com.nota ? `<p class="combo-side-nota">${cfg.com.nota}</p>` : ""}
+      </div>` : "";
+
+    const splitCls = (!hasIA || !hasCom) ? "one-col" : "";
+    const comPerf  = com.leads ? `${fmt1(com.pct)}% · ${fmtR(com.rpl)}/lead` : "sem volume";
+
+    comboHtml += `
+      <div class="combo-card">
+        <div class="combo-header">
+          <div class="combo-labels">
+            <span class="combo-tipo-badge">${cfg.tipo.charAt(0)+cfg.tipo.slice(1).toLowerCase()}</span>
+            <span class="combo-orig-badge">${cfg.origem.charAt(0)+cfg.origem.slice(1).toLowerCase()}</span>
+          </div>
+          <div class="combo-perf">
+            <span class="cp-ia">IA: ${fmt1(ia.pct)}% · ${fmtR(ia.rpl)}/lead</span>
+            <span class="cp-sep">vs</span>
+            <span class="cp-com">COM: ${comPerf}</span>
+          </div>
+        </div>
+        <p class="combo-porque">${cfg.porque}</p>
+        <div class="combo-split ${splitCls}">${iaSide}${comSide}</div>
+      </div>`;
   });
-  document.getElementById("hhBody").innerHTML = hhHtml;
+  document.getElementById("comboCards").innerHTML = comboHtml;
 
   document.getElementById("sqlResumo").textContent =
 `-- Resumo por canal: IA vs Comercial com abordagem
