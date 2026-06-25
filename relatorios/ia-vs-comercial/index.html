@@ -746,43 +746,43 @@ ORDER BY canal, tipo_hotlead, origem, qt_leads DESC`;
     {
       tipo: "ABANDONO DE CARRINHO", origem: "NOVA COMPRA",
       porque: "Lead chegou ao checkout, colocou produtos no carrinho e não finalizou. Intenção de compra declarada — o bot fecha bem por ser rápido e direto. A exceção esperada (CDL, ticket R$1.300) não aconteceu: a IA já converte mais que o Comercial nesse produto.",
-      nota: "IA supera o Comercial em todos os produtos com volume relevante: supporter (+88%), good (+42%), best (+33%), ebooks (+23%), CDL (+8%). Intenção de compra declarada — o bot fecha sem fricção independente do ticket.",
+      nota: "IA supera o Comercial em todos os produtos: Apoiador (+21%), BP Essencial (+64%), CDL (+8%). BP Premium é empate estatístico (IA R$45 vs COM R$47) — roteado para IA porque a IA não cobra comissão.",
       overrides: {},
       default_routing: "ia",
     },
     {
       tipo: "COMPRA NEGADA", origem: "NOVA COMPRA",
-      porque: "Pagamento rejeitado pelo gateway. Na maioria dos casos é troca de método de pagamento (cartão → PIX) — fluxo automático resolve sem humano. Exceções: CDL e best têm margem para negociação ativa que o bot não consegue fazer.",
-      nota: "CDL: COM R$136 vs IA R$110 (+24%). Best: COM R$98 vs IA R$55 (+78%). Good: COM R$22 vs IA R$18 (+21%) — ticket maior sugere upsell. Combo-religioso: COM R$35 vs IA R$8 (+349%).",
-      overrides: { "clube-do-livro": "com", "best": "com", "ebooks": "com", "good": "com", "combo-religioso": "com" },
+      porque: "Pagamento rejeitado pelo gateway. Na maioria dos casos é troca de método de pagamento (cartão → PIX) — fluxo automático resolve sem humano. Exceção: CDL e BP Premium têm margem para negociação ativa de valor.",
+      nota: "CDL: COM R$133 vs IA R$104 (+28%). BP Premium: COM R$89 vs IA R$49 (+81%). Para Apoiador e BP Essencial, IA empata ou ganha — bot resolve sem fricção.",
+      overrides: { "clube-do-livro": "com", "bp-premium": "com" },
       default_routing: "ia",
     },
     {
       tipo: "OPORTUNIDADE DE VENDA", origem: "NOVA COMPRA",
       porque: "Lead qualificado que não chegou ao checkout. Conv% baixa nos dois canais (~4%). A decisão de roteamento não é sobre conv% — é sobre ticket: o mesmo esforço de abordagem gera retornos muito diferentes dependendo do produto.",
-      nota: "COM domina produtos de ticket alto: black R$370, better R$149, best R$131, ebooks R$90, CDL R$46/lead. Combo-religioso: COM R$19 vs IA R$12. IA ganha em supporter, good, extensão — volume alto mas ticket baixo.",
-      overrides: { "clube-do-livro": "com", "ebooks": "com", "best": "com", "combo-religioso": "com", "better": "com", "black": "com" },
+      nota: "COM domina produtos de ticket alto: Black R$339, BP Intermediário R$141, BP Premium R$85, CDL R$60. IA ganha em Apoiador (R$14 vs R$13) e BP Essencial (R$16 vs R$13) — volume alto mas ticket baixo.",
+      overrides: { "clube-do-livro": "com", "bp-premium": "com", "bp-intermediario": "com", "black": "com", "teller": "com" },
       default_routing: "ia",
     },
     {
       tipo: "ABANDONO DE CARRINHO", origem: "RENOVAÇÃO",
-      porque: "Assinante tentou renovar e não finalizou. Resultado mais claro da análise: IA converte 4× mais que o Comercial nesse segmento. Hipótese: renovante já conhece o produto, só precisa de um lembrete — bot é suficiente e menos intrusivo que ligação de vendedor.",
-      nota: "11,7% conv na IA vs 2,8% no COM. R$/lead da IA 3× maior (R$35 vs R$12). Mandar para Comercial piora o resultado.",
+      porque: "Assinante tentou renovar e não finalizou. Resultado mais claro da análise: IA converte e o Comercial não. Renovante já conhece o produto — bot é suficiente e menos intrusivo que ligação de vendedor.",
+      nota: "IA 6% conv vs COM 0%. Mandar para Comercial piora o resultado.",
       overrides: {},
       default_routing: "ia",
     },
     {
       tipo: "COMPRA NEGADA", origem: "RENOVAÇÃO",
-      porque: "Renovação com pagamento negado. Bot atende por padrão — Comercial não tem histórico relevante (9 leads no período). Provavelmente é problema de cartão; bot resolve a troca de método sem fricção.",
-      nota: "1,6% conv. Volume baixo e estável — bot mantém o fluxo sem ocupar vendedor.",
+      porque: "Renovação com pagamento negado. Bot resolve a troca de método sem fricção — Comercial não tem volume relevante nesse segmento.",
+      nota: "IA 1–3% conv. Comercial sem dados representativos. Bot mantém o fluxo sem ocupar vendedor.",
       overrides: {},
       default_routing: "ia",
     },
     {
       tipo: "OPORTUNIDADE DE VENDA", origem: "RENOVAÇÃO",
-      porque: "Assinante ativo com potencial de upgrade ou renovação antecipada. É o segmento de maior R$/lead de toda a base, com picos absurdos em PIX/Boleto expirado. Assinante já tem vínculo com o produto — vendedor usa isso para fechar upgrade. Bot não tem essa leverage.",
-      nota: "PIX Expirado CDL: R$838/lead · 63% conv. PIX Expirado ebooks: R$917/lead · 85% conv. SLA &lt;2h obrigatório — PIX expira.",
-      overrides: {},
+      porque: "Assinante ativo com potencial de upgrade ou renovação antecipada. Assinante já tem vínculo com o produto — vendedor usa isso para fechar upgrade. Única exceção: Apoiador, onde a IA tem leve vantagem de R$/lead.",
+      nota: "COM domina BP Essencial, BP Premium, BP Intermediário, Teller. Apoiador é exceção: IA R$5 vs COM R$4 — volume pequeno, diferença marginal.",
+      overrides: { "apoiador": "ia" },
       default_routing: "com",
     },
   ];
@@ -807,24 +807,23 @@ ORDER BY canal, tipo_hotlead, origem, qt_leads DESC`;
     arr.sort((a, b) => (b.ia.leads + b.comercial.leads) - (a.ia.leads + a.comercial.leads))
   );
 
-  // Encurtar nomes de produto longos
-  function shortName(p) {
-    if (p.startsWith("ebooks"))           return "ebooks";
-    if (p.startsWith("extensao"))         return "extensão de assinatura";
-    if (p.startsWith("combo-religioso"))  return "combo-religioso";
-    if (p.startsWith("bp-economico"))     return "bp-econômico";
-    if (p.startsWith("bp-essencial"))     return "bp-essencial";
-    if (p.startsWith("apoiador"))         return "apoiador";
-    return p;
-  }
+  // Nome de exibição dos produtos canônicos
+  const PRODUTO_LABEL = {
+    'apoiador':         'Apoiador',
+    'bp-essencial':     'BP Essencial',
+    'bp-intermediario': 'BP Intermediário',
+    'bp-premium':       'BP Premium',
+    'black':            'Black',
+    'clube-do-livro':   'Clube do Livro',
+    'teller':           'Teller',
+    'mecenas':          'Mecenas',
+    'desconhecido':     'Desconhecido',
+  };
+  function shortName(p) { return PRODUTO_LABEL[p] || p; }
 
-  // Roteamento: override por prefixo de produto, senão default do combo
+  // Roteamento: override por nome canônico exato, senão default do combo
   function getRouting(produto, cfg) {
-    const p = produto.toLowerCase();
-    for (const [k, v] of Object.entries(cfg.overrides)) {
-      if (p.startsWith(k)) return v;
-    }
-    return cfg.default_routing;
+    return cfg.overrides[produto.toLowerCase()] || cfg.default_routing;
   }
 
   let comboHtml = "";
