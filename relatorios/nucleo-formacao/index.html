@@ -62,7 +62,11 @@
     .hrs-cert  { color: #7c3aed; }
     .hrs-curso { color: #0891b2; }
     .hrs-total { color: #1a202c; font-weight: 600; }
-    .interesses-cell { max-width: 280px; overflow: hidden; text-overflow: ellipsis; color: #64748b; font-size: 0.75rem; }
+    .interesses-cell { max-width: 320px; white-space: normal; vertical-align: top; padding-top: 10px !important; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; background: #f1f5f9; color: #475569; white-space: nowrap; line-height: 1.5; }
+    .tag-more { background: #e2e8f0; color: #64748b; cursor: pointer; font-weight: 600; }
+    .tag-more:hover { background: #cbd5e0; }
     .pagination { display: flex; justify-content: center; gap: 8px; padding: 16px; }
     .pagination button { padding: 5px 12px; border: 1px solid #e2e8f0; border-radius: 5px; font-size: 0.8rem; cursor: pointer; background: #fff; }
     .pagination button.active { background: #3b82f6; color: #fff; border-color: #3b82f6; }
@@ -115,12 +119,24 @@
     <div class="filters">
       <label>Ordenar por:</label>
       <select id="sortCol">
-        <option value="total_geral">Total geral</option>
-        <option value="total_30d">Últimos 30d</option>
-        <option value="total_90d">Últimos 90d</option>
-        <option value="total_360d">Últimos 360d</option>
-        <option value="cert_total">Certificações (total)</option>
-        <option value="curso_total">Cursos (total)</option>
+        <optgroup label="Total Núcleo de Formação">
+          <option value="total_geral">Total — histórico</option>
+          <option value="total_360d">Total — 360 dias</option>
+          <option value="total_90d">Total — 90 dias</option>
+          <option value="total_30d">Total — 30 dias</option>
+        </optgroup>
+        <optgroup label="Certificações">
+          <option value="cert_total">Cert — histórico</option>
+          <option value="cert_360d">Cert — 360 dias</option>
+          <option value="cert_90d">Cert — 90 dias</option>
+          <option value="cert_30d">Cert — 30 dias</option>
+        </optgroup>
+        <optgroup label="Cursos">
+          <option value="curso_total">Curso — histórico</option>
+          <option value="curso_360d">Curso — 360 dias</option>
+          <option value="curso_90d">Curso — 90 dias</option>
+          <option value="curso_30d">Curso — 30 dias</option>
+        </optgroup>
       </select>
       <label>Filtrar:</label>
       <input type="text" id="search" placeholder="nome ou email..." style="width:200px" />
@@ -342,7 +358,7 @@ function renderTable() {
       <td class="hrs">${hrs(u.total_90d)}</td>
       <td class="hrs">${hrs(u.total_360d)}</td>
       <td class="hrs hrs-total">${hrs(u.total_geral)}</td>
-      <td class="interesses-cell" title="${u.interesses}">${u.interesses}</td>
+      <td class="interesses-cell">${renderInteresses(u.interesses)}</td>
     </tr>`;
   }).join('');
 
@@ -365,6 +381,23 @@ function renderTable() {
 }
 
 function goPage(p) { page = p; renderTable(); window.scrollTo(0, document.getElementById('mainTable').offsetTop - 80); }
+
+function renderInteresses(str) {
+  if (!str) return '<span style="color:#cbd5e0">—</span>';
+  const tags = str.split(',').map(s => s.trim()).filter(Boolean);
+  const MAX = 5;
+  const shown = tags.slice(0, MAX);
+  const rest  = tags.length - MAX;
+  const safeAll = str.replace(/'/g, '&#39;');
+  let html = '<div class="tag-list">' + shown.map(t => `<span class="tag">${t}</span>`).join('');
+  if (rest > 0) html += `<span class="tag tag-more" onclick="expandTags(this,'${safeAll}')">+${rest} mais</span>`;
+  return html + '</div>';
+}
+
+function expandTags(el, str) {
+  const tags = str.replace(/&#39;/g, "'").split(',').map(s => s.trim()).filter(Boolean);
+  el.closest('.tag-list').innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join('');
+}
 </script>
 </body>
 </html>
