@@ -1,14 +1,16 @@
 {
   "generated_at": "2026-06-25",
   "stats": {
-    "total_usuarios": 500,
-    "total_hrs": 125241,
-    "cert_hrs": 16240,
-    "curso_hrs": 109002,
-    "ativo_30d": 113,
-    "ativo_90d": 192,
-    "ativo_360d": 326,
-    "media_hrs": 250.5
+    "total_usuarios": 181253,
+    "total_hrs": 1338728,
+    "cert_hrs": 214523,
+    "curso_hrs": 1124205,
+    "ativo_30d": 4584,
+    "ativo_90d": 12458,
+    "ativo_360d": 53830,
+    "media_hrs": 7.4,
+    "top500_hrs": 125241,
+    "top500_usuarios": 500
   },
   "top_users": [
     {
@@ -9515,63 +9517,63 @@
   "top_interesses": [
     {
       "playlist": "12 Regras para a Vida",
-      "usuarios": 408
+      "usuarios": 34833
     },
     {
-      "playlist": "As Revoluções do Século XVIII",
-      "usuarios": 316
-    },
-    {
-      "playlist": "A Virtude da Prudência",
-      "usuarios": 311
-    },
-    {
-      "playlist": "As Formas de Governo na História",
-      "usuarios": 299
+      "playlist": "Vida de Cristo",
+      "usuarios": 33072
     },
     {
       "playlist": "Gramática Normativa da Língua Portuguesa",
-      "usuarios": 296
+      "usuarios": 23421
     },
     {
-      "playlist": "Introdução ao Simbolismo",
-      "usuarios": 283
-    },
-    {
-      "playlist": "A Formação do Homem Moderno e Contemporâneo",
-      "usuarios": 282
+      "playlist": "O Essencial para Estudar Bem",
+      "usuarios": 21894
     },
     {
       "playlist": "A História do Feminismo",
-      "usuarios": 279
+      "usuarios": 16037
     },
     {
-      "playlist": "Crise da Cultura",
-      "usuarios": 274
-    },
-    {
-      "playlist": "As Origens do Estado",
-      "usuarios": 273
-    },
-    {
-      "playlist": "Formação da Personalidade",
-      "usuarios": 262
-    },
-    {
-      "playlist": "As Ideias que Sabotam a América Latina",
-      "usuarios": 248
-    },
-    {
-      "playlist": "A Educação Literária",
-      "usuarios": 245
-    },
-    {
-      "playlist": "A personalidade em três pessoas",
-      "usuarios": 238
+      "playlist": "Oratória à Prova de Conflito",
+      "usuarios": 15833
     },
     {
       "playlist": "Entre Anjos e Demônios",
-      "usuarios": 231
+      "usuarios": 15275
+    },
+    {
+      "playlist": "Platão e Voegelin: Filosofia e Cosmovisão",
+      "usuarios": 13985
+    },
+    {
+      "playlist": "Introdução à Vida Intelectual",
+      "usuarios": 13966
+    },
+    {
+      "playlist": "Uma Breve História da Rússia",
+      "usuarios": 13499
+    },
+    {
+      "playlist": "Introdução ao Simbolismo",
+      "usuarios": 12885
+    },
+    {
+      "playlist": "Vícios e Compulsões do dia a dia",
+      "usuarios": 12630
+    },
+    {
+      "playlist": "Formação da Personalidade",
+      "usuarios": 11882
+    },
+    {
+      "playlist": "Desconstruindo Paulo Freire",
+      "usuarios": 11743
+    },
+    {
+      "playlist": "Ideologias Políticas: As Diferentes Correntes",
+      "usuarios": 11410
     }
   ]
 }

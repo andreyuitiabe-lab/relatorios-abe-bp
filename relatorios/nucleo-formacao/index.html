@@ -195,18 +195,18 @@ fetch('./data.json')
 function initCharts(D) {
   const s = D.stats;
   document.getElementById('subtitle').textContent =
-    `Gerado em ${D.generated_at} · Top ${s.total_usuarios} usuários · Sessões ≥ 5 min · bl_is_part_of_big_session = false`;
+    `Gerado em ${D.generated_at} · ${s.total_usuarios.toLocaleString('pt-BR')} usuários totais · Tabela: top ${s.top500_usuarios} por horas`;
 
   // KPIs
   const kpis = [
-    { label: 'Usuários (top 500)', value: s.total_usuarios.toLocaleString('pt-BR'), sub: 'histórico completo', cls: '' },
-    { label: 'Horas consumidas', value: (s.total_hrs/1000).toFixed(1)+'k', sub: 'núcleo de formação', cls: 'accent' },
-    { label: 'Horas em certificações', value: (s.cert_hrs/1000).toFixed(1)+'k', sub: `${(s.cert_hrs/s.total_hrs*100).toFixed(0)}% do total`, cls: '' },
-    { label: 'Horas em cursos', value: (s.curso_hrs/1000).toFixed(1)+'k', sub: `${(s.curso_hrs/s.total_hrs*100).toFixed(0)}% do total`, cls: '' },
-    { label: 'Ativos últimos 30d', value: s.ativo_30d, sub: `${(s.ativo_30d/s.total_usuarios*100).toFixed(0)}% da lista`, cls: 'green' },
-    { label: 'Ativos últimos 90d', value: s.ativo_90d, sub: `${(s.ativo_90d/s.total_usuarios*100).toFixed(0)}% da lista`, cls: 'green' },
-    { label: 'Ativos últimos 360d', value: s.ativo_360d, sub: `${(s.ativo_360d/s.total_usuarios*100).toFixed(0)}% da lista`, cls: 'amber' },
-    { label: 'Média horas/usuário', value: s.media_hrs.toFixed(0)+'h', sub: 'histórico completo', cls: '' },
+    { label: 'Usuários únicos', value: s.total_usuarios.toLocaleString('pt-BR'), sub: 'consumiram cert ou curso', cls: '' },
+    { label: 'Horas consumidas', value: (s.total_hrs/1000).toFixed(0)+'k', sub: 'núcleo de formação — total', cls: 'accent' },
+    { label: 'Horas em certificações', value: (s.cert_hrs/1000).toFixed(0)+'k', sub: `${(s.cert_hrs/s.total_hrs*100).toFixed(0)}% do total`, cls: '' },
+    { label: 'Horas em cursos', value: (s.curso_hrs/1000).toFixed(0)+'k', sub: `${(s.curso_hrs/s.total_hrs*100).toFixed(0)}% do total`, cls: '' },
+    { label: 'Ativos últimos 30d', value: s.ativo_30d.toLocaleString('pt-BR'), sub: `${(s.ativo_30d/s.total_usuarios*100).toFixed(1)}% da base`, cls: 'green' },
+    { label: 'Ativos últimos 90d', value: s.ativo_90d.toLocaleString('pt-BR'), sub: `${(s.ativo_90d/s.total_usuarios*100).toFixed(1)}% da base`, cls: 'green' },
+    { label: 'Ativos últimos 360d', value: s.ativo_360d.toLocaleString('pt-BR'), sub: `${(s.ativo_360d/s.total_usuarios*100).toFixed(1)}% da base`, cls: 'amber' },
+    { label: 'Média horas/usuário', value: s.media_hrs.toFixed(1)+'h', sub: 'histórico completo', cls: '' },
   ];
   document.getElementById('kpi-grid').innerHTML = kpis.map(k =>
     `<div class="kpi ${k.cls}">
