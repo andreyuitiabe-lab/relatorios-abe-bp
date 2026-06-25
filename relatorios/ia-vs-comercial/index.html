@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IA vs Comercial — Hotleads</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     :root {
       --bg:     #f8fafc;
@@ -249,170 +248,91 @@
 
 <main>
 
-<nav class="tab-nav">
-  <button class="tab-btn active" data-tab="tab-analise">📊 Análise de Performance</button>
-  <button class="tab-btn" data-tab="tab-roteamento">🗺️ Roteamento Estratégico</button>
-</nav>
-
-<div id="tab-analise" class="tab-content active">
-
-<!-- CONTEXTO -->
-<section>
-  <div class="contexto-box">
-    <div class="contexto-item">
-      <span class="contexto-titulo">Experimento</span>
-      Comparação entre o bot Lambda (IA) e o time Comercial no atendimento de hotleads em junho/2026. Os leads são gerados automaticamente no checkout e distribuídos para cada canal.
-    </div>
-    <div class="contexto-item">
-      <span class="contexto-titulo">IA (Lambda)</span>
-      Stage <code>10. AWSALES LISTA</code> — bot aborda 100% dos leads recebidos. Vendedor: <code>gustavo.koetz@</code>
-    </div>
-    <div class="contexto-item">
-      <span class="contexto-titulo">Comercial</span>
-      Qualquer outro stage — contado <strong>apenas quando houve mensagem</strong> (<code>dt_first_message IS NOT NULL</code>). Leads sem contato estão excluídos.
-    </div>
-    <div class="contexto-item">
-      <span class="contexto-titulo">Conversão</span>
-      <code>id_transaction IS NOT NULL</code> — transação aprovada vinculada ao deal do Pipedrive.
-    </div>
-  </div>
-</section>
-
-<!-- KPIs -->
-<section>
-  <h2>Resultado Geral — <span id="labelPeriodo"></span></h2>
-  <div class="res2" id="resumo2"></div>
-
-  <!-- Insight strip -->
-  <div class="insight-strip" id="insightStrip"></div>
-</section>
-
-<!-- GRÁFICOS -->
-<section>
-  <h2>Desempenho por Tipo de Hotlead</h2>
-  <p class="sub" style="margin-bottom:16px">Leia os dois gráficos juntos: conv% alta com R$/lead baixo indica produto de ticket menor, não ineficiência.</p>
-  <div class="grid-2">
-    <div class="card">
-      <p class="label">Taxa de Conversão (%)</p>
-      <canvas id="chartConv" height="320"></canvas>
-      <p class="chart-note" id="noteConv"></p>
-    </div>
-    <div class="card">
-      <p class="label">Receita por Lead (R$)</p>
-      <canvas id="chartRpl" height="320"></canvas>
-      <p class="chart-note" id="noteRpl"></p>
-    </div>
-  </div>
-</section>
-
-<!-- MATRIZ (big picture primeiro) -->
-<section>
-  <h2>Matriz — Tipo · Produto · IA vs Comercial</h2>
-  <p class="sub" style="margin-bottom:8px">
-    Comparação direta por segmento. <strong>IA</strong> = todos os leads recebidos ·
-    <strong>Comercial</strong> = apenas leads com contato do vendedor · Mín. 20 leads por linha.
-  </p>
-  <div class="card" style="padding:0">
-    <div class="table-wrap">
-      <table id="tabelaMatriz">
-        <thead>
-          <tr>
-            <th rowspan="2" style="min-width:90px">Origem</th>
-            <th rowspan="2" style="min-width:160px">Tipo</th>
-            <th rowspan="2" style="min-width:180px">Produto</th>
-            <th colspan="6" style="text-align:center;background:#dbeafe;color:#1d4ed8;border-left:2px solid #93c5fd">IA (todos os leads)</th>
-            <th colspan="6" style="text-align:center;background:#d1fae5;color:#065f46;border-left:2px solid #6ee7b7">Comercial (abordados)</th>
-          </tr>
-          <tr>
-            <th class="num" style="border-left:2px solid #93c5fd">Leads</th>
-            <th class="num">Vendas</th>
-            <th class="num">Receita</th>
-            <th class="num">Ticket</th>
-            <th class="num">Conv%</th>
-            <th class="num">R$/Lead</th>
-            <th class="num" style="border-left:2px solid #6ee7b7">Abordados</th>
-            <th class="num">Vendas</th>
-            <th class="num">Receita</th>
-            <th class="num">Ticket</th>
-            <th class="num">Conv%</th>
-            <th class="num">R$/Lead</th>
-          </tr>
-        </thead>
-        <tbody id="matrizBody"></tbody>
-      </table>
-    </div>
-  </div>
-  <div class="nota" style="margin-top:12px">
-    Verde = Conv% ≥ 10% · Azul ≥ 4% · Cinza > 0% · Vermelho = 0% — use as cores para identificar rapidamente os segmentos quentes.
-  </div>
-</section>
-
-<!-- TABELA DETALHADA (detalhe, depois do panorama) -->
-<section>
-  <h2>Detalhamento por Canal e Produto</h2>
-  <p class="sub" style="margin-bottom:16px">Cada linha é um canal × produto × tipo. Ordenado por receita gerada. Mínimo 20 leads.</p>
-  <div class="card">
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Canal</th>
-            <th>Tipo</th>
-            <th>Origem</th>
-            <th>Produto</th>
-            <th class="num">Leads</th>
-            <th class="num">Conv.</th>
-            <th class="num">Conv%</th>
-            <th class="num">Ticket</th>
-            <th class="num">Receita</th>
-            <th class="num">R$/Lead</th>
-          </tr>
-        </thead>
-        <tbody id="tabelaDetalhada"></tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- SQL (metadado, não análise) -->
-<section>
-  <details>
-    <summary>🔍 Queries de referência (BigQuery)</summary>
-    <div style="margin-top:12px">
-      <details style="border-radius:0;border-top:none">
-        <summary>Resumo por canal</summary>
-        <div class="sql-block"><pre id="sqlResumo"></pre></div>
-      </details>
-      <details style="border-radius:0;border-top:none;margin-top:4px">
-        <summary>Detalhamento por produto</summary>
-        <div class="sql-block"><pre id="sqlDetalhado"></pre></div>
-      </details>
-    </div>
-  </details>
-</section>
-
-</div><!-- /tab-analise -->
-
-<div id="tab-roteamento" class="tab-content">
+<div id="tab-roteamento">
 
 <!-- 5. Roteamento Estratégico -->
 <section id="roteamento">
   <h2>Matriz de Roteamento Estratégico</h2>
 
   <div class="alert-box alert-violet">
-    <strong>Premissa estratégica:</strong> Em empate técnico, o lead vai para a IA. O custo de oportunidade do tempo humano justifica concentrar o Comercial em alto ticket — especialmente Renovação PIX/Boleto (R$589–917/lead).
+    <strong>Premissa estratégica:</strong> Em empate técnico, o lead vai para a IA. O custo de oportunidade do tempo humano justifica concentrar o Comercial em alto ticket — especialmente Renovação OV e PIX/Boleto urgente.
   </div>
 
   <!-- Diagnóstico -->
-  <div class="card" style="border-left:4px solid var(--amber);margin-bottom:32px">
+  <div class="card" style="border-left:4px solid var(--amber);margin-bottom:24px">
     <p class="label">Diagnóstico — ilusão de produto, não de eficiência</p>
     <p style="font-size:13px;line-height:1.75">
-      A leitura superficial indica que Comercial gera <strong>R$34,91/lead</strong> vs <strong>R$18,04/lead</strong> da IA — uma diferença de 94%.
-      Esse gap é 100% explicado pelo mix de produto: Comercial trabalha CDL e ebooks (ticket médio R$795); IA trabalha supporter e good (ticket médio R$271).<br><br>
-      Nos cruzamentos <strong>head-to-head</strong> — mesmo produto nos dois canais — a IA empata ou supera o Comercial em 6 de 8 casos.
-      O caso mais surpreendente: <strong>CDL em Abandono de Carrinho</strong> — IA converte <strong>17,04%</strong> vs <strong>14,99%</strong> do Comercial, gerando <strong>R$221/lead</strong>.
-      Pela premissa estratégica, esse volume deve migrar integralmente para a IA.
+      A leitura superficial indica que Comercial gera <strong>R$36,28/lead</strong> vs <strong>R$17,77/lead</strong> da IA — uma diferença de 2×.
+      Esse gap é explicado pelo mix de produto: Comercial concentra Clube do Livro e Black (ticket médio R$805); IA concentra Apoiador e BP Essencial (ticket médio R$268).<br><br>
+      Nos cruzamentos <strong>head-to-head</strong> — mesmo produto nos dois canais — a IA empata ou supera o Comercial em Abandono de Carrinho (todos os produtos), CN para Apoiador e BP Essencial, e OV para Apoiador e BP Essencial.
+      O caso mais surpreendente: <strong>CDL em Abandono NC</strong> — IA converte <strong>16,9%</strong> vs <strong>14,4%</strong> do Comercial, gerando <strong>R$217/lead</strong>.
     </p>
+  </div>
+
+  <!-- Projeção de ganho -->
+  <div class="card" style="border-left:4px solid var(--blue);margin-bottom:32px">
+    <p class="label">Projeção de ganho — roteamento otimizado</p>
+    <p style="font-size:28px;font-weight:800;color:var(--blue);margin:8px 0">+R$45.293/mês</p>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:14px">
+      Receita adicional estimada se os leads COM nos segmentos onde a IA vence forem redirecionados para o bot.<br>
+      Premissa: IA alcança o mesmo R$/lead que já alcança em seus próprios leads nesses segmentos.
+    </p>
+    <table style="font-size:12px;width:100%;border-collapse:collapse">
+      <thead>
+        <tr style="border-bottom:2px solid #e2e8f0">
+          <th style="text-align:left;padding:5px 8px;font-weight:700">Segmento</th>
+          <th style="text-align:right;padding:5px 8px;font-weight:700">Leads COM</th>
+          <th style="text-align:right;padding:5px 8px;font-weight:700">COM R$/L</th>
+          <th style="text-align:right;padding:5px 8px;font-weight:700">IA R$/L</th>
+          <th style="text-align:right;padding:5px 8px;font-weight:700">Ganho</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #f1f5f9">
+          <td style="padding:5px 8px">Abandono NC · Clube do Livro</td>
+          <td style="text-align:right;padding:5px 8px">999</td>
+          <td style="text-align:right;padding:5px 8px">R$201</td>
+          <td style="text-align:right;padding:5px 8px;color:var(--blue);font-weight:600">R$217</td>
+          <td style="text-align:right;padding:5px 8px;font-weight:700">+R$16.094</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f1f5f9">
+          <td style="padding:5px 8px">Abandono NC · BP Essencial</td>
+          <td style="text-align:right;padding:5px 8px">1.346</td>
+          <td style="text-align:right;padding:5px 8px">R$14</td>
+          <td style="text-align:right;padding:5px 8px;color:var(--blue);font-weight:600">R$23</td>
+          <td style="text-align:right;padding:5px 8px;font-weight:700">+R$11.293</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f1f5f9">
+          <td style="padding:5px 8px">OV NC · BP Essencial</td>
+          <td style="text-align:right;padding:5px 8px">3.643</td>
+          <td style="text-align:right;padding:5px 8px">R$13</td>
+          <td style="text-align:right;padding:5px 8px;color:var(--blue);font-weight:600">R$16</td>
+          <td style="text-align:right;padding:5px 8px;font-weight:700">+R$10.893</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f1f5f9">
+          <td style="padding:5px 8px">OV NC · Apoiador</td>
+          <td style="text-align:right;padding:5px 8px">7.046</td>
+          <td style="text-align:right;padding:5px 8px">R$13</td>
+          <td style="text-align:right;padding:5px 8px;color:var(--blue);font-weight:600">R$14</td>
+          <td style="text-align:right;padding:5px 8px;font-weight:700">+R$4.862</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f1f5f9">
+          <td style="padding:5px 8px">Abandono NC · Apoiador</td>
+          <td style="text-align:right;padding:5px 8px">775</td>
+          <td style="text-align:right;padding:5px 8px">R$11</td>
+          <td style="text-align:right;padding:5px 8px;color:var(--blue);font-weight:600">R$14</td>
+          <td style="text-align:right;padding:5px 8px;font-weight:700">+R$2.077</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 8px;color:var(--muted)">CN NC · Apoiador e BP Essencial</td>
+          <td style="text-align:right;padding:5px 8px;color:var(--muted)">1.016</td>
+          <td style="text-align:right;padding:5px 8px;color:var(--muted)">≈R$14</td>
+          <td style="text-align:right;padding:5px 8px;color:var(--muted)">≈R$14</td>
+          <td style="text-align:right;padding:5px 8px;color:var(--muted)">+R$245</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:var(--soft);margin-top:10px">Base: junho/2026 · Ganho = (R$/lead IA − R$/lead COM) × leads COM no segmento · BP Premium e CDL CN/OV permanecem no Comercial</p>
   </div>
 
   <!-- Leitura por tipo × produto -->
@@ -427,24 +347,24 @@
     <div class="rota-card rota-ia">
       <span class="rota-label" style="color:var(--blue)">🤖 Caminho 1 — IA (Lambda)</span>
       <ul>
-        <li>Abandono e Compra Negada | Nova Compra<br><strong>supporter, good, combo, bp-econômico, bp-essencial</strong></li>
-        <li>Abandono | Nova Compra<br><strong>clube-do-livro</strong> ⭐ (IA já converte mais que COM)</li>
-        <li>OV | Nova Compra<br><strong>supporter, good, extensão de assinatura</strong></li>
-        <li>Abandono e Compra Negada | <strong>Renovação → todos</strong></li>
+        <li>Abandono NC | <strong>todos os produtos</strong><br><span style="font-size:11px;color:var(--muted)">incl. Clube do Livro — IA converte mais (16,9% vs 14,4%)</span></li>
+        <li>Compra Negada NC | <strong>Apoiador, BP Essencial</strong><br><span style="font-size:11px;color:var(--muted)">empate em R$/lead, IA sem comissão</span></li>
+        <li>OV NC | <strong>Apoiador, BP Essencial</strong><br><span style="font-size:11px;color:var(--muted)">R$/lead IA ≥ COM, alto volume</span></li>
+        <li>Abandono e Compra Negada | <strong>Renovação → todos</strong><br><span style="font-size:11px;color:var(--muted)">COM com 0% conv nesse segmento</span></li>
+        <li>OV Renovação | <strong>Apoiador</strong><br><span style="font-size:11px;color:var(--muted)">única exceção na Renovação</span></li>
       </ul>
-      <div class="rota-footer">~18.000 leads/mês · sem perda de receita · bot fecha tickets até ~R$1.300</div>
+      <div class="rota-footer">~18.000 leads/mês · sem perda de receita · +R$45k/mês de ganho projetado vs roteamento atual</div>
     </div>
 
     <div class="rota-card rota-com">
       <span class="rota-label" style="color:var(--green)">👤 Caminho 2 — Comercial</span>
       <ul>
-        <li>OV | Nova Compra<br><strong>clube-do-livro, ebooks, best</strong> (ticket >R$2k, consultivo)</li>
-        <li>Compra Negada | Nova Compra<br><strong>clube-do-livro, best</strong> (COM +24% R$/lead)</li>
-        <li>Abandono e CN | Nova Compra<br><strong>best</strong> (ticket R$2.770 — não entra no bot)</li>
-        <li><strong>OV | Renovação → todos</strong> (COM 5,9× R$/lead vs IA)</li>
-        <li><strong>PIX/Boleto Expirado | Renovação</strong> — CDL, ebooks 🔴 SLA &lt;2h</li>
+        <li>Compra Negada NC | <strong>Clube do Livro, BP Premium</strong><br><span style="font-size:11px;color:var(--muted)">COM +28% e +81% de R$/lead</span></li>
+        <li>OV NC | <strong>Clube do Livro, BP Premium, BP Intermediário, Black, Teller</strong><br><span style="font-size:11px;color:var(--muted)">ticket alto — consultivo humano converte melhor</span></li>
+        <li><strong>OV | Renovação → todos (exceto Apoiador)</strong><br><span style="font-size:11px;color:var(--muted)">assinante com vínculo — upgrade precisa de vendedor</span></li>
+        <li><strong>PIX/Boleto Expirado | Renovação</strong> 🔴 SLA &lt;2h</li>
       </ul>
-      <div class="rota-footer">~5–7k leads/mês · maior concentração de receita · R$589–917/lead na Renovação urgente</div>
+      <div class="rota-footer">~6–8k leads/mês · maior concentração de receita · foco em ticket alto e renovação urgente</div>
     </div>
 
   </div>
@@ -457,8 +377,9 @@
       <div class="steps-num">1</div>
       <p style="font-size:13px;font-weight:700;margin-bottom:6px">Roteamento por produto no CRM</p>
       <p style="font-size:12px;color:var(--muted);line-height:1.6">
-        Criar regra de distribuição de deals usando <code>nm_source_gateway_plan</code> + tipo do título do deal (gerado no checkout).
-        Apenas CDL OV, ebooks OV, best OV, CDL CN e Renovação PIX/Boleto → Comercial. Todo o resto → IA.
+        Criar regra de distribuição de deals usando <code>nm_source_gateway_plan</code> com mapeamento canônico.<br>
+        <strong>Comercial:</strong> CDL e BP Premium (CN e OV NC) · CDL, BP Premium, BP Intermediário, Black, Teller (OV NC) · OV Renovação (exceto Apoiador).<br>
+        <strong>IA:</strong> todo o resto — incluindo CDL em Abandono NC.
       </p>
       <div style="margin-top:10px;font-size:11px;color:var(--soft)">Esta semana</div>
     </div>
@@ -467,21 +388,21 @@
       <div class="steps-num">2</div>
       <p style="font-size:13px;font-weight:700;margin-bottom:6px">Fila prioritária "Renovação Urgente"</p>
       <p style="font-size:12px;color:var(--muted);line-height:1.6">
-        SLA &lt;2h para PIX Expirado/Boleto Expirado em CDL e ebooks.
+        SLA &lt;2h para PIX/Boleto Expirado em Clube do Livro e BP Premium.
         Alocar os 2–3 melhores closers exclusivamente nessa fila.
-        Cada hora de delay = menor probabilidade de o PIX ainda ser válido. R$589–917/lead vs R$18 na IA.
+        Cada hora de delay = menor probabilidade de o PIX ainda ser válido.
       </p>
       <div style="margin-top:10px;font-size:11px;color:var(--soft)">Esta semana</div>
     </div>
 
     <div class="steps-card">
       <div class="steps-num">3</div>
-      <p style="font-size:13px;font-weight:700;margin-bottom:6px">KPIs de calibragem semanal</p>
+      <p style="font-size:13px;font-weight:700;margin-bottom:6px">KPIs de calibragem mensal</p>
       <p style="font-size:12px;color:var(--muted);line-height:1.6">
-        Monitorar: R$/lead Comercial (meta &gt;R$60, base R$35), Conv% IA (manter ≥6,7%), Conv% Renovação PIX/Boleto (manter ≥50%).
+        Monitorar: R$/lead IA (base R$18, meta manter após roteamento), R$/lead Comercial (base R$36, meta manter com foco em alto ticket), Conv% Renovação PIX/Boleto (manter ≥50%).
         Revisar a matriz a cada lançamento de produto novo.
       </p>
-      <div style="margin-top:10px;font-size:11px;color:var(--soft)">Próximas 2 semanas</div>
+      <div style="margin-top:10px;font-size:11px;color:var(--soft)">Mensalmente</div>
     </div>
 
   </div>
@@ -504,242 +425,14 @@
 </div>
 
 <script>
-const FONT  = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
-const IA_C  = "#3b6ef5";
-const COM_C = "#16a34a";
-Chart.defaults.font.family = FONT;
-Chart.defaults.font.size   = 12;
-Chart.defaults.color       = "#6b7689";
-
-const brl    = v => !v ? "—" : "R$ " + v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
-const pctFmt = v => (v == null) ? "—" : v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}) + "%";
-const numFmt = v => v == null ? "—" : v.toLocaleString("pt-BR");
-
-const valueLabels = (fmt) => ({
-  id: "vl_" + Math.random(),
-  afterDatasetsDraw(c) {
-    const { ctx } = c; ctx.save();
-    c.data.datasets.forEach((ds, di) => {
-      const meta = c.getDatasetMeta(di);
-      if (meta.hidden) return;
-      meta.data.forEach((el, i) => {
-        const v = ds.data[i]; if (!v) return;
-        ctx.fillStyle = "#3a4254"; ctx.font = "600 10px " + FONT;
-        ctx.textAlign = "left"; ctx.textBaseline = "middle";
-        ctx.fillText(fmt(v), el.x + 6, el.y);
-      });
-    }); ctx.restore();
-  }
-});
 
 function initCharts(D) {
   document.getElementById("lastUpdate").textContent =
     "Dados de " + new Date(D.updated_at).toLocaleDateString("pt-BR");
   document.getElementById("subtitulo").textContent =
     "Abandono de Carrinho · Compra Negada · Oportunidade de Venda · " + D.periodo;
-  document.getElementById("labelPeriodo").textContent = D.periodo;
-
   const ia  = D.resumo["IA"]        || {};
   const com = D.resumo["Comercial"] || {};
-
-  document.getElementById("resumo2").innerHTML = `
-    <div class="res-card ia-card">
-      <div class="res-canal ia">IA (AWSALES LISTA)</div>
-      <div class="kpi-big"><div class="v ia">${pctFmt(ia.pct)}</div><div class="l">taxa de conversão</div></div>
-      <div class="kpi-grid2">
-        <div class="kpi2"><div class="v ia">${brl(ia.rpl)}</div><div class="l">R$/lead</div></div>
-        <div class="kpi2"><div class="v ia">${brl(ia.ticket)}</div><div class="l">ticket médio</div></div>
-        <div class="kpi2"><div class="v ia">${brl(ia.receita)}</div><div class="l">receita total</div></div>
-      </div>
-      <div style="display:flex;gap:16px;margin-top:14px">
-        <div><span style="font-size:14px;font-weight:700">${numFmt(ia.leads)}</span> <span style="font-size:11px;color:var(--muted)">leads</span></div>
-        <div><span style="font-size:14px;font-weight:700">${numFmt(ia.convertidos)}</span> <span style="font-size:11px;color:var(--muted)">convertidos</span></div>
-      </div>
-      <span class="badge neu">Supporter · Good · BP Essencial</span>
-    </div>
-
-    <div class="res-card com-card">
-      <div class="res-canal com">Comercial — com abordagem</div>
-      <div class="kpi-big"><div class="v com">${pctFmt(com.pct)}</div><div class="l">taxa de conversão</div></div>
-      <div class="kpi-grid2">
-        <div class="kpi2"><div class="v com">${brl(com.rpl)}</div><div class="l">R$/lead</div></div>
-        <div class="kpi2"><div class="v com">${brl(com.ticket)}</div><div class="l">ticket médio</div></div>
-        <div class="kpi2"><div class="v com">${brl(com.receita)}</div><div class="l">receita total</div></div>
-      </div>
-      <div style="display:flex;gap:16px;margin-top:14px">
-        <div><span style="font-size:14px;font-weight:700">${numFmt(com.leads)}</span> <span style="font-size:11px;color:var(--muted)">leads</span></div>
-        <div><span style="font-size:14px;font-weight:700">${numFmt(com.convertidos)}</span> <span style="font-size:11px;color:var(--muted)">convertidos</span></div>
-      </div>
-      <span class="badge up">${(com.rpl && ia.rpl ? (com.rpl/ia.rpl).toFixed(1) : "—")}× R$/lead vs IA · CDL · Mecenas · Black</span>
-    </div>`;
-
-  // Insight strip — 3 achados principais derivados dos dados
-  const ticketMult = com.ticket && ia.ticket ? (com.ticket / ia.ticket).toFixed(1) : "—";
-  const renovAbandIA  = D.por_tipo.find(t => t.tipo === "ABANDONO DE CARRINHO" && t.origem === "RENOVAÇÃO");
-  const renovOvCom    = D.por_tipo.find(t => t.tipo === "OPORTUNIDADE DE VENDA"  && t.origem === "RENOVAÇÃO");
-  const rplRenov = renovOvCom ? renovOvCom.comercial.rpl : 0;
-  document.getElementById("insightStrip").innerHTML = `
-    <div class="insight-card insight-blue">
-      <span class="i-label">Ilusão de produto</span>
-      <div class="i-num">${ticketMult}×</div>
-      <div class="i-desc">O ticket do Comercial é ${ticketMult}× maior que o da IA (R$${Math.round(com.ticket)} vs R$${Math.round(ia.ticket)}). O gap de R$/lead vem do mix de produto, não da eficiência de abordagem. Nos cruzamentos head-to-head, a IA empata ou vence em 6 de 8 casos.</div>
-    </div>
-    <div class="insight-card insight-amber">
-      <span class="i-label">IA domina renovação por abandono</span>
-      <div class="i-num">${renovAbandIA ? renovAbandIA.ia.pct.toFixed(1) + "%" : "—"}</div>
-      <div class="i-desc">Conv% da IA em Abandono de Carrinho (Renovação) vs ${renovAbandIA ? renovAbandIA.comercial.pct.toFixed(1) + "%" : "—"} do Comercial. A IA é ${renovAbandIA && renovAbandIA.comercial.pct ? (renovAbandIA.ia.pct / renovAbandIA.comercial.pct).toFixed(1) + "×" : "muito"} mais eficiente nesse segmento — o bot reengaja renovações sem fricção humana.</div>
-    </div>
-    <div class="insight-card insight-green">
-      <span class="i-label">Maior oportunidade: Renovação OV</span>
-      <div class="i-num">R$${rplRenov ? rplRenov.toFixed(0) : "—"}/lead</div>
-      <div class="i-desc">OV em Renovação tem o maior R$/lead do Comercial: ${(rplRenov / (ia.rpl || 1)).toFixed(1)}× acima da IA. Leads de assinantes com oportunidade de upgrade precisam de abordagem consultiva humana — não devem ir para o bot.</div>
-    </div>`;
-
-  // Gráficos
-  const labels  = D.por_tipo.map(t => t.label);
-  const iaConv  = D.por_tipo.map(t => t.ia.pct);
-  const comConv = D.por_tipo.map(t => t.comercial.pct);
-  const iaRpl   = D.por_tipo.map(t => t.ia.rpl);
-  const comRpl  = D.por_tipo.map(t => t.comercial.rpl);
-
-  const baseOpts = (maxVal) => ({
-    indexAxis: "y",
-    plugins: { legend: { position: "top", align: "start", labels: { boxWidth: 12, padding: 16 } } },
-    scales: {
-      x: { max: Math.ceil((maxVal || 1) * 1.3), grid: { color: "#f1f5f9" } },
-      y: { grid: { display: false }, ticks: { font: { size: 11 } } },
-    },
-    animation: { duration: 400 },
-  });
-
-  new Chart(document.getElementById("chartConv"), {
-    type: "bar",
-    data: { labels, datasets: [
-      { label: "IA",        data: iaConv,  backgroundColor: IA_C,  borderRadius: 4, barThickness: 14 },
-      { label: "Comercial", data: comConv, backgroundColor: COM_C, borderRadius: 4, barThickness: 14 },
-    ]},
-    options: { ...baseOpts(Math.max(...iaConv, ...comConv, 1)),
-      plugins: { ...baseOpts().plugins,
-        tooltip: { callbacks: { label: c => c.dataset.label + ": " + pctFmt(c.raw) } } } },
-    plugins: [valueLabels(v => v.toFixed(1).replace(".",",") + "%")],
-  });
-
-  new Chart(document.getElementById("chartRpl"), {
-    type: "bar",
-    data: { labels, datasets: [
-      { label: "IA",        data: iaRpl,  backgroundColor: IA_C,  borderRadius: 4, barThickness: 14 },
-      { label: "Comercial", data: comRpl, backgroundColor: COM_C, borderRadius: 4, barThickness: 14 },
-    ]},
-    options: { ...baseOpts(Math.max(...iaRpl, ...comRpl, 1)),
-      plugins: { ...baseOpts().plugins,
-        tooltip: { callbacks: { label: c => c.dataset.label + ": " + brl(c.raw) } } } },
-    plugins: [valueLabels(v => "R$" + v.toFixed(0))],
-  });
-
-  // Notas interpretativas dos gráficos
-  const iaWinsConv = D.por_tipo.filter(t => t.ia.pct > t.comercial.pct).length;
-  const totalTipos = D.por_tipo.filter(t => t.comercial.pct > 0).length;
-  document.getElementById("noteConv").innerHTML =
-    `A IA tem conversão maior em <strong>${iaWinsConv} de ${totalTipos} segmentos</strong> com Comercial ativo. `+
-    `Mesmo assim, conv% mais alta não significa mais receita quando o ticket é menor — veja o gráfico ao lado.`;
-  const comWinsRpl = D.por_tipo.filter(t => t.comercial.rpl > t.ia.rpl).length;
-  document.getElementById("noteRpl").innerHTML =
-    `Comercial gera mais R$/lead em <strong>${comWinsRpl} de ${D.por_tipo.length} segmentos</strong>, `+
-    `puxado por produtos de ticket alto (CDL, ebooks, best). `+
-    `Nos segmentos com produtos equivalentes, a diferença desaparece — veja a Matriz abaixo.`;
-
-  // Tabela detalhada — ordenada por receita desc (já vem assim do data.json)
-  let html = "";
-  D.por_produto.forEach(r => {
-    const canalTag = r.canal === "IA"
-      ? `<span class="tag t-ia">IA</span>`
-      : `<span class="tag t-com">Comercial</span>`;
-    const convCls = r.pct >= 10 ? "t-hi" : r.pct >= 4 ? "t-md" : r.pct > 0 ? "t-lo" : "t-zero";
-    html += `<tr>
-      <td>${canalTag}</td>
-      <td style="font-size:11px">${r.tipo.charAt(0)+r.tipo.slice(1).toLowerCase()}</td>
-      <td style="font-size:11px">${r.origem || "—"}</td>
-      <td>${r.produto}</td>
-      <td class="num">${numFmt(r.leads)}</td>
-      <td class="num">${numFmt(r.convertidos)}</td>
-      <td class="num"><span class="tag ${convCls}">${pctFmt(r.pct)}</span></td>
-      <td class="num">${brl(r.ticket)}</td>
-      <td class="num">${brl(r.receita)}</td>
-      <td class="num">${brl(r.rpl)}</td>
-    </tr>`;
-  });
-  document.getElementById("tabelaDetalhada").innerHTML = html;
-
-  // Matriz completa
-  const convCls = v => v >= 10 ? "c-hi" : v >= 4 ? "c-md" : v > 0 ? "c-lo" : "c-zero";
-  const mCell   = (v, fmt, cls="") => `<td class="num ${cls}">${v ? fmt(v) : "—"}</td>`;
-  const mPct    = v => v ? v.toLocaleString("pt-BR",{minimumFractionDigits:1,maximumFractionDigits:1}) + "%" : "—";
-  const mBrl    = v => v ? "R$" + v.toLocaleString("pt-BR",{minimumFractionDigits:0,maximumFractionDigits:0}) : "—";
-  const mBrlD   = v => v ? "R$" + v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}) : "—";
-
-  let matHtml = "", lastSep = "";
-  (D.por_matriz || []).forEach(r => {
-    const sep = `${r.origem}|${r.tipo}`;
-    if (sep !== lastSep) {
-      lastSep = sep;
-      matHtml += `<tr class="sep"><td colspan="15" style="font-size:10px">
-        ${r.origem || "—"} &nbsp;·&nbsp; ${r.tipo}
-      </td></tr>`;
-    }
-    const ia  = r.ia,  com = r.comercial;
-    matHtml += `<tr>
-      <td>${r.origem || "—"}</td>
-      <td>${r.tipo}</td>
-      <td>${r.produto}</td>
-      <td class="num bl">${numFmt(ia.leads)||"—"}</td>
-      <td class="num">${numFmt(ia.vendas)||"—"}</td>
-      <td class="num">${mBrl(ia.receita)}</td>
-      <td class="num">${mBrlD(ia.ticket)}</td>
-      <td class="num ${convCls(ia.pct_conv)}">${mPct(ia.pct_conv)}</td>
-      <td class="num">${mBrlD(ia.rpl)}</td>
-      <td class="num bl-g">${numFmt(com.leads)||"—"}</td>
-      <td class="num">${numFmt(com.vendas)||"—"}</td>
-      <td class="num">${mBrl(com.receita)}</td>
-      <td class="num">${mBrlD(com.ticket)}</td>
-      <td class="num ${convCls(com.pct_conv)}">${mPct(com.pct_conv)}</td>
-      <td class="num">${mBrlD(com.rpl)}</td>
-    </tr>`;
-  });
-  document.getElementById("matrizBody").innerHTML = matHtml;
-
-  // SQL
-  document.getElementById("sqlDetalhado").textContent =
-`-- Detalhamento por tipo | origem | produto de origem
--- Tipos: Abandono de Carrinho, Compra Negada, Oportunidade de Venda
--- Comercial = dt_first_message IS NOT NULL (qualquer stage exceto IA)
--- Periodo: ${D.periodo}
-
-SELECT
-  CASE nm_stage WHEN '10. AWSALES LISTA' THEN 'IA' ELSE 'Comercial' END AS canal,
-  SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(0)] AS tipo_hotlead,
-  SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(1)] AS origem,
-  COALESCE(nm_source_gateway_plan, 'desconhecido') AS produto_origem,
-  COUNT(*) AS qt_leads,
-  SUM(CASE WHEN id_transaction IS NOT NULL THEN 1 ELSE 0 END) AS qt_convertidos,
-  ROUND(SUM(CASE WHEN id_transaction IS NOT NULL THEN 1.0 ELSE 0 END)
-        / COUNT(*) * 100, 2) AS pct_conversao,
-  ROUND(AVG(CASE WHEN id_transaction IS NOT NULL
-            THEN vl_payment_gross ELSE NULL END), 2) AS ticket_medio,
-  ROUND(SUM(CASE WHEN id_transaction IS NOT NULL
-            THEN vl_payment_gross ELSE 0 END), 2) AS receita_total,
-  ROUND(SUM(CASE WHEN id_transaction IS NOT NULL
-            THEN vl_payment_gross ELSE 0 END) / COUNT(*), 2) AS receita_por_lead
-FROM \`bp-datawarehouse.datamart.dtm_seller_conversion_rate\`
-WHERE SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(0)]
-        IN ('OPORTUNIDADE DE VENDA','ABANDONO DE CARRINHO','COMPRA NEGADA')
-  AND DATE(dt_created_at) BETWEEN '2026-06-01' AND '2026-06-30'
-  AND (
-    nm_stage = '10. AWSALES LISTA'
-    OR (nm_stage != '10. AWSALES LISTA' AND dt_first_message IS NOT NULL)
-  )
-GROUP BY 1,2,3,4
-HAVING qt_leads >= 20
-ORDER BY canal, tipo_hotlead, origem, qt_leads DESC`;
 
   // Combo cards: tipo × produto com lógica de roteamento didática
   const COMBOS = [
@@ -897,41 +590,8 @@ ORDER BY canal, tipo_hotlead, origem, qt_leads DESC`;
   });
   document.getElementById("comboCards").innerHTML = comboHtml;
 
-  document.getElementById("sqlResumo").textContent =
-`-- Resumo por canal: IA vs Comercial com abordagem
-SELECT
-  CASE nm_stage WHEN '10. AWSALES LISTA' THEN 'IA' ELSE 'Comercial' END AS canal,
-  COUNT(*) AS qt_leads,
-  SUM(CASE WHEN id_transaction IS NOT NULL THEN 1 ELSE 0 END) AS qt_convertidos,
-  ROUND(SUM(CASE WHEN id_transaction IS NOT NULL THEN 1.0 ELSE 0 END)
-        / COUNT(*) * 100, 2) AS pct_conversao,
-  ROUND(AVG(CASE WHEN id_transaction IS NOT NULL
-            THEN vl_payment_gross ELSE NULL END), 2) AS ticket_medio,
-  ROUND(SUM(CASE WHEN id_transaction IS NOT NULL
-            THEN vl_payment_gross ELSE 0 END), 2) AS receita_total,
-  ROUND(SUM(CASE WHEN id_transaction IS NOT NULL
-            THEN vl_payment_gross ELSE 0 END) / COUNT(*), 2) AS receita_por_lead
-FROM \`bp-datawarehouse.datamart.dtm_seller_conversion_rate\`
-WHERE SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(0)]
-        IN ('OPORTUNIDADE DE VENDA','ABANDONO DE CARRINHO','COMPRA NEGADA')
-  AND DATE(dt_created_at) BETWEEN '2026-06-01' AND '2026-06-30'
-  AND (
-    nm_stage = '10. AWSALES LISTA'
-    OR (nm_stage != '10. AWSALES LISTA' AND dt_first_message IS NOT NULL)
-  )
-GROUP BY 1 ORDER BY 1`;
 }
 
-// Tabs
-document.querySelectorAll(".tab-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-    document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById(btn.dataset.tab).classList.add("active");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-});
 
 fetch("./data.json")
   .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
