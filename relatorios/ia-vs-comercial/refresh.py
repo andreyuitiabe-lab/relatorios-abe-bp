@@ -19,6 +19,32 @@ PERIODO_LABEL = "Junho 2026"
 
 TIPOS_PRINCIPAIS = "('OPORTUNIDADE DE VENDA','ABANDONO DE CARRINHO','COMPRA NEGADA')"
 
+# Mapeamento canônico: nm_source_gateway_plan → produto normalizado
+PRODUTO_CANONICAL = """
+  CASE
+    WHEN nm_source_gateway_plan LIKE 'supporter%'               THEN 'apoiador'
+    WHEN nm_source_gateway_plan LIKE 'apoiador%'                THEN 'apoiador'
+    WHEN nm_source_gateway_plan LIKE 'bp-economico%'            THEN 'apoiador'
+    WHEN nm_source_gateway_plan LIKE 'extensao-assinatura-supporter%' THEN 'apoiador'
+    WHEN nm_source_gateway_plan LIKE 'combo-religioso%'         THEN 'apoiador'
+    WHEN nm_source_gateway_plan LIKE 'guia-analises%'           THEN 'apoiador'
+    WHEN nm_source_gateway_plan LIKE 'good%'                    THEN 'bp-essencial'
+    WHEN nm_source_gateway_plan LIKE 'bp-essencial%'            THEN 'bp-essencial'
+    WHEN nm_source_gateway_plan LIKE 'extensao-assinatura-good%' THEN 'bp-essencial'
+    WHEN nm_source_gateway_plan LIKE 'combo-essencial-religioso%' THEN 'bp-essencial'
+    WHEN nm_source_gateway_plan LIKE 'better%'                  THEN 'bp-intermediario'
+    WHEN nm_source_gateway_plan LIKE 'best%'                    THEN 'bp-premium'
+    WHEN nm_source_gateway_plan LIKE 'extensao-assinatura-premium%' THEN 'bp-premium'
+    WHEN nm_source_gateway_plan LIKE 'black%'                   THEN 'black'
+    WHEN nm_source_gateway_plan LIKE 'clube-do-livro%'          THEN 'clube-do-livro'
+    WHEN nm_source_gateway_plan LIKE 'ebook%'                   THEN 'clube-do-livro'
+    WHEN nm_source_gateway_plan LIKE 'analises-clube-livro%'    THEN 'clube-do-livro'
+    WHEN nm_source_gateway_plan LIKE 'teller%'                  THEN 'teller'
+    WHEN nm_source_gateway_plan LIKE 'mecenas%'                 THEN 'mecenas'
+    ELSE COALESCE(nm_source_gateway_plan, 'desconhecido')
+  END
+"""
+
 # ─── BQ helper ───────────────────────────────────────────────────────────────
 def bq(sql: str, max_rows: int = 5000) -> list[dict]:
     r = subprocess.run(
@@ -87,7 +113,7 @@ SELECT
   CASE nm_stage WHEN '10. AWSALES LISTA' THEN 'IA' ELSE 'Comercial' END AS canal,
   SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(0)] AS tipo_hotlead,
   SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(1)] AS origem,
-  COALESCE(nm_source_gateway_plan, 'desconhecido') AS produto_origem,
+  {PRODUTO_CANONICAL} AS produto_origem,
   COUNT(*) AS qt_leads,
   SUM(CASE WHEN id_transaction IS NOT NULL THEN 1 ELSE 0 END) AS qt_convertidos,
   ROUND(SUM(CASE WHEN id_transaction IS NOT NULL THEN 1.0 ELSE 0 END) / COUNT(*) * 100, 2) AS pct_conversao,
@@ -112,7 +138,7 @@ SELECT
   CASE nm_stage WHEN '10. AWSALES LISTA' THEN 'IA' ELSE 'Comercial' END AS canal,
   SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(1)] AS origem,
   SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(0)] AS tipo_hotlead,
-  COALESCE(nm_source_gateway_plan, 'desconhecido') AS produto_origem,
+  {PRODUTO_CANONICAL} AS produto_origem,
   COUNT(*) AS qt_leads,
   SUM(CASE WHEN id_transaction IS NOT NULL THEN 1 ELSE 0 END) AS qt_vendas,
   ROUND(SUM(CASE WHEN id_transaction IS NOT NULL THEN vl_payment_gross ELSE 0 END), 2) AS receita_total,
