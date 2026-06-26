@@ -500,6 +500,15 @@ function initCharts(D) {
     arr.sort((a, b) => (b.ia.leads + b.comercial.leads) - (a.ia.leads + a.comercial.leads))
   );
 
+  // Upsell total por cenário (soma de todos os produtos do cenário)
+  const upsellByCombo = {};
+  (D.por_matriz || []).forEach(r => {
+    const k = `${r.tipo}|${r.origem}`;
+    if (!upsellByCombo[k]) upsellByCombo[k] = { ia: 0, com: 0 };
+    upsellByCombo[k].ia  += (r.upsell_ia  || {}).receita_upsell || 0;
+    upsellByCombo[k].com += (r.upsell_com || {}).receita_upsell || 0;
+  });
+
   // Nome de exibição dos produtos canônicos
   const PRODUTO_LABEL = {
     'apoiador':         'Apoiador',
@@ -524,7 +533,12 @@ function initCharts(D) {
     const t   = tipoMap[`${cfg.tipo}|${cfg.origem}`] || {};
     const ia  = t.ia        || {};
     const com = t.comercial || {};
-    const comPerf = com.leads ? `${fmt1(com.pct)}% · ${fmtR(com.rpl)}/lead` : "sem volume";
+    const upsellTotais  = upsellByCombo[`${cfg.tipo}|${cfg.origem}`] || { ia: 0, com: 0 };
+    const iaUpsellRpl   = ia.leads  ? upsellTotais.ia  / ia.leads  : 0;
+    const comUpsellRpl  = com.leads ? upsellTotais.com / com.leads : 0;
+    const comPerf = com.leads
+      ? `${fmt1(com.pct)}% · ${fmtR(com.rpl)}/lead${comUpsellRpl ? ` · +${fmtR(comUpsellRpl)} upsell/lead` : ""}`
+      : "sem volume";
 
     const rows = matrizByCombo[`${cfg.tipo}|${cfg.origem}`] || [];
     let tableHtml = "";
@@ -586,7 +600,7 @@ function initCharts(D) {
             <span class="combo-orig-badge">${cfg.origem.charAt(0)+cfg.origem.slice(1).toLowerCase()}</span>
           </div>
           <div class="combo-perf">
-            <span class="cp-ia">IA: ${fmt1(ia.pct)}% · ${fmtR(ia.rpl)}/lead</span>
+            <span class="cp-ia">IA: ${fmt1(ia.pct)}% · ${fmtR(ia.rpl)}/lead${iaUpsellRpl ? ` · +${fmtR(iaUpsellRpl)} upsell/lead` : ""}</span>
             <span class="cp-sep">vs</span>
             <span class="cp-com">COM: ${comPerf}</span>
           </div>
