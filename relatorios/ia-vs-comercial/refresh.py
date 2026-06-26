@@ -132,6 +132,57 @@ HAVING qt_leads >= 20
 ORDER BY canal, tipo_hotlead, origem, qt_leads DESC
 """
 
+# Upsell: transações aprovadas nos 7 dias após a venda inicial, atribuídas por canal
+# COM → mesmo vendedor na transação pós-venda
+# IA  → qualquer venda do canal Comercial para o mesmo cliente
+Q_UPSELL = f"""
+WITH deals AS (
+  SELECT
+    CASE WHEN nm_stage = '10. AWSALES LISTA' THEN 'IA' ELSE 'Comercial' END AS canal,
+    SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(1)] AS origem,
+    SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(0)] AS tipo_hotlead,
+    {PRODUTO_CANONICAL} AS produto,
+    id_pipedrive_deal,
+    id_gateway_customer,
+    id_transaction      AS id_venda_inicial,
+    nm_salesman_email   AS vendedor,
+    dt_ordered_at       AS dt_venda
+  FROM `bp-datawarehouse.datamart.dtm_seller_conversion_rate`
+  WHERE SPLIT(nm_hotlead_type, ' - ')[SAFE_OFFSET(0)] IN {TIPOS_PRINCIPAIS}
+    AND nm_hotlead_type IS NOT NULL
+    AND DATE(dt_created_at) BETWEEN '{PERIODO}' AND '{PERIODO_FIM}'
+    AND id_transaction IS NOT NULL
+    AND id_gateway_customer IS NOT NULL
+    AND (
+      nm_stage = '10. AWSALES LISTA'
+      OR (nm_stage != '10. AWSALES LISTA' AND dt_first_message IS NOT NULL)
+    )
+)
+SELECT
+  d.canal,
+  d.origem,
+  d.tipo_hotlead,
+  d.produto,
+  COUNT(DISTINCT d.id_pipedrive_deal)                                                         AS deals_won,
+  COUNT(DISTINCT CASE WHEN ft.id_transaction IS NOT NULL THEN d.id_pipedrive_deal END)        AS deals_com_upsell,
+  COUNT(ft.id_transaction)                                                                     AS qt_upsell,
+  ROUND(COALESCE(SUM(ft.vl_payment_gross), 0), 2)                                             AS receita_upsell
+FROM deals d
+LEFT JOIN `bp-datawarehouse.masterdata.fct_transactions` ft
+  ON  ft.id_gateway_customer = d.id_gateway_customer
+  AND ft.nm_status            = 'approved'
+  AND ft.dt_ordered_at        > d.dt_venda
+  AND ft.dt_ordered_at        <= DATETIME_ADD(d.dt_venda, INTERVAL 7 DAY)
+  AND ft.id_transaction       != d.id_venda_inicial
+  AND (
+    (d.canal = 'Comercial' AND ft.nm_salesman_email = d.vendedor)
+    OR
+    (d.canal = 'IA'        AND ft.bl_is_commercial_channel = TRUE)
+  )
+GROUP BY 1, 2, 3, 4
+ORDER BY canal, origem, tipo_hotlead, deals_won DESC
+"""
+
 # Matriz: IA (todos os leads) vs Comercial (só abordados = dt_first_message IS NOT NULL)
 Q_MATRIZ = f"""
 SELECT
@@ -248,6 +299,23 @@ def build() -> dict:
         }
 
     EMPTY = {"leads":0,"vendas":0,"receita":0,"ticket":0,"pct_conv":0,"rpl":0}
+    EMPTY_UPSELL = {"deals_won":0,"deals_com_upsell":0,"pct_upsell":0,"receita_upsell":0,"upsell_por_deal":0}
+
+    print("  upsell pós-venda (7 dias)...", flush=True)
+    upsell_rows = bq(Q_UPSELL, max_rows=10000)
+    upsell_idx = {}
+    for r in upsell_rows:
+        deals_won       = ii(r["deals_won"])
+        deals_com_up    = ii(r["deals_com_upsell"])
+        receita_upsell  = fi(r["receita_upsell"])
+        key = (r["canal"], r["origem"] or "", r["tipo_hotlead"], r["produto"])
+        upsell_idx[key] = {
+            "deals_won":       deals_won,
+            "deals_com_upsell": deals_com_up,
+            "pct_upsell":      round(deals_com_up / deals_won * 100, 1) if deals_won else 0,
+            "receita_upsell":  receita_upsell,
+            "upsell_por_deal": round(receita_upsell / deals_won, 2) if deals_won else 0,
+        }
 
     por_matriz = []
     for (origem, tipo, produto), canais in sorted(mat_idx.items()):
@@ -259,11 +327,13 @@ def build() -> dict:
         if ia_leads < 20 and com_leads < 20:
             continue
         por_matriz.append({
-            "origem":    origem,
-            "tipo":      tipo,
-            "produto":   produto,
-            "ia":        ia  or EMPTY,
-            "comercial": com or EMPTY,
+            "origem":      origem,
+            "tipo":        tipo,
+            "produto":     produto,
+            "ia":          ia  or EMPTY,
+            "comercial":   com or EMPTY,
+            "upsell_ia":   upsell_idx.get(("IA",        origem, tipo, produto), EMPTY_UPSELL),
+            "upsell_com":  upsell_idx.get(("Comercial", origem, tipo, produto), EMPTY_UPSELL),
         })
 
     return {
