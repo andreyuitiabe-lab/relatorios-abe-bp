@@ -23,7 +23,7 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6;
     }
-    .wrap   { max-width: 1080px; margin: 0 auto; padding: 48px 24px 80px; }
+    .wrap   { max-width: 1260px; margin: 0 auto; padding: 48px 24px 80px; }
     section { margin-bottom: 56px; }
     h1      { font-size: 26px; font-weight: 700; }
     h2      { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
@@ -166,7 +166,7 @@
     .combo-side-nota { font-size: 11.5px; color: var(--muted); line-height: 1.55; margin-top: 8px; font-style: italic; }
 
     /* prod-table dentro dos combo cards */
-    .prod-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 4px; }
+    .prod-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 4px; }
     .prod-table th { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
                      color: var(--soft); border-bottom: 2px solid var(--line); padding: 6px 8px; white-space: nowrap; }
     .prod-table th.right, .prod-table td.right { text-align: right; }
@@ -555,8 +555,8 @@ function initCharts(D) {
         const trCls = winSide ? `win-${winSide}` : "";
         return `<tr class="${trCls}">
           <td class="prod-name">${shortName(r.produto)}</td>
-          <td class="right ia-cell">${iaLeads}</td><td class="right ia-cell">${iaVendas}</td><td class="right ia-cell">${iaReceita}</td><td class="right ia-cell">${iaRpl}</td>
-          <td class="right com-cell">${comLeads}</td><td class="right com-cell">${comVendas}</td><td class="right com-cell">${comReceita}</td><td class="right com-cell">${comRpl}</td>
+          <td class="right ia-cell">${iaLeads}</td><td class="right ia-cell">${iaVendas}</td><td class="right ia-cell">${iaPct}</td><td class="right ia-cell">${iaReceita}</td><td class="right ia-cell">${iaRpl}</td>
+          <td class="right com-cell">${comLeads}</td><td class="right com-cell">${comVendas}</td><td class="right com-cell">${comPct}</td><td class="right com-cell">${comReceita}</td><td class="right com-cell">${comRpl}</td>
           <td class="right">${rotaBadge}</td>
         </tr>`;
       }).join("");
@@ -564,8 +564,8 @@ function initCharts(D) {
         <table class="prod-table">
           <thead><tr>
             <th>Produto</th>
-            <th class="right th-ia">Leads</th><th class="right th-ia">Vendas</th><th class="right th-ia">Receita</th><th class="right th-ia">R$/lead</th>
-            <th class="right th-com">Leads</th><th class="right th-com">Vendas</th><th class="right th-com">Receita</th><th class="right th-com">R$/lead</th>
+            <th class="right th-ia">Leads</th><th class="right th-ia">Vendas</th><th class="right th-ia">Conv%</th><th class="right th-ia">Receita</th><th class="right th-ia">R$/lead</th>
+            <th class="right th-com">Leads</th><th class="right th-com">Vendas</th><th class="right th-com">Conv%</th><th class="right th-com">Receita</th><th class="right th-com">R$/lead</th>
             <th class="right">Canal</th>
           </tr></thead>
           <tbody>${prodRows}</tbody>
