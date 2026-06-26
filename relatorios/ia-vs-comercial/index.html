@@ -563,6 +563,10 @@ function initCharts(D) {
         const comUpRpl = comD.leads ? (upCOM.receita_upsell || 0) / comD.leads : 0;
         const iaUp  = iaUpRpl  ? `<span class="ia-val">${fmtR(iaUpRpl)}</span>`  : `<span class="na-val">—</span>`;
         const comUp = comUpRpl ? `<span class="com-val">${fmtR(comUpRpl)}</span>` : `<span class="na-val">—</span>`;
+        const iaTotalRpl  = (iaD.rpl  || 0) + iaUpRpl;
+        const comTotalRpl = (comD.rpl || 0) + comUpRpl;
+        const iaTot  = iaTotalRpl  ? `<span class="ia-val">${fmtR(iaTotalRpl)}</span>`  : `<span class="na-val">—</span>`;
+        const comTot = comTotalRpl ? `<span class="com-val">${fmtR(comTotalRpl)}</span>` : `<span class="na-val">—</span>`;
         const rotaBadge = rota === "ia"
           ? `<span class="rota-ia">🤖 IA</span>`
           : `<span class="rota-com">👤 COM</span>`;
@@ -575,8 +579,8 @@ function initCharts(D) {
         const trCls = winSide ? `win-${winSide}` : "";
         return `<tr class="${trCls}">
           <td class="prod-name">${shortName(r.produto)}</td>
-          <td class="right ia-cell">${iaLeads}</td><td class="right ia-cell">${iaVendas}</td><td class="right ia-cell">${iaPct}</td><td class="right ia-cell">${iaReceita}</td><td class="right ia-cell">${iaRpl}</td><td class="right ia-cell">${iaUp}</td>
-          <td class="right com-cell">${comLeads}</td><td class="right com-cell">${comVendas}</td><td class="right com-cell">${comPct}</td><td class="right com-cell">${comReceita}</td><td class="right com-cell">${comRpl}</td><td class="right com-cell">${comUp}</td>
+          <td class="right ia-cell">${iaLeads}</td><td class="right ia-cell">${iaVendas}</td><td class="right ia-cell">${iaPct}</td><td class="right ia-cell">${iaReceita}</td><td class="right ia-cell">${iaRpl}</td><td class="right ia-cell">${iaUp}</td><td class="right ia-cell">${iaTot}</td>
+          <td class="right com-cell">${comLeads}</td><td class="right com-cell">${comVendas}</td><td class="right com-cell">${comPct}</td><td class="right com-cell">${comReceita}</td><td class="right com-cell">${comRpl}</td><td class="right com-cell">${comUp}</td><td class="right com-cell">${comTot}</td>
           <td class="right">${rotaBadge}</td>
         </tr>`;
       }).join("");
@@ -584,8 +588,8 @@ function initCharts(D) {
         <table class="prod-table">
           <thead><tr>
             <th>Produto</th>
-            <th class="right th-ia">Leads</th><th class="right th-ia">Vendas</th><th class="right th-ia">Conv%</th><th class="right th-ia">Receita</th><th class="right th-ia">R$/lead</th><th class="right th-ia" title="Receita de upsell por lead total — 7 dias pós-venda">+Upsell</th>
-            <th class="right th-com">Leads</th><th class="right th-com">Vendas</th><th class="right th-com">Conv%</th><th class="right th-com">Receita</th><th class="right th-com">R$/lead</th><th class="right th-com" title="Receita de upsell por lead total — 7 dias pós-venda">+Upsell</th>
+            <th class="right th-ia">Leads</th><th class="right th-ia">Vendas</th><th class="right th-ia">Conv%</th><th class="right th-ia">Receita</th><th class="right th-ia">R$/Lead</th><th class="right th-ia" title="Receita de upsell por lead total — 7 dias pós-venda">R$Up/Lead</th><th class="right th-ia" title="R$/Lead + R$Up/Lead">Total/Lead</th>
+            <th class="right th-com">Leads</th><th class="right th-com">Vendas</th><th class="right th-com">Conv%</th><th class="right th-com">Receita</th><th class="right th-com">R$/Lead</th><th class="right th-com" title="Receita de upsell por lead total — 7 dias pós-venda">R$Up/Lead</th><th class="right th-com" title="R$/Lead + R$Up/Lead">Total/Lead</th>
             <th class="right">Canal</th>
           </tr></thead>
           <tbody>${prodRows}</tbody>
