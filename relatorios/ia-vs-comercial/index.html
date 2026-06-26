@@ -533,10 +533,14 @@ function initCharts(D) {
         const rota = getRouting(r.produto, cfg);
         const iaD  = r.ia         || {};
         const comD = r.comercial  || {};
-        const iaPct  = iaD.leads  ? `<span class="ia-val">${fmt1(iaD.pct_conv)}%</span>`   : `<span class="na-val">—</span>`;
-        const iaRpl  = iaD.leads  ? `<span class="ia-val">${fmtR(iaD.rpl)}</span>`         : `<span class="na-val">—</span>`;
-        const comPct = comD.leads ? `<span class="com-val">${fmt1(comD.pct_conv)}%</span>` : `<span class="na-val">—</span>`;
-        const comRpl = comD.leads ? `<span class="com-val">${fmtR(comD.rpl)}</span>`       : `<span class="na-val">—</span>`;
+        const iaPct     = iaD.leads  ? `<span class="ia-val">${fmt1(iaD.pct_conv)}%</span>`   : `<span class="na-val">—</span>`;
+        const iaRpl     = iaD.leads  ? `<span class="ia-val">${fmtR(iaD.rpl)}</span>`         : `<span class="na-val">—</span>`;
+        const iaReceita = iaD.leads  ? `<span class="ia-val">${fmtR(iaD.receita)}</span>`     : `<span class="na-val">—</span>`;
+        const iaVendas  = iaD.leads  ? `<span class="ia-val">${fmtN(iaD.vendas)}</span>`      : `<span class="na-val">—</span>`;
+        const comPct     = comD.leads ? `<span class="com-val">${fmt1(comD.pct_conv)}%</span>` : `<span class="na-val">—</span>`;
+        const comRpl     = comD.leads ? `<span class="com-val">${fmtR(comD.rpl)}</span>`       : `<span class="na-val">—</span>`;
+        const comReceita = comD.leads ? `<span class="com-val">${fmtR(comD.receita)}</span>`   : `<span class="na-val">—</span>`;
+        const comVendas  = comD.leads ? `<span class="com-val">${fmtN(comD.vendas)}</span>`    : `<span class="na-val">—</span>`;
         const iaLeads  = iaD.leads  ? `<span style="color:#94a3b8;font-size:10px">${fmtN(iaD.leads)}</span>`  : `<span class="na-val">—</span>`;
         const comLeads = comD.leads ? `<span style="color:#94a3b8;font-size:10px">${fmtN(comD.leads)}</span>` : `<span class="na-val">—</span>`;
         const rotaBadge = rota === "ia"
@@ -551,8 +555,8 @@ function initCharts(D) {
         const trCls = winSide ? `win-${winSide}` : "";
         return `<tr class="${trCls}">
           <td class="prod-name">${shortName(r.produto)}</td>
-          <td class="right ia-cell">${iaLeads}</td><td class="right ia-cell">${iaPct}</td><td class="right ia-cell">${iaRpl}</td>
-          <td class="right com-cell">${comLeads}</td><td class="right com-cell">${comPct}</td><td class="right com-cell">${comRpl}</td>
+          <td class="right ia-cell">${iaLeads}</td><td class="right ia-cell">${iaVendas}</td><td class="right ia-cell">${iaReceita}</td><td class="right ia-cell">${iaRpl}</td>
+          <td class="right com-cell">${comLeads}</td><td class="right com-cell">${comVendas}</td><td class="right com-cell">${comReceita}</td><td class="right com-cell">${comRpl}</td>
           <td class="right">${rotaBadge}</td>
         </tr>`;
       }).join("");
@@ -560,8 +564,8 @@ function initCharts(D) {
         <table class="prod-table">
           <thead><tr>
             <th>Produto</th>
-            <th class="right th-ia">Leads</th><th class="right th-ia">Conv%</th><th class="right th-ia">R$/lead</th>
-            <th class="right th-com">Leads</th><th class="right th-com">Conv%</th><th class="right th-com">R$/lead</th>
+            <th class="right th-ia">Leads</th><th class="right th-ia">Vendas</th><th class="right th-ia">Receita</th><th class="right th-ia">R$/lead</th>
+            <th class="right th-com">Leads</th><th class="right th-com">Vendas</th><th class="right th-com">Receita</th><th class="right th-com">R$/lead</th>
             <th class="right">Canal</th>
           </tr></thead>
           <tbody>${prodRows}</tbody>
