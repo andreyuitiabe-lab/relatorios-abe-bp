@@ -246,9 +246,14 @@
   <p class="sub" id="subtitulo">Carregando...</p>
 </header>
 
+<nav class="tab-nav">
+  <button class="tab-btn active" id="btn-junho" onclick="switchTab('junho')">Junho 2026</button>
+  <button class="tab-btn" id="btn-fds" onclick="switchTab('fds')">Fds 27–29 jun</button>
+</nav>
+
 <main>
 
-<div id="tab-roteamento">
+<div class="tab-content active" id="tab-junho">
 
 <!-- 5. Roteamento Estratégico -->
 <section id="roteamento">
@@ -412,7 +417,17 @@
   </div>
 </section>
 
-</div><!-- /tab-roteamento -->
+</div><!-- /tab-junho -->
+
+<div class="tab-content" id="tab-fds">
+  <section>
+    <h2 id="fds-titulo">Final de Semana</h2>
+    <div class="res2" id="fds-resumo" style="margin-bottom:32px"></div>
+    <h3 style="font-size:15px;font-weight:700;margin-bottom:6px">Por tipo × produto</h3>
+    <p class="sub" style="margin-bottom:20px">Mesmo critério de roteamento do mês — apenas dados do final de semana.</p>
+    <div id="comboCardsFds"></div>
+  </section>
+</div><!-- /tab-fds -->
 
 </main>
 
@@ -485,30 +500,6 @@ function initCharts(D) {
   const fmtR = v => v ? "R$" + Math.round(v).toLocaleString("pt-BR") : "—";
   const fmtN = v => v ? v.toLocaleString("pt-BR") : "—";
 
-  // Índice por tipo+origem → dados agregados
-  const tipoMap = {};
-  (D.por_tipo || []).forEach(t => { tipoMap[`${t.tipo}|${t.origem}`] = t; });
-
-  // Índice por tipo+origem → lista de rows de por_matriz (ordenadas por total leads desc)
-  const matrizByCombo = {};
-  (D.por_matriz || []).forEach(r => {
-    const k = `${r.tipo}|${r.origem}`;
-    if (!matrizByCombo[k]) matrizByCombo[k] = [];
-    matrizByCombo[k].push(r);
-  });
-  Object.values(matrizByCombo).forEach(arr =>
-    arr.sort((a, b) => (b.ia.leads + b.comercial.leads) - (a.ia.leads + a.comercial.leads))
-  );
-
-  // Upsell total por cenário (soma de todos os produtos do cenário)
-  const upsellByCombo = {};
-  (D.por_matriz || []).forEach(r => {
-    const k = `${r.tipo}|${r.origem}`;
-    if (!upsellByCombo[k]) upsellByCombo[k] = { ia: 0, com: 0 };
-    upsellByCombo[k].ia  += (r.upsell_ia  || {}).receita_upsell || 0;
-    upsellByCombo[k].com += (r.upsell_com || {}).receita_upsell || 0;
-  });
-
   // Nome de exibição dos produtos canônicos
   const PRODUTO_LABEL = {
     'apoiador':         'Apoiador',
@@ -527,6 +518,28 @@ function initCharts(D) {
   function getRouting(produto, cfg) {
     return cfg.overrides[produto.toLowerCase()] || cfg.default_routing;
   }
+
+  function renderComboCards(dataset, containerId) {
+    const tipoMap = {};
+    (dataset.por_tipo || []).forEach(t => { tipoMap[`${t.tipo}|${t.origem}`] = t; });
+
+    const matrizByCombo = {};
+    (dataset.por_matriz || []).forEach(r => {
+      const k = `${r.tipo}|${r.origem}`;
+      if (!matrizByCombo[k]) matrizByCombo[k] = [];
+      matrizByCombo[k].push(r);
+    });
+    Object.values(matrizByCombo).forEach(arr =>
+      arr.sort((a, b) => (b.ia.leads + b.comercial.leads) - (a.ia.leads + a.comercial.leads))
+    );
+
+    const upsellByCombo = {};
+    (dataset.por_matriz || []).forEach(r => {
+      const k = `${r.tipo}|${r.origem}`;
+      if (!upsellByCombo[k]) upsellByCombo[k] = { ia: 0, com: 0 };
+      upsellByCombo[k].ia  += (r.upsell_ia  || {}).receita_upsell || 0;
+      upsellByCombo[k].com += (r.upsell_com || {}).receita_upsell || 0;
+    });
 
   let comboHtml = "";
   COMBOS.forEach(cfg => {
@@ -616,10 +629,51 @@ function initCharts(D) {
         ${cfg.nota ? `<p class="combo-nota-bottom">${cfg.nota}</p>` : ""}
       </div>`;
   });
-  document.getElementById("comboCards").innerHTML = comboHtml;
+  document.getElementById(containerId).innerHTML = comboHtml;
+  } // fim renderComboCards
+
+  // Render resumo rápido (para a aba FDS)
+  function renderFdsResumo(fds) {
+    document.getElementById("fds-titulo").textContent = "Final de Semana — " + fds.periodo;
+    const ia  = (fds.resumo || {})["IA"]        || {};
+    const com = (fds.resumo || {})["Comercial"]  || {};
+    document.getElementById("fds-resumo").innerHTML = `
+      <div class="res-card ia-card">
+        <div class="res-canal ia">🤖 IA (Lambda)</div>
+        <div class="kpi-big"><div class="v ia">${fmtN(ia.leads)}</div><div class="l">leads</div></div>
+        <div class="kpi-grid2">
+          <div class="kpi2"><div class="v ia">${fmt1(ia.pct)}%</div><div class="l">conv%</div></div>
+          <div class="kpi2"><div class="v ia">${fmtR(ia.rpl)}</div><div class="l">R$/lead</div></div>
+          <div class="kpi2"><div class="v ia">${fmtR(ia.receita)}</div><div class="l">receita</div></div>
+        </div>
+      </div>
+      <div class="res-card com-card">
+        <div class="res-canal com">👤 Comercial</div>
+        <div class="kpi-big"><div class="v com">${fmtN(com.leads)}</div><div class="l">leads</div></div>
+        <div class="kpi-grid2">
+          <div class="kpi2"><div class="v com">${fmt1(com.pct)}%</div><div class="l">conv%</div></div>
+          <div class="kpi2"><div class="v com">${fmtR(com.rpl)}</div><div class="l">R$/lead</div></div>
+          <div class="kpi2"><div class="v com">${fmtR(com.receita)}</div><div class="l">receita</div></div>
+        </div>
+      </div>`;
+  }
+
+  // Renderizar ambas as abas
+  renderComboCards(D,     "comboCards");
+  if (D.fds) {
+    renderFdsResumo(D.fds);
+    renderComboCards(D.fds, "comboCardsFds");
+  }
 
 }
 
+
+function switchTab(name) {
+  document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+  document.getElementById("tab-" + name).classList.add("active");
+  document.getElementById("btn-" + name).classList.add("active");
+}
 
 fetch("./data.json")
   .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })

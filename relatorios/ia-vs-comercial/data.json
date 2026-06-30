@@ -1,22 +1,22 @@
 {
-  "updated_at": "2026-06-26T17:26:50",
+  "updated_at": "2026-06-30T11:31:30",
   "periodo": "Junho 2026",
   "resumo": {
     "Comercial": {
-      "leads": 22152,
-      "convertidos": 1010,
-      "pct": 4.56,
-      "ticket": 819.72,
-      "receita": 827917.56,
-      "rpl": 37.37
+      "leads": 25576,
+      "convertidos": 1151,
+      "pct": 4.5,
+      "ticket": 896.51,
+      "receita": 1031881.8,
+      "rpl": 40.35
     },
     "IA": {
-      "leads": 24567,
-      "convertidos": 1618,
-      "pct": 6.59,
-      "ticket": 268.02,
-      "receita": 433659.71,
-      "rpl": 17.65
+      "leads": 29456,
+      "convertidos": 1868,
+      "pct": 6.34,
+      "ticket": 276.53,
+      "receita": 516565.28,
+      "rpl": 17.54
     }
   },
   "por_tipo": [
@@ -25,16 +25,16 @@
       "tipo": "ABANDONO DE CARRINHO",
       "origem": "NOVA COMPRA",
       "ia": {
-        "leads": 9830,
-        "pct": 9.13,
-        "ticket": 257.34,
-        "rpl": 23.48
+        "leads": 11899,
+        "pct": 8.85,
+        "ticket": 266.43,
+        "rpl": 23.58
       },
       "comercial": {
-        "leads": 3348,
-        "pct": 7.56,
-        "ticket": 945.36,
-        "rpl": 71.44
+        "leads": 3719,
+        "pct": 8.07,
+        "ticket": 1032.94,
+        "rpl": 83.32
       }
     },
     {
@@ -42,16 +42,16 @@
       "tipo": "COMPRA NEGADA",
       "origem": "NOVA COMPRA",
       "ia": {
-        "leads": 4645,
-        "pct": 8.01,
-        "ticket": 252.87,
-        "rpl": 20.25
+        "leads": 5695,
+        "pct": 7.71,
+        "ticket": 275.41,
+        "rpl": 21.23
       },
       "comercial": {
-        "leads": 1869,
-        "pct": 6.47,
-        "ticket": 1084.9,
-        "rpl": 70.24
+        "leads": 2089,
+        "pct": 6.7,
+        "ticket": 1144.82,
+        "rpl": 76.72
       }
     },
     {
@@ -59,16 +59,16 @@
       "tipo": "OPORTUNIDADE DE VENDA",
       "origem": "NOVA COMPRA",
       "ia": {
-        "leads": 6036,
-        "pct": 4.61,
-        "ticket": 336.85,
-        "rpl": 15.51
+        "leads": 6136,
+        "pct": 4.6,
+        "ticket": 335.42,
+        "rpl": 15.42
       },
       "comercial": {
-        "leads": 15171,
-        "pct": 3.9,
-        "ticket": 746.57,
-        "rpl": 29.08
+        "leads": 17765,
+        "pct": 3.72,
+        "ticket": 814.58,
+        "rpl": 30.26
       }
     },
     {
@@ -76,16 +76,16 @@
       "tipo": "ABANDONO DE CARRINHO",
       "origem": "RENOVAÇÃO",
       "ia": {
-        "leads": 93,
-        "pct": 9.68,
+        "leads": 116,
+        "pct": 7.76,
         "ticket": 302.27,
-        "rpl": 29.25
+        "rpl": 23.45
       },
       "comercial": {
         "leads": 37,
-        "pct": 2.7,
-        "ticket": 429.0,
-        "rpl": 11.59
+        "pct": 5.41,
+        "ticket": 808.5,
+        "rpl": 43.7
       }
     },
     {
@@ -93,13 +93,13 @@
       "tipo": "COMPRA NEGADA",
       "origem": "RENOVAÇÃO",
       "ia": {
-        "leads": 3785,
-        "pct": 1.61,
-        "ticket": 199.44,
-        "rpl": 3.21
+        "leads": 5419,
+        "pct": 1.55,
+        "ticket": 209.19,
+        "rpl": 3.24
       },
       "comercial": {
-        "leads": 14,
+        "leads": 71,
         "pct": 0.0,
         "ticket": 0.0,
         "rpl": 0.0
@@ -110,907 +110,17 @@
       "tipo": "OPORTUNIDADE DE VENDA",
       "origem": "RENOVAÇÃO",
       "ia": {
-        "leads": 178,
-        "pct": 0.56,
+        "leads": 191,
+        "pct": 0.52,
         "ticket": 228.0,
-        "rpl": 1.28
+        "rpl": 1.19
       },
       "comercial": {
-        "leads": 1713,
-        "pct": 2.57,
-        "ticket": 359.43,
-        "rpl": 9.23
+        "leads": 1895,
+        "pct": 2.59,
+        "ticket": 458.91,
+        "rpl": 11.87
       }
-    }
-  ],
-  "por_produto": [
-    {
-      "canal": "Comercial",
-      "tipo": "ABANDONO DE CARRINHO",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-essencial",
-      "leads": 1356,
-      "convertidos": 65,
-      "pct": 4.79,
-      "ticket": 317.34,
-      "receita": 20626.8,
-      "rpl": 15.21
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "ABANDONO DE CARRINHO",
-      "origem": "NOVA COMPRA",
-      "produto": "clube-do-livro",
-      "leads": 1069,
-      "convertidos": 147,
-      "pct": 13.75,
-      "ticket": 1386.18,
-      "receita": 203768.64,
-      "rpl": 190.62
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "ABANDONO DE CARRINHO",
-      "origem": "NOVA COMPRA",
-      "produto": "apoiador",
-      "leads": 777,
-      "convertidos": 27,
-      "pct": 3.47,
-      "ticket": 313.56,
-      "receita": 8466.0,
-      "rpl": 10.9
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "ABANDONO DE CARRINHO",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-premium",
-      "leads": 108,
-      "convertidos": 8,
-      "pct": 7.41,
-      "ticket": 622.05,
-      "receita": 4976.4,
-      "rpl": 46.08
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "ABANDONO DE CARRINHO",
-      "origem": "NOVA COMPRA",
-      "produto": "teller",
-      "leads": 23,
-      "convertidos": 1,
-      "pct": 4.35,
-      "ticket": 204.0,
-      "receita": 204.0,
-      "rpl": 8.87
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "BOLETO EXPIRADO",
-      "origem": "RENOVAÇÃO",
-      "produto": "clube-do-livro",
-      "leads": 76,
-      "convertidos": 35,
-      "pct": 46.05,
-      "ticket": 1301.14,
-      "receita": 45540.0,
-      "rpl": 599.21
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "BOLETO EXPIRADO",
-      "origem": "RENOVAÇÃO",
-      "produto": "bp-premium",
-      "leads": 51,
-      "convertidos": 1,
-      "pct": 1.96,
-      "ticket": 442.8,
-      "receita": 442.8,
-      "rpl": 8.68
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "CHAT",
-      "origem": "NOVA COMPRA",
-      "produto": "apoiador",
-      "leads": 387,
-      "convertidos": 30,
-      "pct": 7.75,
-      "ticket": 285.73,
-      "receita": 8571.96,
-      "rpl": 22.15
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "CHAT",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-essencial",
-      "leads": 352,
-      "convertidos": 32,
-      "pct": 9.09,
-      "ticket": 442.82,
-      "receita": 14170.2,
-      "rpl": 40.26
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "CHAT",
-      "origem": "NOVA COMPRA",
-      "produto": "clube-do-livro",
-      "leads": 56,
-      "convertidos": 8,
-      "pct": 14.29,
-      "ticket": 1463.25,
-      "receita": 11706.0,
-      "rpl": 209.04
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "CHAT",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-premium",
-      "leads": 21,
-      "convertidos": 0,
-      "pct": 0.0,
-      "ticket": 0.0,
-      "receita": 0.0,
-      "rpl": 0.0
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "CHAT",
-      "origem": "RENOVAÇÃO",
-      "produto": "bp-essencial",
-      "leads": 137,
-      "convertidos": 21,
-      "pct": 15.33,
-      "ticket": 439.56,
-      "receita": 9230.76,
-      "rpl": 67.38
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "CHAT",
-      "origem": "RENOVAÇÃO",
-      "produto": "apoiador",
-      "leads": 136,
-      "convertidos": 14,
-      "pct": 10.29,
-      "ticket": 217.54,
-      "receita": 3045.6,
-      "rpl": 22.39
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "COMPRA NEGADA",
-      "origem": "NOVA COMPRA",
-      "produto": "clube-do-livro",
-      "leads": 760,
-      "convertidos": 72,
-      "pct": 9.47,
-      "ticket": 1457.02,
-      "receita": 104905.8,
-      "rpl": 138.03
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "COMPRA NEGADA",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-essencial",
-      "leads": 589,
-      "convertidos": 18,
-      "pct": 3.06,
-      "ticket": 554.0,
-      "receita": 9972.0,
-      "rpl": 16.93
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "COMPRA NEGADA",
-      "origem": "NOVA COMPRA",
-      "produto": "apoiador",
-      "leads": 429,
-      "convertidos": 20,
-      "pct": 4.66,
-      "ticket": 238.89,
-      "receita": 4777.86,
-      "rpl": 11.14
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "COMPRA NEGADA",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-premium",
-      "leads": 66,
-      "convertidos": 4,
-      "pct": 6.06,
-      "ticket": 1443.69,
-      "receita": 5774.76,
-      "rpl": 87.5
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "NOVA COMPRA",
-      "produto": "apoiador",
-      "leads": 7048,
-      "convertidos": 337,
-      "pct": 4.78,
-      "ticket": 283.22,
-      "receita": 95446.8,
-      "rpl": 13.54
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "NOVA COMPRA",
-      "produto": "clube-do-livro",
-      "leads": 3774,
-      "convertidos": 95,
-      "pct": 2.52,
-      "ticket": 2445.43,
-      "receita": 232315.44,
-      "rpl": 61.56
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-essencial",
-      "leads": 3724,
-      "convertidos": 119,
-      "pct": 3.2,
-      "ticket": 441.81,
-      "receita": 52575.06,
-      "rpl": 14.12
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-premium",
-      "leads": 455,
-      "convertidos": 16,
-      "pct": 3.52,
-      "ticket": 2540.22,
-      "receita": 40643.52,
-      "rpl": 89.33
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "NOVA COMPRA",
-      "produto": "teller",
-      "leads": 78,
-      "convertidos": 2,
-      "pct": 2.56,
-      "ticket": 683.4,
-      "receita": 1366.8,
-      "rpl": 17.52
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "NOVA COMPRA",
-      "produto": "black",
-      "leads": 37,
-      "convertidos": 5,
-      "pct": 13.51,
-      "ticket": 2443.18,
-      "receita": 12215.88,
-      "rpl": 330.16
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-intermediario",
-      "leads": 37,
-      "convertidos": 17,
-      "pct": 45.95,
-      "ticket": 391.76,
-      "receita": 6660.0,
-      "rpl": 180.0
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "RENOVAÇÃO",
-      "produto": "bp-premium",
-      "leads": 655,
-      "convertidos": 13,
-      "pct": 1.98,
-      "ticket": 623.91,
-      "receita": 8110.8,
-      "rpl": 12.38
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "RENOVAÇÃO",
-      "produto": "bp-essencial",
-      "leads": 635,
-      "convertidos": 26,
-      "pct": 4.09,
-      "ticket": 127.38,
-      "receita": 3312.0,
-      "rpl": 5.22
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "RENOVAÇÃO",
-      "produto": "bp-intermediario",
-      "leads": 286,
-      "convertidos": 3,
-      "pct": 1.05,
-      "ticket": 1028.0,
-      "receita": 3084.0,
-      "rpl": 10.78
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "RENOVAÇÃO",
-      "produto": "teller",
-      "leads": 86,
-      "convertidos": 1,
-      "pct": 1.16,
-      "ticket": 1188.0,
-      "receita": 1188.0,
-      "rpl": 13.81
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "RENOVAÇÃO",
-      "produto": "apoiador",
-      "leads": 33,
-      "convertidos": 1,
-      "pct": 3.03,
-      "ticket": 120.0,
-      "receita": 120.0,
-      "rpl": 3.64
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "PIX EXPIRADO",
-      "origem": "RENOVAÇÃO",
-      "produto": "apoiador",
-      "leads": 443,
-      "convertidos": 29,
-      "pct": 6.55,
-      "ticket": 196.18,
-      "receita": 5689.2,
-      "rpl": 12.84
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "PIX EXPIRADO",
-      "origem": "RENOVAÇÃO",
-      "produto": "bp-premium",
-      "leads": 352,
-      "convertidos": 12,
-      "pct": 3.41,
-      "ticket": 1206.05,
-      "receita": 14472.66,
-      "rpl": 41.12
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "PIX EXPIRADO",
-      "origem": "RENOVAÇÃO",
-      "produto": "clube-do-livro",
-      "leads": 167,
-      "convertidos": 110,
-      "pct": 65.87,
-      "ticket": 1242.18,
-      "receita": 136640.0,
-      "rpl": 818.2
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "PIX EXPIRADO",
-      "origem": "RENOVAÇÃO",
-      "produto": "bp-essencial",
-      "leads": 149,
-      "convertidos": 25,
-      "pct": 16.78,
-      "ticket": 305.34,
-      "receita": 7633.56,
-      "rpl": 51.23
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "PIX EXPIRADO",
-      "origem": "RENOVAÇÃO",
-      "produto": "bp-intermediario",
-      "leads": 99,
-      "convertidos": 8,
-      "pct": 8.08,
-      "ticket": 276.0,
-      "receita": 2208.0,
-      "rpl": 22.3
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "Portal",
-      "origem": "",
-      "produto": "desconhecido",
-      "leads": 64,
-      "convertidos": 10,
-      "pct": 15.63,
-      "ticket": 1118.76,
-      "receita": 11187.6,
-      "rpl": 174.81
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[APP] Tech",
-      "origem": "Mobile",
-      "produto": "desconhecido",
-      "leads": 71,
-      "convertidos": 14,
-      "pct": 19.72,
-      "ticket": 1071.86,
-      "receita": 15006.0,
-      "rpl": 211.35
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[ATT] BP ADS",
-      "origem": "",
-      "produto": "desconhecido",
-      "leads": 20,
-      "convertidos": 1,
-      "pct": 5.0,
-      "ticket": 1188.0,
-      "receita": 1188.0,
-      "rpl": 59.4
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[ATT] CDL",
-      "origem": "Vitalicios que não fizeram upgrade (msg3)",
-      "produto": "desconhecido",
-      "leads": 20,
-      "convertidos": 3,
-      "pct": 15.0,
-      "ticket": 1308.0,
-      "receita": 3924.0,
-      "rpl": 196.2
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[ATT] Encerramento Geral",
-      "origem": "CDL",
-      "produto": "desconhecido",
-      "leads": 2213,
-      "convertidos": 60,
-      "pct": 2.71,
-      "ticket": 1245.5,
-      "receita": 74729.9,
-      "rpl": 33.77
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[ATT] Encerramento Geral",
-      "origem": "CDL",
-      "produto": "clube-do-livro",
-      "leads": 36,
-      "convertidos": 6,
-      "pct": 16.67,
-      "ticket": 1230.0,
-      "receita": 7380.0,
-      "rpl": 205.0
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[ATT] GEO8-mb-basico-SP-RJ-MG",
-      "origem": "",
-      "produto": "desconhecido",
-      "leads": 96,
-      "convertidos": 10,
-      "pct": 10.42,
-      "ticket": 1248.0,
-      "receita": 12480.0,
-      "rpl": 130.0
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[ATT] Membros Premium e Black -> Clube",
-      "origem": "",
-      "produto": "desconhecido",
-      "leads": 179,
-      "convertidos": 16,
-      "pct": 8.94,
-      "ticket": 1349.5,
-      "receita": 21591.96,
-      "rpl": 120.63
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[ATT] Repique 90K Membros Ativos",
-      "origem": "",
-      "produto": "desconhecido",
-      "leads": 171,
-      "convertidos": 16,
-      "pct": 9.36,
-      "ticket": 1293.0,
-      "receita": 20688.0,
-      "rpl": 120.98
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[ATT] TOP 30K Marketing",
-      "origem": "",
-      "produto": "desconhecido",
-      "leads": 21,
-      "convertidos": 4,
-      "pct": 19.05,
-      "ticket": 1248.0,
-      "receita": 4992.0,
-      "rpl": 237.71
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[ATT] Vitalício Oferta",
-      "origem": "",
-      "produto": "desconhecido",
-      "leads": 132,
-      "convertidos": 21,
-      "pct": 15.91,
-      "ticket": 1342.32,
-      "receita": 28188.72,
-      "rpl": 213.55
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[ATT] [CM] CDL",
-      "origem": "Engajados",
-      "produto": "desconhecido",
-      "leads": 223,
-      "convertidos": 19,
-      "pct": 8.52,
-      "ticket": 1399.16,
-      "receita": 26583.96,
-      "rpl": 119.21
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[ATT] [CM] DISPARO DO DIA  08/06",
-      "origem": "Assistiram Curso -> CDL",
-      "produto": "desconhecido",
-      "leads": 332,
-      "convertidos": 48,
-      "pct": 14.46,
-      "ticket": 1427.41,
-      "receita": 68515.89,
-      "rpl": 206.37
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[CDL] Página de vendas",
-      "origem": "",
-      "produto": "desconhecido",
-      "leads": 37,
-      "convertidos": 11,
-      "pct": 29.73,
-      "ticket": 1275.27,
-      "receita": 14028.0,
-      "rpl": 379.14
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "[LP] Testes 2024",
-      "origem": "",
-      "produto": "desconhecido",
-      "leads": 324,
-      "convertidos": 52,
-      "pct": 16.05,
-      "ticket": 1110.47,
-      "receita": 57744.26,
-      "rpl": 178.22
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "new",
-      "origem": "LP PPT",
-      "produto": "desconhecido",
-      "leads": 375,
-      "convertidos": 47,
-      "pct": 12.53,
-      "ticket": 529.47,
-      "receita": 24885.3,
-      "rpl": 66.36
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "new",
-      "origem": "LP PPT",
-      "produto": "bp-essencial",
-      "leads": 27,
-      "convertidos": 10,
-      "pct": 37.04,
-      "ticket": 227.76,
-      "receita": 2277.6,
-      "rpl": 84.36
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "new",
-      "origem": "LP PPT",
-      "produto": "apoiador",
-      "leads": 26,
-      "convertidos": 9,
-      "pct": 34.62,
-      "ticket": 132.67,
-      "receita": 1194.0,
-      "rpl": 45.92
-    },
-    {
-      "canal": "Comercial",
-      "tipo": "vds_a_vida_dos_santos",
-      "origem": "",
-      "produto": "desconhecido",
-      "leads": 199,
-      "convertidos": 3,
-      "pct": 1.51,
-      "ticket": 552.0,
-      "receita": 1656.0,
-      "rpl": 8.32
-    },
-    {
-      "canal": "IA",
-      "tipo": "ABANDONO DE CARRINHO",
-      "origem": "NOVA COMPRA",
-      "produto": "apoiador",
-      "leads": 6655,
-      "convertidos": 566,
-      "pct": 8.5,
-      "ticket": 159.45,
-      "receita": 90250.8,
-      "rpl": 13.56
-    },
-    {
-      "canal": "IA",
-      "tipo": "ABANDONO DE CARRINHO",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-essencial",
-      "leads": 2533,
-      "convertidos": 242,
-      "pct": 9.55,
-      "ticket": 232.99,
-      "receita": 56384.49,
-      "rpl": 22.26
-    },
-    {
-      "canal": "IA",
-      "tipo": "ABANDONO DE CARRINHO",
-      "origem": "NOVA COMPRA",
-      "produto": "clube-do-livro",
-      "leads": 314,
-      "convertidos": 53,
-      "pct": 16.88,
-      "ticket": 1287.62,
-      "receita": 68244.02,
-      "rpl": 217.34
-    },
-    {
-      "canal": "IA",
-      "tipo": "ABANDONO DE CARRINHO",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-premium",
-      "leads": 299,
-      "convertidos": 35,
-      "pct": 11.71,
-      "ticket": 447.93,
-      "receita": 15677.4,
-      "rpl": 52.43
-    },
-    {
-      "canal": "IA",
-      "tipo": "ABANDONO DE CARRINHO",
-      "origem": "NOVA COMPRA",
-      "produto": "desconhecido",
-      "leads": 27,
-      "convertidos": 0,
-      "pct": 0.0,
-      "ticket": 0.0,
-      "receita": 0.0,
-      "rpl": 0.0
-    },
-    {
-      "canal": "IA",
-      "tipo": "ABANDONO DE CARRINHO",
-      "origem": "RENOVAÇÃO",
-      "produto": "bp-essencial",
-      "leads": 40,
-      "convertidos": 2,
-      "pct": 5.0,
-      "ticket": 228.0,
-      "receita": 456.0,
-      "rpl": 11.4
-    },
-    {
-      "canal": "IA",
-      "tipo": "ABANDONO DE CARRINHO",
-      "origem": "RENOVAÇÃO",
-      "produto": "apoiador",
-      "leads": 35,
-      "convertidos": 2,
-      "pct": 5.71,
-      "ticket": 120.0,
-      "receita": 240.0,
-      "rpl": 6.86
-    },
-    {
-      "canal": "IA",
-      "tipo": "CHAT",
-      "origem": "NOVA COMPRA",
-      "produto": "apoiador",
-      "leads": 48,
-      "convertidos": 5,
-      "pct": 10.42,
-      "ticket": 180.0,
-      "receita": 900.0,
-      "rpl": 18.75
-    },
-    {
-      "canal": "IA",
-      "tipo": "COMPRA NEGADA",
-      "origem": "NOVA COMPRA",
-      "produto": "apoiador",
-      "leads": 2563,
-      "convertidos": 202,
-      "pct": 7.88,
-      "ticket": 148.03,
-      "receita": 29902.8,
-      "rpl": 11.67
-    },
-    {
-      "canal": "IA",
-      "tipo": "COMPRA NEGADA",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-essencial",
-      "leads": 1540,
-      "convertidos": 118,
-      "pct": 7.66,
-      "ticket": 213.84,
-      "receita": 25233.6,
-      "rpl": 16.39
-    },
-    {
-      "canal": "IA",
-      "tipo": "COMPRA NEGADA",
-      "origem": "NOVA COMPRA",
-      "produto": "clube-do-livro",
-      "leads": 259,
-      "convertidos": 21,
-      "pct": 8.11,
-      "ticket": 1288.26,
-      "receita": 27053.4,
-      "rpl": 104.45
-    },
-    {
-      "canal": "IA",
-      "tipo": "COMPRA NEGADA",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-premium",
-      "leads": 226,
-      "convertidos": 27,
-      "pct": 11.95,
-      "ticket": 414.13,
-      "receita": 11181.6,
-      "rpl": 49.48
-    },
-    {
-      "canal": "IA",
-      "tipo": "COMPRA NEGADA",
-      "origem": "NOVA COMPRA",
-      "produto": "desconhecido",
-      "leads": 57,
-      "convertidos": 4,
-      "pct": 7.02,
-      "ticket": 174.0,
-      "receita": 696.0,
-      "rpl": 12.21
-    },
-    {
-      "canal": "IA",
-      "tipo": "COMPRA NEGADA",
-      "origem": "RENOVAÇÃO",
-      "produto": "apoiador",
-      "leads": 1719,
-      "convertidos": 17,
-      "pct": 0.99,
-      "ticket": 171.53,
-      "receita": 2916.0,
-      "rpl": 1.7
-    },
-    {
-      "canal": "IA",
-      "tipo": "COMPRA NEGADA",
-      "origem": "RENOVAÇÃO",
-      "produto": "bp-essencial",
-      "leads": 1704,
-      "convertidos": 34,
-      "pct": 2.0,
-      "ticket": 193.73,
-      "receita": 6586.8,
-      "rpl": 3.87
-    },
-    {
-      "canal": "IA",
-      "tipo": "COMPRA NEGADA",
-      "origem": "RENOVAÇÃO",
-      "produto": "bp-premium",
-      "leads": 349,
-      "convertidos": 10,
-      "pct": 2.87,
-      "ticket": 266.28,
-      "receita": 2662.8,
-      "rpl": 7.63
-    },
-    {
-      "canal": "IA",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "NOVA COMPRA",
-      "produto": "apoiador",
-      "leads": 3607,
-      "convertidos": 180,
-      "pct": 4.99,
-      "ticket": 278.95,
-      "receita": 50211.6,
-      "rpl": 13.92
-    },
-    {
-      "canal": "IA",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-essencial",
-      "leads": 2200,
-      "convertidos": 92,
-      "pct": 4.18,
-      "ticket": 389.41,
-      "receita": 35826.0,
-      "rpl": 16.28
-    },
-    {
-      "canal": "IA",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "NOVA COMPRA",
-      "produto": "bp-premium",
-      "leads": 219,
-      "convertidos": 6,
-      "pct": 2.74,
-      "ticket": 1268.0,
-      "receita": 7608.0,
-      "rpl": 34.74
-    },
-    {
-      "canal": "IA",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "RENOVAÇÃO",
-      "produto": "bp-essencial",
-      "leads": 114,
-      "convertidos": 0,
-      "pct": 0.0,
-      "ticket": 0.0,
-      "receita": 0.0,
-      "rpl": 0.0
-    },
-    {
-      "canal": "IA",
-      "tipo": "OPORTUNIDADE DE VENDA",
-      "origem": "RENOVAÇÃO",
-      "produto": "apoiador",
-      "leads": 48,
-      "convertidos": 1,
-      "pct": 2.08,
-      "ticket": 228.0,
-      "receita": 228.0,
-      "rpl": 4.75
     }
   ],
   "por_matriz": [
@@ -1019,34 +129,34 @@
       "tipo": "ABANDONO DE CARRINHO",
       "produto": "apoiador",
       "ia": {
-        "leads": 6655,
-        "vendas": 566,
-        "receita": 90250.8,
-        "ticket": 159.45,
-        "pct_conv": 8.5,
-        "rpl": 13.56
+        "leads": 7927,
+        "vendas": 661,
+        "receita": 104385.6,
+        "ticket": 157.92,
+        "pct_conv": 8.34,
+        "rpl": 13.17
       },
       "comercial": {
-        "leads": 777,
-        "vendas": 27,
-        "receita": 8466.0,
-        "ticket": 313.56,
-        "pct_conv": 3.47,
-        "rpl": 10.9
+        "leads": 790,
+        "vendas": 28,
+        "receita": 8742.0,
+        "ticket": 312.21,
+        "pct_conv": 3.54,
+        "rpl": 11.07
       },
       "upsell_ia": {
-        "deals_won": 566,
+        "deals_won": 661,
         "deals_com_upsell": 1,
         "pct_upsell": 0.2,
         "receita_upsell": 180.0,
-        "upsell_por_deal": 0.32
+        "upsell_por_deal": 0.27
       },
       "upsell_com": {
-        "deals_won": 27,
+        "deals_won": 28,
         "deals_com_upsell": 2,
-        "pct_upsell": 7.4,
+        "pct_upsell": 7.1,
         "receita_upsell": 3459.96,
-        "upsell_por_deal": 128.15
+        "upsell_por_deal": 123.57
       }
     },
     {
@@ -1054,27 +164,27 @@
       "tipo": "ABANDONO DE CARRINHO",
       "produto": "bp-essencial",
       "ia": {
-        "leads": 2533,
-        "vendas": 242,
-        "receita": 56384.49,
-        "ticket": 232.99,
-        "pct_conv": 9.55,
-        "rpl": 22.26
+        "leads": 2966,
+        "vendas": 275,
+        "receita": 64057.29,
+        "ticket": 232.94,
+        "pct_conv": 9.27,
+        "rpl": 21.6
       },
       "comercial": {
-        "leads": 1356,
+        "leads": 1359,
         "vendas": 65,
         "receita": 20626.8,
         "ticket": 317.34,
-        "pct_conv": 4.79,
-        "rpl": 15.21
+        "pct_conv": 4.78,
+        "rpl": 15.18
       },
       "upsell_ia": {
-        "deals_won": 242,
-        "deals_com_upsell": 1,
-        "pct_upsell": 0.4,
-        "receita_upsell": 1308.0,
-        "upsell_por_deal": 5.4
+        "deals_won": 275,
+        "deals_com_upsell": 2,
+        "pct_upsell": 0.7,
+        "receita_upsell": 1808.0,
+        "upsell_por_deal": 6.57
       },
       "upsell_com": {
         "deals_won": 65,
@@ -1089,30 +199,30 @@
       "tipo": "ABANDONO DE CARRINHO",
       "produto": "bp-premium",
       "ia": {
-        "leads": 299,
-        "vendas": 35,
-        "receita": 15677.4,
-        "ticket": 447.93,
-        "pct_conv": 11.71,
-        "rpl": 52.43
+        "leads": 403,
+        "vendas": 48,
+        "receita": 20729.4,
+        "ticket": 431.86,
+        "pct_conv": 11.91,
+        "rpl": 51.44
       },
       "comercial": {
-        "leads": 108,
-        "vendas": 8,
-        "receita": 4976.4,
-        "ticket": 622.05,
-        "pct_conv": 7.41,
-        "rpl": 46.08
+        "leads": 120,
+        "vendas": 9,
+        "receita": 8256.36,
+        "ticket": 917.37,
+        "pct_conv": 7.5,
+        "rpl": 68.8
       },
       "upsell_ia": {
-        "deals_won": 35,
-        "deals_com_upsell": 1,
-        "pct_upsell": 2.9,
-        "receita_upsell": 1548.0,
-        "upsell_por_deal": 44.23
+        "deals_won": 48,
+        "deals_com_upsell": 2,
+        "pct_upsell": 4.2,
+        "receita_upsell": 3096.0,
+        "upsell_por_deal": 64.5
       },
       "upsell_com": {
-        "deals_won": 8,
+        "deals_won": 9,
         "deals_com_upsell": 0,
         "pct_upsell": 0.0,
         "receita_upsell": 0.0,
@@ -1124,34 +234,34 @@
       "tipo": "ABANDONO DE CARRINHO",
       "produto": "clube-do-livro",
       "ia": {
-        "leads": 314,
-        "vendas": 53,
-        "receita": 68244.02,
-        "ticket": 1287.62,
-        "pct_conv": 16.88,
-        "rpl": 217.34
+        "leads": 557,
+        "vendas": 68,
+        "receita": 91104.02,
+        "ticket": 1339.77,
+        "pct_conv": 12.21,
+        "rpl": 163.56
       },
       "comercial": {
-        "leads": 1069,
-        "vendas": 147,
-        "receita": 203768.64,
-        "ticket": 1386.18,
-        "pct_conv": 13.75,
+        "leads": 1415,
+        "vendas": 191,
+        "receita": 269729.88,
+        "ticket": 1412.2,
+        "pct_conv": 13.5,
         "rpl": 190.62
       },
       "upsell_ia": {
-        "deals_won": 53,
-        "deals_com_upsell": 6,
-        "pct_upsell": 11.3,
-        "receita_upsell": 2960.12,
-        "upsell_por_deal": 55.85
+        "deals_won": 68,
+        "deals_com_upsell": 9,
+        "pct_upsell": 13.2,
+        "receita_upsell": 6656.12,
+        "upsell_por_deal": 97.88
       },
       "upsell_com": {
-        "deals_won": 147,
-        "deals_com_upsell": 36,
-        "pct_upsell": 24.5,
-        "receita_upsell": 43321.2,
-        "upsell_por_deal": 294.7
+        "deals_won": 191,
+        "deals_com_upsell": 49,
+        "pct_upsell": 25.7,
+        "receita_upsell": 52393.2,
+        "upsell_por_deal": 274.31
       }
     },
     {
@@ -1159,7 +269,7 @@
       "tipo": "ABANDONO DE CARRINHO",
       "produto": "desconhecido",
       "ia": {
-        "leads": 27,
+        "leads": 38,
         "vendas": 0,
         "receita": 0.0,
         "ticket": 0.0,
@@ -1167,12 +277,12 @@
         "rpl": 0.0
       },
       "comercial": {
-        "leads": 4,
-        "vendas": 0,
-        "receita": 0.0,
-        "ticket": 0.0,
-        "pct_conv": 0.0,
-        "rpl": 0.0
+        "leads": 2,
+        "vendas": 1,
+        "receita": 1188.0,
+        "ticket": 1188.0,
+        "pct_conv": 50.0,
+        "rpl": 594.0
       },
       "upsell_ia": {
         "deals_won": 0,
@@ -1182,11 +292,11 @@
         "upsell_por_deal": 0
       },
       "upsell_com": {
-        "deals_won": 0,
+        "deals_won": 1,
         "deals_com_upsell": 0,
-        "pct_upsell": 0,
-        "receita_upsell": 0,
-        "upsell_por_deal": 0
+        "pct_upsell": 0.0,
+        "receita_upsell": 0.0,
+        "upsell_por_deal": 0.0
       }
     },
     {
@@ -1194,20 +304,20 @@
       "tipo": "ABANDONO DE CARRINHO",
       "produto": "teller",
       "ia": {
-        "leads": 0,
+        "leads": 6,
         "vendas": 0,
-        "receita": 0,
-        "ticket": 0,
-        "pct_conv": 0,
-        "rpl": 0
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
       },
       "comercial": {
-        "leads": 23,
+        "leads": 22,
         "vendas": 1,
         "receita": 204.0,
         "ticket": 204.0,
-        "pct_conv": 4.35,
-        "rpl": 8.87
+        "pct_conv": 4.55,
+        "rpl": 9.27
       },
       "upsell_ia": {
         "deals_won": 0,
@@ -1229,27 +339,27 @@
       "tipo": "COMPRA NEGADA",
       "produto": "apoiador",
       "ia": {
-        "leads": 2563,
-        "vendas": 202,
-        "receita": 29902.8,
-        "ticket": 148.03,
-        "pct_conv": 7.88,
-        "rpl": 11.67
+        "leads": 3025,
+        "vendas": 239,
+        "receita": 35133.6,
+        "ticket": 147.0,
+        "pct_conv": 7.9,
+        "rpl": 11.61
       },
       "comercial": {
-        "leads": 429,
+        "leads": 459,
         "vendas": 20,
         "receita": 4777.86,
         "ticket": 238.89,
-        "pct_conv": 4.66,
-        "rpl": 11.14
+        "pct_conv": 4.36,
+        "rpl": 10.41
       },
       "upsell_ia": {
-        "deals_won": 202,
-        "deals_com_upsell": 0,
-        "pct_upsell": 0.0,
-        "receita_upsell": 0.0,
-        "upsell_por_deal": 0.0
+        "deals_won": 239,
+        "deals_com_upsell": 1,
+        "pct_upsell": 0.4,
+        "receita_upsell": 180.0,
+        "upsell_por_deal": 0.75
       },
       "upsell_com": {
         "deals_won": 20,
@@ -1264,27 +374,27 @@
       "tipo": "COMPRA NEGADA",
       "produto": "bp-essencial",
       "ia": {
-        "leads": 1540,
-        "vendas": 118,
-        "receita": 25233.6,
-        "ticket": 213.84,
-        "pct_conv": 7.66,
-        "rpl": 16.39
+        "leads": 1796,
+        "vendas": 129,
+        "receita": 27544.8,
+        "ticket": 213.53,
+        "pct_conv": 7.18,
+        "rpl": 15.34
       },
       "comercial": {
-        "leads": 589,
+        "leads": 590,
         "vendas": 18,
         "receita": 9972.0,
         "ticket": 554.0,
-        "pct_conv": 3.06,
-        "rpl": 16.93
+        "pct_conv": 3.05,
+        "rpl": 16.9
       },
       "upsell_ia": {
-        "deals_won": 118,
+        "deals_won": 129,
         "deals_com_upsell": 1,
         "pct_upsell": 0.8,
         "receita_upsell": 1284.0,
-        "upsell_por_deal": 10.88
+        "upsell_por_deal": 9.95
       },
       "upsell_com": {
         "deals_won": 18,
@@ -1299,34 +409,34 @@
       "tipo": "COMPRA NEGADA",
       "produto": "bp-premium",
       "ia": {
-        "leads": 226,
-        "vendas": 27,
-        "receita": 11181.6,
-        "ticket": 414.13,
-        "pct_conv": 11.95,
-        "rpl": 49.48
+        "leads": 300,
+        "vendas": 34,
+        "receita": 14139.6,
+        "ticket": 415.87,
+        "pct_conv": 11.33,
+        "rpl": 47.13
       },
       "comercial": {
-        "leads": 66,
-        "vendas": 4,
-        "receita": 5774.76,
-        "ticket": 1443.69,
-        "pct_conv": 6.06,
-        "rpl": 87.5
+        "leads": 70,
+        "vendas": 5,
+        "receita": 8888.76,
+        "ticket": 1777.75,
+        "pct_conv": 7.14,
+        "rpl": 126.98
       },
       "upsell_ia": {
-        "deals_won": 27,
+        "deals_won": 34,
         "deals_com_upsell": 1,
-        "pct_upsell": 3.7,
+        "pct_upsell": 2.9,
         "receita_upsell": 790.8,
-        "upsell_por_deal": 29.29
+        "upsell_por_deal": 23.26
       },
       "upsell_com": {
-        "deals_won": 4,
+        "deals_won": 5,
         "deals_com_upsell": 1,
-        "pct_upsell": 25.0,
+        "pct_upsell": 20.0,
         "receita_upsell": 1188.0,
-        "upsell_por_deal": 297.0
+        "upsell_por_deal": 237.6
       }
     },
     {
@@ -1334,34 +444,34 @@
       "tipo": "COMPRA NEGADA",
       "produto": "clube-do-livro",
       "ia": {
-        "leads": 259,
-        "vendas": 21,
-        "receita": 27053.4,
-        "ticket": 1288.26,
-        "pct_conv": 8.11,
-        "rpl": 104.45
+        "leads": 475,
+        "vendas": 33,
+        "receita": 43391.4,
+        "ticket": 1314.89,
+        "pct_conv": 6.95,
+        "rpl": 91.35
       },
       "comercial": {
-        "leads": 760,
-        "vendas": 72,
-        "receita": 104905.8,
-        "ticket": 1457.03,
-        "pct_conv": 9.47,
-        "rpl": 138.03
+        "leads": 941,
+        "vendas": 90,
+        "receita": 130793.76,
+        "ticket": 1453.26,
+        "pct_conv": 9.56,
+        "rpl": 138.99
       },
       "upsell_ia": {
-        "deals_won": 21,
-        "deals_com_upsell": 4,
-        "pct_upsell": 19.0,
-        "receita_upsell": 1680.12,
-        "upsell_por_deal": 80.01
+        "deals_won": 33,
+        "deals_com_upsell": 5,
+        "pct_upsell": 15.2,
+        "receita_upsell": 2160.12,
+        "upsell_por_deal": 65.46
       },
       "upsell_com": {
-        "deals_won": 72,
-        "deals_com_upsell": 21,
-        "pct_upsell": 29.2,
-        "receita_upsell": 12768.0,
-        "upsell_por_deal": 177.33
+        "deals_won": 90,
+        "deals_com_upsell": 26,
+        "pct_upsell": 28.9,
+        "receita_upsell": 15876.0,
+        "upsell_por_deal": 176.4
       }
     },
     {
@@ -1369,15 +479,15 @@
       "tipo": "COMPRA NEGADA",
       "produto": "desconhecido",
       "ia": {
-        "leads": 57,
+        "leads": 96,
         "vendas": 4,
         "receita": 696.0,
         "ticket": 174.0,
-        "pct_conv": 7.02,
-        "rpl": 12.21
+        "pct_conv": 4.17,
+        "rpl": 7.25
       },
       "comercial": {
-        "leads": 1,
+        "leads": 2,
         "vendas": 0,
         "receita": 0.0,
         "ticket": 0.0,
@@ -1404,34 +514,34 @@
       "tipo": "OPORTUNIDADE DE VENDA",
       "produto": "apoiador",
       "ia": {
-        "leads": 3607,
-        "vendas": 180,
-        "receita": 50211.6,
-        "ticket": 278.95,
-        "pct_conv": 4.99,
-        "rpl": 13.92
+        "leads": 3665,
+        "vendas": 182,
+        "receita": 50763.6,
+        "ticket": 278.92,
+        "pct_conv": 4.97,
+        "rpl": 13.85
       },
       "comercial": {
-        "leads": 7048,
-        "vendas": 337,
-        "receita": 95446.8,
-        "ticket": 283.22,
-        "pct_conv": 4.78,
-        "rpl": 13.54
+        "leads": 8180,
+        "vendas": 360,
+        "receita": 102327.0,
+        "ticket": 284.24,
+        "pct_conv": 4.4,
+        "rpl": 12.51
       },
       "upsell_ia": {
-        "deals_won": 180,
+        "deals_won": 182,
         "deals_com_upsell": 4,
         "pct_upsell": 2.2,
         "receita_upsell": 1822.8,
-        "upsell_por_deal": 10.13
+        "upsell_por_deal": 10.02
       },
       "upsell_com": {
-        "deals_won": 337,
-        "deals_com_upsell": 6,
-        "pct_upsell": 1.8,
-        "receita_upsell": 2136.0,
-        "upsell_por_deal": 6.34
+        "deals_won": 360,
+        "deals_com_upsell": 7,
+        "pct_upsell": 1.9,
+        "receita_upsell": 2316.0,
+        "upsell_por_deal": 6.43
       }
     },
     {
@@ -1447,12 +557,12 @@
         "rpl": 0
       },
       "comercial": {
-        "leads": 37,
-        "vendas": 5,
-        "receita": 12215.88,
-        "ticket": 2443.18,
-        "pct_conv": 13.51,
-        "rpl": 330.16
+        "leads": 59,
+        "vendas": 9,
+        "receita": 22083.84,
+        "ticket": 2453.76,
+        "pct_conv": 15.25,
+        "rpl": 374.3
       },
       "upsell_ia": {
         "deals_won": 0,
@@ -1462,11 +572,11 @@
         "upsell_por_deal": 0
       },
       "upsell_com": {
-        "deals_won": 5,
-        "deals_com_upsell": 3,
-        "pct_upsell": 60.0,
-        "receita_upsell": 4752.0,
-        "upsell_por_deal": 950.4
+        "deals_won": 9,
+        "deals_com_upsell": 6,
+        "pct_upsell": 66.7,
+        "receita_upsell": 7608.0,
+        "upsell_por_deal": 845.33
       }
     },
     {
@@ -1474,34 +584,34 @@
       "tipo": "OPORTUNIDADE DE VENDA",
       "produto": "bp-essencial",
       "ia": {
-        "leads": 2200,
-        "vendas": 92,
-        "receita": 35826.0,
-        "ticket": 389.41,
-        "pct_conv": 4.18,
-        "rpl": 16.28
+        "leads": 2236,
+        "vendas": 93,
+        "receita": 35940.0,
+        "ticket": 386.45,
+        "pct_conv": 4.16,
+        "rpl": 16.07
       },
       "comercial": {
-        "leads": 3724,
-        "vendas": 119,
-        "receita": 52575.06,
-        "ticket": 441.81,
-        "pct_conv": 3.2,
-        "rpl": 14.12
+        "leads": 3741,
+        "vendas": 125,
+        "receita": 59473.86,
+        "ticket": 475.79,
+        "pct_conv": 3.34,
+        "rpl": 15.9
       },
       "upsell_ia": {
-        "deals_won": 92,
+        "deals_won": 93,
         "deals_com_upsell": 2,
         "pct_upsell": 2.2,
         "receita_upsell": 2175.0,
-        "upsell_por_deal": 23.64
+        "upsell_por_deal": 23.39
       },
       "upsell_com": {
-        "deals_won": 119,
-        "deals_com_upsell": 4,
-        "pct_upsell": 3.4,
-        "receita_upsell": 2628.0,
-        "upsell_por_deal": 22.08
+        "deals_won": 125,
+        "deals_com_upsell": 6,
+        "pct_upsell": 4.8,
+        "receita_upsell": 3588.0,
+        "upsell_por_deal": 28.7
       }
     },
     {
@@ -1517,12 +627,12 @@
         "rpl": 0.0
       },
       "comercial": {
-        "leads": 37,
-        "vendas": 17,
-        "receita": 6660.0,
-        "ticket": 391.76,
-        "pct_conv": 45.95,
-        "rpl": 180.0
+        "leads": 41,
+        "vendas": 18,
+        "receita": 6936.0,
+        "ticket": 385.33,
+        "pct_conv": 43.9,
+        "rpl": 169.17
       },
       "upsell_ia": {
         "deals_won": 0,
@@ -1532,7 +642,7 @@
         "upsell_por_deal": 0
       },
       "upsell_com": {
-        "deals_won": 17,
+        "deals_won": 18,
         "deals_com_upsell": 0,
         "pct_upsell": 0.0,
         "receita_upsell": 0.0,
@@ -1544,34 +654,34 @@
       "tipo": "OPORTUNIDADE DE VENDA",
       "produto": "bp-premium",
       "ia": {
-        "leads": 219,
-        "vendas": 6,
-        "receita": 7608.0,
-        "ticket": 1268.0,
-        "pct_conv": 2.74,
-        "rpl": 34.74
+        "leads": 227,
+        "vendas": 7,
+        "receita": 7884.0,
+        "ticket": 1126.29,
+        "pct_conv": 3.08,
+        "rpl": 34.73
       },
       "comercial": {
-        "leads": 455,
-        "vendas": 16,
-        "receita": 40643.52,
-        "ticket": 2540.22,
-        "pct_conv": 3.52,
-        "rpl": 89.33
+        "leads": 503,
+        "vendas": 22,
+        "receita": 51161.04,
+        "ticket": 2325.5,
+        "pct_conv": 4.37,
+        "rpl": 101.71
       },
       "upsell_ia": {
-        "deals_won": 6,
+        "deals_won": 7,
         "deals_com_upsell": 0,
         "pct_upsell": 0.0,
         "receita_upsell": 0.0,
         "upsell_por_deal": 0.0
       },
       "upsell_com": {
-        "deals_won": 16,
-        "deals_com_upsell": 4,
-        "pct_upsell": 25.0,
-        "receita_upsell": 4752.0,
-        "upsell_por_deal": 297.0
+        "deals_won": 22,
+        "deals_com_upsell": 6,
+        "pct_upsell": 27.3,
+        "receita_upsell": 6420.0,
+        "upsell_por_deal": 291.82
       }
     },
     {
@@ -1587,12 +697,12 @@
         "rpl": 0.0
       },
       "comercial": {
-        "leads": 3774,
-        "vendas": 95,
-        "receita": 232315.44,
-        "ticket": 2445.43,
-        "pct_conv": 2.52,
-        "rpl": 61.56
+        "leads": 5137,
+        "vendas": 123,
+        "receita": 293084.04,
+        "ticket": 2382.8,
+        "pct_conv": 2.39,
+        "rpl": 57.05
       },
       "upsell_ia": {
         "deals_won": 0,
@@ -1602,11 +712,11 @@
         "upsell_por_deal": 0
       },
       "upsell_com": {
-        "deals_won": 95,
-        "deals_com_upsell": 51,
-        "pct_upsell": 53.7,
-        "receita_upsell": 60430.8,
-        "upsell_por_deal": 636.11
+        "deals_won": 123,
+        "deals_com_upsell": 62,
+        "pct_upsell": 50.4,
+        "receita_upsell": 72844.8,
+        "upsell_por_deal": 592.23
       }
     },
     {
@@ -1622,12 +732,12 @@
         "rpl": 0
       },
       "comercial": {
-        "leads": 78,
-        "vendas": 2,
-        "receita": 1366.8,
-        "ticket": 683.4,
-        "pct_conv": 2.56,
-        "rpl": 17.52
+        "leads": 83,
+        "vendas": 3,
+        "receita": 2554.8,
+        "ticket": 851.6,
+        "pct_conv": 3.61,
+        "rpl": 30.78
       },
       "upsell_ia": {
         "deals_won": 0,
@@ -1637,11 +747,11 @@
         "upsell_por_deal": 0
       },
       "upsell_com": {
-        "deals_won": 2,
-        "deals_com_upsell": 1,
-        "pct_upsell": 50.0,
-        "receita_upsell": 480.0,
-        "upsell_por_deal": 240.0
+        "deals_won": 3,
+        "deals_com_upsell": 2,
+        "pct_upsell": 66.7,
+        "receita_upsell": 960.0,
+        "upsell_por_deal": 320.0
       }
     },
     {
@@ -1649,12 +759,12 @@
       "tipo": "ABANDONO DE CARRINHO",
       "produto": "apoiador",
       "ia": {
-        "leads": 35,
+        "leads": 36,
         "vendas": 2,
         "receita": 240.0,
         "ticket": 120.0,
-        "pct_conv": 5.71,
-        "rpl": 6.86
+        "pct_conv": 5.56,
+        "rpl": 6.67
       },
       "comercial": {
         "leads": 6,
@@ -1684,12 +794,12 @@
       "tipo": "ABANDONO DE CARRINHO",
       "produto": "bp-essencial",
       "ia": {
-        "leads": 40,
+        "leads": 60,
         "vendas": 2,
         "receita": 456.0,
         "ticket": 228.0,
-        "pct_conv": 5.0,
-        "rpl": 11.4
+        "pct_conv": 3.33,
+        "rpl": 7.6
       },
       "comercial": {
         "leads": 13,
@@ -1719,12 +829,12 @@
       "tipo": "COMPRA NEGADA",
       "produto": "apoiador",
       "ia": {
-        "leads": 1719,
-        "vendas": 17,
-        "receita": 2916.0,
-        "ticket": 171.53,
-        "pct_conv": 0.99,
-        "rpl": 1.7
+        "leads": 2196,
+        "vendas": 23,
+        "receita": 4068.0,
+        "ticket": 176.87,
+        "pct_conv": 1.05,
+        "rpl": 1.85
       },
       "comercial": {
         "leads": 0,
@@ -1735,11 +845,11 @@
         "rpl": 0
       },
       "upsell_ia": {
-        "deals_won": 17,
+        "deals_won": 23,
         "deals_com_upsell": 1,
-        "pct_upsell": 5.9,
+        "pct_upsell": 4.3,
         "receita_upsell": 180.0,
-        "upsell_por_deal": 10.59
+        "upsell_por_deal": 7.83
       },
       "upsell_com": {
         "deals_won": 0,
@@ -1754,27 +864,62 @@
       "tipo": "COMPRA NEGADA",
       "produto": "bp-essencial",
       "ia": {
-        "leads": 1704,
-        "vendas": 34,
-        "receita": 6586.8,
-        "ticket": 193.73,
-        "pct_conv": 2.0,
-        "rpl": 3.87
+        "leads": 2668,
+        "vendas": 46,
+        "receita": 9052.8,
+        "ticket": 196.8,
+        "pct_conv": 1.72,
+        "rpl": 3.39
       },
       "comercial": {
-        "leads": 0,
+        "leads": 2,
         "vendas": 0,
-        "receita": 0,
-        "ticket": 0,
-        "pct_conv": 0,
-        "rpl": 0
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
       },
       "upsell_ia": {
-        "deals_won": 34,
+        "deals_won": 46,
         "deals_com_upsell": 1,
-        "pct_upsell": 2.9,
+        "pct_upsell": 2.2,
         "receita_upsell": 180.0,
-        "upsell_por_deal": 5.29
+        "upsell_por_deal": 3.91
+      },
+      "upsell_com": {
+        "deals_won": 0,
+        "deals_com_upsell": 0,
+        "pct_upsell": 0,
+        "receita_upsell": 0,
+        "upsell_por_deal": 0
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "COMPRA NEGADA",
+      "produto": "bp-intermediario",
+      "ia": {
+        "leads": 3,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 52,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "upsell_ia": {
+        "deals_won": 0,
+        "deals_com_upsell": 0,
+        "pct_upsell": 0,
+        "receita_upsell": 0,
+        "upsell_por_deal": 0
       },
       "upsell_com": {
         "deals_won": 0,
@@ -1789,15 +934,15 @@
       "tipo": "COMPRA NEGADA",
       "produto": "bp-premium",
       "ia": {
-        "leads": 349,
-        "vendas": 10,
-        "receita": 2662.8,
-        "ticket": 266.28,
-        "pct_conv": 2.87,
-        "rpl": 7.63
+        "leads": 498,
+        "vendas": 15,
+        "receita": 4450.77,
+        "ticket": 296.72,
+        "pct_conv": 3.01,
+        "rpl": 8.94
       },
       "comercial": {
-        "leads": 6,
+        "leads": 11,
         "vendas": 0,
         "receita": 0.0,
         "ticket": 0.0,
@@ -1805,11 +950,46 @@
         "rpl": 0.0
       },
       "upsell_ia": {
-        "deals_won": 10,
+        "deals_won": 15,
         "deals_com_upsell": 1,
-        "pct_upsell": 10.0,
+        "pct_upsell": 6.7,
         "receita_upsell": 180.0,
-        "upsell_por_deal": 18.0
+        "upsell_por_deal": 12.0
+      },
+      "upsell_com": {
+        "deals_won": 0,
+        "deals_com_upsell": 0,
+        "pct_upsell": 0,
+        "receita_upsell": 0,
+        "upsell_por_deal": 0
+      }
+    },
+    {
+      "origem": "RENOVAÇÃO",
+      "tipo": "COMPRA NEGADA",
+      "produto": "desconhecido",
+      "ia": {
+        "leads": 53,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "comercial": {
+        "leads": 1,
+        "vendas": 0,
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
+      },
+      "upsell_ia": {
+        "deals_won": 0,
+        "deals_com_upsell": 0,
+        "pct_upsell": 0,
+        "receita_upsell": 0,
+        "upsell_por_deal": 0
       },
       "upsell_com": {
         "deals_won": 0,
@@ -1824,12 +1004,12 @@
       "tipo": "OPORTUNIDADE DE VENDA",
       "produto": "apoiador",
       "ia": {
-        "leads": 48,
+        "leads": 49,
         "vendas": 1,
         "receita": 228.0,
         "ticket": 228.0,
-        "pct_conv": 2.08,
-        "rpl": 4.75
+        "pct_conv": 2.04,
+        "rpl": 4.65
       },
       "comercial": {
         "leads": 33,
@@ -1859,7 +1039,7 @@
       "tipo": "OPORTUNIDADE DE VENDA",
       "produto": "bp-essencial",
       "ia": {
-        "leads": 114,
+        "leads": 120,
         "vendas": 0,
         "receita": 0.0,
         "ticket": 0.0,
@@ -1868,11 +1048,11 @@
       },
       "comercial": {
         "leads": 635,
-        "vendas": 26,
-        "receita": 3312.0,
-        "ticket": 127.38,
-        "pct_conv": 4.09,
-        "rpl": 5.22
+        "vendas": 27,
+        "receita": 3540.0,
+        "ticket": 131.11,
+        "pct_conv": 4.25,
+        "rpl": 5.57
       },
       "upsell_ia": {
         "deals_won": 0,
@@ -1882,7 +1062,7 @@
         "upsell_por_deal": 0
       },
       "upsell_com": {
-        "deals_won": 26,
+        "deals_won": 27,
         "deals_com_upsell": 0,
         "pct_upsell": 0.0,
         "receita_upsell": 0.0,
@@ -1894,20 +1074,20 @@
       "tipo": "OPORTUNIDADE DE VENDA",
       "produto": "bp-intermediario",
       "ia": {
-        "leads": 0,
+        "leads": 2,
         "vendas": 0,
-        "receita": 0,
-        "ticket": 0,
-        "pct_conv": 0,
-        "rpl": 0
+        "receita": 0.0,
+        "ticket": 0.0,
+        "pct_conv": 0.0,
+        "rpl": 0.0
       },
       "comercial": {
-        "leads": 286,
+        "leads": 332,
         "vendas": 3,
         "receita": 3084.0,
         "ticket": 1028.0,
-        "pct_conv": 1.05,
-        "rpl": 10.78
+        "pct_conv": 0.9,
+        "rpl": 9.29
       },
       "upsell_ia": {
         "deals_won": 0,
@@ -1937,12 +1117,12 @@
         "rpl": 0.0
       },
       "comercial": {
-        "leads": 655,
-        "vendas": 13,
-        "receita": 8110.8,
-        "ticket": 623.91,
-        "pct_conv": 1.98,
-        "rpl": 12.38
+        "leads": 776,
+        "vendas": 14,
+        "receita": 8590.8,
+        "ticket": 613.63,
+        "pct_conv": 1.8,
+        "rpl": 11.07
       },
       "upsell_ia": {
         "deals_won": 0,
@@ -1952,7 +1132,7 @@
         "upsell_por_deal": 0
       },
       "upsell_com": {
-        "deals_won": 13,
+        "deals_won": 14,
         "deals_com_upsell": 0,
         "pct_upsell": 0.0,
         "receita_upsell": 0.0,
@@ -1994,5 +1174,972 @@
         "upsell_por_deal": 0.0
       }
     }
-  ]
+  ],
+  "fds": {
+    "periodo": "Fds 27–29 jun",
+    "resumo": {
+      "Comercial": {
+        "leads": 3142,
+        "convertidos": 81,
+        "pct": 2.58,
+        "ticket": 1200.35,
+        "receita": 97228.08,
+        "rpl": 30.94
+      },
+      "IA": {
+        "leads": 4108,
+        "convertidos": 167,
+        "pct": 4.07,
+        "ticket": 391.38,
+        "receita": 65360.37,
+        "rpl": 15.91
+      }
+    },
+    "por_tipo": [
+      {
+        "label": "Abandono De Carrinho | Nova Compra",
+        "tipo": "ABANDONO DE CARRINHO",
+        "origem": "NOVA COMPRA",
+        "ia": {
+          "leads": 1613,
+          "pct": 5.95,
+          "ticket": 380.36,
+          "rpl": 22.64
+        },
+        "comercial": {
+          "leads": 314,
+          "pct": 8.92,
+          "ticket": 1405.62,
+          "rpl": 125.34
+        }
+      },
+      {
+        "label": "Compra Negada | Nova Compra",
+        "tipo": "COMPRA NEGADA",
+        "origem": "NOVA COMPRA",
+        "ia": {
+          "leads": 829,
+          "pct": 6.15,
+          "ticket": 470.07,
+          "rpl": 28.92
+        },
+        "comercial": {
+          "leads": 190,
+          "pct": 4.21,
+          "ticket": 1428.0,
+          "rpl": 60.13
+        }
+      },
+      {
+        "label": "Oportunidade De Venda | Nova Compra",
+        "tipo": "OPORTUNIDADE DE VENDA",
+        "origem": "NOVA COMPRA",
+        "ia": {
+          "leads": 78,
+          "pct": 2.56,
+          "ticket": 276.0,
+          "rpl": 7.08
+        },
+        "comercial": {
+          "leads": 2417,
+          "pct": 1.82,
+          "ticket": 1044.7,
+          "rpl": 19.02
+        }
+      },
+      {
+        "label": "Abandono De Carrinho | Renovação",
+        "tipo": "ABANDONO DE CARRINHO",
+        "origem": "RENOVAÇÃO",
+        "ia": {
+          "leads": 20,
+          "pct": 0.0,
+          "ticket": 0.0,
+          "rpl": 0.0
+        },
+        "comercial": {
+          "leads": 0,
+          "pct": 0,
+          "ticket": 0,
+          "rpl": 0
+        }
+      },
+      {
+        "label": "Compra Negada | Renovação",
+        "tipo": "COMPRA NEGADA",
+        "origem": "RENOVAÇÃO",
+        "ia": {
+          "leads": 1563,
+          "pct": 1.15,
+          "ticket": 240.0,
+          "rpl": 2.76
+        },
+        "comercial": {
+          "leads": 57,
+          "pct": 0.0,
+          "ticket": 0.0,
+          "rpl": 0.0
+        }
+      },
+      {
+        "label": "Oportunidade De Venda | Renovação",
+        "tipo": "OPORTUNIDADE DE VENDA",
+        "origem": "RENOVAÇÃO",
+        "ia": {
+          "leads": 5,
+          "pct": 0.0,
+          "ticket": 0.0,
+          "rpl": 0.0
+        },
+        "comercial": {
+          "leads": 164,
+          "pct": 0.61,
+          "ticket": 480.0,
+          "rpl": 2.93
+        }
+      }
+    ],
+    "por_matriz": [
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "ABANDONO DE CARRINHO",
+        "produto": "apoiador",
+        "ia": {
+          "leads": 992,
+          "vendas": 57,
+          "receita": 8564.4,
+          "ticket": 150.25,
+          "pct_conv": 5.75,
+          "rpl": 8.63
+        },
+        "comercial": {
+          "leads": 13,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 57,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "ABANDONO DE CARRINHO",
+        "produto": "bp-essencial",
+        "ia": {
+          "leads": 334,
+          "vendas": 16,
+          "receita": 3165.6,
+          "ticket": 197.85,
+          "pct_conv": 4.79,
+          "rpl": 9.48
+        },
+        "comercial": {
+          "leads": 1,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 16,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "ABANDONO DE CARRINHO",
+        "produto": "bp-premium",
+        "ia": {
+          "leads": 76,
+          "vendas": 9,
+          "receita": 3472.8,
+          "ticket": 385.87,
+          "pct_conv": 11.84,
+          "rpl": 45.69
+        },
+        "comercial": {
+          "leads": 8,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 9,
+          "deals_com_upsell": 1,
+          "pct_upsell": 11.1,
+          "receita_upsell": 1548.0,
+          "upsell_por_deal": 172.0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "ABANDONO DE CARRINHO",
+        "produto": "clube-do-livro",
+        "ia": {
+          "leads": 208,
+          "vendas": 14,
+          "receita": 21312.0,
+          "ticket": 1522.29,
+          "pct_conv": 6.73,
+          "rpl": 102.46
+        },
+        "comercial": {
+          "leads": 292,
+          "vendas": 28,
+          "receita": 39357.36,
+          "ticket": 1405.62,
+          "pct_conv": 9.59,
+          "rpl": 134.79
+        },
+        "upsell_ia": {
+          "deals_won": 14,
+          "deals_com_upsell": 3,
+          "pct_upsell": 21.4,
+          "receita_upsell": 3696.0,
+          "upsell_por_deal": 264.0
+        },
+        "upsell_com": {
+          "deals_won": 28,
+          "deals_com_upsell": 5,
+          "pct_upsell": 17.9,
+          "receita_upsell": 3108.0,
+          "upsell_por_deal": 111.0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "COMPRA NEGADA",
+        "produto": "apoiador",
+        "ia": {
+          "leads": 358,
+          "vendas": 24,
+          "receita": 3193.2,
+          "ticket": 133.05,
+          "pct_conv": 6.7,
+          "rpl": 8.92
+        },
+        "comercial": {
+          "leads": 30,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 24,
+          "deals_com_upsell": 1,
+          "pct_upsell": 4.2,
+          "receita_upsell": 180.0,
+          "upsell_por_deal": 7.5
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "COMPRA NEGADA",
+        "produto": "bp-essencial",
+        "ia": {
+          "leads": 197,
+          "vendas": 9,
+          "receita": 1952.4,
+          "ticket": 216.93,
+          "pct_conv": 4.57,
+          "rpl": 9.91
+        },
+        "comercial": {
+          "leads": 1,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 9,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "COMPRA NEGADA",
+        "produto": "bp-premium",
+        "ia": {
+          "leads": 60,
+          "vendas": 6,
+          "receita": 2490.0,
+          "ticket": 415.0,
+          "pct_conv": 10.0,
+          "rpl": 41.5
+        },
+        "comercial": {
+          "leads": 4,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 6,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "COMPRA NEGADA",
+        "produto": "clube-do-livro",
+        "ia": {
+          "leads": 191,
+          "vendas": 12,
+          "receita": 16338.0,
+          "ticket": 1361.5,
+          "pct_conv": 6.28,
+          "rpl": 85.54
+        },
+        "comercial": {
+          "leads": 153,
+          "vendas": 8,
+          "receita": 11424.0,
+          "ticket": 1428.0,
+          "pct_conv": 5.23,
+          "rpl": 74.67
+        },
+        "upsell_ia": {
+          "deals_won": 12,
+          "deals_com_upsell": 1,
+          "pct_upsell": 8.3,
+          "receita_upsell": 480.0,
+          "upsell_por_deal": 40.0
+        },
+        "upsell_com": {
+          "deals_won": 8,
+          "deals_com_upsell": 2,
+          "pct_upsell": 25.0,
+          "receita_upsell": 960.0,
+          "upsell_por_deal": 120.0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "COMPRA NEGADA",
+        "produto": "desconhecido",
+        "ia": {
+          "leads": 23,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "comercial": {
+          "leads": 1,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "OPORTUNIDADE DE VENDA",
+        "produto": "apoiador",
+        "ia": {
+          "leads": 43,
+          "vendas": 1,
+          "receita": 276.0,
+          "ticket": 276.0,
+          "pct_conv": 2.33,
+          "rpl": 6.42
+        },
+        "comercial": {
+          "leads": 1125,
+          "vendas": 20,
+          "receita": 5253.6,
+          "ticket": 262.68,
+          "pct_conv": 1.78,
+          "rpl": 4.67
+        },
+        "upsell_ia": {
+          "deals_won": 1,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        },
+        "upsell_com": {
+          "deals_won": 20,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "OPORTUNIDADE DE VENDA",
+        "produto": "black",
+        "ia": {
+          "leads": 0,
+          "vendas": 0,
+          "receita": 0,
+          "ticket": 0,
+          "pct_conv": 0,
+          "rpl": 0
+        },
+        "comercial": {
+          "leads": 21,
+          "vendas": 3,
+          "receita": 6015.96,
+          "ticket": 2005.32,
+          "pct_conv": 14.29,
+          "rpl": 286.47
+        },
+        "upsell_ia": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        },
+        "upsell_com": {
+          "deals_won": 3,
+          "deals_com_upsell": 2,
+          "pct_upsell": 66.7,
+          "receita_upsell": 1668.0,
+          "upsell_por_deal": 556.0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "OPORTUNIDADE DE VENDA",
+        "produto": "bp-essencial",
+        "ia": {
+          "leads": 28,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "comercial": {
+          "leads": 13,
+          "vendas": 1,
+          "receita": 238.8,
+          "ticket": 238.8,
+          "pct_conv": 7.69,
+          "rpl": 18.37
+        },
+        "upsell_ia": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        },
+        "upsell_com": {
+          "deals_won": 1,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "OPORTUNIDADE DE VENDA",
+        "produto": "bp-premium",
+        "ia": {
+          "leads": 7,
+          "vendas": 1,
+          "receita": 276.0,
+          "ticket": 276.0,
+          "pct_conv": 14.29,
+          "rpl": 39.43
+        },
+        "comercial": {
+          "leads": 32,
+          "vendas": 2,
+          "receita": 1581.6,
+          "ticket": 790.8,
+          "pct_conv": 6.25,
+          "rpl": 49.42
+        },
+        "upsell_ia": {
+          "deals_won": 1,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        },
+        "upsell_com": {
+          "deals_won": 2,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        }
+      },
+      {
+        "origem": "NOVA COMPRA",
+        "tipo": "OPORTUNIDADE DE VENDA",
+        "produto": "clube-do-livro",
+        "ia": {
+          "leads": 0,
+          "vendas": 0,
+          "receita": 0,
+          "ticket": 0,
+          "pct_conv": 0,
+          "rpl": 0
+        },
+        "comercial": {
+          "leads": 1222,
+          "vendas": 17,
+          "receita": 32600.76,
+          "ticket": 1917.69,
+          "pct_conv": 1.39,
+          "rpl": 26.68
+        },
+        "upsell_ia": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        },
+        "upsell_com": {
+          "deals_won": 17,
+          "deals_com_upsell": 5,
+          "pct_upsell": 29.4,
+          "receita_upsell": 5940.0,
+          "upsell_por_deal": 349.41
+        }
+      },
+      {
+        "origem": "RENOVAÇÃO",
+        "tipo": "ABANDONO DE CARRINHO",
+        "produto": "bp-essencial",
+        "ia": {
+          "leads": 18,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "comercial": {
+          "leads": 0,
+          "vendas": 0,
+          "receita": 0,
+          "ticket": 0,
+          "pct_conv": 0,
+          "rpl": 0
+        },
+        "upsell_ia": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "RENOVAÇÃO",
+        "tipo": "COMPRA NEGADA",
+        "produto": "apoiador",
+        "ia": {
+          "leads": 465,
+          "vendas": 5,
+          "receita": 924.0,
+          "ticket": 184.8,
+          "pct_conv": 1.08,
+          "rpl": 1.99
+        },
+        "comercial": {
+          "leads": 0,
+          "vendas": 0,
+          "receita": 0,
+          "ticket": 0,
+          "pct_conv": 0,
+          "rpl": 0
+        },
+        "upsell_ia": {
+          "deals_won": 5,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "RENOVAÇÃO",
+        "tipo": "COMPRA NEGADA",
+        "produto": "black",
+        "ia": {
+          "leads": 0,
+          "vendas": 0,
+          "receita": 0,
+          "ticket": 0,
+          "pct_conv": 0,
+          "rpl": 0
+        },
+        "comercial": {
+          "leads": 5,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "RENOVAÇÃO",
+        "tipo": "COMPRA NEGADA",
+        "produto": "bp-essencial",
+        "ia": {
+          "leads": 947,
+          "vendas": 9,
+          "receita": 1998.0,
+          "ticket": 222.0,
+          "pct_conv": 0.95,
+          "rpl": 2.11
+        },
+        "comercial": {
+          "leads": 2,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 9,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "RENOVAÇÃO",
+        "tipo": "COMPRA NEGADA",
+        "produto": "bp-intermediario",
+        "ia": {
+          "leads": 0,
+          "vendas": 0,
+          "receita": 0,
+          "ticket": 0,
+          "pct_conv": 0,
+          "rpl": 0
+        },
+        "comercial": {
+          "leads": 44,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "RENOVAÇÃO",
+        "tipo": "COMPRA NEGADA",
+        "produto": "bp-premium",
+        "ia": {
+          "leads": 146,
+          "vendas": 4,
+          "receita": 1397.97,
+          "ticket": 349.49,
+          "pct_conv": 2.74,
+          "rpl": 9.58
+        },
+        "comercial": {
+          "leads": 5,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 4,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "RENOVAÇÃO",
+        "tipo": "COMPRA NEGADA",
+        "produto": "desconhecido",
+        "ia": {
+          "leads": 5,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "comercial": {
+          "leads": 1,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "RENOVAÇÃO",
+        "tipo": "OPORTUNIDADE DE VENDA",
+        "produto": "black",
+        "ia": {
+          "leads": 0,
+          "vendas": 0,
+          "receita": 0,
+          "ticket": 0,
+          "pct_conv": 0,
+          "rpl": 0
+        },
+        "comercial": {
+          "leads": 5,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "RENOVAÇÃO",
+        "tipo": "OPORTUNIDADE DE VENDA",
+        "produto": "bp-intermediario",
+        "ia": {
+          "leads": 0,
+          "vendas": 0,
+          "receita": 0,
+          "ticket": 0,
+          "pct_conv": 0,
+          "rpl": 0
+        },
+        "comercial": {
+          "leads": 38,
+          "vendas": 0,
+          "receita": 0.0,
+          "ticket": 0.0,
+          "pct_conv": 0.0,
+          "rpl": 0.0
+        },
+        "upsell_ia": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        },
+        "upsell_com": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        }
+      },
+      {
+        "origem": "RENOVAÇÃO",
+        "tipo": "OPORTUNIDADE DE VENDA",
+        "produto": "bp-premium",
+        "ia": {
+          "leads": 0,
+          "vendas": 0,
+          "receita": 0,
+          "ticket": 0,
+          "pct_conv": 0,
+          "rpl": 0
+        },
+        "comercial": {
+          "leads": 120,
+          "vendas": 1,
+          "receita": 480.0,
+          "ticket": 480.0,
+          "pct_conv": 0.83,
+          "rpl": 4.0
+        },
+        "upsell_ia": {
+          "deals_won": 0,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0,
+          "receita_upsell": 0,
+          "upsell_por_deal": 0
+        },
+        "upsell_com": {
+          "deals_won": 1,
+          "deals_com_upsell": 0,
+          "pct_upsell": 0.0,
+          "receita_upsell": 0.0,
+          "upsell_por_deal": 0.0
+        }
+      }
+    ]
+  }
 }
