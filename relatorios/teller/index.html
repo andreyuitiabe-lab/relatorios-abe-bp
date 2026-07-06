@@ -236,7 +236,7 @@ function initCharts(D){
     options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>nf(c.raw)+' ouvintes'}}},scales:{x:{beginAtZero:true}}}});
 }
 
-fetch('./data.json').then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(initCharts)
+fetch('./data.json?v='+Date.now()).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(initCharts)
 .catch(err=>{console.error(err);document.querySelector('main').insertAdjacentHTML('afterbegin',
   `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">⚠ Erro ao carregar dados: ${err.message}. Para ver local, rodar <code>python -m http.server</code> na pasta.</div>`);});
 </script>
