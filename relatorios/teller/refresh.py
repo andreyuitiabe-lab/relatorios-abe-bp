@@ -53,16 +53,24 @@ WHERE nm_status='approved' AND bl_is_renovation=FALSE AND dt_ordered_at>='{START
 GROUP BY 1 ORDER BY 1
 """
 
+# Campanhas TLR recortadas pelo PERFIL REAL do comprador no momento da compra
+# (não pelo nome do UTM — o nome reflete intenção do Marketing, não quem comprou)
 Q_VENDAS_CAMPANHA = f"""
-SELECT FORMAT_DATE('%Y-%m', DATE(dt_ordered_at)) mes,
-  CASE WHEN LOWER(nm_pptc_utm_campaign) LIKE '%membro%' OR LOWER(nm_pptc_utm_campaign) LIKE '%cross%' THEN 'crosssell'
-       WHEN LOWER(nm_pptc_utm_campaign) LIKE '%recupera%' THEN 'recuperacao'
-       ELSE 'aquisicao' END intencao,
-  COUNT(*) n, ROUND(SUM(vl_payment_gross)) receita
-FROM masterdata.fct_transactions
-WHERE nm_status='approved' AND bl_is_renovation=FALSE AND dt_ordered_at>='{START}'
-  AND REGEXP_CONTAINS(LOWER(nm_pptc_utm_campaign), r'(^|[^a-z])tlr([^a-z]|$)|tlr12')
-GROUP BY 1,2 ORDER BY 1,2
+WITH camp AS (
+  SELECT id_gateway_customer, dt_ordered_at, FORMAT_DATE('%Y-%m', DATE(dt_ordered_at)) mes
+  FROM masterdata.fct_transactions
+  WHERE nm_status='approved' AND bl_is_renovation=FALSE AND dt_ordered_at>='{START}'
+    AND REGEXP_CONTAINS(LOWER(nm_pptc_utm_campaign), r'(^|[^a-z])tlr([^a-z]|$)|tlr12')
+),
+subs AS (SELECT id_gateway_customer,dt_started_at,dt_expires_in FROM masterdata.dim_subscriptions WHERE nm_type='paid' AND (nm_gateway_plan IS NULL OR nm_gateway_plan NOT LIKE '%teller%')),
+vital AS (SELECT DISTINCT id_gateway_customer,dt_ordered_at dt_vital FROM masterdata.fct_transactions WHERE nm_status='approved' AND bl_lifetime_offer AND LOWER(nm_gateway_product) NOT LIKE '%teller%')
+SELECT c.mes,
+  CASE WHEN (SELECT COUNT(1) FROM subs s WHERE s.id_gateway_customer=c.id_gateway_customer AND s.dt_started_at<c.dt_ordered_at AND s.dt_expires_in>=c.dt_ordered_at)>0
+            OR (SELECT COUNT(1) FROM vital v WHERE v.id_gateway_customer=c.id_gateway_customer AND v.dt_vital<c.dt_ordered_at)>0 THEN 'membro'
+       WHEN (SELECT COUNT(1) FROM subs s WHERE s.id_gateway_customer=c.id_gateway_customer AND s.dt_started_at<c.dt_ordered_at)>0 THEN 'ex_membro'
+       ELSE 'nao_membro' END perfil,
+  COUNT(*) n
+FROM camp c GROUP BY 1,2 ORDER BY 1,2
 """
 
 Q_PERFIL = f"""
@@ -181,11 +189,12 @@ def build() -> dict:
         m = {r[key]: cast(r[val]) for r in rows}
         return [m.get(x, 0) for x in meses]
 
-    # campanha por intenção
+    # campanha TLR por perfil REAL do comprador
     camp = {}
     for r in vc:
-        camp.setdefault(r["intencao"], {})[r["mes"]] = ii(r["n"])
-    camp_series = {k: [camp.get(k, {}).get(x, 0) for x in meses] for k in ("aquisicao", "crosssell", "recuperacao")}
+        camp.setdefault(r["perfil"], {})[r["mes"]] = ii(r["n"])
+    camp_series = {k: [camp.get(k, {}).get(x, 0) for x in meses] for k in ("membro", "ex_membro", "nao_membro")}
+    camp_total = {k: sum(v) for k, v in camp_series.items()}
 
     # perfil agregado + por canal
     perfil_tot = {"membro": 0, "ex_membro": 0, "nao_membro": 0}
@@ -217,6 +226,7 @@ def build() -> dict:
         "meses": meses,
         "vendas_produto": {"n": serie(vp, "mes", "n"), "receita": serie(vp, "mes", "receita", fi)},
         "campanha": camp_series,
+        "campanha_total": camp_total,
         "perfil": perfil_tot,
         "perfil_canal": perfil_canal,
         "tier_membros": [{"tier": r["tier"], "membros": ii(r["membros"])} for r in tm],

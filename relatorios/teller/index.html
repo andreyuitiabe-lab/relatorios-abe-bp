@@ -67,11 +67,12 @@
   <!-- VENDAS -->
   <section>
     <h2>Vendas por mês</h2>
-    <p class="s-desc">Duas lentes: o <b>produto Teller</b> (assinatura standalone) e as <b>campanhas TLR/TLR12</b> (que vendem qualquer produto, separadas por intenção).</p>
+    <p class="s-desc">Duas lentes: o <b>produto Teller</b> (assinatura standalone) e as <b>campanhas TLR/TLR12</b> (que vendem qualquer produto). As campanhas estão recortadas pelo <b>perfil real do comprador</b> — não pelo nome da campanha.</p>
     <div class="grid-2">
       <div class="card"><p class="label">Produto Teller — transações e receita</p><canvas id="cVendas" height="220"></canvas></div>
-      <div class="card"><p class="label">Campanhas TLR — transações por intenção</p><canvas id="cCampanha" height="220"></canvas></div>
+      <div class="card"><p class="label">Campanhas TLR — por perfil real do comprador</p><canvas id="cCampanha" height="220"></canvas></div>
     </div>
+    <div class="call" id="campNota">—</div>
   </section>
 
   <!-- PERFIL -->
@@ -173,12 +174,14 @@ function initCharts(D){
   ]},options:{plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.yAxisID==='y1'?'receita '+brl(c.raw):c.raw+' vendas'}}},
     scales:{y:{beginAtZero:true,title:{display:true,text:'transações'}},y1:{position:'right',beginAtZero:true,grid:{display:false},ticks:{callback:v=>'R$'+(v/1000)+'k'}}}}});
 
-  // Campanha empilhada por intenção
+  // Campanha empilhada por perfil REAL do comprador
   new Chart(cCampanha,{type:'bar',data:{labels:M,datasets:[
-    {label:'aquisição',data:D.campanha.aquisicao,backgroundColor:BLUE},
-    {label:'cross-sell',data:D.campanha.crosssell,backgroundColor:AMBER},
-    {label:'recuperação',data:D.campanha.recuperacao,backgroundColor:VIOLET}
+    {label:'membro (cross-sell)',data:D.campanha.membro,backgroundColor:GREEN},
+    {label:'ex-membro (recuperação)',data:D.campanha.ex_membro,backgroundColor:AMBER},
+    {label:'não-membro (aquisição)',data:D.campanha.nao_membro,backgroundColor:BLUE}
   ]},options:{plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true}}}});
+  const ct=D.campanha_total, cts=ct.membro+ct.ex_membro+ct.nao_membro;
+  document.getElementById('campNota').innerHTML=`Pelo perfil real, as campanhas TLR são <b>${Math.round(ct.membro/cts*100)}% membros</b> (${nf(ct.membro)}), ${Math.round(ct.ex_membro/cts*100)}% ex-membros (${nf(ct.ex_membro)}) e só <b>${Math.round(ct.nao_membro/cts*100)}% não-membros</b> (${nf(ct.nao_membro)}). Ou seja, são majoritariamente <b>cross-sell/reativação</b> — aquisição de novo cliente é minoria. O nome da campanha ("aquisição") reflete a intenção do Marketing, não quem comprou.`;
 
   // Perfil doughnut
   const pf=D.perfil;

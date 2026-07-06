@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-06T17:08:13",
+  "updated_at": "2026-07-06T17:24:22",
   "kpi": {
     "receita_produto": 318801.0,
     "compradores": 1466,
@@ -36,33 +36,38 @@
     ]
   },
   "campanha": {
-    "aquisicao": [
-      343,
-      127,
-      134,
-      346,
-      414,
-      325,
-      58
+    "membro": [
+      227,
+      44,
+      68,
+      141,
+      238,
+      196,
+      24
     ],
-    "crosssell": [
-      45,
-      8,
-      18,
-      2,
-      7,
-      6,
-      4
+    "ex_membro": [
+      79,
+      51,
+      55,
+      94,
+      83,
+      67,
+      17
     ],
-    "recuperacao": [
-      7,
-      3,
-      2,
-      0,
-      5,
-      0,
-      0
+    "nao_membro": [
+      89,
+      43,
+      31,
+      113,
+      105,
+      68,
+      21
     ]
+  },
+  "campanha_total": {
+    "membro": 938,
+    "ex_membro": 446,
+    "nao_membro": 470
   },
   "perfil": {
     "membro": 699,
@@ -143,9 +148,9 @@
     ]
   },
   "ouvintes_perfil": {
-    "membro_pleno": 12473,
+    "so_teller": 4630,
     "sem_assinatura": 611,
-    "so_teller": 4630
+    "membro_pleno": 12473
   },
   "top_livros": [
     {

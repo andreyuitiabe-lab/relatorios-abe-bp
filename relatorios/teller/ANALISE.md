@@ -14,7 +14,7 @@ Quanto vendemos de Teller por mês em 2026; qual o perfil dos compradores (membr
 
 ## Achados principais
 - **Volume 2026 (produto = Teller standalone):** ~1,5 mil transações, **estável ~120–400/mês** (jan e abr os picos). Receita ~R$ 320k YTD.
-- **Campanha TLR/TLR12:** ~2,3 mil transações, dominadas por `aquisicao_geral`; picos de receita em mai–jun (R$ 230–250k/mês). Recuperação aparece pouco em volume mas com **ticket muito alto** (3 vendas = R$35k em fev; R$38k em mar) — winback de high-ticket.
+- **Campanha TLR/TLR12:** ~1,85 mil transações. ⚠️ **Recortadas pelo perfil REAL do comprador** (não pelo nome do UTM, que reflete só a intenção do Marketing): **51% membros (938), 26% não-membros (470), 24% ex-membros (446)**. Ou seja, as campanhas TLR são majoritariamente **cross-sell/reativação** — aquisição de novo cliente é minoria (26%), apesar de a maioria das peças ser nomeada como "aquisição".
 - **Perfil dos compradores (Teller standalone, dedup por cliente — 1.464):** **48% membros (697), 32% não-membros (472), 20% ex-membros (295)**. Quase tudo digital (só ~8% via Comercial).
 - **Aquisição vs upsell vs recuperação:**
   - **Upsell/cross-sell (membros):** maior fatia (48%), majoritariamente digital.
