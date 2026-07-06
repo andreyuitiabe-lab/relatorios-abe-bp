@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teller — Vendas, Perfil e Engajamento (2026)</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root{--bg:#f8fafc;--card:#fff;--line:#e2e8f0;--text:#1e293b;--muted:#475569;--soft:#94a3b8;
+      --blue:#3b6ef5;--green:#16a34a;--red:#e23b3b;--amber:#f5a524;--violet:#7c5cfc;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;}
+    .wrap{max-width:960px;margin:0 auto;padding:48px 24px 80px;}
+    section{margin-bottom:56px;}
+    h1{font-size:26px;font-weight:700;}
+    h2{font-size:18px;font-weight:700;margin-bottom:6px;}
+    .sub{color:var(--muted);font-size:13px;margin-top:4px;}
+    .s-desc{color:var(--muted);font-size:13px;margin-bottom:16px;}
+    .label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--soft);margin-bottom:12px;}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px;}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+    .stats{display:flex;gap:32px;flex-wrap:wrap;margin-bottom:24px;}
+    .bigstat .bs-num{font-size:34px;font-weight:800;color:var(--blue);line-height:1;}
+    .bigstat .bs-num.g{color:var(--green);}.bigstat .bs-num.r{color:var(--red);}.bigstat .bs-num.v{color:var(--violet);}
+    .bigstat .bs-cap{font-size:12px;color:var(--muted);margin-top:4px;max-width:180px;}
+    table{width:100%;border-collapse:collapse;font-size:13px;}
+    th{text-align:left;font-weight:600;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--line);padding:8px 10px;}
+    td{padding:8px 10px;border-bottom:1px solid var(--line);}
+    tr:last-child td{border-bottom:none;}
+    td.num{text-align:right;font-variant-numeric:tabular-nums;}
+    .tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;}
+    .t-r{background:#fee2e2;color:#991b1b;}.t-g{background:#d1fae5;color:#065f46;}.t-n{background:#f1f5f9;color:#475569;}
+    .nota{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:12px 16px;font-size:12.5px;color:var(--muted);margin-top:16px;}
+    .call{border-left:4px solid var(--amber);background:#fffbeb;border-radius:8px;padding:16px 20px;font-size:13.5px;color:#713f12;}
+    .call.red{border-color:var(--red);background:#fef2f2;color:#7f1d1d;}
+    .call b{color:inherit;}
+    header{margin-bottom:40px;padding-bottom:24px;border-bottom:2px solid var(--line);}
+    footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:var(--soft);}
+    .corr-row{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:12px;}
+    .corr{flex:1;min-width:200px;text-align:center;padding:16px;border:1px solid var(--line);border-radius:10px;}
+    .corr .cn{font-size:30px;font-weight:800;}.corr .cl{font-size:12px;color:var(--muted);margin-top:2px;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Produto</p>
+  <h1>Teller — Vendas, Perfil e Engajamento</h1>
+  <p class="sub">Audiolivros · Janeiro a Julho de 2026 · escopo produto = plano <code>teller</code> standalone (sem premium-teller/bundles)</p>
+</header>
+
+<main>
+
+  <!-- KPIs -->
+  <section>
+    <div class="stats">
+      <div class="bigstat"><div class="bs-num" id="kReceita">—</div><div class="bs-cap">receita do produto Teller (YTD)</div></div>
+      <div class="bigstat"><div class="bs-num" id="kCompradores">—</div><div class="bs-cap">compradores distintos</div></div>
+      <div class="bigstat"><div class="bs-num v" id="kOuvintes">—</div><div class="bs-cap">ouvintes/mês (média)</div></div>
+      <div class="bigstat"><div class="bs-num g" id="kOuve">—</div><div class="bs-cap">dos compradores realmente ouvem</div></div>
+    </div>
+  </section>
+
+  <!-- VENDAS -->
+  <section>
+    <h2>Vendas por mês</h2>
+    <p class="s-desc">Duas lentes: o <b>produto Teller</b> (assinatura standalone) e as <b>campanhas TLR/TLR12</b> (que vendem qualquer produto, separadas por intenção).</p>
+    <div class="grid-2">
+      <div class="card"><p class="label">Produto Teller — transações e receita</p><canvas id="cVendas" height="220"></canvas></div>
+      <div class="card"><p class="label">Campanhas TLR — transações por intenção</p><canvas id="cCampanha" height="220"></canvas></div>
+    </div>
+  </section>
+
+  <!-- PERFIL -->
+  <section>
+    <h2>Quem compra</h2>
+    <p class="s-desc">Perfil do comprador <b>no momento da compra</b>. Membro = tinha acesso ativo (assinatura ou vitalício não-Teller); ex-membro = tinha assinatura já expirada; não-membro = nunca teve.</p>
+    <div class="grid-2">
+      <div class="card"><p class="label">Perfil dos compradores</p><canvas id="cPerfil" height="220"></canvas></div>
+      <div class="card"><p class="label">Perfil por canal</p><canvas id="cCanal" height="220"></canvas></div>
+    </div>
+  </section>
+
+  <!-- CORRELACAO -->
+  <section>
+    <h2>Teller vende por mérito próprio ou "pega carona" na empresa?</h2>
+    <p class="s-desc">Correlação entre as vendas diárias do Teller e as vendas gerais (GBB e total da empresa) em 2026 — teste da hipótese de que o Teller sai junto quando a empresa está vendendo.</p>
+    <div class="corr-row">
+      <div class="corr"><div class="cn" id="corrTG">—</div><div class="cl">Teller × GBB (diário)</div></div>
+      <div class="corr"><div class="cn" id="corrTE">—</div><div class="cl">Teller × Empresa (diário)</div></div>
+      <div class="corr"><div class="cn" style="color:var(--soft)" id="corrGE">—</div><div class="cl">GBB × Empresa (controle)</div></div>
+    </div>
+    <div class="call">
+      <b>Não pega carona — se algo, é levemente contracíclico.</b> Nos maiores dias de venda da empresa (lançamentos de campanha GBB), o Teller vende quase nada; os picos do Teller são dias de campanha <b>TLR própria</b>. As vendas do Teller respondem à mídia dele, não ao momento geral da empresa. <span style="opacity:.8">(Ressalva: janela de 6 meses; parte da correlação negativa é competição por atenção/budget, não causalidade.)</span>
+    </div>
+  </section>
+
+  <!-- REDUNDANCIA -->
+  <section>
+    <h2>Alerta: venda redundante para quem já tem Teller</h2>
+    <p class="s-desc">Tier ativo dos compradores que já eram <b>membros</b>. Premium (<code>best</code>) e Black já incluem o Teller — comprá-lo avulso é redundante.</p>
+    <div class="card"><p class="label">Compradores-membros por tier ativo</p><canvas id="cTier" height="200"></canvas></div>
+    <div class="call red" id="tierNota">—</div>
+  </section>
+
+  <!-- FUNIL NAO-MEMBROS -->
+  <section>
+    <h2>Não-membros: engajam, mas não sobem</h2>
+    <p class="s-desc">Os não-membros que entram por Teller são audiência quente — mas quase nenhum converte para membership plena do BP.</p>
+    <div class="stats">
+      <div class="bigstat"><div class="bs-num g" id="fOuviram">—</div><div class="bs-cap">ouviram algo após comprar</div></div>
+      <div class="bigstat"><div class="bs-num g" id="f2d">—</div><div class="bs-cap">ouviram em 2+ dias distintos</div></div>
+      <div class="bigstat"><div class="bs-num r" id="fConv">—</div><div class="bs-cap">viraram membros plenos depois</div></div>
+    </div>
+    <div class="call">
+      O gargalo <b>não é o produto</b> (86%+ escutam, maioria volta) — é a <b>ausência de rota de upgrade</b> Teller → BP. Audiência engajada sem oferta de subida.
+      <span style="opacity:.8">(Ressalva: janela de conversão de não-membro é ~421 dias; reavaliar no fim de 2026.)</span>
+    </div>
+  </section>
+
+  <!-- ENGAJAMENTO -->
+  <section>
+    <h2>Engajamento e quem ouve</h2>
+    <p class="s-desc">Escuta de audiolivros no app (eventos Mixpanel). <code>user_id</code> casa com a base de membros.</p>
+    <div class="grid-2">
+      <div class="card"><p class="label">Ouvintes distintos por mês</p><canvas id="cEng" height="200"></canvas></div>
+      <div class="card"><p class="label">Perfil dos ouvintes (todos)</p><canvas id="cOuvPerfil" height="200"></canvas></div>
+    </div>
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card">
+        <p class="label">Top audiolivros (por ouvintes)</p>
+        <table><thead><tr><th>Título</th><th>Autor</th><th class="num">Ouvintes</th></tr></thead><tbody id="tbLivros"></tbody></table>
+      </div>
+      <div class="card"><p class="label">Gêneros mais ouvidos</p><canvas id="cGeneros" height="240"></canvas></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
+  Fontes: <code>masterdata.fct_transactions</code>, <code>dim_subscriptions</code> · <code>events.fct_mixpanel__teller_media_playback_events</code>, <code>dim_teller__audiobooks</code>
+</footer>
+
+</div>
+
+<script>
+const FONT="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.family=FONT;Chart.defaults.font.size=12;Chart.defaults.color="#6b7689";
+const BLUE="#3b6ef5",GREEN="#16a34a",RED="#e23b3b",AMBER="#f5a524",VIOLET="#7c5cfc",GREY="#aab2c4";
+const brl=v=>'R$ '+Math.round(v).toLocaleString('pt-BR');
+const nf=v=>v.toLocaleString('pt-BR');
+const mesLbl=m=>({'01':'jan','02':'fev','03':'mar','04':'abr','05':'mai','06':'jun','07':'jul','08':'ago','09':'set','10':'out','11':'nov','12':'dez'})[m.slice(5)]||m;
+
+function initCharts(D){
+  const upd=document.getElementById('lastUpdate');
+  if(upd) upd.textContent='Dados de '+new Date(D.updated_at).toLocaleDateString('pt-BR');
+  const M=D.meses.map(mesLbl);
+
+  // KPIs
+  kReceita.textContent=brl(D.kpi.receita_produto);
+  kCompradores.textContent=nf(D.kpi.compradores);
+  kOuvintes.textContent=nf(D.kpi.ouvintes_medio_mes);
+  kOuve.textContent=D.kpi.pct_ouve+'%';
+
+  // Vendas produto: barras (n) + linha (receita)
+  new Chart(cVendas,{data:{labels:M,datasets:[
+    {type:'bar',label:'transações',data:D.vendas_produto.n,backgroundColor:BLUE,borderRadius:5,yAxisID:'y',order:2},
+    {type:'line',label:'receita (R$)',data:D.vendas_produto.receita,borderColor:GREEN,backgroundColor:GREEN,tension:.3,yAxisID:'y1',order:1}
+  ]},options:{plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.yAxisID==='y1'?'receita '+brl(c.raw):c.raw+' vendas'}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:'transações'}},y1:{position:'right',beginAtZero:true,grid:{display:false},ticks:{callback:v=>'R$'+(v/1000)+'k'}}}}});
+
+  // Campanha empilhada por intenção
+  new Chart(cCampanha,{type:'bar',data:{labels:M,datasets:[
+    {label:'aquisição',data:D.campanha.aquisicao,backgroundColor:BLUE},
+    {label:'cross-sell',data:D.campanha.crosssell,backgroundColor:AMBER},
+    {label:'recuperação',data:D.campanha.recuperacao,backgroundColor:VIOLET}
+  ]},options:{plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true}}}});
+
+  // Perfil doughnut
+  const pf=D.perfil;
+  new Chart(cPerfil,{type:'doughnut',data:{labels:['Membro','Ex-membro','Não-membro'],
+    datasets:[{data:[pf.membro,pf.ex_membro,pf.nao_membro],backgroundColor:[GREEN,AMBER,BLUE]}]},
+    options:{plugins:{legend:{position:'right'},tooltip:{callbacks:{label:c=>c.label+': '+nf(c.raw)+' ('+Math.round(c.raw/(pf.membro+pf.ex_membro+pf.nao_membro)*100)+'%)'}}}}});
+
+  // Perfil por canal (barras empilhadas horizontais)
+  const pc=D.perfil_canal;
+  new Chart(cCanal,{type:'bar',data:{labels:['Digital','Comercial'],datasets:[
+    {label:'Membro',data:[pc.digital.membro,pc.comercial.membro],backgroundColor:GREEN},
+    {label:'Ex-membro',data:[pc.digital.ex_membro,pc.comercial.ex_membro],backgroundColor:AMBER},
+    {label:'Não-membro',data:[pc.digital.nao_membro,pc.comercial.nao_membro],backgroundColor:BLUE}
+  ]},options:{indexAxis:'y',plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true,beginAtZero:true},y:{stacked:true}}}});
+
+  // Correlação
+  const setCorr=(id,v)=>{const el=document.getElementById(id);el.textContent=(v>0?'+':'')+v.toFixed(2).replace('.',',');
+    if(id!=='corrGE') el.style.color=v<0?RED:GREEN;};
+  setCorr('corrTG',D.correlacao.teller_gbb);setCorr('corrTE',D.correlacao.teller_empresa);
+  document.getElementById('corrGE').textContent='+'+D.correlacao.gbb_empresa.toFixed(2).replace('.',',');
+
+  // Tier membros
+  const tm=D.tier_membros;
+  const redund=new Set(['best','black']);
+  new Chart(cTier,{type:'bar',data:{labels:tm.map(r=>r.tier),datasets:[{data:tm.map(r=>r.membros),
+    backgroundColor:tm.map(r=>redund.has(r.tier)?RED:GREY),borderRadius:5}]},
+    options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>nf(c.raw)+' membros'+(redund.has(tm[c.dataIndex].tier)?' — já tem Teller no plano':'')}}},scales:{x:{beginAtZero:true}}}});
+  const jaTem=tm.filter(r=>redund.has(r.tier)).reduce((s,r)=>s+r.membros,0);
+  document.getElementById('tierNota').innerHTML=`<b>${nf(jaTem)} compradores</b> estavam em Premium/Black — planos que <b>já incluem</b> o Teller. Padrão que se repete todos os meses. Para <code>good</code>/<code>supporter</code> que querem audiolivro, o caminho de maior valor é <b>subir para Premium</b>, não vender Teller avulso.`;
+
+  // Funil
+  const f=D.funil;
+  fOuviram.textContent=Math.round(f.ouviram/f.com_conta*100)+'%';
+  f2d.textContent=Math.round(f.ouviram_2d/f.com_conta*100)+'%';
+  fConv.textContent=(f.converteram/f.nao_membros*100).toFixed(1).replace('.',',')+'%';
+
+  // Engajamento mensal
+  new Chart(cEng,{type:'line',data:{labels:M,datasets:[{data:D.engajamento.ouvintes,borderColor:VIOLET,backgroundColor:'rgba(124,92,252,.1)',fill:true,tension:.3}]},
+    options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>nf(c.raw)+' ouvintes'}}},scales:{y:{beginAtZero:true}}}});
+
+  // Perfil ouvintes
+  const op=D.ouvintes_perfil;
+  new Chart(cOuvPerfil,{type:'doughnut',data:{labels:['Membro pleno','Só Teller','Sem assinatura'],
+    datasets:[{data:[op.membro_pleno,op.so_teller,op.sem_assinatura],backgroundColor:[GREEN,VIOLET,GREY]}]},
+    options:{plugins:{legend:{position:'right'},tooltip:{callbacks:{label:c=>c.label+': '+nf(c.raw)}}}}});
+
+  // Top livros
+  tbLivros.innerHTML=D.top_livros.map(r=>`<tr><td>${r.titulo}</td><td style="color:var(--muted)">${r.autor}</td><td class="num">${nf(r.ouvintes)}</td></tr>`).join('');
+
+  // Gêneros
+  new Chart(cGeneros,{type:'bar',data:{labels:D.generos.map(r=>r.genero),datasets:[{data:D.generos.map(r=>r.ouvintes),backgroundColor:BLUE,borderRadius:5}]},
+    options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>nf(c.raw)+' ouvintes'}}},scales:{x:{beginAtZero:true}}}});
+}
+
+fetch('./data.json').then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(initCharts)
+.catch(err=>{console.error(err);document.querySelector('main').insertAdjacentHTML('afterbegin',
+  `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">⚠ Erro ao carregar dados: ${err.message}. Para ver local, rodar <code>python -m http.server</code> na pasta.</div>`);});
+</script>
+</body>
+</html>

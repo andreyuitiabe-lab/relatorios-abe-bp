@@ -20,6 +20,9 @@ Quanto vendemos de Teller por mês em 2026; qual o perfil dos compradores (membr
   - **Upsell/cross-sell (membros):** maior fatia (48%), majoritariamente digital.
   - **Recuperação (ex-membros):** 20% do standalone; mais forte quando se olha o Comercial (bundles Premium+Teller, fora do escopo) e as campanhas `tlr_recuperacao` de alto ticket.
   - **Aquisição pura (não-membros):** 32%, MAS **só 7 de 472 não-membros (1,5%) compraram membership plena depois** → Teller **não** está funcionando como funil de entrada para o ecossistema BP. Ressalva: janela de conversão de não-membro é ~421 dias e boa parte comprou há poucos meses — reavaliar no fim de 2026.
+- **Não-membros engajam, mas não sobem:** dos 472 não-membros, **87% ouviram algo e 76% ouviram em 2+ dias distintos** — audiência quente. O gargalo é ausência de rota de upgrade Teller→BP, não o produto.
+- **Venda redundante (alerta):** dos 699 compradores-membros, **~236 estavam em Premium/Black** — planos que **já incluem Teller** — e o padrão **se repete todo mês** (não é resíduo de pré-inclusão). Para `good`/`supporter` (431) que querem audiolivro, o caminho de maior valor é **upsell para Premium**, não Teller avulso.
+- **Teller não "pega carona" nas vendas da empresa (correlação):** vendas diárias Teller × GBB = **−0,23** (semanal −0,49); Teller × empresa = −0,14; controle GBB × empresa = +0,81. Nos maiores dias de venda da empresa o Teller vende quase nada; os picos do Teller são dias de campanha TLR própria. É **elástico à mídia própria**, levemente **contracíclico** ao push geral. (Ressalva: 6 meses; parte é competição por atenção/budget, não causalidade.)
 - **Engajamento:** ~6,5–8,3 mil ouvintes/mês, estável; ~40k playbacks/mês. **82% dos compradores standalone efetivamente ouvem** (1.198/1.467) — ótima ativação.
 - **Quem ouve:** dos ~17,7 mil ouvintes, **71% são membros plenos ativos**, 26% só-Teller, 3% sem assinatura ativa → Teller é hoje sobretudo um **benefício consumido por membros** (está incluído em básico/premium).
 - **Conteúdo:** clássico/filosófico/católico. Top: *Críton* (Platão), *Sobre a Brevidade da Vida* (Sêneca), *Confissões* (Santo Agostinho), *Padre Brown* (Chesterton), *Revolução dos Bichos* (Orwell). Gêneros líderes: Filosofia, Religião, Ficção, Desenvolvimento Pessoal.
@@ -28,10 +31,10 @@ Quanto vendemos de Teller por mês em 2026; qual o perfil dos compradores (membr
 Teller hoje é **mais retenção/upsell e reativação do que aquisição**. Gera receita incremental de membros e ex-membros (Premium+Teller do Comercial recupera ex-membros; campanhas de alto ticket recuperam winback), e tem alta ativação de escuta. Como **canal de aquisição de novos membros** o desempenho é fraco: quase nenhum não-membro sobe para membership plena (reavaliar com janela maior).
 
 ## Entregáveis
-- `Teller_analise_2026.xlsx` — planilha consolidada (9 abas: README, vendas produto/mês, vendas campanha/mês, perfil, canal×perfil, engajamento/mês, top audiolivros, gêneros, **transações granulares** para análises próprias).
-- `transacoes_teller_2026.csv` — transação a transação (3.203 linhas).
-- `queries/analise_teller.sql` — queries A–D.
-- `queries/export_transacoes.sql` — query da base granular.
+- **`index.html` + `data.json` + `refresh.py`** — relatório HTML no padrão do portal (dados externos; `python refresh.py --push` reatualiza). Card adicionado em `relatorios/index.html` (seção Base & Produtos).
+- `Teller_analise_2026.xlsx` — planilha consolidada (13 abas: README, vendas produto/mês, vendas campanha/mês, perfil, canal×perfil, **tier_membros**, **retencao_nao_membros**, **correlacao_vendas**, engajamento/mês, **ouvintes_perfil**, top audiolivros, gêneros, **transações granulares**).
+- `transacoes_teller_2026.csv` — transação a transação.
+- `queries/analise_teller.sql` — queries A–D. `queries/export_transacoes.sql` — base granular.
 
 ## Pendências / próximos passos
 - Reavaliar conversão de não-membros no fim de 2026 (janela ~421 dias).

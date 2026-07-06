@@ -127,14 +127,14 @@ WHERE time>='{START}' GROUP BY 1 ORDER BY 1
 Q_OUVINTES_PERFIL = f"""
 WITH ouvintes AS (SELECT DISTINCT user_id FROM events.fct_mixpanel__teller_media_playback_events WHERE time>='{START}' AND user_id IS NOT NULL),
 sa AS (SELECT DISTINCT id_user,
-    MAX(CASE WHEN (nm_gateway_plan IS NULL OR nm_gateway_plan NOT LIKE '%teller%') THEN 1 ELSE 0 END) full,
-    MAX(CASE WHEN nm_gateway_plan LIKE '%teller%' THEN 1 ELSE 0 END) tel
+    MAX(CASE WHEN (nm_gateway_plan IS NULL OR nm_gateway_plan NOT LIKE '%teller%') THEN 1 ELSE 0 END) has_full,
+    MAX(CASE WHEN nm_gateway_plan LIKE '%teller%' THEN 1 ELSE 0 END) has_tel
   FROM masterdata.dim_subscriptions WHERE nm_type='paid' AND nm_status IN ('active','wo renewal')
     AND dt_started_at<=CURRENT_DATETIME() AND dt_expires_in>=CURRENT_DATETIME() GROUP BY 1),
 vital AS (SELECT DISTINCT s.id_user FROM masterdata.fct_transactions t JOIN masterdata.dim_subscriptions s USING(id_gateway_customer)
           WHERE t.nm_status='approved' AND t.bl_lifetime_offer)
-SELECT CASE WHEN v.id_user IS NOT NULL OR sa.full=1 THEN 'membro_pleno'
-            WHEN sa.tel=1 THEN 'so_teller' ELSE 'sem_assinatura' END perfil,
+SELECT CASE WHEN v.id_user IS NOT NULL OR sa.has_full=1 THEN 'membro_pleno'
+            WHEN sa.has_tel=1 THEN 'so_teller' ELSE 'sem_assinatura' END perfil,
   COUNT(*) ouvintes
 FROM ouvintes o LEFT JOIN sa ON sa.id_user=o.user_id LEFT JOIN vital v ON v.id_user=o.user_id
 GROUP BY 1
@@ -177,8 +177,8 @@ def build() -> dict:
 
     meses = sorted({r["mes"] for r in vp} | {r["mes"] for r in vc} | {r["mes"] for r in en})
 
-    def serie(rows, key, val):
-        m = {r[key]: ii(r[val]) for r in rows}
+    def serie(rows, key, val, cast=ii):
+        m = {r[key]: cast(r[val]) for r in rows}
         return [m.get(x, 0) for x in meses]
 
     # campanha por intenção
@@ -215,7 +215,7 @@ def build() -> dict:
             "pct_ouve": round(fn and ii(fn["ouviram"]) / max(ii(fn["com_conta"]), 1) * 100),
         },
         "meses": meses,
-        "vendas_produto": {"n": serie(vp, "mes", "n"), "receita": serie(vp, "mes", "receita")},
+        "vendas_produto": {"n": serie(vp, "mes", "n"), "receita": serie(vp, "mes", "receita", fi)},
         "campanha": camp_series,
         "perfil": perfil_tot,
         "perfil_canal": perfil_canal,

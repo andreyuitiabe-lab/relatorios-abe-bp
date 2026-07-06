@@ -1,0 +1,251 @@
+{
+  "updated_at": "2026-07-06T17:08:13",
+  "kpi": {
+    "receita_produto": 318801.0,
+    "compradores": 1466,
+    "ouvintes_medio_mes": 6314,
+    "pct_ouve": 86
+  },
+  "meses": [
+    "2026-01",
+    "2026-02",
+    "2026-03",
+    "2026-04",
+    "2026-05",
+    "2026-06",
+    "2026-07"
+  ],
+  "vendas_produto": {
+    "n": [
+      401,
+      140,
+      119,
+      321,
+      198,
+      233,
+      68
+    ],
+    "receita": [
+      99645.0,
+      36381.0,
+      28509.0,
+      51915.0,
+      40144.0,
+      48594.0,
+      13613.0
+    ]
+  },
+  "campanha": {
+    "aquisicao": [
+      343,
+      127,
+      134,
+      346,
+      414,
+      325,
+      58
+    ],
+    "crosssell": [
+      45,
+      8,
+      18,
+      2,
+      7,
+      6,
+      4
+    ],
+    "recuperacao": [
+      7,
+      3,
+      2,
+      0,
+      5,
+      0,
+      0
+    ]
+  },
+  "perfil": {
+    "membro": 699,
+    "ex_membro": 295,
+    "nao_membro": 472
+  },
+  "perfil_canal": {
+    "comercial": {
+      "membro": 77,
+      "ex_membro": 14,
+      "nao_membro": 22
+    },
+    "digital": {
+      "membro": 622,
+      "ex_membro": 281,
+      "nao_membro": 450
+    }
+  },
+  "tier_membros": [
+    {
+      "tier": "good",
+      "membros": 301
+    },
+    {
+      "tier": "best",
+      "membros": 222
+    },
+    {
+      "tier": "supporter",
+      "membros": 130
+    },
+    {
+      "tier": "clube-do-livro",
+      "membros": 49
+    },
+    {
+      "tier": "ebooks-audiolivros-clube-do-livro",
+      "membros": 27
+    },
+    {
+      "tier": "better",
+      "membros": 24
+    },
+    {
+      "tier": "funil-bitcoin",
+      "membros": 16
+    },
+    {
+      "tier": "black",
+      "membros": 14
+    }
+  ],
+  "funil": {
+    "nao_membros": 472,
+    "converteram": 7,
+    "com_conta": 471,
+    "ouviram": 407,
+    "ouviram_2d": 357
+  },
+  "engajamento": {
+    "ouvintes": [
+      8276,
+      6904,
+      6771,
+      6333,
+      6684,
+      6650,
+      2582
+    ],
+    "playbacks": [
+      49084,
+      37974,
+      39749,
+      39296,
+      40242,
+      38575,
+      7231
+    ]
+  },
+  "ouvintes_perfil": {
+    "membro_pleno": 12473,
+    "sem_assinatura": 611,
+    "so_teller": 4630
+  },
+  "top_livros": [
+    {
+      "titulo": "Críton",
+      "autor": "Platão",
+      "genero": "Filosofia",
+      "ouvintes": 2426
+    },
+    {
+      "titulo": "Sobre a Brevidade da Vida",
+      "autor": "Sêneca",
+      "genero": "Filosofia",
+      "ouvintes": 2140
+    },
+    {
+      "titulo": "Confissões",
+      "autor": "Santo Agostinho",
+      "genero": "Religião",
+      "ouvintes": 1995
+    },
+    {
+      "titulo": "A Sabedoria do Padre Brown",
+      "autor": "G.K. Chesterton",
+      "genero": "Ficção",
+      "ouvintes": 1992
+    },
+    {
+      "titulo": "A Paciência",
+      "autor": "Santo Agostinho",
+      "genero": "Filosofia",
+      "ouvintes": 1896
+    },
+    {
+      "titulo": "A Revolução dos Bichos",
+      "autor": "George Orwell",
+      "genero": "Ficção",
+      "ouvintes": 1840
+    },
+    {
+      "titulo": "As 12 Camadas da Personalidade",
+      "autor": "Murilo Frizanco",
+      "genero": "Desenvolvimento Pessoal",
+      "ouvintes": 1745
+    },
+    {
+      "titulo": "A Vida Feliz",
+      "autor": "Santo Agostinho",
+      "genero": "Religião",
+      "ouvintes": 1530
+    },
+    {
+      "titulo": "Os 4 Temperamentos",
+      "autor": "Murilo Frizanco",
+      "genero": "Desenvolvimento Pessoal",
+      "ouvintes": 1193
+    },
+    {
+      "titulo": "Onde existe Amor, Deus aí Está",
+      "autor": "Leon Tolstói",
+      "genero": "Ficção",
+      "ouvintes": 1099
+    }
+  ],
+  "generos": [
+    {
+      "genero": "Filosofia",
+      "ouvintes": 9135
+    },
+    {
+      "genero": "Religião",
+      "ouvintes": 8820
+    },
+    {
+      "genero": "Ficção",
+      "ouvintes": 6207
+    },
+    {
+      "genero": "Desenvolvimento Pessoal",
+      "ouvintes": 5932
+    },
+    {
+      "genero": "Política",
+      "ouvintes": 2697
+    },
+    {
+      "genero": "Infantil",
+      "ouvintes": 2455
+    },
+    {
+      "genero": "História",
+      "ouvintes": 1547
+    },
+    {
+      "genero": "Biografia",
+      "ouvintes": 1072
+    }
+  ],
+  "correlacao": {
+    "teller_gbb": -0.23,
+    "teller_empresa": -0.14,
+    "gbb_empresa": 0.81
+  }
+}
