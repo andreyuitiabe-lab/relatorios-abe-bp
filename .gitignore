@@ -1,0 +1,10 @@
+# Dados sensíveis — este repo é PÚBLICO (GitHub Pages).
+# Nunca commitar listas/exports com dados de clientes.
+*.csv
+*.xlsx
+*.pdf
+~$*
+__pycache__/
+err.log
+.DS_Store
+*.png
