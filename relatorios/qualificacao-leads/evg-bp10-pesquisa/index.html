@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pesquisa de qualificação — EVG × BP10</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root{
+      --bg:#f8fafc; --card:#fff; --line:#e2e8f0; --text:#1e293b; --muted:#475569;
+      --soft:#94a3b8; --blue:#3b6ef5; --green:#16a34a; --red:#e23b3b; --amber:#f5a524; --violet:#7c5cfc;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;}
+    .wrap{max-width:980px;margin:0 auto;padding:48px 24px 80px;}
+    section{margin-bottom:56px;}
+    h1{font-size:27px;font-weight:800;letter-spacing:-.01em;}
+    h2{font-size:19px;font-weight:700;margin-bottom:6px;}
+    h3{font-size:14px;font-weight:700;margin:0 0 10px;color:var(--muted);}
+    .sub{color:var(--muted);font-size:13px;margin-top:4px;}
+    .kicker{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:8px;}
+    .lead{font-size:15px;color:var(--muted);margin-bottom:20px;max-width:760px;}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px;}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    @media(max-width:720px){.grid-2{grid-template-columns:1fr;}}
+    /* campaign header cards */
+    .camp{border-left:4px solid var(--blue);}
+    .camp.b{border-left-color:var(--violet);}
+    .camp .tag{font-size:12px;font-weight:700;color:var(--soft);text-transform:uppercase;letter-spacing:.05em;}
+    .camp .big{font-size:32px;font-weight:800;line-height:1.05;margin:6px 0 2px;}
+    .camp .win{font-size:12px;color:var(--soft);}
+    .statline{display:flex;gap:24px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
+    .statline div span{display:block;}
+    .statline .v{font-size:18px;font-weight:700;}
+    .statline .l{font-size:11px;color:var(--soft);}
+    .chartbox{position:relative;height:var(--h,300px);}
+    table{width:100%;border-collapse:collapse;font-size:13px;}
+    th{text-align:left;font-weight:600;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--line);padding:8px 10px;}
+    td{padding:8px 10px;border-bottom:1px solid var(--line);}
+    tr:last-child td{border-bottom:none;}
+    td.num{text-align:right;font-variant-numeric:tabular-nums;}
+    .pill{display:inline-block;padding:1px 7px;border-radius:20px;font-size:11px;font-weight:700;}
+    .p-g{background:#d1fae5;color:#065f46;} .p-r{background:#fee2e2;color:#991b1b;} .p-n{background:#f1f5f9;color:#475569;}
+    .nota{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:12px 16px;font-size:12.5px;color:var(--muted);margin-top:16px;}
+    .warn{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 16px;font-size:12.5px;color:#92400e;margin-top:16px;}
+    .cold{border-left:4px solid var(--red);}
+    .cold .big{font-size:30px;font-weight:800;color:var(--red);}
+    ul.steps{list-style:none;}
+    ul.steps li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid var(--line);}
+    ul.steps li:last-child{border-bottom:none;}
+    ul.steps li::before{content:"→";position:absolute;left:4px;color:var(--blue);font-weight:800;}
+    ul.steps b{color:var(--text);}
+    .q{background:#eef2ff;border:1px solid #c7d2fe;border-radius:8px;padding:12px 16px;margin-top:10px;font-size:13px;color:#3730a3;}
+    footer{color:var(--soft);font-size:12px;border-top:1px solid var(--line);padding-top:20px;margin-top:24px;}
+    .legend{display:flex;gap:16px;font-size:11px;color:var(--muted);margin-top:8px;}
+    .legend span{display:inline-flex;align-items:center;gap:5px;}
+    .dot{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+<main>
+
+  <section>
+    <div class="kicker">Aquisição · Pesquisa in-funnel</div>
+    <h1>Qualificação de leads — EVG × BP10</h1>
+    <p class="sub" id="periodo">—</p>
+    <p class="lead">O que as duas pesquisas de cadastro nos dizem sobre <b>quem se inscreve</b>, <b>quem converte</b> e <b>quais respostas identificam bons perfis</b> — e para onde os testes vão a seguir.</p>
+    <div class="grid-2" id="campCards"></div>
+    <div class="warn" id="matWarn">—</div>
+  </section>
+
+  <section>
+    <div class="kicker">Achado 1</div>
+    <h2>As duas campanhas rodaram instrumentos diferentes</h2>
+    <p class="lead">Não foi a mesma pesquisa. O EVG puxou identidade/religião; o BP10 tirou religião e apostou em <b>"há quanto tempo conhece a BP"</b>. Modelo treinado num não transfere limpo pro outro.</p>
+    <div class="card">
+      <div class="chartbox" style="--h:360px"><canvas id="covChart"></canvas></div>
+      <div class="legend"><span><span class="dot" style="background:var(--blue)"></span>EVG</span><span><span class="dot" style="background:var(--violet)"></span>BP10</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Achado 2 — o sinal dominante</div>
+    <h2>Familiaridade prévia com a BP prediz compra nas duas campanhas</h2>
+    <p class="lead">Taxa de compra por resposta, <b>só Não Membros</b> (lift vs base NM da campanha). "Nunca ouviu / primeiro contato" é o pior perfil de todos — consistente entre EVG e BP10.</p>
+    <div class="grid-2">
+      <div class="card"><h3>Relação com a BP — EVG</h3><div class="chartbox"><canvas id="relEVG"></canvas></div></div>
+      <div class="card"><h3>Relação com a BP — BP10</h3><div class="chartbox"><canvas id="relBP10"></canvas></div></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h3>Há quanto tempo conhece a BP — BP10 <span class="pill p-n">70% de resposta</span></h3><div class="chartbox"><canvas id="tempoBP10"></canvas></div></div>
+    <div class="nota" id="notaFam">—</div>
+  </section>
+
+  <section>
+    <div class="kicker">Achado 3 — segundo sinal</div>
+    <h2>Renda separa de forma monotônica</h2>
+    <div class="grid-2">
+      <div class="card"><h3>Renda — EVG</h3><div class="chartbox"><canvas id="rendaEVG"></canvas></div></div>
+      <div class="card"><h3>Renda — BP10</h3><div class="chartbox"><canvas id="rendaBP10"></canvas></div></div>
+    </div>
+    <div class="nota">Faixas altas do BP10 têm n baixo (ruído). Vale padronizar as opções de renda entre campanhas para poder poolar.</div>
+  </section>
+
+  <section>
+    <div class="kicker">Achado 4</div>
+    <h2>O maior "lift" é simplesmente responder a pesquisa</h2>
+    <div class="card">
+      <div class="chartbox" style="--h:220px"><canvas id="respChart"></canvas></div>
+      <div class="legend"><span><span class="dot" style="background:var(--green)"></span>Respondeu alguma pergunta</span><span><span class="dot" style="background:var(--soft)"></span>Não respondeu</span></div>
+    </div>
+    <div class="warn">Cuidado: parte disso é <b>endógeno</b>. O Meta foi otimizado para resposta de pesquisa, então "respondeu" virou proxy de audiência que o algoritmo já sabia ser mais quente. O conteúdo (renda, familiaridade) mantém sinal <i>dentro</i> de quem respondeu — não é só o ato.</div>
+  </section>
+
+  <section>
+    <div class="kicker">Achado 5 — conjuntos de respostas</div>
+    <h2>Bons e maus perfis</h2>
+    <div class="grid-2">
+      <div class="card"><h3>Melhores combos renda × relação (NM, n≥120)</h3>
+        <table><thead><tr><th>Perfil</th><th class="num">n</th><th class="num">Conv.</th><th class="num">Lift</th></tr></thead><tbody id="comboBody"></tbody></table>
+      </div>
+      <div>
+        <div class="card cold"><h3>Pior perfil: "nunca ouviu / primeiro contato / &lt;1 mês"</h3>
+          <div id="coldCards"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Para onde vamos</div>
+    <h2>Próximos passos e perguntas de teste</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Ações já sustentadas pelos dados</h3>
+        <ul class="steps">
+          <li><b>Alimentar o Meta com evento de valor</b> (score de familiaridade + renda como valor do lead), não cadastro genérico. Maior alavanca — a pesquisa só se paga se agirmos sobre ela.</li>
+          <li><b>Encurtar para 2 perguntas de ouro:</b> relação/tempo-de-conhecimento + renda. Cortar fonte-de-confiança e streaming reduz fricção sem perder poder preditivo.</li>
+          <li><b>Teto de lance baixo para o perfil frio</b> — no BP10 são ~⅓ dos NM, quase desperdício estrutural.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Perguntas ainda em aberto</h3>
+        <div class="q"><b>A/B decisivo:</b> otimizar por cadastro vs por lead-qualificado, mesmo budget — comparar <b>CAC</b> pós-maturação (não CPL).</div>
+        <div class="q"><b>Instrumento único:</b> uma pergunta de "há quanto tempo conhece" (70% de resposta no BP10, gradiente limpo) substitui o combo do EVG?</div>
+        <div class="q"><b>Perfil frio:</b> converte com nurturing antes da oferta, ou é excludente estrutural?</div>
+        <div class="q"><b>Renda:</b> padronizar as faixas entre campanhas para poder somar amostras.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="nota">
+      <b>Como ler estes números.</b> (1) <b>Não compare conversão absoluta entre campanhas</b> — BP10 começou 11/jun e é uma fotografia mais jovem que o EVG; por censura, o BP10 está subamostrado (piso +31% por Kaplan-Meier). Perfis e lifts relativos <i>dentro</i> de cada campanha são válidos. (2) O alvo (<code>qt_vendas>0</code>) inclui atribuição last-click e alguma renovação/compra pré-cadastro — os lifts relativos NM absorvem isso, os níveis absolutos superestimam captação incremental.
+    </div>
+  </section>
+
+  <footer>
+    Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
+    Fonte: <code>bp-datawarehouse.datamart.dtm_analytics_lead_conversion</code> (tags EVG, BP10) · dedup 1 linha por email+campanha
+  </footer>
+
+</main>
+</div>
+
+<script>
+const FONT="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.family=FONT; Chart.defaults.font.size=12; Chart.defaults.color="#6b7689";
+const BLUE="#3b6ef5",VIOLET="#7c5cfc",GREEN="#16a34a",RED="#e23b3b",AMBER="#f5a524",GREY="#aab2c4";
+const br=n=>n.toLocaleString('pt-BR');
+const p2=v=>v.toFixed(2).replace('.',',');
+
+const valueLabels=(fmt)=>({id:'vlab',afterDatasetsDraw(c){
+  const{ctx}=c;ctx.save();
+  c.data.datasets.forEach((ds,di)=>{const meta=c.getDatasetMeta(di);if(meta.hidden)return;
+    meta.data.forEach((el,i)=>{const v=ds.data[i];if(v==null)return;const label=fmt(v);if(label==null)return;
+      ctx.fillStyle="#3a4254";ctx.font="700 11px "+FONT;
+      if(c.options.indexAxis==='y'){ctx.textAlign="left";ctx.textBaseline="middle";ctx.fillText(label,el.x+6,el.y);}
+      else{ctx.textAlign="center";ctx.textBaseline="bottom";ctx.fillText(label,el.x,el.y-4);}});});
+  ctx.restore();}});
+
+// cor por lift
+const liftColor=l=> l>=1.5?GREEN : l>=0.9?BLUE : RED;
+
+// barra horizontal de conversão colorida por lift, a partir de array {answer,convPct,lift}
+function convBar(id, rows){
+  rows=rows.slice().sort((a,b)=>a.convPct-b.convPct);
+  new Chart(document.getElementById(id),{type:'bar',
+    data:{labels:rows.map(r=>r.answer.length>34?r.answer.slice(0,32)+'…':r.answer),
+      datasets:[{data:rows.map(r=>r.convPct),backgroundColor:rows.map(r=>liftColor(r.lift)),borderRadius:5,barThickness:16}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const r=rows[c.dataIndex];return `${p2(r.convPct)}%  ·  lift ${p2(r.lift)}×  ·  n=${br(r.n)}`;}}}},
+      scales:{x:{display:false,max:Math.max(...rows.map(r=>r.convPct))*1.25||1},y:{grid:{display:false}}}},
+    plugins:[valueLabels(v=>p2(v)+'%')]});
+}
+
+function initCharts(D){
+  const camps=D.camps, E=camps.EVG, B=camps.BP10;
+  document.getElementById('lastUpdate').textContent='Dados de '+new Date(D.updated_at).toLocaleDateString('pt-BR');
+  document.getElementById('periodo').textContent=
+    `EVG ${E.dtMin}→${E.dtMax} · BP10 ${B.dtMin}→${B.dtMax} · ${br(E.n+B.n)} cadastros`;
+
+  // campaign header cards
+  const card=(t,c,cls)=>{
+    const st=c.status.map(s=>`${s.label.replace('Membro Ativo','MA').replace(' (Vitalício)','·Vit')} ${p2(s.pct)}%`).join(' · ');
+    return `<div class="card camp ${cls}">
+      <div class="tag">${t}</div>
+      <div class="big">${br(c.n)}</div><div class="win">cadastros · ${c.dtMin} → ${c.dtMax}</div>
+      <div class="statline">
+        <div><span class="v">${p2(c.convPct)}%</span><span class="l">conv. geral</span></div>
+        <div><span class="v">${p2(c.nmConvPct)}%</span><span class="l">conv. Não Membro</span></div>
+        <div><span class="v">${Math.round(c.nm/c.n*100)}%</span><span class="l">são Não Membros</span></div>
+      </div>
+      <div class="win" style="margin-top:10px">${st}</div>
+    </div>`;
+  };
+  document.getElementById('campCards').innerHTML=card('EVG · Brasil Evangélico',E,'')+card('BP10 · 10 Anos',B,'b');
+  document.getElementById('matWarn').innerHTML=
+    `<b>Leitura:</b> o BP10 tem mix mais "quente" no topo (${p2(B.status.find(s=>s.label==='Membro Ativo').pct)}% Membros Ativos + Vitalícios) mas trouxe muito mais gente fria na base — veja o Achado 5. Não compare os ${p2(E.nmConvPct)}% vs ${p2(B.nmConvPct)}% de conversão NM diretamente: o BP10 é uma fotografia mais jovem (censura).`;
+
+  // cobertura — grouped horizontal
+  const cov=D.coverage;
+  new Chart(document.getElementById('covChart'),{type:'bar',
+    data:{labels:cov.map(r=>r.label),
+      datasets:[{label:'EVG',data:cov.map(r=>r.EVG),backgroundColor:BLUE,borderRadius:4,barThickness:11},
+                {label:'BP10',data:cov.map(r=>r.BP10),backgroundColor:VIOLET,borderRadius:4,barThickness:11}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${p2(c.raw)}% responderam`}}},
+      scales:{x:{display:false,max:80},y:{grid:{display:false}}}},
+    plugins:[valueLabels(v=>v>0?Math.round(v)+'%':null)]});
+
+  convBar('relEVG', D.relacao.EVG);
+  convBar('relBP10', D.relacao.BP10);
+  convBar('tempoBP10', D.tempo.BP10);
+  convBar('rendaEVG', D.renda.EVG);
+  convBar('rendaBP10', D.renda.BP10);
+  document.getElementById('notaFam').innerHTML=
+    `"Nunca ouvi falar" converte perto de <b>0,1–0,2%</b> nas duas campanhas (lift ~0,2×), enquanto "assino / já assinei / já ouvi falar" fica bem acima da base. É o preditor mais estável do funil.`;
+
+  // responder vs não
+  const R=D.responded;
+  new Chart(document.getElementById('respChart'),{type:'bar',
+    data:{labels:['EVG','BP10'],
+      datasets:[
+        {label:'Respondeu',data:[R.EVG.true.convPct,R.BP10.true.convPct],backgroundColor:GREEN,borderRadius:5,barThickness:34},
+        {label:'Não respondeu',data:[R.EVG.false.convPct,R.BP10.false.convPct],backgroundColor:GREY,borderRadius:5,barThickness:34}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${p2(c.raw)}%`}}},
+      scales:{y:{display:false},x:{grid:{display:false}}}},
+    plugins:[valueLabels(v=>p2(v)+'%')]});
+
+  // combos
+  document.getElementById('comboBody').innerHTML=D.combos.slice(0,8).map(r=>{
+    const cls=r.lift>=1.5?'p-g':r.lift>=0.9?'p-n':'p-r';
+    return `<tr><td><b>${r.tag}</b> · ${r.renda.replace('R$ ','R$')} × ${r.relacao.length>24?r.relacao.slice(0,22)+'…':r.relacao}</td>
+      <td class="num">${br(r.n)}</td><td class="num">${p2(r.convPct)}%</td>
+      <td class="num"><span class="pill ${cls}">${p2(r.lift)}×</span></td></tr>`;}).join('');
+
+  // cold
+  const cold=D.cold;
+  document.getElementById('coldCards').innerHTML=['EVG','BP10'].map(t=>{
+    const c=cold[t];
+    return `<div style="margin-top:12px"><div class="big">${p2(c.sharePct)}%</div>
+      <div class="win">dos Não Membros do <b>${t}</b> · convertem só ${p2(c.convPct)}% (lift ${p2(c.lift)}×) · ${br(c.n)} leads</div></div>`;
+  }).join('');
+}
+
+fetch('./data.json').then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+  .then(D=>initCharts(D))
+  .catch(err=>{console.error(err);
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+    `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">⚠ Erro ao carregar data.json: ${err.message}. Local: rodar <code>python -m http.server</code> na pasta.</div>`);});
+</script>
+</body>
+</html>

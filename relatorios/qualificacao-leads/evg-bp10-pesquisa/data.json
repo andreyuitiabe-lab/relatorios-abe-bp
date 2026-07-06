@@ -1,0 +1,631 @@
+{
+  "updated_at": "2026-07-06T12:45:56",
+  "camps": {
+    "EVG": {
+      "n": 158275,
+      "conv": 2306,
+      "convPct": 1.46,
+      "nm": 138251,
+      "nmConvPct": 1.03,
+      "dtMin": "2026-05-21",
+      "dtMax": "2026-07-06",
+      "status": [
+        {
+          "label": "Não Membro",
+          "n": 138251,
+          "pct": 87.35
+        },
+        {
+          "label": "Ex-Membro",
+          "n": 10931,
+          "pct": 6.91
+        },
+        {
+          "label": "Membro Ativo",
+          "n": 8439,
+          "pct": 5.33
+        },
+        {
+          "label": "Membro Ativo (Vitalício)",
+          "n": 654,
+          "pct": 0.41
+        }
+      ],
+      "nmBase": 1.03
+    },
+    "BP10": {
+      "n": 33568,
+      "conv": 423,
+      "convPct": 1.26,
+      "nm": 26136,
+      "nmConvPct": 0.51,
+      "dtMin": "2026-06-11",
+      "dtMax": "2026-07-06",
+      "status": [
+        {
+          "label": "Não Membro",
+          "n": 26136,
+          "pct": 77.86
+        },
+        {
+          "label": "Membro Ativo",
+          "n": 4279,
+          "pct": 12.75
+        },
+        {
+          "label": "Ex-Membro",
+          "n": 2072,
+          "pct": 6.17
+        },
+        {
+          "label": "Membro Ativo (Vitalício)",
+          "n": 1081,
+          "pct": 3.22
+        }
+      ],
+      "nmBase": 0.51
+    }
+  },
+  "coverage": [
+    {
+      "key": "renda",
+      "label": "Renda",
+      "EVG": 33.81,
+      "BP10": 25.34
+    },
+    {
+      "key": "relacao_bp",
+      "label": "Relação com a BP",
+      "EVG": 44.11,
+      "BP10": 50.85
+    },
+    {
+      "key": "tempo_conhece_bp",
+      "label": "Há quanto tempo conhece",
+      "EVG": 21.46,
+      "BP10": 70.08
+    },
+    {
+      "key": "fonte_confianca",
+      "label": "Fonte de confiança",
+      "EVG": 33.49,
+      "BP10": 48.03
+    },
+    {
+      "key": "qtd_streaming",
+      "label": "Qtd. streamings",
+      "EVG": 33.18,
+      "BP10": 47.33
+    },
+    {
+      "key": "streaming",
+      "label": "Quais streamings",
+      "EVG": 33.05,
+      "BP10": 24.99
+    },
+    {
+      "key": "midia_tradicional",
+      "label": "Mídia tradicional",
+      "EVG": 21.46,
+      "BP10": 22.37
+    },
+    {
+      "key": "religiao",
+      "label": "Religião",
+      "EVG": 39.88,
+      "BP10": 0.0
+    }
+  ],
+  "responded": {
+    "BP10": {
+      "false": {
+        "n": 7937,
+        "convPct": 0.15
+      },
+      "true": {
+        "n": 18199,
+        "convPct": 0.66
+      }
+    },
+    "EVG": {
+      "true": {
+        "n": 93623,
+        "convPct": 1.33
+      },
+      "false": {
+        "n": 44628,
+        "convPct": 0.41
+      }
+    }
+  },
+  "relacao": {
+    "EVG": [
+      {
+        "answer": "Assino hoje",
+        "n": 1882,
+        "convPct": 2.76,
+        "lift": 2.68
+      },
+      {
+        "answer": "Já assinei no passado",
+        "n": 2859,
+        "convPct": 1.96,
+        "lift": 1.9
+      },
+      {
+        "answer": "Já ouvi falar, mas nunca assisti nada",
+        "n": 18311,
+        "convPct": 1.57,
+        "lift": 1.52
+      },
+      {
+        "answer": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+        "n": 31433,
+        "convPct": 1.3,
+        "lift": 1.26
+      },
+      {
+        "answer": "Nunca ouvi falar",
+        "n": 5908,
+        "convPct": 0.22,
+        "lift": 0.21
+      }
+    ],
+    "BP10": [
+      {
+        "answer": "Já assinei no passado",
+        "n": 660,
+        "convPct": 1.52,
+        "lift": 2.98
+      },
+      {
+        "answer": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+        "n": 5977,
+        "convPct": 0.84,
+        "lift": 1.65
+      },
+      {
+        "answer": "Já ouvi falar, mas nunca assisti nada",
+        "n": 2909,
+        "convPct": 0.69,
+        "lift": 1.35
+      },
+      {
+        "answer": "Assino hoje",
+        "n": 1327,
+        "convPct": 0.53,
+        "lift": 1.04
+      },
+      {
+        "answer": "Nunca ouvi falar",
+        "n": 1643,
+        "convPct": 0.12,
+        "lift": 0.24
+      }
+    ]
+  },
+  "renda": {
+    "BP10": [
+      {
+        "answer": "R$ 5.000 – R$ 10.000",
+        "n": 658,
+        "convPct": 1.82,
+        "lift": 3.57
+      },
+      {
+        "answer": "Até R$ 5.000",
+        "n": 2482,
+        "convPct": 1.17,
+        "lift": 2.29
+      },
+      {
+        "answer": "Prefiro não informar",
+        "n": 2083,
+        "convPct": 0.43,
+        "lift": 0.84
+      },
+      {
+        "answer": "Acima de R$ 15.000",
+        "n": 113,
+        "convPct": 0.0,
+        "lift": 0.0
+      },
+      {
+        "answer": "R$ 10.000 – R$ 15.000",
+        "n": 159,
+        "convPct": 0.0,
+        "lift": 0.0
+      }
+    ],
+    "EVG": [
+      {
+        "answer": "R$ 10.000 – R$ 20.000",
+        "n": 101,
+        "convPct": 6.93,
+        "lift": 6.73
+      },
+      {
+        "answer": "Acima de R$ 20.000",
+        "n": 45,
+        "convPct": 4.44,
+        "lift": 4.31
+      },
+      {
+        "answer": "Acima de R$ 15.000",
+        "n": 746,
+        "convPct": 3.89,
+        "lift": 3.78
+      },
+      {
+        "answer": "R$ 5.000 – R$ 10.000",
+        "n": 5660,
+        "convPct": 2.53,
+        "lift": 2.46
+      },
+      {
+        "answer": "R$ 10.000 – R$ 15.000",
+        "n": 1228,
+        "convPct": 2.28,
+        "lift": 2.21
+      },
+      {
+        "answer": "R$ 2.000 – R$ 5.000",
+        "n": 1041,
+        "convPct": 1.83,
+        "lift": 1.78
+      },
+      {
+        "answer": "Até R$ 5.000",
+        "n": 19965,
+        "convPct": 1.44,
+        "lift": 1.4
+      },
+      {
+        "answer": "Prefiro não informar",
+        "n": 15744,
+        "convPct": 0.97,
+        "lift": 0.94
+      },
+      {
+        "answer": "Até R$ 2.000",
+        "n": 1513,
+        "convPct": 0.66,
+        "lift": 0.64
+      }
+    ]
+  },
+  "tempo": {
+    "BP10": [
+      {
+        "answer": "Entre 1 e 3 anos",
+        "n": 3026,
+        "convPct": 1.32,
+        "lift": 2.59
+      },
+      {
+        "answer": "Mais que 3 anos",
+        "n": 3035,
+        "convPct": 1.12,
+        "lift": 2.2
+      },
+      {
+        "answer": "Entre 6 meses e 1 ano",
+        "n": 2250,
+        "convPct": 0.93,
+        "lift": 1.82
+      },
+      {
+        "answer": "Até 6 meses",
+        "n": 1304,
+        "convPct": 0.84,
+        "lift": 1.65
+      },
+      {
+        "answer": "Menos de um mês",
+        "n": 1188,
+        "convPct": 0.59,
+        "lift": 1.16
+      },
+      {
+        "answer": "Esse é meu primeiro contato",
+        "n": 6900,
+        "convPct": 0.1,
+        "lift": 0.2
+      }
+    ],
+    "EVG": [
+      {
+        "answer": "Entre 6 meses e 1 ano",
+        "n": 4346,
+        "convPct": 2.05,
+        "lift": 1.99
+      },
+      {
+        "answer": "Mais que 3 anos",
+        "n": 5113,
+        "convPct": 1.8,
+        "lift": 1.75
+      },
+      {
+        "answer": "Entre 1 e 3 anos",
+        "n": 6985,
+        "convPct": 1.73,
+        "lift": 1.68
+      },
+      {
+        "answer": "Até 6 meses",
+        "n": 2202,
+        "convPct": 1.14,
+        "lift": 1.11
+      },
+      {
+        "answer": "Esse é meu primeiro contato",
+        "n": 9532,
+        "convPct": 0.77,
+        "lift": 0.75
+      },
+      {
+        "answer": "Menos de um mês",
+        "n": 1454,
+        "convPct": 0.34,
+        "lift": 0.33
+      }
+    ]
+  },
+  "combos": [
+    {
+      "tag": "EVG",
+      "renda": "R$ 5.000 – R$ 10.000",
+      "relacao": "Assino hoje",
+      "n": 151,
+      "convPct": 7.28,
+      "lift": 7.07
+    },
+    {
+      "tag": "EVG",
+      "renda": "Acima de R$ 15.000",
+      "relacao": "Já ouvi falar, mas nunca assisti nada",
+      "n": 203,
+      "convPct": 3.94,
+      "lift": 3.83
+    },
+    {
+      "tag": "EVG",
+      "renda": "R$ 5.000 – R$ 10.000",
+      "relacao": "Já ouvi falar, mas nunca assisti nada",
+      "n": 1413,
+      "convPct": 3.33,
+      "lift": 3.23
+    },
+    {
+      "tag": "EVG",
+      "renda": "Prefiro não informar",
+      "relacao": "Assino hoje",
+      "n": 306,
+      "convPct": 2.94,
+      "lift": 2.85
+    },
+    {
+      "tag": "EVG",
+      "renda": "R$ 10.000 – R$ 15.000",
+      "relacao": "Já ouvi falar, mas nunca assisti nada",
+      "n": 320,
+      "convPct": 2.81,
+      "lift": 2.73
+    },
+    {
+      "tag": "EVG",
+      "renda": "Acima de R$ 15.000",
+      "relacao": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+      "n": 290,
+      "convPct": 2.76,
+      "lift": 2.68
+    },
+    {
+      "tag": "EVG",
+      "renda": "R$ 5.000 – R$ 10.000",
+      "relacao": "Já assinei no passado",
+      "n": 305,
+      "convPct": 2.62,
+      "lift": 2.54
+    },
+    {
+      "tag": "EVG",
+      "renda": "Até R$ 5.000",
+      "relacao": "Assino hoje",
+      "n": 431,
+      "convPct": 2.55,
+      "lift": 2.48
+    },
+    {
+      "tag": "EVG",
+      "renda": "R$ 5.000 – R$ 10.000",
+      "relacao": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+      "n": 2334,
+      "convPct": 2.4,
+      "lift": 2.33
+    },
+    {
+      "tag": "BP10",
+      "renda": "Até R$ 5.000",
+      "relacao": "Já assinei no passado",
+      "n": 127,
+      "convPct": 2.36,
+      "lift": 4.63
+    },
+    {
+      "tag": "EVG",
+      "renda": "Até R$ 5.000",
+      "relacao": "Já ouvi falar, mas nunca assisti nada",
+      "n": 4952,
+      "convPct": 1.66,
+      "lift": 1.61
+    },
+    {
+      "tag": "EVG",
+      "renda": "Até R$ 5.000",
+      "relacao": "Já assinei no passado",
+      "n": 809,
+      "convPct": 1.61,
+      "lift": 1.56
+    },
+    {
+      "tag": "EVG",
+      "renda": "R$ 10.000 – R$ 15.000",
+      "relacao": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+      "n": 514,
+      "convPct": 1.56,
+      "lift": 1.51
+    },
+    {
+      "tag": "BP10",
+      "renda": "Até R$ 5.000",
+      "relacao": "Já ouvi falar, mas nunca assisti nada",
+      "n": 387,
+      "convPct": 1.55,
+      "lift": 3.04
+    },
+    {
+      "tag": "BP10",
+      "renda": "R$ 5.000 – R$ 10.000",
+      "relacao": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+      "n": 297,
+      "convPct": 1.35,
+      "lift": 2.65
+    },
+    {
+      "tag": "BP10",
+      "renda": "Até R$ 5.000",
+      "relacao": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+      "n": 1129,
+      "convPct": 1.33,
+      "lift": 2.61
+    },
+    {
+      "tag": "EVG",
+      "renda": "Até R$ 5.000",
+      "relacao": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+      "n": 8936,
+      "convPct": 1.29,
+      "lift": 1.25
+    },
+    {
+      "tag": "EVG",
+      "renda": "Prefiro não informar",
+      "relacao": "Já assinei no passado",
+      "n": 429,
+      "convPct": 1.17,
+      "lift": 1.14
+    },
+    {
+      "tag": "EVG",
+      "renda": "Prefiro não informar",
+      "relacao": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+      "n": 6591,
+      "convPct": 1.06,
+      "lift": 1.03
+    },
+    {
+      "tag": "EVG",
+      "renda": "Prefiro não informar",
+      "relacao": "Já ouvi falar, mas nunca assisti nada",
+      "n": 3924,
+      "convPct": 0.94,
+      "lift": 0.91
+    },
+    {
+      "tag": "EVG",
+      "renda": "R$ 5.000 – R$ 10.000",
+      "relacao": "Nunca ouvi falar",
+      "n": 239,
+      "convPct": 0.84,
+      "lift": 0.82
+    },
+    {
+      "tag": "BP10",
+      "renda": "Prefiro não informar",
+      "relacao": "Assino hoje",
+      "n": 128,
+      "convPct": 0.78,
+      "lift": 1.53
+    },
+    {
+      "tag": "BP10",
+      "renda": "Prefiro não informar",
+      "relacao": "Já ouvi falar, mas nunca assisti nada",
+      "n": 332,
+      "convPct": 0.6,
+      "lift": 1.18
+    },
+    {
+      "tag": "BP10",
+      "renda": "Prefiro não informar",
+      "relacao": "Nunca ouvi falar",
+      "n": 213,
+      "convPct": 0.47,
+      "lift": 0.92
+    },
+    {
+      "tag": "BP10",
+      "renda": "Prefiro não informar",
+      "relacao": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+      "n": 796,
+      "convPct": 0.38,
+      "lift": 0.75
+    },
+    {
+      "tag": "EVG",
+      "renda": "Até R$ 5.000",
+      "relacao": "Nunca ouvi falar",
+      "n": 1382,
+      "convPct": 0.29,
+      "lift": 0.28
+    },
+    {
+      "tag": "EVG",
+      "renda": "Prefiro não informar",
+      "relacao": "Nunca ouvi falar",
+      "n": 1710,
+      "convPct": 0.12,
+      "lift": 0.12
+    },
+    {
+      "tag": "EVG",
+      "renda": "Até R$ 2.000",
+      "relacao": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+      "n": 129,
+      "convPct": 0.0,
+      "lift": 0.0
+    },
+    {
+      "tag": "BP10",
+      "renda": "Até R$ 5.000",
+      "relacao": "Nunca ouvi falar",
+      "n": 137,
+      "convPct": 0.0,
+      "lift": 0.0
+    },
+    {
+      "tag": "BP10",
+      "renda": "Até R$ 5.000",
+      "relacao": "Assino hoje",
+      "n": 129,
+      "convPct": 0.0,
+      "lift": 0.0
+    }
+  ],
+  "cold": {
+    "EVG": {
+      "n": 16805,
+      "sharePct": 12.16,
+      "convPct": 0.54,
+      "lift": 0.52
+    },
+    "BP10": {
+      "n": 8221,
+      "sharePct": 31.45,
+      "convPct": 0.18,
+      "lift": 0.35
+    }
+  }
+}
