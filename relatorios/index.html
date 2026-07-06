@@ -13,123 +13,185 @@
       min-height: 100vh;
       padding: 48px 24px;
     }
-    .container { max-width: 900px; margin: 0 auto; }
-    header { margin-bottom: 48px; }
+    .container { max-width: 960px; margin: 0 auto; }
+    header { margin-bottom: 28px; }
     header h1 { font-size: 28px; font-weight: 700; color: #f8fafc; }
     header p { margin-top: 8px; color: #94a3b8; font-size: 15px; }
+
+    .toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 36px; }
+    #busca {
+      flex: 1; min-width: 220px;
+      background: #1e293b; border: 1px solid #334155; border-radius: 8px;
+      padding: 10px 14px; color: #e2e8f0; font-size: 14px; outline: none;
+    }
+    #busca:focus { border-color: #3b82f6; }
+    .nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav a {
+      font-size: 12px; color: #94a3b8; text-decoration: none;
+      background: #1e293b; border: 1px solid #334155; border-radius: 999px;
+      padding: 5px 12px; transition: color .15s, border-color .15s;
+    }
+    .nav a:hover { color: #e2e8f0; border-color: #3b82f6; }
+
     .section { margin-bottom: 40px; }
     .section h2 {
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #64748b;
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #1e293b;
+      font-size: 13px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #64748b; margin-bottom: 16px;
+      padding-bottom: 8px; border-bottom: 1px solid #1e293b;
     }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
     .card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 20px;
-      text-decoration: none;
-      color: inherit;
+      display: flex; flex-direction: column;
+      background: #1e293b; border: 1px solid #334155; border-radius: 10px;
+      padding: 20px; text-decoration: none; color: inherit;
       transition: border-color 0.15s, transform 0.15s;
     }
     .card:hover { border-color: #3b82f6; transform: translateY(-2px); }
     .card-title { font-size: 15px; font-weight: 600; color: #f1f5f9; margin-bottom: 6px; }
-    .card-desc { font-size: 13px; color: #94a3b8; line-height: 1.5; }
-    .card-date { font-size: 12px; color: #475569; margin-top: 12px; }
-    .empty { color: #475569; font-size: 14px; padding: 16px 0; }
+    .card-desc { font-size: 13px; color: #94a3b8; line-height: 1.5; flex: 1; }
+    .card-meta { display: flex; gap: 8px; align-items: center; margin-top: 14px; }
+    .card-date { font-size: 12px; color: #475569; }
+    .badge {
+      font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em;
+      border-radius: 4px; padding: 2px 7px;
+    }
+    .badge.vivo { color: #4ade80; background: rgba(74,222,128,.1); }
+    .badge.snapshot { color: #fbbf24; background: rgba(251,191,36,.1); }
+    .hidden { display: none !important; }
+    footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #1e293b; color: #475569; font-size: 12px; line-height: 1.6; }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <h1>Relatórios — Brasil Paralelo</h1>
-      <p>Análises geradas pelo Claude Code</p>
+      <p>Análises de dados · André Abe · geradas com Claude Code</p>
     </header>
 
-    <div class="section">
-      <h2>Vitalício</h2>
-      <div class="grid">
-        <a class="card" href="vitalicio/">
-          <div class="card-title">Análise Estratégica Vitalício 2026</div>
-          <div class="card-desc">Diagnóstico completo da base vitalícia: perfil, retenção, tendências e oportunidades.</div>
-          <div class="card-date">Mai 2026</div>
-        </a>
-      </div>
+    <div class="toolbar">
+      <input id="busca" type="search" placeholder="Buscar relatório… (ex: vitalício, CPL, EVG)" autocomplete="off">
+      <nav class="nav">
+        <a href="#campanhas">Campanhas &amp; Leads</a>
+        <a href="#midia">Mídia Paga</a>
+        <a href="#base">Base &amp; Produtos</a>
+        <a href="#comercial">Comercial &amp; Retenção</a>
+      </nav>
     </div>
 
-    <div class="section">
-      <h2>Público</h2>
-      <div class="grid">
-        <a class="card" href="el-salvador/">
-          <div class="card-title">Perfil do Público — El Salvador</div>
-          <div class="card-desc">Análise do perfil demográfico e comportamental do público do documentário El Salvador.</div>
-          <div class="card-date">Mai 2026</div>
-        </a>
-        <a class="card" href="clube-do-livro/">
-          <div class="card-title">Perfil de Compra — Clube do Livro</div>
-          <div class="card-desc">Quem comprou o CDL: status de membro, antiguidade na BP, histórico de consumo e canal de venda.</div>
-          <div class="card-date">Jun 2026</div>
-        </a>
-        <a class="card" href="nucleo-formacao/">
-          <div class="card-title">Núcleo de Formação — Top Consumidores</div>
-          <div class="card-desc">Top 500 usuários por horas consumidas em certificações e cursos. Períodos: 30d, 90d, 360d e total. Com interesses por playlist.</div>
-          <div class="card-date">Jun 2026</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>Campanhas</h2>
+    <div class="section" id="campanhas">
+      <h2>Campanhas &amp; Leads</h2>
       <div class="grid">
         <a class="card" href="campanhas/aniversario-2026/">
-          <div class="card-title">Aniversário BP 2026 — Investimento, Meta de Leads e Forecast</div>
-          <div class="card-desc">Estratégia de aquecimento das 2 frentes (Vitalício + bundle). Por que a venda não vem dos leads, saturação da base, meta de leads, orçamento a CPL R$3 e forecast (R$26M realista vs meta R$15M).</div>
-          <div class="card-date">Jun 2026</div>
+          <div class="card-title">Aniversário BP 2026 — Meta de Leads e Forecast</div>
+          <div class="card-desc">Estratégia de aquecimento das 2 frentes (Vitalício + bundle): saturação da base, meta de leads, orçamento a CPL R$3 e forecast de receita.</div>
+          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jun 2026</span></div>
         </a>
         <a class="card" href="campanhas/">
           <div class="card-title">Eficiência do Aquecimento — Campanhas 2026</div>
           <div class="card-desc">Conversão de leads por campanha, curva de tempo, canal de aquisição, perfil geográfico e pesquisa de público (4 surveys).</div>
-          <div class="card-date">Mai 2026</div>
+          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Mai 2026</span></div>
         </a>
         <a class="card" href="qualificacao-leads/">
-          <div class="card-title">Qualificação de Leads — Formulário Pós-Cadastro</div>
+          <div class="card-title">Qualificação de Leads — Framework CPL×CAC</div>
           <div class="card-desc">342k respostas de 4 formulários. Qual survey prediz conversão, quais perguntas usar, modelo de lead score e formulário ideal.</div>
-          <div class="card-date">Mai 2026</div>
+          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Mai 2026</span></div>
         </a>
-        <a class="card" href="qualificacao-leads/2026-06-11/">
-          <div class="card-title">CPL por Tipo de Lead — EVG</div>
-          <div class="card-desc">34k leads, R$135k receita. CPL por ad set e anúncio cruzado com perfil do lead. Sinais de survey (renda, relação BP, streaming) e recomendações para Meta Ads.</div>
-          <div class="card-date">Jun 2026</div>
-        </a>
-        <a class="card" href="qualificacao-leads/2026-06-12-v2/">
-          <div class="card-title">Custo &amp; ROI da Pesquisa de Qualificação — EVG</div>
-          <div class="card-desc">35,9k leads, R$147k receita. Quanto a pesquisa custa em receita e RPV, CPL ideal por faixa de lead, e o número de eficiência para dar ROI. Visualização interativa (Chart.js).</div>
-          <div class="card-date">Jun 2026</div>
+        <a class="card" href="qualificacao-leads/evg-bp10-pesquisa/">
+          <div class="card-title">Pesquisa de Qualificação — EVG × BP10</div>
+          <div class="card-desc">Versão atual da análise de pesquisa de qualificação, cruzando os lançamentos EVG e BP10 (pós-revisão adversarial jul/2026).</div>
+          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
         </a>
         <a class="card" href="qualificacao-leads/2026-06-19-v3/">
-          <div class="card-title">Qualificação EVG v3 — Globoplay, Taxa de Resposta e Pixel Event</div>
-          <div class="card-desc">Versão atualizada: achado do Globoplay (4,9–6,7% conv), evolução da taxa de resposta por fase do form (8% → 67–70%), evento de pixel em produção e recomendação para otimização por resposta de survey.</div>
-          <div class="card-date">Jun 2026 · v3</div>
+          <div class="card-title">Qualificação EVG v3 — Globoplay e Taxa de Resposta</div>
+          <div class="card-desc">Snapshot apresentado em jun/2026: achado do Globoplay (4,9–6,7% conv), evolução da taxa de resposta do form (8% → 67–70%) e pixel event.</div>
+          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
+        </a>
+        <a class="card" href="evento-resposta/">
+          <div class="card-title">Otimização por Evento de Resposta — Survey</div>
+          <div class="card-desc">Teste de otimização Meta por evento de resposta ao survey (EVG/BP10): CPL, custo por respondente e conversão vs campanha padrão.</div>
+          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
+        </a>
+        <a class="card" href="pesquisa-evangelico/">
+          <div class="card-title">Campanha EVG — Perfil da Base</div>
+          <div class="card-desc">Perfil da base e performance das variantes da pesquisa na campanha Brasil Evangélico.</div>
+          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
+        </a>
+        <a class="card" href="el-salvador/">
+          <div class="card-title">Perfil do Público — El Salvador</div>
+          <div class="card-desc">Funil viewers × leads × compradores do documentário ELS: perfil socioeconômico, canais e produtos.</div>
+          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Mai 2026</span></div>
         </a>
       </div>
     </div>
 
-    <div class="section">
+    <div class="section" id="midia">
       <h2>Mídia Paga</h2>
       <div class="grid">
         <a class="card" href="midia-paga/">
           <div class="card-title">Curva de Resposta &amp; Eficiência Rolante</div>
-          <div class="card-desc">Análises de Meta Ads VENDA: curva de resposta ao investimento, ponto ótimo de CPA e sinais prospectivos de aumento/redução de budget.</div>
-          <div class="card-date">Jun 2026</div>
+          <div class="card-desc">Meta Ads VENDA: curva de resposta ao investimento, ponto ótimo de CPA e sinais prospectivos de aumento/redução de budget.</div>
+          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jun 2026</span></div>
+        </a>
+        <a class="card" href="app-engajamento-els/">
+          <div class="card-title">App Engajamento ELS — Google Ads</div>
+          <div class="card-desc">Desempenho diário das campanhas de app/engajamento ligadas ao ELS no Google Ads.</div>
+          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jun 2026</span></div>
         </a>
       </div>
     </div>
+
+    <div class="section" id="base">
+      <h2>Base &amp; Produtos</h2>
+      <div class="grid">
+        <a class="card" href="vitalicio/">
+          <div class="card-title">Análise Estratégica Vitalício 2026</div>
+          <div class="card-desc">Diagnóstico completo da base vitalícia: LTV por tier, upgrades, Comercial vs Digital e oportunidades de upsell.</div>
+          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Mai 2026</span></div>
+        </a>
+        <a class="card" href="clube-do-livro/">
+          <div class="card-title">Perfil de Compra — Clube do Livro</div>
+          <div class="card-desc">Quem comprou o CDL: status de membro, antiguidade na BP, histórico de consumo e canal de venda.</div>
+          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
+        </a>
+        <a class="card" href="nucleo-formacao/">
+          <div class="card-title">Núcleo de Formação — Top Consumidores</div>
+          <div class="card-desc">Top 500 usuários por horas em certificações e cursos (30d/90d/360d/total), com interesses por playlist. Dados anonimizados.</div>
+          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
+        </a>
+      </div>
+    </div>
+
+    <div class="section" id="comercial">
+      <h2>Comercial &amp; Retenção</h2>
+      <div class="grid">
+        <a class="card" href="ia-vs-comercial/">
+          <div class="card-title">IA (Lambda) vs Comercial — Hotleads</div>
+          <div class="card-desc">Conversão de hotleads abordados pela IA de vendas vs pelo time Comercial humano.</div>
+          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jun 2026</span></div>
+        </a>
+        <a class="card" href="retencao-assinantes/">
+          <div class="card-title">Retenção — Downgrade Anual → Mensal</div>
+          <div class="card-desc">Impacto financeiro do downgrade por saldo insuficiente: clientes impactados, taxa de recuperação atual e cenários.</div>
+          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
+        </a>
+      </div>
+    </div>
+
+    <footer>
+      <strong>Vivo</strong> = relatório com pipeline de atualização (refresh.py) ou análise em evolução · <strong>Snapshot</strong> = retrato de um momento, não atualizado.<br>
+      Entregas tipo lista/export (sem página HTML) e relatórios com dados sensíveis não aparecem no portal — ver ANALISE.md nas pastas do repo.
+    </footer>
   </div>
+
+  <script>
+    const busca = document.getElementById('busca');
+    const cards = [...document.querySelectorAll('.card')];
+    const sections = [...document.querySelectorAll('.section')];
+    busca.addEventListener('input', () => {
+      const q = busca.value.trim().toLowerCase();
+      cards.forEach(c => c.classList.toggle('hidden', q && !c.textContent.toLowerCase().includes(q)));
+      sections.forEach(s => s.classList.toggle('hidden', ![...s.querySelectorAll('.card')].some(c => !c.classList.contains('hidden'))));
+    });
+  </script>
 </body>
 </html>

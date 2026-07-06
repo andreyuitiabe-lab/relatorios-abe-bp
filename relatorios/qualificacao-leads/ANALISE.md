@@ -91,3 +91,15 @@ O time de mídia otimizava por CPL. A hipótese era que CPL e qualidade de lead 
 - [ ] Método de atribuição de campanha correto (UTM vs lead_last_tracking — ver `bq-regras.md`)
 - [ ] Métrica principal é a correta para o contexto (não CPL quando deveria ser CAC, etc.)
 - [ ] Canal separado onde relevante (Comercial vs Digital)
+
+---
+
+## Organização da pasta (jul/2026)
+
+- `index.html` — relatório do framework CPL×CAC (visão geral do tema)
+- `evg-bp10-pesquisa/` — **versão viva** da análise de pesquisa de qualificação (EVG × BP10)
+- `2026-06-19-v3/` — snapshot EVG v3 apresentado a stakeholders (URL compartilhada — não mover)
+- `archive/` — iterações supersedidas (2026-06-10 a -12-v2), fora do portal
+- `modelo_evg_bp10/` — artefatos do modelo ML (dataset, benchmark, scripts)
+
+Regra: versão viva evolui in-place (git é o histórico); snapshots de apresentação vão para `archive/` e não ganham card no portal.

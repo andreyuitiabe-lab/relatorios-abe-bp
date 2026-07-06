@@ -1,0 +1,60 @@
+{
+  "updated_at": "2026-06-24T00:00:00",
+  "campaign": "ELS App Engajamento Junho",
+  "totais": {
+    "spend": 2092.51,
+    "impressions": 470813,
+    "clicks": 1743,
+    "ctr": 0.3701,
+    "cpc": 1.20,
+    "cpm": 4.44
+  },
+  "campanhas": [
+    {
+      "nome": "[LAN] [ELS] [ENGAJAMENTO] [APP] Junho | iOS",
+      "nome_curto": "iOS",
+      "spend": 1598.13,
+      "impressions": 461697,
+      "clicks": 1382,
+      "ctr": 0.2993,
+      "cpc": 1.16,
+      "cpm": 3.46,
+      "dias": 7,
+      "sem_dados": false
+    },
+    {
+      "nome": "[LAN] [ELS] [ENGAJAMENTO] [APP] Junho | Android v2",
+      "nome_curto": "Android v2",
+      "spend": 494.38,
+      "impressions": 9116,
+      "clicks": 361,
+      "ctr": 3.9601,
+      "cpc": 1.37,
+      "cpm": 54.23,
+      "dias": 1,
+      "sem_dados": false
+    },
+    {
+      "nome": "[LAN] [ELS] [ENGAJAMENTO] [APP] Junho | Android v3",
+      "nome_curto": "Android v3",
+      "spend": 0,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "cpc": 0,
+      "cpm": 0,
+      "dias": 0,
+      "sem_dados": true
+    }
+  ],
+  "diario": {
+    "labels": ["18/06", "19/06", "20/06", "21/06", "22/06", "23/06", "24/06"],
+    "ios_spend": [254.77, 256.55, 260.68, 259.02, 257.5, 255.96, 53.65],
+    "android_v2_spend": [null, 494.38, null, null, null, null, null],
+    "android_v3_spend": [null, null, null, null, null, null, null],
+    "ios_impressions": [35440, 44603, 81333, 94704, 102308, 82274, 21035],
+    "android_v2_impressions": [null, 9116, null, null, null, null, null],
+    "ios_clicks": [209, 208, 264, 219, 221, 212, 49],
+    "android_v2_clicks": [null, 361, null, null, null, null, null]
+  }
+}

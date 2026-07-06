@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Engajamento ELS — Google Ads</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:     #f8fafc;
+      --card:   #ffffff;
+      --line:   #e2e8f0;
+      --text:   #1e293b;
+      --muted:  #475569;
+      --soft:   #94a3b8;
+      --blue:   #3b6ef5;
+      --green:  #16a34a;
+      --red:    #e23b3b;
+      --amber:  #f5a524;
+      --violet: #7c5cfc;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6;
+    }
+    .wrap   { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+    section { margin-bottom: 56px; }
+    h1      { font-size: 26px; font-weight: 700; }
+    h2      { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .sub    { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .label  { font-size: 11px; font-weight: 600; text-transform: uppercase;
+              letter-spacing: .06em; color: var(--soft); margin-bottom: 12px; }
+    .card   { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+    .stats  { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 28px; }
+    .bigstat .bs-num { font-size: 36px; font-weight: 800; color: var(--blue); line-height: 1; }
+    .bigstat .bs-num.g { color: var(--green); }
+    .bigstat .bs-cap { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    table   { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th      { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px;
+              text-transform: uppercase; letter-spacing: .05em;
+              border-bottom: 2px solid var(--line); padding: 8px 10px; }
+    td      { padding: 9px 10px; border-bottom: 1px solid var(--line); }
+    tr:last-child td { border-bottom: none; }
+    td.num  { text-align: right; font-variant-numeric: tabular-nums; }
+    .tag    { display: inline-block; padding: 2px 8px; border-radius: 20px;
+              font-size: 11px; font-weight: 600; }
+    .t-g  { background: #d1fae5; color: #065f46; }
+    .t-n  { background: #f1f5f9; color: #475569; }
+    .nota   { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+              padding: 12px 16px; font-size: 12.5px; color: #92400e; margin-top: 16px; }
+    header  { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+    footer  { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+              font-size: 12px; color: var(--soft); }
+    .badge-plat { font-size: 12px; font-weight: 700; padding: 2px 10px;
+                  border-radius: 20px; display: inline-block; }
+    .ios-badge { background: #dbeafe; color: #1d4ed8; }
+    .av2-badge { background: #d1fae5; color: #065f46; }
+    .av3-badge { background: #f1f5f9; color: #64748b; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Mídia Paga · Google Ads</p>
+  <h1>Campanhas App Engajamento — ELS Junho</h1>
+  <p class="sub">Google UAC — Re-engajamento de usuários do app · iOS + Android v2 + Android v3</p>
+</header>
+
+<main>
+
+  <!-- ── KPIs totais ──────────────────────────────────────────────── -->
+  <section>
+    <h2>Visão geral</h2>
+    <div class="stats">
+      <div class="bigstat">
+        <div class="bs-num" id="statSpend">—</div>
+        <div class="bs-cap">investimento total</div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num" id="statImpressions">—</div>
+        <div class="bs-cap">impressões</div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num g" id="statClicks">—</div>
+        <div class="bs-cap">cliques (re-engajamentos)</div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num" id="statCPC">—</div>
+        <div class="bs-cap">CPC médio (custo por clique)</div>
+      </div>
+    </div>
+
+    <!-- tabela por campanha -->
+    <div class="card">
+      <p class="label">Resultado por campanha</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Campanha</th>
+            <th class="num">Período</th>
+            <th class="num">Invest.</th>
+            <th class="num">Impressões</th>
+            <th class="num">Cliques</th>
+            <th class="num">CTR</th>
+            <th class="num">CPC</th>
+            <th class="num">CPM</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaCampanhas"></tbody>
+      </table>
+      <div class="nota">
+        ⚠ <strong>Android v3</strong> ainda sem dados no BigQuery (campanha pode estar recém-criada ou com nomenclatura diferente).
+        &nbsp;|&nbsp; <strong>Android v2</strong> com apenas 1 dia de dados (19/06) — comparação com iOS não é direta.
+        &nbsp;|&nbsp; CTR mais alto no Android v2 pode refletir formato de anúncio diferente, não necessariamente melhor eficiência.
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Evolução diária ──────────────────────────────────────────── -->
+  <section>
+    <h2>Evolução diária</h2>
+    <div class="grid-2">
+      <div class="card">
+        <p class="label">Investimento por dia (R$)</p>
+        <canvas id="chartSpend" height="220"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">Impressões por dia</p>
+        <canvas id="chartImpressions" height="220"></canvas>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <p class="label">Cliques por dia</p>
+      <canvas id="chartClicks" height="160"></canvas>
+    </div>
+  </section>
+
+  <!-- ── Eficiência por plataforma ────────────────────────────────── -->
+  <section>
+    <h2>Comparação de eficiência</h2>
+    <div class="grid-2">
+      <div class="card">
+        <p class="label">CTR (%) — cliques / impressões</p>
+        <canvas id="chartCTR" height="140"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">CPM (R$) — custo por 1.000 impressões</p>
+        <canvas id="chartCPM" height="140"></canvas>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Brasil Paralelo · Google Ads App Engajamento ELS Junho · <span id="lastUpdate"></span><br>
+  Fonte: <code>bp-datawarehouse.datamart.dtm_analytics_google_ads_funnel</code>
+</footer>
+
+</div>
+<script>
+const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.family = FONT;
+Chart.defaults.font.size   = 12;
+Chart.defaults.color       = "#6b7689";
+
+const BLUE="#3b6ef5", GREEN="#16a34a", AMBER="#f5a524", GREY="#cbd5e1";
+const C_IOS="#3b6ef5", C_AV2="#16a34a", C_AV3="#94a3b8";
+
+const brl = v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+const n   = v => v == null ? null : v;
+
+const lineOpts = (yFmt) => ({
+  responsive: true,
+  plugins: {
+    legend: { position: 'bottom', labels: { boxWidth: 12, padding: 16 } },
+    tooltip: { callbacks: { label: c => c.dataset.label + ': ' + (yFmt ? yFmt(c.raw) : c.raw?.toLocaleString('pt-BR')) } }
+  },
+  scales: {
+    x: { grid: { display: false } },
+    y: { grid: { color: '#f1f5f9' }, ticks: { callback: v => yFmt ? yFmt(v) : v.toLocaleString('pt-BR') } }
+  }
+});
+
+const barOpts = (xFmt) => ({
+  indexAxis: 'y',
+  responsive: true,
+  plugins: {
+    legend: { display: false },
+    tooltip: { callbacks: { label: c => xFmt ? xFmt(c.raw) : c.raw } }
+  },
+  scales: {
+    x: { grid: { color: '#f1f5f9' }, ticks: { callback: v => xFmt ? xFmt(v) : v } },
+    y: { grid: { display: false } }
+  }
+});
+
+function initCharts(D) {
+  document.getElementById('lastUpdate').textContent =
+    'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
+
+  const T = D.totais;
+  document.getElementById('statSpend').textContent       = brl(T.spend);
+  document.getElementById('statImpressions').textContent = T.impressions.toLocaleString('pt-BR');
+  document.getElementById('statClicks').textContent      = T.clicks.toLocaleString('pt-BR');
+  document.getElementById('statCPC').textContent         = brl(T.cpc);
+
+  // tabela por campanha
+  const badgeClass = { iOS: 'ios-badge', 'Android v2': 'av2-badge', 'Android v3': 'av3-badge' };
+  document.getElementById('tabelaCampanhas').innerHTML = D.campanhas.map(c => {
+    if (c.sem_dados) {
+      return `<tr>
+        <td><span class="badge-plat ${badgeClass[c.nome_curto]||''}">${c.nome_curto}</span></td>
+        <td class="num" colspan="7" style="color:#94a3b8;font-style:italic">sem dados ainda</td>
+      </tr>`;
+    }
+    const periodo = c.dias === 1 ? '1 dia' : `${c.dias} dias`;
+    const ctrFmt  = c.ctr.toFixed(2).replace('.', ',') + '%';
+    return `<tr>
+      <td><span class="badge-plat ${badgeClass[c.nome_curto]||''}">${c.nome_curto}</span></td>
+      <td class="num">${periodo}</td>
+      <td class="num">${brl(c.spend)}</td>
+      <td class="num">${c.impressions.toLocaleString('pt-BR')}</td>
+      <td class="num">${c.clicks.toLocaleString('pt-BR')}</td>
+      <td class="num">${ctrFmt}</td>
+      <td class="num">${brl(c.cpc)}</td>
+      <td class="num">${brl(c.cpm)}</td>
+    </tr>`;
+  }).join('');
+
+  const LB = D.diario.labels;
+
+  // spend diário
+  new Chart(chartSpend, {
+    type: 'line',
+    data: {
+      labels: LB,
+      datasets: [
+        { label: 'iOS',        data: D.diario.ios_spend,        borderColor: C_IOS, backgroundColor: C_IOS+'22', tension:.3, fill:true, pointRadius:4, spanGaps:false },
+        { label: 'Android v2', data: D.diario.android_v2_spend, borderColor: C_AV2, backgroundColor: C_AV2+'22', tension:.3, fill:false, pointRadius:6, spanGaps:false },
+      ]
+    },
+    options: lineOpts(brl)
+  });
+
+  // impressões diárias
+  new Chart(chartImpressions, {
+    type: 'line',
+    data: {
+      labels: LB,
+      datasets: [
+        { label: 'iOS',        data: D.diario.ios_impressions,        borderColor: C_IOS, backgroundColor: C_IOS+'22', tension:.3, fill:true, pointRadius:4, spanGaps:false },
+        { label: 'Android v2', data: D.diario.android_v2_impressions, borderColor: C_AV2, backgroundColor: C_AV2+'22', tension:.3, fill:false, pointRadius:6, spanGaps:false },
+      ]
+    },
+    options: lineOpts(v => v?.toLocaleString('pt-BR'))
+  });
+
+  // cliques diários
+  new Chart(chartClicks, {
+    type: 'bar',
+    data: {
+      labels: LB,
+      datasets: [
+        { label: 'iOS',        data: D.diario.ios_clicks,        backgroundColor: C_IOS, borderRadius: 4 },
+        { label: 'Android v2', data: D.diario.android_v2_clicks, backgroundColor: C_AV2, borderRadius: 4 },
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 16 } } },
+      scales: {
+        x: { grid: { display: false }, stacked: false },
+        y: { grid: { color: '#f1f5f9' } }
+      }
+    }
+  });
+
+  // CTR por campanha (barras horizontais — apenas campanhas com dados)
+  const campsComDados = D.campanhas.filter(c => !c.sem_dados);
+  new Chart(chartCTR, {
+    type: 'bar',
+    data: {
+      labels: campsComDados.map(c => c.nome_curto),
+      datasets: [{ data: campsComDados.map(c => c.ctr), backgroundColor: [C_IOS, C_AV2, C_AV3], borderRadius: 6 }]
+    },
+    options: {
+      ...barOpts(v => v.toFixed(2).replace('.', ',') + '%'),
+      plugins: { ...barOpts().plugins, tooltip: { callbacks: { label: c => c.raw.toFixed(2).replace('.', ',') + '%' } } }
+    }
+  });
+
+  // CPM por campanha
+  new Chart(chartCPM, {
+    type: 'bar',
+    data: {
+      labels: campsComDados.map(c => c.nome_curto),
+      datasets: [{ data: campsComDados.map(c => c.cpm), backgroundColor: [C_IOS, C_AV2, C_AV3], borderRadius: 6 }]
+    },
+    options: {
+      ...barOpts(v => 'R$ ' + v.toFixed(2).replace('.', ',')),
+      plugins: { ...barOpts().plugins, tooltip: { callbacks: { label: c => brl(c.raw) } } }
+    }
+  });
+}
+
+fetch('./data.json')
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(D => initCharts(D))
+  .catch(err => {
+    console.error(err);
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
+        ⚠ Erro ao carregar dados: ${err.message}. Para visualização local usar <code>python -m http.server</code>.
+      </div>`);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><!-- TÍTULO DO RELATÓRIO --></title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* ── tokens ── */
+    :root {
+      --bg:     #f8fafc;
+      --card:   #ffffff;
+      --line:   #e2e8f0;
+      --text:   #1e293b;
+      --muted:  #475569;
+      --soft:   #94a3b8;
+      --blue:   #3b6ef5;
+      --green:  #16a34a;
+      --red:    #e23b3b;
+      --amber:  #f5a524;
+      --violet: #7c5cfc;
+    }
+
+    /* ── reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── layout ── */
+    .wrap   { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+    section { margin-bottom: 56px; }
+
+    /* ── tipografia ── */
+    h1      { font-size: 26px; font-weight: 700; color: var(--text); }
+    h2      { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .sub    { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .label  { font-size: 11px; font-weight: 600; text-transform: uppercase;
+              letter-spacing: .06em; color: var(--soft); margin-bottom: 12px; }
+
+    /* ── cards ── */
+    .card   { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    @media (max-width: 640px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+    /* ── bigstats ── */
+    .stats  { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 24px; }
+    .bigstat .bs-num { font-size: 36px; font-weight: 800; color: var(--blue); line-height: 1; }
+    .bigstat .bs-num.g { color: var(--green); }
+    .bigstat .bs-num.r { color: var(--red); }
+    .bigstat .bs-cap { font-size: 12px; color: var(--muted); margin-top: 4px; max-width: 180px; }
+
+    /* ── tabelas ── */
+    table   { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th      { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px;
+              text-transform: uppercase; letter-spacing: .05em;
+              border-bottom: 2px solid var(--line); padding: 8px 10px; }
+    td      { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    tr:last-child td { border-bottom: none; }
+    td.num  { text-align: right; font-variant-numeric: tabular-nums; }
+    tr.mut td { opacity: .45; }
+
+    /* ── tags ── */
+    .tag    { display: inline-block; padding: 2px 8px; border-radius: 20px;
+              font-size: 11px; font-weight: 600; }
+    .t-b    { background: #dbeafe; color: #1d4ed8; }
+    .t-g    { background: #d1fae5; color: #065f46; }
+    .t-r    { background: #fee2e2; color: #991b1b; }
+    .t-n    { background: #f1f5f9; color: #475569; }
+
+    /* ── notas ── */
+    .nota   { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px;
+              padding: 12px 16px; font-size: 12.5px; color: var(--muted); margin-top: 16px; }
+
+    /* ── header / footer ── */
+    header  { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+    footer  { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+              font-size: 12px; color: var(--soft); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · <!-- SEÇÃO/TEMA --></p>
+  <h1><!-- TÍTULO PRINCIPAL --></h1>
+  <p class="sub"><!-- Subtítulo ou descrição da campanha/período --></p>
+</header>
+
+<main>
+
+  <!-- ── SEÇÃO EXEMPLO ────────────────────────────────────────────────────── -->
+  <section>
+    <h2><!-- Título da seção --></h2>
+
+    <!-- Bigstats -->
+    <div class="stats">
+      <div class="bigstat">
+        <div class="bs-num" id="statLeads">—</div>
+        <div class="bs-cap">leads totais</div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num g" id="statConv">—</div>
+        <div class="bs-cap">taxa de conversão</div>
+      </div>
+    </div>
+
+    <!-- Gráfico -->
+    <div class="card">
+      <p class="label">Exemplo de gráfico</p>
+      <canvas id="meuGrafico" height="200"></canvas>
+    </div>
+
+    <!-- Tabela -->
+    <div class="card" style="margin-top:16px">
+      <table>
+        <thead><tr><th>Coluna A</th><th class="num">Leads</th><th class="num">Conversão</th></tr></thead>
+        <tbody id="tabelaBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
+  Fontes: <!-- listar tabelas BQ usadas -->
+</footer>
+
+</div>
+
+<script>
+const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.family = FONT;
+Chart.defaults.font.size   = 12;
+Chart.defaults.color       = "#6b7689";
+
+const BLUE="#3b6ef5", GREEN="#16a34a", RED="#e23b3b", AMBER="#f5a524", VIOLET="#7c5cfc", GREY="#aab2c4";
+
+/* plugin: value labels sobre barras */
+const valueLabels = (fmt) => ({
+  id: 'vlab',
+  afterDatasetsDraw(c) {
+    const { ctx } = c; ctx.save();
+    c.data.datasets.forEach((ds, di) => {
+      const meta = c.getDatasetMeta(di);
+      if (meta.hidden) return;
+      meta.data.forEach((el, i) => {
+        const v = ds.data[i]; if (v == null) return;
+        const label = fmt(v); if (label == null) return;
+        ctx.fillStyle = "#3a4254"; ctx.font = "700 11px " + FONT;
+        if (c.options.indexAxis === 'y') {
+          ctx.textAlign = "left"; ctx.textBaseline = "middle";
+          ctx.fillText(label, el.x + 8, el.y);
+        } else {
+          ctx.textAlign = "center"; ctx.textBaseline = "bottom";
+          ctx.fillText(label, el.x, el.y - 5);
+        }
+      });
+    }); ctx.restore();
+  }
+});
+const pct = v => v.toLocaleString('pt-BR') + '%';
+
+/* ── initCharts: recebe D = data.json parseado ── */
+function initCharts(D) {
+  /* atualiza data no rodapé */
+  const upd = document.getElementById('lastUpdate');
+  if (upd) upd.textContent = 'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
+
+  /* bigstats */
+  document.getElementById('statLeads').textContent = D.totalLeads?.toLocaleString('pt-BR') ?? '—';
+  document.getElementById('statConv').textContent  = (D.convGlobal ?? 0).toFixed(2).replace('.', ',') + '%';
+
+  /* gráfico exemplo — adaptar conforme dados reais */
+  new Chart(meuGrafico, {
+    type: 'bar',
+    data: {
+      labels:   D.grafico.labels,
+      datasets: [{ data: D.grafico.data, backgroundColor: BLUE, borderRadius: 6, barThickness: 24 }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => pct(c.raw) } } },
+      scales: {
+        x: { display: false, max: Math.ceil(Math.max(...D.grafico.data) * 1.2) },
+        y: { grid: { display: false } }
+      }
+    },
+    plugins: [valueLabels(v => v.toFixed(2).replace('.', ',') + '%')]
+  });
+
+  /* tabela exemplo */
+  document.getElementById('tabelaBody').innerHTML = D.tabela.map(r =>
+    `<tr><td>${r.label}</td><td class="num">${r.leads.toLocaleString('pt-BR')}</td><td class="num">${r.conv.toFixed(2).replace('.', ',')}%</td></tr>`
+  ).join('');
+}
+
+/* carregar data.json — NUNCA colocar dados direto no HTML */
+fetch('./data.json')
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(D => initCharts(D))
+  .catch(err => {
+    console.error('Falha ao carregar data.json:', err);
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
+        ⚠ Erro ao carregar dados: ${err.message}. Para visualização local, usar <code>python -m http.server</code> na pasta do relatório.
+      </div>`);
+  });
+</script>
+</body>
+</html>

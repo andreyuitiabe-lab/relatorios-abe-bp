@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evento de resposta — CPL, custo/resposta e conversão</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:#f8fafc; --card:#fff; --line:#e2e8f0; --text:#1e293b; --muted:#475569;
+      --soft:#94a3b8; --blue:#3b6ef5; --green:#16a34a; --red:#e23b3b; --amber:#f5a524; --violet:#7c5cfc;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg);
+           color:var(--text); font-size:14px; line-height:1.6; }
+    .wrap { max-width:960px; margin:0 auto; padding:48px 24px 80px; }
+    section { margin-bottom:56px; }
+    h1 { font-size:26px; font-weight:700; }
+    h2 { font-size:18px; font-weight:700; margin-bottom:6px; }
+    h3 { font-size:15px; font-weight:700; margin:28px 0 4px; }
+    .sub { color:var(--muted); font-size:13px; margin-top:4px; }
+    .secsub { color:var(--muted); font-size:13px; margin-bottom:16px; }
+    .label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.06em;
+             color:var(--soft); margin-bottom:12px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:24px; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media (max-width:680px){ .grid-2{ grid-template-columns:1fr; } }
+    .stats { display:flex; gap:28px; flex-wrap:wrap; margin:12px 0 8px; }
+    .bigstat .bs-num { font-size:30px; font-weight:800; color:var(--blue); line-height:1; }
+    .bigstat .bs-num.g { color:var(--green); } .bigstat .bs-num.r { color:var(--red); }
+    .bigstat .bs-num.a { color:var(--amber); }
+    .bigstat .bs-cap { font-size:11.5px; color:var(--muted); margin-top:6px; max-width:170px; }
+    .vs { font-size:11px; font-weight:600; padding:2px 7px; border-radius:20px; display:inline-block; margin-top:3px; }
+    .vs.ok { background:#d1fae5; color:#065f46; } .vs.bad { background:#fee2e2; color:#991b1b; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th { text-align:left; font-weight:600; color:var(--muted); font-size:11px; text-transform:uppercase;
+         letter-spacing:.05em; border-bottom:2px solid var(--line); padding:8px 10px; }
+    td { padding:8px 10px; border-bottom:1px solid var(--line); }
+    tr:last-child td { border-bottom:none; }
+    td.num { text-align:right; font-variant-numeric:tabular-nums; }
+    tr.hl td { background:#eff5ff; font-weight:600; }
+    .tag { display:inline-block; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:600; }
+    .t-b { background:#dbeafe; color:#1d4ed8; } .t-n { background:#f1f5f9; color:#475569; }
+    .nota { background:#f8fafc; border:1px solid var(--line); border-radius:8px; padding:12px 16px;
+            font-size:12.5px; color:var(--muted); margin-top:16px; }
+    .takeaway { background:#eff5ff; border:1px solid #cfe0ff; border-radius:10px; padding:16px 20px;
+                font-size:13.5px; color:#1e3a8a; margin-top:20px; }
+    .takeaway b { color:#1d4ed8; }
+    header { margin-bottom:40px; padding-bottom:24px; border-bottom:2px solid var(--line); }
+    footer { margin-top:64px; padding-top:24px; border-top:1px solid var(--line);
+             font-size:12px; color:var(--soft); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Meta Ads · Geração de leads</p>
+  <h1>Otimização por evento de resposta</h1>
+  <p class="sub">CPL, custo por resposta e conversão lead→venda — campanhas <b>Lead Survey</b> vs demais campanhas de LEAD. Lançamentos <b>EVG</b> e <b>BP10</b> · atribuição last-click via UTM.</p>
+</header>
+
+<main>
+
+  <!-- ── CURVAS POR LANÇAMENTO (renderizadas via JS) ──────────────────────── -->
+  <section>
+    <h2>Eficiência ao longo do tempo — aprende e ganha?</h2>
+    <p class="secsub">Hipótese: a campanha otimizada por evento de resposta deveria aprender e baratear ao longo dos dias. Linha azul = Lead Survey · cinza tracejada = base do lançamento. Mais baixo = melhor.</p>
+    <div id="launches"></div>
+  </section>
+
+  <!-- ── CONVERSÃO POR LANÇAMENTO ──────────────────────────────────────── -->
+  <section>
+    <h2>Como isso se traduz em conversão — por lançamento</h2>
+    <p class="secsub">Todas as campanhas de LEAD (últimos <span id="lb"></span> dias). <b>EVG</b> e <b>BP10</b> (azul) são os únicos com pesquisa de qualificação ativa.</p>
+    <div class="card">
+      <p class="label">CAC — R$ por venda atribuída · por lançamento</p>
+      <canvas id="gCac" height="200"></canvas>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <table>
+        <thead><tr>
+          <th>Lançamento</th><th class="num">Invest.</th><th class="num">Leads</th>
+          <th class="num">CPL</th><th class="num">Tx. resp.</th><th class="num">Conv. venda</th><th class="num">CAC</th>
+        </tr></thead>
+        <tbody id="tbConv"></tbody>
+      </table>
+    </div>
+    <div class="nota">Conversão = % dos leads com compra aprovada em até 30 dias do registro. CAC = investimento Meta ÷ vendas atribuídas. EVG/BP10 são recentes — conversão ainda imatura (parte dos leads não completou a janela de compra). Atribuição via <code>utm_content → id_advertising</code> com regex <code>([0-9]+)$</code> (cobre o id puro do BP10 e o sufixo <code>__id</code> dos demais).</div>
+  </section>
+
+</main>
+
+<footer>
+  Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
+  Fontes: <code>datamart.dtm_analytics_facebook_ads_funnel</code> · <code>datamart.dtm_analytics_lead_conversion</code>
+</footer>
+
+</div>
+
+<script>
+const FONT="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.family=FONT; Chart.defaults.font.size=12; Chart.defaults.color="#6b7689";
+const BLUE="#3b6ef5", GREEN="#16a34a", RED="#e23b3b", AMBER="#f5a524", GREY="#aab2c4";
+
+const brl  = v => 'R$ ' + (v ?? 0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const brl0 = v => 'R$ ' + Math.round(v ?? 0).toLocaleString('pt-BR');
+const pct  = v => (v ?? 0).toFixed(1).replace('.',',') + '%';
+const pct2 = v => (v ?? 0).toFixed(2).replace('.',',') + '%';
+const vsTag = (s,o,inv) => {           // inv=true: menor é melhor
+  if (!o) return '';
+  const d = (s-o)/o*100, better = inv ? d < 0 : d > 0;
+  return `<span class="vs ${better?'ok':'bad'}">${d>=0?'+':''}${d.toFixed(0)}% vs base ${better?'✓':'✗'}</span>`;
+};
+
+function lineChart(el, labels, datasets, fmt) {
+  new Chart(el, {
+    type:'line', data:{ labels, datasets },
+    options:{
+      interaction:{ mode:'index', intersect:false },
+      plugins:{
+        legend:{ position:'top', labels:{ usePointStyle:true, pointStyle:'line', boxWidth:24 } },
+        tooltip:{ callbacks:{ label:c => `${c.dataset.label}: ${c.raw==null?'—':fmt(c.raw)}` } }
+      },
+      scales:{ y:{ beginAtZero:true, ticks:{ callback:fmt }, grid:{ color:'#eef1f6' } },
+               x:{ grid:{ display:false } } }
+    }
+  });
+}
+
+function renderLaunch(D, key) {
+  const L = D.launches[key], s = L.resumo.survey, o = L.resumo.base, rc = L.recon;
+  const anom = new Set(L.anomalias || []);
+  // realce de pontos anômalos (CTR colapsado) nas séries survey
+  const ptColor = D.labels.map(l => anom.has(l) ? RED : BLUE);
+  const ptRad   = D.labels.map(l => anom.has(l) ? 6 : 3);
+  const surveyDs = (data) => ({ label:`Lead Survey (${key})`, data, borderColor:BLUE, backgroundColor:BLUE,
+    tension:.3, spanGaps:true, pointRadius:ptRad, pointBackgroundColor:ptColor, pointBorderColor:ptColor });
+  const baseDs = (data) => ({ label:'Base', data, borderColor:GREY, backgroundColor:GREY,
+    borderDash:[5,4], tension:.3, spanGaps:true, pointRadius:2 });
+
+  const anomHtml = anom.size ? `<div class="nota" style="border-color:#fca5a5;background:#fef2f2;color:#991b1b">
+      ⚠ <b>Dias anômalos (${[...anom].join(', ')}) — já excluídos dos números acima:</b> o CTR da campanha
+      survey desabou para &lt;0,5% (falha técnica de clique/destino). O gasto seguiu, mas quase não houve
+      clique → esses dias inflariam CPL e custo/resposta, então foram <b>removidos do resumo</b>. Seguem
+      visíveis na série (pontos em vermelho) para registro.
+    </div>` : '';
+
+  const host = document.getElementById('launches');
+  const block = document.createElement('div');
+  block.innerHTML = `
+    <h3>${key}</h3>
+    <div class="nota" style="margin-top:0;margin-bottom:4px">
+      Lançamento inteiro por <code>nm_tag</code> (todas as campanhas e fontes — <b>é o que o dash oficial mostra</b>):
+      <b>${rc.tag_cad.toLocaleString('pt-BR')}</b> cadastros · <b>${pct(rc.tag_taxa)}</b> de resposta.
+      Abaixo, o recorte da campanha <b>Lead Survey</b> no facebook (${s.leads.toLocaleString('pt-BR')} cadastros
+      atribuídos ao anúncio) vs a <b>base</b> do lançamento — a única forma de separar as duas otimizações.
+    </div>
+    <div class="stats">
+      <div class="bigstat"><div class="bs-num">${brl(s.cpl)}</div>
+        <div class="bs-cap">CPL survey<br>${vsTag(s.cpl,o.cpl,true)}</div></div>
+      <div class="bigstat"><div class="bs-num g">${pct(s.taxa_resp)}</div>
+        <div class="bs-cap">taxa de resposta<br>${vsTag(s.taxa_resp,o.taxa_resp,false)}</div></div>
+      <div class="bigstat"><div class="bs-num">${brl(s.custo_resp)}</div>
+        <div class="bs-cap">custo por resposta<br>${vsTag(s.custo_resp,o.custo_resp,true)}</div></div>
+      <div class="bigstat"><div class="bs-num a">${pct2(s.conv)}</div>
+        <div class="bs-cap">conversão lead→venda<br>${vsTag(s.conv,o.conv,false)}</div></div>
+    </div>
+    <div class="grid-2" style="margin-top:8px">
+      <div class="card"><p class="label">Custo por resposta · diário</p><canvas id="cr_${key}" height="170"></canvas></div>
+      <div class="card"><p class="label">CPL · diário</p><canvas id="cpl_${key}" height="170"></canvas></div>
+    </div>
+    ${anomHtml}`;
+  host.appendChild(block);
+
+  lineChart(document.getElementById('cr_'+key),  D.labels, [surveyDs(L.serie.cresp_survey), baseDs(L.serie.cresp_base)], brl);
+  lineChart(document.getElementById('cpl_'+key), D.labels, [surveyDs(L.serie.cpl_survey),   baseDs(L.serie.cpl_base)],   brl);
+}
+
+function initCharts(D) {
+  const upd=document.getElementById('lastUpdate');
+  if (upd) upd.textContent='Dados de '+new Date(D.updated_at).toLocaleDateString('pt-BR');
+  document.getElementById('lb').textContent = D.lookback_days;
+
+  D.lancamentos.forEach(k => renderLaunch(D, k));
+
+  // CAC por lançamento
+  const hasSurvey = new Set(D.lancamentos);
+  const conv=[...D.conv].sort((a,b)=>a.cac-b.cac);
+  new Chart(document.getElementById('gCac'), {
+    type:'bar',
+    data:{ labels:conv.map(r=>r.lancamento),
+      datasets:[{ data:conv.map(r=>r.cac),
+        backgroundColor:conv.map(r=>hasSurvey.has(r.lancamento)?BLUE:GREY), borderRadius:6 }] },
+    options:{
+      plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label:c=>'CAC '+brl0(c.raw) } } },
+      scales:{ y:{ beginAtZero:true, ticks:{ callback:brl0 }, grid:{ color:'#eef1f6' } }, x:{ grid:{ display:false } } }
+    }
+  });
+
+  document.getElementById('tbConv').innerHTML = D.conv.map(r=>{
+    const hl = hasSurvey.has(r.lancamento);
+    return `<tr class="${hl?'hl':''}">
+      <td><span class="tag ${hl?'t-b':'t-n'}">${r.lancamento}</span></td>
+      <td class="num">${brl0(r.invest)}</td>
+      <td class="num">${r.leads.toLocaleString('pt-BR')}</td>
+      <td class="num">${brl(r.cpl)}</td>
+      <td class="num">${r.taxa_resp>0?pct(r.taxa_resp):'—'}</td>
+      <td class="num">${pct2(r.conv)}</td>
+      <td class="num">${brl0(r.cac)}</td>
+    </tr>`;}).join('');
+}
+
+fetch('./data.json')
+  .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(D=>initCharts(D))
+  .catch(err=>{
+    console.error(err);
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
+        ⚠ Erro ao carregar dados: ${err.message}. Para ver local: <code>python -m http.server</code> na pasta do relatório.
+      </div>`);
+  });
+</script>
+</body>
+</html>

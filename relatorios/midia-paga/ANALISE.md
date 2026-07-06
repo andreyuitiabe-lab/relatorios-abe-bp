@@ -247,6 +247,14 @@ Documento as ressalvas que apareceram consistentemente:
 5. **Extrapolação além do observado é insegura.** G* que caem fora de 1.2× do gasto
    máximo já testado são marcados como extrapolação.
 
+## Para retomar
+
+- **Próximo passo:** modelo bayesiano por campanha com prior do MMM (item 4 acima) — notebook em `mmm_project/notebooks/04_bayesian_response_curve.ipynb`; rodar MCMC nas 2 campanhas e escrever veredito (item da AGENDA)
+- **Wiki a carregar:** `wiki-bp`: meta-insider-ads · `wiki-brasil-paralelo`: campanhas-calendario, regras-negocio
+- **Queries:** todas em `queries/` — ✅ rodadas, exceto `adset_daily.sql` (🔲 escrita, análise não rodada)
+- **Contexto fora da wiki:** backtest LAN validou Abordagem C (CPA_3d/baseline); sinais de funil descartados; segmentação LAN×PPT×LEAD é o eixo certo; teto mCAC R$180 (ver memória `project_mmm_bidding_pipeline`)
+- **Dívida de estrutura:** ao concluir o projeto, consolidar os 10 HTMLs soltos em `index.html` + `data.json` (padrão template)
+
 ## Continuação em nova sessão
 
 Um prompt pronto para próxima conversa está preparado. Contém:
