@@ -15,6 +15,18 @@ from pathlib import Path
 
 TABLE = "bp-datawarehouse.datamart.dtm_analytics_lead_conversion"
 OUT   = Path(__file__).parent / "data.json"
+OUT_M = Path(__file__).parent / "matriz.json"
+
+# ordem de exibição das categorias (baixo→alto / frio→quente); resto vai alfabético
+CAT_ORDER = {
+    "renda": ["Até R$ 2.000","Até R$ 5.000","R$ 2.000 – R$ 5.000","R$ 5.000 – R$ 10.000",
+              "R$ 10.000 – R$ 15.000","Acima de R$ 15.000","Prefiro não informar"],
+    "relacao_bp": ["Nunca ouvi falar","Consumo conteúdo gratuito (YouTube, redes sociais)",
+                   "Já ouvi falar, mas nunca assisti nada","Já assinei no passado","Assino hoje"],
+    "tempo_conhece_bp": ["Esse é meu primeiro contato","Menos de um mês","Até 6 meses",
+                         "Entre 6 meses e 1 ano","Entre 1 e 3 anos","Mais que 3 anos"],
+    "qtd_streaming": ["Nenhum","1","2","3","3 +"],
+}
 
 # perguntas da pesquisa in-funnel (chave -> rótulo curto)
 QUESTIONS = {
@@ -194,6 +206,41 @@ def build() -> dict:
         "cold": cold_out,
     }
 
+# ─── matriz.json: tabela-fato compacta p/ pivot dinâmico no navegador ──────────
+NA = "(sem resposta)"
+
+def build_matrix() -> dict:
+    print("  tabela-fato (matriz)...", flush=True)
+    attrs = list(QUESTIONS)
+    dims = ", ".join(f"IFNULL({k}, '{NA}') {k}" for k in attrs)
+    facts = bq(f"""{BASE}
+      SELECT nm_tag, IF(status='Não Membro','NM','MEMBRO') pub, {dims},
+             COUNT(*) n, SUM(conv) c
+      FROM dd GROUP BY nm_tag, pub, {', '.join(attrs)}""", max_rows=20000)
+
+    rows = []
+    for r in facts:
+        rows.append({"t": r["nm_tag"], "p": r["pub"], "n": ii(r["n"]), "c": ii(r["c"]),
+                     **{k: r[k] for k in attrs}})
+
+    # valores observados por atributo, na ordem de exibição
+    values = {}
+    for k in attrs:
+        seen = {r[k] for r in rows}
+        seen.discard(NA)
+        ordered = [v for v in CAT_ORDER.get(k, []) if v in seen]
+        ordered += sorted(v for v in seen if v not in ordered)
+        if any(r[k] == NA for r in rows):
+            ordered.append(NA)
+        values[k] = ordered
+
+    return {
+        "updated_at": datetime.datetime.now().isoformat(timespec="seconds"),
+        "attrs": [{"key": k, "label": QUESTIONS[k]} for k in attrs],
+        "values": values,
+        "facts": rows,
+    }
+
 if __name__ == "__main__":
     push = "--push" in sys.argv
     print("Refreshing EVG×BP10 survey report from BigQuery...")
@@ -201,6 +248,9 @@ if __name__ == "__main__":
         data = build()
         OUT.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"✓ {OUT.name} — {data['updated_at']}")
+        mat = build_matrix()
+        OUT_M.write_text(json.dumps(mat, ensure_ascii=False), encoding="utf-8")
+        print(f"✓ {OUT_M.name} — {len(mat['facts'])} grupos")
         if push:
             subprocess.run(["git", "add", str(OUT), str(OUT.parent)], check=True)
             subprocess.run(["git", "commit", "-m",

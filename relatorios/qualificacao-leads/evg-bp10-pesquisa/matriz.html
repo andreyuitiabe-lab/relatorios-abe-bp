@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matriz de conversão — EVG × BP10</title>
+  <style>
+    :root{--bg:#f8fafc;--card:#fff;--line:#e2e8f0;--text:#1e293b;--muted:#475569;--soft:#94a3b8;--blue:#3b6ef5;--violet:#7c5cfc;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;}
+    .wrap{max-width:1200px;margin:0 auto;padding:40px 24px 80px;}
+    a.back{color:var(--blue);text-decoration:none;font-size:13px;font-weight:600;}
+    h1{font-size:25px;font-weight:800;letter-spacing:-.01em;margin:10px 0 4px;}
+    .sub{color:var(--muted);font-size:13px;margin-bottom:24px;}
+    .controls{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:flex-end;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:20px;}
+    .ctl{display:flex;flex-direction:column;gap:5px;}
+    .ctl label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--soft);}
+    select,.seg{font-family:inherit;font-size:13px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text);}
+    select{padding:7px 10px;min-width:190px;cursor:pointer;}
+    .seg{display:inline-flex;overflow:hidden;padding:0;}
+    .seg button{border:none;background:#fff;padding:7px 13px;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;border-right:1px solid var(--line);}
+    .seg button:last-child{border-right:none;}
+    .seg button.on{background:var(--blue);color:#fff;}
+    .chk{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);cursor:pointer;}
+    .metaline{font-size:12.5px;color:var(--muted);margin-bottom:12px;}
+    .metaline b{color:var(--text);}
+    .tblwrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px;}
+    table{border-collapse:collapse;font-size:12.5px;width:100%;}
+    th,td{padding:7px 9px;text-align:center;border:1px solid #eef1f6;white-space:nowrap;}
+    th{font-weight:600;color:var(--muted);background:#f8fafc;font-size:11.5px;position:sticky;}
+    th.rowh,td.rowh{text-align:left;font-weight:600;color:var(--text);background:#f8fafc;position:sticky;left:0;z-index:1;max-width:240px;white-space:normal;}
+    td .pc{font-weight:700;font-variant-numeric:tabular-nums;}
+    td .n{display:block;font-size:10px;color:var(--soft);font-weight:500;margin-top:1px;}
+    td.lown{opacity:.35;}
+    td.tot,th.tot{background:#f1f5f9;font-weight:700;}
+    .legend{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--muted);margin-top:14px;flex-wrap:wrap;}
+    .scale{display:inline-flex;height:12px;border-radius:3px;overflow:hidden;}
+    .scale i{width:26px;height:12px;display:inline-block;}
+    .footer{color:var(--soft);font-size:12px;border-top:1px solid var(--line);padding-top:18px;margin-top:28px;}
+    .err{background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;color:#991b1b;font-size:13px;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="./index.html">← voltar ao relatório</a>
+  <h1>Matriz de conversão por atributos</h1>
+  <p class="sub">Escolha dois atributos da pesquisa e veja a taxa de compra de cada combinação. Cor = lift vs. a base do recorte selecionado.</p>
+
+  <div class="controls" id="controls" style="display:none">
+    <div class="ctl"><label>Linhas</label><select id="rowSel"></select></div>
+    <div class="ctl"><label>Colunas</label><select id="colSel"></select></div>
+    <div class="ctl"><label>Campanha</label>
+      <div class="seg" id="campSeg">
+        <button data-v="AMBAS" class="on">Ambas</button><button data-v="EVG">EVG</button><button data-v="BP10">BP10</button>
+      </div></div>
+    <div class="ctl"><label>Público</label>
+      <div class="seg" id="pubSeg">
+        <button data-v="TODOS" class="on">Todos</button><button data-v="NM">Só Não Membro</button>
+      </div></div>
+    <div class="ctl"><label>Opções</label>
+      <label class="chk"><input type="checkbox" id="hideNA"> ocultar "sem resposta"</label></div>
+    <div class="ctl"><label>n mínimo</label>
+      <select id="minN"><option value="1">1</option><option value="30" selected>30</option><option value="50">50</option><option value="100">100</option></select></div>
+  </div>
+
+  <div class="metaline" id="metaline"></div>
+  <div class="tblwrap" id="tblwrap"><div class="err" style="display:none"></div></div>
+  <div class="legend">
+    <span>Lift vs. base do recorte:</span>
+    <span class="scale"><i style="background:#b91c1c"></i><i style="background:#f87171"></i><i style="background:#fde2e2"></i><i style="background:#f1f5f9"></i><i style="background:#dcfce7"></i><i style="background:#86efac"></i><i style="background:#16a34a"></i></span>
+    <span>0,4× &nbsp;·&nbsp; 1× &nbsp;·&nbsp; ≥2,5×</span>
+    <span style="margin-left:10px">células com n abaixo do mínimo aparecem esmaecidas.</span>
+  </div>
+
+  <div class="footer">
+    Brasil Paralelo · Análise gerada com Claude Code · <span id="upd"></span><br>
+    Fonte: <code>dtm_analytics_lead_conversion</code> (EVG, BP10) · dedup 1 linha por email+campanha · atributos = respostas da pesquisa in-funnel
+  </div>
+</div>
+
+<script>
+const S = {row:'relacao_bp', col:'renda', camp:'AMBAS', pub:'TODOS', hideNA:false, minN:30};
+let M = null;
+const br = n => n.toLocaleString('pt-BR');
+const p2 = v => v.toFixed(2).replace('.',',');
+
+// escala de cor por lift (1 = neutro)
+function liftColor(lift){
+  if(lift==null) return '#fff';
+  const stops=[[0.4,'#b91c1c'],[0.7,'#f87171'],[0.9,'#fde2e2'],[1.1,'#f1f5f9'],[1.5,'#dcfce7'],[2.0,'#86efac'],[2.5,'#16a34a']];
+  if(lift<=stops[0][0]) return stops[0][1];
+  if(lift>=stops[stops.length-1][0]) return stops[stops.length-1][1];
+  for(let i=0;i<stops.length-1;i++){ if(lift<=stops[i+1][0]) return stops[i][1]; }
+  return '#f1f5f9';
+}
+function textColor(bg){ return (bg==='#b91c1c'||bg==='#16a34a')?'#fff':'#1e293b'; }
+
+function render(){
+  const rowKey=S.row, colKey=S.col;
+  const facts = M.facts.filter(f =>
+    (S.camp==='AMBAS'||f.t===S.camp) && (S.pub==='TODOS'||f.p==='NM'));
+  // valores presentes
+  const NA='(sem resposta)';
+  const vals = k => M.values[k].filter(v => !(S.hideNA&&v===NA));
+  let rowVals = vals(rowKey);
+  const single = (colKey==='__none__');
+  let colVals = single ? ['__all__'] : vals(colKey);
+
+  // acumular
+  const cell = {}; const rowTot={}; const colTot={}; let gN=0,gC=0;
+  const add=(o,k,n,c)=>{o[k]=o[k]||{n:0,c:0};o[k].n+=n;o[k].c+=c;};
+  for(const f of facts){
+    const rv=f[rowKey]; if(S.hideNA&&rv===NA) continue;
+    const cv=single?'__all__':f[colKey]; if(!single&&S.hideNA&&cv===NA) continue;
+    add(cell, rv+'||'+cv, f.n, f.c);
+    add(rowTot, rv, f.n, f.c); add(colTot, cv, f.n, f.c);
+    gN+=f.n; gC+=f.c;
+  }
+  const gBase = gN? gC/gN*100 : 0;
+
+  // só mostra valores com algum volume
+  rowVals=rowVals.filter(v=>rowTot[v]&&rowTot[v].n>0);
+  if(!single) colVals=colVals.filter(v=>colTot[v]&&colTot[v].n>0);
+
+  const lblRow=M.attrs.find(a=>a.key===rowKey).label;
+  const lblCol=single?'':M.attrs.find(a=>a.key===colKey).label;
+  document.getElementById('metaline').innerHTML =
+    `Base do recorte: <b>${br(gN)}</b> cadastros · <b>${br(gC)}</b> compras · conversão <b>${p2(gBase)}%</b>`+
+    (single?` · <b>${lblRow}</b>`:` · <b>${lblRow}</b> (linhas) × <b>${lblCol}</b> (colunas)`);
+
+  const cellHtml=(n,c)=>{
+    if(!n) return '<td></td>';
+    const pc=c/n*100, lift=gBase?pc/gBase:0, bg=liftColor(lift);
+    const low = n < S.minN;
+    return `<td class="${low?'lown':''}" style="background:${bg};color:${textColor(bg)}" title="${p2(pc)}% · lift ${p2(lift)}× · n=${br(n)} · ${br(c)} compras">
+      <span class="pc">${p2(pc)}%</span><span class="n">n=${br(n)}${low?'':''}</span></td>`;
+  };
+
+  let h='<table><thead><tr><th class="rowh"></th>';
+  if(single){ h+='<th>conversão</th>'; }
+  else { for(const cv of colVals) h+=`<th>${cv}</th>`; h+='<th class="tot">Total linha</th>'; }
+  h+='</tr></thead><tbody>';
+  for(const rv of rowVals){
+    h+=`<tr><td class="rowh">${rv}</td>`;
+    if(single){
+      const t=rowTot[rv]; h+=cellHtml(t.n,t.c);
+    } else {
+      for(const cv of colVals){ const x=cell[rv+'||'+cv]; h+= x?cellHtml(x.n,x.c):'<td></td>'; }
+      const t=rowTot[rv]; h+=`<td class="tot">${p2(t.c/t.n*100)}%<span class="n">n=${br(t.n)}</span></td>`;
+    }
+    h+='</tr>';
+  }
+  // linha total colunas
+  if(!single){
+    h+='<tr><td class="rowh tot">Total coluna</td>';
+    for(const cv of colVals){ const t=colTot[cv]; h+=`<td class="tot">${p2(t.c/t.n*100)}%<span class="n">n=${br(t.n)}</span></td>`; }
+    h+=`<td class="tot">${p2(gBase)}%<span class="n">n=${br(gN)}</span></td></tr>`;
+  }
+  h+='</tbody></table>';
+  document.getElementById('tblwrap').innerHTML=h;
+}
+
+function initUI(){
+  document.getElementById('controls').style.display='flex';
+  document.getElementById('upd').textContent='Dados de '+new Date(M.updated_at).toLocaleDateString('pt-BR');
+  const opt=(sel,extra)=>{
+    let o = M.attrs.map(a=>`<option value="${a.key}">${a.label}</option>`).join('');
+    if(extra) o = `<option value="__none__">— nenhum (1 atributo) —</option>`+o;
+    sel.innerHTML=o;
+  };
+  const rowSel=document.getElementById('rowSel'), colSel=document.getElementById('colSel');
+  opt(rowSel,false); opt(colSel,true);
+  rowSel.value=S.row; colSel.value=S.col;
+  rowSel.onchange=e=>{S.row=e.target.value;render();};
+  colSel.onchange=e=>{S.col=e.target.value;render();};
+  const seg=(id,key)=>document.getElementById(id).querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    document.getElementById(id).querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); S[key]=b.dataset.v; render();});
+  seg('campSeg','camp'); seg('pubSeg','pub');
+  document.getElementById('hideNA').onchange=e=>{S.hideNA=e.target.checked;render();};
+  document.getElementById('minN').onchange=e=>{S.minN=+e.target.value;render();};
+  render();
+}
+
+fetch('./matriz.json').then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+  .then(d=>{M=d;initUI();})
+  .catch(err=>{const e=document.querySelector('.err');e.style.display='block';
+    e.textContent='Erro ao carregar matriz.json: '+err.message+'. Local: rodar python -m http.server na pasta.';});
+</script>
+</body>
+</html>
