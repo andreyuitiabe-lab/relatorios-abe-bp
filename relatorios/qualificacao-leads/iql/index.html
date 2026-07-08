@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IQL — Índice de Qualidade de Lead</title>
+<style>
+  :root{--bg:#0f1117;--card:#181b23;--tx:#e8eaf0;--mut:#8b91a0;--acc:#4f8ef7;--ok:#3ecf8e;--warn:#f7b64f;--bad:#f7654f;--line:#262a35;--fc:#5b6473}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--tx);font:15px/1.55 -apple-system,'Segoe UI',Roboto,sans-serif;padding:28px 20px 80px}
+  .wrap{max-width:1120px;margin:0 auto}
+  h1{font-size:25px;margin-bottom:2px}
+  h2{font-size:19px;margin:38px 0 4px}
+  .sub{color:var(--mut);font-size:13.5px;margin-bottom:8px}
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px;border-bottom:1px solid var(--line);padding-bottom:12px}
+  .tab{background:var(--card);border:1px solid var(--line);color:var(--mut);border-radius:20px;padding:7px 18px;font-size:14px;font-weight:600;cursor:pointer}
+  .tab:hover{color:var(--tx)}
+  .tab.on{background:#1c2740;border-color:var(--acc);color:var(--tx)}
+  .tab .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:1px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+  .card b{display:block;font-size:22px;margin-top:2px}
+  .card span{color:var(--mut);font-size:12px}
+  table{width:100%;border-collapse:collapse;background:var(--card);font-size:13.5px}
+  th{color:var(--mut);font-weight:600;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+  td{padding:8px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .tblwrap{overflow-x:auto;border-radius:10px;border:1px solid var(--line)}
+  .tblscroll{max-height:540px;overflow-y:auto}
+  .tblscroll thead th{position:sticky;top:0;background:var(--card);z-index:1}
+  th.sort{cursor:pointer;user-select:none}
+  th.sort:hover{color:var(--tx)}
+  .chip{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap}
+  .chip.promover{background:#12351f;color:var(--ok)}
+  .chip.observar{background:#3a2f14;color:var(--warn)}
+  .chip.aposentar{background:#3a1a14;color:var(--bad)}
+  .chip.suspeita_vazamento{background:#33142e;color:#e879f9}
+  .chip.amostra_insuficiente{background:#262a35;color:var(--mut)}
+  .chip.z-escalar{background:#12351f;color:var(--ok)}
+  .chip.z-otimizar{background:#14243a;color:var(--acc)}
+  .chip.z-cortar{background:#3a2f14;color:var(--warn)}
+  .chip.z-matar{background:#3a1a14;color:var(--bad)}
+  .bar{height:9px;border-radius:5px;background:var(--acc);min-width:2px}
+  .barbg{background:#262a35;border-radius:5px;width:120px;display:inline-block;vertical-align:middle}
+  .fA{color:var(--ok);font-weight:700}.fB{color:var(--warn);font-weight:700}.fC{color:var(--bad);font-weight:700}
+  .note{background:var(--card);border-left:3px solid var(--warn);border-radius:6px;padding:10px 14px;font-size:13px;color:var(--mut);margin:10px 0}
+  .note b{color:var(--tx)}
+  .good{color:var(--ok)}.badtx{color:var(--bad)}
+  .chart{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 8px 4px;margin:10px 0}
+  .chart svg{display:block;width:100%;height:auto}
+  .legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px;color:var(--mut);padding:4px 10px 8px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  #tip{position:fixed;display:none;background:#0b0d12;border:1px solid #3a4050;border-radius:8px;padding:8px 11px;font-size:12.5px;line-height:1.5;pointer-events:none;z-index:10;max-width:320px;box-shadow:0 6px 20px rgba(0,0,0,.5)}
+  #tip b{font-size:12.5px}
+  .empty{color:var(--mut);font-size:13.5px;background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:18px;text-align:center;margin:10px 0}
+  a{color:var(--acc)}
+  circle.pt{cursor:pointer}
+</style>
+</head>
+<body><div class="wrap">
+  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between">
+    <h1>IQL — Índice de Qualidade de Lead</h1>
+    <a href="metodologia.html" style="font-size:13.5px;white-space:nowrap">Metodologia e algoritmo →</a>
+  </div>
+  <div class="sub" id="sub">carregando…</div>
+  <div class="tabs" id="tabs"></div>
+  <div id="view"></div>
+  <p class="sub" style="margin-top:36px"><a href="metodologia.html">Metodologia e algoritmo</a> — desenho formal, WOE/IV, validação e regras de decisão.
+  Pesos do scorecard não são publicados (governança anti-Goodhart). Score recalibrado a cada campanha madura;
+  leituras entre campanhas diferentes são indicativas, não conclusivas.</p>
+</div>
+<div id="tip"></div>
+<script>
+'use strict';
+/* ============ utilitários ============ */
+const $ = id => document.getElementById(id);
+const f = (n,d=1)=>Number(n).toLocaleString('pt-BR',{maximumFractionDigits:d});
+const fr = (n,d=2)=>'R$ '+f(n,d);
+const dbr = s => s ? s.slice(8,10)+'/'+s.slice(5,7) : '—';
+const med = a => { const s=[...a].sort((x,y)=>x-y), m=s.length>>1; return s.length? (s.length%2? s[m] : (s[m-1]+s[m])/2) : 0; };
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function niceTicks(max,n=5){
+  if(!(max>0)) return [0,1];
+  const raw=max/n, p=Math.pow(10,Math.floor(Math.log10(raw)));
+  const step=[1,2,2.5,5,10].map(m=>m*p).find(s=>s>=raw);
+  const t=[]; for(let v=0;v<=max+1e-9;v+=step) t.push(+v.toFixed(6)); return t;
+}
+const PAL=['#4f8ef7','#e879f9','#3ecf8e','#f7b64f','#67e8f9','#fb923c','#a78bfa'];
+const ZONA_LBL={escalar:'Escalar',otimizar:'Otimizar criativo',cortar:'Cortar',matar:'Matar'};
+const ZONA_ORD={escalar:0,otimizar:1,cortar:2,matar:3};
+const NOTE_LASTCLICK=`<div class="note"><b>Aviso:</b> conversão/receita last-click, cohort ainda maturando —
+  leitura relativa entre anúncios da mesma campanha, não ROI final.</div>`;
+
+let D=null, TAB=null, TAGS=[], COLOR={}, adsSort={k:'cplq',dir:1};
+let tipAds=[];   // anúncios do scatter corrente (para tooltip)
+
+/* zona da matriz de decisão: divisores = medianas DA campanha */
+const zonaDe=(cpl,iql,mx,my)=> +cpl<=mx ? (+iql>=my?'escalar':'cortar') : (+iql>=my?'otimizar':'matar');
+
+/* agregados de mídia por campanha (a partir do bloco anuncios) */
+function midia(tag){
+  const ads=D.anuncios.filter(a=>a.nm_tag===tag);
+  const inv=ads.reduce((s,a)=>s+ +a.investimento,0);
+  const leads=ads.reduce((s,a)=>s+ +a.leads,0);
+  const qual=ads.reduce((s,a)=>s+ +a.qualificados,0);
+  const nma=ads.reduce((s,a)=>s+ +a.nm_a,0);
+  return {ads,inv,leads,qual,nma,
+    cpl:leads?inv/leads:null, cplq:qual?inv/qual:null,
+    medCpl:med(ads.map(a=>+a.cpl)), medIql:med(ads.map(a=>+a.iql_pct)),
+    medCplq:med(ads.filter(a=>a.cplq!=null).map(a=>+a.cplq))};
+}
+
+/* ============ scatter CPL × IQL (SVG) ============ */
+function scatterSVG(ads,{zones=true,mx=0,my=0,byTag=false,cplqRef=null}={}){
+  tipAds=ads;
+  if(!ads.length) return '<div class="empty">Nenhum anúncio com ≥50 leads e investimento Meta rastreado nesta campanha.</div>';
+  const W=940,H=470,L=60,R=18,T=18,B=48;
+  const xmax=Math.max(...ads.map(a=>+a.cpl))*1.08;
+  const ymax=Math.max(5,Math.max(...ads.map(a=>+a.iql_pct))*1.12);
+  const maxL=Math.max(...ads.map(a=>+a.leads));
+  const sx=v=>L+v/xmax*(W-L-R), sy=v=>H-B-v/ymax*(H-B-T);
+  let g='';
+  if(zones){
+    const zc={escalar:'#3ecf8e',otimizar:'#4f8ef7',cortar:'#f7b64f',matar:'#f7654f'};
+    const X=sx(mx),Y=sy(my);
+    g+=`<rect x="${L}" y="${T}" width="${X-L}" height="${Y-T}" fill="${zc.escalar}" opacity=".055"/>`
+      +`<rect x="${X}" y="${T}" width="${W-R-X}" height="${Y-T}" fill="${zc.otimizar}" opacity=".055"/>`
+      +`<rect x="${L}" y="${Y}" width="${X-L}" height="${H-B-Y}" fill="${zc.cortar}" opacity=".055"/>`
+      +`<rect x="${X}" y="${Y}" width="${W-R-X}" height="${H-B-Y}" fill="${zc.matar}" opacity=".055"/>`;
+    const lab=(x,y,txt,c,anch)=>`<text x="${x}" y="${y}" fill="${c}" opacity=".85" font-size="12.5" font-weight="700" text-anchor="${anch}">${txt}</text>`;
+    g+=lab(L+10,T+18,'ESCALAR — CPL baixo · IQL alto',zc.escalar,'start')
+      +lab(W-R-10,T+18,'OTIMIZAR CRIATIVO — CPL alto · IQL alto',zc.otimizar,'end')
+      +lab(L+10,H-B-12,'CORTAR — CPL baixo · IQL baixo',zc.cortar,'start')
+      +lab(W-R-10,H-B-12,'MATAR — CPL alto · IQL baixo',zc.matar,'end');
+    g+=`<line x1="${X}" y1="${T}" x2="${X}" y2="${H-B}" stroke="#8b91a0" stroke-dasharray="5 4" opacity=".6"/>`
+      +`<line x1="${L}" y1="${Y}" x2="${W-R}" y2="${Y}" stroke="#8b91a0" stroke-dasharray="5 4" opacity=".6"/>`
+      +`<text x="${X+5}" y="${H-B-56}" fill="#8b91a0" font-size="11">mediana ${fr(mx)}</text>`
+      +`<text x="${W-R-6}" y="${Y-6}" fill="#8b91a0" font-size="11" text-anchor="end">mediana ${f(my)}%</text>`;
+  }
+  // eixos
+  for(const t of niceTicks(xmax,6)) g+=`<line x1="${sx(t)}" y1="${H-B}" x2="${sx(t)}" y2="${H-B+5}" stroke="#3a4050"/>`
+    +`<text x="${sx(t)}" y="${H-B+20}" fill="#8b91a0" font-size="11" text-anchor="middle">${f(t,2)}</text>`;
+  for(const t of niceTicks(ymax,5)) g+=`<line x1="${L-5}" y1="${sy(t)}" x2="${L}" y2="${sy(t)}" stroke="#3a4050"/>`
+    +`<line x1="${L}" y1="${sy(t)}" x2="${W-R}" y2="${sy(t)}" stroke="#262a35" opacity=".6"/>`
+    +`<text x="${L-9}" y="${sy(t)+4}" fill="#8b91a0" font-size="11" text-anchor="end">${f(t,0)}%</text>`;
+  g+=`<line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#3a4050"/><line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#3a4050"/>`
+    +`<text x="${(L+W-R)/2}" y="${H-8}" fill="#8b91a0" font-size="12" text-anchor="middle">CPL — custo por lead (R$)</text>`
+    +`<text x="14" y="${(T+H-B)/2}" fill="#8b91a0" font-size="12" text-anchor="middle" transform="rotate(-90 14 ${(T+H-B)/2})">IQL — % de leads faixa A</text>`;
+  // reta de iso-CPLq: IQL = 100·CPL/CPLq_ref (fronteira de eficiência), clipada na área do gráfico
+  if(cplqRef>0){
+    let x2=xmax, y2=100*xmax/cplqRef, saiuTopo=false;
+    if(y2>ymax){ y2=ymax; x2=ymax*cplqRef/100; saiuTopo=true; }
+    g+=`<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(x2)}" y2="${sy(y2)}" stroke="#e8eaf0" stroke-width="1.5" opacity=".5"/>`;
+    const lbl=`CPLq mediano ${fr(cplqRef)} — acima da linha = melhor`;
+    g+= saiuTopo
+      ? `<text x="${Math.min(sx(x2)+8,W-R-260)}" y="${sy(y2)+14}" fill="#e8eaf0" opacity=".75" font-size="11.5">${lbl}</text>`
+      : `<text x="${sx(x2)-8}" y="${sy(y2)-8}" fill="#e8eaf0" opacity=".75" font-size="11.5" text-anchor="end">${lbl}</text>`;
+  }
+  // bolhas (maiores atrás)
+  const idx=ads.map((a,i)=>i).sort((i,j)=>+ads[j].leads-+ads[i].leads);
+  for(const i of idx){
+    const a=ads[i], r=5+16*Math.sqrt(+a.leads/maxL);
+    const c=byTag?COLOR[a.nm_tag]:{escalar:'#3ecf8e',otimizar:'#4f8ef7',cortar:'#f7b64f',matar:'#f7654f'}[zonaDe(a.cpl,a.iql_pct,mx,my)];
+    g+=`<circle class="pt" data-i="${i}" cx="${sx(+a.cpl)}" cy="${sy(+a.iql_pct)}" r="${r}" fill="${c}" fill-opacity=".45" stroke="${c}" stroke-width="1.5"/>`;
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Quadrante de decisão CPL por IQL">${g}</svg>`;
+}
+
+/* ============ área empilhada diária (SVG) ============ */
+let serieDays=[];
+function serieSVG(tag){
+  const rows=D.serie.filter(r=>tag==='*'||r.nm_tag===tag);
+  if(!rows.length){serieDays=[];return '<div class="empty">Sem leads nos últimos 60 dias para esta campanha.</div>';}
+  const byDay={};
+  for(const r of rows){ (byDay[r.dia]??={A:0,B:0,C:0})[r.faixa]+= +r.leads; }
+  const dias=Object.keys(byDay).sort();
+  const d0=new Date(dias[0]+'T12:00'), d1=new Date(dias[dias.length-1]+'T12:00');
+  serieDays=[];
+  for(let d=new Date(d0); d<=d1; d.setDate(d.getDate()+1)){
+    const k=d.toISOString().slice(0,10), v=byDay[k]||{A:0,B:0,C:0};
+    serieDays.push({dia:k,...v,tot:v.A+v.B+v.C});
+  }
+  const W=940,H=300,L=52,R=16,T=14,B=38, n=serieDays.length;
+  const ymax=Math.max(1,...serieDays.map(d=>d.tot))*1.08;
+  const sx=i=>L+(n>1?i/(n-1):0.5)*(W-L-R), sy=v=>H-B-v/ymax*(H-B-T);
+  const CF={A:'#3ecf8e',B:'#f7b64f',C:'#5b6473'};
+  let g='';
+  for(const t of niceTicks(ymax,4)) g+=`<line x1="${L}" y1="${sy(t)}" x2="${W-R}" y2="${sy(t)}" stroke="#262a35" opacity=".7"/>`
+    +`<text x="${L-8}" y="${sy(t)+4}" fill="#8b91a0" font-size="11" text-anchor="end">${f(t,0)}</text>`;
+  const step=Math.max(1,Math.ceil(n/9));
+  for(let i=0;i<n;i+=step) g+=`<text x="${sx(i)}" y="${H-B+18}" fill="#8b91a0" font-size="11" text-anchor="middle">${dbr(serieDays[i].dia)}</text>`;
+  // pilha: A na base, depois B, depois C
+  let base=serieDays.map(()=>0);
+  for(const fx of ['A','B','C']){
+    const top=serieDays.map((d,i)=>base[i]+d[fx]);
+    let p='M'+sx(0)+' '+sy(base[0]);
+    for(let i=1;i<n;i++) p+='L'+sx(i)+' '+sy(base[i]);
+    for(let i=n-1;i>=0;i--) p+='L'+sx(i)+' '+sy(top[i]);
+    g+=`<path d="${p}Z" fill="${CF[fx]}" fill-opacity="${fx==='C'?.45:.55}" stroke="${CF[fx]}" stroke-opacity=".9" stroke-width="1"/>`;
+    base=top;
+  }
+  g+=`<line id="serie-vl" x1="-99" y1="${T}" x2="-99" y2="${H-B}" stroke="#e8eaf0" opacity=".5"/>`
+    +`<rect id="serie-hover" x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="transparent"/>`;
+  return `<svg id="serie-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Leads por faixa por dia">${g}</svg>`;
+}
+
+/* ============ blocos de tabela ============ */
+function faixasHTML(tag){
+  const rows=D.faixas.filter(x=>x.nm_tag===tag);
+  if(!rows.length) return '<div class="empty">Sem dados de faixa para esta campanha.</div>';
+  const maxc=Math.max(...rows.map(x=>+x.conv_pct),0.001);
+  return `<div class="tblwrap"><table>
+    <tr><th>Faixa</th><th class="num">Leads NM</th><th class="num">Conversão</th><th></th><th class="num">R$/lead</th><th class="num">Lift vs C</th></tr>`+
+    rows.map(x=>{
+      const c=rows.find(r=>r.faixa==='C');
+      const lift=c&&+c.conv_pct>0? (+x.conv_pct/+c.conv_pct):null;
+      return `<tr><td class="f${x.faixa}">${x.faixa} — ${{A:'qualificado',B:'potencial',C:'frio'}[x.faixa]||''}</td>
+      <td class="num">${f(x.leads,0)}</td><td class="num">${f(x.conv_pct,2)}%</td>
+      <td><span class="barbg"><span class="bar" style="width:${(+x.conv_pct/maxc*100).toFixed(0)}%"></span></span></td>
+      <td class="num">${fr(x.rpl)}</td>
+      <td class="num">${lift!=null?f(lift,1)+'×':'—'}</td></tr>`;}).join('')+'</table></div>';
+}
+
+function bandasHTML(tag){
+  let rows;
+  if(tag==='*'){ // agrega campanhas
+    const m={};
+    for(const b of D.bandas){
+      const o=m[b.banda]??={banda:b.banda,score_min:+b.score_min,score_max:+b.score_max,leads:0,conv:0,receita:0};
+      o.leads+=+b.leads; o.conv+=+b.conv; o.receita+=(+b.rpl)*(+b.leads);
+      o.score_min=Math.min(o.score_min,+b.score_min); o.score_max=Math.max(o.score_max,+b.score_max);
+    }
+    rows=Object.values(m).sort((a,b)=>a.banda<b.banda?-1:1)
+      .map(o=>({...o,conv_pct:o.leads?o.conv/o.leads*100:0,rpl:o.leads?o.receita/o.leads:0}));
+  } else rows=D.bandas.filter(x=>x.nm_tag===tag).map(x=>({...x,conv_pct:+x.conv_pct,rpl:+x.rpl}));
+  if(!rows.length) return '<div class="empty">Sem dados.</div>';
+  const maxb=Math.max(...rows.map(x=>x.conv_pct),0.001);
+  return `<div class="tblwrap"><table>
+    <tr><th>Banda de pontos</th><th class="num">Leads NM</th><th class="num">Conversão</th><th></th><th class="num">R$/lead</th></tr>`+
+    rows.map(x=>`<tr><td>${x.score_min} a ${x.score_max}</td><td class="num">${f(x.leads,0)}</td>
+      <td class="num">${f(x.conv_pct,2)}%</td>
+      <td><span class="barbg"><span class="bar" style="width:${(x.conv_pct/maxb*100).toFixed(0)}%"></span></span></td>
+      <td class="num">${fr(x.rpl)}</td></tr>`).join('')+'</table></div>';
+}
+
+function ivHTML(tag){
+  const rows=D.iv.filter(x=>x.nm_tag===tag);
+  if(!rows.length) return '<div class="empty">Sem perguntas mapeadas para esta campanha.</div>';
+  return `<div class="tblwrap"><table>
+    <tr><th>Pergunta</th><th class="num">Cobertura</th><th class="num">IV total</th><th class="num">IV respondentes</th><th>Recomendação</th></tr>`+
+    rows.map(x=>`<tr><td>${esc(x.nm_pergunta)}</td>
+      <td class="num">${f(x.cobertura_pct)}%</td><td class="num">${f(x.iv_total,3)}</td>
+      <td class="num">${f(x.iv_respondentes,3)}</td>
+      <td><span class="chip ${x.ds_recomendacao}">${x.ds_recomendacao.replace(/_/g,' ')}</span></td></tr>`).join('')+'</table></div>';
+}
+
+function backtestHTML(){
+  return `<div class="sub">${esc(D.backtest.descricao)}</div>
+    <div class="tblwrap"><table>
+    <tr><th>Modelo</th><th class="num">AUC (NM)</th><th class="num">Top decil captura</th><th class="num">Lift</th></tr>`+
+    D.backtest.linhas.map(l=>`<tr><td>${esc(l.modelo)}</td><td class="num">${f(l.auc_nm,3)}</td>
+      <td class="num">${f(l.top_decil_captura)}%</td><td class="num">${f(l.lift,2)}×</td></tr>`).join('')+
+    `</table></div><div class="note"><b>Ressalva:</b> ${esc(D.backtest.ressalva)}</div>`;
+}
+
+/* tabela de anúncios ordenável */
+function adsTableHTML(){ return `<div class="tblwrap tblscroll"><table id="ads-tbl"></table></div>`; }
+function renderAdsTable(tag){
+  const m=midia(tag);
+  const cols=[['anuncio','Anúncio'],['zona','Decisão'],['leads','Leads'],['cpl','CPL'],
+              ['iql_pct','IQL'],['cplq','CPLq'],['conv_pct','Conv.'],['rpl','R$/lead'],
+              ['nm_a','NM-A'],['investimento','Invest.']];
+  const rows=m.ads.map(a=>({...a,zona:zonaDe(a.cpl,a.iql_pct,m.medCpl,m.medIql)}));
+  rows.sort((a,b)=>{
+    const k=adsSort.k,d=adsSort.dir;
+    if(k==='anuncio') return d*String(a.anuncio).localeCompare(b.anuncio,'pt-BR');
+    if(k==='zona') return d*(ZONA_ORD[a.zona]-ZONA_ORD[b.zona]);
+    const va=a[k]==null?Infinity:+a[k], vb=b[k]==null?Infinity:+b[k];
+    return d*(va-vb);
+  });
+  const arr=k=>adsSort.k===k?(adsSort.dir>0?' ▲':' ▼'):'';
+  const t=$('ads-tbl');
+  t.innerHTML='<thead><tr>'+cols.map(([k,l],i)=>
+      `<th class="sort${i>1?' num':''}" data-k="${k}">${l}${arr(k)}</th>`).join('')+'</tr></thead><tbody>'+
+    rows.map(a=>`<tr><td style="white-space:normal;min-width:220px">${esc(a.anuncio)}</td>
+      <td><span class="chip z-${a.zona}">${ZONA_LBL[a.zona]}</span></td>
+      <td class="num">${f(a.leads,0)}</td><td class="num">${fr(a.cpl)}</td>
+      <td class="num ${+a.iql_pct>=m.medIql?'good':(+a.iql_pct<m.medIql*0.6?'badtx':'')}">${f(a.iql_pct)}%</td>
+      <td class="num"><b>${a.cplq!=null?fr(a.cplq):'—'}</b></td>
+      <td class="num">${f(a.convertidos,0)} <span style="color:var(--mut)">(${f(a.conv_pct,2)}%)</span></td>
+      <td class="num">${fr(a.rpl)}</td>
+      <td class="num">${f(a.nm_a,0)}</td><td class="num">${fr(a.investimento,0)}</td></tr>`).join('')+'</tbody>';
+  t.querySelectorAll('th.sort').forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k;
+    if(adsSort.k===k) adsSort.dir*=-1; else adsSort={k,dir:(k==='anuncio'||k==='zona')?1:1};
+    renderAdsTable(tag);
+  });
+}
+
+/* ============ visões ============ */
+function cardsHTML(list){
+  return '<div class="cards">'+list.map(([t,v,s])=>
+    `<div class="card"><span>${t}</span><b>${v}</b><span>${s}</span></div>`).join('')+'</div>';
+}
+
+function viewCampanha(tag){
+  const c=D.campanhas.find(x=>x.nm_tag===tag), m=midia(tag);
+  const cob=+c.leads? +c.respondentes/+c.leads*100:0;
+  let h=cardsHTML([
+    ['Leads captados', f(c.leads,0), `${dbr(c.inicio)} – ${dbr(c.fim)}`],
+    ['IQL da campanha', f(c.iql_pct)+'%', `${f(c.faixa_a,0)} leads faixa A`],
+    ['NM-A', f(c.nm_a,0), 'não membros qualificados'],
+    ['Cobertura da pesquisa', f(cob)+'%', 'responderam ≥1 pergunta'],
+    ['Conversão', f(c.conv_pct,2)+'%', `${f(c.convertidos,0)} vendas last-click`],
+    ['R$/lead', fr(c.rpl), 'receita atribuída ÷ leads'],
+    ['Investimento rastreado', fr(m.inv,0), `${m.ads.length} anúncios ≥50 leads`],
+    ['CPL', m.cpl!=null?fr(m.cpl):'—', 'nos anúncios rastreados'],
+    ['CPLq', m.cplq!=null?fr(m.cplq):'—', 'custo por lead faixa A'],
+    ['NM-A / R$ 100', m.inv?f(m.nma/m.inv*100,1):'—', 'guardrail expansão de base'],
+  ]);
+  h+=`<div class="note"><b>Como ler:</b> cada lead recebe um score no dia do cadastro e cai numa faixa —
+    <span class="fA">A qualificado</span> · <span class="fB">B potencial</span> · <span class="fC">C frio</span>.
+    <b>IQL</b> = % de leads faixa A do anúncio; <b>CPLq</b> = investimento ÷ leads faixa A ("o CPL que importa").
+    Regras: mínimo <b>50 leads</b> por anúncio; IQL só é comparável <b>dentro desta campanha</b>.</div>`;
+
+  h+=`<h2>Quadrante de decisão — CPL × IQL</h2>
+    <div class="sub">Cada bolha é um anúncio (tamanho ∝ leads). Divisores = medianas da campanha
+    (CPL ${fr(m.medCpl)} · IQL ${f(m.medIql)}%). A linha clara é a fronteira de <b>iso-CPLq</b>
+    (CPLq mediano ${m.medCplq?fr(m.medCplq):'—'}): ela precifica o trade-off — CPL 2× maior é aceitável
+    se o IQL for 2× maior — e a distância até a linha mede o quanto o anúncio é melhor (acima) ou
+    pior (abaixo) em custo por lead qualificado. Passe o mouse para detalhes.</div>
+    <div class="chart" id="scatter">${scatterSVG(m.ads,{zones:true,mx:m.medCpl,my:m.medIql,cplqRef:m.medCplq})}</div>`;
+
+  h+=`<h2>Tendência diária — leads por faixa</h2>
+    <div class="sub">Últimos 60 dias de captação da campanha. Área empilhada: quantidade de leads por dia e faixa.</div>
+    <div class="chart"><div class="legend"><span><i style="background:#3ecf8e"></i>Faixa A — qualificado</span>
+    <span><i style="background:#f7b64f"></i>Faixa B — potencial</span>
+    <span><i style="background:#5b6473"></i>Faixa C — frio</span></div>${serieSVG(tag)}</div>`;
+
+  h+=`<h2>Anúncios — CPL × IQL × CPLq</h2>
+    <div class="sub">Anúncios com ≥50 leads e investimento Meta. Clique no cabeçalho para ordenar.
+    <b>Decisão</b> = zona da matriz (medianas desta campanha). <b>NM-A</b> = Não Membros qualificados.</div>
+    ${adsTableHTML()}`;
+
+  h+=`<h2>Validação — conversão real por faixa (Não Membros)</h2>
+    <div class="sub">Conversão last-click até hoje. NM converte em ~14 meses — números de campanha recente ainda maturam.</div>
+    ${faixasHTML(tag)}`;
+
+  h+=`<h2>Monotonia do score</h2>
+    <div class="sub">Conversão e receita por banda de pontos (NM desta campanha) — devem subir de cima para baixo.</div>
+    ${bandasHTML(tag)}
+    ${NOTE_LASTCLICK}`;
+
+  h+=`<h2>Perguntas da pesquisa — IV (Information Value)</h2>
+    <div class="sub">Auto-descoberta: pergunta nova no formulário aparece aqui sozinha.
+    Régua: &lt;0,02 inútil · 0,02–0,1 fraca · 0,1–0,3 média · &gt;0,5 suspeita de vazamento.</div>
+    ${ivHTML(tag)}`;
+
+  $('view').innerHTML=h;
+  renderAdsTable(tag);
+}
+
+function viewComparativo(){
+  let h=cardsHTML([
+    ['Leads escorados', f(D.cards.leads,0), 'todas as tags, desde jan/2025'],
+    ['Faixa A', f(D.cards.faixa_a,0), 'leads qualificados'],
+    ['NM-A', f(D.cards.nm_a,0), 'não membros qualificados'],
+    ['Campanhas', f(D.cards.tags,0), 'tags cobertas'],
+    ['Versão', esc(D.cards.versao), 'scorecard vigente'],
+  ]);
+  h+=`<div class="note"><b>Atenção:</b> IQL entre campanhas é <b>indicativo, não conclusivo</b> — coberturas de
+    pesquisa e mix de público diferem. A decisão de mídia acontece na aba de cada campanha.</div>`;
+
+  h+=`<h2>Resumo por campanha</h2>
+    <div class="sub">Métricas de mídia calculadas sobre os anúncios rastreados (≥50 leads e spend Meta).</div>
+    <div class="tblwrap"><table>
+    <tr><th>Campanha</th><th>Período</th><th class="num">Leads</th><th class="num">Cobertura pesquisa</th>
+    <th class="num">IQL</th><th class="num">NM-A</th><th class="num">Investimento</th>
+    <th class="num">CPL</th><th class="num">CPLq</th><th class="num">NM-A / R$ 100</th></tr>`+
+    D.campanhas.map(c=>{
+      const m=midia(c.nm_tag), cob=+c.leads? +c.respondentes/+c.leads*100:0;
+      return `<tr><td><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${COLOR[c.nm_tag]};margin-right:7px"></span><b>${esc(c.nm_tag)}</b></td>
+      <td>${dbr(c.inicio)} – ${dbr(c.fim)}</td><td class="num">${f(c.leads,0)}</td>
+      <td class="num">${f(cob)}%</td><td class="num">${f(c.iql_pct)}%</td><td class="num">${f(c.nm_a,0)}</td>
+      <td class="num">${fr(m.inv,0)}</td><td class="num">${m.cpl!=null?fr(m.cpl):'—'}</td>
+      <td class="num"><b>${m.cplq!=null?fr(m.cplq):'—'}</b></td>
+      <td class="num">${m.inv?f(m.nma/m.inv*100,1):'—'}</td></tr>`;}).join('')+'</table></div>';
+
+  const allAds=D.anuncios;
+  h+=`<h2>Anúncios de todas as campanhas</h2>
+    <div class="sub">Cores por campanha. Sem zonas de decisão aqui: as medianas que definem
+    escalar/cortar são <b>de cada campanha</b> — selecione uma aba para ver a matriz.</div>
+    <div class="chart" id="scatter">${scatterSVG(allAds,{zones:false,byTag:true})}
+    <div class="legend">${TAGS.map(t=>`<span><i style="background:${COLOR[t]}"></i>${esc(t)}</span>`).join('')}</div></div>`;
+
+  h+=`<h2>Saúde do modelo — backtest out-of-time</h2>${backtestHTML()}`;
+
+  h+=`<h2>Monotonia do score (campanhas agregadas)</h2>
+    <div class="sub">Conversão e receita por banda de pontos (NM, todas as campanhas com pesquisa).</div>
+    ${bandasHTML('*')}
+    ${NOTE_LASTCLICK}`;
+
+  $('view').innerHTML=h;
+}
+
+function viewPerguntas(){
+  const qs=[...new Set([...D.iv.map(x=>x.nm_pergunta),...D.perguntas.map(x=>x.nm_pergunta)])];
+  const ivMax={};
+  D.iv.forEach(x=>ivMax[x.nm_pergunta]=Math.max(ivMax[x.nm_pergunta]||0,+x.iv_total));
+  qs.sort((a,b)=>(ivMax[b]||0)-(ivMax[a]||0));
+  let h=`<div class="note"><b>Para que serve:</b> uma ficha por pergunta da pesquisa, para decidir
+    <span class="chip promover">promover</span> <span class="chip observar">observar</span>
+    <span class="chip aposentar">aposentar</span> ou reformular. Base: Não Membros (onde a pesquisa é o
+    único sinal); "— sem resposta —" é um nível próprio e informativo. Uma pergunta boa tem IV estável
+    <b>entre campanhas</b> — IV alto numa campanha só é suspeita, não mérito.
+    Régua IV: &lt;0,02 inútil · 0,02–0,1 fraca · 0,1–0,3 média · &gt;0,5 suspeita de vazamento.</div>`;
+  for(const q of qs){
+    h+=`<h2>${esc(q)}</h2><div class="sub">Estabilidade entre campanhas</div>`;
+    const ivRows=D.iv.filter(x=>x.nm_pergunta===q);
+    h+= ivRows.length ? `<div class="tblwrap"><table>
+      <tr><th>Campanha</th><th class="num">Cobertura</th><th class="num">IV total</th><th class="num">IV respondentes</th><th>Recomendação</th></tr>`+
+      ivRows.map(x=>`<tr><td><b>${esc(x.nm_tag)}</b></td><td class="num">${f(x.cobertura_pct)}%</td>
+        <td class="num">${f(x.iv_total,3)}</td><td class="num">${f(x.iv_respondentes,3)}</td>
+        <td><span class="chip ${x.ds_recomendacao}">${x.ds_recomendacao.replace(/_/g,' ')}</span></td></tr>`).join('')+'</table></div>'
+      : '<div class="empty">Sem IV calculado para esta pergunta.</div>';
+    const rRows=D.perguntas.filter(x=>x.nm_pergunta===q);
+    if(rRows.length){
+      const tot={};
+      rRows.forEach(x=>tot[x.nm_tag]=(tot[x.nm_tag]||0)+ +x.n);
+      h+=`<div class="sub" style="margin-top:12px">Respostas — volume, conversão, lift e receita por lead (NM)</div>
+        <div class="tblwrap"><table>
+        <tr><th>Campanha</th><th>Resposta</th><th class="num">Leads</th><th class="num">% da base</th>
+        <th class="num">Conversão</th><th class="num">Lift vs base</th><th class="num">R$/lead</th></tr>`+
+        rRows.map(x=>{
+          const lift=+x.lift_vs_base_tag;
+          return `<tr><td>${esc(x.nm_tag)}</td>
+          <td style="white-space:normal;min-width:200px">${x.nm_resposta==='__sem_resposta__'?'<i style="color:var(--mut)">— sem resposta —</i>':esc(x.nm_resposta)}</td>
+          <td class="num">${f(x.n,0)}</td><td class="num">${tot[x.nm_tag]?f(+x.n/tot[x.nm_tag]*100):'—'}%</td>
+          <td class="num">${f(x.convertidos,0)} <span style="color:var(--mut)">(${f(x.conv_pct,2)}%)</span></td>
+          <td class="num ${lift>=1.3?'good':(lift<0.7&&lift>0?'badtx':'')}">${f(lift,2)}×</td>
+          <td class="num">${fr(x.rpl)}</td></tr>`;}).join('')+'</table></div>';
+    }
+  }
+  h+=NOTE_LASTCLICK;
+  $('view').innerHTML=h;
+}
+
+/* ============ tooltips ============ */
+function bindTips(){
+  const tip=$('tip');
+  document.addEventListener('mousemove',e=>{
+    if(tip.style.display==='block'){
+      const x=Math.min(e.clientX+14,innerWidth-tip.offsetWidth-8);
+      const y=Math.min(e.clientY+14,innerHeight-tip.offsetHeight-8);
+      tip.style.left=x+'px'; tip.style.top=y+'px';
+    }
+  });
+  document.addEventListener('mouseover',e=>{
+    const c=e.target.closest&&e.target.closest('circle.pt');
+    if(c){
+      const a=tipAds[+c.dataset.i]; if(!a) return;
+      const m=midia(a.nm_tag);
+      const z=zonaDe(a.cpl,a.iql_pct,m.medCpl,m.medIql);
+      tip.innerHTML=`<b>${esc(a.anuncio)}</b><br>Campanha: ${esc(a.nm_tag)} · <span class="chip z-${z}">${ZONA_LBL[z]}</span><br>
+        Leads: <b>${f(a.leads,0)}</b> · IQL: <b>${f(a.iql_pct)}%</b><br>
+        CPL: ${fr(a.cpl)} · CPLq: <b>${a.cplq!=null?fr(a.cplq):'—'}</b>${(()=>{
+          if(a.cplq==null||!m.medCplq) return '';
+          const p=(1-+a.cplq/m.medCplq)*100;
+          return ` <span class="${p>=0?'good':'badtx'}">${f(Math.abs(p),0)}% ${p>=0?'melhor':'pior'} que a mediana</span>`;
+        })()}<br>
+        Conv.: ${f(a.convertidos,0)} (${f(a.conv_pct,2)}%) · R$/lead: ${fr(a.rpl)}<br>
+        NM-A: ${f(a.nm_a,0)} · Invest.: ${fr(a.investimento,0)}`;
+      tip.style.display='block';
+    }
+  });
+  document.addEventListener('mouseout',e=>{
+    if(e.target.closest&&e.target.closest('circle.pt')) tip.style.display='none';
+  });
+  // hover da série diária
+  document.addEventListener('mousemove',e=>{
+    const r=e.target.id==='serie-hover'?e.target:null;
+    if(!r){ if(e.target.tagName!=='circle'&&tip.dataset.mode==='serie'){tip.style.display='none';tip.dataset.mode='';} return; }
+    const svg=$('serie-svg'), vl=$('serie-vl'); if(!svg||!serieDays.length) return;
+    const bb=svg.getBoundingClientRect(), W=940,L=52,R=16;
+    const px=(e.clientX-bb.left)/bb.width*W;
+    const n=serieDays.length;
+    const i=Math.max(0,Math.min(n-1,Math.round((px-L)/(W-L-R)*(n-1))));
+    const d=serieDays[i];
+    vl.setAttribute('x1',L+(n>1?i/(n-1):0.5)*(W-L-R)); vl.setAttribute('x2',L+(n>1?i/(n-1):0.5)*(W-L-R));
+    tip.dataset.mode='serie';
+    tip.innerHTML=`<b>${dbr(d.dia)}</b> — ${f(d.tot,0)} leads<br>
+      <span class="fA">A: ${f(d.A,0)}</span> · <span class="fB">B: ${f(d.B,0)}</span> · <span class="fC">C: ${f(d.C,0)}</span><br>
+      % faixa A no dia: <b>${d.tot?f(d.A/d.tot*100):0}%</b>`;
+    tip.style.display='block';
+  });
+}
+
+/* ============ navegação ============ */
+function setTab(t){
+  TAB=t;
+  if(location.hash.replace('#','')!==encodeURIComponent(t)) history.replaceState(null,'','#'+encodeURIComponent(t));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  adsSort={k:'cplq',dir:1};
+  if(t==='*') viewComparativo(); else if(t==='?') viewPerguntas(); else viewCampanha(t);
+  window.scrollTo({top:0});
+}
+
+fetch('./data.json').then(r=>r.json()).then(data=>{
+  D=data;
+  TAGS=D.campanhas.map(c=>c.nm_tag);
+  TAGS.forEach((t,i)=>COLOR[t]=PAL[i%PAL.length]);
+  $('sub').textContent=`Scorecard ${D.cards.versao} · atualizado ${D.atualizado} · uma aba por campanha; "Comparativo" para visão entre campanhas`;
+  $('tabs').innerHTML=TAGS.map(t=>
+      `<button class="tab" data-t="${esc(t)}"><span class="dot" style="background:${COLOR[t]}"></span>${esc(t)}</button>`).join('')+
+    `<button class="tab" data-t="?">Perguntas</button>`+
+    `<button class="tab" data-t="*">Comparativo</button>`;
+  document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.t));
+  bindTips();
+  const h=decodeURIComponent(location.hash.replace('#',''));
+  setTab(h==='*'||h==='?'||TAGS.includes(h)?h:TAGS[0]);
+});
+</script>
+</body>
+</html>

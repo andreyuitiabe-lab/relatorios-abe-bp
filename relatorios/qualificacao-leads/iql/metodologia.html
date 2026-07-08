@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IQL — Metodologia e Algoritmo</title>
+<style>
+  :root{--bg:#0f1117;--card:#181b23;--tx:#e8eaf0;--mut:#8b91a0;--acc:#4f8ef7;--ok:#3ecf8e;--warn:#f7b64f;--bad:#f7654f;--line:#262a35;--fc:#5b6473}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--tx);font:15px/1.65 -apple-system,'Segoe UI',Roboto,sans-serif;padding:28px 20px 90px}
+  .wrap{max-width:860px;margin:0 auto}
+  h1{font-size:25px;margin-bottom:2px}
+  h2{font-size:20px;margin:44px 0 10px;padding-top:14px;border-top:1px solid var(--line)}
+  h3{font-size:16px;margin:26px 0 6px;color:var(--tx)}
+  h4{font-size:14px;margin:18px 0 4px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
+  p{margin:10px 0}
+  .sub{color:var(--mut);font-size:13.5px}
+  .topbar{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+  .backlink{font-size:13.5px;white-space:nowrap}
+  .meta{color:var(--mut);font-size:13.5px;margin-bottom:8px;border-bottom:1px solid var(--line);padding-bottom:14px}
+  ul,ol{margin:10px 0 10px 22px}
+  li{margin:5px 0}
+  strong,b{color:#fff;font-weight:600}
+  em,i{color:var(--tx)}
+  a{color:var(--acc)}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;background:#11141c;border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:#c9d3e6}
+  pre{background:#11141c;border:1px solid var(--line);border-radius:8px;padding:14px 16px;overflow-x:auto;margin:14px 0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.55;color:#c9d3e6}
+  pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+  .tblwrap{overflow-x:auto;border-radius:10px;border:1px solid var(--line);margin:14px 0}
+  table{width:100%;border-collapse:collapse;background:var(--card);font-size:13.5px}
+  th{color:var(--mut);font-weight:600;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.4px;vertical-align:top}
+  td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .note{background:var(--card);border-left:3px solid var(--acc);border-radius:6px;padding:12px 16px;font-size:13.5px;color:var(--mut);margin:16px 0}
+  .note b{color:var(--tx)}
+  .note.warn{border-left-color:var(--warn)}
+  .note.ok{border-left-color:var(--ok)}
+  .omit{background:#231a11;border-left:3px solid var(--warn);border-radius:6px;padding:12px 16px;font-size:13px;color:var(--mut);margin:16px 0}
+  .omit b{color:var(--warn)}
+  .fA{color:var(--ok);font-weight:700}.fB{color:var(--warn);font-weight:700}.fC{color:var(--bad);font-weight:700}
+  .good{color:var(--ok)}.badtx{color:var(--bad)}
+  .pill{display:inline-block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;border-radius:4px;padding:2px 8px;vertical-align:1px}
+  .pill.prop{color:var(--warn);background:rgba(247,182,79,.12)}
+  .toc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:20px 0}
+  .toc h4{margin-top:0}
+  .toc ol{margin:6px 0 0 20px;columns:2;column-gap:28px}
+  .toc a{text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+  hr{border:none;border-top:1px solid var(--line);margin:22px 0}
+  .footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;line-height:1.6}
+</style>
+</head>
+<body><div class="wrap">
+
+  <div class="topbar">
+    <h1>IQL — Metodologia e Algoritmo</h1>
+    <a class="backlink" href="index.html">← Dashboard IQL</a>
+  </div>
+  <div class="meta">Índice de Qualidade de Lead · Brasil Paralelo · <b>08/07/2026</b> ·
+    <span class="pill prop">Proposta</span> — desenho formal para apresentação.
+    Números de exemplo saem do backtest EVG/BP10; leitura entre campanhas é indicativa.</div>
+
+  <div class="note ok"><b>Governança (anti-Goodhart):</b> esta página documenta <b>como</b> o score funciona
+    (estrutura, WOE/IV, calibração, regras de decisão) — não a tabela de-para de pontos por resposta.
+    Os pesos exatos ficam em configuração versionada fora deste repositório público. O marketing opera pelo
+    <b>IQL</b>, pelo <b>CPLq</b> e pela matriz de decisão; os pesos não são divulgados a quem opera as campanhas.</div>
+
+  <div class="toc">
+    <h4>Conteúdo</h4>
+    <ol>
+      <li><a href="#tese">A tese em um parágrafo</a></li>
+      <li><a href="#problema">O problema que resolve</a></li>
+      <li><a href="#arquitetura">Arquitetura — 5 passos</a></li>
+      <li><a href="#camadas">Duas camadas: score e agregação</a></li>
+      <li><a href="#matriz">Matriz de decisão CPL × IQL</a></li>
+      <li><a href="#validacao">Validação e calibração</a></li>
+      <li><a href="#perguntas">Ciclo de vida das perguntas (IV)</a></li>
+      <li><a href="#literatura">Auditoria de literatura</a></li>
+      <li><a href="#manutencao">Manutenibilidade</a></li>
+      <li><a href="#pipeline">Pipeline técnico</a></li>
+      <li><a href="#plano">Plano de implementação</a></li>
+      <li><a href="#riscos">Riscos e respostas</a></li>
+      <li><a href="#referencias">Referências externas</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2 id="tese">1. A tese em um parágrafo</h2>
+  <p>CPL mede o custo de captar um lead, não a chance de ele virar receita — e os dois anticorrelacionam
+  (DOM: CPL 2,6× maior que VDS, CAC 6,4× maior). Como a conversão de Não Membro demora ~421 dias, precisamos
+  de um sinal <b>no dia do cadastro</b>. O IQL é esse sinal: um <b>scorecard</b> — a mesma metodologia que
+  bancos usam há 50 anos para aprovar crédito no ato da proposta — que converte o que sabemos do lead no
+  momento zero (status, histórico de cadastro, pesquisa) em probabilidade de conversão. Para o time de mídia,
+  ele vira duas métricas na rotina existente: <b>IQL</b> (% de leads qualificados por anúncio) e
+  <b>CPLq</b> (custo por lead qualificado — o CPL que importa).</p>
+
+  <div class="note"><b>Por que scorecard e não uma caixa-preta de ML:</b> empatou com boosting nos nossos
+  dados (AUC 0,746 vs 0,766, diferença sem valor prático), é explicável ao negócio ponto a ponto, e — decisivo
+  para manutenção — os pesos vivem em tabelas de configuração versionadas, não em código ou modelo serializado.
+  Quando uma pergunta muda, muda-se uma linha de configuração.</div>
+
+  <!-- ============================================================ -->
+  <h2 id="problema">2. O problema que o algoritmo resolve</h2>
+  <ul>
+    <li>CPL não prediz qualidade: DOM teve CPL 2,6× maior que VDS, mas CAC 6,4× maior. Otimizar CPL leva a desperdício.</li>
+    <li>A janela de conversão de Não Membros é ~421 dias — CAC/receita chegam tarde demais para decidir criativo durante o aquecimento.</li>
+    <li>Precisamos de um sinal <b>disponível no dia do cadastro</b> que preveja valor futuro.</li>
+  </ul>
+
+  <!-- ============================================================ -->
+  <h2 id="arquitetura">3. Arquitetura — 5 passos</h2>
+  <pre><code>pergunta crua ──(1) de-para──▶ atributo canônico ──(2) binning──▶ nível
+                                                                    │
+lead ◀──(4) faixa A/B/C ◀── score = Σ pontos ◀──(3) pontos por nível (WOE)
+  │
+  └──(5) agregação por anúncio: IQL (% faixa A) e CPLq (spend ÷ faixa A)</code></pre>
+
+  <h3>Passo 1 — Normalização (o que torna o sistema parametrizável)</h3>
+  <p>O score <b>nunca</b> referencia uma pergunta diretamente. Perguntas cruas são mapeadas para
+  <b>atributos canônicos</b> — dimensões estáveis do lead — via tabela de-para:</p>
+  <div class="tblwrap"><table>
+    <tr><th>Atributo canônico</th><th>O que mede</th><th>Pergunta atual que o alimenta</th><th>Se a pergunta mudar</th></tr>
+    <tr><td><code>status_cadastro</code></td><td>relação contratual com BP</td><td>(não é pergunta — vem de <code>dim_subscriptions</code>)</td><td>nunca muda</td></tr>
+    <tr><td><code>historico_cadastro</code></td><td>reincidência e recência de cadastro</td><td>(não é pergunta — vem do histórico de leads)</td><td>nunca muda</td></tr>
+    <tr><td><code>afinidade_bp</code></td><td>proximidade declarada com a marca</td><td>relacao_bp + tempo_conhece_bp</td><td>nova pergunta → novas linhas no de-para</td></tr>
+    <tr><td><code>paga_conteudo</code></td><td>disposição a pagar por conteúdo</td><td>streaming (binário: paga algo / nenhum)</td><td>idem</td></tr>
+    <tr><td><code>renda_declarada</code></td><td>poder de compra declarado</td><td><i>(dormente — pergunta removida jul/2026)</i></td><td>reativa se a pergunta voltar</td></tr>
+    <tr><td><code>respondeu_pesquisa</code></td><td>intencionalidade</td><td>derivado (respondeu ≥1 pergunta)</td><td>automático</td></tr>
+  </table></div>
+  <p>A pesquisa muda de campanha para campanha; os atributos não. Uma pergunta nova entra no de-para em
+  <b>modo coleta</b> (peso 0) e só ganha pontos quando prova IV — o ciclo de vida completo está na
+  <a href="#perguntas">seção 7</a>.</p>
+
+  <h3>Passo 2 — Binning (coarse classing)</h3>
+  <p>Respostas cruas → níveis do atributo, seguindo as regras da literatura (Siddiqi):</p>
+  <ul>
+    <li>4–6 níveis por atributo; nenhum nível com &lt;5% da população nem &gt;~50%;</li>
+    <li><b>"sem resposta" é sempre um nível próprio</b> (é informativo: não-respondente converte 0,70× a base);</li>
+    <li>a tendência de WOE entre níveis deve fazer sentido de negócio — quebrar monotonia para ganhar IV é ruído (foi o critério que aposentou <code>qtd_streaming</code>).</li>
+  </ul>
+
+  <h3>Passo 3 — Pontuação (WOE → pontos)</h3>
+  <p>Para cada nível de cada atributo calcula-se o <b>Weight of Evidence</b>:</p>
+  <pre><code>WOE(nível) = ln( P(nível | converteu) / P(nível | não converteu) )</code></pre>
+  <p>com suavização para células pequenas e <b>pooling entre campanhas</b> (empirical Bayes) para
+  estabilidade. Os pontos escalam o WOE pelo método padrão <b>PDO</b> (points to double the odds) de
+  scorecards, com uma regressão logística sobre os atributos WOE-codificados resolvendo a correlação entre
+  atributos (ex.: não responder 3 perguntas não penaliza 3×).</p>
+  <div class="note ok"><b>Ninguém escolhe peso na mão.</b> Os pontos são gerados por script a partir dos dados
+  e exportados para a tabela de configuração. Recalibrar = rodar o script na cohort madura nova.</div>
+  <div class="omit"><b>Omitido nesta página (anti-Goodhart):</b> a tabela de-para de pontos por resposta
+  (os valores exploráveis do score) não é publicada. Os pesos vivem em configuração versionada fora deste
+  repositório. O que se publica são as métricas de saída (IQL, CPLq) e a matriz de decisão.</div>
+
+  <h3>Passo 4 — Faixas</h3>
+  <div class="tblwrap"><table>
+    <tr><th>Faixa</th><th>Definição</th><th>Leitura de negócio</th></tr>
+    <tr><td class="fA">A — Qualificado</td><td>pontos ≥ cutoff (calibrado para p(conv) ≥ ~2× a base NM)</td><td>vale pagar CPL premium</td></tr>
+    <tr><td class="fB">B — Potencial</td><td>intermediário</td><td>nutrir</td></tr>
+    <tr><td class="fC">C — Frio</td><td>pontos baixos</td><td>não pagar por mais desses</td></tr>
+  </table></div>
+  <p>O cutoff é <b>fixo em pontos durante a campanha</b> (definido na calibração) — não é percentil
+  intra-campanha, senão o IQL% seria 20% por construção e não diferenciaria anúncios.</p>
+  <div class="note warn"><b>Evolução planejada (v0.3, pós-auditoria de literatura jul/2026):</b> cortes deixarão
+  de ser múltiplos da taxa base e passarão a ser definidos por <b>valor esperado em R$</b> com estatística
+  marginal (A: EV ≥ R$X; piso = break-even de Elkan: EV ≥ custo de tratamento), e a métrica de mídia ganhará o
+  <b>ROAS esperado contínuo</b> (EV(s) via fórmula PDO × ticket maturado) ao lado do CPLq. Ver
+  <a href="#literatura">seção 8</a>.</div>
+
+  <h3>Passo 5 — Agregação para mídia</h3>
+  <ul>
+    <li><b>IQL</b> = % de leads faixa A do anúncio/adset — só comparável <b>dentro da mesma campanha</b>;</li>
+    <li><b>CPLq</b> = spend ÷ leads faixa A;</li>
+    <li><b>NM-A/R$</b> = Não Membros faixa A por real gasto — o guardrail da meta de expandir a base (evita "melhorar o IQL" recapturando membros).</li>
+  </ul>
+  <p>Regras de leitura obrigatórias: n ≥ 50 leads por criativo; shrinkage do IQL em direção à média da
+  campanha proporcional ao n; decisão pós-campanha por conversão observada (nunca eRPL — refutado por circularidade).</p>
+
+  <!-- ============================================================ -->
+  <h2 id="camadas">4. Duas camadas: score por lead e agregação por anúncio</h2>
+
+  <h3>Camada 1 — Score por lead (probabilidade calibrada de conversão)</h3>
+  <p>Modelo: <b>Regressão Logística calibrada, sem class_weight</b> (decisão da revisão adversarial jul/2026 —
+  mesmo AUC que boosting, score interpretável como probabilidade real; <code>balanced</code> infla o score 30×).
+  Features no momento do cadastro, em blocos:</p>
+  <div class="tblwrap"><table>
+    <tr><th>Bloco</th><th>Features</th><th>Lift validado</th></tr>
+    <tr><td><b>Status</b></td><td>Membro Ativo / Vitalício / Ex-Membro / Não Membro</td><td>5–11× Membro vs NM</td></tr>
+    <tr><td><b>Região via DDD</b> (candidato v0.2)</td><td>grupo de UF extraído do telefone</td><td>Cobertura 86% dos NM, IV 0,032–0,043 (fraco). MT/PR/SC/ES 1,2–1,34× vs Nordeste/AM 0,71–0,95×; "sem DDD válido" 0,78×. Substituto parcial do proxy de renda. Ressalvas: portabilidade, confundimento com targeting regional.</td></tr>
+    <tr><td><b>Histórico de cadastro</b></td><td>nº do cadastro (1º vs recorrente), recência do cadastro anterior</td><td>Recadastro ≤30d converte 4,75% vs 3,93% do 1º cadastro (lift 1,21×); recadastro 181–365d cai para 3,26% (0,83×); 5+ cadastros 3,31% (0,84×). Sinal modesto mas 100% de cobertura. Peso final sai da recalibração WOE, não de ajuste manual.</td></tr>
+    <tr><td><b>Pesquisa</b> (NM principalmente)</td><td><s>renda</s> (removida jul/2026), relação com BP, tempo que conhece BP, fonte de confiança, streaming, respondeu (sim/não)</td><td>responder +50%; "nunca ouvi falar" 0,24% vs 1%; streaming como proxy parcial de poder de compra</td></tr>
+  </table></div>
+
+  <div class="note warn"><b>Remoção da pergunta de renda (jul/2026)</b> — ablação no dataset EVG/BP10: para NM
+  (survey-only), AUC cai 0,685→0,665 e o top decil passa a capturar <b>20,9% das vendas (lift 2,09×) vs 25,5%
+  (2,55×) com renda</b>. No modelo completo (status+survey) a perda é menor: AUC 0,745→0,734, top decil
+  35,1%→33,9%. O score continua útil; renda respondida era 38,6% dos NM (34,6% "prefiro não informar"). No
+  desenho parametrizável, o atributo <code>renda_declarada</code> fica dormente (nível "sem resposta" = 0 pts)
+  — nada quebra; se a pergunta voltar (ou virar faixa menos invasiva), reativa-se na recalibração.</div>
+
+  <p><b>Benchmark atual</b> (modelo EVG/BP10): AUC 0,746 (status+survey), top decil = 35% das vendas / lift 3,5×
+  (geral); para mídia usar o headline <b>NM-only: top decil = 26% das vendas / lift 2,6×</b>.</p>
+  <p>Output: <code>p_conv</code> ∈ [0,1] por lead + classificação em faixas A / B / C (ver Passo 4).</p>
+
+  <h3>Camada 2 — Agregação por anúncio/adset (a métrica do dia a dia)</h3>
+  <ol>
+    <li><b>IQL</b> (0–100) = % de leads faixa A no anúncio/adset. Comparável <b>apenas dentro da mesma campanha</b>.</li>
+    <li><b>CPLq — Custo por Lead Qualificado</b> = spend ÷ leads faixa A. É "o CPL que importa": mesma mecânica
+    do CPL, mas o denominador só conta quem tem chance real de comprar. (Caso WhatConverts: duas campanhas com
+    CPL idêntico de $65 tinham CPQL de $650 vs $118 — 5× de diferença invisível ao CPL.)</li>
+  </ol>
+  <h4>Salvaguardas estatísticas (obrigatórias)</h4>
+  <ul>
+    <li>Mínimo <b>50 leads por criativo</b> antes de exibir IQL (abaixo disso, variância domina).</li>
+    <li><b>Shrinkage</b> (empirical Bayes) do IQL do anúncio em direção à média da campanha, proporcional ao n.</li>
+    <li>Decisão pós-campanha por adset: <b>conversão observada com shrinkage</b>, não eRPL (refutado — circularidade de ticket).</li>
+    <li>Nunca comparar IQL/CPLq entre campanhas diferentes (funil e produto dominam).</li>
+  </ul>
+
+  <!-- ============================================================ -->
+  <h2 id="matriz">5. Regras de decisão para o marketing (matriz CPL × IQL)</h2>
+  <p>Dentro da mesma campanha, por anúncio/adset com n ≥ 50:</p>
+  <div class="tblwrap"><table>
+    <tr><th></th><th>IQL alto</th><th>IQL baixo</th></tr>
+    <tr><td><b>CPL baixo</b></td>
+      <td><b class="good">🚀 Escalar</b> — melhor custo-benefício (ex: AD35 EVG: 30% qualificados a CPL R$1,47)</td>
+      <td><b class="fB">✂️ Cortar/limitar</b> — volume barato que não compra (ex: Pack 2 EVG: CPL R$1,84 mas 11% qualificados)</td></tr>
+    <tr><td><b>CPL alto</b></td>
+      <td><b style="color:var(--acc)">🔧 Otimizar criativo/lance</b> — audiência certa, entrega cara</td>
+      <td><b class="badtx">❌ Matar</b></td></tr>
+  </table></div>
+  <p>Meta de expansão de base: acompanhar em paralelo o <b>volume absoluto de NM faixa A</b> (não só o %).
+  Uma campanha pode ter IQL alto só recapturando membros — isso não expande a base. O norte é:
+  <b>maximizar NM-A por real gasto</b>, mantendo CPLq total sob controle.</p>
+
+  <!-- ============================================================ -->
+  <h2 id="validacao">6. Validação e calibração</h2>
+  <ol>
+    <li><b>Backtest out-of-time</b> no EVG/BP10: o scorecard é ajustado numa janela e avaliado na seguinte.
+    Critério: lift monotônico por decil e top-decil NM capturando ≥2× a base (benchmark atual: 2,1× sem renda, 2,6× com).</li>
+    <li><b>Calibração:</b> faixa A deve converter na taxa prevista (±30%) na cohort madura.</li>
+    <li><b>Teste retrospectivo da decisão:</b> aplicar a matriz CPL×IQL nos anúncios do EVG e mostrar que ela
+    teria realocado budget do Pack 2 (CPL R$1,84, 11% qualificados) para o AD35 (CPL R$1,47, 30% qualificados)
+    — decisão que o CPL sozinho não tomaria.</li>
+    <li><b>Hit-rate contínuo:</b> a cada campanha encerrada, correlação de ranking (Spearman) entre CPLq da
+    fase de captação e CAC real por adset. É o número que responde "o IQL funcionou?" campanha após campanha.</li>
+  </ol>
+  <h4>Loop operacional</h4>
+  <ul>
+    <li><b>Durante a campanha:</b> IQL/CPLq diários por anúncio → realocação de budget.</li>
+    <li><b>Pós-campanha (mesma idade de cohort):</b> ranking IQL vs conversão real por adset via decis/gains — lift monotônico. Nunca comparar campanhas em idades diferentes (censura subestima receita em ≥31%).</li>
+    <li><b>Backtest out-of-time:</b> congelar o modelo numa data, escorar leads posteriores, comparar com conversões observadas.</li>
+    <li><b>Recalibração:</b> a cada campanha encerrada ou trimestralmente, e imediatamente após mudança estrutural; monitorar taxa de resposta da pesquisa e drift do score.</li>
+  </ul>
+  <p class="sub">Benchmark de mercado para produção: AUC ≥ 0,80 (estamos em 0,746 status+survey / 0,756 com
+  tudo — bom para ranking); requisito mínimo: ~1.000 leads e ~100 conversões (EVG teve 34k/390 — folga).</p>
+
+  <!-- ============================================================ -->
+  <h2 id="perguntas">7. Aprendizado contínuo — ciclo de vida das perguntas (IV)</h2>
+  <p>As perguntas da pesquisa mudam; o algoritmo aprende com elas via um <b>banco de perguntas</b> com métrica
+  de qualidade padronizada: <b>IV (Information Value)</b>, que pondera exatamente população em cada resposta ×
+  separação de conversão.</p>
+  <pre><code>Régua de IV:
+  &lt; 0,02      inútil
+  0,02 – 0,1   fraca
+  0,1  – 0,3   média
+  0,3  – 0,5   forte
+  &gt; 0,5      suspeita de vazamento (leakage) — investigar, não comemorar</code></pre>
+  <p>Duas leituras complementares por pergunta:</p>
+  <ul>
+    <li><b>IV total</b> (inclui "sem resposta" como nível) — valor efetivo da pergunta como está exposta hoje;</li>
+    <li><b>IV entre respondentes</b> — potencial puro de separação. Cobertura baixa + IV_resp alto = pergunta
+    boa subexposta (aumentar exposição); cobertura alta + IV_resp baixo = aposentar.</li>
+  </ul>
+
+  <h4>Leaderboard EVG/BP10, NM, jul/2026</h4>
+  <div class="tblwrap"><table>
+    <tr><th>Pergunta</th><th class="num">Cobertura</th><th class="num">IV total</th><th class="num">IV respondentes</th><th>Ação</th></tr>
+    <tr><td>renda (removida)</td><td class="num">38,6%</td><td class="num">0,262</td><td class="num">0,185</td><td>—</td></tr>
+    <tr><td>relacao_bp</td><td class="num">43,7%</td><td class="num">0,182</td><td class="num">0,178</td><td>novo carro-chefe</td></tr>
+    <tr><td>streaming</td><td class="num">37,8%</td><td class="num">0,163</td><td class="num">0,039</td><td>manter, codificar binário: "assina algo pago" 1,52% conv vs "Nenhum" 1,08% (1,4×) — não usar níveis por plataforma (células pequenas)</td></tr>
+    <tr><td>tempo_conhece_bp</td><td class="num">24,1%</td><td class="num">0,075</td><td class="num"><b>0,266</b></td><td><b>subexposta — aumentar exposição</b></td></tr>
+    <tr><td>midia_tradicional</td><td class="num">18,3%</td><td class="num">0,042</td><td class="num">0,155</td><td>subexposta — observar</td></tr>
+    <tr><td>religiao</td><td class="num">25,4%</td><td class="num">0,040</td><td class="num">0,015</td><td>fraca</td></tr>
+    <tr><td>qtd_streaming</td><td class="num">24,7%</td><td class="num">0,013</td><td class="num">0,051</td><td>aposentar (libera slot)</td></tr>
+    <tr><td>fonte_confianca</td><td class="num">24,9%</td><td class="num">0,010</td><td class="num">0,038</td><td>aposentar (libera slot)</td></tr>
+  </table></div>
+
+  <div class="note"><b>Decomposição da renda</b> (objeção "população de alta renda é pequena"): as faixas
+  R$10k+ (1,8% dos NM) contribuíam só ~20% do IV da pergunta (0,051 de 0,262). O grosso vinha de <b>R$5–10k</b>
+  (4,7% pop, lift 2,7×, IV 0,083) + contraste respondeu/não + "Até R$5.000" (lift 1,5). Se a pergunta voltar:
+  <b>3 faixas bastam</b> (Até R$5k / R$5k+ / prefiro não informar) — mantém a maior parte do sinal com menos atrito.</div>
+
+  <h4>Ciclo de vida (o mecanismo de aprendizado)</h4>
+  <ol>
+    <li><b>Entrada — modo coleta:</b> pergunta nova entra no de-para mapeada a um atributo canônico, peso 0. Coleta sem afetar o score.</li>
+    <li><b>Avaliação:</b> quando a cohort matura (≥100 conversões no segmento NM; agrupar níveis com &lt;30 conversões), rodar o relatório IV/WOE.</li>
+    <li><b>Decisão:</b> IV total ≥0,1 → promover (WOE suavizado vira pontos no seed); 0,02–0,1 → observar ou reformular; &lt;0,02 por 2 campanhas → aposentar, liberando slot do formulário.</li>
+    <li><b>Recalibração:</b> WOE→pontos recalculado a cada campanha madura, com pooling entre campanhas (empirical Bayes); scorecard versionado.</li>
+    <li><b>Monitoramento:</b> PSI (population stability index) da distribuição de respostas entre campanhas — detecta quando a mesma pergunta muda de comportamento.</li>
+  </ol>
+  <p class="sub">Humano só decide promoções/aposentadorias; os pesos em si saem dos dados — é isso que faz o
+  sistema aprender sem retrabalho a cada mudança de pesquisa.</p>
+
+  <h4>Desenho de perguntas — regras da literatura</h4>
+  <ul>
+    <li>4–6 opções, rótulos verbais completos, exclusivas e exaustivas; uma ideia por pergunta, ≤15 palavras (anti-satisficing).</li>
+    <li>Desenhar faixas para a NOSSA população: nenhuma opção com &lt;5–10% dos leads nem &gt;~50%.</li>
+    <li>Ordinal (renda, familiaridade): ordem natural fixa. Nominal (ocupação, streamings): <b>randomizar ordem</b> — viés de primazia contamina o WOE.</li>
+    <li>Preferir factual/verificável a hipotético ("quais streamings assina" &gt; "quanto pagaria") — mais estável e menos manipulável.</li>
+    <li>Sensível (renda): faixas fechadas + "prefiro não informar"; esperar 15–35% de não-resposta (batemos 34,6%); "não respondeu" é bin próprio com WOE próprio.</li>
+    <li>Posição: sensíveis/demográficas no final; <b>mudar a posição de uma pergunta = criar pergunta nova</b> (versionar).</li>
+    <li>Aprovar: IV ≥ ~0,1 com tendência de WOE coerente com o negócio. <b>IV &gt; 0,5 = investigar leakage.</b> Aposentar: IV &lt; ~0,05 por 2–3 campanhas; não-resposta &gt; ~40%; CSI/PSI &gt; 0,25.</li>
+  </ul>
+
+  <!-- ============================================================ -->
+  <h2 id="literatura">8. Auditoria de literatura — cortes de faixa e valoração (jul/2026)</h2>
+  <p>Pesquisa sobre métodos de cutoff (credit scoring, teoria da decisão, value-based bidding) auditou o método. Veredito:</p>
+  <p><b class="good">Confirmado como best practice:</b> ponderar faixas por RPL observado (= value-based bidding
+  do Google/Meta: valor do estágio = taxa de fechamento × ticket); "receita esperada por R$" &gt; CPQL como
+  métrica de steering; higiene de masterscale (monotonia, recalibração por versão, ICs separáveis).</p>
+  <p><b class="warn">A corrigir (escopo v0.3):</b></p>
+  <ol>
+    <li><b>Corte por múltiplo da base (2×/1,3×) é arbitrário e usa a estatística errada.</b> O certo: (a) limiar
+    vem da economia — break-even de Elkan: tratar lead enquanto <code>custo ≤ p(conv) × margem</code>
+    (<code>p* = C_fp/(C_fp+B_tp)</code>); (b) aplicado à conversão <b>marginal no corte</b>, não acumulada.
+    Redefinir faixas por <b>EV em R$</b> (ex.: A: EV ≥ R$4 · B: R$2–4 · C: R$0,80–2 · D: EV &lt; custo variável).</li>
+    <li><b>Métrica de mídia deve usar o EV contínuo que o PDO já dá de graça:</b>
+      <pre><code>Odds(s)          = Odds₀ · 2^((s − s₀) / PDO)
+EV(s)            = p(s) × ticket maturado
+ROAS_esperado(anúncio) = Σ EV(sᵢ) / custo</code></pre>
+      Sem cliff effect, invariante a redefinição de faixa. Faixas continuam para comunicação/roteamento
+      (padrão bancário de dupla via: contínuo para economia, grades para governança).</li>
+    <li><b>Censura:</b> pesos/EV medidos em cohort madura + fator de maturação (D+30 antecipa ~52% do D+240); congelar por versão do scorecard.</li>
+    <li><b>Sem devolver valor à plataforma (CAPI/OCI), o leilão continua caçando lead barato</b> — reforça a v2.</li>
+  </ol>
+  <p class="sub">Fontes-chave: Thomas/Edelman/Crook <i>Credit Scoring and Its Applications</i>; Elkan
+  <i>Cost-Sensitive Learning</i> (IJCAI 2001); Verbraken/Baesens EMP (EJOR 2014); Google Value-based Bidding;
+  BIS bcbs66 / Tasche (masterscale); Siddiqi <i>Credit Risk Scorecards</i>; Anderson <i>The Credit Scoring
+  Toolkit</i>; Krosnick &amp; Presser; Dillman; Tourangeau &amp; Yan (2007).</p>
+
+  <!-- ============================================================ -->
+  <h2 id="manutencao">9. Manutenibilidade: 3 tabelas de configuração + 2 scripts</h2>
+  <p>Tudo que muda com o tempo vive em <b>seeds versionados no git</b> (repo dbt privado):</p>
+  <div class="tblwrap"><table>
+    <tr><th>Artefato</th><th>Conteúdo</th><th>Quem mexe</th><th>Quando</th></tr>
+    <tr><td><code>seed_iql_de_para.csv</code></td><td>pergunta crua × resposta → atributo × nível</td><td>analytics</td><td>nova pergunta/campanha (antes do go-live)</td></tr>
+    <tr><td><code>seed_iql_pontos.csv</code></td><td>atributo × nível → pontos + <code>versao</code></td><td><b>gerado por script</b></td><td>recalibração (pós-campanha)</td></tr>
+    <tr><td><code>seed_iql_cutoffs.csv</code></td><td>faixas A/B/C + parâmetros (n mínimo, shrinkage)</td><td>analytics</td><td>raramente</td></tr>
+    <tr><td><code>iql_recalibra.py</code></td><td>cohort madura → WOE/PDO → exporta seed_iql_pontos</td><td>roda pós-campanha</td><td></td></tr>
+    <tr><td><code>iv_perguntas.py</code></td><td>leaderboard IV/CSI por pergunta (já existe)</td><td>roda pós-campanha</td><td></td></tr>
+  </table></div>
+  <h4>Regras de governança</h4>
+  <ul>
+    <li><b>Marketing não vê os pesos exatos</b> (anti-Goodhart) — vê IQL, CPLq e a matriz de decisão.</li>
+    <li>Scorecard versionado: toda pontuação de lead grava <code>versao_scorecard</code>; backtest sempre usa a versão vigente na época.</li>
+    <li>Pergunta com opções alteradas ou posição mudada = pergunta <b>nova</b> no de-para (a antiga arquiva).</li>
+    <li>Checklist de lançamento: pesquisa no fluxo + perguntas mapeadas no de-para + <code>fbp</code>/<code>fbc</code> capturados (habilita a v2 CAPI).</li>
+  </ul>
+
+  <!-- ============================================================ -->
+  <h2 id="pipeline">10. Pipeline técnico</h2>
+  <pre><code>dtm_analytics_lead_conversion (diário)
+  └─ int_iql_survey_normalizada   (aplica seed_iql_de_para)
+      └─ fct_lead_iql             (pontos + faixa por lead; versao_scorecard)
+          └─ mart_iql_midia       (anúncio × adset × dia: leads, IQL, CPLq, NM-A; join spend Meta)
+              └─ relatório HTML no portal (padrão template: refresh.py + data.json)</code></pre>
+  <p>Modelos dbt em <code>dbt_abe</code> (staging) na fase piloto; promoção a prod após a campanha piloto
+  validar. A promoção lê das <b>fontes</b> (<code>lead_registration</code>, <code>dim_subscriptions</code>),
+  não do <code>dtm</code>, se o <code>dtm</code> for consumir o score (evita ciclo no DAG). Contrato:
+  <code>versao_scorecard</code> gravada em toda linha continua obrigatória.</p>
+
+  <!-- ============================================================ -->
+  <h2 id="plano">11. Plano de implementação</h2>
+  <div class="tblwrap"><table>
+    <tr><th>Fase</th><th>Entregável</th><th>Dependência</th></tr>
+    <tr><td><b>1. Config e score</b> (sem. 1)</td><td><b class="good">✅ feito</b> — 3 seeds + <code>tb_lead_iql</code> v0.1 escorando jan/2025+ (faixa A 1,9× base) + <code>tb_iql_iv_perguntas</code> com auto-descoberta</td><td>—</td></tr>
+    <tr><td><b>2. Calibração v0.2</b> (sem. 2)</td><td><b class="good">✅ feito</b> — <code>iql_recalibra.py</code> (WOE + regressão + PDO). Backtest out-of-campaign (treino EVG → teste BP10): AUC NM 0,618 → 0,750; top decil 20,4% → 32,4% das vendas (lift 3,24×). Ressalva: tempo_conhece com IV suspeito no BP10</td><td>fase 1 ✅</td></tr>
+    <tr><td><b>3. Dashboard</b> (sem. 3)</td><td><b class="good">✅ feito</b> — relatório <code>qualificacao-leads/iql/</code>: backtest, faixas × conversão, monotonia, CPL × IQL × CPLq (89 anúncios EVG/BP10), leaderboard IV</td><td>fase 2 ✅</td></tr>
+    <tr><td><b>4. Piloto</b> (campanha seguinte)</td><td>rotina com time de mídia: leitura diária, matriz de decisão, realocações registradas</td><td>fase 3 + pesquisa no fluxo</td></tr>
+    <tr><td><b>5. Fechamento do piloto</b></td><td>recalibração v2, hit-rate Spearman CPLq×CAC, leaderboard IV, go/no-go CAPI</td><td>cohort madura</td></tr>
+    <tr><td><b>6. CAPI</b> (v2)</td><td>evento server-side "LeadQualificado" → Meta. <code>id_fbclid</code> já capturado (81,9% dos cadastros 2026)</td><td>a estimar c/ eng.</td></tr>
+  </table></div>
+  <h4>Critérios de sucesso do piloto</h4>
+  <ol>
+    <li>Backtest: lift monotônico por decil, top decil NM ≥2× a base;</li>
+    <li>Operação: time de mídia toma ≥1 decisão de realocação usando a matriz CPL×IQL e a registra;</li>
+    <li>Resultado: Spearman(CPLq, CAC real) &gt; Spearman(CPL, CAC real) — o IQL precisa prever o CAC melhor que o CPL, senão não paga a complexidade.</li>
+  </ol>
+
+  <!-- ============================================================ -->
+  <h2 id="riscos">12. Riscos e respostas prontas (para a apresentação)</h2>
+  <div class="tblwrap"><table>
+    <tr><th>Pergunta que vão fazer</th><th>Resposta</th></tr>
+    <tr><td>"Por que não usar só o CPL?"</td><td>DOM×VDS: CPL 2,6× maior, CAC 6,4× maior. CPL não prediz qualidade.</td></tr>
+    <tr><td>"Por que confiar num score se a conversão demora 14 meses?"</td><td>Backtest: nos dados de 2025–26, o top decil do score capturou 26% das vendas de NM (2,6× a base). Validado contra conversão real, cohort a cohort.</td></tr>
+    <tr><td>"E se a pesquisa mudar?"</td><td>O score referencia atributos, não perguntas. Pergunta nova entra em modo coleta e só ganha peso quando prova IV. Nada quebra.</td></tr>
+    <tr><td>"E quem não responde a pesquisa?"</td><td>Status + histórico de cadastro cobrem 100% dos leads; "não respondeu" é sinal por si (0,70×).</td></tr>
+    <tr><td>"O marketing não vai 'hackear' o score?"</td><td>Pesos não são divulgados; o hit-rate contra CAC real é auditado toda campanha; sinal majoritário (status, histórico) não é manipulável.</td></tr>
+    <tr><td>"Como funciona numa campanha nova?"</td><td>Pontua desde o dia 1 com o scorecard vigente (atributos são da pessoa, não da campanha). Pesos congelados durante a campanha (comparabilidade + auditoria via <code>versao_scorecard</code>); reaprende entre campanhas. Aprendizado em lote versionado, não online.</td></tr>
+  </table></div>
+  <h4>Riscos e mitigações</h4>
+  <div class="tblwrap"><table>
+    <tr><th>Risco</th><th>Mitigação</th></tr>
+    <tr><td>Goodhart: mídia otimiza para "quem responde pesquisa bem"</td><td>Score depende de status+histórico além da pesquisa; auditar mix de resposta por adset; <b>não divulgar os pesos exatos</b>; parear IQL com volume e conversão real.</td></tr>
+    <tr><td>Viés de resposta (quem responde já é mais quente)</td><td>"Respondeu" é feature explícita; lift de renda é medido <i>dentro</i> dos respondentes.</td></tr>
+    <tr><td>Amostra pequena por criativo</td><td>n mínimo 50 + shrinkage.</td></tr>
+    <tr><td>Score vira previsão absoluta de receita</td><td>Proibido — só ranking relativo intra-campanha; validação pós-campanha usa conversão observada.</td></tr>
+    <tr><td>Cobertura: 87% dos NM sem dim_user</td><td>Pesquisa é a única fonte de sinal para NM — manter pesquisa no fluxo é pré-requisito do sistema.</td></tr>
+  </table></div>
+
+  <!-- ============================================================ -->
+  <h2 id="referencias">13. Referências externas</h2>
+  <ul>
+    <li><b>CPQL como métrica de steering:</b> WhatConverts (caso $650 vs $118 com CPL igual); AxZ Lead (CPL vs CPQL 2025).</li>
+    <li><b>Fit × engajamento:</b> framework SiriusDecisions/Marketo (matrix scoring). Nossas 3 camadas: pesquisa = eixo explícito (fit); status + histórico = eixo implícito.</li>
+    <li><b>Validação de score preditivo:</b> Reform (splits temporais, AUC ≥0,80, retraining trimestral).</li>
+    <li><b>Shrinkage para amostras pequenas:</b> MetricGate (empirical Bayes shrinkage).</li>
+    <li><b>Meta Conversion Leads / CAPI:</b> Meta for Developers; LeadsBridge (requisitos operacionais); Birch (Value Rules).</li>
+    <li><b>pLTV bidding (assinatura):</b> AdZeta; Admiral Media (referência para a v3).</li>
+    <li><b>Goodhart:</b> KPI Tree (Goodhart's Law em métricas de marketing).</li>
+  </ul>
+
+  <div class="footer">
+    Documentação da metodologia IQL · fontes: <code>METODOLOGIA-IQL.md</code> + <code>ALGORITMO-IQL.md</code>
+    (pasta <code>qualificacao-leads</code>). Pesos do scorecard não são publicados (governança anti-Goodhart);
+    vivem em configuração versionada fora deste repositório. Score recalibrado a cada campanha madura;
+    leituras entre campanhas diferentes são indicativas, não conclusivas.<br>
+    <a href="index.html">← Voltar ao dashboard IQL</a>
+  </div>
+
+</div></body>
+</html>

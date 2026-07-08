@@ -1,0 +1,4658 @@
+{
+ "atualizado": "2026-07-08",
+ "cards": {
+  "faixa_a": "378881",
+  "leads": "2776777",
+  "nm_a": "24321",
+  "tags": "106",
+  "versao": "v0.2"
+ },
+ "backtest": {
+  "descricao": "Treinado no EVG, testado no BP10 (campanha nunca vista — out-of-time e out-of-campaign)",
+  "linhas": [
+   {
+    "modelo": "v0.1 (pontos univariados)",
+    "auc_nm": 0.618,
+    "top_decil_captura": 20.4,
+    "lift": 2.04
+   },
+   {
+    "modelo": "v0.2 (WOE + regressão)",
+    "auc_nm": 0.75,
+    "top_decil_captura": 32.4,
+    "lift": 3.24
+   },
+   {
+    "modelo": "v0.2 sem relacao_bp (formulário futuro)",
+    "auc_nm": 0.746,
+    "top_decil_captura": 31.0,
+    "lift": 3.1
+   }
+  ],
+  "ressalva": "Parte do ganho no BP10 vem da pergunta tempo_conhece, que nessa campanha tem IV anormalmente alto (0,93 — flag de investigação). Os pesos vieram do EVG (sem vazamento de treino), mas o nº pode estar otimista para campanha típica."
+ },
+ "campanhas": [
+  {
+   "conv_pct": "1.233",
+   "convertidos": "487",
+   "faixa_a": "15020",
+   "fim": "2026-07-08",
+   "inicio": "2026-06-11",
+   "iql_pct": "38.0",
+   "leads": "39505",
+   "nao_membros": "31191",
+   "nm_a": "7276",
+   "nm_tag": "BP10",
+   "respondentes": "28738",
+   "rpl": "7.82"
+  },
+  {
+   "conv_pct": "1.489",
+   "convertidos": "2591",
+   "faixa_a": "33933",
+   "fim": "2026-07-08",
+   "inicio": "2026-05-21",
+   "iql_pct": "19.5",
+   "leads": "173998",
+   "nao_membros": "152179",
+   "nm_a": "15439",
+   "nm_tag": "EVG",
+   "respondentes": "120841",
+   "rpl": "4.68"
+  }
+ ],
+ "faixas": [
+  {
+   "conv": "87",
+   "conv_pct": "1.196",
+   "faixa": "A",
+   "leads": "7276",
+   "nm_tag": "BP10",
+   "rpl": "2.65"
+  },
+  {
+   "conv": "54",
+   "conv_pct": "0.425",
+   "faixa": "B",
+   "leads": "12697",
+   "nm_tag": "BP10",
+   "rpl": "0.75"
+  },
+  {
+   "conv": "15",
+   "conv_pct": "0.134",
+   "faixa": "C",
+   "leads": "11218",
+   "nm_tag": "BP10",
+   "rpl": "0.76"
+  },
+  {
+   "conv": "359",
+   "conv_pct": "2.325",
+   "faixa": "A",
+   "leads": "15439",
+   "nm_tag": "EVG",
+   "rpl": "6.02"
+  },
+  {
+   "conv": "1108",
+   "conv_pct": "1.245",
+   "faixa": "B",
+   "leads": "89002",
+   "nm_tag": "EVG",
+   "rpl": "2.8"
+  },
+  {
+   "conv": "170",
+   "conv_pct": "0.356",
+   "faixa": "C",
+   "leads": "47738",
+   "nm_tag": "EVG",
+   "rpl": "0.97"
+  }
+ ],
+ "bandas": [
+  {
+   "banda": "01",
+   "conv": "14",
+   "conv_pct": "0.128",
+   "leads": "10907",
+   "nm_tag": "BP10",
+   "rpl": "0.77",
+   "score_max": "-26",
+   "score_min": "-36"
+  },
+  {
+   "banda": "02",
+   "conv": "4",
+   "conv_pct": "0.113",
+   "leads": "3547",
+   "nm_tag": "BP10",
+   "rpl": "0.15",
+   "score_max": "-16",
+   "score_min": "-25"
+  },
+  {
+   "banda": "03",
+   "conv": "21",
+   "conv_pct": "0.338",
+   "leads": "6204",
+   "nm_tag": "BP10",
+   "rpl": "0.57",
+   "score_max": "-6",
+   "score_min": "-15"
+  },
+  {
+   "banda": "04",
+   "conv": "30",
+   "conv_pct": "0.921",
+   "leads": "3257",
+   "nm_tag": "BP10",
+   "rpl": "1.71",
+   "score_max": "3",
+   "score_min": "-5"
+  },
+  {
+   "banda": "05",
+   "conv": "68",
+   "conv_pct": "1.116",
+   "leads": "6093",
+   "nm_tag": "BP10",
+   "rpl": "2.61",
+   "score_max": "14",
+   "score_min": "4"
+  },
+  {
+   "banda": "06",
+   "conv": "19",
+   "conv_pct": "1.606",
+   "leads": "1183",
+   "nm_tag": "BP10",
+   "rpl": "2.88",
+   "score_max": "40",
+   "score_min": "15"
+  },
+  {
+   "banda": "01",
+   "conv": "168",
+   "conv_pct": "0.363",
+   "leads": "46312",
+   "nm_tag": "EVG",
+   "rpl": "0.99",
+   "score_max": "-26",
+   "score_min": "-36"
+  },
+  {
+   "banda": "02",
+   "conv": "76",
+   "conv_pct": "0.502",
+   "leads": "15144",
+   "nm_tag": "EVG",
+   "rpl": "1.22",
+   "score_max": "-16",
+   "score_min": "-25"
+  },
+  {
+   "banda": "03",
+   "conv": "282",
+   "conv_pct": "1.164",
+   "leads": "24219",
+   "nm_tag": "EVG",
+   "rpl": "2.65",
+   "score_max": "-6",
+   "score_min": "-15"
+  },
+  {
+   "banda": "04",
+   "conv": "752",
+   "conv_pct": "1.473",
+   "leads": "51065",
+   "nm_tag": "EVG",
+   "rpl": "3.27",
+   "score_max": "3",
+   "score_min": "-5"
+  },
+  {
+   "banda": "05",
+   "conv": "302",
+   "conv_pct": "2.203",
+   "leads": "13710",
+   "nm_tag": "EVG",
+   "rpl": "5.54",
+   "score_max": "14",
+   "score_min": "4"
+  },
+  {
+   "banda": "06",
+   "conv": "57",
+   "conv_pct": "3.297",
+   "leads": "1729",
+   "nm_tag": "EVG",
+   "rpl": "9.88",
+   "score_max": "38",
+   "score_min": "15"
+  }
+ ],
+ "serie": [
+  {
+   "dia": "2026-05-21",
+   "faixa": "A",
+   "leads": "1",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-21",
+   "faixa": "C",
+   "leads": "2",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-22",
+   "faixa": "C",
+   "leads": "1",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-23",
+   "faixa": "A",
+   "leads": "115",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-23",
+   "faixa": "B",
+   "leads": "133",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-23",
+   "faixa": "C",
+   "leads": "319",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-24",
+   "faixa": "A",
+   "leads": "299",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-24",
+   "faixa": "B",
+   "leads": "449",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-24",
+   "faixa": "C",
+   "leads": "1588",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-25",
+   "faixa": "A",
+   "leads": "172",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-25",
+   "faixa": "B",
+   "leads": "317",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-25",
+   "faixa": "C",
+   "leads": "976",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-26",
+   "faixa": "A",
+   "leads": "175",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-26",
+   "faixa": "B",
+   "leads": "212",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-26",
+   "faixa": "C",
+   "leads": "561",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-27",
+   "faixa": "A",
+   "leads": "247",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-27",
+   "faixa": "B",
+   "leads": "547",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-27",
+   "faixa": "C",
+   "leads": "936",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-28",
+   "faixa": "A",
+   "leads": "253",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-28",
+   "faixa": "B",
+   "leads": "669",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-28",
+   "faixa": "C",
+   "leads": "740",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-29",
+   "faixa": "A",
+   "leads": "262",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-29",
+   "faixa": "B",
+   "leads": "644",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-29",
+   "faixa": "C",
+   "leads": "689",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-30",
+   "faixa": "A",
+   "leads": "304",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-30",
+   "faixa": "B",
+   "leads": "637",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-30",
+   "faixa": "C",
+   "leads": "716",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-31",
+   "faixa": "A",
+   "leads": "430",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-31",
+   "faixa": "B",
+   "leads": "1116",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-05-31",
+   "faixa": "C",
+   "leads": "1183",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-01",
+   "faixa": "A",
+   "leads": "461",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-01",
+   "faixa": "B",
+   "leads": "948",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-01",
+   "faixa": "C",
+   "leads": "925",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-02",
+   "faixa": "A",
+   "leads": "406",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-02",
+   "faixa": "B",
+   "leads": "820",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-02",
+   "faixa": "C",
+   "leads": "744",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-03",
+   "faixa": "A",
+   "leads": "380",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-03",
+   "faixa": "B",
+   "leads": "747",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-03",
+   "faixa": "C",
+   "leads": "715",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-04",
+   "faixa": "A",
+   "leads": "339",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-04",
+   "faixa": "B",
+   "leads": "829",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-04",
+   "faixa": "C",
+   "leads": "1033",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-05",
+   "faixa": "A",
+   "leads": "296",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-05",
+   "faixa": "B",
+   "leads": "840",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-05",
+   "faixa": "C",
+   "leads": "805",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-06",
+   "faixa": "A",
+   "leads": "396",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-06",
+   "faixa": "B",
+   "leads": "960",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-06",
+   "faixa": "C",
+   "leads": "443",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-07",
+   "faixa": "A",
+   "leads": "468",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-07",
+   "faixa": "B",
+   "leads": "1357",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-07",
+   "faixa": "C",
+   "leads": "658",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-08",
+   "faixa": "A",
+   "leads": "220",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-08",
+   "faixa": "B",
+   "leads": "617",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-08",
+   "faixa": "C",
+   "leads": "339",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-09",
+   "faixa": "A",
+   "leads": "345",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-09",
+   "faixa": "B",
+   "leads": "927",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-09",
+   "faixa": "C",
+   "leads": "450",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-10",
+   "faixa": "A",
+   "leads": "342",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-10",
+   "faixa": "B",
+   "leads": "885",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-10",
+   "faixa": "C",
+   "leads": "1149",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-11",
+   "faixa": "B",
+   "leads": "1",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-11",
+   "faixa": "A",
+   "leads": "283",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-11",
+   "faixa": "B",
+   "leads": "668",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-11",
+   "faixa": "C",
+   "leads": "1303",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-12",
+   "faixa": "A",
+   "leads": "1",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-12",
+   "faixa": "C",
+   "leads": "1",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-12",
+   "faixa": "A",
+   "leads": "272",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-12",
+   "faixa": "B",
+   "leads": "780",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-12",
+   "faixa": "C",
+   "leads": "505",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-13",
+   "faixa": "A",
+   "leads": "7",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-13",
+   "faixa": "C",
+   "leads": "9",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-13",
+   "faixa": "A",
+   "leads": "26",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-13",
+   "faixa": "B",
+   "leads": "54",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-13",
+   "faixa": "C",
+   "leads": "26",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-14",
+   "faixa": "A",
+   "leads": "19",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-14",
+   "faixa": "B",
+   "leads": "6",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-14",
+   "faixa": "C",
+   "leads": "16",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-14",
+   "faixa": "A",
+   "leads": "1058",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-14",
+   "faixa": "B",
+   "leads": "2693",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-14",
+   "faixa": "C",
+   "leads": "1501",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-15",
+   "faixa": "A",
+   "leads": "242",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-15",
+   "faixa": "B",
+   "leads": "38",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-15",
+   "faixa": "C",
+   "leads": "38",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-15",
+   "faixa": "A",
+   "leads": "462",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-15",
+   "faixa": "B",
+   "leads": "1244",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-15",
+   "faixa": "C",
+   "leads": "687",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-16",
+   "faixa": "A",
+   "leads": "209",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-16",
+   "faixa": "B",
+   "leads": "104",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-16",
+   "faixa": "C",
+   "leads": "55",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-16",
+   "faixa": "A",
+   "leads": "651",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-16",
+   "faixa": "B",
+   "leads": "1779",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-16",
+   "faixa": "C",
+   "leads": "974",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-17",
+   "faixa": "A",
+   "leads": "304",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-17",
+   "faixa": "B",
+   "leads": "206",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-17",
+   "faixa": "C",
+   "leads": "174",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-17",
+   "faixa": "A",
+   "leads": "769",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-17",
+   "faixa": "B",
+   "leads": "2578",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-17",
+   "faixa": "C",
+   "leads": "1458",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-18",
+   "faixa": "A",
+   "leads": "349",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-18",
+   "faixa": "B",
+   "leads": "262",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-18",
+   "faixa": "C",
+   "leads": "264",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-18",
+   "faixa": "A",
+   "leads": "705",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-18",
+   "faixa": "B",
+   "leads": "2469",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-18",
+   "faixa": "C",
+   "leads": "1497",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-19",
+   "faixa": "A",
+   "leads": "758",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-19",
+   "faixa": "B",
+   "leads": "222",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-19",
+   "faixa": "C",
+   "leads": "235",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-19",
+   "faixa": "A",
+   "leads": "688",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-19",
+   "faixa": "B",
+   "leads": "2324",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-19",
+   "faixa": "C",
+   "leads": "1223",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-20",
+   "faixa": "A",
+   "leads": "707",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-20",
+   "faixa": "B",
+   "leads": "191",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-20",
+   "faixa": "C",
+   "leads": "297",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-20",
+   "faixa": "A",
+   "leads": "890",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-20",
+   "faixa": "B",
+   "leads": "2812",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-20",
+   "faixa": "C",
+   "leads": "1199",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-21",
+   "faixa": "A",
+   "leads": "795",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-21",
+   "faixa": "B",
+   "leads": "262",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-21",
+   "faixa": "C",
+   "leads": "362",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-21",
+   "faixa": "A",
+   "leads": "1287",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-21",
+   "faixa": "B",
+   "leads": "4085",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-21",
+   "faixa": "C",
+   "leads": "1666",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-22",
+   "faixa": "A",
+   "leads": "889",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-22",
+   "faixa": "B",
+   "leads": "308",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-22",
+   "faixa": "C",
+   "leads": "414",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-22",
+   "faixa": "A",
+   "leads": "1203",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-22",
+   "faixa": "B",
+   "leads": "3279",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-22",
+   "faixa": "C",
+   "leads": "1427",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-23",
+   "faixa": "A",
+   "leads": "741",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-23",
+   "faixa": "B",
+   "leads": "326",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-23",
+   "faixa": "C",
+   "leads": "393",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-23",
+   "faixa": "A",
+   "leads": "1498",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-23",
+   "faixa": "B",
+   "leads": "2209",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-23",
+   "faixa": "C",
+   "leads": "1104",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-24",
+   "faixa": "A",
+   "leads": "611",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-24",
+   "faixa": "B",
+   "leads": "335",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-24",
+   "faixa": "C",
+   "leads": "369",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-24",
+   "faixa": "A",
+   "leads": "1399",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-24",
+   "faixa": "B",
+   "leads": "2120",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-24",
+   "faixa": "C",
+   "leads": "1092",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-25",
+   "faixa": "A",
+   "leads": "535",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-25",
+   "faixa": "B",
+   "leads": "326",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-25",
+   "faixa": "C",
+   "leads": "370",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-25",
+   "faixa": "A",
+   "leads": "1206",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-25",
+   "faixa": "B",
+   "leads": "2172",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-25",
+   "faixa": "C",
+   "leads": "1155",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-26",
+   "faixa": "A",
+   "leads": "525",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-26",
+   "faixa": "B",
+   "leads": "411",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-26",
+   "faixa": "C",
+   "leads": "389",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-26",
+   "faixa": "A",
+   "leads": "1070",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-26",
+   "faixa": "B",
+   "leads": "2548",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-26",
+   "faixa": "C",
+   "leads": "1110",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-27",
+   "faixa": "A",
+   "leads": "546",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-27",
+   "faixa": "B",
+   "leads": "696",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-27",
+   "faixa": "C",
+   "leads": "439",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-27",
+   "faixa": "A",
+   "leads": "1305",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-27",
+   "faixa": "B",
+   "leads": "3708",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-27",
+   "faixa": "C",
+   "leads": "1098",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-28",
+   "faixa": "A",
+   "leads": "843",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-28",
+   "faixa": "B",
+   "leads": "816",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-28",
+   "faixa": "C",
+   "leads": "572",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-28",
+   "faixa": "A",
+   "leads": "1167",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-28",
+   "faixa": "B",
+   "leads": "3516",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-28",
+   "faixa": "C",
+   "leads": "1112",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-29",
+   "faixa": "A",
+   "leads": "681",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-29",
+   "faixa": "B",
+   "leads": "763",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-29",
+   "faixa": "C",
+   "leads": "572",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-29",
+   "faixa": "A",
+   "leads": "714",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-29",
+   "faixa": "B",
+   "leads": "2026",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-29",
+   "faixa": "C",
+   "leads": "694",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-30",
+   "faixa": "A",
+   "leads": "877",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-30",
+   "faixa": "B",
+   "leads": "1191",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-30",
+   "faixa": "C",
+   "leads": "830",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-06-30",
+   "faixa": "A",
+   "leads": "1084",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-30",
+   "faixa": "B",
+   "leads": "3541",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-06-30",
+   "faixa": "C",
+   "leads": "1069",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-01",
+   "faixa": "A",
+   "leads": "905",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-01",
+   "faixa": "B",
+   "leads": "1379",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-01",
+   "faixa": "C",
+   "leads": "982",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-01",
+   "faixa": "A",
+   "leads": "1212",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-01",
+   "faixa": "B",
+   "leads": "3247",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-01",
+   "faixa": "C",
+   "leads": "1066",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-02",
+   "faixa": "A",
+   "leads": "593",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-02",
+   "faixa": "B",
+   "leads": "906",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-02",
+   "faixa": "C",
+   "leads": "630",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-02",
+   "faixa": "A",
+   "leads": "1068",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-02",
+   "faixa": "B",
+   "leads": "3182",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-02",
+   "faixa": "C",
+   "leads": "1013",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-03",
+   "faixa": "A",
+   "leads": "700",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-03",
+   "faixa": "B",
+   "leads": "797",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-03",
+   "faixa": "C",
+   "leads": "742",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-03",
+   "faixa": "A",
+   "leads": "1316",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-03",
+   "faixa": "B",
+   "leads": "3814",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-03",
+   "faixa": "C",
+   "leads": "1380",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-04",
+   "faixa": "A",
+   "leads": "655",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-04",
+   "faixa": "B",
+   "leads": "574",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-04",
+   "faixa": "C",
+   "leads": "527",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-04",
+   "faixa": "A",
+   "leads": "1352",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-04",
+   "faixa": "B",
+   "leads": "4190",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-04",
+   "faixa": "C",
+   "leads": "1414",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-05",
+   "faixa": "A",
+   "leads": "605",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-05",
+   "faixa": "B",
+   "leads": "545",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-05",
+   "faixa": "C",
+   "leads": "466",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-05",
+   "faixa": "A",
+   "leads": "1755",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-05",
+   "faixa": "B",
+   "leads": "5613",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-05",
+   "faixa": "C",
+   "leads": "1873",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-06",
+   "faixa": "A",
+   "leads": "710",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-06",
+   "faixa": "B",
+   "leads": "904",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-06",
+   "faixa": "C",
+   "leads": "984",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-06",
+   "faixa": "A",
+   "leads": "1493",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-06",
+   "faixa": "B",
+   "leads": "4997",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-06",
+   "faixa": "C",
+   "leads": "1691",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-07",
+   "faixa": "A",
+   "leads": "926",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-07",
+   "faixa": "B",
+   "leads": "1298",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-07",
+   "faixa": "C",
+   "leads": "897",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-07",
+   "faixa": "A",
+   "leads": "1630",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-07",
+   "faixa": "B",
+   "leads": "5447",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-07",
+   "faixa": "C",
+   "leads": "1883",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-08",
+   "faixa": "A",
+   "leads": "287",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-08",
+   "faixa": "B",
+   "leads": "400",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-08",
+   "faixa": "C",
+   "leads": "191",
+   "nm_tag": "BP10"
+  },
+  {
+   "dia": "2026-07-08",
+   "faixa": "A",
+   "leads": "459",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-08",
+   "faixa": "B",
+   "leads": "1578",
+   "nm_tag": "EVG"
+  },
+  {
+   "dia": "2026-07-08",
+   "faixa": "C",
+   "leads": "546",
+   "nm_tag": "EVG"
+  }
+ ],
+ "iv": [
+  {
+   "cobertura_pct": "68.3",
+   "ds_recomendacao": "suspeita_vazamento",
+   "iv_respondentes": "0.8337",
+   "iv_total": "0.9401",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_tag": "BP10"
+  },
+  {
+   "cobertura_pct": "46.0",
+   "ds_recomendacao": "promover",
+   "iv_respondentes": "0.288",
+   "iv_total": "0.275",
+   "nm_pergunta": "relacao_bp",
+   "nm_tag": "BP10"
+  },
+  {
+   "cobertura_pct": "17.3",
+   "ds_recomendacao": "promover",
+   "iv_respondentes": "0.2012",
+   "iv_total": "0.2312",
+   "nm_pergunta": "streaming",
+   "nm_tag": "BP10"
+  },
+  {
+   "cobertura_pct": "17.6",
+   "ds_recomendacao": "promover",
+   "iv_respondentes": "0.2623",
+   "iv_total": "0.2282",
+   "nm_pergunta": "renda",
+   "nm_tag": "BP10"
+  },
+  {
+   "cobertura_pct": "52.9",
+   "ds_recomendacao": "observar",
+   "iv_respondentes": "0.1595",
+   "iv_total": "0.0991",
+   "nm_pergunta": "fonte_confianca",
+   "nm_tag": "BP10"
+  },
+  {
+   "cobertura_pct": "52.2",
+   "ds_recomendacao": "observar",
+   "iv_respondentes": "0.1366",
+   "iv_total": "0.0902",
+   "nm_pergunta": "qtd_streaming",
+   "nm_tag": "BP10"
+  },
+  {
+   "cobertura_pct": "24.4",
+   "ds_recomendacao": "observar",
+   "iv_respondentes": "0.2617",
+   "iv_total": "0.0844",
+   "nm_pergunta": "midia_tradicional",
+   "nm_tag": "BP10"
+  },
+  {
+   "cobertura_pct": "43.5",
+   "ds_recomendacao": "promover",
+   "iv_respondentes": "0.2104",
+   "iv_total": "0.1645",
+   "nm_pergunta": "relacao_bp",
+   "nm_tag": "EVG"
+  },
+  {
+   "cobertura_pct": "30.3",
+   "ds_recomendacao": "promover",
+   "iv_respondentes": "0.1641",
+   "iv_total": "0.1252",
+   "nm_pergunta": "renda",
+   "nm_tag": "EVG"
+  },
+  {
+   "cobertura_pct": "23.4",
+   "ds_recomendacao": "observar",
+   "iv_respondentes": "0.1693",
+   "iv_total": "0.0859",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_tag": "EVG"
+  },
+  {
+   "cobertura_pct": "44.0",
+   "ds_recomendacao": "observar",
+   "iv_respondentes": "0.0212",
+   "iv_total": "0.0811",
+   "nm_pergunta": "religiao",
+   "nm_tag": "EVG"
+  },
+  {
+   "cobertura_pct": "23.4",
+   "ds_recomendacao": "observar",
+   "iv_respondentes": "0.1316",
+   "iv_total": "0.0748",
+   "nm_pergunta": "midia_tradicional",
+   "nm_tag": "EVG"
+  },
+  {
+   "cobertura_pct": "29.6",
+   "ds_recomendacao": "observar",
+   "iv_respondentes": "0.0459",
+   "iv_total": "0.073",
+   "nm_pergunta": "streaming",
+   "nm_tag": "EVG"
+  },
+  {
+   "cobertura_pct": "38.2",
+   "ds_recomendacao": "observar",
+   "iv_respondentes": "0.0562",
+   "iv_total": "0.0683",
+   "nm_pergunta": "fonte_confianca",
+   "nm_tag": "EVG"
+  },
+  {
+   "cobertura_pct": "37.9",
+   "ds_recomendacao": "observar",
+   "iv_respondentes": "0.0434",
+   "iv_total": "0.0643",
+   "nm_pergunta": "qtd_streaming",
+   "nm_tag": "EVG"
+  }
+ ],
+ "perguntas": [
+  {
+   "conv_pct": "0.449",
+   "convertidos": "66",
+   "lift_vs_base_tag": "0.9",
+   "n": "14700",
+   "nm_pergunta": "fonte_confianca",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "BP10",
+   "rpl": "1.36"
+  },
+  {
+   "conv_pct": "0.745",
+   "convertidos": "41",
+   "lift_vs_base_tag": "1.49",
+   "n": "5507",
+   "nm_pergunta": "fonte_confianca",
+   "nm_resposta": "Não, e isso me incomoda",
+   "nm_tag": "BP10",
+   "rpl": "1.42"
+  },
+  {
+   "conv_pct": "0.641",
+   "convertidos": "33",
+   "lift_vs_base_tag": "1.28",
+   "n": "5146",
+   "nm_pergunta": "fonte_confianca",
+   "nm_resposta": "Tenho uma ou outra, mas com ressalvas",
+   "nm_tag": "BP10",
+   "rpl": "1.37"
+  },
+  {
+   "conv_pct": "0.237",
+   "convertidos": "7",
+   "lift_vs_base_tag": "0.47",
+   "n": "2952",
+   "nm_pergunta": "fonte_confianca",
+   "nm_resposta": "Não penso muito nisso",
+   "nm_tag": "BP10",
+   "rpl": "0.38"
+  },
+  {
+   "conv_pct": "0.312",
+   "convertidos": "9",
+   "lift_vs_base_tag": "0.62",
+   "n": "2886",
+   "nm_pergunta": "fonte_confianca",
+   "nm_resposta": "Sim, já tenho as minhas",
+   "nm_tag": "BP10",
+   "rpl": "0.45"
+  },
+  {
+   "conv_pct": "0.471",
+   "convertidos": "111",
+   "lift_vs_base_tag": "0.94",
+   "n": "23574",
+   "nm_pergunta": "midia_tradicional",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "BP10",
+   "rpl": "1.07"
+  },
+  {
+   "conv_pct": "0.906",
+   "convertidos": "34",
+   "lift_vs_base_tag": "1.81",
+   "n": "3752",
+   "nm_pergunta": "midia_tradicional",
+   "nm_resposta": "Profundamente incomodado, por isso busco outras fontes",
+   "nm_tag": "BP10",
+   "rpl": "2.74"
+  },
+  {
+   "conv_pct": "0.268",
+   "convertidos": "6",
+   "lift_vs_base_tag": "0.54",
+   "n": "2241",
+   "nm_pergunta": "midia_tradicional",
+   "nm_resposta": "Desconfio, mas ainda acompanho",
+   "nm_tag": "BP10",
+   "rpl": "0.45"
+  },
+  {
+   "conv_pct": "0.302",
+   "convertidos": "3",
+   "lift_vs_base_tag": "0.6",
+   "n": "993",
+   "nm_pergunta": "midia_tradicional",
+   "nm_resposta": "Não penso muito nisso",
+   "nm_tag": "BP10",
+   "rpl": "0.4"
+  },
+  {
+   "conv_pct": "0.317",
+   "convertidos": "2",
+   "lift_vs_base_tag": "0.63",
+   "n": "631",
+   "nm_pergunta": "midia_tradicional",
+   "nm_resposta": "Acho que está tudo certo",
+   "nm_tag": "BP10",
+   "rpl": "0.62"
+  },
+  {
+   "conv_pct": "0.443",
+   "convertidos": "66",
+   "lift_vs_base_tag": "0.88",
+   "n": "14915",
+   "nm_pergunta": "qtd_streaming",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "BP10",
+   "rpl": "1.34"
+  },
+  {
+   "conv_pct": "0.486",
+   "convertidos": "56",
+   "lift_vs_base_tag": "0.97",
+   "n": "11522",
+   "nm_pergunta": "qtd_streaming",
+   "nm_resposta": "Nenhum",
+   "nm_tag": "BP10",
+   "rpl": "0.97"
+  },
+  {
+   "conv_pct": "0.957",
+   "convertidos": "22",
+   "lift_vs_base_tag": "1.91",
+   "n": "2298",
+   "nm_pergunta": "qtd_streaming",
+   "nm_resposta": "1",
+   "nm_tag": "BP10",
+   "rpl": "1.61"
+  },
+  {
+   "conv_pct": "0.23",
+   "convertidos": "3",
+   "lift_vs_base_tag": "0.46",
+   "n": "1305",
+   "nm_pergunta": "qtd_streaming",
+   "nm_resposta": "2",
+   "nm_tag": "BP10",
+   "rpl": "0.48"
+  },
+  {
+   "conv_pct": "1.127",
+   "convertidos": "7",
+   "lift_vs_base_tag": "2.25",
+   "n": "621",
+   "nm_pergunta": "qtd_streaming",
+   "nm_resposta": "3",
+   "nm_tag": "BP10",
+   "rpl": "2.38"
+  },
+  {
+   "conv_pct": "0.377",
+   "convertidos": "2",
+   "lift_vs_base_tag": "0.75",
+   "n": "530",
+   "nm_pergunta": "qtd_streaming",
+   "nm_resposta": "3 +",
+   "nm_tag": "BP10",
+   "rpl": "0.49"
+  },
+  {
+   "conv_pct": "0.345",
+   "convertidos": "58",
+   "lift_vs_base_tag": "0.69",
+   "n": "16835",
+   "nm_pergunta": "relacao_bp",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "BP10",
+   "rpl": "1.21"
+  },
+  {
+   "conv_pct": "0.835",
+   "convertidos": "56",
+   "lift_vs_base_tag": "1.67",
+   "n": "6704",
+   "nm_pergunta": "relacao_bp",
+   "nm_resposta": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+   "nm_tag": "BP10",
+   "rpl": "1.44"
+  },
+  {
+   "conv_pct": "0.597",
+   "convertidos": "20",
+   "lift_vs_base_tag": "1.19",
+   "n": "3349",
+   "nm_pergunta": "relacao_bp",
+   "nm_resposta": "Já ouvi falar, mas nunca assisti nada",
+   "nm_tag": "BP10",
+   "rpl": "0.91"
+  },
+  {
+   "conv_pct": "0.102",
+   "convertidos": "2",
+   "lift_vs_base_tag": "0.2",
+   "n": "1959",
+   "nm_pergunta": "relacao_bp",
+   "nm_resposta": "Nunca ouvi falar",
+   "nm_tag": "BP10",
+   "rpl": "0.2"
+  },
+  {
+   "conv_pct": "0.497",
+   "convertidos": "8",
+   "lift_vs_base_tag": "0.99",
+   "n": "1610",
+   "nm_pergunta": "relacao_bp",
+   "nm_resposta": "Assino hoje",
+   "nm_tag": "BP10",
+   "rpl": "1.04"
+  },
+  {
+   "conv_pct": "1.635",
+   "convertidos": "12",
+   "lift_vs_base_tag": "3.27",
+   "n": "734",
+   "nm_pergunta": "relacao_bp",
+   "nm_resposta": "Já assinei no passado",
+   "nm_tag": "BP10",
+   "rpl": "2.99"
+  },
+  {
+   "conv_pct": "0.401",
+   "convertidos": "103",
+   "lift_vs_base_tag": "0.8",
+   "n": "25696",
+   "nm_pergunta": "renda",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "BP10",
+   "rpl": "0.99"
+  },
+  {
+   "conv_pct": "1.242",
+   "convertidos": "31",
+   "lift_vs_base_tag": "2.48",
+   "n": "2495",
+   "nm_pergunta": "renda",
+   "nm_resposta": "Até R$ 5.000",
+   "nm_tag": "BP10",
+   "rpl": "2.63"
+  },
+  {
+   "conv_pct": "0.482",
+   "convertidos": "10",
+   "lift_vs_base_tag": "0.96",
+   "n": "2075",
+   "nm_pergunta": "renda",
+   "nm_resposta": "Prefiro não informar",
+   "nm_tag": "BP10",
+   "rpl": "0.87"
+  },
+  {
+   "conv_pct": "1.84",
+   "convertidos": "12",
+   "lift_vs_base_tag": "3.68",
+   "n": "652",
+   "nm_pergunta": "renda",
+   "nm_resposta": "R$ 5.000 – R$ 10.000",
+   "nm_tag": "BP10",
+   "rpl": "5.3"
+  },
+  {
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "lift_vs_base_tag": "0.0",
+   "n": "159",
+   "nm_pergunta": "renda",
+   "nm_resposta": "R$ 10.000 – R$ 15.000",
+   "nm_tag": "BP10",
+   "rpl": "0.0"
+  },
+  {
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "lift_vs_base_tag": "0.0",
+   "n": "114",
+   "nm_pergunta": "renda",
+   "nm_resposta": "Acima de R$ 15.000",
+   "nm_tag": "BP10",
+   "rpl": "0.0"
+  },
+  {
+   "conv_pct": "0.399",
+   "convertidos": "103",
+   "lift_vs_base_tag": "0.8",
+   "n": "25795",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "BP10",
+   "rpl": "0.99"
+  },
+  {
+   "conv_pct": "1.028",
+   "convertidos": "24",
+   "lift_vs_base_tag": "2.06",
+   "n": "2334",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Nenhum",
+   "nm_tag": "BP10",
+   "rpl": "1.8"
+  },
+  {
+   "conv_pct": "1.164",
+   "convertidos": "15",
+   "lift_vs_base_tag": "2.33",
+   "n": "1289",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Netflix",
+   "nm_tag": "BP10",
+   "rpl": "1.79"
+  },
+  {
+   "conv_pct": "0.301",
+   "convertidos": "2",
+   "lift_vs_base_tag": "0.6",
+   "n": "665",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Brasil Paralelo",
+   "nm_tag": "BP10",
+   "rpl": "0.47"
+  },
+  {
+   "conv_pct": "0.915",
+   "convertidos": "4",
+   "lift_vs_base_tag": "1.83",
+   "n": "437",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Globoplay",
+   "nm_tag": "BP10",
+   "rpl": "1.72"
+  },
+  {
+   "conv_pct": "0.649",
+   "convertidos": "2",
+   "lift_vs_base_tag": "1.3",
+   "n": "308",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Disney+",
+   "nm_tag": "BP10",
+   "rpl": "5.84"
+  },
+  {
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "lift_vs_base_tag": "0.0",
+   "n": "130",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "HBO Max",
+   "nm_tag": "BP10",
+   "rpl": "0.0"
+  },
+  {
+   "conv_pct": "1.667",
+   "convertidos": "2",
+   "lift_vs_base_tag": "3.33",
+   "n": "120",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Prime Video",
+   "nm_tag": "BP10",
+   "rpl": "2.18"
+  },
+  {
+   "conv_pct": "3.54",
+   "convertidos": "4",
+   "lift_vs_base_tag": "7.08",
+   "n": "113",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
+   "nm_tag": "BP10",
+   "rpl": "19.39"
+  },
+  {
+   "conv_pct": "0.162",
+   "convertidos": "16",
+   "lift_vs_base_tag": "0.32",
+   "n": "9875",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "BP10",
+   "rpl": "0.87"
+  },
+  {
+   "conv_pct": "0.104",
+   "convertidos": "9",
+   "lift_vs_base_tag": "0.21",
+   "n": "8670",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "Esse é meu primeiro contato",
+   "nm_tag": "BP10",
+   "rpl": "0.13"
+  },
+  {
+   "conv_pct": "1.366",
+   "convertidos": "48",
+   "lift_vs_base_tag": "2.73",
+   "n": "3514",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "Entre 1 e 3 anos",
+   "nm_tag": "BP10",
+   "rpl": "2.47"
+  },
+  {
+   "conv_pct": "1.114",
+   "convertidos": "39",
+   "lift_vs_base_tag": "2.23",
+   "n": "3502",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "Mais que 3 anos",
+   "nm_tag": "BP10",
+   "rpl": "3.2"
+  },
+  {
+   "conv_pct": "0.876",
+   "convertidos": "23",
+   "lift_vs_base_tag": "1.75",
+   "n": "2625",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "Entre 6 meses e 1 ano",
+   "nm_tag": "BP10",
+   "rpl": "1.47"
+  },
+  {
+   "conv_pct": "0.886",
+   "convertidos": "14",
+   "lift_vs_base_tag": "1.77",
+   "n": "1580",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "Até 6 meses",
+   "nm_tag": "BP10",
+   "rpl": "1.22"
+  },
+  {
+   "conv_pct": "0.491",
+   "convertidos": "7",
+   "lift_vs_base_tag": "0.98",
+   "n": "1425",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "Menos de um mês",
+   "nm_tag": "BP10",
+   "rpl": "1.29"
+  },
+  {
+   "conv_pct": "0.898",
+   "convertidos": "844",
+   "lift_vs_base_tag": "0.83",
+   "n": "94006",
+   "nm_pergunta": "fonte_confianca",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "EVG",
+   "rpl": "2.38"
+  },
+  {
+   "conv_pct": "1.424",
+   "convertidos": "310",
+   "lift_vs_base_tag": "1.32",
+   "n": "21768",
+   "nm_pergunta": "fonte_confianca",
+   "nm_resposta": "Tenho uma ou outra, mas com ressalvas",
+   "nm_tag": "EVG",
+   "rpl": "3.09"
+  },
+  {
+   "conv_pct": "1.738",
+   "convertidos": "275",
+   "lift_vs_base_tag": "1.62",
+   "n": "15821",
+   "nm_pergunta": "fonte_confianca",
+   "nm_resposta": "Não, e isso me incomoda",
+   "nm_tag": "EVG",
+   "rpl": "3.69"
+  },
+  {
+   "conv_pct": "1.152",
+   "convertidos": "140",
+   "lift_vs_base_tag": "1.07",
+   "n": "12148",
+   "nm_pergunta": "fonte_confianca",
+   "nm_resposta": "Sim, já tenho as minhas",
+   "nm_tag": "EVG",
+   "rpl": "2.22"
+  },
+  {
+   "conv_pct": "0.806",
+   "convertidos": "68",
+   "lift_vs_base_tag": "0.75",
+   "n": "8436",
+   "nm_pergunta": "fonte_confianca",
+   "nm_resposta": "Não penso muito nisso",
+   "nm_tag": "EVG",
+   "rpl": "1.45"
+  },
+  {
+   "conv_pct": "0.954",
+   "convertidos": "1112",
+   "lift_vs_base_tag": "0.89",
+   "n": "116520",
+   "nm_pergunta": "midia_tradicional",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "EVG",
+   "rpl": "2.39"
+  },
+  {
+   "conv_pct": "1.834",
+   "convertidos": "366",
+   "lift_vs_base_tag": "1.7",
+   "n": "19957",
+   "nm_pergunta": "midia_tradicional",
+   "nm_resposta": "Profundamente incomodado, por isso busco outras fontes",
+   "nm_tag": "EVG",
+   "rpl": "3.89"
+  },
+  {
+   "conv_pct": "1.229",
+   "convertidos": "136",
+   "lift_vs_base_tag": "1.14",
+   "n": "11062",
+   "nm_pergunta": "midia_tradicional",
+   "nm_resposta": "Desconfio, mas ainda acompanho",
+   "nm_tag": "EVG",
+   "rpl": "2.47"
+  },
+  {
+   "conv_pct": "0.482",
+   "convertidos": "18",
+   "lift_vs_base_tag": "0.45",
+   "n": "3733",
+   "nm_pergunta": "midia_tradicional",
+   "nm_resposta": "Não penso muito nisso",
+   "nm_tag": "EVG",
+   "rpl": "1.21"
+  },
+  {
+   "conv_pct": "0.551",
+   "convertidos": "5",
+   "lift_vs_base_tag": "0.51",
+   "n": "907",
+   "nm_pergunta": "midia_tradicional",
+   "nm_resposta": "Acho que está tudo certo",
+   "nm_tag": "EVG",
+   "rpl": "0.83"
+  },
+  {
+   "conv_pct": "0.896",
+   "convertidos": "847",
+   "lift_vs_base_tag": "0.83",
+   "n": "94528",
+   "nm_pergunta": "qtd_streaming",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "EVG",
+   "rpl": "2.38"
+  },
+  {
+   "conv_pct": "1.15",
+   "convertidos": "409",
+   "lift_vs_base_tag": "1.07",
+   "n": "35580",
+   "nm_pergunta": "qtd_streaming",
+   "nm_resposta": "Nenhum",
+   "nm_tag": "EVG",
+   "rpl": "2.37"
+  },
+  {
+   "conv_pct": "1.742",
+   "convertidos": "196",
+   "lift_vs_base_tag": "1.62",
+   "n": "11251",
+   "nm_pergunta": "qtd_streaming",
+   "nm_resposta": "1",
+   "nm_tag": "EVG",
+   "rpl": "3.54"
+  },
+  {
+   "conv_pct": "1.646",
+   "convertidos": "103",
+   "lift_vs_base_tag": "1.53",
+   "n": "6257",
+   "nm_pergunta": "qtd_streaming",
+   "nm_resposta": "2",
+   "nm_tag": "EVG",
+   "rpl": "3.33"
+  },
+  {
+   "conv_pct": "1.921",
+   "convertidos": "46",
+   "lift_vs_base_tag": "1.79",
+   "n": "2395",
+   "nm_pergunta": "qtd_streaming",
+   "nm_resposta": "3",
+   "nm_tag": "EVG",
+   "rpl": "4.65"
+  },
+  {
+   "conv_pct": "1.661",
+   "convertidos": "36",
+   "lift_vs_base_tag": "1.54",
+   "n": "2168",
+   "nm_pergunta": "qtd_streaming",
+   "nm_resposta": "3 +",
+   "nm_tag": "EVG",
+   "rpl": "3.63"
+  },
+  {
+   "conv_pct": "0.841",
+   "convertidos": "723",
+   "lift_vs_base_tag": "0.78",
+   "n": "85934",
+   "nm_pergunta": "relacao_bp",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "EVG",
+   "rpl": "2.13"
+  },
+  {
+   "conv_pct": "1.328",
+   "convertidos": "459",
+   "lift_vs_base_tag": "1.23",
+   "n": "34568",
+   "nm_pergunta": "relacao_bp",
+   "nm_resposta": "Consumo conteúdo gratuito (YouTube, redes sociais)",
+   "nm_tag": "EVG",
+   "rpl": "2.89"
+  },
+  {
+   "conv_pct": "1.557",
+   "convertidos": "311",
+   "lift_vs_base_tag": "1.45",
+   "n": "19969",
+   "nm_pergunta": "relacao_bp",
+   "nm_resposta": "Já ouvi falar, mas nunca assisti nada",
+   "nm_tag": "EVG",
+   "rpl": "3.26"
+  },
+  {
+   "conv_pct": "0.202",
+   "convertidos": "13",
+   "lift_vs_base_tag": "0.19",
+   "n": "6449",
+   "nm_pergunta": "relacao_bp",
+   "nm_resposta": "Nunca ouvi falar",
+   "nm_tag": "EVG",
+   "rpl": "0.61"
+  },
+  {
+   "conv_pct": "2.024",
+   "convertidos": "63",
+   "lift_vs_base_tag": "1.88",
+   "n": "3112",
+   "nm_pergunta": "relacao_bp",
+   "nm_resposta": "Já assinei no passado",
+   "nm_tag": "EVG",
+   "rpl": "5.86"
+  },
+  {
+   "conv_pct": "3.167",
+   "convertidos": "68",
+   "lift_vs_base_tag": "2.94",
+   "n": "2147",
+   "nm_pergunta": "relacao_bp",
+   "nm_resposta": "Assino hoje",
+   "nm_tag": "EVG",
+   "rpl": "8.34"
+  },
+  {
+   "conv_pct": "0.825",
+   "convertidos": "703",
+   "lift_vs_base_tag": "0.77",
+   "n": "85202",
+   "nm_pergunta": "religiao",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "EVG",
+   "rpl": "2.33"
+  },
+  {
+   "conv_pct": "1.413",
+   "convertidos": "797",
+   "lift_vs_base_tag": "1.31",
+   "n": "56422",
+   "nm_pergunta": "religiao",
+   "nm_resposta": "Evangélico",
+   "nm_tag": "EVG",
+   "rpl": "2.87"
+  },
+  {
+   "conv_pct": "1.696",
+   "convertidos": "74",
+   "lift_vs_base_tag": "1.58",
+   "n": "4362",
+   "nm_pergunta": "religiao",
+   "nm_resposta": "Católico",
+   "nm_tag": "EVG",
+   "rpl": "3.44"
+  },
+  {
+   "conv_pct": "0.564",
+   "convertidos": "12",
+   "lift_vs_base_tag": "0.52",
+   "n": "2129",
+   "nm_pergunta": "religiao",
+   "nm_resposta": "Prefiro não informar",
+   "nm_tag": "EVG",
+   "rpl": "1.68"
+  },
+  {
+   "conv_pct": "1.151",
+   "convertidos": "22",
+   "lift_vs_base_tag": "1.07",
+   "n": "1911",
+   "nm_pergunta": "religiao",
+   "nm_resposta": "Sem religião",
+   "nm_tag": "EVG",
+   "rpl": "2.28"
+  },
+  {
+   "conv_pct": "1.149",
+   "convertidos": "14",
+   "lift_vs_base_tag": "1.07",
+   "n": "1218",
+   "nm_pergunta": "religiao",
+   "nm_resposta": "Outra",
+   "nm_tag": "EVG",
+   "rpl": "2.08"
+  },
+  {
+   "conv_pct": "1.604",
+   "convertidos": "15",
+   "lift_vs_base_tag": "1.49",
+   "n": "935",
+   "nm_pergunta": "religiao",
+   "nm_resposta": "Espírita",
+   "nm_tag": "EVG",
+   "rpl": "2.97"
+  },
+  {
+   "conv_pct": "0.891",
+   "convertidos": "946",
+   "lift_vs_base_tag": "0.83",
+   "n": "106135",
+   "nm_pergunta": "renda",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "EVG",
+   "rpl": "2.09"
+  },
+  {
+   "conv_pct": "1.475",
+   "convertidos": "298",
+   "lift_vs_base_tag": "1.37",
+   "n": "20204",
+   "nm_pergunta": "renda",
+   "nm_resposta": "Até R$ 5.000",
+   "nm_tag": "EVG",
+   "rpl": "3.03"
+  },
+  {
+   "conv_pct": "0.99",
+   "convertidos": "155",
+   "lift_vs_base_tag": "0.92",
+   "n": "15659",
+   "nm_pergunta": "renda",
+   "nm_resposta": "Prefiro não informar",
+   "nm_tag": "EVG",
+   "rpl": "2.49"
+  },
+  {
+   "conv_pct": "2.554",
+   "convertidos": "143",
+   "lift_vs_base_tag": "2.37",
+   "n": "5599",
+   "nm_pergunta": "renda",
+   "nm_resposta": "R$ 5.000 – R$ 10.000",
+   "nm_tag": "EVG",
+   "rpl": "7.33"
+  },
+  {
+   "conv_pct": "0.657",
+   "convertidos": "10",
+   "lift_vs_base_tag": "0.61",
+   "n": "1521",
+   "nm_pergunta": "renda",
+   "nm_resposta": "Até R$ 2.000",
+   "nm_tag": "EVG",
+   "rpl": "1.97"
+  },
+  {
+   "conv_pct": "2.419",
+   "convertidos": "30",
+   "lift_vs_base_tag": "2.25",
+   "n": "1240",
+   "nm_pergunta": "renda",
+   "nm_resposta": "R$ 10.000 – R$ 15.000",
+   "nm_tag": "EVG",
+   "rpl": "6.0"
+  },
+  {
+   "conv_pct": "1.84",
+   "convertidos": "17",
+   "lift_vs_base_tag": "1.71",
+   "n": "924",
+   "nm_pergunta": "renda",
+   "nm_resposta": "R$ 2.000 – R$ 5.000",
+   "nm_tag": "EVG",
+   "rpl": "4.63"
+  },
+  {
+   "conv_pct": "3.932",
+   "convertidos": "30",
+   "lift_vs_base_tag": "3.66",
+   "n": "763",
+   "nm_pergunta": "renda",
+   "nm_resposta": "Acima de R$ 15.000",
+   "nm_tag": "EVG",
+   "rpl": "9.8"
+  },
+  {
+   "conv_pct": "6.452",
+   "convertidos": "6",
+   "lift_vs_base_tag": "6.0",
+   "n": "93",
+   "nm_pergunta": "renda",
+   "nm_resposta": "R$ 10.000 – R$ 20.000",
+   "nm_tag": "EVG",
+   "rpl": "32.54"
+  },
+  {
+   "conv_pct": "4.878",
+   "convertidos": "2",
+   "lift_vs_base_tag": "4.53",
+   "n": "41",
+   "nm_pergunta": "renda",
+   "nm_resposta": "Acima de R$ 20.000",
+   "nm_tag": "EVG",
+   "rpl": "6.38"
+  },
+  {
+   "conv_pct": "0.906",
+   "convertidos": "971",
+   "lift_vs_base_tag": "0.84",
+   "n": "107144",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "EVG",
+   "rpl": "2.11"
+  },
+  {
+   "conv_pct": "1.186",
+   "convertidos": "227",
+   "lift_vs_base_tag": "1.1",
+   "n": "19140",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Nenhum",
+   "nm_tag": "EVG",
+   "rpl": "3.03"
+  },
+  {
+   "conv_pct": "1.651",
+   "convertidos": "224",
+   "lift_vs_base_tag": "1.53",
+   "n": "13567",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Netflix",
+   "nm_tag": "EVG",
+   "rpl": "3.76"
+  },
+  {
+   "conv_pct": "2.112",
+   "convertidos": "85",
+   "lift_vs_base_tag": "1.96",
+   "n": "4024",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Disney+",
+   "nm_tag": "EVG",
+   "rpl": "4.8"
+  },
+  {
+   "conv_pct": "1.532",
+   "convertidos": "37",
+   "lift_vs_base_tag": "1.42",
+   "n": "2415",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Globoplay",
+   "nm_tag": "EVG",
+   "rpl": "2.98"
+  },
+  {
+   "conv_pct": "1.892",
+   "convertidos": "37",
+   "lift_vs_base_tag": "1.76",
+   "n": "1956",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Brasil Paralelo",
+   "nm_tag": "EVG",
+   "rpl": "5.76"
+  },
+  {
+   "conv_pct": "1.813",
+   "convertidos": "31",
+   "lift_vs_base_tag": "1.69",
+   "n": "1710",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Prime Video",
+   "nm_tag": "EVG",
+   "rpl": "4.13"
+  },
+  {
+   "conv_pct": "1.236",
+   "convertidos": "14",
+   "lift_vs_base_tag": "1.15",
+   "n": "1133",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "HBO Max",
+   "nm_tag": "EVG",
+   "rpl": "4.47"
+  },
+  {
+   "conv_pct": "1.009",
+   "convertidos": "11",
+   "lift_vs_base_tag": "0.94",
+   "n": "1090",
+   "nm_pergunta": "streaming",
+   "nm_resposta": "Plataformas educacionais (Hotmart, Udemy, Coursera)",
+   "nm_tag": "EVG",
+   "rpl": "3.3"
+  },
+  {
+   "conv_pct": "0.954",
+   "convertidos": "1112",
+   "lift_vs_base_tag": "0.89",
+   "n": "116520",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "__sem_resposta__",
+   "nm_tag": "EVG",
+   "rpl": "2.39"
+  },
+  {
+   "conv_pct": "0.815",
+   "convertidos": "94",
+   "lift_vs_base_tag": "0.76",
+   "n": "11528",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "Esse é meu primeiro contato",
+   "nm_tag": "EVG",
+   "rpl": "1.71"
+  },
+  {
+   "conv_pct": "1.871",
+   "convertidos": "157",
+   "lift_vs_base_tag": "1.74",
+   "n": "8393",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "Entre 1 e 3 anos",
+   "nm_tag": "EVG",
+   "rpl": "3.82"
+  },
+  {
+   "conv_pct": "2.013",
+   "convertidos": "121",
+   "lift_vs_base_tag": "1.87",
+   "n": "6011",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "Mais que 3 anos",
+   "nm_tag": "EVG",
+   "rpl": "4.84"
+  },
+  {
+   "conv_pct": "2.074",
+   "convertidos": "109",
+   "lift_vs_base_tag": "1.93",
+   "n": "5256",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "Entre 6 meses e 1 ano",
+   "nm_tag": "EVG",
+   "rpl": "4.04"
+  },
+  {
+   "conv_pct": "1.215",
+   "convertidos": "33",
+   "lift_vs_base_tag": "1.13",
+   "n": "2715",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "Até 6 meses",
+   "nm_tag": "EVG",
+   "rpl": "2.23"
+  },
+  {
+   "conv_pct": "0.626",
+   "convertidos": "11",
+   "lift_vs_base_tag": "0.58",
+   "n": "1756",
+   "nm_pergunta": "tempo_conhece_bp",
+   "nm_resposta": "Menos de um mês",
+   "nm_tag": "EVG",
+   "rpl": "1.18"
+  }
+ ],
+ "anuncios": [
+  {
+   "anuncio": "AD60 - [LAN] [BP10] Card torcida",
+   "conv_pct": "1.92",
+   "convertidos": "1",
+   "cpl": "2.71",
+   "cplq": "4.14",
+   "investimento": "140.83",
+   "iql_pct": "65.4",
+   "leads": "52",
+   "nm_a": "13",
+   "nm_tag": "BP10",
+   "qualificados": "34",
+   "rpl": "4.38"
+  },
+  {
+   "anuncio": "AD50 - [LAN] [BP10] VVS segredo daymon",
+   "conv_pct": "1.3",
+   "convertidos": "2",
+   "cpl": "3.8",
+   "cplq": "5.22",
+   "investimento": "585.13",
+   "iql_pct": "72.7",
+   "leads": "154",
+   "nm_a": "62",
+   "nm_tag": "BP10",
+   "qualificados": "112",
+   "rpl": "11.99"
+  },
+  {
+   "anuncio": "AD15 - [LAN] [EVG] Card caseiro 1",
+   "conv_pct": "1.95",
+   "convertidos": "3",
+   "cpl": "1.06",
+   "cplq": "5.26",
+   "investimento": "162.93",
+   "iql_pct": "20.1",
+   "leads": "154",
+   "nm_a": "10",
+   "nm_tag": "EVG",
+   "qualificados": "31",
+   "rpl": "3.25"
+  },
+  {
+   "anuncio": "AD95 - [LAN] [BP10] Card type",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "3.75",
+   "cplq": "6.1",
+   "investimento": "719.77",
+   "iql_pct": "61.5",
+   "leads": "192",
+   "nm_a": "42",
+   "nm_tag": "BP10",
+   "qualificados": "118",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD144 - [LAN] [BP10] Card lettering",
+   "conv_pct": "0.81",
+   "convertidos": "1",
+   "cpl": "3.17",
+   "cplq": "6.19",
+   "investimento": "390.03",
+   "iql_pct": "51.2",
+   "leads": "123",
+   "nm_a": "30",
+   "nm_tag": "BP10",
+   "qualificados": "63",
+   "rpl": "1.06"
+  },
+  {
+   "anuncio": "AD35 - [LAN] [EVG] VVS alinhamento politico",
+   "conv_pct": "2.58",
+   "convertidos": "10",
+   "cpl": "1.47",
+   "cplq": "6.34",
+   "investimento": "570.19",
+   "iql_pct": "23.3",
+   "leads": "387",
+   "nm_a": "13",
+   "nm_tag": "EVG",
+   "qualificados": "90",
+   "rpl": "7.45"
+  },
+  {
+   "anuncio": "AD50 - [LAN] [BP10] VVS segredo daymon",
+   "conv_pct": "0.9",
+   "convertidos": "17",
+   "cpl": "3.88",
+   "cplq": "6.48",
+   "investimento": "7312.1",
+   "iql_pct": "59.8",
+   "leads": "1885",
+   "nm_a": "553",
+   "nm_tag": "BP10",
+   "qualificados": "1128",
+   "rpl": "2.92"
+  },
+  {
+   "anuncio": "AD41 - [LAN] [BP10] VVS janela em direção a fiesp",
+   "conv_pct": "1.98",
+   "convertidos": "121",
+   "cpl": "3.71",
+   "cplq": "6.82",
+   "investimento": "22675.62",
+   "iql_pct": "54.5",
+   "leads": "6108",
+   "nm_a": "1677",
+   "nm_tag": "BP10",
+   "qualificados": "3327",
+   "rpl": "10.94"
+  },
+  {
+   "anuncio": "AD15 - [LAN] [BP10] Card presente white",
+   "conv_pct": "3.28",
+   "convertidos": "4",
+   "cpl": "4.96",
+   "cplq": "7.76",
+   "investimento": "605.6",
+   "iql_pct": "63.9",
+   "leads": "122",
+   "nm_a": "37",
+   "nm_tag": "BP10",
+   "qualificados": "78",
+   "rpl": "30.2"
+  },
+  {
+   "anuncio": "AD153 - [LAN] [BP10] Card all type boxlight",
+   "conv_pct": "1.34",
+   "convertidos": "4",
+   "cpl": "4.12",
+   "cplq": "7.82",
+   "investimento": "1227.5",
+   "iql_pct": "52.7",
+   "leads": "298",
+   "nm_a": "74",
+   "nm_tag": "BP10",
+   "qualificados": "157",
+   "rpl": "3.25"
+  },
+  {
+   "anuncio": "AD161 - [LAN] [BP10] VVS pov convite",
+   "conv_pct": "1.85",
+   "convertidos": "1",
+   "cpl": "4.06",
+   "cplq": "7.84",
+   "investimento": "219.5",
+   "iql_pct": "51.9",
+   "leads": "54",
+   "nm_a": "14",
+   "nm_tag": "BP10",
+   "qualificados": "28",
+   "rpl": "2.42"
+  },
+  {
+   "anuncio": "AD95 - [LAN] [BP10] Card type",
+   "conv_pct": "1.39",
+   "convertidos": "21",
+   "cpl": "4.35",
+   "cplq": "7.98",
+   "investimento": "6584.47",
+   "iql_pct": "54.5",
+   "leads": "1513",
+   "nm_a": "381",
+   "nm_tag": "BP10",
+   "qualificados": "825",
+   "rpl": "4.54"
+  },
+  {
+   "anuncio": "AD95 - [LAN] [BP10] Card type",
+   "conv_pct": "1.04",
+   "convertidos": "31",
+   "cpl": "3.69",
+   "cplq": "8.14",
+   "investimento": "10961.44",
+   "iql_pct": "45.4",
+   "leads": "2968",
+   "nm_a": "633",
+   "nm_tag": "BP10",
+   "qualificados": "1347",
+   "rpl": "3.21"
+  },
+  {
+   "anuncio": "AD98 - [LAN] [BP10] Card envelope",
+   "conv_pct": "0.86",
+   "convertidos": "1",
+   "cpl": "3.39",
+   "cplq": "8.54",
+   "investimento": "392.68",
+   "iql_pct": "39.7",
+   "leads": "116",
+   "nm_a": "24",
+   "nm_tag": "BP10",
+   "qualificados": "46",
+   "rpl": "1.13"
+  },
+  {
+   "anuncio": "AD60 - [LAN] [BP10] Card torcida",
+   "conv_pct": "1.57",
+   "convertidos": "16",
+   "cpl": "4.29",
+   "cplq": "8.64",
+   "investimento": "4381.78",
+   "iql_pct": "49.6",
+   "leads": "1022",
+   "nm_a": "290",
+   "nm_tag": "BP10",
+   "qualificados": "507",
+   "rpl": "5.35"
+  },
+  {
+   "anuncio": "AD138 - [LAN] [BP10] VVS ricardo salles influ",
+   "conv_pct": "1.82",
+   "convertidos": "6",
+   "cpl": "3.82",
+   "cplq": "8.81",
+   "investimento": "1259.58",
+   "iql_pct": "43.3",
+   "leads": "330",
+   "nm_a": "79",
+   "nm_tag": "BP10",
+   "qualificados": "143",
+   "rpl": "3.57"
+  },
+  {
+   "anuncio": "AD137 - [LAN] [BP10] VVS pablo marçal influ",
+   "conv_pct": "1.06",
+   "convertidos": "7",
+   "cpl": "4.24",
+   "cplq": "8.85",
+   "investimento": "2788.17",
+   "iql_pct": "47.9",
+   "leads": "658",
+   "nm_a": "184",
+   "nm_tag": "BP10",
+   "qualificados": "315",
+   "rpl": "1.9"
+  },
+  {
+   "anuncio": "AD33 - [LAN] [BP10] Card simples preto",
+   "conv_pct": "1.45",
+   "convertidos": "7",
+   "cpl": "3.89",
+   "cplq": "8.88",
+   "investimento": "1881.98",
+   "iql_pct": "43.8",
+   "leads": "484",
+   "nm_a": "106",
+   "nm_tag": "BP10",
+   "qualificados": "212",
+   "rpl": "6.11"
+  },
+  {
+   "anuncio": "AD21 - [LAN] [EVG] VVS 1990",
+   "conv_pct": "1.26",
+   "convertidos": "54",
+   "cpl": "1.03",
+   "cplq": "8.99",
+   "investimento": "4395.87",
+   "iql_pct": "11.4",
+   "leads": "4287",
+   "nm_a": "131",
+   "nm_tag": "EVG",
+   "qualificados": "489",
+   "rpl": "3.45"
+  },
+  {
+   "anuncio": "AD143 - [LAN] [BP10] Card hud telefone",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "4.22",
+   "cplq": "9.03",
+   "investimento": "379.39",
+   "iql_pct": "46.7",
+   "leads": "90",
+   "nm_a": "20",
+   "nm_tag": "BP10",
+   "qualificados": "42",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD138 - [LAN] [BP10] VVS ricardo salles influ",
+   "conv_pct": "1.55",
+   "convertidos": "3",
+   "cpl": "4.68",
+   "cplq": "9.18",
+   "investimento": "908.49",
+   "iql_pct": "51.0",
+   "leads": "194",
+   "nm_a": "54",
+   "nm_tag": "BP10",
+   "qualificados": "99",
+   "rpl": "3.69"
+  },
+  {
+   "anuncio": "AD27 - [LAN] [BP10] Card all type",
+   "conv_pct": "2.08",
+   "convertidos": "5",
+   "cpl": "4.71",
+   "cplq": "9.34",
+   "investimento": "1130.09",
+   "iql_pct": "50.4",
+   "leads": "240",
+   "nm_a": "50",
+   "nm_tag": "BP10",
+   "qualificados": "121",
+   "rpl": "10.59"
+  },
+  {
+   "anuncio": "AD161 - [LAN] [BP10] VVS pov convite",
+   "conv_pct": "1.16",
+   "convertidos": "2",
+   "cpl": "4.33",
+   "cplq": "9.43",
+   "investimento": "744.84",
+   "iql_pct": "45.9",
+   "leads": "172",
+   "nm_a": "32",
+   "nm_tag": "BP10",
+   "qualificados": "79",
+   "rpl": "1.52"
+  },
+  {
+   "anuncio": "AD33 - [LAN] [EVG] VVS cta isolado",
+   "conv_pct": "1.14",
+   "convertidos": "22",
+   "cpl": "1.29",
+   "cplq": "9.85",
+   "investimento": "2492.69",
+   "iql_pct": "13.1",
+   "leads": "1938",
+   "nm_a": "65",
+   "nm_tag": "EVG",
+   "qualificados": "253",
+   "rpl": "3.14"
+  },
+  {
+   "anuncio": "AD08 - [LAN] [EVG] Card convite",
+   "conv_pct": "1.88",
+   "convertidos": "21",
+   "cpl": "2.07",
+   "cplq": "10.53",
+   "investimento": "2316.83",
+   "iql_pct": "19.7",
+   "leads": "1119",
+   "nm_a": "61",
+   "nm_tag": "EVG",
+   "qualificados": "220",
+   "rpl": "5.32"
+  },
+  {
+   "anuncio": "AD24 - [LAN] [BP10] Card gaveta",
+   "conv_pct": "0.45",
+   "convertidos": "1",
+   "cpl": "5.97",
+   "cplq": "10.7",
+   "investimento": "1326.36",
+   "iql_pct": "55.9",
+   "leads": "222",
+   "nm_a": "51",
+   "nm_tag": "BP10",
+   "qualificados": "124",
+   "rpl": "0.59"
+  },
+  {
+   "anuncio": "AD153 - [LAN] [BP10] Card all type boxlight",
+   "conv_pct": "1.18",
+   "convertidos": "4",
+   "cpl": "4.22",
+   "cplq": "10.72",
+   "investimento": "1425.23",
+   "iql_pct": "39.3",
+   "leads": "338",
+   "nm_a": "81",
+   "nm_tag": "BP10",
+   "qualificados": "133",
+   "rpl": "1.87"
+  },
+  {
+   "anuncio": "AD137 - [LAN] [BP10] VVS pablo marçal influ",
+   "conv_pct": "2.15",
+   "convertidos": "14",
+   "cpl": "4.42",
+   "cplq": "11.03",
+   "investimento": "2878.67",
+   "iql_pct": "40.0",
+   "leads": "652",
+   "nm_a": "133",
+   "nm_tag": "BP10",
+   "qualificados": "261",
+   "rpl": "3.67"
+  },
+  {
+   "anuncio": "AD153 - [LAN] [BP10] Card all type boxlight",
+   "conv_pct": "0.49",
+   "convertidos": "1",
+   "cpl": "4.45",
+   "cplq": "11.18",
+   "investimento": "916.66",
+   "iql_pct": "39.8",
+   "leads": "206",
+   "nm_a": "45",
+   "nm_tag": "BP10",
+   "qualificados": "82",
+   "rpl": "0.63"
+  },
+  {
+   "anuncio": "AD127 - [LAN] [EVG] VVS love me",
+   "conv_pct": "1.7",
+   "convertidos": "329",
+   "cpl": "3.36",
+   "cplq": "11.78",
+   "investimento": "65030.53",
+   "iql_pct": "28.6",
+   "leads": "19328",
+   "nm_a": "2578",
+   "nm_tag": "EVG",
+   "qualificados": "5521",
+   "rpl": "4.02"
+  },
+  {
+   "anuncio": "AD167 - [LAN] [BP10] VVS ref senna influs ratinho roberto motta alexandre garcia",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "4.93",
+   "cplq": "11.91",
+   "investimento": "285.8",
+   "iql_pct": "41.4",
+   "leads": "58",
+   "nm_a": "11",
+   "nm_tag": "BP10",
+   "qualificados": "24",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD90 - [LAN] [EVG] Card jesus cartaz",
+   "conv_pct": "1.39",
+   "convertidos": "1",
+   "cpl": "4.09",
+   "cplq": "12.27",
+   "investimento": "294.48",
+   "iql_pct": "33.3",
+   "leads": "72",
+   "nm_a": "10",
+   "nm_tag": "EVG",
+   "qualificados": "24",
+   "rpl": "3.63"
+  },
+  {
+   "anuncio": "AD03 - [LAN] [EVG] VVS 1990 curto",
+   "conv_pct": "1.73",
+   "convertidos": "164",
+   "cpl": "2.61",
+   "cplq": "12.66",
+   "investimento": "24720.45",
+   "iql_pct": "20.6",
+   "leads": "9489",
+   "nm_a": "573",
+   "nm_tag": "EVG",
+   "qualificados": "1953",
+   "rpl": "5.43"
+  },
+  {
+   "anuncio": "AD67 - [LAN] [BP10] Card fan fest",
+   "conv_pct": "0.71",
+   "convertidos": "4",
+   "cpl": "4.88",
+   "cplq": "12.92",
+   "investimento": "2765.19",
+   "iql_pct": "37.7",
+   "leads": "567",
+   "nm_a": "120",
+   "nm_tag": "BP10",
+   "qualificados": "214",
+   "rpl": "3.4"
+  },
+  {
+   "anuncio": "AD41 - [LAN] [BP10] VVS janela em direção a fiesp",
+   "conv_pct": "2.41",
+   "convertidos": "4",
+   "cpl": "4.74",
+   "cplq": "13.58",
+   "investimento": "787.36",
+   "iql_pct": "34.9",
+   "leads": "166",
+   "nm_a": "38",
+   "nm_tag": "BP10",
+   "qualificados": "58",
+   "rpl": "11.03"
+  },
+  {
+   "anuncio": "AD50 - [LAN] [BP10] VVS segredo daymon",
+   "conv_pct": "0.54",
+   "convertidos": "1",
+   "cpl": "4.88",
+   "cplq": "13.6",
+   "investimento": "897.56",
+   "iql_pct": "35.9",
+   "leads": "184",
+   "nm_a": "45",
+   "nm_tag": "BP10",
+   "qualificados": "66",
+   "rpl": "9.07"
+  },
+  {
+   "anuncio": "AD39 - [LAN] [EVG] Card adapt campeao convite",
+   "conv_pct": "1.78",
+   "convertidos": "13",
+   "cpl": "2.68",
+   "cplq": "13.64",
+   "investimento": "1950.2",
+   "iql_pct": "19.6",
+   "leads": "729",
+   "nm_a": "51",
+   "nm_tag": "EVG",
+   "qualificados": "143",
+   "rpl": "8.78"
+  },
+  {
+   "anuncio": "AD54 - [LAN] [EVG] VVS 40 anos",
+   "conv_pct": "1.18",
+   "convertidos": "43",
+   "cpl": "2.73",
+   "cplq": "13.67",
+   "investimento": "9993.48",
+   "iql_pct": "20.0",
+   "leads": "3654",
+   "nm_a": "336",
+   "nm_tag": "EVG",
+   "qualificados": "731",
+   "rpl": "2.38"
+  },
+  {
+   "anuncio": "AD196 - [LAN] [EVG] VVS o monge",
+   "conv_pct": "1.66",
+   "convertidos": "41",
+   "cpl": "4.02",
+   "cplq": "14.1",
+   "investimento": "9940.71",
+   "iql_pct": "28.5",
+   "leads": "2472",
+   "nm_a": "245",
+   "nm_tag": "EVG",
+   "qualificados": "705",
+   "rpl": "3.55"
+  },
+  {
+   "anuncio": "AD05 - [LAN] [EVG] VVS a virada curto",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "3.57",
+   "cplq": "14.28",
+   "investimento": "456.85",
+   "iql_pct": "25.0",
+   "leads": "128",
+   "nm_a": "18",
+   "nm_tag": "EVG",
+   "qualificados": "32",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD05 - [LAN] [EVG] VVS a virada curto",
+   "conv_pct": "1.58",
+   "convertidos": "21",
+   "cpl": "2.46",
+   "cplq": "14.57",
+   "investimento": "3262.91",
+   "iql_pct": "16.9",
+   "leads": "1328",
+   "nm_a": "59",
+   "nm_tag": "EVG",
+   "qualificados": "224",
+   "rpl": "3.26"
+  },
+  {
+   "anuncio": "AD03 - [LAN] [EVG] VVS 1990 longo",
+   "conv_pct": "1.52",
+   "convertidos": "1",
+   "cpl": "3.16",
+   "cplq": "14.92",
+   "investimento": "208.87",
+   "iql_pct": "21.2",
+   "leads": "66",
+   "nm_a": "2",
+   "nm_tag": "EVG",
+   "qualificados": "14",
+   "rpl": "3.96"
+  },
+  {
+   "anuncio": "AD103 - [LAN] [EVG] Card entrevistados teo silas jack",
+   "conv_pct": "1.47",
+   "convertidos": "19",
+   "cpl": "4.25",
+   "cplq": "14.98",
+   "investimento": "5481.54",
+   "iql_pct": "28.4",
+   "leads": "1289",
+   "nm_a": "194",
+   "nm_tag": "EVG",
+   "qualificados": "366",
+   "rpl": "3.17"
+  },
+  {
+   "anuncio": "AD03 - [LAN] [EVG] VVS 1990 longo",
+   "conv_pct": "1.34",
+   "convertidos": "6",
+   "cpl": "2.33",
+   "cplq": "15.33",
+   "investimento": "1042.35",
+   "iql_pct": "15.2",
+   "leads": "448",
+   "nm_a": "19",
+   "nm_tag": "EVG",
+   "qualificados": "68",
+   "rpl": "2.63"
+  },
+  {
+   "anuncio": "AD127 - [LAN] [EVG] VVS love me",
+   "conv_pct": "1.02",
+   "convertidos": "11",
+   "cpl": "4.4",
+   "cplq": "15.39",
+   "investimento": "4755.53",
+   "iql_pct": "28.6",
+   "leads": "1082",
+   "nm_a": "171",
+   "nm_tag": "EVG",
+   "qualificados": "309",
+   "rpl": "1.84"
+  },
+  {
+   "anuncio": "AD54 - [LAN] [EVG] VVS 40 anos",
+   "conv_pct": "0.9",
+   "convertidos": "12",
+   "cpl": "3.44",
+   "cplq": "15.48",
+   "investimento": "4582.3",
+   "iql_pct": "22.2",
+   "leads": "1332",
+   "nm_a": "151",
+   "nm_tag": "EVG",
+   "qualificados": "296",
+   "rpl": "2.06"
+  },
+  {
+   "anuncio": "AD27 - [LAN] [EVG] VVS 7x1",
+   "conv_pct": "0.93",
+   "convertidos": "7",
+   "cpl": "3.06",
+   "cplq": "15.64",
+   "investimento": "2299.29",
+   "iql_pct": "19.5",
+   "leads": "752",
+   "nm_a": "51",
+   "nm_tag": "EVG",
+   "qualificados": "147",
+   "rpl": "1.98"
+  },
+  {
+   "anuncio": "AD128 - [LAN] [EVG] VVS dois suecos",
+   "conv_pct": "1.21",
+   "convertidos": "80",
+   "cpl": "3.22",
+   "cplq": "15.71",
+   "investimento": "21244.51",
+   "iql_pct": "20.5",
+   "leads": "6590",
+   "nm_a": "800",
+   "nm_tag": "EVG",
+   "qualificados": "1352",
+   "rpl": "2.89"
+  },
+  {
+   "anuncio": "AD46 - [LAN] [EVG] VVS choque entre camadas",
+   "conv_pct": "1.23",
+   "convertidos": "1",
+   "cpl": "3.49",
+   "cplq": "15.72",
+   "investimento": "282.99",
+   "iql_pct": "22.2",
+   "leads": "81",
+   "nm_a": "5",
+   "nm_tag": "EVG",
+   "qualificados": "18",
+   "rpl": "1.61"
+  },
+  {
+   "anuncio": "AD50 - [LAN] [BP10] VVS segredo daymon",
+   "conv_pct": "1.72",
+   "convertidos": "1",
+   "cpl": "5.18",
+   "cplq": "15.8",
+   "investimento": "300.16",
+   "iql_pct": "32.8",
+   "leads": "58",
+   "nm_a": "15",
+   "nm_tag": "BP10",
+   "qualificados": "19",
+   "rpl": "4.51"
+  },
+  {
+   "anuncio": "AD103 - [LAN] [EVG] Card entrevistados teo silas jack",
+   "conv_pct": "0.93",
+   "convertidos": "7",
+   "cpl": "3.79",
+   "cplq": "15.86",
+   "investimento": "2839.7",
+   "iql_pct": "23.9",
+   "leads": "749",
+   "nm_a": "86",
+   "nm_tag": "EVG",
+   "qualificados": "179",
+   "rpl": "1.92"
+  },
+  {
+   "anuncio": "AD98 - [LAN] [BP10] Card envelope",
+   "conv_pct": "0.67",
+   "convertidos": "11",
+   "cpl": "4.49",
+   "cplq": "16.56",
+   "investimento": "7383.65",
+   "iql_pct": "27.1",
+   "leads": "1646",
+   "nm_a": "281",
+   "nm_tag": "BP10",
+   "qualificados": "446",
+   "rpl": "1.28"
+  },
+  {
+   "anuncio": "AD103 - [LAN] [EVG] Card entrevistados teo silas jack",
+   "conv_pct": "1.59",
+   "convertidos": "6",
+   "cpl": "4.88",
+   "cplq": "16.61",
+   "investimento": "1843.92",
+   "iql_pct": "29.4",
+   "leads": "378",
+   "nm_a": "47",
+   "nm_tag": "EVG",
+   "qualificados": "111",
+   "rpl": "5.84"
+  },
+  {
+   "anuncio": "AD95 - [LAN] [BP10] Card type",
+   "conv_pct": "0.68",
+   "convertidos": "1",
+   "cpl": "4.6",
+   "cplq": "16.61",
+   "investimento": "681.04",
+   "iql_pct": "27.7",
+   "leads": "148",
+   "nm_a": "30",
+   "nm_tag": "BP10",
+   "qualificados": "41",
+   "rpl": "3.23"
+  },
+  {
+   "anuncio": "AD88 - [LAN] [EVG] VVS punchs marcha | v8",
+   "conv_pct": "1.5",
+   "convertidos": "23",
+   "cpl": "3.87",
+   "cplq": "16.63",
+   "investimento": "5936.98",
+   "iql_pct": "23.2",
+   "leads": "1536",
+   "nm_a": "121",
+   "nm_tag": "EVG",
+   "qualificados": "357",
+   "rpl": "6.21"
+  },
+  {
+   "anuncio": "AD03 - [LAN] [EVG] VVS 1990 curto",
+   "conv_pct": "0.75",
+   "convertidos": "3",
+   "cpl": "3.91",
+   "cplq": "17.29",
+   "investimento": "1573.8",
+   "iql_pct": "22.6",
+   "leads": "402",
+   "nm_a": "38",
+   "nm_tag": "EVG",
+   "qualificados": "91",
+   "rpl": "1.04"
+  },
+  {
+   "anuncio": "AD15 - [LAN] [BP10] Card presente white",
+   "conv_pct": "0.6",
+   "convertidos": "14",
+   "cpl": "4.85",
+   "cplq": "17.82",
+   "investimento": "11295.71",
+   "iql_pct": "27.2",
+   "leads": "2330",
+   "nm_a": "376",
+   "nm_tag": "BP10",
+   "qualificados": "634",
+   "rpl": "3.03"
+  },
+  {
+   "anuncio": "AD128 - [LAN] [EVG] VVS dois suecos",
+   "conv_pct": "1.12",
+   "convertidos": "13",
+   "cpl": "3.94",
+   "cplq": "18.2",
+   "investimento": "4586.31",
+   "iql_pct": "21.6",
+   "leads": "1165",
+   "nm_a": "104",
+   "nm_tag": "EVG",
+   "qualificados": "252",
+   "rpl": "3.1"
+  },
+  {
+   "anuncio": "AD04 - [LAN] [EVG] VVS alinhamento politico curto",
+   "conv_pct": "0.91",
+   "convertidos": "2",
+   "cpl": "4.96",
+   "cplq": "18.49",
+   "investimento": "1090.93",
+   "iql_pct": "26.8",
+   "leads": "220",
+   "nm_a": "21",
+   "nm_tag": "EVG",
+   "qualificados": "59",
+   "rpl": "1.19"
+  },
+  {
+   "anuncio": "AD38 - [LAN] [EVG] VVS react cena teo",
+   "conv_pct": "0.99",
+   "convertidos": "20",
+   "cpl": "3.73",
+   "cplq": "18.67",
+   "investimento": "7522.08",
+   "iql_pct": "20.0",
+   "leads": "2015",
+   "nm_a": "230",
+   "nm_tag": "EVG",
+   "qualificados": "403",
+   "rpl": "1.64"
+  },
+  {
+   "anuncio": "AD07 - [LAN] [EVG] Card convite",
+   "conv_pct": "1.73",
+   "convertidos": "9",
+   "cpl": "3.42",
+   "cplq": "18.73",
+   "investimento": "1779.6",
+   "iql_pct": "18.3",
+   "leads": "520",
+   "nm_a": "25",
+   "nm_tag": "EVG",
+   "qualificados": "95",
+   "rpl": "3.12"
+  },
+  {
+   "anuncio": "AD101 - [LAN] [EVG] VVS teocracia 2 | v1",
+   "conv_pct": "1.02",
+   "convertidos": "9",
+   "cpl": "4.21",
+   "cplq": "18.74",
+   "investimento": "3729.81",
+   "iql_pct": "22.5",
+   "leads": "886",
+   "nm_a": "97",
+   "nm_tag": "EVG",
+   "qualificados": "199",
+   "rpl": "2.48"
+  },
+  {
+   "anuncio": "AD96 - [LAN] [EVG] Card assista gratis",
+   "conv_pct": "0.7",
+   "convertidos": "11",
+   "cpl": "5.66",
+   "cplq": "19.05",
+   "investimento": "8933.19",
+   "iql_pct": "29.7",
+   "leads": "1577",
+   "nm_a": "207",
+   "nm_tag": "EVG",
+   "qualificados": "469",
+   "rpl": "1.05"
+  },
+  {
+   "anuncio": "AD33 - [LAN] [BP10] Card simples preto",
+   "conv_pct": "1.35",
+   "convertidos": "1",
+   "cpl": "3.63",
+   "cplq": "19.19",
+   "investimento": "268.64",
+   "iql_pct": "18.9",
+   "leads": "74",
+   "nm_a": "10",
+   "nm_tag": "BP10",
+   "qualificados": "14",
+   "rpl": "3.54"
+  },
+  {
+   "anuncio": "AD195 - [LAN] [EVG] VVS a folha",
+   "conv_pct": "1.2",
+   "convertidos": "50",
+   "cpl": "4.08",
+   "cplq": "19.2",
+   "investimento": "17053.89",
+   "iql_pct": "21.2",
+   "leads": "4182",
+   "nm_a": "393",
+   "nm_tag": "EVG",
+   "qualificados": "888",
+   "rpl": "2.7"
+  },
+  {
+   "anuncio": "AD13 - [LAN] [EVG] Card novo documentario",
+   "conv_pct": "1.33",
+   "convertidos": "1",
+   "cpl": "3.87",
+   "cplq": "19.37",
+   "investimento": "290.58",
+   "iql_pct": "20.0",
+   "leads": "75",
+   "nm_a": "7",
+   "nm_tag": "EVG",
+   "qualificados": "15",
+   "rpl": "1.74"
+  },
+  {
+   "anuncio": "AD88 - [LAN] [EVG] VVS punchs marcha | v6",
+   "conv_pct": "1.06",
+   "convertidos": "6",
+   "cpl": "3.61",
+   "cplq": "19.42",
+   "investimento": "2039.38",
+   "iql_pct": "18.6",
+   "leads": "565",
+   "nm_a": "50",
+   "nm_tag": "EVG",
+   "qualificados": "105",
+   "rpl": "1.64"
+  },
+  {
+   "anuncio": "AD159  - [LAN] [EVG] Card jesus cartaz adapt",
+   "conv_pct": "4.05",
+   "convertidos": "3",
+   "cpl": "4.02",
+   "cplq": "19.83",
+   "investimento": "297.39",
+   "iql_pct": "20.3",
+   "leads": "74",
+   "nm_a": "7",
+   "nm_tag": "EVG",
+   "qualificados": "15",
+   "rpl": "9.03"
+  },
+  {
+   "anuncio": "AD16 - [LAN] [EVG] VVS podcast historia brasil longo",
+   "conv_pct": "1.92",
+   "convertidos": "27",
+   "cpl": "3.83",
+   "cplq": "19.93",
+   "investimento": "5381.78",
+   "iql_pct": "19.2",
+   "leads": "1407",
+   "nm_a": "104",
+   "nm_tag": "EVG",
+   "qualificados": "270",
+   "rpl": "4.15"
+  },
+  {
+   "anuncio": "AD96 - [LAN] [EVG] Card assista gratis",
+   "conv_pct": "1.23",
+   "convertidos": "6",
+   "cpl": "4.55",
+   "cplq": "20.0",
+   "investimento": "2220.12",
+   "iql_pct": "22.7",
+   "leads": "488",
+   "nm_a": "49",
+   "nm_tag": "EVG",
+   "qualificados": "111",
+   "rpl": "2.32"
+  },
+  {
+   "anuncio": "AD143 - [LAN] [BP10] Card hud telefone",
+   "conv_pct": "0.8",
+   "convertidos": "1",
+   "cpl": "5.77",
+   "cplq": "20.03",
+   "investimento": "721.01",
+   "iql_pct": "28.8",
+   "leads": "125",
+   "nm_a": "23",
+   "nm_tag": "BP10",
+   "qualificados": "36",
+   "rpl": "1.05"
+  },
+  {
+   "anuncio": "AD14 - [LAN] [EVG] VVS fenomeno longo",
+   "conv_pct": "0.52",
+   "convertidos": "1",
+   "cpl": "5.05",
+   "cplq": "20.21",
+   "investimento": "970.21",
+   "iql_pct": "25.0",
+   "leads": "192",
+   "nm_a": "17",
+   "nm_tag": "EVG",
+   "qualificados": "48",
+   "rpl": "0.68"
+  },
+  {
+   "anuncio": "AD165  - [LAN] [EVG] VVS punch marcha | v6 adapt",
+   "conv_pct": "1.63",
+   "convertidos": "4",
+   "cpl": "4.45",
+   "cplq": "20.27",
+   "investimento": "1094.55",
+   "iql_pct": "22.0",
+   "leads": "246",
+   "nm_a": "38",
+   "nm_tag": "EVG",
+   "qualificados": "54",
+   "rpl": "3.19"
+  },
+  {
+   "anuncio": "AD17 - [LAN] [EVG] VVS universidade",
+   "conv_pct": "1.32",
+   "convertidos": "2",
+   "cpl": "3.81",
+   "cplq": "20.7",
+   "investimento": "579.48",
+   "iql_pct": "18.4",
+   "leads": "152",
+   "nm_a": "16",
+   "nm_tag": "EVG",
+   "qualificados": "28",
+   "rpl": "3.29"
+  },
+  {
+   "anuncio": "AD88 - [LAN] [EVG] VVS punchs marcha | v8",
+   "conv_pct": "1.02",
+   "convertidos": "20",
+   "cpl": "3.95",
+   "cplq": "20.75",
+   "investimento": "7741.21",
+   "iql_pct": "19.1",
+   "leads": "1958",
+   "nm_a": "210",
+   "nm_tag": "EVG",
+   "qualificados": "373",
+   "rpl": "1.84"
+  },
+  {
+   "anuncio": "AD21 - [LAN] [BP10] Card simples",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "7.41",
+   "cplq": "21.17",
+   "investimento": "1333.56",
+   "iql_pct": "35.0",
+   "leads": "180",
+   "nm_a": "41",
+   "nm_tag": "BP10",
+   "qualificados": "63",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD14 - [LAN] [EVG] VVS fenomeno longo",
+   "conv_pct": "0.5",
+   "convertidos": "1",
+   "cpl": "4.61",
+   "cplq": "21.35",
+   "investimento": "918.2",
+   "iql_pct": "21.6",
+   "leads": "199",
+   "nm_a": "11",
+   "nm_tag": "EVG",
+   "qualificados": "43",
+   "rpl": "0.66"
+  },
+  {
+   "anuncio": "AD57 - [LAN] [EVG] Card cruz e congresso",
+   "conv_pct": "2.27",
+   "convertidos": "2",
+   "cpl": "5.86",
+   "cplq": "21.5",
+   "investimento": "515.94",
+   "iql_pct": "27.3",
+   "leads": "88",
+   "nm_a": "9",
+   "nm_tag": "EVG",
+   "qualificados": "24",
+   "rpl": "4.62"
+  },
+  {
+   "anuncio": "AD95 - [LAN] [BP10] Card type",
+   "conv_pct": "1.42",
+   "convertidos": "14",
+   "cpl": "9.02",
+   "cplq": "21.91",
+   "investimento": "8916.01",
+   "iql_pct": "41.2",
+   "leads": "989",
+   "nm_a": "225",
+   "nm_tag": "BP10",
+   "qualificados": "407",
+   "rpl": "3.15"
+  },
+  {
+   "anuncio": "AD127 - [LAN] [EVG] VVS love me",
+   "conv_pct": "0.92",
+   "convertidos": "33",
+   "cpl": "4.17",
+   "cplq": "22.15",
+   "investimento": "14930.52",
+   "iql_pct": "18.8",
+   "leads": "3584",
+   "nm_a": "343",
+   "nm_tag": "EVG",
+   "qualificados": "674",
+   "rpl": "2.11"
+  },
+  {
+   "anuncio": "AD180 - [LAN] [EVG] VVS o meio e a mensagem",
+   "conv_pct": "0.51",
+   "convertidos": "1",
+   "cpl": "4.62",
+   "cplq": "22.31",
+   "investimento": "914.51",
+   "iql_pct": "20.7",
+   "leads": "198",
+   "nm_a": "20",
+   "nm_tag": "EVG",
+   "qualificados": "41",
+   "rpl": "2.41"
+  },
+  {
+   "anuncio": "AD142  - [LAN] [EVG] VVS trailer evg | v1",
+   "conv_pct": "1.01",
+   "convertidos": "1",
+   "cpl": "6.34",
+   "cplq": "22.43",
+   "investimento": "627.92",
+   "iql_pct": "28.3",
+   "leads": "99",
+   "nm_a": "18",
+   "nm_tag": "EVG",
+   "qualificados": "28",
+   "rpl": "1.32"
+  },
+  {
+   "anuncio": "AD38 - [LAN] [EVG] VVS react cena teo",
+   "conv_pct": "1.58",
+   "convertidos": "7",
+   "cpl": "4.6",
+   "cplq": "22.45",
+   "investimento": "2042.58",
+   "iql_pct": "20.5",
+   "leads": "444",
+   "nm_a": "31",
+   "nm_tag": "EVG",
+   "qualificados": "91",
+   "rpl": "3.24"
+  },
+  {
+   "anuncio": "AD166  - [LAN] [EVG] VVS teocracia 2 adapt",
+   "conv_pct": "0.72",
+   "convertidos": "11",
+   "cpl": "3.62",
+   "cplq": "22.46",
+   "investimento": "5570.5",
+   "iql_pct": "16.1",
+   "leads": "1538",
+   "nm_a": "145",
+   "nm_tag": "EVG",
+   "qualificados": "248",
+   "rpl": "1.42"
+  },
+  {
+   "anuncio": "AD219 - [LAN] [EVG] Card fenomenos sociais direto",
+   "conv_pct": "0.83",
+   "convertidos": "7",
+   "cpl": "4.24",
+   "cplq": "22.62",
+   "investimento": "3597.12",
+   "iql_pct": "18.8",
+   "leads": "848",
+   "nm_a": "75",
+   "nm_tag": "EVG",
+   "qualificados": "159",
+   "rpl": "1.67"
+  },
+  {
+   "anuncio": "AD03 - [LAN] [EVG] VVS 1990 curto",
+   "conv_pct": "4.0",
+   "convertidos": "3",
+   "cpl": "4.28",
+   "cplq": "22.95",
+   "investimento": "321.23",
+   "iql_pct": "18.7",
+   "leads": "75",
+   "nm_a": "3",
+   "nm_tag": "EVG",
+   "qualificados": "14",
+   "rpl": "14.14"
+  },
+  {
+   "anuncio": "AD101 - [LAN] [EVG] VVS teocracia 2 | v1",
+   "conv_pct": "0.73",
+   "convertidos": "18",
+   "cpl": "3.49",
+   "cplq": "22.98",
+   "investimento": "8661.78",
+   "iql_pct": "15.2",
+   "leads": "2482",
+   "nm_a": "241",
+   "nm_tag": "EVG",
+   "qualificados": "377",
+   "rpl": "1.93"
+  },
+  {
+   "anuncio": "AD69 - [LAN] [BP10] Card presentes v2",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "4.82",
+   "cplq": "22.98",
+   "investimento": "597.43",
+   "iql_pct": "21.0",
+   "leads": "124",
+   "nm_a": "16",
+   "nm_tag": "BP10",
+   "qualificados": "26",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD16 - [LAN] [EVG] VVS podcast historia brasil longo",
+   "conv_pct": "0.87",
+   "convertidos": "79",
+   "cpl": "3.38",
+   "cplq": "23.01",
+   "investimento": "30579.76",
+   "iql_pct": "14.7",
+   "leads": "9039",
+   "nm_a": "728",
+   "nm_tag": "EVG",
+   "qualificados": "1329",
+   "rpl": "1.97"
+  },
+  {
+   "anuncio": "AD167  - [LAN] [EVG] VVS os dois suecos adapt",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "4.21",
+   "cplq": "23.56",
+   "investimento": "636.04",
+   "iql_pct": "17.9",
+   "leads": "151",
+   "nm_a": "14",
+   "nm_tag": "EVG",
+   "qualificados": "27",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD05 - [LAN] [EVG] VVS a virada curto",
+   "conv_pct": "2.04",
+   "convertidos": "12",
+   "cpl": "5.08",
+   "cplq": "23.87",
+   "investimento": "2984.31",
+   "iql_pct": "21.3",
+   "leads": "587",
+   "nm_a": "41",
+   "nm_tag": "EVG",
+   "qualificados": "125",
+   "rpl": "7.67"
+  },
+  {
+   "anuncio": "AD28 - [LAN] [EVG] VVS uma historia",
+   "conv_pct": "1.17",
+   "convertidos": "80",
+   "cpl": "3.17",
+   "cplq": "23.9",
+   "investimento": "21631.75",
+   "iql_pct": "13.3",
+   "leads": "6814",
+   "nm_a": "362",
+   "nm_tag": "EVG",
+   "qualificados": "905",
+   "rpl": "2.52"
+  },
+  {
+   "anuncio": "AD219 - [LAN] [EVG] Card fenomenos sociais direto",
+   "conv_pct": "0.94",
+   "convertidos": "4",
+   "cpl": "5.54",
+   "cplq": "24.83",
+   "investimento": "2358.7",
+   "iql_pct": "22.3",
+   "leads": "426",
+   "nm_a": "42",
+   "nm_tag": "EVG",
+   "qualificados": "95",
+   "rpl": "1.99"
+  },
+  {
+   "anuncio": "AD41 - [LAN] [BP10] VVS janela em direção a fiesp",
+   "conv_pct": "1.87",
+   "convertidos": "4",
+   "cpl": "4.12",
+   "cplq": "25.18",
+   "investimento": "881.19",
+   "iql_pct": "16.4",
+   "leads": "214",
+   "nm_a": "26",
+   "nm_tag": "BP10",
+   "qualificados": "35",
+   "rpl": "3.45"
+  },
+  {
+   "anuncio": "AD88 - [LAN] [EVG] VVS punchs marcha | v6",
+   "conv_pct": "1.52",
+   "convertidos": "1",
+   "cpl": "4.23",
+   "cplq": "25.36",
+   "investimento": "278.95",
+   "iql_pct": "16.7",
+   "leads": "66",
+   "nm_a": "7",
+   "nm_tag": "EVG",
+   "qualificados": "11",
+   "rpl": "1.98"
+  },
+  {
+   "anuncio": "AD138 - [LAN] [BP10] VVS ricardo salles influ",
+   "conv_pct": "0.94",
+   "convertidos": "3",
+   "cpl": "5.17",
+   "cplq": "25.38",
+   "investimento": "1649.84",
+   "iql_pct": "20.4",
+   "leads": "319",
+   "nm_a": "47",
+   "nm_tag": "BP10",
+   "qualificados": "65",
+   "rpl": "2.66"
+  },
+  {
+   "anuncio": "AD46 - [LAN] [EVG] VVS choque entre camadas",
+   "conv_pct": "1.96",
+   "convertidos": "1",
+   "cpl": "5.48",
+   "cplq": "25.39",
+   "investimento": "279.33",
+   "iql_pct": "21.6",
+   "leads": "51",
+   "nm_a": "3",
+   "nm_tag": "EVG",
+   "qualificados": "11",
+   "rpl": "2.56"
+  },
+  {
+   "anuncio": "AD40 - [LAN] [EVG] VVS pauta curto",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "4.95",
+   "cplq": "25.85",
+   "investimento": "594.59",
+   "iql_pct": "19.2",
+   "leads": "120",
+   "nm_a": "6",
+   "nm_tag": "EVG",
+   "qualificados": "23",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD214 - [LAN] [EVG] VVS entrevista corte 6",
+   "conv_pct": "2.39",
+   "convertidos": "8",
+   "cpl": "5.79",
+   "cplq": "25.87",
+   "investimento": "1940.3",
+   "iql_pct": "22.4",
+   "leads": "335",
+   "nm_a": "33",
+   "nm_tag": "EVG",
+   "qualificados": "75",
+   "rpl": "5.48"
+  },
+  {
+   "anuncio": "AD98 - [LAN] [BP10] Card envelope",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "8.69",
+   "cplq": "26.07",
+   "investimento": "521.33",
+   "iql_pct": "33.3",
+   "leads": "60",
+   "nm_a": "11",
+   "nm_tag": "BP10",
+   "qualificados": "20",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD137 - [LAN] [BP10] VVS pablo marçal influ",
+   "conv_pct": "1.22",
+   "convertidos": "1",
+   "cpl": "5.79",
+   "cplq": "26.36",
+   "investimento": "474.56",
+   "iql_pct": "22.0",
+   "leads": "82",
+   "nm_a": "14",
+   "nm_tag": "BP10",
+   "qualificados": "18",
+   "rpl": "1.6"
+  },
+  {
+   "anuncio": "AD72 - [LAN] [BP10] VVS voce ja escolheu a sua roupa",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "5.2",
+   "cplq": "26.5",
+   "investimento": "265.04",
+   "iql_pct": "19.6",
+   "leads": "51",
+   "nm_a": "8",
+   "nm_tag": "BP10",
+   "qualificados": "10",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD186 - [LAN] [EVG] Card atenção",
+   "conv_pct": "1.31",
+   "convertidos": "60",
+   "cpl": "4.11",
+   "cplq": "26.55",
+   "investimento": "18903.74",
+   "iql_pct": "15.5",
+   "leads": "4596",
+   "nm_a": "340",
+   "nm_tag": "EVG",
+   "qualificados": "712",
+   "rpl": "2.27"
+  },
+  {
+   "anuncio": "AD45 - [LAN] [EVG] VVS linha do tempo",
+   "conv_pct": "1.21",
+   "convertidos": "38",
+   "cpl": "3.71",
+   "cplq": "26.61",
+   "investimento": "11630.24",
+   "iql_pct": "14.0",
+   "leads": "3132",
+   "nm_a": "184",
+   "nm_tag": "EVG",
+   "qualificados": "437",
+   "rpl": "3.44"
+  },
+  {
+   "anuncio": "AD88 - [LAN] [EVG] VVS punchs marcha | v8",
+   "conv_pct": "3.29",
+   "convertidos": "5",
+   "cpl": "6.69",
+   "cplq": "26.74",
+   "investimento": "1016.16",
+   "iql_pct": "25.0",
+   "leads": "152",
+   "nm_a": "14",
+   "nm_tag": "EVG",
+   "qualificados": "38",
+   "rpl": "7.44"
+  },
+  {
+   "anuncio": "AD127 - [LAN] [EVG] VVS love me",
+   "conv_pct": "0.92",
+   "convertidos": "62",
+   "cpl": "3.55",
+   "cplq": "27.04",
+   "investimento": "23961.84",
+   "iql_pct": "13.1",
+   "leads": "6752",
+   "nm_a": "667",
+   "nm_tag": "EVG",
+   "qualificados": "886",
+   "rpl": "1.81"
+  },
+  {
+   "anuncio": "AD153 - [LAN] [BP10] Card all type boxlight",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "5.47",
+   "cplq": "27.1",
+   "investimento": "596.26",
+   "iql_pct": "20.2",
+   "leads": "109",
+   "nm_a": "13",
+   "nm_tag": "BP10",
+   "qualificados": "22",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD29 - [LAN] [EVG] VVS ihi",
+   "conv_pct": "3.69",
+   "convertidos": "13",
+   "cpl": "7.47",
+   "cplq": "27.11",
+   "investimento": "2629.89",
+   "iql_pct": "27.6",
+   "leads": "352",
+   "nm_a": "27",
+   "nm_tag": "EVG",
+   "qualificados": "97",
+   "rpl": "9.42"
+  },
+  {
+   "anuncio": "AD40 - [LAN] [EVG] VVS pauta longo",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "2.08",
+   "cplq": "27.41",
+   "investimento": "137.04",
+   "iql_pct": "7.6",
+   "leads": "66",
+   "nm_a": "1",
+   "nm_tag": "EVG",
+   "qualificados": "5",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD95 - [LAN] [BP10] Card type",
+   "conv_pct": "0.12",
+   "convertidos": "1",
+   "cpl": "4.83",
+   "cplq": "27.71",
+   "investimento": "4101.38",
+   "iql_pct": "17.4",
+   "leads": "850",
+   "nm_a": "100",
+   "nm_tag": "BP10",
+   "qualificados": "148",
+   "rpl": "0.28"
+  },
+  {
+   "anuncio": "AD128 - [LAN] [EVG] VVS dois suecos",
+   "conv_pct": "3.17",
+   "convertidos": "2",
+   "cpl": "6.91",
+   "cplq": "29.0",
+   "investimento": "435.04",
+   "iql_pct": "23.8",
+   "leads": "63",
+   "nm_a": "8",
+   "nm_tag": "EVG",
+   "qualificados": "15",
+   "rpl": "6.21"
+  },
+  {
+   "anuncio": "AD193 - [LAN] [EVG] Card caseiro estreia cor 1",
+   "conv_pct": "0.61",
+   "convertidos": "1",
+   "cpl": "3.94",
+   "cplq": "30.79",
+   "investimento": "646.67",
+   "iql_pct": "12.8",
+   "leads": "164",
+   "nm_a": "12",
+   "nm_tag": "EVG",
+   "qualificados": "21",
+   "rpl": "0.8"
+  },
+  {
+   "anuncio": "AD45 - [LAN] [EVG] VVS linha do tempo",
+   "conv_pct": "1.12",
+   "convertidos": "3",
+   "cpl": "4.05",
+   "cplq": "31.91",
+   "investimento": "1084.94",
+   "iql_pct": "12.7",
+   "leads": "268",
+   "nm_a": "20",
+   "nm_tag": "EVG",
+   "qualificados": "34",
+   "rpl": "2.0"
+  },
+  {
+   "anuncio": "AD54 - [LAN] [EVG] VVS 40 anos",
+   "conv_pct": "1.4",
+   "convertidos": "7",
+   "cpl": "4.61",
+   "cplq": "32.37",
+   "investimento": "2298.51",
+   "iql_pct": "14.2",
+   "leads": "499",
+   "nm_a": "35",
+   "nm_tag": "EVG",
+   "qualificados": "71",
+   "rpl": "3.11"
+  },
+  {
+   "anuncio": "AD101 - [LAN] [EVG] VVS teocracia 2 | v1",
+   "conv_pct": "1.22",
+   "convertidos": "1",
+   "cpl": "4.86",
+   "cplq": "33.24",
+   "investimento": "398.87",
+   "iql_pct": "14.6",
+   "leads": "82",
+   "nm_a": "5",
+   "nm_tag": "EVG",
+   "qualificados": "12",
+   "rpl": "3.19"
+  },
+  {
+   "anuncio": "AD187 - [LAN] [EVG] Card campeao garanta seu lugar na estreia",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "5.07",
+   "cplq": "33.63",
+   "investimento": "639.01",
+   "iql_pct": "15.1",
+   "leads": "126",
+   "nm_a": "11",
+   "nm_tag": "EVG",
+   "qualificados": "19",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD128 - [LAN] [EVG] VVS dois suecos",
+   "conv_pct": "1.42",
+   "convertidos": "4",
+   "cpl": "4.3",
+   "cplq": "34.61",
+   "investimento": "1211.22",
+   "iql_pct": "12.4",
+   "leads": "282",
+   "nm_a": "25",
+   "nm_tag": "EVG",
+   "qualificados": "35",
+   "rpl": "7.69"
+  },
+  {
+   "anuncio": "AD28 - [LAN] [EVG] VVS uma historia",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "4.43",
+   "cplq": "35.41",
+   "investimento": "531.16",
+   "iql_pct": "12.5",
+   "leads": "120",
+   "nm_a": "8",
+   "nm_tag": "EVG",
+   "qualificados": "15",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD214 - [LAN] [EVG] VVS entrevista corte 6",
+   "conv_pct": "1.13",
+   "convertidos": "9",
+   "cpl": "4.85",
+   "cplq": "35.96",
+   "investimento": "3883.83",
+   "iql_pct": "13.5",
+   "leads": "800",
+   "nm_a": "58",
+   "nm_tag": "EVG",
+   "qualificados": "108",
+   "rpl": "2.16"
+  },
+  {
+   "anuncio": "AD29 - [LAN] [EVG] VVS ihi",
+   "conv_pct": "0.51",
+   "convertidos": "1",
+   "cpl": "5.95",
+   "cplq": "36.24",
+   "investimento": "1159.61",
+   "iql_pct": "16.4",
+   "leads": "195",
+   "nm_a": "14",
+   "nm_tag": "EVG",
+   "qualificados": "32",
+   "rpl": "0.67"
+  },
+  {
+   "anuncio": "AD98 - [LAN] [BP10] Card envelope",
+   "conv_pct": "0.42",
+   "convertidos": "2",
+   "cpl": "5.03",
+   "cplq": "38.48",
+   "investimento": "2385.79",
+   "iql_pct": "13.1",
+   "leads": "474",
+   "nm_a": "44",
+   "nm_tag": "BP10",
+   "qualificados": "62",
+   "rpl": "0.83"
+  },
+  {
+   "anuncio": "AD07 - [LAN] [EVG] Card convite",
+   "conv_pct": "0.96",
+   "convertidos": "6",
+   "cpl": "4.08",
+   "cplq": "41.7",
+   "investimento": "2543.61",
+   "iql_pct": "9.8",
+   "leads": "624",
+   "nm_a": "25",
+   "nm_tag": "EVG",
+   "qualificados": "61",
+   "rpl": "1.43"
+  },
+  {
+   "anuncio": "AD103 - [LAN] [EVG] Card entrevistados teo silas jack",
+   "conv_pct": "0.86",
+   "convertidos": "2",
+   "cpl": "5.49",
+   "cplq": "43.92",
+   "investimento": "1273.62",
+   "iql_pct": "12.5",
+   "leads": "232",
+   "nm_a": "20",
+   "nm_tag": "EVG",
+   "qualificados": "29",
+   "rpl": "1.13"
+  },
+  {
+   "anuncio": "AD63 - [LAN] [EVG] VVS pitch marcha daymon palco | v4",
+   "conv_pct": "0.43",
+   "convertidos": "8",
+   "cpl": "4.41",
+   "cplq": "45.13",
+   "investimento": "8214.16",
+   "iql_pct": "9.8",
+   "leads": "1864",
+   "nm_a": "83",
+   "nm_tag": "EVG",
+   "qualificados": "182",
+   "rpl": "0.85"
+  },
+  {
+   "anuncio": "AD59 - [LAN] [EVG] VVS contraponto | v2",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "6.55",
+   "cplq": "45.43",
+   "investimento": "726.89",
+   "iql_pct": "14.4",
+   "leads": "111",
+   "nm_a": "7",
+   "nm_tag": "EVG",
+   "qualificados": "16",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD15 - [LAN] [BP10] Card presente white",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "5.47",
+   "cplq": "46.71",
+   "investimento": "1401.29",
+   "iql_pct": "11.7",
+   "leads": "256",
+   "nm_a": "25",
+   "nm_tag": "BP10",
+   "qualificados": "30",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD216 - [LAN] [EVG] VVS entrevista corte 8",
+   "conv_pct": "0.54",
+   "convertidos": "8",
+   "cpl": "4.38",
+   "cplq": "48.96",
+   "investimento": "6462.25",
+   "iql_pct": "8.9",
+   "leads": "1476",
+   "nm_a": "73",
+   "nm_tag": "EVG",
+   "qualificados": "132",
+   "rpl": "1.08"
+  },
+  {
+   "anuncio": "AD207 - [LAN] [EVG] VVS entrevista ruas corte 10 | v2",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "5.24",
+   "cplq": "49.78",
+   "investimento": "398.27",
+   "iql_pct": "10.5",
+   "leads": "76",
+   "nm_a": "3",
+   "nm_tag": "EVG",
+   "qualificados": "8",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD28 - [LAN] [EVG] VVS uma historia",
+   "conv_pct": "0.34",
+   "convertidos": "1",
+   "cpl": "6.36",
+   "cplq": "49.88",
+   "investimento": "1845.59",
+   "iql_pct": "12.8",
+   "leads": "290",
+   "nm_a": "16",
+   "nm_tag": "EVG",
+   "qualificados": "37",
+   "rpl": "0.41"
+  },
+  {
+   "anuncio": "AD216 - [LAN] [EVG] VVS entrevista corte 8",
+   "conv_pct": "0.6",
+   "convertidos": "1",
+   "cpl": "5.13",
+   "cplq": "50.68",
+   "investimento": "861.55",
+   "iql_pct": "10.1",
+   "leads": "168",
+   "nm_a": "10",
+   "nm_tag": "EVG",
+   "qualificados": "17",
+   "rpl": "1.56"
+  },
+  {
+   "anuncio": "AD101 - [LAN] [EVG] VVS teocracia 2 | v1",
+   "conv_pct": "0.5",
+   "convertidos": "2",
+   "cpl": "4.76",
+   "cplq": "55.57",
+   "investimento": "1889.23",
+   "iql_pct": "8.6",
+   "leads": "397",
+   "nm_a": "25",
+   "nm_tag": "EVG",
+   "qualificados": "34",
+   "rpl": "0.99"
+  },
+  {
+   "anuncio": "AD16 - [LAN] [EVG] VVS podcast historia brasil longo",
+   "conv_pct": "1.18",
+   "convertidos": "22",
+   "cpl": "3.95",
+   "cplq": "56.75",
+   "investimento": "7377.89",
+   "iql_pct": "7.0",
+   "leads": "1870",
+   "nm_a": "77",
+   "nm_tag": "EVG",
+   "qualificados": "130",
+   "rpl": "2.39"
+  },
+  {
+   "anuncio": "AD16 - [LAN] [EVG] VVS podcast historia brasil curto",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "9.7",
+   "cplq": "63.06",
+   "investimento": "504.47",
+   "iql_pct": "15.4",
+   "leads": "52",
+   "nm_a": "5",
+   "nm_tag": "EVG",
+   "qualificados": "8",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD162  - [LAN] [EVG] VVS uma historia adapt",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "4.4",
+   "cplq": "64.93",
+   "investimento": "259.71",
+   "iql_pct": "6.8",
+   "leads": "59",
+   "nm_a": "2",
+   "nm_tag": "EVG",
+   "qualificados": "4",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD45 - [LAN] [EVG] VVS linha do tempo",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "5.45",
+   "cplq": "66.35",
+   "investimento": "398.11",
+   "iql_pct": "8.2",
+   "leads": "73",
+   "nm_a": "1",
+   "nm_tag": "EVG",
+   "qualificados": "6",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD63 - [LAN] [EVG] VVS pitch marcha daymon palco | v4",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "9.13",
+   "cplq": "71.61",
+   "investimento": "930.97",
+   "iql_pct": "12.7",
+   "leads": "102",
+   "nm_a": "4",
+   "nm_tag": "EVG",
+   "qualificados": "13",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD61 - [LAN] [BP10] Card presentes",
+   "conv_pct": "0.0",
+   "convertidos": "0",
+   "cpl": "5.91",
+   "cplq": "74.02",
+   "investimento": "1406.36",
+   "iql_pct": "8.0",
+   "leads": "238",
+   "nm_a": "17",
+   "nm_tag": "BP10",
+   "qualificados": "19",
+   "rpl": "0.0"
+  },
+  {
+   "anuncio": "AD45 - [LAN] [EVG] VVS linha do tempo",
+   "conv_pct": "0.89",
+   "convertidos": "1",
+   "cpl": "6.37",
+   "cplq": "79.28",
+   "investimento": "713.55",
+   "iql_pct": "8.0",
+   "leads": "112",
+   "nm_a": "4",
+   "nm_tag": "EVG",
+   "qualificados": "9",
+   "rpl": "1.17"
+  },
+  {
+   "anuncio": "AD15 - [LAN] [BP10] Card presente white",
+   "conv_pct": "0.15",
+   "convertidos": "1",
+   "cpl": "4.59",
+   "cplq": "82.72",
+   "investimento": "3060.75",
+   "iql_pct": "5.5",
+   "leads": "667",
+   "nm_a": "30",
+   "nm_tag": "BP10",
+   "qualificados": "37",
+   "rpl": "0.2"
+  },
+  {
+   "anuncio": "AD63 - [LAN] [EVG] VVS pitch marcha daymon palco | v4",
+   "conv_pct": "0.35",
+   "convertidos": "6",
+   "cpl": "3.93",
+   "cplq": "95.41",
+   "investimento": "6679.01",
+   "iql_pct": "4.1",
+   "leads": "1699",
+   "nm_a": "42",
+   "nm_tag": "EVG",
+   "qualificados": "70",
+   "rpl": "0.74"
+  }
+ ]
+}
