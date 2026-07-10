@@ -5,33 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IQL — Índice de Qualidade de Lead</title>
 <style>
-  :root{--bg:#0f1117;--card:#181b23;--tx:#e8eaf0;--mut:#8b91a0;--acc:#4f8ef7;--ok:#3ecf8e;--warn:#f7b64f;--bad:#f7654f;--line:#262a35;--fc:#5b6473}
+  :root{--bg:#0f1117;--card:#181b23;--tx:#e8eaf0;--mut:#8b91a0;--acc:#4f8ef7;--ok:#3ecf8e;--warn:#f7b64f;--bad:#f7654f;--line:#262a35}
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--tx);font:15px/1.55 -apple-system,'Segoe UI',Roboto,sans-serif;padding:28px 20px 80px}
   .wrap{max-width:1120px;margin:0 auto}
-  h1{font-size:25px;margin-bottom:2px}
-  h2{font-size:19px;margin:38px 0 4px}
+  h1{font-size:25px;margin-bottom:2px;min-width:0;overflow-wrap:anywhere}
+  h2{font-size:19px;margin:36px 0 4px}
+  h3{font-size:15.5px;margin:18px 0 4px}
   .sub{color:var(--mut);font-size:13.5px;margin-bottom:8px}
-  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px;border-bottom:1px solid var(--line);padding-bottom:12px}
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;border-bottom:1px solid var(--line);padding:10px 0 12px;position:sticky;top:0;background:var(--bg);z-index:7}
   .tab{background:var(--card);border:1px solid var(--line);color:var(--mut);border-radius:20px;padding:7px 18px;font-size:14px;font-weight:600;cursor:pointer}
   .tab:hover{color:var(--tx)}
   .tab.on{background:#1c2740;border-color:var(--acc);color:var(--tx)}
   .tab .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:1px}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}
+  .subnav{position:sticky;top:56px;z-index:6;background:var(--bg);display:flex;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);margin-bottom:4px}
+  .subnav a{color:var(--mut);font-size:12.5px;font-weight:700;text-decoration:none;padding:4px 13px;border-radius:14px;border:1px solid var(--line);text-transform:uppercase;letter-spacing:.5px}
+  .subnav a:hover{color:var(--tx);border-color:var(--acc)}
+  h2.group{margin-top:44px;padding-top:12px;border-top:2px solid var(--line);font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:1.2px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:18px 0 8px}
+  .cards.sec{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin:8px 0}
   .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
-  .card b{display:block;font-size:22px;margin-top:2px}
+  .card b{display:block;font-size:23px;margin-top:2px}
+  .cards.sec .card b{font-size:17px}
   .card span{color:var(--mut);font-size:12px}
+  .delta{font-size:12px;font-weight:700;margin-left:6px}
+  .delta.up{color:var(--ok)}.delta.down{color:var(--bad)}
   table{width:100%;border-collapse:collapse;background:var(--card);font-size:13.5px}
   th{color:var(--mut);font-weight:600;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
   td{padding:8px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
   tr:last-child td{border-bottom:none}
+  tr.rowsel td{background:#1c2740}
   .num{text-align:right;font-variant-numeric:tabular-nums}
   .tblwrap{overflow-x:auto;border-radius:10px;border:1px solid var(--line)}
   .tblscroll{max-height:540px;overflow-y:auto}
   .tblscroll thead th{position:sticky;top:0;background:var(--card);z-index:1}
   th.sort{cursor:pointer;user-select:none}
   th.sort:hover{color:var(--tx)}
-  .chip{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap}
+  .adname{white-space:normal;min-width:180px;max-width:320px;overflow:hidden;text-overflow:ellipsis}
+  .chip{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap;cursor:default}
   .chip.promover{background:#12351f;color:var(--ok)}
   .chip.observar{background:#3a2f14;color:var(--warn)}
   .chip.aposentar{background:#3a1a14;color:var(--bad)}
@@ -41,21 +52,59 @@
   .chip.z-otimizar{background:#14243a;color:var(--acc)}
   .chip.z-cortar{background:#3a2f14;color:var(--warn)}
   .chip.z-matar{background:#3a1a14;color:var(--bad)}
-  .bar{height:9px;border-radius:5px;background:var(--acc);min-width:2px}
+  .chip.filtro{cursor:pointer;opacity:.55}
+  .chip.filtro.on{opacity:1;outline:1px solid currentColor}
+  .bar{height:9px;border-radius:5px;background:var(--acc);min-width:2px;display:inline-block}
   .barbg{background:#262a35;border-radius:5px;width:120px;display:inline-block;vertical-align:middle}
   .fA{color:var(--ok);font-weight:700}.fB{color:var(--warn);font-weight:700}.fC{color:var(--bad);font-weight:700}
   .note{background:var(--card);border-left:3px solid var(--warn);border-radius:6px;padding:10px 14px;font-size:13px;color:var(--mut);margin:10px 0}
   .note b{color:var(--tx)}
+  .veredito{background:#14243a;border-left:3px solid var(--acc);border-radius:6px;padding:10px 14px;font-size:13.5px;margin:10px 0}
   .good{color:var(--ok)}.badtx{color:var(--bad)}
   .chart{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 8px 4px;margin:10px 0}
   .chart svg{display:block;width:100%;height:auto}
   .legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px;color:var(--mut);padding:4px 10px 8px}
   .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-  #tip{position:fixed;display:none;background:#0b0d12;border:1px solid #3a4050;border-radius:8px;padding:8px 11px;font-size:12.5px;line-height:1.5;pointer-events:none;z-index:10;max-width:320px;box-shadow:0 6px 20px rgba(0,0,0,.5)}
-  #tip b{font-size:12.5px}
+  #tip{position:fixed;display:none;background:#0b0d12;border:1px solid #3a4050;border-radius:8px;padding:8px 11px;font-size:12.5px;line-height:1.5;pointer-events:none;z-index:10;max-width:330px;box-shadow:0 6px 20px rgba(0,0,0,.5)}
   .empty{color:var(--mut);font-size:13.5px;background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:18px;text-align:center;margin:10px 0}
+  .icps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin:12px 0}
+  .icp{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column}
+  .icp.anti{border-color:#7a3328;background:#1d1414}
+  .icp h3{margin:0 0 5px}
+  .icp .desc{color:var(--mut);font-size:13px;margin-bottom:10px}
+  .icp .nums{font-size:13px;line-height:1.7;margin-bottom:10px}
+  .icp .nums b{font-size:15px}
+  .icp .fala{font-size:12.5px;color:var(--mut);border-top:1px solid var(--line);padding-top:9px;margin-top:auto}
+  .icp .fala b{color:var(--tx)}
+  .improw{display:grid;grid-template-columns:200px 1fr 76px;gap:10px;align-items:center;margin:7px 0;font-size:13px}
+  .dbar{display:flex;height:13px;background:#0d0f15;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+  .dh{flex:1;position:relative}
+  .dl{border-right:1px solid #3a4050}
+  .dl i{position:absolute;right:0;top:0;bottom:0;background:var(--bad);opacity:.8;display:block}
+  .dr i{position:absolute;left:0;top:0;bottom:0;background:var(--ok);opacity:.8;display:block}
+  .mixfato{color:var(--mut);font-size:11.5px;grid-column:2/4;margin-top:-4px}
+  .pair{display:grid;grid-template-columns:170px 1fr 120px;gap:10px;align-items:center;margin:7px 0;font-size:13px}
+  .pbars{display:flex;flex-direction:column;gap:2px}
+  .pbar{height:8px;border-radius:4px;min-width:1px;display:block}
+  select,input[type=search]{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13.5px;max-width:100%}
+  input[type=number]{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:13.5px;width:100px}
+  .sig{font-size:13px;cursor:default}
+  .sig.s2{color:var(--ok)}.sig.s1{color:var(--warn)}.sig.s0{color:var(--mut)}
+  details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:4px 14px 10px;margin:12px 0}
+  details summary{cursor:pointer;font-weight:600;font-size:15px;padding:9px 0;color:var(--tx)}
+  details .tblwrap{border:none}
   a{color:var(--acc)}
   circle.pt{cursor:pointer}
+  #decide-list{display:none}
+  @media (max-width:700px){
+    body{padding:16px 10px 60px;overflow-x:hidden}
+    h1{font-size:19px}
+    h2{font-size:17px}
+    #scatter-chart{display:none}
+    #decide-list{display:block}
+    .subnav{top:96px}
+    #ads-tbl td:first-child,#ads-tbl th:first-child{position:sticky;left:0;background:var(--card);z-index:2;max-width:180px}
+  }
 </style>
 </head>
 <body><div class="wrap">
@@ -63,7 +112,9 @@
     <h1>IQL — Índice de Qualidade de Lead</h1>
     <a href="metodologia.html" style="font-size:13.5px;white-space:nowrap">Metodologia e algoritmo →</a>
   </div>
-  <div class="sub" id="sub">carregando…</div>
+  <div class="sub" style="margin-bottom:0"><b style="color:var(--tx)">IQL</b> = % de leads com alta probabilidade de virar
+  assinante, medida no dia do cadastro · <b style="color:var(--tx)">CPLq</b> = custo por lead qualificado, "o CPL que importa".</div>
+  <div class="sub" id="sub" style="font-size:12px">carregando…</div>
   <div class="tabs" id="tabs"></div>
   <div id="view"></div>
   <p class="sub" style="margin-top:36px"><a href="metodologia.html">Metodologia e algoritmo</a> — desenho formal, WOE/IV, validação e regras de decisão.
@@ -76,27 +127,88 @@
 /* ============ utilitários ============ */
 const $ = id => document.getElementById(id);
 const f = (n,d=1)=>Number(n).toLocaleString('pt-BR',{maximumFractionDigits:d});
-const fr = (n,d=2)=>'R$ '+f(n,d);
+const fr = (n,d=2)=>'R$ '+f(n,d);
 const dbr = s => s ? s.slice(8,10)+'/'+s.slice(5,7) : '—';
 const med = a => { const s=[...a].sort((x,y)=>x-y), m=s.length>>1; return s.length? (s.length%2? s[m] : (s[m-1]+s[m])/2) : 0; };
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const store=(()=>{ // localStorage pode existir e mesmo assim estar indisponível (privacidade/ambiente)
+  try{ localStorage.getItem('_'); return localStorage; }
+  catch(e){ const m={}; return {getItem:k=>m[k]??null, setItem:(k,v)=>{m[k]=String(v);}}; }
+})();
 function niceTicks(max,n=5){
   if(!(max>0)) return [0,1];
   const raw=max/n, p=Math.pow(10,Math.floor(Math.log10(raw)));
   const step=[1,2,2.5,5,10].map(m=>m*p).find(s=>s>=raw);
   const t=[]; for(let v=0;v<=max+1e-9;v+=step) t.push(+v.toFixed(6)); return t;
 }
+/* IC 95% de Wilson — util único, reusado em todo o dashboard */
+function wilson(k,n){
+  if(!(n>0)) return null;
+  const z=1.96, p=k/n, den=1+z*z/n;
+  const c=(p+z*z/(2*n))/den, hw=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/den;
+  return {lo:Math.max(0,c-hw), hi:Math.min(1,c+hw)};
+}
+/* semáforo de confiança: 2=● sólido · 1=◐ sinal · 0=○ insuficiente */
+const SIGG={2:'●',1:'◐',0:'○'};
+const sigMark=(lv,tit)=>`<span class="sig s${lv}" title="${esc(tit||'')}">${SIGG[lv]}</span>`;
+function sigIql(a,medIql){ // confiança de que o IQL do anúncio destoa da mediana da campanha
+  const n=+a.leads, w=wilson(+a.qualificados,n);
+  if(!w) return {lv:0,w:null};
+  let lv=(w.lo*100>medIql||w.hi*100<medIql)?2:1;
+  if(n<80) lv=Math.min(lv,1);
+  return {lv,w};
+}
+const sigConv=c=> +c>15?2:(+c>=5?1:0);
+const icTxt=(k,n)=>{const w=wilson(+k,+n);return w?`±${f((w.hi-w.lo)/2*100,2)}`:'—';};
+
 const PAL=['#4f8ef7','#e879f9','#3ecf8e','#f7b64f','#67e8f9','#fb923c','#a78bfa'];
 const ZONA_LBL={escalar:'Escalar',otimizar:'Otimizar criativo',cortar:'Cortar',matar:'Matar'};
 const ZONA_ORD={escalar:0,otimizar:1,cortar:2,matar:3};
+const ATTR_LBL={status_cadastro:'Status de assinatura',status_pessoa:'Membro oculto (outro e-mail)',
+  respondeu_pesquisa:'Respondeu à pesquisa',afinidade_bp:'Afinidade declarada',paga_conteudo:'Paga streaming',
+  tempo_conhece:'Tempo que conhece a BP',regiao_ddd:'Região (DDD)',historico_cadastro:'Histórico de cadastro'};
+const STATUS_LBL={nao_membro:'Não Membro',membro_ativo:'Membro Ativo',ex_membro:'Ex-Membro',membro_vitalicio:'Vitalício'};
+const PERS_LBL={reencontrado:'Reencontrados',simpatizante_maduro:'Simpatizantes Maduros',
+  pagante_de_conteudo:'Pagantes de Conteúdo',curioso_frio:'Curiosos Frios',neutro:'Neutros'};
 const NOTE_LASTCLICK=`<div class="note"><b>Aviso:</b> conversão/receita last-click, cohort ainda maturando —
   leitura relativa entre anúncios da mesma campanha, não ROI final.</div>`;
+const NOTE_CONF=`<div class="note"><b>Como ler a confiança:</b> ● o intervalo de confiança não deixa dúvida
+  da direção — leve a risca · ◐ direção provável, mas dentro do ruído possível · ○ amostra pequena demais —
+  ignore o número e aguarde.</div>`;
+/* Perfis de cliente ideal — textos para o time de conteúdo (ordem = cascata de segmentação) */
+const PERSONAS={
+  reencontrado:{nome:'O Reencontrado',
+    desc:'Já foi da casa: tem ou teve assinatura sob outro e-mail. Não é aquisição, é reconexão.',
+    fala:'Mensagem de volta ("sentimos sua falta", benefício de retorno) — nunca criativo de apresentação da marca.'},
+  simpatizante_maduro:{nome:'O Simpatizante Maduro',
+    desc:'Orbita a BP há anos sem nunca ter pago. A pergunta dele não é "o que é isso?", é "por que agora?".',
+    fala:'Urgência de ocasião (evento, aniversário, lançamento), memória da marca, chamada para sair da arquibancada.'},
+  pagante_de_conteudo:{nome:'O Pagante de Conteúdo',
+    desc:'Já paga por streaming — disposição a pagar comprovada, falta afinidade.',
+    fala:'Comparação de valor ("o que você não encontra nos outros"), catálogo, custo mensal relativo.'},
+  curioso_frio:{nome:'O Curioso Frio',anti:true,
+    desc:'Nunca ouviu falar ou acabou de chegar, não paga por conteúdo. É o que gancho genérico de brinde atrai aos montes.',
+    fala:'NÃO desenhar criativo para ele. Se o anúncio está enchendo essa fatia, o gancho está genérico demais — confira o quadrante da campanha.'},
+};
 
 let D=null, TAB=null, TAGS=[], COLOR={}, adsSort={k:'cplq',dir:1};
-let tipAds=[];   // anúncios do scatter corrente (para tooltip)
+let selAd=null, adsFilter={zona:'',q:''};
+const TIPSETS={};   // key → lista de anúncios do scatter (tooltip/click)
 
-/* zona da matriz de decisão: divisores = medianas DA campanha */
 const zonaDe=(cpl,iql,mx,my)=> +cpl<=mx ? (+iql>=my?'escalar':'cortar') : (+iql>=my?'otimizar':'matar');
+const shortCode=a=>{const m=String(a.anuncio).match(/AD\s?_?(\d+)/i);return m?'AD'+m[1]:String(a.id_ad||'').slice(-4);};
+const nomeCurto=(tag,nome)=>String(nome).replace(/\s*\[(LAN|CAP)\]\s*/gi,' ').split('['+tag+']').join(' ').replace(/\s+/g,' ').trim();
+function alvoDe(tag){
+  const v=parseFloat(store.getItem('iql_cplq_alvo_'+tag));
+  if(v>0) return v;
+  const d=D.cplq_alvo&&D.cplq_alvo[tag];
+  return d>0?+d:null;
+}
+const campDe=tag=>D.campanhas.find(x=>x.nm_tag===tag);
+function metaDe(tag){ // meta de retorno sobre receita bruta (editável, persiste por campanha)
+  const v=parseFloat(store.getItem('iql_meta_roas_'+tag));
+  return v>=1?v:(+D.meta_roas||1.5);
+}
 
 /* agregados de mídia por campanha (a partir do bloco anuncios) */
 function midia(tag){
@@ -111,11 +223,33 @@ function midia(tag){
     medCplq:med(ads.filter(a=>a.cplq!=null).map(a=>+a.cplq))};
 }
 
+/* deltas dos últimos 7 dias vs 7 anteriores (da série diária) */
+function deltas7(tag){
+  const byDay={};
+  D.serie.filter(r=>r.nm_tag===tag).forEach(r=>{
+    const o=byDay[r.dia]??={A:0,tot:0}; o.tot+=+r.leads; if(r.faixa==='A') o.A+=+r.leads;
+  });
+  const dias=Object.keys(byDay).sort();
+  if(dias.length<14) return null;
+  const sum=ds=>ds.reduce((s,d)=>({A:s.A+byDay[d].A,tot:s.tot+byDay[d].tot}),{A:0,tot:0});
+  const cur=sum(dias.slice(-7)), prev=sum(dias.slice(-14,-7));
+  return {
+    leads:{delta: prev.tot? (cur.tot-prev.tot)/prev.tot*100 : null},
+    iqlA:{delta:(cur.tot&&prev.tot)? cur.A/cur.tot*100-prev.A/prev.tot*100 : null},
+  };
+}
+const deltaHTML=(v,unit)=>{
+  if(v==null||!isFinite(v)) return '';
+  const up=v>=0;
+  return `<span class="delta ${up?'up':'down'}" title="últimos 7 dias vs 7 anteriores">${up?'▲':'▼'} ${f(Math.abs(v),1)}${unit}</span>`;
+};
+
 /* ============ scatter CPL × IQL (SVG) ============ */
-function scatterSVG(ads,{zones=true,mx=0,my=0,byTag=false,cplqRef=null}={}){
-  tipAds=ads;
+function scatterSVG(ads,{zones=true,mx=0,my=0,byTag=false,cplqRef=null,alvo=null,key='main',compact=false}={}){
+  TIPSETS[key]=ads;
   if(!ads.length) return '<div class="empty">Nenhum anúncio com ≥50 leads e investimento Meta rastreado nesta campanha.</div>';
-  const W=940,H=470,L=60,R=18,T=18,B=48;
+  const W=940,H=compact?400:470,L=compact?44:60,R=18,T=18,B=compact?38:48;
+  const FS=compact?10:12.5;
   const xmax=Math.max(...ads.map(a=>+a.cpl))*1.08;
   const ymax=Math.max(5,Math.max(...ads.map(a=>+a.iql_pct))*1.12);
   const maxL=Math.max(...ads.map(a=>+a.leads));
@@ -128,46 +262,59 @@ function scatterSVG(ads,{zones=true,mx=0,my=0,byTag=false,cplqRef=null}={}){
       +`<rect x="${X}" y="${T}" width="${W-R-X}" height="${Y-T}" fill="${zc.otimizar}" opacity=".055"/>`
       +`<rect x="${L}" y="${Y}" width="${X-L}" height="${H-B-Y}" fill="${zc.cortar}" opacity=".055"/>`
       +`<rect x="${X}" y="${Y}" width="${W-R-X}" height="${H-B-Y}" fill="${zc.matar}" opacity=".055"/>`;
-    const lab=(x,y,txt,c,anch)=>`<text x="${x}" y="${y}" fill="${c}" opacity=".85" font-size="12.5" font-weight="700" text-anchor="${anch}">${txt}</text>`;
-    g+=lab(L+10,T+18,'ESCALAR — CPL baixo · IQL alto',zc.escalar,'start')
-      +lab(W-R-10,T+18,'OTIMIZAR CRIATIVO — CPL alto · IQL alto',zc.otimizar,'end')
-      +lab(L+10,H-B-12,'CORTAR — CPL baixo · IQL baixo',zc.cortar,'start')
-      +lab(W-R-10,H-B-12,'MATAR — CPL alto · IQL baixo',zc.matar,'end');
+    const lab=(x,y,txt,c,anch)=>`<text x="${x}" y="${y}" fill="${c}" opacity=".85" font-size="${FS}" font-weight="700" text-anchor="${anch}">${txt}</text>`;
+    const zt=compact?{e:'ESCALAR',o:'OTIMIZAR',c:'CORTAR',m:'MATAR'}
+      :{e:'ESCALAR — CPL baixo · IQL alto',o:'OTIMIZAR CRIATIVO — CPL alto · IQL alto',c:'CORTAR — CPL baixo · IQL baixo',m:'MATAR — CPL alto · IQL baixo'};
+    g+=lab(L+10,T+16,zt.e,zc.escalar,'start')+lab(W-R-10,T+16,zt.o,zc.otimizar,'end')
+      +lab(L+10,H-B-10,zt.c,zc.cortar,'start')+lab(W-R-10,H-B-10,zt.m,zc.matar,'end');
     g+=`<line x1="${X}" y1="${T}" x2="${X}" y2="${H-B}" stroke="#8b91a0" stroke-dasharray="5 4" opacity=".6"/>`
       +`<line x1="${L}" y1="${Y}" x2="${W-R}" y2="${Y}" stroke="#8b91a0" stroke-dasharray="5 4" opacity=".6"/>`
-      +`<text x="${X+5}" y="${H-B-56}" fill="#8b91a0" font-size="11">mediana ${fr(mx)}</text>`
-      +`<text x="${W-R-6}" y="${Y-6}" fill="#8b91a0" font-size="11" text-anchor="end">mediana ${f(my)}%</text>`;
+      +`<text x="${X}" y="${H-B+31}" fill="#8b91a0" font-size="10.5" text-anchor="middle">mediana ${fr(mx)}</text>`
+      +`<text x="${L+6}" y="${Y-5}" fill="#8b91a0" font-size="10.5">mediana ${f(my)}%</text>`;
   }
   // eixos
   for(const t of niceTicks(xmax,6)) g+=`<line x1="${sx(t)}" y1="${H-B}" x2="${sx(t)}" y2="${H-B+5}" stroke="#3a4050"/>`
-    +`<text x="${sx(t)}" y="${H-B+20}" fill="#8b91a0" font-size="11" text-anchor="middle">${f(t,2)}</text>`;
+    +`<text x="${sx(t)}" y="${H-B+18}" fill="#8b91a0" font-size="11" text-anchor="middle">${f(t,2)}</text>`;
   for(const t of niceTicks(ymax,5)) g+=`<line x1="${L-5}" y1="${sy(t)}" x2="${L}" y2="${sy(t)}" stroke="#3a4050"/>`
     +`<line x1="${L}" y1="${sy(t)}" x2="${W-R}" y2="${sy(t)}" stroke="#262a35" opacity=".6"/>`
     +`<text x="${L-9}" y="${sy(t)+4}" fill="#8b91a0" font-size="11" text-anchor="end">${f(t,0)}%</text>`;
-  g+=`<line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#3a4050"/><line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#3a4050"/>`
-    +`<text x="${(L+W-R)/2}" y="${H-8}" fill="#8b91a0" font-size="12" text-anchor="middle">CPL — custo por lead (R$)</text>`
+  g+=`<line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#3a4050"/><line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#3a4050"/>`;
+  if(!compact) g+=`<text x="${(L+W-R)/2}" y="${H-6}" fill="#8b91a0" font-size="12" text-anchor="middle">CPL — custo por lead (R$)</text>`
     +`<text x="14" y="${(T+H-B)/2}" fill="#8b91a0" font-size="12" text-anchor="middle" transform="rotate(-90 14 ${(T+H-B)/2})">IQL — % de leads faixa A</text>`;
-  // reta de iso-CPLq: IQL = 100·CPL/CPLq_ref (fronteira de eficiência), clipada na área do gráfico
-  if(cplqRef>0){
-    let x2=xmax, y2=100*xmax/cplqRef, saiuTopo=false;
-    if(y2>ymax){ y2=ymax; x2=ymax*cplqRef/100; saiuTopo=true; }
-    g+=`<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(x2)}" y2="${sy(y2)}" stroke="#e8eaf0" stroke-width="1.5" opacity=".5"/>`;
-    const lbl=`CPLq mediano ${fr(cplqRef)} — acima da linha = melhor`;
-    g+= saiuTopo
-      ? `<text x="${Math.min(sx(x2)+8,W-R-260)}" y="${sy(y2)+14}" fill="#e8eaf0" opacity=".75" font-size="11.5">${lbl}</text>`
-      : `<text x="${sx(x2)-8}" y="${sy(y2)-8}" fill="#e8eaf0" opacity=".75" font-size="11.5" text-anchor="end">${lbl}</text>`;
-  }
-  // bolhas (maiores atrás)
+  // retas de iso-CPLq (IQL = 100·CPL/ref); rótulo no meio da reta com fundo (não colide com zonas)
+  const isoLine=(ref,color,frac,lbl,op)=>{
+    let x2=xmax,y2=100*xmax/ref;
+    if(y2>ymax){ y2=ymax; x2=ymax*ref/100; }
+    const lx=sx(x2*frac), ly=sy(y2*frac), w=lbl.length*6.3+12;
+    return `<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(x2)}" y2="${sy(y2)}" stroke="${color}" stroke-width="1.5" opacity="${op}"/>`
+      +(compact?'' : `<rect x="${lx+6}" y="${ly-12}" width="${w}" height="17" rx="4" fill="#0f1117" opacity=".88"/>`
+      +`<text x="${lx+12}" y="${ly+1}" fill="${color}" opacity=".95" font-size="11.5">${lbl}</text>`);
+  };
+  if(cplqRef>0) g+=isoLine(cplqRef,'#e8eaf0',0.62,`CPLq mediano ${fr(cplqRef)} — acima = melhor`,.5);
+  if(alvo>0) g+=isoLine(alvo,'#4f8ef7',0.36,`alvo ${fr(alvo)}`,.85);
+  // bolhas (maiores atrás); IC de Wilson cruzando a mediana → tracejada + mais opaca
   const idx=ads.map((a,i)=>i).sort((i,j)=>+ads[j].leads-+ads[i].leads);
+  const zc2={escalar:'#3ecf8e',otimizar:'#4f8ef7',cortar:'#f7b64f',matar:'#f7654f'};
+  const top5=new Set([...ads].sort((a,b)=>+b.investimento-+a.investimento).slice(0,5).map(a=>a.id_ad));
+  let labels='';
   for(const i of idx){
-    const a=ads[i], r=5+16*Math.sqrt(+a.leads/maxL);
-    const c=byTag?COLOR[a.nm_tag]:{escalar:'#3ecf8e',otimizar:'#4f8ef7',cortar:'#f7b64f',matar:'#f7654f'}[zonaDe(a.cpl,a.iql_pct,mx,my)];
-    g+=`<circle class="pt" data-i="${i}" cx="${sx(+a.cpl)}" cy="${sy(+a.iql_pct)}" r="${r}" fill="${c}" fill-opacity=".45" stroke="${c}" stroke-width="1.5"/>`;
+    const a=ads[i], r=(compact?4:5)+(compact?11:16)*Math.sqrt(+a.leads/maxL);
+    const c=byTag?COLOR[a.nm_tag]:zc2[zonaDe(a.cpl,a.iql_pct,mx,my)];
+    const s=zones&&!byTag?sigIql(a,my):{lv:2,w:wilson(+a.qualificados,+a.leads)};
+    const dim=selAd&&a.id_ad!==selAd&&key==='main';
+    const fo=dim?0.10:(s.lv<2?0.22:0.45), so=dim?0.25:1;
+    g+=`<circle class="pt" data-s="${key}" data-i="${i}" data-id="${a.id_ad||''}"`
+      +` data-wy1="${s.w?sy(s.w.lo*100):''}" data-wy2="${s.w?sy(s.w.hi*100):''}" data-cx="${sx(+a.cpl)}"`
+      +` cx="${sx(+a.cpl)}" cy="${sy(+a.iql_pct)}" r="${r}" fill="${c}" fill-opacity="${fo}"`
+      +` stroke="${c}" stroke-opacity="${so}" stroke-width="${selAd===a.id_ad&&key==='main'?3:1.5}"${s.lv<2?' stroke-dasharray="4 3"':''}/>`;
+    if(!compact&&top5.has(a.id_ad)&&!dim)
+      labels+=`<text x="${sx(+a.cpl)}" y="${sy(+a.iql_pct)-r-4}" fill="#e8eaf0" opacity=".8" font-size="10.5" text-anchor="middle">${esc(shortCode(a))}</text>`;
   }
+  g+=labels+`<line id="wsk-${key}" x1="-99" x2="-99" y1="0" y2="0" stroke="#e8eaf0" stroke-width="2" opacity=".8" visibility="hidden"/>`;
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Quadrante de decisão CPL por IQL">${g}</svg>`;
 }
 
-/* ============ área empilhada diária (SVG) ============ */
+/* ============ área empilhada diária + linha de % faixa A ============ */
 let serieDays=[];
 function serieSVG(tag){
   const rows=D.serie.filter(r=>tag==='*'||r.nm_tag===tag);
@@ -179,18 +326,19 @@ function serieSVG(tag){
   serieDays=[];
   for(let d=new Date(d0); d<=d1; d.setDate(d.getDate()+1)){
     const k=d.toISOString().slice(0,10), v=byDay[k]||{A:0,B:0,C:0};
-    serieDays.push({dia:k,...v,tot:v.A+v.B+v.C});
+    const tot=v.A+v.B+v.C;
+    serieDays.push({dia:k,...v,tot,pA:tot?v.A/tot*100:0});
   }
-  const W=940,H=300,L=52,R=16,T=14,B=38, n=serieDays.length;
+  const W=940,H=300,L=52,R=46,T=14,B=38, n=serieDays.length;
   const ymax=Math.max(1,...serieDays.map(d=>d.tot))*1.08;
-  const sx=i=>L+(n>1?i/(n-1):0.5)*(W-L-R), sy=v=>H-B-v/ymax*(H-B-T);
+  const pmax=Math.min(100,Math.max(10,...serieDays.map(d=>d.pA))*1.25);
+  const sx=i=>L+(n>1?i/(n-1):0.5)*(W-L-R), sy=v=>H-B-v/ymax*(H-B-T), sp=v=>H-B-v/pmax*(H-B-T);
   const CF={A:'#3ecf8e',B:'#f7b64f',C:'#5b6473'};
   let g='';
   for(const t of niceTicks(ymax,4)) g+=`<line x1="${L}" y1="${sy(t)}" x2="${W-R}" y2="${sy(t)}" stroke="#262a35" opacity=".7"/>`
     +`<text x="${L-8}" y="${sy(t)+4}" fill="#8b91a0" font-size="11" text-anchor="end">${f(t,0)}</text>`;
   const step=Math.max(1,Math.ceil(n/9));
   for(let i=0;i<n;i+=step) g+=`<text x="${sx(i)}" y="${H-B+18}" fill="#8b91a0" font-size="11" text-anchor="middle">${dbr(serieDays[i].dia)}</text>`;
-  // pilha: A na base, depois B, depois C
   let base=serieDays.map(()=>0);
   for(const fx of ['A','B','C']){
     const top=serieDays.map((d,i)=>base[i]+d[fx]);
@@ -200,6 +348,11 @@ function serieSVG(tag){
     g+=`<path d="${p}Z" fill="${CF[fx]}" fill-opacity="${fx==='C'?.45:.55}" stroke="${CF[fx]}" stroke-opacity=".9" stroke-width="1"/>`;
     base=top;
   }
+  // linha de % faixa A (eixo direito) — o mix é a tendência que importa
+  let lp='';
+  serieDays.forEach((d,i)=>{ lp+=(i?'L':'M')+sx(i)+' '+sp(d.pA); });
+  g+=`<path d="${lp}" fill="none" stroke="#e8eaf0" stroke-width="1.8" opacity=".85"/>`;
+  for(const t of niceTicks(pmax,3)) g+=`<text x="${W-R+8}" y="${sp(t)+4}" fill="#e8eaf0" opacity=".7" font-size="10.5">${f(t,0)}%</text>`;
   g+=`<line id="serie-vl" x1="-99" y1="${T}" x2="-99" y2="${H-B}" stroke="#e8eaf0" opacity=".5"/>`
     +`<rect id="serie-hover" x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="transparent"/>`;
   return `<svg id="serie-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Leads por faixa por dia">${g}</svg>`;
@@ -211,12 +364,13 @@ function faixasHTML(tag){
   if(!rows.length) return '<div class="empty">Sem dados de faixa para esta campanha.</div>';
   const maxc=Math.max(...rows.map(x=>+x.conv_pct),0.001);
   return `<div class="tblwrap"><table>
-    <tr><th>Faixa</th><th class="num">Leads NM</th><th class="num">Conversão</th><th></th><th class="num">R$/lead</th><th class="num">Lift vs C</th></tr>`+
+    <tr><th>Faixa</th><th class="num">Leads NM</th><th class="num">Conversão</th><th class="num" title="meia-largura do IC 95% de Wilson, em pontos percentuais">IC 95%</th><th></th><th class="num">R$/lead</th><th class="num">Lift vs C</th></tr>`+
     rows.map(x=>{
       const c=rows.find(r=>r.faixa==='C');
       const lift=c&&+c.conv_pct>0? (+x.conv_pct/+c.conv_pct):null;
       return `<tr><td class="f${x.faixa}">${x.faixa} — ${{A:'qualificado',B:'potencial',C:'frio'}[x.faixa]||''}</td>
       <td class="num">${f(x.leads,0)}</td><td class="num">${f(x.conv_pct,2)}%</td>
+      <td class="num" style="color:var(--mut)">${icTxt(x.conv,x.leads)}</td>
       <td><span class="barbg"><span class="bar" style="width:${(+x.conv_pct/maxc*100).toFixed(0)}%"></span></span></td>
       <td class="num">${fr(x.rpl)}</td>
       <td class="num">${lift!=null?f(lift,1)+'×':'—'}</td></tr>`;}).join('')+'</table></div>';
@@ -224,7 +378,7 @@ function faixasHTML(tag){
 
 function bandasHTML(tag){
   let rows;
-  if(tag==='*'){ // agrega campanhas
+  if(tag==='*'){
     const m={};
     for(const b of D.bandas){
       const o=m[b.banda]??={banda:b.banda,score_min:+b.score_min,score_max:+b.score_max,leads:0,conv:0,receita:0};
@@ -237,22 +391,12 @@ function bandasHTML(tag){
   if(!rows.length) return '<div class="empty">Sem dados.</div>';
   const maxb=Math.max(...rows.map(x=>x.conv_pct),0.001);
   return `<div class="tblwrap"><table>
-    <tr><th>Banda de pontos</th><th class="num">Leads NM</th><th class="num">Conversão</th><th></th><th class="num">R$/lead</th></tr>`+
+    <tr><th>Banda de pontos</th><th class="num">Leads NM</th><th class="num">Conversão</th><th class="num" title="meia-largura do IC 95% de Wilson, em pontos percentuais">IC 95%</th><th></th><th class="num">R$/lead</th></tr>`+
     rows.map(x=>`<tr><td>${x.score_min} a ${x.score_max}</td><td class="num">${f(x.leads,0)}</td>
       <td class="num">${f(x.conv_pct,2)}%</td>
+      <td class="num" style="color:var(--mut)">${icTxt(x.conv,x.leads)}</td>
       <td><span class="barbg"><span class="bar" style="width:${(x.conv_pct/maxb*100).toFixed(0)}%"></span></span></td>
       <td class="num">${fr(x.rpl)}</td></tr>`).join('')+'</table></div>';
-}
-
-function ivHTML(tag){
-  const rows=D.iv.filter(x=>x.nm_tag===tag);
-  if(!rows.length) return '<div class="empty">Sem perguntas mapeadas para esta campanha.</div>';
-  return `<div class="tblwrap"><table>
-    <tr><th>Pergunta</th><th class="num">Cobertura</th><th class="num">IV total</th><th class="num">IV respondentes</th><th>Recomendação</th></tr>`+
-    rows.map(x=>`<tr><td>${esc(x.nm_pergunta)}</td>
-      <td class="num">${f(x.cobertura_pct)}%</td><td class="num">${f(x.iv_total,3)}</td>
-      <td class="num">${f(x.iv_respondentes,3)}</td>
-      <td><span class="chip ${x.ds_recomendacao}">${x.ds_recomendacao.replace(/_/g,' ')}</span></td></tr>`).join('')+'</table></div>';
 }
 
 function backtestHTML(){
@@ -264,14 +408,69 @@ function backtestHTML(){
     `</table></div><div class="note"><b>Ressalva:</b> ${esc(D.backtest.ressalva)}</div>`;
 }
 
-/* tabela de anúncios ordenável */
-function adsTableHTML(){ return `<div class="tblwrap tblscroll"><table id="ads-tbl"></table></div>`; }
-function renderAdsTable(tag){
+/* célula de conversão com regra de eventos (nunca % com <5 vendas) */
+function convCell(conv,pct){
+  const c=+conv, lv=sigConv(c);
+  if(lv===0) return `<span class="sig s0" title="poucas vendas para ler percentual">○ ${f(c,0)} vendas</span>`;
+  return `${f(c,0)} <span style="color:var(--mut)">(${f(pct,2)}%)</span> ${sigMark(lv, lv===2?'amostra de vendas sólida':'5–15 vendas: direção provável, ainda ruidosa')}`;
+}
+
+/* ============ ações da campanha (top/bottom por CPLq) ============ */
+function acoesHTML(tag){
+  const ads=D.anuncios.filter(a=>a.nm_tag===tag&&a.cplq!=null).sort((a,b)=>+a.cplq-+b.cplq);
+  if(ads.length<6) return '';
   const m=midia(tag);
-  const cols=[['anuncio','Anúncio'],['zona','Decisão'],['leads','Leads'],['cpl','CPL'],
-              ['iql_pct','IQL'],['cplq','CPLq'],['conv_pct','Conv.'],['rpl','R$/lead'],
-              ['nm_a','NM-A'],['investimento','Invest.']];
-  const rows=m.ads.map(a=>({...a,zona:zonaDe(a.cpl,a.iql_pct,m.medCpl,m.medIql)}));
+  const linha=(a,chip)=>{
+    const s=sigIql(a,m.medIql);
+    return `<tr data-id="${a.id_ad}" style="cursor:pointer"><td>${chip}</td>
+    <td class="adname" title="${esc(a.anuncio)}">${esc(nomeCurto(tag,a.anuncio))}</td>
+    <td class="num">${sigMark(s.lv,s.w?`IQL ${f(a.iql_pct)}% (IC ${f(s.w.lo*100,0)}–${f(s.w.hi*100,0)}%)`:'')} ${f(a.iql_pct)}%</td>
+    <td class="num"><b>${fr(a.cplq)}</b></td><td class="num">${f(a.leads,0)}</td></tr>`;};
+  return `<h2 style="margin-top:20px">Ações da campanha</h2>
+    <div class="sub">Os 3 melhores e os 3 piores anúncios pelo custo por lead qualificado. Clique para inspecionar.</div>
+    <div class="tblwrap"><table id="acoes-tbl"><tr><th></th><th>Anúncio</th><th class="num" title="% de leads faixa A — com semáforo de confiança">IQL</th><th class="num" title="investimento ÷ leads faixa A">CPLq</th><th class="num">Leads</th></tr>`+
+    ads.slice(0,3).map((a,i)=>linha(a,i===0?'<span class="chip z-escalar">escalar</span>':'')).join('')+
+    ads.slice(-3).reverse().map((a,i)=>linha(a,i===0?'<span class="chip z-matar">matar</span>':'')).join('')+
+    '</table></div>';
+}
+
+/* ============ lista de decisão (mobile, substitui o quadrante) ============ */
+function decideListHTML(tag){
+  const m=midia(tag);
+  const rows=m.ads.map(a=>({...a,zona:zonaDe(a.cpl,a.iql_pct,m.medCpl,m.medIql)}))
+    .sort((a,b)=>ZONA_ORD[a.zona]-ZONA_ORD[b.zona]||(+a.cplq||1e9)-(+b.cplq||1e9));
+  return `<div id="decide-list"><div class="sub">Lista de decisão (o quadrante aparece em telas maiores):</div>
+    <div class="tblwrap"><table><tr><th>Decisão</th><th>Anúncio</th><th class="num">CPLq</th><th class="num">IQL</th></tr>`+
+    rows.map(a=>`<tr><td><span class="chip z-${a.zona}">${ZONA_LBL[a.zona]}</span></td>
+      <td class="adname" title="${esc(a.anuncio)}">${esc(nomeCurto(tag,a.anuncio))}</td>
+      <td class="num">${a.cplq!=null?fr(a.cplq):'—'}</td><td class="num">${f(a.iql_pct)}%</td></tr>`).join('')+
+    '</table></div></div>';
+}
+
+/* ============ tabela de anúncios (ordenável, filtrável) ============ */
+function adsTableHTML(){
+  return `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0">
+    <input type="search" id="ads-q" placeholder="buscar anúncio…" style="flex:1;min-width:160px">
+    ${['escalar','otimizar','cortar','matar'].map(z=>
+      `<span class="chip filtro z-${z}" data-z="${z}">${ZONA_LBL[z]}</span>`).join('')}
+  </div>
+  <div class="tblwrap tblscroll"><table id="ads-tbl"></table></div>`;
+}
+function renderAdsTable(tag){
+  const t=$('ads-tbl'); if(!t) return;
+  const m=midia(tag);
+  const cols=[['anuncio','Anúncio',''],['zona','Decisão','zona da matriz CPL×IQL (medianas desta campanha)'],
+    ['conf','Conf.','confiança de que o IQL destoa da mediana (IC 95% de Wilson)'],
+    ['leads','Leads',''],['cpl','CPL','investimento ÷ leads'],
+    ['iql_pct','IQL','% de leads faixa A do anúncio'],['cplq','CPLq','investimento ÷ leads faixa A — o CPL que importa'],
+    ['conv_pct','Conv.','vendas last-click (cohort maturando)'],['rpl','R$/lead','receita atribuída ÷ leads'],
+    ['nm_a','NM-A','Não Membros faixa A — expansão de base'],['investimento','Invest.','']];
+  let rows=m.ads.map(a=>{
+    const s=sigIql(a,m.medIql);
+    return {...a,zona:zonaDe(a.cpl,a.iql_pct,m.medCpl,m.medIql),conf:s.lv,_w:s.w};
+  });
+  if(adsFilter.zona) rows=rows.filter(a=>a.zona===adsFilter.zona);
+  if(adsFilter.q) rows=rows.filter(a=>String(a.anuncio).toLowerCase().includes(adsFilter.q));
   rows.sort((a,b)=>{
     const k=adsSort.k,d=adsSort.dir;
     if(k==='anuncio') return d*String(a.anuncio).localeCompare(b.anuncio,'pt-BR');
@@ -280,85 +479,372 @@ function renderAdsTable(tag){
     return d*(va-vb);
   });
   const arr=k=>adsSort.k===k?(adsSort.dir>0?' ▲':' ▼'):'';
-  const t=$('ads-tbl');
-  t.innerHTML='<thead><tr>'+cols.map(([k,l],i)=>
-      `<th class="sort${i>1?' num':''}" data-k="${k}">${l}${arr(k)}</th>`).join('')+'</tr></thead><tbody>'+
-    rows.map(a=>`<tr><td style="white-space:normal;min-width:220px">${esc(a.anuncio)}</td>
+  t.innerHTML='<thead><tr>'+cols.map(([k,l,tit],i)=>
+      `<th class="sort${i>2?' num':''}" data-k="${k}" title="${esc(tit)}">${l}${arr(k)}</th>`).join('')+'</tr></thead><tbody>'+
+    rows.map(a=>`<tr data-id="${a.id_ad}" class="${selAd===a.id_ad?'rowsel':''}" style="cursor:pointer">
+      <td class="adname" title="${esc(a.anuncio)}">${esc(nomeCurto(tag,a.anuncio))}</td>
       <td><span class="chip z-${a.zona}">${ZONA_LBL[a.zona]}</span></td>
+      <td class="num">${sigMark(a.conf,a._w?`IQL ${f(a.iql_pct)}% (IC ${f(a._w.lo*100,0)}–${f(a._w.hi*100,0)}%)`:'')}</td>
       <td class="num">${f(a.leads,0)}</td><td class="num">${fr(a.cpl)}</td>
       <td class="num ${+a.iql_pct>=m.medIql?'good':(+a.iql_pct<m.medIql*0.6?'badtx':'')}">${f(a.iql_pct)}%</td>
       <td class="num"><b>${a.cplq!=null?fr(a.cplq):'—'}</b></td>
-      <td class="num">${f(a.convertidos,0)} <span style="color:var(--mut)">(${f(a.conv_pct,2)}%)</span></td>
-      <td class="num">${fr(a.rpl)}</td>
+      <td class="num">${convCell(a.convertidos,a.conv_pct)}</td>
+      <td class="num">${sigConv(a.convertidos)===0?`<span class="sig s0" title="poucas vendas — receita instável">○</span> <span style="color:var(--mut)">${fr(a.rpl)}</span>`:fr(a.rpl)}</td>
       <td class="num">${f(a.nm_a,0)}</td><td class="num">${fr(a.investimento,0)}</td></tr>`).join('')+'</tbody>';
   t.querySelectorAll('th.sort').forEach(th=>th.onclick=()=>{
     const k=th.dataset.k;
-    if(adsSort.k===k) adsSort.dir*=-1; else adsSort={k,dir:(k==='anuncio'||k==='zona')?1:1};
+    if(adsSort.k===k) adsSort.dir*=-1;
+    else adsSort={k,dir:['anuncio','zona','cpl','cplq'].includes(k)?1:-1}; // numéricas abrem descendente
+    renderAdsTable(tag);
+  });
+  t.querySelectorAll('tbody tr').forEach(tr=>tr.onclick=()=>selecionaAd(tag,tr.dataset.id));
+}
+function bindAdsFilter(tag){
+  const q=$('ads-q');
+  if(q) q.oninput=()=>{adsFilter.q=q.value.toLowerCase();renderAdsTable(tag);};
+  document.querySelectorAll('.chip.filtro').forEach(ch=>ch.onclick=()=>{
+    adsFilter.zona=adsFilter.zona===ch.dataset.z?'':ch.dataset.z;
+    document.querySelectorAll('.chip.filtro').forEach(c=>c.classList.toggle('on',c.dataset.z===adsFilter.zona));
     renderAdsTable(tag);
   });
 }
 
+/* ============ seleção de anúncio (quadrante ↔ tabela ↔ lupa) ============ */
+function scatterCamp(tag){
+  const m=midia(tag);
+  return scatterSVG(m.ads,{zones:true,mx:m.medCpl,my:m.medIql,cplqRef:m.medCplq,alvo:alvoDe(tag),key:'main'});
+}
+function selecionaAd(tag,id_ad){
+  selAd=id_ad||null;
+  const sc=$('scatter'); if(sc) sc.innerHTML=scatterCamp(tag);
+  const sel=$('lupa-sel');
+  if(sel&&selAd){ sel.value=selAd; renderLupa(tag,selAd); }
+  renderAdsTable(tag);
+}
+function bindAlvo(tag){
+  const inp=$('alvo-inp'); if(!inp) return;
+  inp.oninput=()=>{
+    const v=parseFloat(inp.value);
+    store.setItem('iql_cplq_alvo_'+tag, v>0?String(v):'');
+    const sc=$('scatter'); if(sc) sc.innerHTML=scatterCamp(tag);
+  };
+}
+
+/* ============ anúncio sob a lupa: por que destoa + quem traz ============ */
+function bindLupa(tag){
+  const sel=$('lupa-sel'); if(!sel) return;
+  sel.onchange=()=>{ selAd=sel.value; renderLupa(tag,sel.value);
+    const sc=$('scatter'); if(sc) sc.innerHTML=scatterCamp(tag); renderAdsTable(tag); };
+  const first=D.anuncios.filter(a=>a.nm_tag===tag).sort((a,b)=>+b.leads-+a.leads)[0];
+  if(first) renderLupa(tag,first.id_ad);
+}
+function veredito(perf,tag){
+  const campP={}; D.icps.filter(x=>x.nm_tag===tag).forEach(x=>campP[x.persona]=+x.pct_dos_nm);
+  const nm=+perf.nm_leads;
+  const map=[['reencontrado','pct_p_reencontrado'],['simpatizante_maduro','pct_p_simpatizante'],
+             ['pagante_de_conteudo','pct_p_pagante'],['curioso_frio','pct_p_frio']];
+  const hits=[];
+  for(const [key,fld] of map){
+    const pa=+perf[fld], pc=campP[key]||0, leadsP=Math.round(pa/100*nm);
+    // guardas anti-ruído: share relevante, ≥15 leads da persona no anúncio, desvio ≥1,5× ou ≤0,67×
+    if((pa>=5||pc>=5)&&leadsP>=15&&pc>0){
+      const r=pa/pc;
+      if(r>=1.5||r<=0.67) hits.push({key,r});
+    }
+  }
+  if(!hits.length) return 'Mix de perfis próximo da média da campanha.';
+  hits.sort((a,b)=>Math.abs(Math.log(b.r))-Math.abs(Math.log(a.r)));
+  const frase=x=> x.r>=1.5? `${f(x.r,1)}× mais ${PERS_LBL[x.key]}` : `${f(1/x.r,1)}× menos ${PERS_LBL[x.key]}`;
+  let s='Este anúncio traz '+frase(hits[0]);
+  if(hits[1]) s+=' e '+frase(hits[1]);
+  s+=' que a média da campanha.';
+  if(hits[0].key==='curioso_frio'&&hits[0].r>=1.5) s+=' Gancho provavelmente genérico.';
+  else if(hits[0].key==='reencontrado'&&hits[0].r>=1.5) s+=' Forte em reconexão.';
+  return s;
+}
+function renderLupa(tag,id_ad){
+  const box=$('lupa'); if(!box) return;
+  const ad=D.anuncios.find(a=>a.nm_tag===tag&&a.id_ad===id_ad);
+  if(!ad){ box.innerHTML='<div class="empty">Selecione um anúncio.</div>'; return; }
+  const nome=nomeCurto(tag,ad.anuncio);
+  let h='';
+  // — por quê: decomposição do desvio do score
+  h+=`<h3>Por que o "${esc(nome)}" destoa da campanha</h3>
+    <div class="sub">Barras = participação de cada característica no desvio do score médio deste anúncio
+    (verde puxa para cima, vermelho para baixo). Sem pontos publicados — só participação relativa.</div>`;
+  const imp=D.impacto.anuncios.filter(x=>x.nm_tag===tag&&x.id_ad===id_ad);
+  if(!imp.length) h+='<div class="empty">Sem decomposição para este anúncio.</div>';
+  else if(imp[0].bl_tipico===true||imp[0].bl_tipico==='true')
+    h+='<div class="empty">Este anúncio é próximo da média da campanha — sem desvios relevantes para decompor.</div>';
+  else{
+    const rows=[...imp].sort((a,b)=>Math.abs(+b.share_pct)-Math.abs(+a.share_pct));
+    const maxAbs=Math.max(...rows.map(x=>Math.abs(+x.share_pct)),1);
+    h+='<div class="chart" style="padding:12px 16px">'+rows.map(x=>{
+      const s=+x.share_pct, w=Math.abs(s)/maxAbs*100;
+      const fato=`${x.nivel.replace(/_/g,' ')}: ${f(x.pct_ad)}% vs ${f(x.pct_camp)}% da campanha`;
+      return `<div class="improw" title="${esc(fato)}"><span>${ATTR_LBL[x.atributo]||x.atributo}</span>
+        <span class="dbar"><span class="dh dl">${s<0?`<i style="width:${w}%"></i>`:''}</span><span class="dh dr">${s>0?`<i style="width:${w}%"></i>`:''}</span></span>
+        <span class="num ${s>0?'good':'badtx'}">${s>0?'+':''}${f(s)}%</span>
+        <span class="mixfato">${esc(fato)}</span></div>`;
+    }).join('')+'</div>';
+  }
+  // — quem: mix de status e personas vs campanha
+  const perf=D.perfil_anuncios.find(x=>x.nm_tag===tag&&x.id_ad===id_ad);
+  h+=`<h3>Quem o "${esc(nome)}" traz</h3>
+    <div class="sub">Mix do anúncio (colorido) vs média da campanha (cinza).</div>`;
+  if(!perf) h+='<div class="empty">Sem perfil para este anúncio.</div>';
+  else{
+    const stCamp={}; D.perfil_status.filter(x=>x.nm_tag===tag).forEach(x=>stCamp[x.status]=+x.pct_base);
+    const pCamp={}; D.icps.filter(x=>x.nm_tag===tag).forEach(x=>pCamp[x.persona]=+x.pct_dos_nm);
+    const par=(lbl,pa,pc,cor)=>{
+      const mx=Math.max(pa,pc,1);
+      return `<div class="pair"><span>${lbl}</span><span class="pbars">
+        <span class="pbar" style="width:${(pa/mx*100).toFixed(1)}%;background:${cor}"></span>
+        <span class="pbar" style="width:${(pc/mx*100).toFixed(1)}%;background:#3a4050"></span></span>
+        <span class="num">${f(pa)}% vs ${f(pc)}%</span></div>`;};
+    h+='<div class="chart" style="padding:12px 16px"><div class="sub" style="margin:0 0 4px">Status (todos os leads do anúncio)</div>'
+      +par('Não Membro',+perf.pct_nao_membro,stCamp.nao_membro||0,'#8b91a0')
+      +par('Membro Ativo',+perf.pct_membro_ativo,stCamp.membro_ativo||0,'#4f8ef7')
+      +par('Ex-Membro',+perf.pct_ex_membro,stCamp.ex_membro||0,'#e879f9')
+      +par('Vitalício',+perf.pct_vitalicio,stCamp.membro_vitalicio||0,'#f7b64f')
+      +`<div class="sub" style="margin:12px 0 4px">Personas (só os ${f(perf.nm_leads,0)} Não Membros do anúncio)</div>`
+      +par('Reencontrado',+perf.pct_p_reencontrado,pCamp.reencontrado||0,'#3ecf8e')
+      +par('Simpatizante Maduro',+perf.pct_p_simpatizante,pCamp.simpatizante_maduro||0,'#3ecf8e')
+      +par('Pagante de Conteúdo',+perf.pct_p_pagante,pCamp.pagante_de_conteudo||0,'#3ecf8e')
+      +par('Curioso Frio (anti)',+perf.pct_p_frio,pCamp.curioso_frio||0,'#f7654f')
+      +par('Neutro',+perf.pct_p_neutro,pCamp.neutro||0,'#5b6473')
+      +'</div>'
+      +`<div class="veredito">${esc(veredito(perf,tag))}</div>`;
+  }
+  box.innerHTML=h;
+}
+
+/* ============ perfil por tipo de pessoa (campanha) ============ */
+function perfilStatusHTML(tag){
+  const rows=D.perfil_status.filter(x=>x.nm_tag===tag);
+  if(!rows.length) return '<div class="empty">Sem dados.</div>';
+  const ordem=['nao_membro','membro_ativo','ex_membro','membro_vitalicio'];
+  const cols=ordem.map(s=>rows.find(r=>r.status===s)).filter(Boolean);
+  const topReg=r=>{
+    const regs=[['pct_reg_alto','DDD alto'],['pct_reg_medio_alto','DDD médio-alto'],['pct_reg_medio','DDD médio'],['pct_reg_baixo','DDD baixo']];
+    const [k,lbl]=regs.sort((a,b)=>+r[b[0]]-+r[a[0]])[0];
+    return `${lbl} (${f(r[k])}%)`;};
+  const linhas=[
+    ['Leads', r=>`${f(r.leads,0)} <span style="color:var(--mut)">(${f(r.pct_base)}%)</span>`],
+    ['Conversão', r=>convCell(r.convertidos,r.conv_pct)],
+    ['R$/lead', r=>fr(r.rpl)],
+    ['Respondeu a pesquisa', r=>f(r.pct_respondeu)+'%'],
+    ['Paga streaming', r=>f(r.pct_paga)+'%'],
+    ['Recadastro quente (≤30d)', r=>f(r.pct_recad_quente)+'%'],
+    ['Recadastro frio (>180d/5+)', r=>f(r.pct_recad_frio)+'%'],
+    ['Conhece a BP há 3+ anos', r=>f(r.pct_tc_mais_3a)+'%'],
+    ['Primeiro contato', r=>f(r.pct_tc_primeiro)+'%'],
+    ['Região predominante', topReg],
+  ];
+  return `<div class="tblwrap"><table>
+    <tr><th></th>${cols.map(c=>`<th class="num">${STATUS_LBL[c.status]||c.status}</th>`).join('')}</tr>`+
+    linhas.map(([lbl,fn])=>`<tr><td style="color:var(--mut)">${lbl}</td>${cols.map(c=>`<td class="num">${fn(c)}</td>`).join('')}</tr>`).join('')+
+    '</table></div>';
+}
+
+/* ============ o que move o score (campanha) ============ */
+function impactoCampHTML(tag){
+  const rows=D.impacto.atributos.filter(x=>x.nm_tag===tag);
+  if(!rows.length) return '<div class="empty">Sem dados.</div>';
+  const mx=Math.max(...rows.map(x=>+x.share_pct),1);
+  return '<div class="chart" style="padding:12px 16px">'+rows.map(x=>
+    `<div class="improw"><span>${ATTR_LBL[x.atributo]||x.atributo}</span>
+     <span class="barbg" style="width:100%"><span class="bar" style="width:${(+x.share_pct/mx*100).toFixed(0)}%"></span></span>
+     <span class="num">${f(x.share_pct)}%</span></div>`).join('')+'</div>';
+}
+
+/* ============ IQL previu × aconteceu + régua de CPL máximo ============ */
+function previuHTML(tag){
+  if(D.anuncios.filter(a=>a.nm_tag===tag).length<6) return '';
+  return `<h2>IQL previu × aconteceu</h2>
+    <div class="sub">Anúncios ordenados por IQL e divididos em 3 terços de leads. Se o modelo funciona,
+    o terço de IQL alto converte e rende mais — e o R$/lead projetado na maturação vira a régua de
+    <b>CPL máximo</b> ("escalar ou parar").
+    &nbsp;·&nbsp;<label>Meta de retorno: <input id="meta-inp" type="number" step="0.1" min="1" value="${metaDe(tag)}" style="width:64px">×</label></div>
+    <div id="previu-body">${previuBody(tag)}</div>`;
+}
+function previuBody(tag){
+  const ads=D.anuncios.filter(a=>a.nm_tag===tag);
+  const c=campDe(tag), fator=+(c&&c.fator_maturacao)||1, idade=+(c&&c.idade_media_dias)||0, meta=metaDe(tag);
+  // terços de leads aproximadamente iguais, ordenados por IQL (alto → baixo)
+  const sorted=[...ads].sort((a,b)=>+b.iql_pct-+a.iql_pct);
+  const totLeads=sorted.reduce((s,a)=>s+ +a.leads,0);
+  const grupos=[[],[],[]]; let acc=0;
+  for(const a of sorted){ grupos[Math.min(2,Math.floor(acc/totLeads*3))].push(a); acc+= +a.leads; }
+  const agg=g=>{
+    const leads=g.reduce((s,a)=>s+ +a.leads,0);
+    const conv=g.reduce((s,a)=>s+ +a.convertidos,0);
+    const rec=g.reduce((s,a)=>s+(+a.rpl)*(+a.leads),0);
+    const inv=g.reduce((s,a)=>s+ +a.investimento,0);
+    const qual=g.reduce((s,a)=>s+ +a.qualificados,0);
+    return {n:g.length,leads,conv,convp:leads?conv/leads*100:0,w:wilson(conv,leads),
+      rpl:leads?rec/leads:0,cpl:leads?inv/leads:null,cplq:qual?inv/qual:null,
+      iqlMin:g.length?Math.min(...g.map(a=>+a.iql_pct)):0,iqlMax:g.length?Math.max(...g.map(a=>+a.iql_pct)):0};
+  };
+  const G=grupos.map(agg);
+  const nomes=['Terço IQL alto','Terço IQL médio','Terço IQL baixo'];
+  const mono=G[0].convp>G[1].convp&&G[1].convp>G[2].convp;
+  const monoR=G[0].rpl>G[2].rpl;
+  // Spearman IQL × conversão por anúncio (só anúncios com ≥5 vendas)
+  const el=ads.filter(a=>+a.convertidos>=5);
+  let sp=null;
+  if(el.length>=4){
+    const rank=arr=>{const idx=arr.map((v,i)=>[v,i]).sort((a,b)=>a[0]-b[0]);const r=Array(arr.length);
+      let i=0; while(i<idx.length){let j=i; while(j+1<idx.length&&idx[j+1][0]===idx[i][0])j++;
+        const m=(i+j)/2+1; for(let k=i;k<=j;k++) r[idx[k][1]]=m; i=j+1;}
+      return r;};
+    const rx=rank(el.map(a=>+a.iql_pct)), ry=rank(el.map(a=>+a.conv_pct));
+    const n=el.length, mr=(n+1)/2;
+    let num=0,dx=0,dy=0;
+    for(let i=0;i<n;i++){num+=(rx[i]-mr)*(ry[i]-mr);dx+=(rx[i]-mr)**2;dy+=(ry[i]-mr)**2;}
+    sp=(dx&&dy)?num/Math.sqrt(dx*dy):null;
+  }
+  const linhas=[
+    ['Anúncios', g=>f(g.n,0)],
+    ['Faixa de IQL', g=>`${f(g.iqlMin)}–${f(g.iqlMax)}%`],
+    ['Leads', g=>f(g.leads,0)],
+    ['Conversão observada', g=>`<b>${f(g.convp,2)}%</b> <span style="color:var(--mut)">${g.w?`±${f((g.w.hi-g.w.lo)/2*100,2)}`:''}</span>`],
+    ['R$/lead observado', g=>`<b>${fr(g.rpl)}</b>`],
+    ['CPL atual', g=>g.cpl!=null?fr(g.cpl):'—'],
+    ['CPLq', g=>g.cplq!=null?fr(g.cplq):'—'],
+    ['R$/lead projetado (maturado)', g=>`<b>${fr(g.rpl*fator)}</b>`],
+    ['CPL máximo (break-even)', g=>fr(g.rpl*fator)],
+    [`CPL máximo (meta ${f(meta,1)}×)`, g=>`<b>${fr(g.rpl*fator/meta)}</b>`],
+    ['Veredito', g=>{
+      if(g.cpl==null) return '—';
+      const be=g.rpl*fator, mx=be/meta;
+      return g.cpl<mx ? '<span class="chip z-escalar">🚀 escalar</span>'
+        : g.cpl<=be ? '<span class="chip z-cortar">⚠️ segurar</span>'
+        : '<span class="chip z-matar">⛔ parar</span>';
+    }],
+  ];
+  let h=`<div class="tblwrap"><table>
+    <tr><th></th>${nomes.map((n,i)=>`<th class="num">${n}</th>`).join('')}</tr>`+
+    linhas.map(([lbl,fn])=>`<tr><td style="color:var(--mut)">${lbl}</td>${G.map(g=>`<td class="num">${fn(g)}</td>`).join('')}</tr>`).join('')+
+    '</table></div>';
+  h+=`<div class="sub">Cohort NM com <b>${f(idade,0)} dias</b>; fator de maturação aplicado:
+    <b>${f(fator,2)}×</b>${idade<30?' (idade <30d — usa o fator de D+30, conservador)':''}.</div>`;
+  h+=`<div class="${mono?'veredito':'note'}">${mono
+    ? `✓ Conversão sobe com o IQL (${f(G[2].convp,2)}% → ${f(G[1].convp,2)}% → ${f(G[0].convp,2)}%)`
+      +(monoR?` e receita por lead também (${fr(G[2].rpl)} → ${fr(G[0].rpl)})`:'')
+      +' — validação visual do modelo nesta campanha.'
+    : '<b>Atenção:</b> a conversão observada não sobe com o IQL nesta campanha — sinal de recalibração do scorecard (ou cohort ainda imatura demais para ler).'}</div>`;
+  const spLv=sp==null?0:(el.length<15?1:2);
+  h+=`<div class="sub">Correlação (Spearman) IQL × conversão por anúncio:
+    ${sp!=null?`<b>${f(sp,2)}</b> (${el.length} anúncios com ≥5 vendas) ${sigMark(spLv, spLv===2?'amostra de anúncios razoável':'poucos anúncios com vendas suficientes — direção provável')}`
+    :`${sigMark(0,'menos de 4 anúncios com ≥5 vendas')} anúncios com vendas insuficientes para correlacionar`}.
+    Agregamos por terço porque conversão por anúncio individual tem poucas vendas; o confronto definitivo é o
+    gate do piloto (Spearman CPLq × CAC com cohort madura).</div>`;
+  h+=`<div class="note"><b>Régua de compra:</b> break-even sobre receita <b>BRUTA</b> last-click — não desconta
+    margem nem incrementalidade; a meta de retorno é a folga para isso. Fator de maturação = mediana histórica
+    de 10 campanhas de 2025 (faixa p25–p75: 1,66–2,36 em D+30).</div>`;
+  return h;
+}
+function bindMeta(tag){
+  const i=$('meta-inp'); if(!i) return;
+  i.oninput=()=>{
+    const v=parseFloat(i.value);
+    store.setItem('iql_meta_roas_'+tag, v>=1?String(v):'');
+    const b=$('previu-body'); if(b) b.innerHTML=previuBody(tag);
+  };
+}
+
 /* ============ visões ============ */
-function cardsHTML(list){
-  return '<div class="cards">'+list.map(([t,v,s])=>
+function cardsHTML(list,cls){
+  return `<div class="cards${cls?' '+cls:''}">`+list.map(([t,v,s])=>
     `<div class="card"><span>${t}</span><b>${v}</b><span>${s}</span></div>`).join('')+'</div>';
 }
 
 function viewCampanha(tag){
   const c=D.campanhas.find(x=>x.nm_tag===tag), m=midia(tag);
   const cob=+c.leads? +c.respondentes/+c.leads*100:0;
-  let h=cardsHTML([
-    ['Leads captados', f(c.leads,0), `${dbr(c.inicio)} – ${dbr(c.fim)}`],
-    ['IQL da campanha', f(c.iql_pct)+'%', `${f(c.faixa_a,0)} leads faixa A`],
+  const d7=deltas7(tag);
+  let h=`<div class="subnav"><a href="#" data-go="g-decidir">Decidir</a><a href="#" data-go="g-perfis">Perfis</a><a href="#" data-go="g-modelo">Modelo</a></div>`;
+
+  /* ── DECIDIR ── */
+  h+=`<div id="g-decidir"></div>`+acoesHTML(tag);
+  h+=cardsHTML([
+    ['CPLq', m.cplq!=null?fr(m.cplq):'—', 'custo por lead qualificado'],
+    ['IQL da campanha', f(c.iql_pct)+'%'+(d7?deltaHTML(d7.iqlA.delta,' p.p.'):''), `${f(c.faixa_a,0)} leads faixa A`],
+    ['NM-A / R$ 100', m.inv?f(m.nma/m.inv*100,1):'—', 'guardrail expansão de base'],
+    ['Investimento rastreado', fr(m.inv,0), `${m.ads.length} anúncios ≥50 leads`],
+    ['Leads captados', f(c.leads,0)+(d7?deltaHTML(d7.leads.delta,'%'):''), `${dbr(c.inicio)} – ${dbr(c.fim)}`],
+  ]);
+  h+=cardsHTML([
+    ['CPL', m.cpl!=null?fr(m.cpl):'—', 'nos anúncios rastreados'],
     ['NM-A', f(c.nm_a,0), 'não membros qualificados'],
-    ['Cobertura da pesquisa', f(cob)+'%', 'responderam ≥1 pergunta'],
     ['Conversão', f(c.conv_pct,2)+'%', `${f(c.convertidos,0)} vendas last-click`],
     ['R$/lead', fr(c.rpl), 'receita atribuída ÷ leads'],
-    ['Investimento rastreado', fr(m.inv,0), `${m.ads.length} anúncios ≥50 leads`],
-    ['CPL', m.cpl!=null?fr(m.cpl):'—', 'nos anúncios rastreados'],
-    ['CPLq', m.cplq!=null?fr(m.cplq):'—', 'custo por lead faixa A'],
-    ['NM-A / R$ 100', m.inv?f(m.nma/m.inv*100,1):'—', 'guardrail expansão de base'],
-  ]);
+    ['Cobertura da pesquisa', f(cob)+'%', 'responderam ≥1 pergunta'],
+  ],'sec');
   h+=`<div class="note"><b>Como ler:</b> cada lead recebe um score no dia do cadastro e cai numa faixa —
     <span class="fA">A qualificado</span> · <span class="fB">B potencial</span> · <span class="fC">C frio</span>.
-    <b>IQL</b> = % de leads faixa A do anúncio; <b>CPLq</b> = investimento ÷ leads faixa A ("o CPL que importa").
-    Regras: mínimo <b>50 leads</b> por anúncio; IQL só é comparável <b>dentro desta campanha</b>.</div>`;
+    Faixa A = score acima de um corte calibrado para ≥2× a conversão base (pesos não publicados — governança).
+    <b>IQL</b> = % de leads faixa A do anúncio; <b>CPLq</b> = investimento ÷ leads faixa A.
+    Regras: mínimo <b>50 leads</b> por anúncio; IQL só é comparável <b>dentro desta campanha</b>.
+    Confiança: ● leve a risca · ◐ direção provável · ○ amostra pequena, aguarde.</div>`;
 
   h+=`<h2>Quadrante de decisão — CPL × IQL</h2>
-    <div class="sub">Cada bolha é um anúncio (tamanho ∝ leads). Divisores = medianas da campanha
-    (CPL ${fr(m.medCpl)} · IQL ${f(m.medIql)}%). A linha clara é a fronteira de <b>iso-CPLq</b>
-    (CPLq mediano ${m.medCplq?fr(m.medCplq):'—'}): ela precifica o trade-off — CPL 2× maior é aceitável
-    se o IQL for 2× maior — e a distância até a linha mede o quanto o anúncio é melhor (acima) ou
-    pior (abaixo) em custo por lead qualificado. Passe o mouse para detalhes.</div>
-    <div class="chart" id="scatter">${scatterSVG(m.ads,{zones:true,mx:m.medCpl,my:m.medIql,cplqRef:m.medCplq})}</div>`;
+    <div class="sub">Bolha = anúncio (tamanho ∝ leads; <b>tracejada</b> = IQL ainda não conclusivo vs a mediana —
+    IC 95% no hover). Linha clara = <b>iso-CPLq mediano</b> (${m.medCplq?fr(m.medCplq):'—'}): precifica o trade-off —
+    CPL 2× maior é aceitável se o IQL for 2× maior. Linha azul = <b>alvo</b>: acima dela, compra aprovada; entre
+    alvo e mediana, atenção; abaixo da mediana, pior metade. Clique numa bolha para inspecionar.
+    &nbsp;·&nbsp;<label>CPLq alvo: R$ <input id="alvo-inp" type="number" step="0.5" min="0" value="${alvoDe(tag)||''}" placeholder="—"></label></div>
+    <div class="chart" id="scatter-chart"><div id="scatter">${scatterCamp(tag)}</div></div>
+    ${decideListHTML(tag)}`;
 
-  h+=`<h2>Tendência diária — leads por faixa</h2>
-    <div class="sub">Últimos 60 dias de captação da campanha. Área empilhada: quantidade de leads por dia e faixa.</div>
-    <div class="chart"><div class="legend"><span><i style="background:#3ecf8e"></i>Faixa A — qualificado</span>
-    <span><i style="background:#f7b64f"></i>Faixa B — potencial</span>
-    <span><i style="background:#5b6473"></i>Faixa C — frio</span></div>${serieSVG(tag)}</div>`;
+  h+=`<h2>Anúncios — todos os rastreados</h2>
+    <div class="sub">Clique no cabeçalho para ordenar; nos chips para filtrar por decisão; numa linha para inspecionar.</div>
+    ${adsTableHTML()}
+    ${NOTE_CONF}`;
 
-  h+=`<h2>Anúncios — CPL × IQL × CPLq</h2>
-    <div class="sub">Anúncios com ≥50 leads e investimento Meta. Clique no cabeçalho para ordenar.
-    <b>Decisão</b> = zona da matriz (medianas desta campanha). <b>NM-A</b> = Não Membros qualificados.</div>
-    ${adsTableHTML()}`;
+  /* ── PERFIS ── */
+  h+=`<h2 class="group" id="g-perfis">Perfis</h2>`;
+  h+=`<h2 style="margin-top:16px">Anúncio sob a lupa</h2>
+    <div class="sub">Escolha um anúncio (ou clique numa bolha/linha):
+    <select id="lupa-sel">${D.anuncios.filter(a=>a.nm_tag===tag).sort((a,b)=>+b.leads-+a.leads)
+      .map(a=>`<option value="${a.id_ad}">${esc(nomeCurto(tag,a.anuncio)).slice(0,70)} (${f(a.leads,0)} leads)</option>`).join('')}</select></div>
+    <div id="lupa"></div>
+    <div class="note">Leitura: impacto relativo ao desvio da média da campanha; atributos de pesquisa refletem
+    também a taxa de resposta do público do anúncio. Textos das personas: aba <a href="#" data-tab="!">Personas</a>.</div>`;
+  h+=`<h2>Perfil por tipo de pessoa</h2>
+    <div class="sub">Quem é o lead de cada status nesta campanha — de relance: o ex-membro que se cadastra aqui vs o Não Membro.</div>
+    ${perfilStatusHTML(tag)}`;
 
-  h+=`<h2>Validação — conversão real por faixa (Não Membros)</h2>
-    <div class="sub">Conversão last-click até hoje. NM converte em ~14 meses — números de campanha recente ainda maturam.</div>
-    ${faixasHTML(tag)}`;
-
-  h+=`<h2>Monotonia do score</h2>
-    <div class="sub">Conversão e receita por banda de pontos (NM desta campanha) — devem subir de cima para baixo.</div>
-    ${bandasHTML(tag)}
-    ${NOTE_LASTCLICK}`;
-
-  h+=`<h2>Perguntas da pesquisa — IV (Information Value)</h2>
-    <div class="sub">Auto-descoberta: pergunta nova no formulário aparece aqui sozinha.
-    Régua: &lt;0,02 inútil · 0,02–0,1 fraca · 0,1–0,3 média · &gt;0,5 suspeita de vazamento.</div>
-    ${ivHTML(tag)}`;
+  /* ── MODELO ── */
+  h+=`<h2 class="group" id="g-modelo">Modelo</h2>`;
+  h+=`<h2 style="margin-top:16px">O que move o score nesta campanha</h2>
+    <div class="sub">Importância relativa de cada característica (normalizada a 100%; pesos não publicados).</div>
+    ${impactoCampHTML(tag)}`;
+  h+=previuHTML(tag);
+  h+=`<details><summary>Tendência diária — leads por faixa e % faixa A</summary>
+    <div class="sub">Área = leads/dia por faixa; linha branca = % faixa A (eixo direito) — o mix é a tendência que importa.</div>
+    <div class="legend"><span><i style="background:#3ecf8e"></i>Faixa A</span>
+    <span><i style="background:#f7b64f"></i>Faixa B</span><span><i style="background:#5b6473"></i>Faixa C</span>
+    <span><i style="background:#e8eaf0"></i>% faixa A (dir.)</span></div>${serieSVG(tag)}</details>`;
+  h+=`<details><summary>Validação — conversão real por faixa (Não Membros)</summary>
+    <div class="sub">Conversão last-click até hoje. NM converte em ~14 meses — campanha recente ainda matura.</div>
+    ${faixasHTML(tag)}</details>`;
+  h+=`<details><summary>Monotonia do score — conversão e receita por banda</summary>
+    <div class="sub">Devem subir de cima para baixo.</div>${bandasHTML(tag)}</details>`;
+  h+=NOTE_LASTCLICK;
+  h+=`<div class="sub">Diagnóstico das perguntas da pesquisa (IV, recomendação por pergunta): aba
+    <a href="#" data-tab="?">Perguntas</a>.</div>`;
 
   $('view').innerHTML=h;
-  renderAdsTable(tag);
+  renderAdsTable(tag); bindAdsFilter(tag); bindLupa(tag); bindAlvo(tag); bindMeta(tag);
+  document.querySelectorAll('[data-go]').forEach(a=>a.onclick=e=>{
+    e.preventDefault(); const el=$(a.dataset.go);
+    if(el&&el.scrollIntoView) el.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  document.querySelectorAll('[data-tab]').forEach(a=>a.onclick=e=>{e.preventDefault();setTab(a.dataset.tab);});
+  const at=$('acoes-tbl');
+  if(at&&at.querySelectorAll) at.querySelectorAll('tr[data-id]').forEach(tr=>tr.onclick=()=>selecionaAd(tag,tr.dataset.id));
 }
 
 function viewComparativo(){
@@ -376,8 +862,8 @@ function viewComparativo(){
     <div class="sub">Métricas de mídia calculadas sobre os anúncios rastreados (≥50 leads e spend Meta).</div>
     <div class="tblwrap"><table>
     <tr><th>Campanha</th><th>Período</th><th class="num">Leads</th><th class="num">Cobertura pesquisa</th>
-    <th class="num">IQL</th><th class="num">NM-A</th><th class="num">Investimento</th>
-    <th class="num">CPL</th><th class="num">CPLq</th><th class="num">NM-A / R$ 100</th></tr>`+
+    <th class="num" title="% de leads faixa A">IQL</th><th class="num" title="Não Membros faixa A">NM-A</th><th class="num">Investimento</th>
+    <th class="num">CPL</th><th class="num" title="investimento ÷ leads faixa A">CPLq</th><th class="num" title="Não Membros faixa A por R$100 — guardrail de expansão de base">NM-A / R$ 100</th></tr>`+
     D.campanhas.map(c=>{
       const m=midia(c.nm_tag), cob=+c.leads? +c.respondentes/+c.leads*100:0;
       return `<tr><td><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${COLOR[c.nm_tag]};margin-right:7px"></span><b>${esc(c.nm_tag)}</b></td>
@@ -387,21 +873,67 @@ function viewComparativo(){
       <td class="num"><b>${m.cplq!=null?fr(m.cplq):'—'}</b></td>
       <td class="num">${m.inv?f(m.nma/m.inv*100,1):'—'}</td></tr>`;}).join('')+'</table></div>';
 
-  const allAds=D.anuncios;
-  h+=`<h2>Anúncios de todas as campanhas</h2>
-    <div class="sub">Cores por campanha. Sem zonas de decisão aqui: as medianas que definem
-    escalar/cortar são <b>de cada campanha</b> — selecione uma aba para ver a matriz.</div>
-    <div class="chart" id="scatter">${scatterSVG(allAds,{zones:false,byTag:true})}
-    <div class="legend">${TAGS.map(t=>`<span><i style="background:${COLOR[t]}"></i>${esc(t)}</span>`).join('')}</div></div>`;
+  // small multiples: um mini-quadrante por campanha (cada um com as PRÓPRIAS medianas)
+  h+=`<h2>Quadrantes por campanha</h2>
+    <div class="sub">Um quadrante por campanha, cada um com as próprias medianas — não compare posições entre os gráficos.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:12px">`+
+    TAGS.map(t=>{
+      const m=midia(t);
+      return `<div class="chart"><div class="sub" style="padding:4px 10px 0"><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${COLOR[t]};margin-right:7px"></span><b style="color:var(--tx)">${esc(t)}</b> · mediana CPL ${fr(m.medCpl)} · IQL ${f(m.medIql)}%</div>
+        ${scatterSVG(m.ads,{zones:true,mx:m.medCpl,my:m.medIql,key:'comp-'+t,compact:true})}</div>`;
+    }).join('')+'</div>';
 
   h+=`<h2>Saúde do modelo — backtest out-of-time</h2>${backtestHTML()}`;
-
   h+=`<h2>Monotonia do score (campanhas agregadas)</h2>
     <div class="sub">Conversão e receita por banda de pontos (NM, todas as campanhas com pesquisa).</div>
     ${bandasHTML('*')}
     ${NOTE_LASTCLICK}`;
-
   $('view').innerHTML=h;
+}
+
+function viewPersonas(){
+  let h=`<div class="note"><b>Para quem é esta aba:</b> time de conteúdo (quem cria anúncios e roteiros).
+    Cada card é um perfil real de quem as campanhas captam entre Não Membros — quanto ele pesa na base,
+    em que ritmo vira assinante e, principalmente, <b>como falar com ele</b>.</div>`;
+  for(const c of D.campanhas){
+    const tag=c.nm_tag;
+    const rows=D.icps.filter(x=>x.nm_tag===tag);
+    if(!rows.length) continue;
+    const get=p=>rows.find(x=>x.persona===p);
+    const nmTot=rows.reduce((s,x)=>s+ +x.leads,0);
+    h+=`<h2><span class="dot" style="display:inline-block;width:11px;height:11px;border-radius:50%;background:${COLOR[tag]};margin-right:8px"></span>${esc(tag)}</h2>
+      <div class="sub">Perfis entre os ${f(nmTot,0)} Não Membros captados (${dbr(c.inicio)} – ${dbr(c.fim)}).
+      "× o NM médio" = quantas vezes o perfil assina em relação ao Não Membro médio desta campanha.</div>
+      <div class="icps">`+
+      ['reencontrado','simpatizante_maduro','pagante_de_conteudo','curioso_frio'].map(p=>{
+        const P=PERSONAS[p], x=get(p);
+        if(!x) return '';
+        const lift=+x.lift_vs_base, cv=+x.convertidos;
+        const badge=cv<30?` <span class="sig s${cv<5?0:1}" title="menos de 30 conversões — regra da metodologia: aguardar amostra">${cv<5?'○':'◐'} amostra</span>`:'';
+        return `<div class="icp${P.anti?' anti':''}">
+          <h3>${P.nome}${P.anti?' <span class="chip z-matar">anti-persona</span>':''}</h3>
+          <div class="desc">${P.desc}</div>
+          <div class="nums"><b>${f(x.leads,0)}</b> leads — ${f(x.pct_dos_nm)}% da base<br>
+            Vira assinante: <b>${f(x.conv_pct,2)}%</b> (${f(cv,0)} vendas)${badge}<br>
+            <span class="${lift>=1.3?'good':(lift<0.7?'badtx':'')}">${f(lift,1)}× o NM médio</span> ·
+            Receita: ${fr(x.rpl)} por lead</div>
+          <div class="fala"><b>Como falar:</b> ${P.fala}</div>
+        </div>`;
+      }).join('')+'</div>';
+    const n=get('neutro');
+    if(n) h+=`<div class="sub">Neutro (o resto da base, fechamento de contas): ${f(n.leads,0)} leads
+      (${f(n.pct_dos_nm)}%) · vira assinante ${f(n.conv_pct,2)}% · ${f(n.lift_vs_base,1)}× o NM médio · ${fr(n.rpl)}/lead.</div>`;
+    h+=`<div class="sub" style="margin-top:8px">Quais anúncios atraíram cada perfil: bloco <b>Ações da campanha</b>
+      e o painel <b>Anúncio sob a lupa</b> na <a href="#" data-tab="${esc(tag)}">aba ${esc(tag)}</a>.</div>`;
+  }
+  h+=`<div class="note"><b>Leia antes de usar:</b>
+    (1) <b>viés de seleção</b> — estes perfis descrevem quem converte <b>entre os leads que os anúncios atuais
+    alcançam</b>; uma persona fora desse alcance não aparece aqui;
+    (2) os traços de pesquisa só são observáveis <b>depois do cadastro</b> — para mirar estas personas, use
+    lookalike semeado com a faixa A, geo, e o próprio criativo como filtro (quem clica se seleciona);
+    (3) conversão/receita last-click, cohort ainda maturando — leitura relativa, não ROI final.</div>`;
+  $('view').innerHTML=h;
+  document.querySelectorAll('[data-tab]').forEach(a=>a.onclick=e=>{e.preventDefault();setTab(a.dataset.tab);});
 }
 
 function viewPerguntas(){
@@ -409,6 +941,7 @@ function viewPerguntas(){
   const ivMax={};
   D.iv.forEach(x=>ivMax[x.nm_pergunta]=Math.max(ivMax[x.nm_pergunta]||0,+x.iv_total));
   qs.sort((a,b)=>(ivMax[b]||0)-(ivMax[a]||0));
+  const titulo=q=>{const t=q.replace(/_/g,' ').replace(/\bbp\b/gi,'BP');return t.charAt(0).toUpperCase()+t.slice(1);};
   let h=`<div class="note"><b>Para que serve:</b> uma ficha por pergunta da pesquisa, para decidir
     <span class="chip promover">promover</span> <span class="chip observar">observar</span>
     <span class="chip aposentar">aposentar</span> ou reformular. Base: Não Membros (onde a pesquisa é o
@@ -416,13 +949,13 @@ function viewPerguntas(){
     <b>entre campanhas</b> — IV alto numa campanha só é suspeita, não mérito.
     Régua IV: &lt;0,02 inútil · 0,02–0,1 fraca · 0,1–0,3 média · &gt;0,5 suspeita de vazamento.</div>`;
   for(const q of qs){
-    h+=`<h2>${esc(q)}</h2><div class="sub">Estabilidade entre campanhas</div>`;
+    h+=`<h2>${esc(titulo(q))}</h2><div class="sub">chave: <code>${esc(q)}</code> · Estabilidade entre campanhas</div>`;
     const ivRows=D.iv.filter(x=>x.nm_pergunta===q);
     h+= ivRows.length ? `<div class="tblwrap"><table>
       <tr><th>Campanha</th><th class="num">Cobertura</th><th class="num">IV total</th><th class="num">IV respondentes</th><th>Recomendação</th></tr>`+
       ivRows.map(x=>`<tr><td><b>${esc(x.nm_tag)}</b></td><td class="num">${f(x.cobertura_pct)}%</td>
         <td class="num">${f(x.iv_total,3)}</td><td class="num">${f(x.iv_respondentes,3)}</td>
-        <td><span class="chip ${x.ds_recomendacao}">${x.ds_recomendacao.replace(/_/g,' ')}</span></td></tr>`).join('')+'</table></div>'
+        <td><span class="chip ${x.ds_recomendacao}">${x.ds_recomendacao==='amostra_insuficiente'?'○ ':''}${x.ds_recomendacao.replace(/_/g,' ')}</span></td></tr>`).join('')+'</table></div>'
       : '<div class="empty">Sem IV calculado para esta pergunta.</div>';
     const rRows=D.perguntas.filter(x=>x.nm_pergunta===q);
     if(rRows.length){
@@ -437,52 +970,75 @@ function viewPerguntas(){
           return `<tr><td>${esc(x.nm_tag)}</td>
           <td style="white-space:normal;min-width:200px">${x.nm_resposta==='__sem_resposta__'?'<i style="color:var(--mut)">— sem resposta —</i>':esc(x.nm_resposta)}</td>
           <td class="num">${f(x.n,0)}</td><td class="num">${tot[x.nm_tag]?f(+x.n/tot[x.nm_tag]*100):'—'}%</td>
-          <td class="num">${f(x.convertidos,0)} <span style="color:var(--mut)">(${f(x.conv_pct,2)}%)</span></td>
+          <td class="num">${convCell(x.convertidos,x.conv_pct)}</td>
           <td class="num ${lift>=1.3?'good':(lift<0.7&&lift>0?'badtx':'')}">${f(lift,2)}×</td>
           <td class="num">${fr(x.rpl)}</td></tr>`;}).join('')+'</table></div>';
     }
   }
-  h+=NOTE_LASTCLICK;
+  h+=NOTE_CONF+NOTE_LASTCLICK;
   $('view').innerHTML=h;
 }
 
-/* ============ tooltips ============ */
+/* ============ tooltips e interações globais ============ */
 function bindTips(){
   const tip=$('tip');
   document.addEventListener('mousemove',e=>{
-    if(tip.style.display==='block'){
+    if(tip.style.display==='block'&&!tip.dataset.pin){
       const x=Math.min(e.clientX+14,innerWidth-tip.offsetWidth-8);
       const y=Math.min(e.clientY+14,innerHeight-tip.offsetHeight-8);
       tip.style.left=x+'px'; tip.style.top=y+'px';
     }
   });
+  const showAdTip=a=>{
+    const m=midia(a.nm_tag);
+    const z=zonaDe(a.cpl,a.iql_pct,m.medCpl,m.medIql);
+    const s=sigIql(a,m.medIql);
+    const alvo=alvoDe(a.nm_tag);
+    const rel=(ref,nomeRef)=>{
+      if(a.cplq==null||!ref) return '';
+      const p=(1-+a.cplq/ref)*100;
+      return ` <span class="${p>=0?'good':'badtx'}">${f(Math.abs(p),0)}% ${p>=0?'melhor':'pior'} que ${nomeRef}</span>`;};
+    tip.innerHTML=`<b>${esc(a.anuncio)}</b><br>Campanha: ${esc(a.nm_tag)} · <span class="chip z-${z}">${ZONA_LBL[z]}</span> ${SIGG[s.lv]}<br>
+      Leads: <b>${f(a.leads,0)}</b> · IQL: <b>${f(a.iql_pct)}%</b>${s.w?` <span style="color:var(--mut)">(IC ${f(s.w.lo*100,0)}–${f(s.w.hi*100,0)}%)</span>`:''}<br>
+      CPL: ${fr(a.cpl)} · CPLq: <b>${a.cplq!=null?fr(a.cplq):'—'}</b>${rel(m.medCplq,'a mediana')}${alvo&&a.cplq!=null?'<br>vs alvo:'+rel(alvo,'o alvo'):''}<br>
+      Conv.: ${sigConv(a.convertidos)===0?`○ ${f(a.convertidos,0)} vendas`:`${f(a.convertidos,0)} (${f(a.conv_pct,2)}%)`} · R$/lead: ${fr(a.rpl)}${(()=>{
+        const cc=campDe(a.nm_tag), fM=cc?+cc.fator_maturacao:0;
+        return (+a.convertidos>=5&&fM)?`<br>CPL máx estimado: <b>~${fr(+a.rpl*fM/metaDe(a.nm_tag))}</b> <span style="color:var(--mut)">(RPL próprio × maturação ÷ meta)</span>`:'';
+      })()}<br>
+      NM-A: ${f(a.nm_a,0)} · Invest.: ${fr(a.investimento,0)}`;
+    tip.style.display='block';
+  };
   document.addEventListener('mouseover',e=>{
     const c=e.target.closest&&e.target.closest('circle.pt');
     if(c){
-      const a=tipAds[+c.dataset.i]; if(!a) return;
-      const m=midia(a.nm_tag);
-      const z=zonaDe(a.cpl,a.iql_pct,m.medCpl,m.medIql);
-      tip.innerHTML=`<b>${esc(a.anuncio)}</b><br>Campanha: ${esc(a.nm_tag)} · <span class="chip z-${z}">${ZONA_LBL[z]}</span><br>
-        Leads: <b>${f(a.leads,0)}</b> · IQL: <b>${f(a.iql_pct)}%</b><br>
-        CPL: ${fr(a.cpl)} · CPLq: <b>${a.cplq!=null?fr(a.cplq):'—'}</b>${(()=>{
-          if(a.cplq==null||!m.medCplq) return '';
-          const p=(1-+a.cplq/m.medCplq)*100;
-          return ` <span class="${p>=0?'good':'badtx'}">${f(Math.abs(p),0)}% ${p>=0?'melhor':'pior'} que a mediana</span>`;
-        })()}<br>
-        Conv.: ${f(a.convertidos,0)} (${f(a.conv_pct,2)}%) · R$/lead: ${fr(a.rpl)}<br>
-        NM-A: ${f(a.nm_a,0)} · Invest.: ${fr(a.investimento,0)}`;
-      tip.style.display='block';
+      const a=(TIPSETS[c.dataset.s]||[])[+c.dataset.i]; if(!a) return;
+      showAdTip(a);
+      // whisker do IC 95% do IQL (só no hover)
+      const w=$('wsk-'+c.dataset.s);
+      if(w&&c.dataset.wy1){ w.setAttribute('x1',c.dataset.cx); w.setAttribute('x2',c.dataset.cx);
+        w.setAttribute('y1',c.dataset.wy1); w.setAttribute('y2',c.dataset.wy2); w.setAttribute('visibility','visible'); }
     }
   });
   document.addEventListener('mouseout',e=>{
-    if(e.target.closest&&e.target.closest('circle.pt')) tip.style.display='none';
+    if(e.target.closest&&e.target.closest('circle.pt')){
+      if(!tip.dataset.pin) tip.style.display='none';
+      document.querySelectorAll('[id^=wsk-]').forEach(w=>w.setAttribute&&w.setAttribute('visibility','hidden'));
+    }
+  });
+  // clique: seleciona (tabela↔quadrante↔lupa) e fixa o tooltip (tap em mobile)
+  document.addEventListener('click',e=>{
+    const c=e.target.closest&&e.target.closest('circle.pt');
+    if(!c){ if(tip.dataset.pin){tip.dataset.pin='';tip.style.display='none';} return; }
+    const a=(TIPSETS[c.dataset.s]||[])[+c.dataset.i]; if(!a) return;
+    showAdTip(a); tip.dataset.pin='1';
+    if(a.id_ad&&a.nm_tag===TAB) selecionaAd(TAB,a.id_ad);
   });
   // hover da série diária
   document.addEventListener('mousemove',e=>{
     const r=e.target.id==='serie-hover'?e.target:null;
     if(!r){ if(e.target.tagName!=='circle'&&tip.dataset.mode==='serie'){tip.style.display='none';tip.dataset.mode='';} return; }
     const svg=$('serie-svg'), vl=$('serie-vl'); if(!svg||!serieDays.length) return;
-    const bb=svg.getBoundingClientRect(), W=940,L=52,R=16;
+    const bb=svg.getBoundingClientRect(), W=940,L=52,R=46;
     const px=(e.clientX-bb.left)/bb.width*W;
     const n=serieDays.length;
     const i=Math.max(0,Math.min(n-1,Math.round((px-L)/(W-L-R)*(n-1))));
@@ -491,7 +1047,7 @@ function bindTips(){
     tip.dataset.mode='serie';
     tip.innerHTML=`<b>${dbr(d.dia)}</b> — ${f(d.tot,0)} leads<br>
       <span class="fA">A: ${f(d.A,0)}</span> · <span class="fB">B: ${f(d.B,0)}</span> · <span class="fC">C: ${f(d.C,0)}</span><br>
-      % faixa A no dia: <b>${d.tot?f(d.A/d.tot*100):0}%</b>`;
+      % faixa A no dia: <b>${f(d.pA)}%</b>`;
     tip.style.display='block';
   });
 }
@@ -501,8 +1057,8 @@ function setTab(t){
   TAB=t;
   if(location.hash.replace('#','')!==encodeURIComponent(t)) history.replaceState(null,'','#'+encodeURIComponent(t));
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
-  adsSort={k:'cplq',dir:1};
-  if(t==='*') viewComparativo(); else if(t==='?') viewPerguntas(); else viewCampanha(t);
+  adsSort={k:'cplq',dir:1}; selAd=null; adsFilter={zona:'',q:''};
+  if(t==='*') viewComparativo(); else if(t==='?') viewPerguntas(); else if(t==='!') viewPersonas(); else viewCampanha(t);
   window.scrollTo({top:0});
 }
 
@@ -513,12 +1069,17 @@ fetch('./data.json').then(r=>r.json()).then(data=>{
   $('sub').textContent=`Scorecard ${D.cards.versao} · atualizado ${D.atualizado} · uma aba por campanha; "Comparativo" para visão entre campanhas`;
   $('tabs').innerHTML=TAGS.map(t=>
       `<button class="tab" data-t="${esc(t)}"><span class="dot" style="background:${COLOR[t]}"></span>${esc(t)}</button>`).join('')+
+    `<button class="tab" data-t="!">Personas</button>`+
     `<button class="tab" data-t="?">Perguntas</button>`+
     `<button class="tab" data-t="*">Comparativo</button>`;
   document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.t));
   bindTips();
+  window.addEventListener('hashchange',()=>{
+    const t=decodeURIComponent(location.hash.replace('#',''));
+    if(t!==TAB&&(t==='*'||t==='?'||t==='!'||TAGS.includes(t))) setTab(t);
+  });
   const h=decodeURIComponent(location.hash.replace('#',''));
-  setTab(h==='*'||h==='?'||TAGS.includes(h)?h:TAGS[0]);
+  setTab(h==='*'||h==='?'||h==='!'||TAGS.includes(h)?h:TAGS[0]);
 });
 </script>
 </body>
