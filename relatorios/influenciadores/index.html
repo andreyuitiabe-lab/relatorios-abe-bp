@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Influenciadores — Ranking de Vendas BP</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc; --card: #ffffff; --line: #e2e8f0; --text: #1e293b;
+      --muted: #475569; --soft: #94a3b8; --blue: #3b6ef5; --green: #16a34a;
+      --red: #e23b3b; --amber: #f5a524; --violet: #7c5cfc;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+           background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; }
+    .wrap { max-width: 1060px; margin: 0 auto; padding: 48px 24px 80px; }
+    section { margin-bottom: 56px; }
+    h1 { font-size: 26px; font-weight: 700; }
+    h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .desc { color: var(--muted); font-size: 13px; margin-bottom: 16px; max-width: 780px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    @media (max-width: 700px) { .grid-3 { grid-template-columns: 1fr; } }
+    .stats { display: flex; gap: 40px; flex-wrap: wrap; margin: 24px 0 8px; }
+    .bigstat .bs-num { font-size: 34px; font-weight: 800; color: var(--blue); line-height: 1.1; }
+    .bigstat .bs-num.g { color: var(--green); }
+    .bigstat .bs-num.v { color: var(--violet); }
+    .bigstat .bs-num.a { color: var(--amber); }
+    .bigstat .bs-cap { font-size: 12px; color: var(--muted); margin-top: 4px; max-width: 200px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px;
+         text-transform: uppercase; letter-spacing: .04em; padding: 8px 10px;
+         border-bottom: 2px solid var(--line); white-space: nowrap; }
+    td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .rank { color: var(--soft); font-weight: 700; width: 30px; }
+    .nome { font-weight: 600; }
+    .tags { color: var(--muted); font-size: 12px; }
+    .chart-box { position: relative; height: 320px; }
+    .note { background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px;
+            padding: 14px 18px; font-size: 13px; color: #78450f; margin-top: 16px; }
+    .pill { display: inline-block; padding: 1px 8px; border-radius: 99px; font-size: 11px;
+            font-weight: 600; margin-right: 6px; }
+    .pill.d { background: #e0e9ff; color: #2450c9; }
+    .pill.a { background: #fdf0d5; color: #9a6410; }
+    .pill.i { background: #ede9fe; color: #6d47e0; }
+    .toggle { margin-top: 12px; font-size: 13px; color: var(--blue); cursor: pointer;
+              background: none; border: none; font-weight: 600; }
+    details.metodo summary { cursor: pointer; font-weight: 600; }
+    details.metodo { font-size: 13px; color: var(--muted); }
+    details.metodo li { margin: 6px 0 6px 18px; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <section>
+    <h1>Influenciadores — quem mais vendeu BP</h1>
+    <div class="sub">Ranking de vendas atribuídas a influenciadores e parceiros · jan/2025 até hoje · atualizado em <span id="updated">—</span></div>
+    <div class="stats" id="bigstats"></div>
+    <div class="desc" style="margin-top:8px">
+      <span class="pill d">Venda direta</span> pelo link/página do influenciador &nbsp;
+      <span class="pill a">Anúncio com criativo de influ</span> vídeo gravado pelo influ, distribuído via tráfego pago &nbsp;
+      <span class="pill i">Venda indireta</span> lead entrou por página de parceiro e comprou depois por outro canal
+    </div>
+  </section>
+
+  <section>
+    <h2>Receita por mês e origem</h2>
+    <div class="desc">Desde 2025 o modelo dominante é o criativo de influ distribuído em mídia paga (~84% da receita do período). Os picos acompanham as campanhas: Oficina do Diabo (jan–mar/25), Black Friday (nov/25) e Clube do Livro (jun/26).</div>
+    <div class="card"><div class="chart-box"><canvas id="chAno"></canvas></div></div>
+  </section>
+
+  <section>
+    <h2>Por campanha</h2>
+    <div class="desc">Quanto os influenciadores venderam em cada campanha e quem foram os destaques. A coluna de origem mostra de onde veio a receita (anúncio com criativo de influ, link direto ou lead de parceiro).</div>
+    <div class="card" style="overflow-x:auto">
+      <table id="tbCampanha"></table>
+      <button class="toggle" data-target="tbCampanha">mostrar todas</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ranking — anúncios com criativo de influenciador</h2>
+    <div class="desc">O influ grava o vídeo de venda (VVS) e a mídia paga distribui. A venda é do anúncio, mas o criativo é o que converte — este ranking mostra quais influs performam em tráfego pago. É o grosso da receita de influs desde 2025.</div>
+    <div class="card" style="overflow-x:auto">
+      <table id="tbAds"></table>
+      <button class="toggle" data-target="tbAds">mostrar todos</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ranking — venda direta pelo link do influenciador</h2>
+    <div class="desc">Vendas em que o último clique foi um link, página ou QR code do influenciador/parceiro.</div>
+    <div class="card" style="overflow-x:auto">
+      <table id="tbDireto"></table>
+      <button class="toggle" data-target="tbDireto">mostrar todos</button>
+    </div>
+    <div class="note" id="noteGenerico"></div>
+  </section>
+
+  <section>
+    <h2>Venda indireta — lead veio de parceiro</h2>
+    <div class="desc">A pessoa se cadastrou por uma página de parceria (ex: documentários com divulgação de parceiros) e comprou no período por outro canal — inclui leads captados em campanhas antigas. Na maioria dos casos o tracking guarda só a campanha, não o influ individual.</div>
+    <div class="card" style="overflow-x:auto"><table id="tbIndireto"></table></div>
+  </section>
+
+  <section>
+    <div class="card">
+      <details class="metodo">
+        <summary>Metodologia e limitações</summary>
+        <ul>
+          <li><b>Fonte:</b> <code>fct_transactions</code> (transações aprovadas, sem renovações), compras de <b>jan/2025 em diante</b>. Receita = valor total da venda (<code>vl_payment_gross</code>).</li>
+          <li><b>Venda direta:</b> canal <code>Influencers</code> na classificação da base.</li>
+          <li><b>Anúncios de influ:</b> UTM do anúncio contém marcação <code>influ</code> no criativo/campanha (excluídos adsets "sem influs" e criativos temáticos).</li>
+          <li><b>Venda indireta:</b> replica a regra do dash antigo do Insider (last tracking contém PARC, excluindo compras via ads) — o mesmo comprador não aparece em duas categorias.</li>
+          <li><b>Limitação principal:</b> boa parte das vendas diretas usou links genéricos de parceria compartilhados entre influs — nesses casos não dá para saber qual influ trouxe a venda.</li>
+          <li>Nomes extraídos automaticamente dos trackings; variações de grafia foram unificadas, mas pode haver resíduos na cauda longa.</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+</div>
+<script>
+const fmt = n => 'R$ ' + n.toLocaleString('pt-BR');
+const fmtK = n => n >= 1e6 ? 'R$ ' + (n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:1}) + ' mi'
+                           : 'R$ ' + Math.round(n/1e3).toLocaleString('pt-BR') + ' mil';
+
+const MESES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+const fmtMes = k => MESES[+k.slice(5) - 1] + '/' + k.slice(2, 4);   // '2025-01' → 'jan/25'
+
+function anosAtivos(anos) {
+  const ks = Object.keys(anos).filter(a => anos[a] > 0).sort();
+  if (!ks.length) return '—';
+  const ini = fmtMes(ks[0]), fim = fmtMes(ks[ks.length-1]);
+  return ini === fim ? ini : ini + ' – ' + fim;
+}
+
+function rankTable(el, rows, showAll) {
+  const N = showAll ? rows.length : 25;
+  let html = '<thead><tr><th></th><th>Influenciador</th><th class="num">Vendas</th><th class="num">Receita</th><th>Principais campanhas</th><th>O que vendeu</th><th>Período</th></tr></thead><tbody>';
+  rows.slice(0, N).forEach((r, i) => {
+    html += `<tr><td class="rank">${i+1}</td><td class="nome">${r.nome}</td>
+      <td class="num">${r.qt.toLocaleString('pt-BR')}</td>
+      <td class="num"><b>${fmt(r.receita)}</b></td>
+      <td class="tags">${r.campanhas.map(c => c[0]).slice(0,3).join(' · ')}</td>
+      <td class="tags">${r.produtos.map(p => p[0]).slice(0,3).join(' · ')}</td>
+      <td class="tags">${anosAtivos(r.anos)}</td></tr>`;
+  });
+  el.innerHTML = html + '</tbody>';
+}
+
+function campTable(el, rows, showAll) {
+  const N = showAll ? rows.length : 15;
+  let html = '<thead><tr><th></th><th>Campanha</th><th class="num">Vendas</th><th class="num">Receita</th><th class="num">Anúncio influ</th><th class="num">Link direto</th><th class="num">Indireta</th><th>Top influs</th></tr></thead><tbody>';
+  rows.slice(0, N).forEach((r, i) => {
+    html += `<tr><td class="rank">${i+1}</td><td class="nome">${r.nome}</td>
+      <td class="num">${r.qt.toLocaleString('pt-BR')}</td>
+      <td class="num"><b>${fmt(r.receita)}</b></td>
+      <td class="num">${r.ads ? fmtK(r.ads) : '—'}</td>
+      <td class="num">${r.direto ? fmtK(r.direto) : '—'}</td>
+      <td class="num">${r.indireto ? fmtK(r.indireto) : '—'}</td>
+      <td class="tags">${r.influs.map(x => x[0]).slice(0,4).join(' · ') || '—'}</td></tr>`;
+  });
+  el.innerHTML = html + '</tbody>';
+}
+
+fetch('./data.json').then(r => r.json()).then(D => {
+  document.getElementById('updated').textContent = new Date(D.updated + 'T12:00').toLocaleDateString('pt-BR');
+
+  const t = D.totais;
+  const totalR = t.direto.receita + t.ads.receita + t.indireto.receita;
+  const totalQ = t.direto.qt + t.ads.qt + t.indireto.qt;
+  document.getElementById('bigstats').innerHTML = `
+    <div class="bigstat"><div class="bs-num g">${fmtK(totalR)}</div><div class="bs-cap">receita total atribuída a influs (${totalQ.toLocaleString('pt-BR')} vendas)</div></div>
+    <div class="bigstat"><div class="bs-num a">${fmtK(t.ads.receita)}</div><div class="bs-cap">anúncios com criativo de influ (${t.ads.qt.toLocaleString('pt-BR')} vendas)</div></div>
+    <div class="bigstat"><div class="bs-num">${fmtK(t.direto.receita)}</div><div class="bs-cap">venda direta por link de influ (${t.direto.qt.toLocaleString('pt-BR')} vendas)</div></div>
+    <div class="bigstat"><div class="bs-num v">${fmtK(t.indireto.receita)}</div><div class="bs-cap">venda indireta — lead veio de parceiro (${t.indireto.qt.toLocaleString('pt-BR')} vendas)</div></div>`;
+
+  new Chart(document.getElementById('chAno'), {
+    type: 'bar',
+    data: { labels: D.por_ano.map(p => fmtMes(p.ano)), datasets: [
+      { label: 'Venda direta', data: D.por_ano.map(p => p.direto), backgroundColor: '#3b6ef5' },
+      { label: 'Anúncios de influ', data: D.por_ano.map(p => p.ads), backgroundColor: '#f5a524' },
+      { label: 'Venda indireta', data: D.por_ano.map(p => p.indireto), backgroundColor: '#7c5cfc' },
+    ]},
+    options: { maintainAspectRatio: false, responsive: true,
+      scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: v => fmtK(v) } } },
+      plugins: { tooltip: { callbacks: { label: c => c.dataset.label + ': ' + fmt(c.raw) } } } }
+  });
+
+  const generico = D.direto.find(r => r.nome.startsWith('Parceiros — link genérico'));
+  const direto = D.direto.filter(r => r !== generico);
+  rankTable(document.getElementById('tbDireto'), direto, false);
+  if (generico) document.getElementById('noteGenerico').innerHTML =
+    `⚠️ Além do ranking acima, <b>${fmt(generico.receita)}</b> (${generico.qt.toLocaleString('pt-BR')} vendas) vieram de links genéricos de parceria que não identificam o influenciador individual — principalmente ${generico.campanhas.map(c=>c[0]).slice(0,3).join(', ')}. Recomendação: todo influ deve ter link/UTM próprio.`;
+
+  const adsRows = D.ads.filter(r => !r.nome.includes('não identificado'));
+  rankTable(document.getElementById('tbAds'), adsRows, false);
+  rankTable(document.getElementById('tbIndireto'), D.indireto, true);
+  campTable(document.getElementById('tbCampanha'), D.por_campanha, false);
+
+  document.querySelectorAll('.toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.target;
+      const open = btn.textContent === 'mostrar menos';
+      if (id === 'tbCampanha') {
+        campTable(document.getElementById(id), D.por_campanha, !open);
+      } else {
+        rankTable(document.getElementById(id), id === 'tbDireto' ? direto : adsRows, !open);
+      }
+      btn.textContent = open ? btn.dataset.more : 'mostrar menos';
+    });
+    btn.dataset.more = btn.textContent;
+  });
+});
+</script>
+</body>
+</html>
