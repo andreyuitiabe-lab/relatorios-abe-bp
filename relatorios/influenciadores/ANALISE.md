@@ -23,7 +23,10 @@ vendas de anúncios de tráfego pago com criativos de influs, marcadas nas UTMs.
   3. **Venda indireta** — replica a regra PARC do dash antigo: `nm_lead_last_tracking` contém
      INFLU/PARC, compra não veio de ads nem do canal Influencers.
 - **Nome do influenciador não existe como coluna** — é extraído por regex do
-  `nm_pptc_tracking_name` / `nm_utm_source` (direto) e do `nm_pptc_utm_content` (ads).
+  `nm_pptc_tracking_name` / `nm_utm_source` / `nm_pptc_utm_content` (direto) e do
+  `nm_pptc_utm_content` (ads). Na publi 2025+ o handle do influ vive no `utm_content`
+  (ex: `tiba_camargo`) — é o mesmo campo "Influ" do dash do Insider (conferido contra print:
+  panico 29/R$ 44.580 no dash ≈ 30/R$ 44.581 na base).
   Mapa de ~40 regexes + parser genérico de sufixo `| nome` e `Afiliado - nome`; variações de
   grafia unificadas (ex: "alam carriom" → Alam Carrion, "lara brener" → Lara Brenner).
 - Por que não usar só a regra do print: ela roda sobre o `[2023] Canais` do Insider (só INFLUS/
@@ -37,11 +40,11 @@ vendas de anúncios de tráfego pago com criativos de influs, marcadas nas UTMs.
   (R$ 1,15 mi)**, Brexplora (R$ 415 mil), Lucca Almeida (R$ 389 mil), Sikêra Jr (R$ 379 mil),
   Arthur Schreiber (R$ 367 mil), Tiba Camargo (R$ 352 mil), Yago Martins (R$ 326 mil).
   Campanhas que mais usaram: Oficina do Diabo (2025) e Clube do Livro (2026).
-- **Venda direta por link encolheu** (R$ 591 mil no período): Pânico R$ 108 mil, Ticaracaticast
-  R$ 49 mil, 4x4 Podcast R$ 21 mil.
-- **⚠️ R$ 397 mil (67% da venda direta do período) vieram de links genéricos de parceria** que não
-  identificam o influ individual — mesmo problema visto na análise CDL de jul/2026. Recomendação
-  operacional: todo influ deve ter link/UTM próprio.
+- **Venda direta por link encolheu** (R$ 591 mil no período): Pânico R$ 152 mil, Ticaracaticast
+  R$ 50 mil, Tiba Camargo R$ 23 mil, 4x4 Podcast R$ 21 mil, Linhagem Geek R$ 21 mil.
+- Depois de incorporar o handle do `utm_content`, o **resíduo não identificado caiu para R$ 24 mil**
+  (era R$ 397 mil na 1ª versão, que só olhava tracking/utm_source) — links genéricos seguem
+  existindo, mas a publi moderna identifica o influ.
 - **Por campanha** (seção própria no relatório): Oficina do Diabo 2025 é disparado a maior
   (R$ 3,7 mi — Alam Carrion, Tiba Camargo, Yago Martins), depois Clube do Livro 2026 (R$ 1,3 mi —
   Arthur Schreiber, Tamie Tominaga, Lu Ruiz), Teller 2025 (R$ 1,1 mi — Lucca Almeida, Lara Brenner)

@@ -7,6 +7,7 @@
 SELECT
   COALESCE(nm_pptc_tracking_name, '')                 AS tracking_name,
   COALESCE(nm_utm_source, '')                         AS utm_source,
+  COALESCE(nm_pptc_utm_content, '')                   AS utm_content,  -- publi 2025+: handle do influ (ex: tiba_camargo)
   FORMAT_DATE('%Y-%m', DATE(dt_ordered_at))           AS ano,  -- mês (alias 'ano' mantido p/ refresh.py)
   COALESCE(nm_plan_label, nm_gateway_product, 'outro') AS produto,
   COUNT(*)                                            AS qt,
@@ -19,5 +20,5 @@ WHERE nm_status = 'approved'
     nm_pptc_tracking_publisher = 'Influencers'
     OR STARTS_WITH(COALESCE(nm_pptc_tracking_name, ''), 'Afiliado')
   )
-GROUP BY 1, 2, 3, 4
+GROUP BY 1, 2, 3, 4, 5
 ORDER BY receita DESC

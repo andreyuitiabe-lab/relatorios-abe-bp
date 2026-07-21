@@ -190,7 +190,25 @@ AD_CANON = {
     'Esquadrao Nerdola': 'Esquadrão Nerdola', 'Sikera Jr': 'Sikêra Jr',
     'Thaina Lummertz': 'Thainá Lummertz', 'Angelo Pinheiro': 'Ângelo Pinheiro',
     'Padre Pio': 'O Padre Pio', 'Melhores': 'Mix Advantage+ (vários influs)',
+    'Panico': 'Pânico (Jovem Pan)', 'Jovem Pan': 'Jovem Pan (outros programas)',
+    'Oeste': 'Revista Oeste',
 }
+# utm_content genérico na venda direta (não é handle de influ)
+CONTENT_GENERIC = {'geral', 'alerta', 'kw', 'portal', 'youtube', 'instagram', 'facebook',
+                   'home', 'programas', 'publicidade', 'parceiros', 'site', 'search',
+                   'whatsapp', 'insider', 'activecampaign', 'live_youtube', 'organic_youtube',
+                   'midia_off', 'ig', 'popup', 'web', 'colunistas', 'ads', 'cnn'}
+
+def content_influ_name(content):
+    """Handle do influ no utm_content da publi 2025+ (ex: tiba_camargo → Tiba Camargo)."""
+    c = content.strip()
+    if not c or '-' in c or ' ' in c or c.lower() in CONTENT_GENERIC:
+        return None  # vazio, slug de página (tem '-') ou valor genérico
+    if not re.fullmatch(r'[A-Za-z][A-Za-z0-9_]{2,40}', c):
+        return None
+    name = c.replace('_', ' ').title()
+    return AD_CANON.get(name, name)
+
 def ad_influ_name(content):
     c = norm(content)
     c = re.sub(r'__\d+.*$', '', c)
@@ -246,24 +264,33 @@ def add_camp(camps, camp, tipo, row, influ):
 def build():
     direto, ads, indireto = defaultdict(new_bucket), defaultdict(new_bucket), defaultdict(new_bucket)
     camps = defaultdict(new_camp)
+    detalhe = defaultdict(lambda: [0, 0.0])  # (origem, influ, campanha, produto, mes) → [qt, receita]
+
+    def det(origem, influ, camp, r):
+        d = detalhe[(origem, influ, camp, r['produto'], str(r['ano']))]
+        d[0] += int(r['qt']); d[1] += fi(r['receita'])
 
     for r in bq('influs_direto.sql'):
-        name = classify_influ(r['tracking_name'], r['utm_source']) or NAO_IDENT
+        name = (classify_influ(r['tracking_name'], r['utm_source'])
+                or content_influ_name(r['utm_content']) or NAO_IDENT)
         camp = classify_campaign(r['tracking_name'] + ' ' + r['utm_source'])
         add(direto[name], r, camp)
         add_camp(camps, camp, 'direto', r, name)
+        det('Link direto', name, camp, r)
 
     for r in bq('influs_ads.sql'):
         name = ad_influ_name(r['utm_content'])
         camp = campaign_from_utm(r['utm_campaign'])
         add(ads[name or 'Criativo não identificado'], r, camp)
         add_camp(camps, camp, 'ads', r, name)
+        det('Anúncio influ', name or 'Criativo não identificado', camp, r)
 
     for r in bq('influs_indireto.sql'):
         name = classify_influ(r['lead_tracking'])
         camp = classify_campaign(r['lead_tracking'])
         add(indireto[name or camp], r, camp)
         add_camp(camps, camp, 'indireto', r, name)
+        det('Venda indireta', name or 'Não identificado', camp, r)
 
     anos = sorted({a for g in (direto, ads, indireto) for b in g.values() for a in b['anos']})
     por_ano = [{'ano': a,
@@ -290,6 +317,9 @@ def build():
         'direto': serialize(direto),
         'ads': serialize(ads),
         'indireto': serialize(indireto),
+        # linhas [origem, influ, campanha, produto, mes, qt, receita] p/ tabela com filtros
+        'detalhe': [[*k, v[0], round(v[1])] for k, v in
+                    sorted(detalhe.items(), key=lambda x: -x[1][1])],
     }
 
 if __name__ == '__main__':

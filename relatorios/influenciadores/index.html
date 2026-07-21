@@ -49,6 +49,15 @@
     .pill.i { background: #ede9fe; color: #6d47e0; }
     .toggle { margin-top: 12px; font-size: 13px; color: var(--blue); cursor: pointer;
               background: none; border: none; font-weight: 600; }
+    .filters { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; margin-bottom: 14px; }
+    .filters label { font-size: 11px; font-weight: 600; text-transform: uppercase;
+                     letter-spacing: .04em; color: var(--soft); display: flex;
+                     flex-direction: column; gap: 4px; }
+    .filters select { font-size: 13px; color: var(--text); padding: 6px 8px;
+                      border: 1px solid var(--line); border-radius: 8px; background: var(--card);
+                      max-width: 240px; }
+    .filter-sum { font-size: 13px; color: var(--muted); margin-bottom: 12px;
+                  padding: 8px 12px; background: var(--bg); border-radius: 8px; }
     details.metodo summary { cursor: pointer; font-weight: 600; }
     details.metodo { font-size: 13px; color: var(--muted); }
     details.metodo li { margin: 6px 0 6px 18px; }
@@ -109,15 +118,39 @@
   </section>
 
   <section>
+    <h2>Explorar os números</h2>
+    <div class="desc">Combine os filtros e escolha como agrupar. A tabela recalcula vendas, receita e participação sobre o recorte filtrado — ex: filtre uma campanha e agrupe por influenciador para ver quem performou nela, ou filtre um influ e agrupe por produto para ver o que ele vendeu.</div>
+    <div class="card">
+      <div class="filters">
+        <label>Origem <select id="fOrigem"></select></label>
+        <label>Campanha <select id="fCampanha"></select></label>
+        <label>Influenciador <select id="fInflu"></select></label>
+        <label>Produto <select id="fProduto"></select></label>
+        <label>Mês <select id="fMes"></select></label>
+        <label>Agrupar por <select id="fGroup">
+          <option value="1">Influenciador</option>
+          <option value="2">Campanha</option>
+          <option value="3">Produto</option>
+          <option value="4">Mês</option>
+          <option value="0">Origem</option>
+        </select></label>
+        <button id="fReset" class="toggle" style="margin-top:0">limpar filtros</button>
+      </div>
+      <div class="filter-sum" id="fSum"></div>
+      <div style="overflow-x:auto"><table id="tbExplorar"></table></div>
+    </div>
+  </section>
+
+  <section>
     <div class="card">
       <details class="metodo">
         <summary>Metodologia e limitações</summary>
         <ul>
           <li><b>Fonte:</b> <code>fct_transactions</code> (transações aprovadas, sem renovações), compras de <b>jan/2025 em diante</b>. Receita = valor total da venda (<code>vl_payment_gross</code>).</li>
-          <li><b>Venda direta:</b> canal <code>Influencers</code> na classificação da base.</li>
+          <li><b>Venda direta:</b> canal <code>Influencers</code> na classificação da base. O nome do influ vem do tracking, do <code>utm_source</code> ou do <code>utm_content</code> (handle da publi, mesmo campo "Influ" do dash do Insider).</li>
           <li><b>Anúncios de influ:</b> UTM do anúncio contém marcação <code>influ</code> no criativo/campanha (excluídos adsets "sem influs" e criativos temáticos).</li>
           <li><b>Venda indireta:</b> replica a regra do dash antigo do Insider (last tracking contém PARC, excluindo compras via ads) — o mesmo comprador não aparece em duas categorias.</li>
-          <li><b>Limitação principal:</b> boa parte das vendas diretas usou links genéricos de parceria compartilhados entre influs — nesses casos não dá para saber qual influ trouxe a venda.</li>
+          <li><b>Limitação:</b> uma pequena parte das vendas diretas usou links genéricos de parceria compartilhados entre influs — nesses casos não dá para saber qual influ trouxe a venda (valor indicado na nota abaixo do ranking).</li>
           <li>Nomes extraídos automaticamente dos trackings; variações de grafia foram unificadas, mas pode haver resíduos na cauda longa.</li>
         </ul>
       </details>
@@ -204,7 +237,59 @@ fetch('./data.json').then(r => r.json()).then(D => {
   rankTable(document.getElementById('tbIndireto'), D.indireto, true);
   campTable(document.getElementById('tbCampanha'), D.por_campanha, false);
 
-  document.querySelectorAll('.toggle').forEach(btn => {
+  // ── explorar: tabela com filtros ──
+  // linha de D.detalhe: [origem, influ, campanha, produto, mes, qt, receita]
+  const DIMS = ['Origem', 'Influenciador', 'Campanha', 'Produto', 'Mês'];
+  const selIds = ['fOrigem', 'fInflu', 'fCampanha', 'fProduto', 'fMes'];
+  const dimOf = { fOrigem: 0, fInflu: 1, fCampanha: 2, fProduto: 3, fMes: 4 };
+
+  function fillSelect(id, dim) {
+    const byRec = {};
+    D.detalhe.forEach(r => { byRec[r[dim]] = (byRec[r[dim]] || 0) + r[6]; });
+    const vals = Object.keys(byRec).sort((a, b) =>
+      dim === 4 ? a.localeCompare(b) : byRec[b] - byRec[a]);
+    document.getElementById(id).innerHTML = '<option value="">Todos</option>' +
+      vals.map(v => `<option>${v}</option>`).join('');
+  }
+  selIds.forEach(id => fillSelect(id, dimOf[id]));
+
+  function renderExplorar() {
+    const sel = {};
+    selIds.forEach(id => { const v = document.getElementById(id).value; if (v) sel[dimOf[id]] = v; });
+    const gdim = +document.getElementById('fGroup').value;
+    const rows = D.detalhe.filter(r => Object.entries(sel).every(([d, v]) => r[+d] === v));
+    const groups = {};
+    let totQ = 0, totR = 0;
+    rows.forEach(r => {
+      const k = r[gdim];
+      (groups[k] = groups[k] || [0, 0])[0] += r[5];
+      groups[k][1] += r[6];
+      totQ += r[5]; totR += r[6];
+    });
+    document.getElementById('fSum').innerHTML =
+      `Seleção: <b>${totQ.toLocaleString('pt-BR')}</b> vendas · <b>${fmt(totR)}</b>`;
+    const sorted = Object.entries(groups).sort((a, b) =>
+      gdim === 4 ? a[0].localeCompare(b[0]) : b[1][1] - a[1][1]);
+    let html = `<thead><tr><th></th><th>${DIMS[[0,1,2,3,4].indexOf(gdim)]}</th><th class="num">Vendas</th><th class="num">Receita</th><th class="num">% da seleção</th></tr></thead><tbody>`;
+    sorted.slice(0, 100).forEach(([k, v], i) => {
+      const label = gdim === 4 ? fmtMes(k) : k;
+      html += `<tr><td class="rank">${i+1}</td><td class="nome">${label}</td>
+        <td class="num">${v[0].toLocaleString('pt-BR')}</td>
+        <td class="num"><b>${fmt(Math.round(v[1]))}</b></td>
+        <td class="num">${totR ? (100*v[1]/totR).toFixed(1) : 0}%</td></tr>`;
+    });
+    if (sorted.length > 100) html += `<tr><td></td><td class="tags" colspan="4">… mais ${sorted.length-100} linhas (refine os filtros)</td></tr>`;
+    document.getElementById('tbExplorar').innerHTML = html + '</tbody>';
+  }
+  selIds.concat('fGroup').forEach(id =>
+    document.getElementById(id).addEventListener('change', renderExplorar));
+  document.getElementById('fReset').addEventListener('click', () => {
+    selIds.forEach(id => document.getElementById(id).value = '');
+    renderExplorar();
+  });
+  renderExplorar();
+
+  document.querySelectorAll('.toggle[data-target]').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.dataset.target;
       const open = btn.textContent === 'mostrar menos';
