@@ -119,7 +119,7 @@
 
   <section>
     <h2>Explorar os números</h2>
-    <div class="desc">Combine os filtros e escolha como agrupar. A tabela recalcula vendas, receita e participação sobre o recorte filtrado — ex: filtre uma campanha e agrupe por influenciador para ver quem performou nela, ou filtre um influ e agrupe por produto para ver o que ele vendeu.</div>
+    <div class="desc">Combine os filtros e escolha como agrupar. A tabela recalcula vendas, receita (total e separada por tipo de venda) e participação sobre o recorte filtrado — ex: filtre uma campanha e agrupe por influenciador para ver quem performou nela. <b>Clique no cabeçalho de qualquer coluna para reordenar.</b></div>
     <div class="card">
       <div class="filters">
         <label>Origem <select id="fOrigem"></select></label>
@@ -253,6 +253,9 @@ fetch('./data.json').then(r => r.json()).then(D => {
   }
   selIds.forEach(id => fillSelect(id, dimOf[id]));
 
+  const ORIGENS = ['Anúncio influ', 'Link direto', 'Venda indireta'];
+  let exSort = { col: 'receita', dir: -1 };   // clique no cabeçalho reordena
+
   function renderExplorar() {
     const sel = {};
     selIds.forEach(id => { const v = document.getElementById(id).value; if (v) sel[dimOf[id]] = v; });
@@ -261,26 +264,53 @@ fetch('./data.json').then(r => r.json()).then(D => {
     const groups = {};
     let totQ = 0, totR = 0;
     rows.forEach(r => {
-      const k = r[gdim];
-      (groups[k] = groups[k] || [0, 0])[0] += r[5];
-      groups[k][1] += r[6];
+      const g = groups[r[gdim]] = groups[r[gdim]] || { qt: 0, receita: 0, o: [0, 0, 0] };
+      g.qt += r[5]; g.receita += r[6];
+      g.o[ORIGENS.indexOf(r[0])] += r[6];
       totQ += r[5]; totR += r[6];
     });
     document.getElementById('fSum').innerHTML =
       `Seleção: <b>${totQ.toLocaleString('pt-BR')}</b> vendas · <b>${fmt(totR)}</b>`;
-    const sorted = Object.entries(groups).sort((a, b) =>
-      gdim === 4 ? a[0].localeCompare(b[0]) : b[1][1] - a[1][1]);
-    let html = `<thead><tr><th></th><th>${DIMS[[0,1,2,3,4].indexOf(gdim)]}</th><th class="num">Vendas</th><th class="num">Receita</th><th class="num">% da seleção</th></tr></thead><tbody>`;
-    sorted.slice(0, 100).forEach(([k, v], i) => {
+
+    const showSplit = gdim !== 0;   // agrupando por origem, as colunas de split são redundantes
+    const val = ([k, g]) => {
+      if (exSort.col === 'label') return gdim === 4 ? k : k.toLowerCase();
+      if (exSort.col.startsWith('o')) return g.o[+exSort.col[1]];
+      return g[exSort.col];
+    };
+    const sorted = Object.entries(groups).sort((a, b) => {
+      const va = val(a), vb = val(b);
+      return (typeof va === 'string' ? va.localeCompare(vb) : va - vb) * exSort.dir;
+    });
+
+    const arrow = c => exSort.col === c ? (exSort.dir === -1 ? ' ▾' : ' ▴') : '';
+    const TH = (c, label, num) =>
+      `<th${num ? ' class="num"' : ''} data-sort="${c}" style="cursor:pointer">${label}${arrow(c)}</th>`;
+    let html = '<thead><tr><th></th>' +
+      TH('label', DIMS[[0,1,2,3,4].indexOf(gdim)], false) +
+      TH('qt', 'Vendas', true) + TH('receita', 'Receita', true) +
+      (showSplit ? TH('o0', 'Anúncio influ', true) + TH('o1', 'Link direto', true) + TH('o2', 'Indireta', true) : '') +
+      TH('receita', '% da seleção', true) + '</tr></thead><tbody>';
+    sorted.slice(0, 100).forEach(([k, g], i) => {
       const label = gdim === 4 ? fmtMes(k) : k;
       html += `<tr><td class="rank">${i+1}</td><td class="nome">${label}</td>
-        <td class="num">${v[0].toLocaleString('pt-BR')}</td>
-        <td class="num"><b>${fmt(Math.round(v[1]))}</b></td>
-        <td class="num">${totR ? (100*v[1]/totR).toFixed(1) : 0}%</td></tr>`;
+        <td class="num">${g.qt.toLocaleString('pt-BR')}</td>
+        <td class="num"><b>${fmt(Math.round(g.receita))}</b></td>` +
+        (showSplit ? g.o.map(v => `<td class="num">${v ? fmtK(v) : '—'}</td>`).join('') : '') +
+        `<td class="num">${totR ? (100*g.receita/totR).toFixed(1) : 0}%</td></tr>`;
     });
-    if (sorted.length > 100) html += `<tr><td></td><td class="tags" colspan="4">… mais ${sorted.length-100} linhas (refine os filtros)</td></tr>`;
+    const nCols = showSplit ? 8 : 5;
+    if (sorted.length > 100) html += `<tr><td></td><td class="tags" colspan="${nCols-1}">… mais ${sorted.length-100} linhas (refine os filtros)</td></tr>`;
     document.getElementById('tbExplorar').innerHTML = html + '</tbody>';
   }
+  document.getElementById('tbExplorar').addEventListener('click', e => {
+    const th = e.target.closest('th[data-sort]');
+    if (!th) return;
+    const col = th.dataset.sort;
+    if (exSort.col === col) exSort.dir = -exSort.dir;
+    else exSort = { col, dir: col === 'label' ? 1 : -1 };
+    renderExplorar();
+  });
   selIds.concat('fGroup').forEach(id =>
     document.getElementById(id).addEventListener('change', renderExplorar));
   document.getElementById('fReset').addEventListener('click', () => {
