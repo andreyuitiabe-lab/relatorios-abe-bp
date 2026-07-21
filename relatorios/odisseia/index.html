@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odisseia — Edição de Luxo · Pesquisa Sintética (SSR)</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:     #f8fafc;
+      --card:   #ffffff;
+      --line:   #e2e8f0;
+      --text:   #1e293b;
+      --muted:  #475569;
+      --soft:   #94a3b8;
+      --blue:   #3b6ef5;
+      --green:  #16a34a;
+      --amber:  #f5a524;
+      --violet: #7c5cfc;
+      --red:    #dc2626;
+      --grey:   #aab2c4;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6;
+    }
+    .wrap   { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+    section { margin-bottom: 52px; }
+    h1      { font-size: 26px; font-weight: 700; }
+    h2      { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    h3      { font-size: 14px; font-weight: 700; margin: 18px 0 6px; }
+    p.para  { color: var(--muted); margin-bottom: 12px; }
+    .sub    { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .label  { font-size: 11px; font-weight: 600; text-transform: uppercase;
+              letter-spacing: .06em; color: var(--soft); margin-bottom: 12px; }
+    .card   { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 640px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+    .bigstat .bs-num { font-size: 34px; font-weight: 800; color: var(--blue); line-height: 1.05; }
+    .bigstat .bs-num.v { color: var(--violet); }
+    .bigstat .bs-num.g { color: var(--green); }
+    .bigstat .bs-num.a { color: var(--amber); }
+    .bigstat .bs-num.sm { font-size: 22px; }
+    .bigstat .bs-cap { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+    table  { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th     { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px;
+             text-transform: uppercase; letter-spacing: .05em;
+             border-bottom: 2px solid var(--line); padding: 8px 10px; }
+    td     { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    tr:last-child td { border-bottom: none; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    tr.hi td { background: #f5f8ff; font-weight: 700; }
+
+    .tag   { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .t-b   { background: #dbeafe; color: #1d4ed8; }
+    .t-v   { background: #ede9fe; color: #5b21b6; }
+    .t-a   { background: #fef3c7; color: #92400e; }
+    .t-n   { background: #f1f5f9; color: #475569; }
+    .t-r   { background: #fee2e2; color: #b91c1c; }
+    .t-g   { background: #dcfce7; color: #166534; }
+
+    .nota  { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px;
+             padding: 12px 16px; font-size: 12.5px; color: var(--muted); margin-top: 16px; }
+    .nota strong { color: var(--text); }
+    .verdict { border-left: 4px solid var(--amber); background: #fffbeb; padding: 16px 20px;
+               border-radius: 8px; margin: 8px 0 4px; }
+    .verdict .vh { font-size: 16px; font-weight: 800; color: #92400e; }
+    .quote { border-left: 3px solid var(--line); padding: 4px 0 4px 14px; margin: 8px 0;
+             color: var(--muted); font-style: italic; font-size: 13px; }
+    ul.clean { margin: 6px 0 6px 18px; color: var(--muted); }
+    ul.clean li { margin-bottom: 6px; }
+    .rec { border: 1px solid #bbf7d0; background: #f0fdf4; border-radius: 10px; padding: 20px 24px; }
+
+    header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+    footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+             font-size: 12px; color: var(--soft); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Pesquisa Sintética de Intenção de Compra (SSR)</p>
+  <h1>Odisseia — Edição de Luxo Bilíngue</h1>
+  <p class="sub">Edição colecionável da <em>Odisseia</em> (Homero) — grego original + tradução em páginas paralelas · posicionamento de objeto de decoração premium.<br>
+  Preço: R$ 1.500 · R$ 1.350 vitalícios/mecenas · R$ 1.200 compradores do Clube do Livro · Amostra SSR: 60 personas · 21 jul 2026</p>
+</header>
+
+<main>
+
+  <!-- Destaques -->
+  <section>
+    <div class="grid-4">
+      <div class="card" style="text-align:center">
+        <div class="label">Veredicto</div>
+        <div class="bigstat"><div class="bs-num a sm">Nicho estreito</div></div>
+        <div class="bs-cap">produto de colecionador</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Score renda alta</div>
+        <div class="bigstat"><div class="bs-num a">3,30</div></div>
+        <div class="bs-cap">45% compraria · de 5,0</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Forecast referência</div>
+        <div class="bigstat"><div class="bs-num">~7.000</div></div>
+        <div class="bs-cap">vendas (banda 3,9k–11,6k)</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Receita referência</div>
+        <div class="bigstat"><div class="bs-num g">~R$ 8,8M</div></div>
+        <div class="bs-cap">ticket ~R$ 1.250</div>
+      </div>
+    </div>
+    <div class="nota">
+      <strong>Como ler:</strong> o SSR substitui uma pesquisa de campo por 60 personas com o perfil real de assinantes da BP, que reagem ao conceito e recebem um score de intenção de 1 a 5. É confiável para o <strong>veredicto qualitativo</strong> (o produto tem tração? em quem? quais objeções?). Os números de vendas são <strong>banda de ordem de grandeza</strong>, não previsão pontual — ver Limitações.
+    </div>
+  </section>
+
+  <!-- Veredicto -->
+  <section>
+    <h2>Veredicto — Nicho estreito, produto de colecionador</h2>
+    <div class="verdict">
+      <div class="vh">Apelo real, mas concentrado numa fatia fina: alta renda com inclinação erudita ou de status.</div>
+    </div>
+    <p class="para" style="margin-top:14px">Diferente do Clube do Livro, a <strong>faixa de renda média não responde</strong>. Um clube parcelado é decisão de consumo; um único livro de decoração de R$ 1.500 é decisão de status/coleção — e isso filtra o público mesmo dentro da alta renda.</p>
+
+    <div class="grid-2" style="margin-top:8px">
+      <div class="card">
+        <p class="label">Score de intenção por faixa de renda</p>
+        <canvas id="chartScores" height="220"></canvas>
+      </div>
+      <div class="card">
+        <table>
+          <thead><tr><th>Faixa</th><th class="num">Score</th><th class="num">Compraria</th><th class="num">Não</th></tr></thead>
+          <tbody>
+            <tr><td>Alta</td><td class="num">3,30</td><td class="num">45%</td><td class="num">20%</td></tr>
+            <tr><td>Média</td><td class="num">1,90</td><td class="num">0%</td><td class="num">90%</td></tr>
+            <tr><td>Baixa</td><td class="num">1,35</td><td class="num">0%</td><td class="num">100%</td></tr>
+            <tr class="hi"><td>Geral</td><td class="num">2,18</td><td class="num">15%</td><td class="num">70%</td></tr>
+          </tbody>
+        </table>
+        <div class="nota">O sinal decisivo é a média: no Clube do Livro ela comprava (3,45); aqui está <strong>morta</strong> (1,90, nenhuma intenção positiva).</div>
+      </div>
+    </div>
+
+    <h3>Comparativo com produtos já avaliados</h3>
+    <div class="card">
+      <table>
+        <thead><tr><th>Produto</th><th class="num">Alta</th><th class="num">Média</th><th class="num">Baixa</th><th>Leitura</th></tr></thead>
+        <tbody>
+          <tr><td>Clube do Livro (R$ 1.548)</td><td class="num">4,50</td><td class="num">3,45</td><td class="num">1,80</td><td><span class="tag t-g">base ampla</span></td></tr>
+          <tr class="hi"><td>Odisseia (R$ 1.500)</td><td class="num">3,30</td><td class="num">1,90</td><td class="num">1,35</td><td><span class="tag t-a">luxo-nicho</span></td></tr>
+          <tr><td>Bitcoin "A Nova Moeda" (R$ 1.998)</td><td class="num">3,30</td><td class="num">2,75</td><td class="num">1,25</td><td><span class="tag t-v">nicho premium</span></td></tr>
+        </tbody>
+      </table>
+      <div class="nota">A Odisseia pontua na alta <strong>igual ao Bitcoin</strong> (3,30) — produto que o SSR classificou como fraco mas que se provou um <strong>nicho premium bem-sucedido</strong> na realidade. Por isso a leitura não é "não faça", e sim: <strong>produto de fatia fina, com público certo e estreito</strong>.</div>
+    </div>
+  </section>
+
+  <!-- Quem compra -->
+  <section>
+    <h2>Quem compra e quem recusa</h2>
+    <div class="grid-3">
+      <div class="card">
+        <p class="label" style="color:var(--green)">Compram · ~45% da alta</p>
+        <p class="para">Alta renda com inclinação erudita ou de status: advogados, arquiteta, médica, escritora, doutor em engenharia, investimentos.</p>
+        <div class="quote">"Fica no escritório e diz algo sobre quem recebe ali."</div>
+        <p class="para" style="font-size:12.5px">Status + prazer intelectual do grego + apelo de presente.</p>
+      </div>
+      <div class="card">
+        <p class="label" style="color:var(--red)">Recusam por preço · 90–100% da média/baixa</p>
+        <p class="para">Parede absoluta de orçamento. Admiração alta, viabilidade zero.</p>
+        <div class="quote">"R$ 1.500 é praticamente três meses da minha folga."</div>
+        <div class="quote">"Impensável num livro só."</div>
+      </div>
+      <div class="card">
+        <p class="label" style="color:var(--amber)">Recusam por gosto · ~20% da alta</p>
+        <p class="para">O pragmático de alta renda: tem o dinheiro, rejeita o conceito.</p>
+        <div class="quote">"Grego é firula que não me diz nada."</div>
+        <div class="quote">"Só enfeite caro."</div>
+      </div>
+    </div>
+    <div class="nota"><strong>O texto grego paralelo divide o público:</strong> é o que encanta o colecionador e o que afasta o pragmático. É o principal diferencial e o principal filtro ao mesmo tempo.</div>
+  </section>
+
+  <!-- Forecast -->
+  <section>
+    <h2>Forecast — Potencial de campanha</h2>
+    <p class="para">Estimativa por <strong>captura de público</strong> (quanto de cada segmento o produto puxa), separando base própria de aquisição, sem penalidade teórica de preço — abordagem calibrada no lançamento do Clube do Livro. O comprador do CDL é o alvo principal: leitores que acabaram de pagar ~R$ 1.277 num livro físico da BP e recebem o melhor preço.</p>
+
+    <div class="card">
+      <table>
+        <thead><tr><th>Segmento</th><th class="num">Público</th><th>Preço</th><th class="num">Captura (cons./ref./otim.)</th><th class="num">Vendas (ref.)</th></tr></thead>
+        <tbody>
+          <tr class="hi"><td>🎯 Compradores do Clube do Livro</td><td class="num">23.713</td><td>R$ 1.200</td><td class="num">5% / 10% / 15%</td><td class="num">~2.400</td></tr>
+          <tr><td>Base ativa restante (só ponta alta)</td><td class="num">~594k</td><td>R$ 1.350–1.500</td><td class="num">0,3% / 0,5% / 0,8%</td><td class="num">~3.000</td></tr>
+          <tr><td>Ex-membros (frio)</td><td class="num">~1,63M</td><td>R$ 1.500</td><td class="num">0,03% / 0,05% / 0,08%</td><td class="num">~800</td></tr>
+          <tr><td>Aquisição no front (público novo)</td><td class="num">mídia</td><td>R$ 1.500</td><td class="num">400 / 900 / 2.000</td><td class="num">~900</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-3" style="margin-top:16px">
+      <div class="card" style="text-align:center">
+        <div class="label">Conservador</div>
+        <div class="bigstat"><div class="bs-num sm">~3.900</div></div>
+        <div class="bs-cap">~R$ 4,8M</div>
+      </div>
+      <div class="card" style="text-align:center; border-color:var(--blue)">
+        <div class="label" style="color:var(--blue)">Referência</div>
+        <div class="bigstat"><div class="bs-num">~7.000</div></div>
+        <div class="bs-cap">~R$ 8,8M</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Otimista</div>
+        <div class="bigstat"><div class="bs-num sm">~11.600</div></div>
+        <div class="bs-cap">~R$ 14,5M</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Limitações -->
+  <section>
+    <h2>Limitações — ler antes de decidir</h2>
+    <div class="card">
+      <ul class="clean">
+        <li><strong>O termo dominante não tem calibração.</strong> A taxa de recompra dos compradores do Clube do Livro (5–15%) é hipótese, não medição — nunca observamos "quem comprou um livro de luxo BP compra um segundo". Cada 5 pontos percentuais movem ~1.200 vendas. É a maior fonte de incerteza da banda.</li>
+        <li><strong>A aquisição no front é estimativa.</strong> O front do Clube do Livro trouxe ~4,2 mil compradores novos, mas com apelo amplo. A Odisseia é erudita e nichada — o front puro tende a render menos, salvo mídia dirigida a público afluente de decoração/arte.</li>
+        <li><strong>O SSR subestima produtos de luxo-nicho.</strong> O precedente do Bitcoin mostra que o modelo é cauteloso demais com premium de apelo estreito. O veredicto qualitativo é confiável; o volume absoluto é banda.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Recomendação -->
+  <section>
+    <h2>Recomendação</h2>
+    <div class="rec">
+      <p style="font-weight:700; color:#166534; margin-bottom:10px">Fazer o produto, mas validar antes de escalar — com um teste que custa quase nada.</p>
+      <p class="para">Ofertar a Odisseia <strong>primeiro apenas aos 23.713 compradores do Clube do Livro</strong>, com o preço de R$ 1.200. Esse teste:</p>
+      <ul class="clean">
+        <li>mede a <strong>taxa real de recompra</strong> — o único número que falta para firmar todo o forecast;</li>
+        <li>valida (ou derruba) o produto no público mais quente, sem gastar mídia;</li>
+        <li>se converter ≥ 10%, ancora o restante da campanha com dados reais;</li>
+        <li>vira o <strong>terceiro ponto de calibração</strong> do modelo (produto amplo → Teller; base ampla → Clube do Livro; luxo-nicho → Odisseia).</li>
+      </ul>
+      <p class="para" style="margin-top:8px">Só depois desse sinal vale abrir para a base ativa e ligar a aquisição no front.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Relatório gerado pelo modelo SSR (Synthetic Survey Respondent) · Brasil Paralelo Data · 21 jul 2026.<br>
+  Método: 60 personas sintéticas sobre a base real de assinantes, balanceadas por faixa de renda. Forecast por captura de segmento, calibrado no lançamento do Clube do Livro. Números de vendas são banda de ordem de grandeza, não previsão pontual.
+</footer>
+
+</div>
+
+<script>
+  const ctx = document.getElementById('chartScores');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Alta', 'Média', 'Baixa'],
+      datasets: [{
+        label: 'Score de intenção (1–5)',
+        data: [3.30, 1.90, 1.35],
+        backgroundColor: ['#f5a524', '#aab2c4', '#e2e8f0'],
+        borderRadius: 6,
+        maxBarThickness: 90
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, max: 5, ticks: { stepSize: 1 }, grid: { color: '#eef2f7' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
