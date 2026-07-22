@@ -179,6 +179,13 @@ WHERE reference_date >= '2026-04-01'
 GROUP BY 1
 """
 
+Q_CONVERSAS_ODI = """
+SELECT nm_stage, nm_conversation
+FROM masterdata.dim_zenvia_approaches
+WHERE DATE(dt_approach_start) >= '2026-07-14'
+  AND REGEXP_CONTAINS(LOWER(nm_conversation), r'odiss[eé]ia')
+"""
+
 Q_TOTAL_COMERCIAL = f"""
 SELECT CASE WHEN DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL 6 DAY)
             THEN 'mai' ELSE 'jul' END AS janela,
@@ -272,6 +279,27 @@ def build() -> dict:
                                 "abordagens_dia": ii(r["abordagens_dia"])}
                   for r in bq(Q_CAPACIDADE)}
 
+    print("  contexto das conversas ODI...", flush=True)
+    import re as _re
+    convs = bq(Q_CONVERSAS_ODI, max_rows=500)
+    ctx = {"total": len(convs), "vendedor_primeiro": 0, "cliente_primeiro": 0,
+           "script_concierge": 0, "cita_cdl": 0, "stages": {}}
+    for r in convs:
+        c = r["nm_conversation"] or ""
+        low = c.lower()
+        pos = low.find("odiss")
+        marcadores = [(m.start(), m.group(1)) for m in _re.finditer(r"\b(seller|manager|prospect):", c[:pos])]
+        if marcadores:
+            quem = marcadores[-1][1]
+            ctx["vendedor_primeiro" if quem in ("seller", "manager") else "cliente_primeiro"] += 1
+        if "membro fundador da cole" in low or "concierge liter" in low:
+            ctx["script_concierge"] += 1
+        if "clube do livro" in low:
+            ctx["cita_cdl"] += 1
+        stage = r["nm_stage"] or "(sem etapa)"
+        ctx["stages"][stage] = ctx["stages"].get(stage, 0) + 1
+    ctx["stages"] = dict(sorted(ctx["stages"].items(), key=lambda kv: -kv[1]))
+
     print("  receita total do Comercial...", flush=True)
     total_comercial = {r["janela"]: {"vendas": ii(r["vendas"]), "receita": fi(r["receita"]),
                                      "ticket": fi(r["ticket_medio"]),
@@ -292,6 +320,7 @@ def build() -> dict:
         "conversao": conversao,
         "mencoes_jul": menc_jul,
         "mix": mix,
+        "contexto_conversas": ctx,
         "total_comercial": total_comercial,
         "capacidade": capacidade,
         "estrutura": {

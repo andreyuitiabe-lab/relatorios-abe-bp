@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-22T19:47:48",
+  "updated_at": "2026-07-22T19:54:26",
   "config": {
     "cdl_d1": "2026-05-05",
     "odi_d1": "2026-07-17",
@@ -334,6 +334,22 @@
       "pct": 1.5
     }
   ],
+  "contexto_conversas": {
+    "total": 61,
+    "vendedor_primeiro": 45,
+    "cliente_primeiro": 16,
+    "script_concierge": 36,
+    "cita_cdl": 12,
+    "stages": {
+      "tentativa2": 18,
+      "carteiraMecenas": 17,
+      "contatoNegociacao": 13,
+      "tentativa1": 10,
+      "clubeDoLivro": 1,
+      "vitalicioBlack": 1,
+      "(sem etapa)": 1
+    }
+  },
   "total_comercial": {
     "jul": {
       "vendas": 1346,

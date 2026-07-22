@@ -156,6 +156,53 @@
     <div class="nota"><strong>Leitura decisiva:</strong> a conversão por conversa da Odisseia <em>não é pior</em> que a do CDL — quando o vendedor oferece, vende em taxa igual ou melhor. O que falta é volume de oferta: o CDL teve o time inteiro com script desde 4 dias <em>antes</em> do D1; a Odisseia tem menções esporádicas (~2 conversas por vendedor no período).</div>
   </section>
 
+  <!-- Contexto das conversas -->
+  <section>
+    <h2>O contexto das conversas — como a Odisseia aparece no Zenvia</h2>
+    <p class="para">Leitura qualitativa de todas as conversas que mencionam a Odisseia desde 14/07 (agregados sem dados de cliente).</p>
+    <div class="grid-4">
+      <div class="card" style="text-align:center">
+        <div class="label">Conversas analisadas</div>
+        <div class="bigstat"><div class="bs-num sm" id="ctx-total">—</div></div>
+        <div class="bs-cap">com menção à Odisseia</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Script "concierge"</div>
+        <div class="bigstat"><div class="bs-num sm v" id="ctx-script">—</div></div>
+        <div class="bs-cap">abertura padrão "Membro Fundador da Coleção"</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Cliente puxa o assunto</div>
+        <div class="bigstat"><div class="bs-num sm a" id="ctx-cliente">—</div></div>
+        <div class="bs-cap">chega perguntando preço/dúvida/reclamação</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Confusão com o CDL</div>
+        <div class="bigstat"><div class="bs-num sm r" id="ctx-cdl">—</div></div>
+        <div class="bs-cap">conversas que também citam o Clube do Livro</div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card">
+        <p class="label">O que é essa operação</p>
+        <ul class="clean">
+          <li><strong>É follow-up do e-mail de pré-venda, não prospecção ativa.</strong> A maioria das conversas abre com o script da "concierge literária" ("vi que recebeu o convite para ser Membro Fundador da Coleção... reservar sua edição numerada da Odisseia"), operado por vários atendentes e bots sob a mesma persona.</li>
+          <li><strong>Pitch oficial:</strong> "Coleção Brasil Paralelo: Grandes Obras da Civilização — Volume I: Odisseia, edição numerada à mão", vendendo o conceito de <em>Fine Press</em> europeu que "não existe no Brasil".</li>
+          <li><strong>Sem fila própria:</strong> as menções aparecem espalhadas nas etapas normais (tentativa, carteira Mecenas, negociação) — ver distribuição em <span id="ctx-stages">—</span>.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <p class="label">Atritos que os clientes trazem</p>
+        <ul class="clean">
+          <li><strong>Preço:</strong> objeção direta e frequente ("valor muito alto").</li>
+          <li><strong>Confusão Odisseia × Clube do Livro:</strong> clientes questionam por que um livro "tão importante" é vendido fora do Clube, e compradores do CDL perguntam se já não têm direito — justamente o público-alvo mais quente se sentindo cobrado duas vezes.</li>
+          <li><strong>Expectativa dos vitalícios:</strong> membros vitalícios cobram que o curso de 24 aulas que acompanha a obra deveria estar incluído no benefício de "novos cursos inclusos".</li>
+          <li><strong>Pedidos de desconto por tier</strong> (Black/Fundador, cópias extras sem o curso).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <!-- BP10 -->
   <section>
     <h2>Hipótese BP10 — para onde o script do time aponta</h2>
@@ -229,7 +276,8 @@
       <p style="font-weight:700; color:#166534; margin-bottom:10px">O gargalo não é o produto nem o vendedor — é a ativação. Decidir explicitamente a prioridade do Comercial.</p>
       <ul class="clean">
         <li><strong>Não é concorrência inevitável:</strong> no lançamento do CDL também havia campanhas simultâneas (DOM/ELS) e o time colocou o CDL em 39% do mix. Campanha nova vira prioridade quando recebe lista + script + meta — a Odisseia não recebeu.</li>
-        <li><strong>O BP10/Vitalício está rendendo bem</strong> (R$ 897k na semana, ticket ~R$ 2,5k vs R$ 1,2k da Odisseia). Tirar o time do Vitalício para vender Odisseia pode ser troca ruim — a decisão é de negócio, não de execução.</li>
+        <li><strong>O BP10/Vitalício está rendendo bem</strong> (R$ 897k na semana, ticket ~R$ 2,5k vs R$ 1,2k da Odisseia) — e a receita total do time está no mesmo nível da semana de ouro do CDL. Colocar a Odisseia no Comercial agora significa canibalizar tempo de um produto de ticket 2× maior que está funcionando — a decisão é de negócio, não de execução.</li>
+        <li><strong>Caminho de menor atrito:</strong> em vez de redirecionar o time inteiro, dar a Odisseia a um subgrupo com lista dedicada — os ~79k engajados do CDL que não compraram o Clube são exatamente o público mais quente (e o preço R$ 1.200 deles já existe no checkout).</li>
         <li><strong>Se a Odisseia deve vender agora:</strong> replicar o playbook do CDL — lista dedicada (começando pelos compradores do CDL que não abriram os e-mails), script no Zenvia e meta por vendedor. A conversão por conversa (~9%) sugere que o público responde.</li>
         <li><strong>Se a fase 1 do SSR é a estratégia:</strong> formalizar — medir a taxa de recompra CDL→Odisseia no CRM antes de acionar o Comercial, e alinhar a expectativa de vendas da semana com essa fase.</li>
         <li><strong>Ponto de atenção do ritmo:</strong> abordagens/dia do time caíram ~50% vs maio com o mesmo número de vendedores — vale investigar com o gestor (férias, listas menores, priorização).</li>
@@ -339,6 +387,16 @@ fetch('./data.json').then(r => r.json()).then(D => {
       '<td class="num">' + (j ? fmtInt(j.vendas) + ' (' + j.pct + '%)' : '—') + '</td>' +
       '<td class="num">' + (j ? fmtBRL(j.receita) : '—') + '</td>';
     tbody.appendChild(tr);
+  }
+
+  const cx = D.contexto_conversas;
+  if (cx) {
+    document.getElementById('ctx-total').textContent = fmtInt(cx.total);
+    document.getElementById('ctx-script').textContent = cx.script_concierge + '/' + cx.total;
+    document.getElementById('ctx-cliente').textContent = cx.cliente_primeiro + '/' + cx.total;
+    document.getElementById('ctx-cdl').textContent = cx.cita_cdl + '/' + cx.total;
+    document.getElementById('ctx-stages').textContent =
+      Object.entries(cx.stages).slice(0, 4).map(([s, n]) => s + ' (' + n + ')').join(', ');
   }
 
   const tc = D.total_comercial;
