@@ -187,16 +187,17 @@ WHERE DATE(dt_approach_start) >= '2026-07-14'
 """
 
 Q_TOTAL_COMERCIAL = f"""
-SELECT CASE WHEN DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL 6 DAY)
+SELECT CASE WHEN DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL {N_DIAS - 1} DAY)
             THEN 'mai' ELSE 'jul' END AS janela,
        COUNT(*) AS vendas,
        ROUND(SUM(vl_payment_gross),0) AS receita,
+       ROUND(SUM(vl_payment_gross)/{N_DIAS},0) AS receita_dia,
        ROUND(AVG(vl_payment_gross),0) AS ticket_medio,
        COUNT(DISTINCT REGEXP_EXTRACT(LOWER(nm_pptc_tracking_name), r'(c\\d{{4}})')) AS vendedores_com_venda
 FROM masterdata.fct_transactions
 WHERE nm_status='approved' AND bl_is_renovation=FALSE AND bl_is_commercial_channel=TRUE
-  AND (DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL 6 DAY)
-    OR DATE(dt_ordered_at) BETWEEN '2026-07-16' AND DATE_ADD('2026-07-16', INTERVAL 6 DAY))
+  AND (DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL {N_DIAS - 1} DAY)
+    OR DATE(dt_ordered_at) BETWEEN '{ODI_D1}' AND DATE_ADD('{ODI_D1}', INTERVAL {N_DIAS - 1} DAY))
 GROUP BY 1
 """
 
@@ -302,6 +303,7 @@ def build() -> dict:
 
     print("  receita total do Comercial...", flush=True)
     total_comercial = {r["janela"]: {"vendas": ii(r["vendas"]), "receita": fi(r["receita"]),
+                                     "receita_dia": fi(r["receita_dia"]),
                                      "ticket": fi(r["ticket_medio"]),
                                      "vendedores_com_venda": ii(r["vendedores_com_venda"])}
                        for r in bq(Q_TOTAL_COMERCIAL)}

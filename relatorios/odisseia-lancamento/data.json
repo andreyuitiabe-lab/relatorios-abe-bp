@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-22T19:54:26",
+  "updated_at": "2026-07-22T20:33:31",
   "config": {
     "cdl_d1": "2026-05-05",
     "odi_d1": "2026-07-17",
@@ -67,7 +67,7 @@
         7,
         11,
         33,
-        24
+        29
       ],
       "receita": [
         12120.0,
@@ -75,7 +75,7 @@
         8640.0,
         13320.0,
         39900.0,
-        29100.0
+        35100.0
       ]
     }
   },
@@ -88,10 +88,10 @@
       "vendedores": 29
     },
     "odi": {
-      "vendas": 101,
-      "receita": 123000.0,
+      "vendas": 106,
+      "receita": 129000.0,
       "comercial": 9,
-      "digital": 92,
+      "digital": 97,
       "vendedores": 8
     }
   },
@@ -157,7 +157,7 @@
         878,
         2137,
         3102,
-        3116
+        3205
       ],
       "mencoes": [
         0,
@@ -202,7 +202,7 @@
       "dia": "2026-07-14",
       "abordagens": 2274,
       "odisseia": 0,
-      "cdl": 115,
+      "cdl": 116,
       "bp10": 616
     },
     {
@@ -244,7 +244,7 @@
       "dia": "2026-07-20",
       "abordagens": 2137,
       "odisseia": 9,
-      "cdl": 155,
+      "cdl": 156,
       "bp10": 574
     },
     {
@@ -252,44 +252,44 @@
       "abordagens": 3102,
       "odisseia": 26,
       "cdl": 236,
-      "bp10": 1205
+      "bp10": 1206
     },
     {
       "dia": "2026-07-22",
-      "abordagens": 3116,
+      "abordagens": 3205,
       "odisseia": 13,
-      "cdl": 1431,
-      "bp10": 528
+      "cdl": 1444,
+      "bp10": 534
     }
   ],
   "mix": [
     {
       "janela": "jul",
       "produto": "Assinaturas/outros",
-      "vendas": 622,
-      "receita": 173313.0,
-      "pct": 46.2
+      "vendas": 630,
+      "receita": 174504.0,
+      "pct": 45.8
     },
     {
       "janela": "jul",
       "produto": "Vitalício",
-      "vendas": 400,
-      "receita": 989069.0,
-      "pct": 29.7
+      "vendas": 403,
+      "receita": 997295.0,
+      "pct": 29.3
     },
     {
       "janela": "jul",
       "produto": "Clube do Livro",
-      "vendas": 252,
-      "receita": 276676.0,
-      "pct": 18.7
+      "vendas": 269,
+      "receita": 296404.0,
+      "pct": 19.5
     },
     {
       "janela": "jul",
       "produto": "Mecenas",
-      "vendas": 57,
-      "receita": 175876.0,
-      "pct": 4.2
+      "vendas": 59,
+      "receita": 199636.0,
+      "pct": 4.3
     },
     {
       "janela": "jul",
@@ -301,9 +301,9 @@
     {
       "janela": "jul",
       "produto": "Combos BP10",
-      "vendas": 6,
-      "receita": 1325.0,
-      "pct": 0.4
+      "vendas": 7,
+      "receita": 1564.0,
+      "pct": 0.5
     },
     {
       "janela": "mai",
@@ -351,29 +351,31 @@
     }
   },
   "total_comercial": {
-    "jul": {
-      "vendas": 1346,
-      "receita": 1627778.0,
-      "ticket": 1209.0,
-      "vendedores_com_venda": 34
-    },
     "mai": {
-      "vendas": 2121,
-      "receita": 1644312.0,
-      "ticket": 775.0,
+      "vendas": 1824,
+      "receita": 1401396.0,
+      "receita_dia": 233566.0,
+      "ticket": 768.0,
       "vendedores_com_venda": 31
+    },
+    "jul": {
+      "vendas": 1185,
+      "receita": 1436220.0,
+      "receita_dia": 239370.0,
+      "ticket": 1212.0,
+      "vendedores_com_venda": 34
     }
   },
   "capacidade": {
-    "jul": {
-      "abordagens": 18798,
-      "vendedores": 55,
-      "abordagens_dia": 2685
-    },
     "mai": {
       "abordagens": 35105,
       "vendedores": 54,
       "abordagens_dia": 5015
+    },
+    "jul": {
+      "abordagens": 18887,
+      "vendedores": 55,
+      "abordagens_dia": 2698
     }
   },
   "estrutura": {
@@ -381,7 +383,7 @@
     "leads_odi": 0,
     "spend_cdl": 41256.0,
     "spend_odi": 0,
-    "aniv26_vendas": 176,
-    "aniv26_receita": 470965.0
+    "aniv26_vendas": 178,
+    "aniv26_receita": 476077.0
   }
 }
