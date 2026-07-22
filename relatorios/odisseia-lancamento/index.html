@@ -325,10 +325,17 @@ fetch('./data.json').then(r => r.json()).then(D => {
   document.getElementById('updated').textContent = D.updated_at.replace('T', ' ');
 
   const t = D.totais;
+  const soma = a => a.reduce((x, y) => x + y, 0);
+  const recCom = { cdl: soma(D.placar.cdl_comercial.receita), odi: soma(D.placar.odi_comercial.receita) };
+  const pctCom = c => Math.round(100 * recCom[c] / t[c].receita);
   document.getElementById('st-cdl-vendas').textContent = fmtInt(t.cdl.vendas);
-  document.getElementById('st-cdl-receita').textContent = fmtBRL(t.cdl.receita) + ' · ' + t.cdl.vendedores + ' vendedores';
+  document.getElementById('st-cdl-receita').innerHTML =
+    fmtBRL(t.cdl.receita) + ' no total<br><strong>Comercial: ' + fmtBRL(recCom.cdl) + ' (' + pctCom('cdl') +
+    '% da receita)</strong> · ' + t.cdl.vendedores + ' vendedores';
   document.getElementById('st-odi-vendas').textContent = fmtInt(t.odi.vendas);
-  document.getElementById('st-odi-receita').textContent = fmtBRL(t.odi.receita) + ' · ' + t.odi.vendedores + ' vendedores';
+  document.getElementById('st-odi-receita').innerHTML =
+    fmtBRL(t.odi.receita) + ' no total<br><strong>Comercial: ' + fmtBRL(recCom.odi) + ' (' + pctCom('odi') +
+    '% da receita)</strong> · ' + t.odi.vendedores + ' vendedores';
   const gapCom = Math.round(t.cdl.comercial / Math.max(t.odi.comercial, 1));
   document.getElementById('st-gap-com').textContent = gapCom + '×';
   document.getElementById('st-gap-com-det').textContent = t.cdl.comercial + ' vs ' + t.odi.comercial + ' vendas';
