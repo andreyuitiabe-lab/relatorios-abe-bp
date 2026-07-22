@@ -124,7 +124,7 @@ GROUP BY 1 ORDER BY 1
 
 Q_MIX = f"""
 WITH v AS (
-  SELECT CASE WHEN DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL 6 DAY)
+  SELECT CASE WHEN DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL {N_DIAS - 1} DAY)
               THEN 'mai' ELSE 'jul' END AS janela,
          CASE
            WHEN nm_gateway_plan='clube-do-livro' OR nm_gateway_plan LIKE 'ebooks%clube%' THEN 'Clube do Livro'
@@ -138,8 +138,8 @@ WITH v AS (
          vl_payment_gross
   FROM masterdata.fct_transactions
   WHERE nm_status='approved' AND bl_is_renovation=FALSE AND bl_is_commercial_channel=TRUE
-    AND (DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL 6 DAY)
-      OR DATE(dt_ordered_at) BETWEEN '2026-07-16' AND DATE_ADD('2026-07-16', INTERVAL 6 DAY))
+    AND (DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL {N_DIAS - 1} DAY)
+      OR DATE(dt_ordered_at) BETWEEN '{ODI_D1}' AND DATE_ADD('{ODI_D1}', INTERVAL {N_DIAS - 1} DAY))
 )
 SELECT janela, produto, COUNT(*) AS vendas, ROUND(SUM(vl_payment_gross),0) AS receita,
        ROUND(100*COUNT(*)/SUM(COUNT(*)) OVER (PARTITION BY janela),1) AS pct_vendas
@@ -199,6 +199,20 @@ WHERE nm_status='approved' AND bl_is_renovation=FALSE AND bl_is_commercial_chann
   AND (DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL {N_DIAS - 1} DAY)
     OR DATE(dt_ordered_at) BETWEEN '{ODI_D1}' AND DATE_ADD('{ODI_D1}', INTERVAL {N_DIAS - 1} DAY))
 GROUP BY 1
+"""
+
+Q_TOTAL_COMERCIAL_DIA = f"""
+SELECT CASE WHEN DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL {N_DIAS - 1} DAY)
+            THEN 'mai' ELSE 'jul' END AS janela,
+       CASE WHEN DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL {N_DIAS - 1} DAY)
+            THEN DATE_DIFF(DATE(dt_ordered_at), DATE '{CDL_D1}', DAY)+1
+            ELSE DATE_DIFF(DATE(dt_ordered_at), DATE '{ODI_D1}', DAY)+1 END AS dia_campanha,
+       ROUND(SUM(vl_payment_gross),0) AS receita
+FROM masterdata.fct_transactions
+WHERE nm_status='approved' AND bl_is_renovation=FALSE AND bl_is_commercial_channel=TRUE
+  AND (DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL {N_DIAS - 1} DAY)
+    OR DATE(dt_ordered_at) BETWEEN '{ODI_D1}' AND DATE_ADD('{ODI_D1}', INTERVAL {N_DIAS - 1} DAY))
+GROUP BY 1,2 ORDER BY 1,2
 """
 
 Q_ANIV = """
@@ -308,6 +322,12 @@ def build() -> dict:
                                      "vendedores_com_venda": ii(r["vendedores_com_venda"])}
                        for r in bq(Q_TOTAL_COMERCIAL)}
 
+    total_comercial_dia = {"mai": [0.0]*N_DIAS, "jul": [0.0]*N_DIAS}
+    for r in bq(Q_TOTAL_COMERCIAL_DIA):
+        d = ii(r["dia_campanha"]) - 1
+        if 0 <= d < N_DIAS:
+            total_comercial_dia[r["janela"]][d] = fi(r["receita"])
+
     print("  estrutura (leads + spend)...", flush=True)
     leads = {r["camp"]: ii(r["leads"]) for r in bq(Q_LEADS)}
     spend = {r["camp"]: fi(r["spend"]) for r in bq(Q_SPEND)}
@@ -324,6 +344,7 @@ def build() -> dict:
         "mix": mix,
         "contexto_conversas": ctx,
         "total_comercial": total_comercial,
+        "total_comercial_dia": total_comercial_dia,
         "capacidade": capacidade,
         "estrutura": {
             "leads_cdl": leads.get("CDL", 0), "leads_odi": leads.get("ODI", 0),

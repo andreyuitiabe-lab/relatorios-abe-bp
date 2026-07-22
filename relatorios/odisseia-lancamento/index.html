@@ -212,9 +212,9 @@
         <canvas id="chartBp10" height="240"></canvas>
       </div>
       <div class="card">
-        <p class="label">Mix de vendas do Comercial — semana equivalente</p>
+        <p class="label">Mix de vendas do Comercial — D1–D6 de cada campanha</p>
         <table id="tblMix">
-          <thead><tr><th>Produto</th><th class="num">mai (sem. CDL)</th><th class="num">jul (sem. ODI)</th><th class="num">receita jul</th></tr></thead>
+          <thead><tr><th>Produto</th><th class="num">período CDL (mai)</th><th class="num">período ODI (jul)</th><th class="num">receita jul</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -236,11 +236,21 @@
         <div class="bs-cap" id="st-tkt-var">—</div>
       </div>
     </div>
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card">
+        <p class="label">Receita total do Comercial por dia — D1–D6</p>
+        <canvas id="chartReceitaDia" height="240"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">De onde veio a receita em cada período</p>
+        <canvas id="chartMixReceita" height="240"></canvas>
+      </div>
+    </div>
     <div class="nota" id="nota-receita-total">
       <strong>O Comercial como um todo não está vendendo menos dinheiro.</strong> Comparando os 6 primeiros dias de cada campanha: <span id="nota-receita-detalhe">—</span> A troca de mix (CDL R$ 1,2k → Vitalício Aniv26 ~R$ 2,5k) compensou a queda de volume. Ou seja: não faltou receita para o time — faltou a Odisseia entrar na pauta. <em>(Último dia da janela de julho parcial no momento da medição.)</em>
     </div>
     <div class="nota">
-      <strong>Sim, o foco do Comercial está no BP10 — mas o BP10 no Comercial é venda de Vitalício.</strong> As ofertas da semana carregam o sufixo "Aniv26": <span id="nota-aniv">—</span>. Na semana do lançamento do CDL o próprio CDL ocupava 39% do mix; na semana da Odisseia, ela ocupa 0,4%. E além do redirecionamento, o ritmo total do time caiu: <span id="nota-capacidade">—</span>.
+      <strong>Sim, o foco do Comercial está no BP10 — mas o BP10 no Comercial é venda de Vitalício.</strong> As ofertas da semana carregam o sufixo "Aniv26": <span id="nota-aniv">—</span>. No período de lançamento do CDL o próprio CDL ocupava <span id="nota-pct-cdl">—</span> do mix do time; no período da Odisseia, ela ocupa <span id="nota-pct-odi">—</span>. E além do redirecionamento, o ritmo total do time caiu: <span id="nota-capacidade">—</span>.
     </div>
   </section>
 
@@ -418,6 +428,45 @@ fetch('./data.json').then(r => r.json()).then(D => {
       Math.abs(Math.round(100 * tc.jul.vendas / tc.mai.vendas - 100)) + '% menos vendas e ticket ' +
       Math.round(100 * tc.jul.ticket / tc.mai.ticket - 100) + '% maior.';
   }
+
+  const pctCdlMai = D.mix.find(r => r.janela === 'mai' && r.produto === 'Clube do Livro')?.pct;
+  const pctOdiJul = D.mix.find(r => r.janela === 'jul' && r.produto === 'Odisseia')?.pct;
+  document.getElementById('nota-pct-cdl').textContent = (pctCdlMai ?? '—') + '%';
+  document.getElementById('nota-pct-odi').textContent = (pctOdiJul ?? 0) + '%';
+
+  const tcd = D.total_comercial_dia;
+  if (tcd) {
+    new Chart(document.getElementById('chartReceitaDia'), {
+      type: 'bar',
+      data: { labels: dias, datasets: [
+        { label: 'Período CDL (05–10/mai)', data: tcd.mai, backgroundColor: '#3b6ef5' },
+        { label: 'Período ODI (17–22/jul)', data: tcd.jul, backgroundColor: '#7c5cfc' },
+      ]},
+      options: { plugins: { legend: { position: 'bottom' },
+          tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtBRL(ctx.parsed.y) } } },
+        scales: { y: { beginAtZero: true, grid: { color: '#eef2f7' },
+                       ticks: { callback: v => fmtBRL(v) } },
+                  x: { grid: { display: false } } } }
+    });
+  }
+
+  const CORES_PROD = { 'Vitalício': '#7c5cfc', 'Clube do Livro': '#3b6ef5', 'Odisseia': '#f5a524',
+                       'Mecenas': '#16a34a', 'Combos BP10': '#dc2626', 'Assinaturas/outros': '#c3ccdb' };
+  const prodOrdem = [...new Set(D.mix.map(r => r.produto))]
+    .sort((a, b) => (a === 'Assinaturas/outros') - (b === 'Assinaturas/outros'));
+  new Chart(document.getElementById('chartMixReceita'), {
+    type: 'bar',
+    data: { labels: ['Período CDL (mai)', 'Período ODI (jul)'], datasets: prodOrdem.map(p => ({
+      label: p,
+      data: ['mai', 'jul'].map(j => D.mix.find(r => r.janela === j && r.produto === p)?.receita ?? 0),
+      backgroundColor: CORES_PROD[p] || '#aab2c4', stack: 's',
+    }))},
+    options: { plugins: { legend: { position: 'bottom' },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtBRL(ctx.parsed.y) } } },
+      scales: { y: { beginAtZero: true, stacked: true, grid: { color: '#eef2f7' },
+                     ticks: { callback: v => fmtBRL(v) } },
+                x: { stacked: true, grid: { display: false } } } }
+  });
 
   const e = D.estrutura, c = D.capacidade;
   document.getElementById('nota-aniv').innerHTML =

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-22T20:33:31",
+  "updated_at": "2026-07-22T20:38:37",
   "config": {
     "cdl_d1": "2026-05-05",
     "odi_d1": "2026-07-17",
@@ -266,72 +266,72 @@
     {
       "janela": "jul",
       "produto": "Assinaturas/outros",
-      "vendas": 630,
-      "receita": 174504.0,
-      "pct": 45.8
+      "vendas": 544,
+      "receita": 154687.0,
+      "pct": 45.9
     },
     {
       "janela": "jul",
       "produto": "Vitalício",
-      "vendas": 403,
-      "receita": 997295.0,
-      "pct": 29.3
+      "vendas": 352,
+      "receita": 825105.0,
+      "pct": 29.7
     },
     {
       "janela": "jul",
       "produto": "Clube do Livro",
-      "vendas": 269,
-      "receita": 296404.0,
-      "pct": 19.5
+      "vendas": 221,
+      "receita": 247055.0,
+      "pct": 18.6
     },
     {
       "janela": "jul",
       "produto": "Mecenas",
-      "vendas": 59,
-      "receita": 199636.0,
-      "pct": 4.3
+      "vendas": 54,
+      "receita": 196768.0,
+      "pct": 4.6
     },
     {
       "janela": "jul",
       "produto": "Odisseia",
       "vendas": 9,
       "receita": 11520.0,
-      "pct": 0.7
+      "pct": 0.8
     },
     {
       "janela": "jul",
       "produto": "Combos BP10",
-      "vendas": 7,
-      "receita": 1564.0,
-      "pct": 0.5
+      "vendas": 5,
+      "receita": 1086.0,
+      "pct": 0.4
     },
     {
       "janela": "mai",
       "produto": "Assinaturas/outros",
-      "vendas": 1103,
-      "receita": 275841.0,
-      "pct": 52.0
+      "vendas": 962,
+      "receita": 242174.0,
+      "pct": 52.7
     },
     {
       "janela": "mai",
       "produto": "Clube do Livro",
-      "vendas": 832,
-      "receita": 988920.0,
-      "pct": 39.2
+      "vendas": 703,
+      "receita": 835416.0,
+      "pct": 38.5
     },
     {
       "janela": "mai",
       "produto": "Vitalício",
-      "vendas": 154,
-      "receita": 288163.0,
-      "pct": 7.3
+      "vendas": 136,
+      "receita": 250226.0,
+      "pct": 7.5
     },
     {
       "janela": "mai",
       "produto": "Mecenas",
-      "vendas": 32,
-      "receita": 91388.0,
-      "pct": 1.5
+      "vendas": 23,
+      "receita": 73580.0,
+      "pct": 1.3
     }
   ],
   "contexto_conversas": {
@@ -365,6 +365,24 @@
       "ticket": 1212.0,
       "vendedores_com_venda": 34
     }
+  },
+  "total_comercial_dia": {
+    "mai": [
+      181667.0,
+      310348.0,
+      351613.0,
+      438679.0,
+      83454.0,
+      35635.0
+    ],
+    "jul": [
+      394889.0,
+      98285.0,
+      17998.0,
+      225345.0,
+      307385.0,
+      392319.0
+    ]
   },
   "capacidade": {
     "mai": {
