@@ -23,4 +23,16 @@ SELECT janela, produto, COUNT(*) AS vendas, ROUND(SUM(vl_payment_gross),0) AS re
        ROUND(100*COUNT(*)/SUM(COUNT(*)) OVER (PARTITION BY janela),1) AS pct_vendas
 FROM v
 GROUP BY 1,2
-ORDER BY janela, vendas DESC
+ORDER BY janela, vendas DESC;
+
+-- Receita TOTAL do canal Comercial por janela (tudo que o time vendeu, qualquer produto)
+SELECT CASE WHEN DATE(dt_ordered_at) BETWEEN '2026-05-05' AND '2026-05-11' THEN 'mai' ELSE 'jul' END AS janela,
+       COUNT(*) AS vendas,
+       ROUND(SUM(vl_payment_gross),0) AS receita,
+       ROUND(AVG(vl_payment_gross),0) AS ticket_medio,
+       COUNT(DISTINCT REGEXP_EXTRACT(LOWER(nm_pptc_tracking_name), r'(c\d{4})')) AS vendedores_com_venda
+FROM masterdata.fct_transactions
+WHERE nm_status='approved' AND bl_is_renovation=FALSE AND bl_is_commercial_channel=TRUE
+  AND (DATE(dt_ordered_at) BETWEEN '2026-05-05' AND '2026-05-11'
+    OR DATE(dt_ordered_at) BETWEEN '2026-07-16' AND '2026-07-22')
+GROUP BY 1;

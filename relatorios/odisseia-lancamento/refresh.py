@@ -179,6 +179,20 @@ WHERE reference_date >= '2026-04-01'
 GROUP BY 1
 """
 
+Q_TOTAL_COMERCIAL = f"""
+SELECT CASE WHEN DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL 6 DAY)
+            THEN 'mai' ELSE 'jul' END AS janela,
+       COUNT(*) AS vendas,
+       ROUND(SUM(vl_payment_gross),0) AS receita,
+       ROUND(AVG(vl_payment_gross),0) AS ticket_medio,
+       COUNT(DISTINCT REGEXP_EXTRACT(LOWER(nm_pptc_tracking_name), r'(c\\d{{4}})')) AS vendedores_com_venda
+FROM masterdata.fct_transactions
+WHERE nm_status='approved' AND bl_is_renovation=FALSE AND bl_is_commercial_channel=TRUE
+  AND (DATE(dt_ordered_at) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL 6 DAY)
+    OR DATE(dt_ordered_at) BETWEEN '2026-07-16' AND DATE_ADD('2026-07-16', INTERVAL 6 DAY))
+GROUP BY 1
+"""
+
 Q_ANIV = """
 SELECT COUNT(*) AS vendas, ROUND(SUM(vl_payment_gross),0) AS receita
 FROM masterdata.fct_transactions
@@ -258,6 +272,12 @@ def build() -> dict:
                                 "abordagens_dia": ii(r["abordagens_dia"])}
                   for r in bq(Q_CAPACIDADE)}
 
+    print("  receita total do Comercial...", flush=True)
+    total_comercial = {r["janela"]: {"vendas": ii(r["vendas"]), "receita": fi(r["receita"]),
+                                     "ticket": fi(r["ticket_medio"]),
+                                     "vendedores_com_venda": ii(r["vendedores_com_venda"])}
+                       for r in bq(Q_TOTAL_COMERCIAL)}
+
     print("  estrutura (leads + spend)...", flush=True)
     leads = {r["camp"]: ii(r["leads"]) for r in bq(Q_LEADS)}
     spend = {r["camp"]: fi(r["spend"]) for r in bq(Q_SPEND)}
@@ -272,6 +292,7 @@ def build() -> dict:
         "conversao": conversao,
         "mencoes_jul": menc_jul,
         "mix": mix,
+        "total_comercial": total_comercial,
         "capacidade": capacidade,
         "estrutura": {
             "leads_cdl": leads.get("CDL", 0), "leads_odi": leads.get("ODI", 0),

@@ -172,6 +172,26 @@
         </table>
       </div>
     </div>
+    <div class="grid-3" style="margin-top:16px">
+      <div class="card" style="text-align:center">
+        <div class="label">Receita total do Comercial — semana</div>
+        <div class="bigstat"><div class="bs-num sm"><span id="st-rec-mai">—</span> vs <span style="color:var(--violet)" id="st-rec-jul">—</span></div></div>
+        <div class="bs-cap">mai (sem. CDL) vs jul (sem. BP10/ODI)</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Vendas do Comercial — semana</div>
+        <div class="bigstat"><div class="bs-num sm"><span id="st-vnd-mai">—</span> vs <span style="color:var(--violet)" id="st-vnd-jul">—</span></div></div>
+        <div class="bs-cap" id="st-vnd-var">—</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Ticket médio</div>
+        <div class="bigstat"><div class="bs-num sm"><span id="st-tkt-mai">—</span> vs <span style="color:var(--violet)" id="st-tkt-jul">—</span></div></div>
+        <div class="bs-cap" id="st-tkt-var">—</div>
+      </div>
+    </div>
+    <div class="nota" id="nota-receita-total">
+      <strong>O Comercial como um todo não está vendendo menos dinheiro.</strong> <span id="nota-receita-detalhe">—</span> A troca de mix (CDL R$ 1,2k → Vitalício Aniv26 ~R$ 2,5k) compensou a queda de volume. Ou seja: não faltou receita para o time — faltou a Odisseia entrar na pauta.
+    </div>
     <div class="nota">
       <strong>Sim, o foco do Comercial está no BP10 — mas o BP10 no Comercial é venda de Vitalício.</strong> As ofertas da semana carregam o sufixo "Aniv26": <span id="nota-aniv">—</span>. Na semana do lançamento do CDL o próprio CDL ocupava 39% do mix; na semana da Odisseia, ela ocupa 0,4%. E além do redirecionamento, o ritmo total do time caiu: <span id="nota-capacidade">—</span>.
     </div>
@@ -319,6 +339,26 @@ fetch('./data.json').then(r => r.json()).then(D => {
       '<td class="num">' + (j ? fmtInt(j.vendas) + ' (' + j.pct + '%)' : '—') + '</td>' +
       '<td class="num">' + (j ? fmtBRL(j.receita) : '—') + '</td>';
     tbody.appendChild(tr);
+  }
+
+  const tc = D.total_comercial;
+  if (tc && tc.mai && tc.jul) {
+    document.getElementById('st-rec-mai').textContent = fmtBRL(tc.mai.receita);
+    document.getElementById('st-rec-jul').textContent = fmtBRL(tc.jul.receita);
+    document.getElementById('st-vnd-mai').textContent = fmtInt(tc.mai.vendas);
+    document.getElementById('st-vnd-jul').textContent = fmtInt(tc.jul.vendas);
+    document.getElementById('st-vnd-var').textContent =
+      Math.round(100 * tc.jul.vendas / tc.mai.vendas - 100) + '% em volume';
+    document.getElementById('st-tkt-mai').textContent = fmtBRL(tc.mai.ticket);
+    document.getElementById('st-tkt-jul').textContent = fmtBRL(tc.jul.ticket);
+    document.getElementById('st-tkt-var').textContent =
+      '+' + Math.round(100 * tc.jul.ticket / tc.mai.ticket - 100) + '% no ticket';
+    const varRec = Math.round(100 * tc.jul.receita / tc.mai.receita - 100);
+    document.getElementById('nota-receita-detalhe').innerHTML =
+      'Receita da semana: <strong>' + fmtBRL(tc.mai.receita) + ' em mai vs ' + fmtBRL(tc.jul.receita) +
+      ' em jul (' + (varRec >= 0 ? '+' : '') + varRec + '%)</strong>, com ' +
+      Math.abs(Math.round(100 * tc.jul.vendas / tc.mai.vendas - 100)) + '% menos vendas e ticket ' +
+      Math.round(100 * tc.jul.ticket / tc.mai.ticket - 100) + '% maior.';
   }
 
   const e = D.estrutura, c = D.capacidade;
