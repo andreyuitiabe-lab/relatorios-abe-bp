@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odisseia vs Clube do Livro — Lançamento Comercial</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:     #f8fafc;
+      --card:   #ffffff;
+      --line:   #e2e8f0;
+      --text:   #1e293b;
+      --muted:  #475569;
+      --soft:   #94a3b8;
+      --blue:   #3b6ef5;
+      --green:  #16a34a;
+      --amber:  #f5a524;
+      --violet: #7c5cfc;
+      --red:    #dc2626;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6;
+    }
+    .wrap   { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+    section { margin-bottom: 52px; }
+    h1      { font-size: 26px; font-weight: 700; }
+    h2      { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    p.para  { color: var(--muted); margin-bottom: 12px; }
+    .sub    { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .label  { font-size: 11px; font-weight: 600; text-transform: uppercase;
+              letter-spacing: .06em; color: var(--soft); margin-bottom: 12px; }
+    .card   { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 640px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+    .bigstat .bs-num { font-size: 32px; font-weight: 800; color: var(--blue); line-height: 1.05; }
+    .bigstat .bs-num.v { color: var(--violet); }
+    .bigstat .bs-num.g { color: var(--green); }
+    .bigstat .bs-num.a { color: var(--amber); }
+    .bigstat .bs-num.r { color: var(--red); }
+    .bigstat .bs-num.sm { font-size: 22px; }
+    .bigstat .bs-cap { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+    table  { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th     { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px;
+             text-transform: uppercase; letter-spacing: .05em;
+             border-bottom: 2px solid var(--line); padding: 8px 10px; }
+    td     { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    tr:last-child td { border-bottom: none; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    tr.hi td { background: #f5f8ff; font-weight: 700; }
+
+    .nota  { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px;
+             padding: 12px 16px; font-size: 12.5px; color: var(--muted); margin-top: 16px; }
+    .nota strong { color: var(--text); }
+    .verdict { border-left: 4px solid var(--red); background: #fef2f2; padding: 16px 20px;
+               border-radius: 8px; margin: 8px 0 4px; }
+    .verdict .vh { font-size: 16px; font-weight: 800; color: #991b1b; }
+    ul.clean { margin: 6px 0 6px 18px; color: var(--muted); }
+    ul.clean li { margin-bottom: 6px; }
+    .rec { border: 1px solid #bbf7d0; background: #f0fdf4; border-radius: 10px; padding: 20px 24px; }
+
+    header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+    footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+             font-size: 12px; color: var(--soft); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Análise de Lançamento</p>
+  <h1>Odisseia vs Clube do Livro — por que o Comercial não está vendendo?</h1>
+  <p class="sub">Comparação dos primeiros dias das duas campanhas (D1–D6 alinhados: CDL a partir de 05/05, Odisseia a partir de 17/07) + teste da hipótese "o BP10 está tirando o foco".<br>
+  Atualizado: <span id="updated">—</span></p>
+</header>
+
+<main>
+
+  <!-- Resposta -->
+  <section>
+    <h2>Resposta em uma linha</h2>
+    <div class="verdict">
+      <div class="vh">A Odisseia não está "vendendo mal" — ela nunca foi lançada no Comercial. O time está com o script apontado para o Vitalício de aniversário (BP10), e a Odisseia não recebeu lista, script nem meta.</div>
+    </div>
+    <div class="grid-4" style="margin-top:16px">
+      <div class="card" style="text-align:center">
+        <div class="label">CDL D1–D6 (total)</div>
+        <div class="bigstat"><div class="bs-num" id="st-cdl-vendas">—</div></div>
+        <div class="bs-cap" id="st-cdl-receita">—</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Odisseia D1–D6 (total)</div>
+        <div class="bigstat"><div class="bs-num a" id="st-odi-vendas">—</div></div>
+        <div class="bs-cap" id="st-odi-receita">—</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Gap no Comercial</div>
+        <div class="bigstat"><div class="bs-num r" id="st-gap-com">—</div></div>
+        <div class="bs-cap" id="st-gap-com-det">—</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Gap no Digital/CRM</div>
+        <div class="bigstat"><div class="bs-num sm" id="st-gap-dig">—</div></div>
+        <div class="bs-cap" id="st-gap-dig-det">—</div>
+      </div>
+    </div>
+    <div class="nota"><strong>Onde está a diferença:</strong> o digital/CRM da Odisseia roda a ~2,5× menos que o do CDL — diferença explicável pela ausência de mídia e aquecimento. O buraco de verdade é o Comercial: <span id="nota-gap">—</span>. É uma diferença de <strong>ativação do canal</strong>, não de apetite do público.</div>
+  </section>
+
+  <!-- Placar -->
+  <section>
+    <h2>Placar D1–D6 — vendas por dia e canal</h2>
+    <div class="grid-2">
+      <div class="card">
+        <p class="label">Clube do Livro (D1 = 05/05)</p>
+        <canvas id="chartCdl" height="220"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">Odisseia (D1 = 17/07) — mesma escala</p>
+        <canvas id="chartOdi" height="220"></canvas>
+      </div>
+    </div>
+    <div class="nota">No CDL, o Comercial é a barra dominante desde o D2 (155–256 vendas/dia). Na Odisseia, a barra do Comercial é invisível na mesma escala — <strong>quem sustenta a campanha até agora é o CRM</strong> (e-mails e WhatsApp de pré-venda com tag [ODI], principalmente para compradores do CDL a R$ 1.200).</div>
+  </section>
+
+  <!-- Esforço -->
+  <section>
+    <h2>Esforço do Comercial — conversas que ofereceram o produto</h2>
+    <p class="para">Medido no texto das conversas do Zenvia: quantas abordagens por dia mencionam o produto (método: busca por "clube do livro" / "odisseia" na transcrição). D-4 a D-1 = dias antes da abertura da venda.</p>
+    <div class="card">
+      <canvas id="chartEsforco" height="240"></canvas>
+    </div>
+    <div class="grid-3" style="margin-top:16px">
+      <div class="card" style="text-align:center">
+        <div class="label">Conversas oferecendo (D1–D6)</div>
+        <div class="bigstat"><div class="bs-num sm"><span id="st-menc-cdl">—</span> vs <span style="color:var(--amber)" id="st-menc-odi">—</span></div></div>
+        <div class="bs-cap">CDL vs Odisseia</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Vendedores no jogo</div>
+        <div class="bigstat"><div class="bs-num sm"><span id="st-vend-cdl">—</span> vs <span style="color:var(--amber)" id="st-vend-odi">—</span></div></div>
+        <div class="bs-cap">pico de vendedores/dia mencionando o produto</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Conversão por conversa</div>
+        <div class="bigstat"><div class="bs-num sm g"><span id="st-conv-cdl">—</span> vs <span id="st-conv-odi">—</span></div></div>
+        <div class="bs-cap">vendas comerciais / conversas que ofereceram</div>
+      </div>
+    </div>
+    <div class="nota"><strong>Leitura decisiva:</strong> a conversão por conversa da Odisseia <em>não é pior</em> que a do CDL — quando o vendedor oferece, vende em taxa igual ou melhor. O que falta é volume de oferta: o CDL teve o time inteiro com script desde 4 dias <em>antes</em> do D1; a Odisseia tem menções esporádicas (~2 conversas por vendedor no período).</div>
+  </section>
+
+  <!-- BP10 -->
+  <section>
+    <h2>Hipótese BP10 — para onde o script do time aponta</h2>
+    <div class="grid-2">
+      <div class="card">
+        <p class="label">Menções por tema nas conversas (jul)</p>
+        <canvas id="chartBp10" height="240"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">Mix de vendas do Comercial — semana equivalente</p>
+        <table id="tblMix">
+          <thead><tr><th>Produto</th><th class="num">mai (sem. CDL)</th><th class="num">jul (sem. ODI)</th><th class="num">receita jul</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="nota">
+      <strong>Sim, o foco do Comercial está no BP10 — mas o BP10 no Comercial é venda de Vitalício.</strong> As ofertas da semana carregam o sufixo "Aniv26": <span id="nota-aniv">—</span>. Na semana do lançamento do CDL o próprio CDL ocupava 39% do mix; na semana da Odisseia, ela ocupa 0,4%. E além do redirecionamento, o ritmo total do time caiu: <span id="nota-capacidade">—</span>.
+    </div>
+  </section>
+
+  <!-- Estrutura -->
+  <section>
+    <h2>O que mais foi diferente — desenho da campanha</h2>
+    <div class="grid-3">
+      <div class="card" style="text-align:center">
+        <div class="label">Leads de aquecimento</div>
+        <div class="bigstat"><div class="bs-num sm"><span id="st-leads-cdl">—</span> vs <span style="color:var(--red)" id="st-leads-odi">—</span></div></div>
+        <div class="bs-cap">CDL (até abertura digital) vs Odisseia</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Mídia paga (Meta)</div>
+        <div class="bigstat"><div class="bs-num sm"><span id="st-spend-cdl">—</span> vs <span style="color:var(--red)" id="st-spend-odi">—</span></div></div>
+        <div class="bs-cap">spend até a abertura da venda</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Preço / oferta</div>
+        <div class="bigstat"><div class="bs-num sm">R$ 1.200–1.500</div></div>
+        <div class="bs-cap">produto único, sem lotes/order bumps (CDL: pré-venda + lotes + bumps)</div>
+      </div>
+    </div>
+    <div class="nota">
+      <strong>Contexto que muda a régua:</strong> a pesquisa sintética (SSR, 21/07 — ver relatório <a href="../odisseia/">Odisseia SSR</a>) recomendou lançar em fases: primeiro só aos ~23,7 mil compradores do CDL a R$ 1.200, medir a recompra, e só então abrir base + mídia. O que os dados mostram é compatível com essa fase 1 (CRM para compradores CDL, checkout dominante a R$ 1.200). <strong>Se a fase 1 é intencional, comparar com o lançamento full-force do CDL é régua errada</strong> — o problema passa a ser só a expectativa de que o Comercial estivesse vendendo.
+    </div>
+  </section>
+
+  <!-- Recomendação -->
+  <section>
+    <h2>Conclusão e recomendação</h2>
+    <div class="rec">
+      <p style="font-weight:700; color:#166534; margin-bottom:10px">O gargalo não é o produto nem o vendedor — é a ativação. Decidir explicitamente a prioridade do Comercial.</p>
+      <ul class="clean">
+        <li><strong>Não é concorrência inevitável:</strong> no lançamento do CDL também havia campanhas simultâneas (DOM/ELS) e o time colocou o CDL em 39% do mix. Campanha nova vira prioridade quando recebe lista + script + meta — a Odisseia não recebeu.</li>
+        <li><strong>O BP10/Vitalício está rendendo bem</strong> (R$ 897k na semana, ticket ~R$ 2,5k vs R$ 1,2k da Odisseia). Tirar o time do Vitalício para vender Odisseia pode ser troca ruim — a decisão é de negócio, não de execução.</li>
+        <li><strong>Se a Odisseia deve vender agora:</strong> replicar o playbook do CDL — lista dedicada (começando pelos compradores do CDL que não abriram os e-mails), script no Zenvia e meta por vendedor. A conversão por conversa (~9%) sugere que o público responde.</li>
+        <li><strong>Se a fase 1 do SSR é a estratégia:</strong> formalizar — medir a taxa de recompra CDL→Odisseia no CRM antes de acionar o Comercial, e alinhar a expectativa de vendas da semana com essa fase.</li>
+        <li><strong>Ponto de atenção do ritmo:</strong> abordagens/dia do time caíram ~50% vs maio com o mesmo número de vendedores — vale investigar com o gestor (férias, listas menores, priorização).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Limitações -->
+  <section>
+    <h2>Limitações</h2>
+    <div class="card">
+      <ul class="clean">
+        <li><strong>Amostra curta:</strong> a Odisseia tem ~6 dias de venda; a comparação usa apenas dias equivalentes (D1–D6), mas a leitura é precoce.</li>
+        <li><strong>Esforço medido por menção na transcrição:</strong> conversas por telefone/fora do Zenvia não aparecem. As 5 vendas comerciais da Odisseia não têm conversa vinculada por <code>id_transaction</code> no Zenvia — a taxa de conversão por conversa é aproximação.</li>
+        <li><strong>Menções "BP10"</strong> capturadas por regex ("10 anos", "aniversário") — pode haver falsos positivos pontuais.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Fontes: masterdata.fct_transactions, masterdata.dim_zenvia_approaches, datamart.dtm_analytics_lead_conversion, datamart.dtm_analytics_facebook_ads_funnel.<br>
+  Queries canônicas em <code>queries/</code> · dados via <code>refresh.py</code> · André Abe · jul/2026.
+</footer>
+
+</div>
+
+<script>
+const fmtBRL = v => 'R$ ' + (v >= 1e6 ? (v/1e6).toFixed(2).replace('.', ',') + 'M'
+                    : v >= 1e3 ? Math.round(v/1e3) + 'k' : Math.round(v));
+const fmtInt = v => v.toLocaleString('pt-BR');
+
+fetch('./data.json').then(r => r.json()).then(D => {
+  document.getElementById('updated').textContent = D.updated_at.replace('T', ' ');
+
+  const t = D.totais;
+  document.getElementById('st-cdl-vendas').textContent = fmtInt(t.cdl.vendas);
+  document.getElementById('st-cdl-receita').textContent = fmtBRL(t.cdl.receita) + ' · ' + t.cdl.vendedores + ' vendedores';
+  document.getElementById('st-odi-vendas').textContent = fmtInt(t.odi.vendas);
+  document.getElementById('st-odi-receita').textContent = fmtBRL(t.odi.receita) + ' · ' + t.odi.vendedores + ' vendedores';
+  const gapCom = Math.round(t.cdl.comercial / Math.max(t.odi.comercial, 1));
+  document.getElementById('st-gap-com').textContent = gapCom + '×';
+  document.getElementById('st-gap-com-det').textContent = t.cdl.comercial + ' vs ' + t.odi.comercial + ' vendas';
+  const gapDig = (t.cdl.digital / Math.max(t.odi.digital, 1)).toFixed(1).replace('.', ',');
+  document.getElementById('st-gap-dig').textContent = gapDig + '×';
+  document.getElementById('st-gap-dig-det').textContent = t.cdl.digital + ' vs ' + t.odi.digital + ' vendas';
+  document.getElementById('nota-gap').innerHTML =
+    '<strong>' + t.cdl.comercial + ' vendas do CDL contra ' + t.odi.comercial + ' da Odisseia (' + gapCom + '×)</strong>';
+
+  const dias = Array.from({length: D.config.n_dias}, (_, i) => 'D' + (i+1));
+  const maxY = Math.max(...D.placar.cdl_comercial.vendas.map((v, i) => v + D.placar.cdl_digital.vendas[i])) * 1.1;
+  const mkPlacar = (id, com, dig) => new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: { labels: dias, datasets: [
+      { label: 'Comercial', data: com, backgroundColor: '#3b6ef5', stack: 's' },
+      { label: 'Digital/CRM', data: dig, backgroundColor: '#c7d5fb', stack: 's' },
+    ]},
+    options: { plugins: { legend: { position: 'bottom' } },
+      scales: { y: { beginAtZero: true, max: Math.ceil(maxY), grid: { color: '#eef2f7' } },
+                x: { grid: { display: false } } } }
+  });
+  mkPlacar('chartCdl', D.placar.cdl_comercial.vendas, D.placar.cdl_digital.vendas);
+  mkPlacar('chartOdi', D.placar.odi_comercial.vendas, D.placar.odi_digital.vendas);
+
+  const labelsMenc = D.mencoes.dias.map(d => d < 1 ? 'D' + (d - 1) : 'D' + d);
+  new Chart(document.getElementById('chartEsforco'), {
+    type: 'bar',
+    data: { labels: labelsMenc, datasets: [
+      { label: 'CDL — conversas oferecendo', data: D.mencoes.cdl.mencoes, backgroundColor: '#3b6ef5' },
+      { label: 'Odisseia — conversas oferecendo', data: D.mencoes.odi.mencoes, backgroundColor: '#f5a524' },
+    ]},
+    options: { plugins: { legend: { position: 'bottom' } },
+      scales: { y: { beginAtZero: true, grid: { color: '#eef2f7' } }, x: { grid: { display: false } } } }
+  });
+
+  const sum = a => a.reduce((x, y) => x + y, 0);
+  document.getElementById('st-menc-cdl').textContent = fmtInt(D.conversao.cdl.mencoes_d1_dn);
+  document.getElementById('st-menc-odi').textContent = fmtInt(D.conversao.odi.mencoes_d1_dn);
+  document.getElementById('st-vend-cdl').textContent = Math.max(...D.mencoes.cdl.vendedores);
+  document.getElementById('st-vend-odi').textContent = Math.max(...D.mencoes.odi.vendedores);
+  document.getElementById('st-conv-cdl').textContent = (D.conversao.cdl.taxa_pct ?? '—') + '%';
+  document.getElementById('st-conv-odi').textContent = (D.conversao.odi.taxa_pct ?? '—') + '%';
+
+  new Chart(document.getElementById('chartBp10'), {
+    type: 'bar',
+    data: { labels: D.mencoes_jul.map(r => r.dia.slice(5)), datasets: [
+      { label: 'BP10 / aniversário', data: D.mencoes_jul.map(r => r.bp10), backgroundColor: '#7c5cfc', stack: 's' },
+      { label: 'Clube do Livro', data: D.mencoes_jul.map(r => r.cdl), backgroundColor: '#c7d5fb', stack: 's' },
+      { label: 'Odisseia', data: D.mencoes_jul.map(r => r.odisseia), backgroundColor: '#f5a524', stack: 's' },
+    ]},
+    options: { plugins: { legend: { position: 'bottom' } },
+      scales: { y: { beginAtZero: true, stacked: true, grid: { color: '#eef2f7' } },
+                x: { stacked: true, grid: { display: false } } } }
+  });
+
+  const produtos = [...new Set(D.mix.map(r => r.produto))];
+  const byJan = (jan, prod) => D.mix.find(r => r.janela === jan && r.produto === prod);
+  const tbody = document.querySelector('#tblMix tbody');
+  produtos.sort((a, b) => (byJan('jul', b)?.vendas ?? 0) - (byJan('jul', a)?.vendas ?? 0));
+  for (const p of produtos) {
+    const m = byJan('mai', p), j = byJan('jul', p);
+    const tr = document.createElement('tr');
+    if (p === 'Odisseia') tr.className = 'hi';
+    tr.innerHTML = '<td>' + p + '</td>' +
+      '<td class="num">' + (m ? fmtInt(m.vendas) + ' (' + m.pct + '%)' : '—') + '</td>' +
+      '<td class="num">' + (j ? fmtInt(j.vendas) + ' (' + j.pct + '%)' : '—') + '</td>' +
+      '<td class="num">' + (j ? fmtBRL(j.receita) : '—') + '</td>';
+    tbody.appendChild(tr);
+  }
+
+  const e = D.estrutura, c = D.capacidade;
+  document.getElementById('nota-aniv').innerHTML =
+    '<strong>' + fmtInt(e.aniv26_vendas) + ' vitalícios "Aniv26" vendidos (' + fmtBRL(e.aniv26_receita) + ')</strong>';
+  document.getElementById('nota-capacidade').innerHTML =
+    '<strong>' + fmtInt(c.jul.abordagens_dia) + ' abordagens/dia em jul vs ' + fmtInt(c.mai.abordagens_dia) +
+    ' em mai (−' + Math.round(100 - 100 * c.jul.abordagens_dia / c.mai.abordagens_dia) + '%), com o mesmo time (' +
+    c.jul.vendedores + ' vendedores)</strong>';
+
+  document.getElementById('st-leads-cdl').textContent = fmtInt(e.leads_cdl);
+  document.getElementById('st-leads-odi').textContent = fmtInt(e.leads_odi);
+  document.getElementById('st-spend-cdl').textContent = fmtBRL(e.spend_cdl);
+  document.getElementById('st-spend-odi').textContent = fmtBRL(e.spend_odi);
+});
+</script>
+
+</body>
+</html>
