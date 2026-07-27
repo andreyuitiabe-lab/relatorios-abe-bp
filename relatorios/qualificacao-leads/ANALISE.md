@@ -1,9 +1,28 @@
-# Análise: Qualificação de Leads — Framework CPL×CAC
+# Análise: Qualificação de Leads — Framework CPL×CAC → IQL
 
-**Data:** mai/2026  
-**Status:** framework concluído; implementação de pesquisa e scoring em andamento  
-**Relatório:** [index.html](index.html)  
-**Wiki:** `~/.claude/wiki-bp/pages/metricas-referencia.md` | memória: `project_lead_qualification_framework`
+**Data:** mai/2026 → jul/2026 (fase de produção)
+**Status:** IQL v1 com **pesos vivos** implementado, revisado 3× e commitado na **MR !2426** (pipeline verde) — aguardando merge
+**Relatório:** [index.html](index.html) · **Metodologia canônica:** [METODOLOGIA-IQL.md](METODOLOGIA-IQL.md) (decisões D1–D41)
+**Wiki:** `~/.claude/wiki-bp/pages/iql.md` · `metricas-referencia.md` | memória: `project_lead_qualification_framework`
+
+---
+
+## Para retomar
+
+**Próximo passo:** a MR !2426 está pronta para revisão humana (pipeline 100% verde no commit `6e339e8e8`). Atribuir revisor no GitLab. **Após o merge**, executar o cutover D+1:
+1. Repontar a view do dashboard do André para `bp-datawarehouse.datamart.cbo_lead_conversion_iql` (hoje lê a ad-hoc `bp-staging.dbt_abe.vw_lead_conversion_iql`).
+2. Aposentar o protótipo `tb_lead_iql` (v0.2, scheduled query parada desde 08/07) e a `vw_lead_conversion_iql`.
+3. Pedir ao Claude para **recriar o health-check diário** apontando para produção (receita completa em `~/.claude/AGENDA.md` → Recorrentes; foi pausado pré-merge por re-enfileirar fora de hora).
+
+**Wiki a carregar:** `wiki-bp/pages/iql.md` (mapa do modelo) → `dbt-status.md` → `dbt-overview.md`. Para mexer no código: `bp-dbt-dw/models/marts/marketing/iql/README.md` (DAG + ordem de revisão + gotchas de CI).
+
+**Contexto que não está em outro lugar:**
+- **SQLFluff é pinado em 3.4.0** no CI (`requirements.txt`). Lintar com outra versão dá falso-verde — as regras de indentação de jinja divergem.
+- Modelos incrementais têm `full_refresh=false`. Ao renomear coluna antes do merge, é preciso dropar as cópias stale em `bp-staging:docs_validation.<modelo>` e `pipeline_integrity_validation.<modelo>`, senão o CI quebra.
+- Validação local usa **swap-materialization**: compilar e trocar os refs de upstream para produção antes de rodar em `bp-staging.dbt_abe`.
+- Betas (`seed_iql_betas`) são **congelados**, estimados offline por `~/meu_projeto/BigQuery/iql_v0/iql_recalibra_v03.py`. Não rodam no pipeline (ver "por que" na D39).
+
+**Fila do projeto (pós-merge):** (1) apresentação; (2) piloto ELB26 formalizado (gate Spearman CPLq×CAC, leitura D+60); (3) modelo IV no dbt (`mart_iql_iv` — hoje protótipo `tb_iql_iv_perguntas`), pré-requisito do dash de perguntas; (4) CAPI v2; (5) **1º refit ~mar/2027** quando EVG maturar: revalidar β, reavaliar quarentena do DDD, threshold de uniformidade 2,0, ablação da `paga_conteudo` (β 0,19 = mais sobreposta).
 
 ---
 
@@ -114,6 +133,59 @@ O time de mídia otimizava por CPL. A hipótese era que CPL e qualidade de lead 
 - **UI (tabela dos terços)**: novas linhas — R$/lead projetado (maturado), CPL máximo (break-even = projetado), CPL máximo (meta N×, input editável com persistência por campanha como o CPLq alvo) e linha **Veredito** com chip 🚀 escalar / ⚠️ segurar / ⛔ parar (CPL atual vs máx-com-meta e break-even). Linha informativa da cohort (idade + fator + aviso de conservador) e nota obrigatória: break-even sobre receita BRUTA last-click, meta é a folga para margem/incrementalidade. Tooltip do quadrante ganhou "CPL máx estimado" só para anúncios com ≥5 vendas (RPL próprio × fator ÷ meta).
 - **Leitura atual (BP10, fator 1,90, meta 1,5×)**: terço IQL alto CPL R$4,30 vs máx R$10,52 → 🚀 escalar; médio → ⚠️ segurar; baixo CPL R$5,40 acima do break-even R$3,84 → ⛔ parar. Ambas as cohorts <30d (10,7d e 18,1d) → fator conservador.
 
+**Iteração 7 (14/jul/2026) — RPL esperado e CPL alvo POR ANÚNCIO (D28):**
+
+- **refresh.py**: constante `MULT_VALOR = {nao_nm: 11.0, nm_a: 3.3, nm_b: 1.05, nm_c: 0.83}` — múltiplos de R$/lead maduro vs NM médio da campanha, receita realizada pooled RIO/MST/TPV (fontes verificadas: `iql_v0/sql/07_backtest_rio_mst_tpv.sql` + decisão D28 na METODOLOGIA, incl. ressalva do A largo). Bloco `anuncios` ganhou `nm_b`, `nm_c`, `n_nao_nm` (validado: A+B+C+não-NM = leads em todos os 140 anúncios); `campanhas` ganhou `rpl_nm_observado` (base da projeção). `bq()` ganhou retry (falha transiente pegou o bloco impacto).
+- **UI**: colunas **"RPL esp."** (base NM projetada por maturação × mix do anúncio × múltiplos) e **"CPL alvo"** (RPL esperado ÷ meta, chip verde/vermelho vs CPL atual, recalcula ao editar a meta) na tabela de anúncios, ordenáveis; card "RPL esperado" da campanha (mix total); nota explicando esperado ("o que o mix DEVE render") vs observado ("o que já apareceu"). **Decisão**: a linha "CPL máx estimado" do tooltip (RPL próprio, exigia ≥5 vendas) foi **substituída** por "CPL alvo (RPL esperado)" — mix-based é mais estável e cobre todos os anúncios.
+- **Verificação**: conferência numérica independente bate ao centavo (AD15 EVG: R$16,48 = base 4,85 × mix 3,40); EVG: 84 anúncios compráveis / 8 acima do alvo; RPL esperado da campanha EVG R$11,81 · BP10 R$7,90. Governança ok (múltiplos e mixes são públicos; sem pontos).
+- **Leitura**: os alvos são puxados pelo múltiplo 11× da recaptura — anúncio com muito não-NM tem CPL alvo alto por design (o guardrail continua sendo NM-A/R$100 para não "melhorar" recapturando membro).
+
+**Iteração 8 (16/jul/2026) — "CPL × RPL projetado: o plano do dinheiro":**
+
+- **Novo scatter no grupo Decidir** (após o quadrante, que fica como lente de qualidade): x = CPL atual, y = RPL esperado maturado (mesmo cálculo da coluna "RPL esp."). Duas diagonais pela origem — break-even bruto (RPL=CPL, linha clara) e meta N× (linha accent, mesmo input META_ROAS) — com 3 zonas nomeadas (lucro projetado com folga / acima do break-even, abaixo da meta / prejuízo projetado). Bolhas coloridas pela zona do dinheiro, tracejadas/opacas pela confiança (padrão do quadrante), rótulos nos top-5 por investimento; mobile vira lista ordenada por ROAS. Tooltip único ganhou "ROAS projetado" e folga em R$/lead. Editar a meta re-renderiza gráfico + tabela + terços.
+- **Tabela de anúncios**: coluna ordenável "ROAS proj." com semáforo (≥meta verde, 1–meta âmbar, <1 vermelho). **Cards**: "ROAS projetado" virou card primário (RPL esp ÷ CPL). **Comparativo**: colunas RPL esp. e ROAS proj. na tabela-resumo.
+- **Nota obrigatória**: projeção não é realizado (incerteza da base ±25–40%; diagonais em receita BRUTA; realizado em "IQL previu × aconteceu").
+- **Verificação**: EVG ROAS projetado 3,34× (expectativa ~3,3× ✓); **BP10 deu 1,33×, não os ~1,7× esperados** (CPL atual R$5,96 — a expectativa estava defasada). Zonas EVG conferidas contra o SVG: 84 lucro / 7 meio / 1 prejuízo = 84 verdes / 7 amarelas / 1 vermelha. Screenshot desktop validou zonas, diagonais e rótulos.
+
+**Iteração 9 (17/jul/2026) — seção "Forecast de receita" no grupo Modelo (D31):**
+
+- **refresh.py**: constante `CLUSTER_VALOR` (D31, cohorts maduras RIO/MST/TPV 2025) — 6 clusters com valor maduro (status: RPL absoluto de referência; NM A/B/C: múltiplo × base NM da campanha, a mesma do RPL esperado D28) e curva de maturação própria `m30/m60/m180` (NM/Ex rápidas 43–48% até D+30; Membro 12,8% / Vitalício 17,1% — compram no evento seguinte). Publicada como `cluster_valor`. Novo bloco `receita_semanal`: SUM(vl_payment_gross) por bucket semanal de `days_to_purchase` (dtm_analytics_lead_conversion, UNNEST do array de transações), **restrita à população escorada em tb_lead_iql** (join email×tag com o mesmo dedup) — descoberto que sem o join a curva estoura o corredor: `tb_lead_iql` estava congelada em 08/07 (scheduled query não rodou) e o BP10 tinha 2× mais leads no dtm; com o join, numerador e denominador defasam juntos. Contagens por cluster NÃO duplicadas no data.json — derivadas client-side de `perfil_status` (status) e `faixas` (NM A/B/C).
+- **index.html**: seção entre "O que move o score" e "IQL previu × aconteceu". (a) número-título: receita final projetada + faixa (incerteza ±40% se idade da cohort <30d, ±25% depois — D29) + cards realizado/corredor na idade atual; (b) veredito automático dentro/acima/abaixo do corredor; (c) decomposição por cluster (leads, valor/lead maduro, receita projetada, % esperado na idade — interpolação linear de M_c com 0 em t=0 e 1,0 em D+240, mesmo horizonte do fator de maturação — vs % observado = rpl÷valor maduro) com leitura-chave fixa: a cauda da projeção é dos membros por desenho, não atraso; (d) SVG do realizado acumulado semanal vs corredor projetado (banda ±25/40%, linha central tracejada, marcador "hoje"); mobile (<700px) troca o gráfico por lista (padrão decide/money-list); notas: receita bruta last-click, curvas de cohorts 2025 (D31), projeção ≠ compromisso.
+- **Verificação**: `refresh.py` sem erro + assert de governança ok (cluster_valor não tem chaves de pontos/woe); node --check; smoke Node das 5 abas (posição da seção no grupo Modelo antes do previu×aconteceu, 6 clusters na tabela, SVG, lista mobile, notas); **conferência manual EVG em Python independente do JS bate ao centavo** (total R$ 2.983.219,25; corredor D+25,1 R$ 720.013,32); cross-check dos 19 blocos `D.*` referenciados no JS × data.json; servidor local + curl 200.
+- **Leitura (17/jul)**: **EVG projeta R$ 2,98 mi** (faixa 1,79–4,18 mi; ±40%, cohort 25,1d) — 40% da projeção é Membro Ativo (9,2k leads × R$129,62); realizado R$ 932k vs corredor R$ 720k = dentro da banda, colado no teto. **BP10 projeta R$ 1,44 mi** (faixa 0,86–2,01 mi; cohort 17,7d) — 85% da projeção é Vitalício+Membro (1,2k vitalícios!); realizado R$ 368k = **2,3× o corredor central, acima da banda** — membros desta campanha realizam muito mais rápido que as cohorts 2025 (Vitalício já entregou 22% do valor maduro vs 10% esperado): projeção provavelmente conservadora; caso claro para o M(t) por fase estrutural/mix da v0.3 (D30).
+- **Fora do escopo, sinalizado**: a scheduled query que recria `tb_lead_iql` não roda desde 08/07 — o dashboard inteiro lê o snapshot; reescorar atualiza tudo (não foi feito nesta sessão).
+
+## Fase de produção — IQL no dbt (20–27/jul/2026)
+
+O protótipo (`tb_lead_iql`, scheduled query) virou modelo dbt versionado. Detalhe técnico completo:
+[README dos modelos](../../../bp-dbt-dw/models/marts/marketing/iql/README.md) · decisões: METODOLOGIA §7 (D35–D41).
+
+**Arquitetura entregue (MR !2426)** — 6 modelos + 5 configs + 2 testes + 1 macro:
+
+| Camada | Modelos |
+|---|---|
+| Níveis | `int_iql_lead_niveis` (grão e-mail×tag; status direto do dtm) |
+| Pesos vivos | `int_iql_woe_vivo` → `fct_iql_pesos` (versionado, append-only, gate no insert) |
+| Score | `fct_lead_iql` → `cbo_lead_conversion_iql` (consumo) + `fct_lead_iql_historico` (auditoria) |
+| Config | `seed_iql_de_para` · `_betas` · `_woe_bootstrap` · `_cutoffs` · `_ddd_regiao` |
+| Testes | `iql_pesos_sanidade` (warn) · `iql_niveis_sem_peso` (error) |
+
+**A mudança de arquitetura (D39 — "pesos vivos")**: o WOE de cada resposta passou a ser **recalculado pelo próprio pipeline** a partir das campanhas maduras, congelado por evento de safra (`cd_version` = hash do conjunto de treino). A única manutenção humana que sobrou é o **de-para**. Motivador: pedido explícito de "recalcular o valor de cada resposta sem rodar script e subir MR".
+
+**Três revisões independentes, todas aplicadas:**
+
+1. **Model QA (metodologia)** — aprovado com 5 condições. Achados críticos confirmados no BQ: **leakage do `cd_contact_phone`** (preenchido na compra: conv 17–25% quando presente vs 0,05% — vazava o alvo para o atributo de DDD) e **trava de maturidade por `MAX(dt)` descartava 78% das conversões maduras** (stragglers seguravam RIO/ODD/MST fora do treino por 13 meses) → trocada por `p99 ≤ hoje−240d`.
+2. **Revisão sênior de código** — gate de sanidade movido para **dentro do INSERT** (antes o teste rodava depois da materialização: versão ruim já persistida + deadlock diário); `NOT IN`→`NOT EXISTS`; `full_refresh=false` nas trilhas de auditoria.
+3. **`/review` com 8 finders** — gate `delta_safra` com `LEFT JOIN` + teto para nível novo; precedência multi-select; macro `iql_attributes()` como fonte única; constantes → `vars DBT_IQL_*`. Refutados na verificação: regex de DDD (backtracking resolve DDD 55) e fanout do cbo (dtm tem grão único).
+
+**Simplificações medidas (D41)**: status passou a vir do `st_member_status_at_registration` do dtm — bate 1:1 com a derivação por `dim_subscriptions` e **conserta o viés retroativo** do `dt_expires_in`. **Membro oculto descontinuado** (revoga D37): dropar não move a conversão do NM (3,807% → 3,807%), custo = subvalorizar 55k leads (1,9%) que convertem 8%; em troca, sai o identity graph inteiro do modelo.
+
+**Estado numérico atual** (staging, versão `v1-d3245efb`, 13 tags no treino): âncoras monotônicas (membro_ativo +40 > vitalício +27 > ex +23 > NM −11); faixas nos NM in-funnel = A+ 1,9% / A 12,7% / B 30,9% / C 40,7% / D 13,9%; cortes v1 = A+ ≥6 / A ≥−7 / B ≥−24 / C ≥−32. **Atributos de pesquisa rodam 100% no prior de bootstrap** (nenhuma tag madura tem pesquisa in-funnel) — o auto-recálculo deles começa quando o EVG maturar, ~mar/2027.
+
+**Governança**: pesos não circulam para quem opera campanha (D20, anti-Goodhart); `cd_scorecard_version` em toda linha; histórico incremental como trilha.
+
+---
+
 ## Queries
 
 | Arquivo | O que faz |
@@ -125,6 +197,8 @@ O time de mídia otimizava por CPL. A hipótese era que CPL e qualidade de lead 
 
 ## Wiki atualizada
 
+- `wiki-bp/pages/iql.md` — **página do modelo** (mapa, tabelas, rotinas, onde puxar dados) — jul/2026
+- `wiki-bp/pages/dbt-status.md` — estado da branch/MR do IQL
 - `memory/project_lead_qualification_framework.md` — framework e tabelas documentados
 - `wiki-bp/pages/metricas-referencia.md` — benchmarks CPL×CAC por campanha
 ---
