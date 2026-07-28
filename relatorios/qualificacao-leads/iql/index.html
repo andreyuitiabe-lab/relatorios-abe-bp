@@ -5,43 +5,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IQL — Índice de Qualidade de Lead</title>
 <style>
-  :root{--bg:#0f1117;--card:#181b23;--tx:#e8eaf0;--mut:#8b91a0;--acc:#4f8ef7;--ok:#3ecf8e;--warn:#f7b64f;--bad:#f7654f;--line:#262a35}
+  :root{--bg:#0f1117;--card:#181b23;--tx:#e8eaf0;--mut:#8b91a0;--acc:#4f8ef7;--ok:#3ecf8e;--warn:#f7b64f;--bad:#f7654f;--line:#262a35;--line2:#323848;--sel:#1c2740;--r:10px}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--tx);font:15px/1.55 -apple-system,'Segoe UI',Roboto,sans-serif;padding:28px 20px 80px}
+  body{background:var(--bg);color:var(--tx);font:15px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;-webkit-font-smoothing:antialiased;padding:28px 20px 80px}
   .wrap{max-width:1120px;margin:0 auto}
-  h1{font-size:25px;margin-bottom:2px;min-width:0;overflow-wrap:anywhere}
-  h2{font-size:19px;margin:36px 0 4px}
-  h3{font-size:15.5px;margin:18px 0 4px}
-  .sub{color:var(--mut);font-size:13.5px;margin-bottom:8px}
-  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;border-bottom:1px solid var(--line);padding:10px 0 12px;position:sticky;top:0;background:var(--bg);z-index:7}
-  .tab{background:var(--card);border:1px solid var(--line);color:var(--mut);border-radius:20px;padding:7px 18px;font-size:14px;font-weight:600;cursor:pointer}
-  .tab:hover{color:var(--tx)}
-  .tab.on{background:#1c2740;border-color:var(--acc);color:var(--tx)}
+  h1{font-size:25px;letter-spacing:-.02em;margin-bottom:2px;min-width:0;overflow-wrap:anywhere}
+  h2{font-size:19px;letter-spacing:-.01em;margin:40px 0 6px}
+  h3{font-size:15.5px;margin:20px 0 5px}
+  .sub{color:var(--mut);font-size:13.5px;line-height:1.6;margin-bottom:8px}
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;border-bottom:1px solid var(--line);padding:10px 0 12px;position:sticky;top:0;background:var(--bg);z-index:7;box-shadow:0 8px 16px -12px rgba(0,0,0,.9)}
+  .tab{background:var(--card);border:1px solid var(--line);color:var(--mut);border-radius:20px;padding:7px 18px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:color .15s,border-color .15s,background .15s}
+  .tab:hover{color:var(--tx);border-color:var(--line2)}
+  .tab.on{background:var(--sel);border-color:var(--acc);color:var(--tx)}
+  .tab:focus-visible,.subnav a:focus-visible,th.sort:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
   .tab .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:1px}
   .subnav{position:sticky;top:56px;z-index:6;background:var(--bg);display:flex;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);margin-bottom:4px}
-  .subnav a{color:var(--mut);font-size:12.5px;font-weight:700;text-decoration:none;padding:4px 13px;border-radius:14px;border:1px solid var(--line);text-transform:uppercase;letter-spacing:.5px}
+  .subnav a{color:var(--mut);font-size:12.5px;font-weight:700;text-decoration:none;padding:4px 13px;border-radius:14px;border:1px solid var(--line);text-transform:uppercase;letter-spacing:.5px;transition:color .15s,border-color .15s}
   .subnav a:hover{color:var(--tx);border-color:var(--acc)}
-  h2.group{margin-top:44px;padding-top:12px;border-top:2px solid var(--line);font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:1.2px}
+  h2.group{margin-top:52px;padding-top:14px;border-top:2px solid var(--line);font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:1.4px}
   .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:18px 0 8px}
   .cards.sec{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin:8px 0}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
-  .card b{display:block;font-size:23px;margin-top:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;transition:border-color .15s}
+  .card:hover{border-color:var(--line2)}
+  .card>span:first-child{display:block;color:var(--mut);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px}
+  .card b{display:block;font-size:23px;letter-spacing:-.01em;font-variant-numeric:tabular-nums;margin:3px 0 1px}
   .cards.sec .card b{font-size:17px}
   .card span{color:var(--mut);font-size:12px}
-  .delta{font-size:12px;font-weight:700;margin-left:6px}
+  .delta{font-size:12px;font-weight:700;letter-spacing:0;margin-left:6px;white-space:nowrap}
   .delta.up{color:var(--ok)}.delta.down{color:var(--bad)}
   table{width:100%;border-collapse:collapse;background:var(--card);font-size:13.5px}
-  th{color:var(--mut);font-weight:600;text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
-  td{padding:8px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+  th{color:var(--mut);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line2);font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+  td{padding:8.5px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
   tr:last-child td{border-bottom:none}
-  tr.rowsel td{background:#1c2740}
+  tr[data-id]:hover td{background:rgba(79,142,247,.06)}
+  tr.rowsel td,tr.rowsel:hover td{background:var(--sel)}
   .num{text-align:right;font-variant-numeric:tabular-nums}
-  .tblwrap{overflow-x:auto;border-radius:10px;border:1px solid var(--line)}
+  .tblwrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--line)}
+  .tblwrap::-webkit-scrollbar,.tblscroll::-webkit-scrollbar{height:8px;width:8px}
+  .tblwrap::-webkit-scrollbar-thumb,.tblscroll::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+  .tblwrap::-webkit-scrollbar-track,.tblscroll::-webkit-scrollbar-track{background:transparent}
   .tblscroll{max-height:540px;overflow-y:auto}
   .tblscroll thead th{position:sticky;top:0;background:var(--card);z-index:1}
   th.sort{cursor:pointer;user-select:none}
   th.sort:hover{color:var(--tx)}
   .adname{white-space:normal;min-width:180px;max-width:320px;overflow:hidden;text-overflow:ellipsis}
+  .adsub{display:block;color:var(--mut);font-size:11px;line-height:1.4;margin-top:1px}
   .chip{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap;cursor:default}
   .chip.promover{background:#12351f;color:var(--ok)}
   .chip.observar{background:#3a2f14;color:var(--warn)}
@@ -52,30 +60,46 @@
   .chip.z-otimizar{background:#14243a;color:var(--acc)}
   .chip.z-cortar{background:#3a2f14;color:var(--warn)}
   .chip.z-matar{background:#3a1a14;color:var(--bad)}
-  .chip.filtro{cursor:pointer;opacity:.55}
+  .chip.filtro{cursor:pointer;opacity:.55;transition:opacity .15s}
+  .chip.filtro:hover{opacity:.85}
   .chip.filtro.on{opacity:1;outline:1px solid currentColor}
   .bar{height:9px;border-radius:5px;background:var(--acc);min-width:2px;display:inline-block}
   .barbg{background:#262a35;border-radius:5px;width:120px;display:inline-block;vertical-align:middle}
-  .fA{color:var(--ok);font-weight:700}.fB{color:var(--warn);font-weight:700}.fC{color:var(--bad);font-weight:700}
-  .note{background:var(--card);border-left:3px solid var(--warn);border-radius:6px;padding:10px 14px;font-size:13px;color:var(--mut);margin:10px 0}
+  .fAp{color:var(--ok);font-weight:700}.fA{color:#86d9b5;font-weight:700}.fB{color:var(--warn);font-weight:700}.fC{color:var(--bad);font-weight:700}.fD{color:#c9502e;font-weight:700}
+  .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:8px;padding:11px 14px;font-size:13px;line-height:1.6;color:var(--mut);margin:12px 0}
   .note b{color:var(--tx)}
-  .veredito{background:#14243a;border-left:3px solid var(--acc);border-radius:6px;padding:10px 14px;font-size:13.5px;margin:10px 0}
+  .veredito{background:#14243a;border:1px solid #1e3252;border-left:3px solid var(--acc);border-radius:8px;padding:11px 14px;font-size:13.5px;line-height:1.6;margin:12px 0}
   .good{color:var(--ok)}.badtx{color:var(--bad)}
-  .chart{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 8px 4px;margin:10px 0}
+  .chart{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 10px 6px;margin:12px 0}
   .chart svg{display:block;width:100%;height:auto}
   .legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px;color:var(--mut);padding:4px 10px 8px}
   .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-  #tip{position:fixed;display:none;background:#0b0d12;border:1px solid #3a4050;border-radius:8px;padding:8px 11px;font-size:12.5px;line-height:1.5;pointer-events:none;z-index:10;max-width:330px;box-shadow:0 6px 20px rgba(0,0,0,.5)}
+  #tip{position:fixed;display:none;background:#0b0d12;border:1px solid #3a4050;border-radius:8px;padding:9px 12px;font-size:12.5px;line-height:1.55;pointer-events:none;z-index:10;max-width:330px;box-shadow:0 8px 24px rgba(0,0,0,.55)}
   .empty{color:var(--mut);font-size:13.5px;background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:18px;text-align:center;margin:10px 0}
   .icps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin:12px 0}
-  .icp{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column}
+  .icp{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px 17px;display:flex;flex-direction:column;transition:border-color .15s}
+  .icp:hover{border-color:var(--line2)}
   .icp.anti{border-color:#7a3328;background:#1d1414}
+  .icp.anti:hover{border-color:#95402f}
   .icp h3{margin:0 0 5px}
   .icp .desc{color:var(--mut);font-size:13px;margin-bottom:10px}
   .icp .nums{font-size:13px;line-height:1.7;margin-bottom:10px}
   .icp .nums b{font-size:15px}
   .icp .fala{font-size:12.5px;color:var(--mut);border-top:1px solid var(--line);padding-top:9px;margin-top:auto}
   .icp .fala b{color:var(--tx)}
+  .icp .hl{font-size:13px;line-height:1.65;margin-bottom:10px}
+  .icp .hl b{font-size:15px}
+  .icp .pdot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+  .pstack{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px 17px;margin:12px 0}
+  .plegend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--mut);margin-bottom:12px}
+  .plegend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .prow{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;margin:8px 0}
+  .plab{font-size:12.5px;color:var(--mut);text-align:right;font-weight:600}
+  .pbarstk{display:flex;gap:2px;height:32px}
+  .pseg{border-radius:4px;min-width:3px;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-style:normal;font-weight:700;color:#0f1117;overflow:hidden;white-space:nowrap;cursor:default}
+  .pverdict{font-size:13.5px;margin-top:12px;color:var(--mut);border-top:1px solid var(--line);padding-top:10px}
+  .pverdict b{color:var(--tx)}
+  @media (max-width:700px){.prow{grid-template-columns:1fr;gap:4px}.plab{text-align:left}}
   .improw{display:grid;grid-template-columns:200px 1fr 76px;gap:10px;align-items:center;margin:7px 0;font-size:13px}
   .dbar{display:flex;height:13px;background:#0d0f15;border:1px solid var(--line);border-radius:7px;overflow:hidden}
   .dh{flex:1;position:relative}
@@ -86,22 +110,26 @@
   .pair{display:grid;grid-template-columns:170px 1fr 120px;gap:10px;align-items:center;margin:7px 0;font-size:13px}
   .pbars{display:flex;flex-direction:column;gap:2px}
   .pbar{height:8px;border-radius:4px;min-width:1px;display:block}
-  select,input[type=search]{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13.5px;max-width:100%}
-  input[type=number]{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:13.5px;width:100px}
+  select,input[type=search]{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13.5px;font-family:inherit;max-width:100%}
+  input[type=number]{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:13.5px;font-family:inherit;width:100px}
+  select:hover,input:hover{border-color:var(--line2)}
+  select:focus,input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(79,142,247,.15)}
   .sig{font-size:13px;cursor:default}
   .sig.s2{color:var(--ok)}.sig.s1{color:var(--warn)}.sig.s0{color:var(--mut)}
-  details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:4px 14px 10px;margin:12px 0}
-  details summary{cursor:pointer;font-weight:600;font-size:15px;padding:9px 0;color:var(--tx)}
+  details{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:4px 14px 10px;margin:12px 0;transition:border-color .15s}
+  details:hover{border-color:var(--line2)}
+  details summary{cursor:pointer;font-weight:600;font-size:15px;padding:9px 0;color:var(--tx);transition:color .15s}
+  details summary:hover{color:var(--acc)}
   details .tblwrap{border:none}
   a{color:var(--acc)}
   circle.pt{cursor:pointer}
-  #decide-list{display:none}
+  #decide-list,#money-list,#forecast-list{display:none}
   @media (max-width:700px){
     body{padding:16px 10px 60px;overflow-x:hidden}
     h1{font-size:19px}
     h2{font-size:17px}
-    #scatter-chart{display:none}
-    #decide-list{display:block}
+    #scatter-chart,#money-chart,#forecast-chart{display:none}
+    #decide-list,#money-list,#forecast-list{display:block}
     .subnav{top:96px}
     #ads-tbl td:first-child,#ads-tbl th:first-child{position:sticky;left:0;background:var(--card);z-index:2;max-width:180px}
   }
@@ -164,12 +192,13 @@ const icTxt=(k,n)=>{const w=wilson(+k,+n);return w?`±${f((w.hi-w.lo)/2*100,2)}`
 const PAL=['#4f8ef7','#e879f9','#3ecf8e','#f7b64f','#67e8f9','#fb923c','#a78bfa'];
 const ZONA_LBL={escalar:'Escalar',otimizar:'Otimizar criativo',cortar:'Cortar',matar:'Matar'};
 const ZONA_ORD={escalar:0,otimizar:1,cortar:2,matar:3};
-const ATTR_LBL={status_cadastro:'Status de assinatura',status_pessoa:'Membro oculto (outro e-mail)',
+const ATTR_LBL={status_cadastro:'Status de assinatura',
   respondeu_pesquisa:'Respondeu à pesquisa',afinidade_bp:'Afinidade declarada',paga_conteudo:'Paga streaming',
-  tempo_conhece:'Tempo que conhece a BP',regiao_ddd:'Região (DDD)',historico_cadastro:'Histórico de cadastro'};
+  tempo_conhece:'Tempo que conhece a BP',regiao_ddd:'Região (DDD)',historico_cadastro:'Histórico de cadastro',
+  renda_declarada:'Renda declarada',idade:'Idade declarada',ocupacao:'Ocupação declarada'};
 const STATUS_LBL={nao_membro:'Não Membro',membro_ativo:'Membro Ativo',ex_membro:'Ex-Membro',membro_vitalicio:'Vitalício'};
-const PERS_LBL={reencontrado:'Reencontrados',simpatizante_maduro:'Simpatizantes Maduros',
-  pagante_de_conteudo:'Pagantes de Conteúdo',curioso_frio:'Curiosos Frios',neutro:'Neutros'};
+const PERS_LBL={simpatizante_maduro:'Simpatizantes Maduros',
+  pagante_de_conteudo:'Pagantes de Conteúdo',curioso_frio:'Curiosos Frios',fantasma:'Fantasmas',neutro:'Neutros'};
 const NOTE_LASTCLICK=`<div class="note"><b>Aviso:</b> conversão/receita last-click, cohort ainda maturando —
   leitura relativa entre anúncios da mesma campanha, não ROI final.</div>`;
 const NOTE_CONF=`<div class="note"><b>Como ler a confiança:</b> ● o intervalo de confiança não deixa dúvida
@@ -177,9 +206,6 @@ const NOTE_CONF=`<div class="note"><b>Como ler a confiança:</b> ● o intervalo
   ignore o número e aguarde.</div>`;
 /* Perfis de cliente ideal — textos para o time de conteúdo (ordem = cascata de segmentação) */
 const PERSONAS={
-  reencontrado:{nome:'O Reencontrado',
-    desc:'Já foi da casa: tem ou teve assinatura sob outro e-mail. Não é aquisição, é reconexão.',
-    fala:'Mensagem de volta ("sentimos sua falta", benefício de retorno) — nunca criativo de apresentação da marca.'},
   simpatizante_maduro:{nome:'O Simpatizante Maduro',
     desc:'Orbita a BP há anos sem nunca ter pago. A pergunta dele não é "o que é isso?", é "por que agora?".',
     fala:'Urgência de ocasião (evento, aniversário, lançamento), memória da marca, chamada para sair da arquibancada.'},
@@ -187,17 +213,39 @@ const PERSONAS={
     desc:'Já paga por streaming — disposição a pagar comprovada, falta afinidade.',
     fala:'Comparação de valor ("o que você não encontra nos outros"), catálogo, custo mensal relativo.'},
   curioso_frio:{nome:'O Curioso Frio',anti:true,
-    desc:'Nunca ouviu falar ou acabou de chegar, não paga por conteúdo. É o que gancho genérico de brinde atrai aos montes.',
+    desc:'Respondeu à pesquisa dizendo que acabou de chegar (ou nunca tinha ouvido falar) e não paga por conteúdo. É o que gancho genérico de brinde atrai aos montes.',
     fala:'NÃO desenhar criativo para ele. Se o anúncio está enchendo essa fatia, o gancho está genérico demais — confira o quadrante da campanha.'},
+  fantasma:{nome:'O Fantasma',anti:true,
+    desc:'Não respondeu nada e nunca tinha aparecido antes. Silêncio total — não dá sequer para qualificar.',
+    fala:'Ninguém: não é público de criativo. Fatia grande de Fantasma é problema de canal/segmentação — corrigir na compra de mídia, não na mensagem.'},
 };
 
 let D=null, TAB=null, TAGS=[], COLOR={}, adsSort={k:'cplq',dir:1};
 let selAd=null, adsFilter={zona:'',q:''};
 const TIPSETS={};   // key → lista de anúncios do scatter (tooltip/click)
+const PTIPS={};     // key → html do tooltip dos segmentos de persona
+/* Paleta categórica das personas — validada (6 checks, dark surface #181b23).
+   Cor segue a entidade: mesma cor em toda barra/card/campanha. Neutro = cinza de de-ênfase (é "o resto"). */
+const P_COR={simpatizante_maduro:'#d95926',pagante_de_conteudo:'#199e70',
+  curioso_frio:'#c98500',fantasma:'#9085e9',neutro:'#5b6272'};
+const P_ORDER=['simpatizante_maduro','pagante_de_conteudo','curioso_frio','fantasma','neutro'];
 
+/* Faixas do scorecard v1 — 5 bandas ordenadas; "qualificado" = A+ ∪ A.
+   Cores ordinais (mesma família da v0.2: verde→âmbar→frio); D = pior, vermelho escuro. */
+const FX_ORDER=['A+','A','B','C','D'];
+const FX_COR={'A+':'#3ecf8e',A:'#86d9b5',B:'#f7b64f',C:'#5b6473',D:'#c9502e'};
+const FX_LBL={'A+':'qualificado+','A':'qualificado','B':'potencial','C':'frio','D':'muito frio'};
+const fxCls=fx=>'f'+String(fx).replace('+','p');
 const zonaDe=(cpl,iql,mx,my)=> +cpl<=mx ? (+iql>=my?'escalar':'cortar') : (+iql>=my?'otimizar':'matar');
 const shortCode=a=>{const m=String(a.anuncio).match(/AD\s?_?(\d+)/i);return m?'AD'+m[1]:String(a.id_ad||'').slice(-4);};
 const nomeCurto=(tag,nome)=>String(nome).replace(/\s*\[(LAN|CAP)\]\s*/gi,' ').split('['+tag+']').join(' ').replace(/\s+/g,' ').trim();
+/* nome de campanha Meta sem os prefixos de rotina ([LAN]/[LEAD]/[TAG]) — sobra o que distingue */
+const nomeMeta=(tag,s)=>String(s||'').replace(/\s*\[(LAN|CAP|LEAD|VENDA)\]\s*/gi,' ').split('['+tag+']').join(' ').replace(/\s+/g,' ').trim();
+/* célula de anúncio: nome + sublinha campanha · ad set (o mesmo criativo muda de resultado por público) */
+const adCell=(tag,a)=>{
+  const sub=[nomeMeta(tag,a.campanha),a.adset].filter(Boolean).join(' · ');
+  return `<td class="adname" title="${esc(a.anuncio)}${a.adset?' — '+esc(a.adset):''}">${esc(nomeCurto(tag,a.anuncio))}`
+    +(sub?`<span class="adsub">${esc(sub)}</span>`:'')+`</td>`;};
 function alvoDe(tag){
   const v=parseFloat(store.getItem('iql_cplq_alvo_'+tag));
   if(v>0) return v;
@@ -208,6 +256,26 @@ const campDe=tag=>D.campanhas.find(x=>x.nm_tag===tag);
 function metaDe(tag){ // meta de retorno sobre receita bruta (editável, persiste por campanha)
   const v=parseFloat(store.getItem('iql_meta_roas_'+tag));
   return v>=1?v:(+D.meta_roas||1.5);
+}
+/* RPL esperado (D28): mix de perfis do anúncio × múltiplos de valor maduros,
+   sobre a base = R$/lead NM da campanha projetada pela maturação */
+function rplEsperado(a,tag){
+  const c=campDe(tag), M=D.mult_valor;
+  if(!c||!M||!(+c.rpl_nm_observado>0)||!(+a.leads>0)) return null;
+  const base=+c.rpl_nm_observado*(+c.fator_maturacao||1);
+  const mix=(+a.n_nao_nm*M.nao_nm + +a.nm_a*M.nm_a + +a.nm_b*M.nm_b + +a.nm_c*M.nm_c)/+a.leads;
+  return base*mix;
+}
+function rplEsperadoCamp(tag){
+  const c=campDe(tag), M=D.mult_valor;
+  if(!c||!M||!(+c.rpl_nm_observado>0)) return null;
+  const fx={A:0,B:0,C:0};
+  // buckets D28 (múltiplos medidos em 3 faixas): A+∪A → A, B → B, C∪D → C
+  D.faixas.filter(x=>x.nm_tag===tag).forEach(x=>{
+    const b={'A+':'A',A:'A',B:'B',C:'C',D:'C'}[x.faixa]; if(b) fx[b]+=+x.leads;});
+  const naoNm=+c.leads-+c.nao_membros;
+  const base=+c.rpl_nm_observado*(+c.fator_maturacao||1);
+  return base*(naoNm*M.nao_nm + fx.A*M.nm_a + fx.B*M.nm_b + fx.C*M.nm_c)/+c.leads;
 }
 
 /* agregados de mídia por campanha (a partir do bloco anuncios) */
@@ -227,7 +295,7 @@ function midia(tag){
 function deltas7(tag){
   const byDay={};
   D.serie.filter(r=>r.nm_tag===tag).forEach(r=>{
-    const o=byDay[r.dia]??={A:0,tot:0}; o.tot+=+r.leads; if(r.faixa==='A') o.A+=+r.leads;
+    const o=byDay[r.dia]??={A:0,tot:0}; o.tot+=+r.leads; if(r.faixa==='A+'||r.faixa==='A') o.A+=+r.leads;
   });
   const dias=Object.keys(byDay).sort();
   if(dias.length<14) return null;
@@ -280,7 +348,7 @@ function scatterSVG(ads,{zones=true,mx=0,my=0,byTag=false,cplqRef=null,alvo=null
     +`<text x="${L-9}" y="${sy(t)+4}" fill="#8b91a0" font-size="11" text-anchor="end">${f(t,0)}%</text>`;
   g+=`<line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#3a4050"/><line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#3a4050"/>`;
   if(!compact) g+=`<text x="${(L+W-R)/2}" y="${H-6}" fill="#8b91a0" font-size="12" text-anchor="middle">CPL — custo por lead (R$)</text>`
-    +`<text x="14" y="${(T+H-B)/2}" fill="#8b91a0" font-size="12" text-anchor="middle" transform="rotate(-90 14 ${(T+H-B)/2})">IQL — % de leads faixa A</text>`;
+    +`<text x="14" y="${(T+H-B)/2}" fill="#8b91a0" font-size="12" text-anchor="middle" transform="rotate(-90 14 ${(T+H-B)/2})">IQL — % de leads A+/A</text>`;
   // retas de iso-CPLq (IQL = 100·CPL/ref); rótulo no meio da reta com fundo (não colide com zonas)
   const isoLine=(ref,color,frac,lbl,op)=>{
     let x2=xmax,y2=100*xmax/ref;
@@ -314,38 +382,120 @@ function scatterSVG(ads,{zones=true,mx=0,my=0,byTag=false,cplqRef=null,alvo=null
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Quadrante de decisão CPL por IQL">${g}</svg>`;
 }
 
+/* ============ CPL × RPL projetado — o plano do dinheiro (SVG) ============ */
+function moneySVG(tag){
+  const m=midia(tag), meta=metaDe(tag);
+  const ads=m.ads.map(a=>({...a,_re:rplEsperado(a,tag)})).filter(a=>a._re!=null&&a.cpl!=null);
+  TIPSETS['money']=ads;
+  if(!ads.length) return '<div class="empty">Sem anúncios com RPL esperado calculável.</div>';
+  const W=940,H=470,L=60,R=18,T=18,B=48;
+  const xmax=Math.max(...ads.map(a=>+a.cpl))*1.08;
+  const ymax=Math.max(...ads.map(a=>a._re))*1.10;
+  const maxL=Math.max(...ads.map(a=>+a.leads));
+  const sx=v=>L+v/xmax*(W-L-R), sy=v=>H-B-v/ymax*(H-B-T);
+  const clip=k=>{ let x2=xmax,y2=k*xmax; if(y2>ymax){y2=ymax;x2=ymax/k;} return [x2,y2]; };
+  const [xb,yb]=clip(1), [xm,ym]=clip(meta);
+  const P=pts=>pts.map(([x,y])=>sx(x)+','+sy(y)).join(' ');
+  let g='';
+  // três zonas: acima da meta / entre as diagonais / abaixo do break-even
+  const zLucro=[[0,0],[xm,ym]]; if(xm>=xmax) zLucro.push([xmax,ymax]); zLucro.push([0,ymax]);
+  const zMeio=[[0,0],[xb,yb]];
+  if(xb>=xmax&&xm>=xmax) zMeio.push([xmax,ym]);
+  else if(xb>=xmax) zMeio.push([xmax,ymax],[xm,ymax]);
+  else zMeio.push([xm,ymax]);
+  const zPrej=[[0,0],[xmax,0]];
+  if(xb>=xmax) zPrej.push([xmax,yb]); else zPrej.push([xmax,ymax],[xb,ymax]);
+  g+=`<polygon points="${P(zLucro)}" fill="#3ecf8e" opacity=".05"/>`
+    +`<polygon points="${P(zMeio)}" fill="#f7b64f" opacity=".05"/>`
+    +`<polygon points="${P(zPrej)}" fill="#f7654f" opacity=".055"/>`;
+  g+=`<text x="${L+10}" y="${T+16}" fill="#3ecf8e" opacity=".85" font-size="12.5" font-weight="700">LUCRO PROJETADO COM FOLGA — acima da meta</text>`
+    +`<text x="${W-R-10}" y="${sy((yb+Math.min(ym,ymax))/2)-6}" fill="#f7b64f" opacity=".85" font-size="12" font-weight="700" text-anchor="end">ACIMA DO BREAK-EVEN, ABAIXO DA META</text>`
+    +`<text x="${W-R-10}" y="${H-B-10}" fill="#f7654f" opacity=".85" font-size="12.5" font-weight="700" text-anchor="end">PREJUÍZO PROJETADO — RPL &lt; CPL</text>`;
+  // diagonais pela origem, rótulo no meio com fundo (padrão da iso-CPLq)
+  const diag=(k,color,frac,lbl,op)=>{
+    const [x2,y2]=clip(k), lx=sx(x2*frac), ly=sy(y2*frac), w=lbl.length*6.3+12;
+    return `<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(x2)}" y2="${sy(y2)}" stroke="${color}" stroke-width="1.5" opacity="${op}"/>`
+      +`<rect x="${lx+6}" y="${ly-12}" width="${w}" height="17" rx="4" fill="#0f1117" opacity=".88"/>`
+      +`<text x="${lx+12}" y="${ly+1}" fill="${color}" opacity=".95" font-size="11.5">${lbl}</text>`;
+  };
+  g+=diag(1,'#e8eaf0',0.55,'break-even bruto (RPL = CPL)',.5)
+    +diag(meta,'#4f8ef7',0.34,`meta ${f(meta,1)}×`,.85);
+  // eixos
+  for(const t of niceTicks(xmax,6)) g+=`<line x1="${sx(t)}" y1="${H-B}" x2="${sx(t)}" y2="${H-B+5}" stroke="#3a4050"/>`
+    +`<text x="${sx(t)}" y="${H-B+18}" fill="#8b91a0" font-size="11" text-anchor="middle">${f(t,2)}</text>`;
+  for(const t of niceTicks(ymax,5)) g+=`<line x1="${L-5}" y1="${sy(t)}" x2="${L}" y2="${sy(t)}" stroke="#3a4050"/>`
+    +`<line x1="${L}" y1="${sy(t)}" x2="${W-R}" y2="${sy(t)}" stroke="#262a35" opacity=".6"/>`
+    +`<text x="${L-9}" y="${sy(t)+4}" fill="#8b91a0" font-size="11" text-anchor="end">${f(t,0)}</text>`;
+  g+=`<line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#3a4050"/><line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#3a4050"/>`
+    +`<text x="${(L+W-R)/2}" y="${H-6}" fill="#8b91a0" font-size="12" text-anchor="middle">CPL atual (R$)</text>`
+    +`<text x="14" y="${(T+H-B)/2}" fill="#8b91a0" font-size="12" text-anchor="middle" transform="rotate(-90 14 ${(T+H-B)/2})">RPL esperado maturado (R$)</text>`;
+  // bolhas: cor = zona do dinheiro; tracejado/opacidade = confiança (como no quadrante)
+  const idx=ads.map((a,i)=>i).sort((i,j)=>+ads[j].leads-+ads[i].leads);
+  const top5=new Set([...ads].sort((a,b)=>+b.investimento-+a.investimento).slice(0,5).map(a=>a.id_ad));
+  let labels='';
+  for(const i of idx){
+    const a=ads[i], r=5+16*Math.sqrt(+a.leads/maxL);
+    const roas=a._re/+a.cpl;
+    const c=roas>=meta?'#3ecf8e':(roas>=1?'#f7b64f':'#f7654f');
+    const s=sigIql(a,m.medIql);
+    const dim=selAd&&a.id_ad!==selAd;
+    const fo=dim?0.10:(s.lv<2?0.22:0.45), so=dim?0.25:1;
+    g+=`<circle class="pt" data-s="money" data-i="${i}" data-id="${a.id_ad||''}" data-cx="${sx(+a.cpl)}"`
+      +` cx="${sx(+a.cpl)}" cy="${sy(a._re)}" r="${r}" fill="${c}" fill-opacity="${fo}"`
+      +` stroke="${c}" stroke-opacity="${so}" stroke-width="${selAd===a.id_ad?3:1.5}"${s.lv<2?' stroke-dasharray="4 3"':''}/>`;
+    if(top5.has(a.id_ad)&&!dim)
+      labels+=`<text x="${sx(+a.cpl)}" y="${sy(a._re)-r-4}" fill="#e8eaf0" opacity=".8" font-size="10.5" text-anchor="middle">${esc(shortCode(a))}</text>`;
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="CPL por RPL projetado">${g}${labels}</svg>`;
+}
+function moneyListHTML(tag){
+  const meta=metaDe(tag);
+  const rows=midia(tag).ads.map(a=>({...a,_re:rplEsperado(a,tag)}))
+    .filter(a=>a._re!=null&&a.cpl!=null)
+    .map(a=>({...a,_roas:a._re/+a.cpl})).sort((a,b)=>b._roas-a._roas);
+  if(!rows.length) return '';
+  return `<div id="money-list"><div class="sub">Plano do dinheiro em lista (o gráfico aparece em telas maiores):</div>
+    <div class="tblwrap"><table><tr><th></th><th>Anúncio</th><th class="num">CPL</th><th class="num">RPL esp.</th><th class="num">ROAS proj.</th></tr>`+
+    rows.map(a=>`<tr><td><span class="sig ${a._roas>=meta?'s2':(a._roas>=1?'s1':'s0')}">${a._roas>=meta?'●':(a._roas>=1?'◐':'○')}</span></td>
+      ${adCell(tag,a)}
+      <td class="num">${fr(a.cpl)}</td><td class="num">${fr(a._re)}</td>
+      <td class="num ${a._roas>=meta?'good':(a._roas<1?'badtx':'')}">${f(a._roas,1)}×</td></tr>`).join('')+
+    '</table></div></div>';
+}
+
 /* ============ área empilhada diária + linha de % faixa A ============ */
 let serieDays=[];
 function serieSVG(tag){
   const rows=D.serie.filter(r=>tag==='*'||r.nm_tag===tag);
   if(!rows.length){serieDays=[];return '<div class="empty">Sem leads nos últimos 60 dias para esta campanha.</div>';}
+  const zero=()=>({'A+':0,A:0,B:0,C:0,D:0});
   const byDay={};
-  for(const r of rows){ (byDay[r.dia]??={A:0,B:0,C:0})[r.faixa]+= +r.leads; }
+  for(const r of rows){ (byDay[r.dia]??=zero())[r.faixa]+= +r.leads; }
   const dias=Object.keys(byDay).sort();
   const d0=new Date(dias[0]+'T12:00'), d1=new Date(dias[dias.length-1]+'T12:00');
   serieDays=[];
   for(let d=new Date(d0); d<=d1; d.setDate(d.getDate()+1)){
-    const k=d.toISOString().slice(0,10), v=byDay[k]||{A:0,B:0,C:0};
-    const tot=v.A+v.B+v.C;
-    serieDays.push({dia:k,...v,tot,pA:tot?v.A/tot*100:0});
+    const k=d.toISOString().slice(0,10), v=byDay[k]||zero();
+    const tot=FX_ORDER.reduce((s,fx)=>s+v[fx],0);
+    serieDays.push({dia:k,...v,tot,pA:tot?(v['A+']+v.A)/tot*100:0});
   }
   const W=940,H=300,L=52,R=46,T=14,B=38, n=serieDays.length;
   const ymax=Math.max(1,...serieDays.map(d=>d.tot))*1.08;
   const pmax=Math.min(100,Math.max(10,...serieDays.map(d=>d.pA))*1.25);
   const sx=i=>L+(n>1?i/(n-1):0.5)*(W-L-R), sy=v=>H-B-v/ymax*(H-B-T), sp=v=>H-B-v/pmax*(H-B-T);
-  const CF={A:'#3ecf8e',B:'#f7b64f',C:'#5b6473'};
+  const CF=FX_COR;
   let g='';
   for(const t of niceTicks(ymax,4)) g+=`<line x1="${L}" y1="${sy(t)}" x2="${W-R}" y2="${sy(t)}" stroke="#262a35" opacity=".7"/>`
     +`<text x="${L-8}" y="${sy(t)+4}" fill="#8b91a0" font-size="11" text-anchor="end">${f(t,0)}</text>`;
   const step=Math.max(1,Math.ceil(n/9));
   for(let i=0;i<n;i+=step) g+=`<text x="${sx(i)}" y="${H-B+18}" fill="#8b91a0" font-size="11" text-anchor="middle">${dbr(serieDays[i].dia)}</text>`;
   let base=serieDays.map(()=>0);
-  for(const fx of ['A','B','C']){
+  for(const fx of FX_ORDER){
     const top=serieDays.map((d,i)=>base[i]+d[fx]);
     let p='M'+sx(0)+' '+sy(base[0]);
     for(let i=1;i<n;i++) p+='L'+sx(i)+' '+sy(base[i]);
     for(let i=n-1;i>=0;i--) p+='L'+sx(i)+' '+sy(top[i]);
-    g+=`<path d="${p}Z" fill="${CF[fx]}" fill-opacity="${fx==='C'?.45:.55}" stroke="${CF[fx]}" stroke-opacity=".9" stroke-width="1"/>`;
+    g+=`<path d="${p}Z" fill="${CF[fx]}" fill-opacity="${fx==='C'||fx==='D'?.45:.55}" stroke="${CF[fx]}" stroke-opacity=".9" stroke-width="1"/>`;
     base=top;
   }
   // linha de % faixa A (eixo direito) — o mix é a tendência que importa
@@ -368,7 +518,7 @@ function faixasHTML(tag){
     rows.map(x=>{
       const c=rows.find(r=>r.faixa==='C');
       const lift=c&&+c.conv_pct>0? (+x.conv_pct/+c.conv_pct):null;
-      return `<tr><td class="f${x.faixa}">${x.faixa} — ${{A:'qualificado',B:'potencial',C:'frio'}[x.faixa]||''}</td>
+      return `<tr><td class="${fxCls(x.faixa)}">${x.faixa} — ${FX_LBL[x.faixa]||''}</td>
       <td class="num">${f(x.leads,0)}</td><td class="num">${f(x.conv_pct,2)}%</td>
       <td class="num" style="color:var(--mut)">${icTxt(x.conv,x.leads)}</td>
       <td><span class="barbg"><span class="bar" style="width:${(+x.conv_pct/maxc*100).toFixed(0)}%"></span></span></td>
@@ -422,16 +572,43 @@ function acoesHTML(tag){
   const m=midia(tag);
   const linha=(a,chip)=>{
     const s=sigIql(a,m.medIql);
+    const re=rplEsperado(a,tag);
     return `<tr data-id="${a.id_ad}" style="cursor:pointer"><td>${chip}</td>
-    <td class="adname" title="${esc(a.anuncio)}">${esc(nomeCurto(tag,a.anuncio))}</td>
+    ${adCell(tag,a)}
     <td class="num">${sigMark(s.lv,s.w?`IQL ${f(a.iql_pct)}% (IC ${f(s.w.lo*100,0)}–${f(s.w.hi*100,0)}%)`:'')} ${f(a.iql_pct)}%</td>
-    <td class="num"><b>${fr(a.cplq)}</b></td><td class="num">${f(a.leads,0)}</td></tr>`;};
+    <td class="num"><b>${fr(a.cplq)}</b></td>
+    <td class="num">${fr(a.cpl)}</td>
+    <td class="num">${re!=null?fr(re):'—'}</td>
+    <td class="num">${f(a.leads,0)}</td></tr>`;};
   return `<h2 style="margin-top:20px">Ações da campanha</h2>
     <div class="sub">Os 3 melhores e os 3 piores anúncios pelo custo por lead qualificado. Clique para inspecionar.</div>
-    <div class="tblwrap"><table id="acoes-tbl"><tr><th></th><th>Anúncio</th><th class="num" title="% de leads faixa A — com semáforo de confiança">IQL</th><th class="num" title="investimento ÷ leads faixa A">CPLq</th><th class="num">Leads</th></tr>`+
+    <div class="tblwrap"><table id="acoes-tbl"><tr><th></th><th>Anúncio</th><th class="num" title="% de leads A+/A — com semáforo de confiança">IQL</th><th class="num" title="investimento ÷ leads A+/A">CPLq</th><th class="num" title="investimento ÷ todos os leads do anúncio">CPL</th><th class="num" title="R$/lead projetado: mix do anúncio × valores maduros (D28), base projetada pela maturação">RPL proj.</th><th class="num">Leads</th></tr>`+
     ads.slice(0,3).map((a,i)=>linha(a,i===0?'<span class="chip z-escalar">escalar</span>':'')).join('')+
     ads.slice(-3).reverse().map((a,i)=>linha(a,i===0?'<span class="chip z-matar">matar</span>':'')).join('')+
     '</table></div>';
+}
+
+/* ============ resultado por campanha Meta (otimizações testadas) ============ */
+/* mantém [LEAD]/[QUENTE]/[ADVANTAGE] no nome — é a estratégia/otimização testada */
+const nomeCampMeta=(tag,s)=>String(s||'').replace(/\s*\[(LAN|CAP)\]\s*/gi,' ').split('['+tag+']').join(' ').replace(/\s+/g,' ').trim();
+function metaCampHTML(tag){
+  const rows=(D.meta_campanhas||[]).filter(x=>x.nm_tag===tag);
+  if(rows.length<2) return '';
+  return `<h2 style="margin-top:20px">Resultado por campanha Meta</h2>
+    <div class="sub">Cada campanha do Meta é uma estratégia/otimização em teste — compare a qualidade
+    (IQL, CPLq) que cada uma entrega, não só o CPL. Mesmo criativo muda de resultado entre campanhas.</div>
+    <div class="tblwrap"><table><tr><th>Campanha (Meta)</th><th class="num">Anúncios</th><th class="num">Leads</th>
+    <th class="num" title="% de leads A+/A">IQL</th><th class="num" title="investimento ÷ leads A+/A"><b>CPLq</b></th>
+    <th class="num" title="investimento ÷ todos os leads">CPL</th>
+    <th class="num" title="R$/lead projetado: mix × valores maduros (D28)">RPL proj.</th>
+    <th class="num">Invest.</th></tr>`+
+    rows.map(x=>{
+      const re=rplEsperado(x,tag);
+      return `<tr><td class="adname" title="${esc(x.campanha)}">${esc(nomeCampMeta(tag,x.campanha))}</td>
+      <td class="num">${f(x.anuncios,0)}</td><td class="num">${f(x.leads,0)}</td>
+      <td class="num">${f(x.iql_pct)}%</td><td class="num"><b>${x.cplq!=null?fr(x.cplq):'—'}</b></td>
+      <td class="num">${fr(x.cpl)}</td><td class="num">${re!=null?fr(re):'—'}</td>
+      <td class="num">${fr(x.investimento,0)}</td></tr>`;}).join('')+'</table></div>';
 }
 
 /* ============ lista de decisão (mobile, substitui o quadrante) ============ */
@@ -442,7 +619,7 @@ function decideListHTML(tag){
   return `<div id="decide-list"><div class="sub">Lista de decisão (o quadrante aparece em telas maiores):</div>
     <div class="tblwrap"><table><tr><th>Decisão</th><th>Anúncio</th><th class="num">CPLq</th><th class="num">IQL</th></tr>`+
     rows.map(a=>`<tr><td><span class="chip z-${a.zona}">${ZONA_LBL[a.zona]}</span></td>
-      <td class="adname" title="${esc(a.anuncio)}">${esc(nomeCurto(tag,a.anuncio))}</td>
+      ${adCell(tag,a)}
       <td class="num">${a.cplq!=null?fr(a.cplq):'—'}</td><td class="num">${f(a.iql_pct)}%</td></tr>`).join('')+
     '</table></div></div>';
 }
@@ -462,12 +639,18 @@ function renderAdsTable(tag){
   const cols=[['anuncio','Anúncio',''],['zona','Decisão','zona da matriz CPL×IQL (medianas desta campanha)'],
     ['conf','Conf.','confiança de que o IQL destoa da mediana (IC 95% de Wilson)'],
     ['leads','Leads',''],['cpl','CPL','investimento ÷ leads'],
-    ['iql_pct','IQL','% de leads faixa A do anúncio'],['cplq','CPLq','investimento ÷ leads faixa A — o CPL que importa'],
+    ['iql_pct','IQL','% de leads A+/A do anúncio'],['cplq','CPLq','investimento ÷ leads A+/A — o CPL que importa'],
+    ['rpl_esp','RPL esp.','mix de perfis × valores maduros por grupo (D28) — o que o mix DEVE render'],
+    ['cpl_alvo','CPL alvo','RPL esperado ÷ meta de retorno — verde: CPL atual abaixo do alvo'],
+    ['roas_proj','ROAS proj.','RPL esperado ÷ CPL atual — retorno bruto projetado'],
     ['conv_pct','Conv.','vendas last-click (cohort maturando)'],['rpl','R$/lead','receita atribuída ÷ leads'],
-    ['nm_a','NM-A','Não Membros faixa A — expansão de base'],['investimento','Invest.','']];
+    ['nm_a','NM-A','Não Membros A+/A — expansão de base'],['investimento','Invest.','']];
+  const meta=metaDe(tag);
   let rows=m.ads.map(a=>{
-    const s=sigIql(a,m.medIql);
-    return {...a,zona:zonaDe(a.cpl,a.iql_pct,m.medCpl,m.medIql),conf:s.lv,_w:s.w};
+    const s=sigIql(a,m.medIql), re=rplEsperado(a,tag);
+    return {...a,zona:zonaDe(a.cpl,a.iql_pct,m.medCpl,m.medIql),conf:s.lv,_w:s.w,
+      rpl_esp:re, cpl_alvo:re!=null?re/meta:null,
+      roas_proj:(re!=null&&+a.cpl>0)?re/+a.cpl:null};
   });
   if(adsFilter.zona) rows=rows.filter(a=>a.zona===adsFilter.zona);
   if(adsFilter.q) rows=rows.filter(a=>String(a.anuncio).toLowerCase().includes(adsFilter.q));
@@ -482,12 +665,16 @@ function renderAdsTable(tag){
   t.innerHTML='<thead><tr>'+cols.map(([k,l,tit],i)=>
       `<th class="sort${i>2?' num':''}" data-k="${k}" title="${esc(tit)}">${l}${arr(k)}</th>`).join('')+'</tr></thead><tbody>'+
     rows.map(a=>`<tr data-id="${a.id_ad}" class="${selAd===a.id_ad?'rowsel':''}" style="cursor:pointer">
-      <td class="adname" title="${esc(a.anuncio)}">${esc(nomeCurto(tag,a.anuncio))}</td>
+      ${adCell(tag,a)}
       <td><span class="chip z-${a.zona}">${ZONA_LBL[a.zona]}</span></td>
       <td class="num">${sigMark(a.conf,a._w?`IQL ${f(a.iql_pct)}% (IC ${f(a._w.lo*100,0)}–${f(a._w.hi*100,0)}%)`:'')}</td>
       <td class="num">${f(a.leads,0)}</td><td class="num">${fr(a.cpl)}</td>
       <td class="num ${+a.iql_pct>=m.medIql?'good':(+a.iql_pct<m.medIql*0.6?'badtx':'')}">${f(a.iql_pct)}%</td>
       <td class="num"><b>${a.cplq!=null?fr(a.cplq):'—'}</b></td>
+      <td class="num">${a.rpl_esp!=null?fr(a.rpl_esp):'—'}</td>
+      <td class="num">${a.cpl_alvo!=null
+        ?`<span class="chip ${+a.cpl<a.cpl_alvo?'z-escalar':'z-matar'}" title="CPL atual ${fr(a.cpl)} ${+a.cpl<a.cpl_alvo?'abaixo':'acima'} do alvo">${fr(a.cpl_alvo)}</span>`:'—'}</td>
+      <td class="num ${a.roas_proj==null?'':(a.roas_proj>=meta?'good':(a.roas_proj<1?'badtx':''))}"${a.roas_proj!=null&&a.roas_proj>=1&&a.roas_proj<meta?' style="color:var(--warn)"':''}>${a.roas_proj!=null?f(a.roas_proj,1)+'×':'—'}</td>
       <td class="num">${convCell(a.convertidos,a.conv_pct)}</td>
       <td class="num">${sigConv(a.convertidos)===0?`<span class="sig s0" title="poucas vendas — receita instável">○</span> <span style="color:var(--mut)">${fr(a.rpl)}</span>`:fr(a.rpl)}</td>
       <td class="num">${f(a.nm_a,0)}</td><td class="num">${fr(a.investimento,0)}</td></tr>`).join('')+'</tbody>';
@@ -517,6 +704,7 @@ function scatterCamp(tag){
 function selecionaAd(tag,id_ad){
   selAd=id_ad||null;
   const sc=$('scatter'); if(sc) sc.innerHTML=scatterCamp(tag);
+  const mo=$('money'); if(mo) mo.innerHTML=moneySVG(tag);
   const sel=$('lupa-sel');
   if(sel&&selAd){ sel.value=selAd; renderLupa(tag,selAd); }
   renderAdsTable(tag);
@@ -541,8 +729,9 @@ function bindLupa(tag){
 function veredito(perf,tag){
   const campP={}; D.icps.filter(x=>x.nm_tag===tag).forEach(x=>campP[x.persona]=+x.pct_dos_nm);
   const nm=+perf.nm_leads;
-  const map=[['reencontrado','pct_p_reencontrado'],['simpatizante_maduro','pct_p_simpatizante'],
-             ['pagante_de_conteudo','pct_p_pagante'],['curioso_frio','pct_p_frio']];
+  const map=[['simpatizante_maduro','pct_p_simpatizante'],
+             ['pagante_de_conteudo','pct_p_pagante'],['curioso_frio','pct_p_frio'],
+             ['fantasma','pct_p_fantasma']];
   const hits=[];
   for(const [key,fld] of map){
     const pa=+perf[fld], pc=campP[key]||0, leadsP=Math.round(pa/100*nm);
@@ -559,7 +748,7 @@ function veredito(perf,tag){
   if(hits[1]) s+=' e '+frase(hits[1]);
   s+=' que a média da campanha.';
   if(hits[0].key==='curioso_frio'&&hits[0].r>=1.5) s+=' Gancho provavelmente genérico.';
-  else if(hits[0].key==='reencontrado'&&hits[0].r>=1.5) s+=' Forte em reconexão.';
+  else if(hits[0].key==='fantasma'&&hits[0].r>=1.5) s+=' Provável problema de canal/segmentação.';
   return s;
 }
 function renderLupa(tag,id_ad){
@@ -608,10 +797,10 @@ function renderLupa(tag,id_ad){
       +par('Ex-Membro',+perf.pct_ex_membro,stCamp.ex_membro||0,'#e879f9')
       +par('Vitalício',+perf.pct_vitalicio,stCamp.membro_vitalicio||0,'#f7b64f')
       +`<div class="sub" style="margin:12px 0 4px">Personas (só os ${f(perf.nm_leads,0)} Não Membros do anúncio)</div>`
-      +par('Reencontrado',+perf.pct_p_reencontrado,pCamp.reencontrado||0,'#3ecf8e')
       +par('Simpatizante Maduro',+perf.pct_p_simpatizante,pCamp.simpatizante_maduro||0,'#3ecf8e')
       +par('Pagante de Conteúdo',+perf.pct_p_pagante,pCamp.pagante_de_conteudo||0,'#3ecf8e')
       +par('Curioso Frio (anti)',+perf.pct_p_frio,pCamp.curioso_frio||0,'#f7654f')
+      +par('Fantasma (anti)',+perf.pct_p_fantasma,pCamp.fantasma||0,'#f7654f')
       +par('Neutro',+perf.pct_p_neutro,pCamp.neutro||0,'#5b6473')
       +'</div>'
       +`<div class="veredito">${esc(veredito(perf,tag))}</div>`;
@@ -656,6 +845,165 @@ function impactoCampHTML(tag){
     `<div class="improw"><span>${ATTR_LBL[x.atributo]||x.atributo}</span>
      <span class="barbg" style="width:100%"><span class="bar" style="width:${(+x.share_pct/mx*100).toFixed(0)}%"></span></span>
      <span class="num">${f(x.share_pct)}%</span></div>`).join('')+'</div>';
+}
+
+/* ============ Forecast de receita — composição de clusters (D31) ============ */
+const CLUSTER_LBL={membro_vitalicio:'Vitalício',membro_ativo:'Membro Ativo',ex_membro:'Ex-Membro',
+  nm_a:'NM faixa A+/A',nm_b:'NM faixa B',nm_c:'NM faixa C/D'};
+/* M_c(t): fração da receita madura do cluster realizada até D+t. Pontos medidos em
+   cohorts 2025 (m30/m60/m180 — data.json), 0 em t=0 e 1,0 em D+240 (mesmo horizonte
+   de maturidade do fator de maturação). Interpolação linear. */
+function matCluster(cv,t){
+  const pts=[[0,0],[30,+cv.m30],[60,+cv.m60],[180,+cv.m180],[240,1]];
+  if(t<=0) return 0;
+  if(t>=240) return 1;
+  for(let i=1;i<pts.length;i++) if(t<=pts[i][0]){
+    const [x0,y0]=pts[i-1],[x1,y1]=pts[i];
+    return y0+(y1-y0)*(t-x0)/(x1-x0);
+  }
+  return 1;
+}
+/* clusters da campanha — contagens derivadas dos blocos já publicados (perfil_status
+   para status, faixas para NM A/B/C); valor/lead: status usa RPL maduro absoluto de
+   referência, NM usa múltiplo × base NM projetada (a MESMA base do RPL esperado D28) */
+function clustersDe(tag){
+  const c=campDe(tag), CV=D.cluster_valor;
+  if(!c||!CV||!(+c.rpl_nm_observado>0)) return null;
+  const baseNM=+c.rpl_nm_observado*(+c.fator_maturacao||1);
+  const st={}; D.perfil_status.filter(x=>x.nm_tag===tag).forEach(x=>st[x.status]=x);
+  // buckets D28: A+∪A → A, B → B, C∪D → C (leads somados, R$/lead ponderado)
+  const fx={};
+  D.faixas.filter(x=>x.nm_tag===tag).forEach(x=>{
+    const b={'A+':'A',A:'A',B:'B',C:'C',D:'C'}[x.faixa]; if(!b) return;
+    const cur=fx[b]||{leads:0,rec:0};
+    cur.leads+=+x.leads; cur.rec+=+x.leads*+x.rpl;
+    cur.rpl=cur.rec/cur.leads; fx[b]=cur;});
+  const idade=+c.idade_media_dias||0;
+  const rows=[];
+  const add=(key,src,valor)=>{
+    if(!src||!(+src.leads>0)||!(valor>0)) return;
+    const cv=CV[key];
+    rows.push({key,cv,leads:+src.leads,valor,rec:+src.leads*valor,
+      espPct:matCluster(cv,idade)*100, obsPct:+src.rpl/valor*100});
+  };
+  add('membro_vitalicio',st.membro_vitalicio,+CV.membro_vitalicio.rpl);
+  add('membro_ativo',st.membro_ativo,+CV.membro_ativo.rpl);
+  add('ex_membro',st.ex_membro,+CV.ex_membro.rpl);
+  add('nm_a',fx.A,baseNM*+CV.nm_a.mult);
+  add('nm_b',fx.B,baseNM*+CV.nm_b.mult);
+  add('nm_c',fx.C,baseNM*+CV.nm_c.mult);
+  if(!rows.length) return null;
+  const total=rows.reduce((s,r)=>s+r.rec,0);
+  const inc=idade<30?0.40:0.25; // incerteza do retro-forecast (D29): ±40% <30d, ±25% depois
+  return {rows,total,idade,inc,corredor:t=>rows.reduce((s,r)=>s+r.rec*matCluster(r.cv,t),0)};
+}
+/* realizado acumulado por semana de vida (receita_semanal; ponto no fim do bucket) */
+function realizadoAcum(tag){
+  const rows=D.receita_semanal.filter(r=>r.nm_tag===tag)
+    .map(r=>({sem:+r.semana,v:+r.receita})).sort((a,b)=>a.sem-b.sem);
+  let acc=0; const out=[{dia:0,acum:0}];
+  for(const r of rows){ acc+=r.v; out.push({dia:(r.sem+1)*7,acum:acc}); }
+  return out;
+}
+const frCurto=v=> v>=1e6 ? f(v/1e6,1)+' mi' : f(v/1e3,0)+' mil';
+function forecastSVG(tag,fc,rz){
+  const W=940,H=380,L=64,R=18,T=18,B=46,XMAX=240;
+  const hi=t=>fc.corredor(t)*(1+fc.inc), lo=t=>fc.corredor(t)*(1-fc.inc);
+  const ymax=Math.max(hi(XMAX),...rz.map(p=>p.acum))*1.08;
+  const sx=t=>L+t/XMAX*(W-L-R), sy=v=>H-B-v/ymax*(H-B-T);
+  const ts=[]; for(let t=0;t<=XMAX;t+=7) ts.push(t); if(ts[ts.length-1]!==XMAX) ts.push(XMAX);
+  let g='';
+  for(const t of niceTicks(ymax,5)) g+=`<line x1="${L}" y1="${sy(t)}" x2="${W-R}" y2="${sy(t)}" stroke="#262a35" opacity=".6"/>`
+    +`<text x="${L-8}" y="${sy(t)+4}" fill="#8b91a0" font-size="11" text-anchor="end">R$ ${frCurto(t)}</text>`;
+  for(const t of [0,30,60,90,120,180,240]) g+=`<line x1="${sx(t)}" y1="${H-B}" x2="${sx(t)}" y2="${H-B+5}" stroke="#3a4050"/>`
+    +`<text x="${sx(t)}" y="${H-B+18}" fill="#8b91a0" font-size="11" text-anchor="middle">D+${t}</text>`;
+  g+=`<line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#3a4050"/><line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#3a4050"/>`
+    +`<text x="${(L+W-R)/2}" y="${H-6}" fill="#8b91a0" font-size="12" text-anchor="middle">dias desde o cadastro (semanas de vida da campanha)</text>`;
+  // corredor projetado: banda ±incerteza + linha central tracejada
+  const band=ts.map(t=>sx(t)+','+sy(hi(t))).join(' ')+' '+[...ts].reverse().map(t=>sx(t)+','+sy(lo(t))).join(' ');
+  g+=`<polygon points="${band}" fill="#4f8ef7" opacity=".14"/>`;
+  let cp=''; ts.forEach((t,i)=>{cp+=(i?'L':'M')+sx(t)+' '+sy(fc.corredor(t));});
+  g+=`<path d="${cp}" fill="none" stroke="#4f8ef7" stroke-width="1.6" stroke-dasharray="6 4" opacity=".9"/>`;
+  // hoje = idade média da cohort NM
+  g+=`<line x1="${sx(fc.idade)}" y1="${T}" x2="${sx(fc.idade)}" y2="${H-B}" stroke="#8b91a0" stroke-dasharray="3 4" opacity=".7"/>`
+    +`<text x="${sx(fc.idade)+5}" y="${T+12}" fill="#8b91a0" font-size="11">hoje · D+${f(fc.idade,0)}</text>`;
+  // rótulo do final projetado na ponta do corredor
+  g+=`<text x="${W-R-4}" y="${sy(fc.total)-7}" fill="#4f8ef7" font-size="11.5" text-anchor="end">final projetado ${fr(fc.total,0)}</text>`;
+  // realizado acumulado
+  let rp=''; rz.forEach((p,i)=>{rp+=(i?'L':'M')+sx(Math.min(p.dia,XMAX))+' '+sy(p.acum);});
+  g+=`<path d="${rp}" fill="none" stroke="#3ecf8e" stroke-width="2.4"/>`;
+  const last=rz[rz.length-1];
+  g+=`<circle cx="${sx(Math.min(last.dia,XMAX))}" cy="${sy(last.acum)}" r="4.5" fill="#3ecf8e"/>`
+    +`<text x="${sx(Math.min(last.dia,XMAX))+8}" y="${sy(last.acum)+4}" fill="#3ecf8e" font-size="11.5">${fr(last.acum,0)}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Receita realizada acumulada versus corredor projetado">${g}</svg>`;
+}
+function forecastListHTML(fc,rz){
+  if(rz.length<2) return '';
+  return `<div id="forecast-list"><div class="sub">Forecast em lista (o gráfico aparece em telas maiores):</div>
+    <div class="tblwrap"><table><tr><th>Marco</th><th class="num">Corredor projetado</th><th class="num">Realizado acum.</th></tr>`+
+    rz.slice(1).map(p=>{const c=fc.corredor(p.dia);
+      return `<tr><td>D+${p.dia}</td><td class="num" style="color:var(--mut)">${fr(c*(1-fc.inc),0)} – ${fr(c*(1+fc.inc),0)}</td>
+      <td class="num"><b>${fr(p.acum,0)}</b></td></tr>`;}).join('')+
+    `<tr><td>D+240 (final)</td><td class="num" style="color:var(--mut)">${fr(fc.total*(1-fc.inc),0)} – ${fr(fc.total*(1+fc.inc),0)}</td><td class="num">—</td></tr>`+
+    '</table></div></div>';
+}
+function forecastHTML(tag){
+  const fc=clustersDe(tag);
+  if(!fc) return '';
+  const rz=realizadoAcum(tag), last=rz[rz.length-1];
+  const CV=D.cluster_valor;
+  const corrHoje=fc.corredor(fc.idade);
+  let h=`<h2>Forecast de receita</h2>
+    <div class="sub">Modelo por composição de clusters (D31): receita projetada = Σ por cluster —
+    <b>leads × valor maduro × curva de maturação do cluster</b>. Cada tipo de lead tem valor E ritmo próprios:
+    NM e Ex realizam rápido; Membro e Vitalício compram no evento seguinte, não no flight.</div>`;
+  h+=cardsHTML([
+    ['Receita final projetada', fr(fc.total,0),
+     `faixa ${fr(fc.total*(1-fc.inc),0)} – ${fr(fc.total*(1+fc.inc),0)} (±${f(fc.inc*100,0)}%${fc.idade<30?' — cohort <30d':''})`],
+    ['Realizado até hoje', fr(last.acum,0), `${f(fc.total?last.acum/fc.total*100:0,0)}% do projetado, bruto last-click`],
+    ['Corredor na idade atual', fr(corrHoje,0), `esperado até D+${f(fc.idade,0)} (idade média da cohort NM)`],
+  ]);
+  // veredito: realizado vs corredor na idade atual
+  const loH=corrHoje*(1-fc.inc), hiH=corrHoje*(1+fc.inc);
+  h+=`<div class="${last.acum>=loH?'veredito':'note'}">${
+    last.acum>hiH? `Realizado <b>acima do corredor</b> (${fr(last.acum,0)} vs teto ${fr(hiH,0)}) — esta campanha
+      realiza mais rápido (ou rende mais) que as cohorts 2025 que calibraram as curvas; a projeção final tende a ser conservadora.`
+    : last.acum>=loH? `✓ Realizado <b>dentro do corredor</b> projetado (${fr(loH,0)} – ${fr(hiH,0)}) — campanha no rumo do forecast.`
+    : `<b>Atenção:</b> realizado <b>abaixo do corredor</b> (${fr(last.acum,0)} vs piso ${fr(loH,0)}) — ou a campanha
+      rende menos que o mix sugere, ou matura mais devagar que as cohorts 2025.`}</div>`;
+  // decomposição por cluster
+  const maxRec=Math.max(...fc.rows.map(r=>r.rec),1);
+  h+=`<h3>Decomposição por cluster</h3>
+    <div class="sub">Valor/lead: status usa R$/lead maduro de referência (cohorts 2025); NM usa múltiplo ×
+    base NM da campanha projetada (${fr(+campDe(tag).rpl_nm_observado,2)} × ${f(+campDe(tag).fator_maturacao,2)} — mesma base do RPL esperado).
+    "Esperado até hoje" = curva de maturação do cluster em D+${f(fc.idade,0)}; "observado" = R$/lead atual ÷ valor maduro.</div>
+    <div class="tblwrap"><table>
+    <tr><th>Cluster</th><th class="num">Leads</th><th class="num">Valor/lead maduro</th><th class="num">Receita projetada</th><th></th>
+    <th class="num" title="fração do valor maduro que a curva do cluster prevê realizada na idade atual da cohort">Esperado até hoje</th>
+    <th class="num" title="R$/lead observado ÷ valor maduro projetado do cluster">Observado</th></tr>`+
+    fc.rows.map(r=>`<tr><td>${CLUSTER_LBL[r.key]||r.key}</td><td class="num">${f(r.leads,0)}</td>
+      <td class="num">${fr(r.valor,2)}</td><td class="num"><b>${fr(r.rec,0)}</b></td>
+      <td><span class="barbg"><span class="bar" style="width:${(r.rec/maxRec*100).toFixed(0)}%"></span></span></td>
+      <td class="num" style="color:var(--mut)">${f(r.espPct,1)}%</td>
+      <td class="num ${r.obsPct>=r.espPct?'good':''}">${f(r.obsPct,1)}%</td></tr>`).join('')+'</table></div>';
+  h+=`<div class="veredito"><b>Leitura-chave:</b> membros realizam devagar por desenho — Membro Ativo entrega só
+    ${f(+CV.membro_ativo.m30*100,1)}% do valor até D+30 (Vitalício ${f(+CV.membro_vitalicio.m30*100,1)}%), contra
+    ${f(+CV.nm_a.m30*100,0)}–${f(+CV.nm_b.m30*100,0)}% de NM/Ex. A cauda longa da projeção é <b>deles</b>:
+    receita de membro que ainda não apareceu é a curva funcionando, não atraso da campanha.</div>`;
+  // curva: realizado × corredor
+  h+=`<h3>Realizado × corredor projetado</h3>
+    <div class="sub">Linha verde = receita realizada acumulada por semana de vida; banda azul = corredor projetado
+    (Σ clusters × M<sub>c</sub>(t), ±${f(fc.inc*100,0)}%). Realizado dentro do corredor = campanha no rumo.</div>
+    <div class="chart" id="forecast-chart">${forecastSVG(tag,fc,rz)}</div>
+    <div class="legend"><span><i style="background:#3ecf8e"></i>Realizado acumulado</span>
+    <span><i style="background:#4f8ef7;opacity:.6"></i>Corredor projetado (banda ±${f(fc.inc*100,0)}%)</span>
+    <span><i style="background:#8b91a0"></i>Hoje (idade média da cohort)</span></div>
+    ${forecastListHTML(fc,rz)}`;
+  h+=`<div class="note"><b>Leia antes de usar:</b> receita <b>BRUTA</b> last-click (não desconta margem,
+    estorno nem incrementalidade) · valores maduros e curvas de maturação medidos em cohorts 2025
+    (RIO/MST/TPV, &gt;1 ano de receita — D31); NM ancora no nível desta campanha, status usa valor absoluto de
+    referência · <b>projeção ≠ compromisso</b> — é a régua para saber se a campanha está no rumo, não meta de receita.</div>`;
+  return h;
 }
 
 /* ============ IQL previu × aconteceu + régua de CPL máximo ============ */
@@ -751,6 +1099,8 @@ function bindMeta(tag){
     const v=parseFloat(i.value);
     store.setItem('iql_meta_roas_'+tag, v>=1?String(v):'');
     const b=$('previu-body'); if(b) b.innerHTML=previuBody(tag);
+    renderAdsTable(tag); // colunas "CPL alvo"/"ROAS proj." dependem da meta
+    const mo=$('money'); if(mo) mo.innerHTML=moneySVG(tag); // diagonal da meta
   };
 }
 
@@ -767,25 +1117,29 @@ function viewCampanha(tag){
   let h=`<div class="subnav"><a href="#" data-go="g-decidir">Decidir</a><a href="#" data-go="g-perfis">Perfis</a><a href="#" data-go="g-modelo">Modelo</a></div>`;
 
   /* ── DECIDIR ── */
-  h+=`<div id="g-decidir"></div>`+acoesHTML(tag);
+  h+=`<div id="g-decidir"></div>`+acoesHTML(tag)+metaCampHTML(tag);
   h+=cardsHTML([
     ['CPLq', m.cplq!=null?fr(m.cplq):'—', 'custo por lead qualificado'],
-    ['IQL da campanha', f(c.iql_pct)+'%'+(d7?deltaHTML(d7.iqlA.delta,' p.p.'):''), `${f(c.faixa_a,0)} leads faixa A`],
+    ['IQL da campanha', f(c.iql_pct)+'%'+(d7?deltaHTML(d7.iqlA.delta,' p.p.'):''), `${f(c.faixa_a,0)} leads A+/A`],
     ['NM-A / R$ 100', m.inv?f(m.nma/m.inv*100,1):'—', 'guardrail expansão de base'],
     ['Investimento rastreado', fr(m.inv,0), `${m.ads.length} anúncios ≥50 leads`],
     ['Leads captados', f(c.leads,0)+(d7?deltaHTML(d7.leads.delta,'%'):''), `${dbr(c.inicio)} – ${dbr(c.fim)}`],
+    ['ROAS projetado', (()=>{const v=rplEsperadoCamp(tag);return (v!=null&&m.cpl)?f(v/m.cpl,1)+'×':'—';})(), 'RPL esperado ÷ CPL (bruto)'],
   ]);
   h+=cardsHTML([
     ['CPL', m.cpl!=null?fr(m.cpl):'—', 'nos anúncios rastreados'],
     ['NM-A', f(c.nm_a,0), 'não membros qualificados'],
     ['Conversão', f(c.conv_pct,2)+'%', `${f(c.convertidos,0)} vendas last-click`],
+    ['Pág. de obrigado', f(c.obrigado_pct_leads,2)+'%',
+      `dos leads compram na hora (≤30min) — ${f(c.obrigado_pct_vendas,0)}% das vendas`],
     ['R$/lead', fr(c.rpl), 'receita atribuída ÷ leads'],
+    ['RPL esperado', (()=>{const v=rplEsperadoCamp(tag);return v!=null?fr(v):'—';})(), 'mix da campanha × valores maduros (D28)'],
     ['Cobertura da pesquisa', f(cob)+'%', 'responderam ≥1 pergunta'],
   ],'sec');
   h+=`<div class="note"><b>Como ler:</b> cada lead recebe um score no dia do cadastro e cai numa faixa —
-    <span class="fA">A qualificado</span> · <span class="fB">B potencial</span> · <span class="fC">C frio</span>.
-    Faixa A = score acima de um corte calibrado para ≥2× a conversão base (pesos não publicados — governança).
-    <b>IQL</b> = % de leads faixa A do anúncio; <b>CPLq</b> = investimento ÷ leads faixa A.
+    <span class="fAp">A+</span>/<span class="fA">A qualificado</span> · <span class="fB">B potencial</span> · <span class="fC">C frio</span> · <span class="fD">D muito frio</span>.
+    Faixa A+/A = score acima de cortes calibrados para ≥2× a conversão base (pesos não publicados — governança).
+    <b>IQL</b> = % de leads A+/A do anúncio; <b>CPLq</b> = investimento ÷ leads A+/A.
     Regras: mínimo <b>50 leads</b> por anúncio; IQL só é comparável <b>dentro desta campanha</b>.
     Confiança: ● leve a risca · ◐ direção provável · ○ amostra pequena, aguarde.</div>`;
 
@@ -798,9 +1152,24 @@ function viewCampanha(tag){
     <div class="chart" id="scatter-chart"><div id="scatter">${scatterCamp(tag)}</div></div>
     ${decideListHTML(tag)}`;
 
+  h+=`<h2>CPL × RPL projetado — o plano do dinheiro</h2>
+    <div class="sub">O quadrante acima é a lente de qualidade; este é o plano do dinheiro. Cada bolha é um anúncio
+    (tamanho ∝ leads; tracejada = IQL inconclusivo). Acima da linha azul da <b>meta</b> = lucro projetado com folga;
+    entre as linhas = acima do break-even, abaixo da meta; abaixo de <b>RPL = CPL</b> = prejuízo projetado.
+    A meta usa o mesmo controle de "IQL previu × aconteceu".</div>
+    <div class="chart" id="money-chart"><div id="money">${moneySVG(tag)}</div></div>
+    ${moneyListHTML(tag)}
+    <div class="note"><b>Projeção, não realizado:</b> RPL projetado = mix de perfis × valores maduros (D28) ×
+    maturação — herda a incerteza da base (±25–40%); diagonais em receita <b>BRUTA</b> (não descontam
+    margem/incrementalidade). O realizado está em "IQL previu × aconteceu".</div>`;
+
   h+=`<h2>Anúncios — todos os rastreados</h2>
     <div class="sub">Clique no cabeçalho para ordenar; nos chips para filtrar por decisão; numa linha para inspecionar.</div>
     ${adsTableHTML()}
+    <div class="note"><b>RPL esperado</b> = mix de perfis do anúncio × valores maduros por grupo (não-membro médio
+    da campanha como base, projetada por maturação; múltiplos de receita realizada 2025 — D28). Difere do
+    R$/lead observado: este é o que o mix <b>deve</b> render; aquele é o que já apareceu.
+    <b>CPL alvo</b> = RPL esperado ÷ meta de retorno (${f(metaDe(tag),1)}× — editável na seção "IQL previu × aconteceu").</div>
     ${NOTE_CONF}`;
 
   /* ── PERFIS ── */
@@ -821,12 +1190,12 @@ function viewCampanha(tag){
   h+=`<h2 style="margin-top:16px">O que move o score nesta campanha</h2>
     <div class="sub">Importância relativa de cada característica (normalizada a 100%; pesos não publicados).</div>
     ${impactoCampHTML(tag)}`;
+  h+=forecastHTML(tag);
   h+=previuHTML(tag);
-  h+=`<details><summary>Tendência diária — leads por faixa e % faixa A</summary>
-    <div class="sub">Área = leads/dia por faixa; linha branca = % faixa A (eixo direito) — o mix é a tendência que importa.</div>
-    <div class="legend"><span><i style="background:#3ecf8e"></i>Faixa A</span>
-    <span><i style="background:#f7b64f"></i>Faixa B</span><span><i style="background:#5b6473"></i>Faixa C</span>
-    <span><i style="background:#e8eaf0"></i>% faixa A (dir.)</span></div>${serieSVG(tag)}</details>`;
+  h+=`<details><summary>Tendência diária — leads por faixa e % A+/A</summary>
+    <div class="sub">Área = leads/dia por faixa; linha branca = % A+/A (eixo direito) — o mix é a tendência que importa.</div>
+    <div class="legend">${FX_ORDER.map(fx=>`<span><i style="background:${FX_COR[fx]}"></i>Faixa ${fx}</span>`).join('')}
+    <span><i style="background:#e8eaf0"></i>% A+/A (dir.)</span></div>${serieSVG(tag)}</details>`;
   h+=`<details><summary>Validação — conversão real por faixa (Não Membros)</summary>
     <div class="sub">Conversão last-click até hoje. NM converte em ~14 meses — campanha recente ainda matura.</div>
     ${faixasHTML(tag)}</details>`;
@@ -850,7 +1219,7 @@ function viewCampanha(tag){
 function viewComparativo(){
   let h=cardsHTML([
     ['Leads escorados', f(D.cards.leads,0), 'todas as tags, desde jan/2025'],
-    ['Faixa A', f(D.cards.faixa_a,0), 'leads qualificados'],
+    ['Faixa A+/A', f(D.cards.faixa_a,0), 'leads qualificados'],
     ['NM-A', f(D.cards.nm_a,0), 'não membros qualificados'],
     ['Campanhas', f(D.cards.tags,0), 'tags cobertas'],
     ['Versão', esc(D.cards.versao), 'scorecard vigente'],
@@ -862,8 +1231,8 @@ function viewComparativo(){
     <div class="sub">Métricas de mídia calculadas sobre os anúncios rastreados (≥50 leads e spend Meta).</div>
     <div class="tblwrap"><table>
     <tr><th>Campanha</th><th>Período</th><th class="num">Leads</th><th class="num">Cobertura pesquisa</th>
-    <th class="num" title="% de leads faixa A">IQL</th><th class="num" title="Não Membros faixa A">NM-A</th><th class="num">Investimento</th>
-    <th class="num">CPL</th><th class="num" title="investimento ÷ leads faixa A">CPLq</th><th class="num" title="Não Membros faixa A por R$100 — guardrail de expansão de base">NM-A / R$ 100</th></tr>`+
+    <th class="num" title="% de leads A+/A">IQL</th><th class="num" title="Não Membros faixa A">NM-A</th><th class="num">Investimento</th>
+    <th class="num">CPL</th><th class="num" title="investimento ÷ leads A+/A">CPLq</th><th class="num" title="mix × valores maduros (D28), base projetada">RPL esp.</th><th class="num" title="RPL esperado ÷ CPL — retorno bruto projetado">ROAS proj.</th><th class="num" title="Não Membros faixa A por R$100 — guardrail de expansão de base">NM-A / R$ 100</th></tr>`+
     D.campanhas.map(c=>{
       const m=midia(c.nm_tag), cob=+c.leads? +c.respondentes/+c.leads*100:0;
       return `<tr><td><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${COLOR[c.nm_tag]};margin-right:7px"></span><b>${esc(c.nm_tag)}</b></td>
@@ -871,6 +1240,8 @@ function viewComparativo(){
       <td class="num">${f(cob)}%</td><td class="num">${f(c.iql_pct)}%</td><td class="num">${f(c.nm_a,0)}</td>
       <td class="num">${fr(m.inv,0)}</td><td class="num">${m.cpl!=null?fr(m.cpl):'—'}</td>
       <td class="num"><b>${m.cplq!=null?fr(m.cplq):'—'}</b></td>
+      <td class="num">${(()=>{const v=rplEsperadoCamp(c.nm_tag);return v!=null?fr(v):'—';})()}</td>
+      <td class="num">${(()=>{const v=rplEsperadoCamp(c.nm_tag);return (v!=null&&m.cpl)?f(v/m.cpl,1)+'×':'—';})()}</td>
       <td class="num">${m.inv?f(m.nma/m.inv*100,1):'—'}</td></tr>`;}).join('')+'</table></div>';
 
   // small multiples: um mini-quadrante por campanha (cada um com as PRÓPRIAS medianas)
@@ -892,37 +1263,67 @@ function viewComparativo(){
 }
 
 function viewPersonas(){
-  let h=`<div class="note"><b>Para quem é esta aba:</b> time de conteúdo (quem cria anúncios e roteiros).
-    Cada card é um perfil real de quem as campanhas captam entre Não Membros — quanto ele pesa na base,
-    em que ritmo vira assinante e, principalmente, <b>como falar com ele</b>.</div>`;
+  let h=`<div class="note"><b>Para quem é esta aba:</b> time de marketing e conteúdo (quem cria anúncios e roteiros).
+    Em cada campanha, a barra de cima mostra quem os anúncios <b>trazem</b>; a de baixo, quem de fato
+    <b>compra</b>. Quando um perfil é largo em cima e estreito embaixo, o criativo está pagando por
+    gente que não converte — e vice-versa. Os cards dizem <b>como falar</b> com cada perfil.</div>`;
   for(const c of D.campanhas){
     const tag=c.nm_tag;
-    const rows=D.icps.filter(x=>x.nm_tag===tag);
+    // reencontrado (assinatura sob outro e-mail) não é Não Membro: fora da base e do denominador
+    const rows=D.icps.filter(x=>x.nm_tag===tag&&x.persona!=='reencontrado');
     if(!rows.length) continue;
     const get=p=>rows.find(x=>x.persona===p);
     const nmTot=rows.reduce((s,x)=>s+ +x.leads,0);
+    const cvTot=rows.reduce((s,x)=>s+ +x.convertidos,0);
+    const ord=P_ORDER.filter(p=>get(p));
+    const shareL=p=>{const x=get(p);return x&&nmTot>0?+x.leads/nmTot*100:0;};
+    const shareV=p=>{const x=get(p);return x&&cvTot>0?+x.convertidos/cvTot*100:0;};
+    const liftOf=x=>cvTot>0&&+x.leads>0?(+x.convertidos/+x.leads)/(cvTot/nmTot):0;
+    ord.forEach(p=>{const x=get(p);PTIPS[tag+'|'+p]=`<b>${PERS_LBL[p]}</b> — ${esc(tag)}<br>
+      ${f(x.leads,0)} leads (${f(shareL(p))}% da base) · <b>${f(shareV(p))}%</b> das vendas<br>
+      Vira assinante: <b>${f(x.conv_pct,2)}%</b> (${f(x.convertidos,0)} vendas) · ${f(liftOf(x),1)}× o NM médio<br>
+      Receita: ${fr(x.rpl)} por lead`;});
+    const seg=(p,v)=>{const w=+v;return `<i class="pseg" data-pt="${tag}|${p}" style="flex:${Math.max(w,0.4)} 0 0;background:${P_COR[p]}">${w>=6.5?f(w,0)+'%':''}</i>`;};
+    const alvo=['simpatizante_maduro','pagante_de_conteudo'].filter(p=>get(p));
+    const aL=alvo.reduce((s,p)=>s+shareL(p),0), aV=alvo.reduce((s,p)=>s+shareV(p),0);
+    const cf=get('curioso_frio');
     h+=`<h2><span class="dot" style="display:inline-block;width:11px;height:11px;border-radius:50%;background:${COLOR[tag]};margin-right:8px"></span>${esc(tag)}</h2>
-      <div class="sub">Perfis entre os ${f(nmTot,0)} Não Membros captados (${dbr(c.inicio)} – ${dbr(c.fim)}).
-      "× o NM médio" = quantas vezes o perfil assina em relação ao Não Membro médio desta campanha.</div>
+      <div class="sub">${f(nmTot,0)} Não Membros captados (${dbr(c.inicio)} – ${dbr(c.fim)}). Passe o mouse nos blocos para o detalhe de cada perfil.</div>
+      <div class="pstack">
+        <div class="plegend">${ord.map(p=>`<span><i style="background:${P_COR[p]}"></i>${PERS_LBL[p]}${PERSONAS[p]&&PERSONAS[p].anti?' (anti-persona)':''}</span>`).join('')}</div>
+        <div class="prow"><span class="plab">De cada 100 leads</span><div class="pbarstk">${ord.map(p=>seg(p,shareL(p))).join('')}</div></div>
+        <div class="prow"><span class="plab">De cada 100 vendas</span><div class="pbarstk">${ord.map(p=>seg(p,shareV(p))).join('')}</div></div>
+        <div class="pverdict">Os perfis-alvo são <b>${f(aL,0)}% dos leads</b>, mas <b>${f(aV,0)}% das vendas</b>${cf?
+          ` — enquanto o Curioso Frio ocupa <b>${f(shareL('curioso_frio'),0)}%</b> da base e devolve <b>${f(shareV('curioso_frio'),0)}%</b> das vendas`:''}.
+          Cada ponto de base que migrar das anti-personas (amarelo/violeta) para os perfis-alvo é venda a mais pelo mesmo investimento.</div>
+      </div>
       <div class="icps">`+
-      ['reencontrado','simpatizante_maduro','pagante_de_conteudo','curioso_frio'].map(p=>{
+      ['simpatizante_maduro','pagante_de_conteudo','curioso_frio','fantasma'].map(p=>{
         const P=PERSONAS[p], x=get(p);
         if(!x) return '';
-        const lift=+x.lift_vs_base, cv=+x.convertidos;
+        const lift=liftOf(x), cv=+x.convertidos;
         const badge=cv<30?` <span class="sig s${cv<5?0:1}" title="menos de 30 conversões — regra da metodologia: aguardar amostra">${cv<5?'○':'◐'} amostra</span>`:'';
+        const liftTx=lift>=1?`assina <b>${f(lift,1)}× mais</b> que o NM médio`
+          :`assina <b>${f(1/lift,1)}× menos</b> que o NM médio`;
         return `<div class="icp${P.anti?' anti':''}">
-          <h3>${P.nome}${P.anti?' <span class="chip z-matar">anti-persona</span>':''}</h3>
+          <h3><span class="pdot" style="background:${P_COR[p]}"></span>${P.nome}${P.anti?' <span class="chip z-matar">anti-persona</span>':''}</h3>
+          <div class="hl"><b>${f(shareL(p))}%</b> dos leads → <b>${f(shareV(p))}%</b> das vendas${badge}<br>
+            <span class="${lift>=1.3?'good':(lift<0.7?'badtx':'')}">${liftTx}</span> · rende ${fr(x.rpl)}/lead</div>
           <div class="desc">${P.desc}</div>
-          <div class="nums"><b>${f(x.leads,0)}</b> leads — ${f(x.pct_dos_nm)}% da base<br>
-            Vira assinante: <b>${f(x.conv_pct,2)}%</b> (${f(cv,0)} vendas)${badge}<br>
-            <span class="${lift>=1.3?'good':(lift<0.7?'badtx':'')}">${f(lift,1)}× o NM médio</span> ·
-            Receita: ${fr(x.rpl)} por lead</div>
           <div class="fala"><b>Como falar:</b> ${P.fala}</div>
         </div>`;
       }).join('')+'</div>';
     const n=get('neutro');
-    if(n) h+=`<div class="sub">Neutro (o resto da base, fechamento de contas): ${f(n.leads,0)} leads
-      (${f(n.pct_dos_nm)}%) · vira assinante ${f(n.conv_pct,2)}% · ${f(n.lift_vs_base,1)}× o NM médio · ${fr(n.rpl)}/lead.</div>`;
+    if(n) h+=`<div class="sub">Neutros (o resto da base, fechamento de contas): ${f(n.leads,0)} leads
+      (${f(shareL('neutro'))}%) · ${f(shareV('neutro'),0)}% das vendas · vira assinante ${f(n.conv_pct,2)}% · ${fr(n.rpl)}/lead.
+      Reencontrados (assinatura sob outro e-mail) ficam <b>fora</b> desta base — reconexão não é aquisição.</div>`;
+    h+=`<details><summary>Números em tabela — ${esc(tag)}</summary><div class="tblwrap"><table>
+      <thead><tr><th>Perfil</th><th class="num">Leads</th><th class="num">% da base</th><th class="num">Vendas</th>
+      <th class="num">% das vendas</th><th class="num">Conversão</th><th class="num">× NM médio</th><th class="num">R$/lead</th></tr></thead>
+      <tbody>${ord.map(p=>{const x=get(p);return `<tr><td><span class="pdot" style="display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;vertical-align:-1px;background:${P_COR[p]}"></span>${PERS_LBL[p]}</td>
+        <td class="num">${f(x.leads,0)}</td><td class="num">${f(shareL(p))}%</td><td class="num">${f(x.convertidos,0)}</td>
+        <td class="num">${f(shareV(p))}%</td><td class="num">${f(x.conv_pct,2)}%</td><td class="num">${f(liftOf(x),1)}×</td><td class="num">${fr(x.rpl)}</td></tr>`;}).join('')}</tbody>
+      </table></div></details>`;
     h+=`<div class="sub" style="margin-top:8px">Quais anúncios atraíram cada perfil: bloco <b>Ações da campanha</b>
       e o painel <b>Anúncio sob a lupa</b> na <a href="#" data-tab="${esc(tag)}">aba ${esc(tag)}</a>.</div>`;
   }
@@ -930,7 +1331,7 @@ function viewPersonas(){
     (1) <b>viés de seleção</b> — estes perfis descrevem quem converte <b>entre os leads que os anúncios atuais
     alcançam</b>; uma persona fora desse alcance não aparece aqui;
     (2) os traços de pesquisa só são observáveis <b>depois do cadastro</b> — para mirar estas personas, use
-    lookalike semeado com a faixa A, geo, e o próprio criativo como filtro (quem clica se seleciona);
+    lookalike semeado com a faixa A+/A, geo, e o próprio criativo como filtro (quem clica se seleciona);
     (3) conversão/receita last-click, cohort ainda maturando — leitura relativa, não ROI final.</div>`;
   $('view').innerHTML=h;
   document.querySelectorAll('[data-tab]').forEach(a=>a.onclick=e=>{e.preventDefault();setTab(a.dataset.tab);});
@@ -998,12 +1399,17 @@ function bindTips(){
       if(a.cplq==null||!ref) return '';
       const p=(1-+a.cplq/ref)*100;
       return ` <span class="${p>=0?'good':'badtx'}">${f(Math.abs(p),0)}% ${p>=0?'melhor':'pior'} que ${nomeRef}</span>`;};
-    tip.innerHTML=`<b>${esc(a.anuncio)}</b><br>Campanha: ${esc(a.nm_tag)} · <span class="chip z-${z}">${ZONA_LBL[z]}</span> ${SIGG[s.lv]}<br>
+    tip.innerHTML=`<b>${esc(a.anuncio)}</b><br>
+      ${a.campanha?esc(nomeMeta(a.nm_tag,a.campanha))+'<br>':''}${a.adset?'Ad set: '+esc(a.adset)+'<br>':''}
+      Campanha: ${esc(a.nm_tag)} · <span class="chip z-${z}">${ZONA_LBL[z]}</span> ${SIGG[s.lv]}<br>
       Leads: <b>${f(a.leads,0)}</b> · IQL: <b>${f(a.iql_pct)}%</b>${s.w?` <span style="color:var(--mut)">(IC ${f(s.w.lo*100,0)}–${f(s.w.hi*100,0)}%)</span>`:''}<br>
       CPL: ${fr(a.cpl)} · CPLq: <b>${a.cplq!=null?fr(a.cplq):'—'}</b>${rel(m.medCplq,'a mediana')}${alvo&&a.cplq!=null?'<br>vs alvo:'+rel(alvo,'o alvo'):''}<br>
       Conv.: ${sigConv(a.convertidos)===0?`○ ${f(a.convertidos,0)} vendas`:`${f(a.convertidos,0)} (${f(a.conv_pct,2)}%)`} · R$/lead: ${fr(a.rpl)}${(()=>{
-        const cc=campDe(a.nm_tag), fM=cc?+cc.fator_maturacao:0;
-        return (+a.convertidos>=5&&fM)?`<br>CPL máx estimado: <b>~${fr(+a.rpl*fM/metaDe(a.nm_tag))}</b> <span style="color:var(--mut)">(RPL próprio × maturação ÷ meta)</span>`:'';
+        const re=rplEsperado(a,a.nm_tag);
+        if(re==null) return '';
+        const roas=+a.cpl>0?re/+a.cpl:null;
+        return `<br>CPL alvo: <b>${fr(re/metaDe(a.nm_tag))}</b> <span style="color:var(--mut)">(RPL esperado ${fr(re)} — mix × valores maduros)</span>`
+          +(roas!=null?`<br>ROAS projetado: <b class="${roas>=metaDe(a.nm_tag)?'good':(roas<1?'badtx':'')}">${f(roas,1)}×</b> · folga: ${fr(re-+a.cpl)}/lead`:'');
       })()}<br>
       NM-A: ${f(a.nm_a,0)} · Invest.: ${fr(a.investimento,0)}`;
     tip.style.display='block';
@@ -1024,6 +1430,14 @@ function bindTips(){
       if(!tip.dataset.pin) tip.style.display='none';
       document.querySelectorAll('[id^=wsk-]').forEach(w=>w.setAttribute&&w.setAttribute('visibility','hidden'));
     }
+  });
+  // segmentos das barras de persona (aba Personas)
+  document.addEventListener('mouseover',e=>{
+    const s=e.target.closest&&e.target.closest('[data-pt]');
+    if(s&&PTIPS[s.dataset.pt]){tip.innerHTML=PTIPS[s.dataset.pt];tip.style.display='block';}
+  });
+  document.addEventListener('mouseout',e=>{
+    if(e.target.closest&&e.target.closest('[data-pt]')&&!tip.dataset.pin) tip.style.display='none';
   });
   // clique: seleciona (tabela↔quadrante↔lupa) e fixa o tooltip (tap em mobile)
   document.addEventListener('click',e=>{
@@ -1046,8 +1460,8 @@ function bindTips(){
     vl.setAttribute('x1',L+(n>1?i/(n-1):0.5)*(W-L-R)); vl.setAttribute('x2',L+(n>1?i/(n-1):0.5)*(W-L-R));
     tip.dataset.mode='serie';
     tip.innerHTML=`<b>${dbr(d.dia)}</b> — ${f(d.tot,0)} leads<br>
-      <span class="fA">A: ${f(d.A,0)}</span> · <span class="fB">B: ${f(d.B,0)}</span> · <span class="fC">C: ${f(d.C,0)}</span><br>
-      % faixa A no dia: <b>${f(d.pA)}%</b>`;
+      <span class="fAp">A+: ${f(d['A+'],0)}</span> · <span class="fA">A: ${f(d.A,0)}</span> · <span class="fB">B: ${f(d.B,0)}</span> · <span class="fC">C: ${f(d.C,0)}</span> · <span class="fD">D: ${f(d.D,0)}</span><br>
+      % A+/A no dia: <b>${f(d.pA)}%</b>`;
     tip.style.display='block';
   });
 }
