@@ -191,7 +191,7 @@
       o que deve acontecer na geração das próximas listas.</p>
     <div class="stats">
       <div class="stat good"><div class="n" id="cnLimpo">—</div><div class="l">leads "limpos" — sem abordagem, sem lista Lambda, sem compra recente</div></div>
-      <div class="stat bad"><div class="n" id="cnHumano">—</div><div class="l">já em abordagem humana ativa (deal aberto ≤60d ou conversa Zenvia)</div></div>
+      <div class="stat bad"><div class="n" id="cnHumano">—</div><div class="l">já em abordagem humana ativa (deal aberto ≤60d ou conversa Zenvia em followUp)</div></div>
       <div class="stat"><div class="n" id="cnLambda">—</div><div class="l">já em OUTRA lista/automação da Lambda (deal AWSALES aberto)</div></div>
       <div class="stat"><div class="n" id="cnCompra">—</div><div class="l">tinham comprado (qualquer canal) nos 7 dias anteriores</div></div>
     </div>
@@ -208,8 +208,10 @@
     <div class="nota">Leitura: <b>não é culpa da Lambda nem dos vendedores</b> — é a geração da lista sem os
       filtros canônicos. Pessoa em abordagem humana recebe duas conversas concorrentes; pessoa em outra lista
       Lambda recebe duas conversas <b>da própria IA</b>; comprador recente recebe upsell dias após gastar.
-      "Deal humano zumbi" = deal aberto no Pipe há mais de 60 dias sem conversa ativa (higiene de CRM, não
-      abordagem real). Correções na seção 6.</div>
+      Definições: abordagem humana ativa = deal humano aberto criado nos últimos 60 dias OU contato Zenvia
+      com status <b>followUp</b> no grupo Comercial (estado atual do contato). "Deal humano zumbi" = deal
+      aberto no Pipe há mais de 60 dias sem followUp (higiene de CRM, não abordagem real — separado de
+      propósito para dar clareza). Correções na seção 6.</div>
   </section>
 
   <!-- ── 3. DESFECHO ─────────────────────────────────────────────────────── -->
@@ -303,9 +305,10 @@
            <b>contato Zenvia em followUp / carteira Mecenas</b> e quem <b>já está em outra lista Lambda</b>
            (AWSALES). Hoje a lista entrega à IA leads que vendedores humanos já estão trabalhando —
            os dois canais se atropelam na conversa com o mesmo cliente.</p>
-        <span class="ev">Evidência (seção 2): 1.133 pessoas da base (~39%) já estavam em abordagem humana ativa
-           na entrada; 402 (~14%) já tinham outro deal Lambda aberto (Abandono de Carrinho, Compra Negada,
-           Oportunidade de Venda); 100% das vendas humanas pós-lista tinham abordagem no meio.</span>
+        <span class="ev">Evidência (seção 2): ~1/3 da base já estava em abordagem humana ativa na entrada
+           (deal aberto ≤60d ou followUp no Zenvia) e ~14% já tinha outro deal Lambda aberto (Abandono de
+           Carrinho, Compra Negada, Oportunidade de Venda); 100% das vendas humanas pós-lista tinham
+           abordagem no meio.</span>
       </div>
 
       <div class="fix core">
@@ -437,7 +440,7 @@ function fillStatics(D) {
 
     const tc = document.querySelector("#tbCenario tbody");
     const linhas = [
-      ["Em abordagem humana ativa (deal ≤60d ou Zenvia)", cn.exclusivo.abordagem_humana],
+      ["Em abordagem humana ativa (deal ≤60d ou followUp)", cn.exclusivo.abordagem_humana],
       ["Em outra lista/automação da Lambda", cn.exclusivo.outra_lista_lambda],
       ["Comprou nos 7 dias anteriores (sem os acima)", cn.exclusivo.comprou_7d],
       ["Deal humano zumbi (aberto há +60d, sem conversa)", cn.exclusivo.deal_zumbi],

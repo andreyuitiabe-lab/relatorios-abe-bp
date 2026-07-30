@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-07-30T16:26:00",
+  "updated_at": "2026-07-30T16:37:35",
   "periodo_inicio": "2026-07-15",
   "base": {
-    "leads": 2936,
-    "sem_compra": 2577
+    "leads": 2943,
+    "sem_compra": 2581
   },
   "lotes": {
     "labels": [
@@ -18,19 +18,19 @@
       25,
       765,
       100,
-      78
+      85
     ]
   },
   "desfecho": {
-    "digital": {
-      "pessoas": 251,
-      "vendas": 289,
-      "valor": 80665.12
-    },
     "outro_comercial": {
       "pessoas": 79,
       "vendas": 89,
       "valor": 91712.85
+    },
+    "digital": {
+      "pessoas": 254,
+      "vendas": 292,
+      "valor": 82126.72
     },
     "lambda": {
       "pessoas": 29,
@@ -109,12 +109,12 @@
       "vl": 392.4
     },
     {
-      "plano": "Combo Religioso Economico V2",
+      "plano": "Bp Economico Combo Brasil Evangelico V2",
       "qt": 1,
       "vl": 130.8
     },
     {
-      "plano": "Bp Economico Combo Brasil Evangelico V2",
+      "plano": "Combo Religioso Economico V2",
       "qt": 1,
       "vl": 130.8
     }
@@ -134,9 +134,9 @@
     },
     "digital": {
       "antes": {
-        "qt": 284,
-        "vl": 76346.32,
-        "vitalicios": 23
+        "qt": 287,
+        "vl": 77807.92,
+        "vitalicios": 24
       },
       "depois": {
         "qt": 9,
@@ -151,23 +151,23 @@
     "vl": 25169.22
   },
   "dash_hoje": {
-    "qt": 10,
-    "vl": 13447.56
+    "qt": 9,
+    "vl": 13207.56
   },
   "cenario": {
-    "base": 2936,
+    "base": 2943,
     "flags": {
-      "abordagem_humana_ativa": 1133,
-      "outra_lista_lambda": 402,
-      "comprou_7d_antes": 321,
-      "deal_humano_zumbi": 265
+      "abordagem_humana_ativa": 977,
+      "outra_lista_lambda": 403,
+      "comprou_7d_antes": 323,
+      "deal_humano_zumbi": 267
     },
     "exclusivo": {
-      "abordagem_humana": 1133,
-      "outra_lista_lambda": 183,
-      "comprou_7d": 10,
-      "deal_zumbi": 174,
-      "limpo": 1434
+      "abordagem_humana": 977,
+      "outra_lista_lambda": 224,
+      "comprou_7d": 38,
+      "deal_zumbi": 138,
+      "limpo": 1564
     }
   }
 }

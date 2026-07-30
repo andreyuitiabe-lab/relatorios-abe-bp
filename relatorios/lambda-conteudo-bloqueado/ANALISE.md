@@ -44,12 +44,13 @@ os resultados serem acompanháveis. (MM via Bárbara Olivieri, jul/2026.)
   frio" competindo com a Lambda.
 - **Padrão de ticket**: humanos fecham vitalícios de R$ 1,5–5k nas mesmas pessoas em que a
   Lambda fecha Apoiador/Básico de R$ 120–228.
-- **Cenário na geração dos leads (30/jul)**: no dia em que entraram na lista, só **49% da
-  base estava "limpa"**. Corte exclusivo (prioridade): 1.133 (39%) em abordagem humana ativa
-  (deal aberto ≤60d ou Zenvia), 183 (6%) só em outra lista Lambda, 10 só compra ≤7d,
-  174 (6%) com deal humano zumbi (aberto >60d), 1.434 (49%) limpos. Flags com sobreposição:
-  402 (14%) em outra lista Lambda aberta (Abandono de Carrinho, Compra Negada, Oportunidade
-  de Venda — 511 deals), 321 (11%) com compra nos 7 dias anteriores.
+- **Cenário na geração dos leads (30/jul)**: no dia em que entraram na lista, cerca de metade
+  da base tinha alguma pendência. Definição validada com o André: **abordagem humana ativa =
+  deal humano aberto criado ≤60d OU contato Zenvia em `followUp` no grupo Comercial** (estado
+  atual; followUp de Suporte/Retenção/CS não conta); deals abertos há +60d ficam separados
+  como "zumbi" de propósito, para clareza. Números no `data.json`/relatório (seção 2). Flags
+  com sobreposição: 402 (14%) em outra lista Lambda aberta (Abandono de Carrinho, Compra
+  Negada, Oportunidade de Venda — 511 deals), 321 (11%) com compra nos 7 dias anteriores.
 - **Conversas da IA nesta frente começaram só em 29/07** (origem `Conteúdo Bloqueado |
   <plano>` no `conversation_report_bp`: 127 conversas, 36 respondidas até 30/07) — as vendas
   C0113 de 15–28/07 vieram das outras automações da Lambda acima, atingindo as mesmas pessoas.

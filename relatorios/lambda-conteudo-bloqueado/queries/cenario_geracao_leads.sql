@@ -34,13 +34,14 @@ deals_abertos AS (
   WHERE d.dt_created_at < p.dt_entrou
     AND COALESCE(d.dt_closed_at, DATETIME '9999-01-01') >= p.dt_entrou
 ),
-zenvia_ativa AS (
+-- conversa aberta = contato Zenvia em followUp no grupo Comercial (definição de
+-- negócio, 30/jul). dim_zenvia_contacts é estado ATUAL do contato, não o do dia
+-- da entrada — aceito como aproximação; TRIM: nm_group tem espaço à direita.
+zenvia_followup AS (
   SELECT DISTINCT p.pessoa
-  FROM cbp p JOIN `bp-datawarehouse.datamart.dtm_sales_by_zenvia` z
+  FROM cbp p JOIN `bp-datawarehouse.masterdata.dim_zenvia_contacts` z
     ON z.cd_cleaned_phone_number = p.tel AND p.tel != ''
-  WHERE z.dt_approach_start < p.dt_entrou
-    AND z.dt_approach_start >= p.dt_entrou - INTERVAL 60 DAY
-    AND COALESCE(z.dt_approach_end, CURRENT_DATETIME()) >= p.dt_entrou - INTERVAL 7 DAY
+  WHERE z.nm_status = 'followUp' AND TRIM(z.nm_group) = 'Comercial'
 ),
 tx AS (
   SELECT t.dt_ordered_at, LOWER(c.nm_email) email,
@@ -63,7 +64,7 @@ flags AS (
     p.pessoa IN (SELECT pessoa FROM deals_abertos WHERE tipo = 'lambda') AS f_lambda,
     p.pessoa IN (SELECT pessoa FROM deals_abertos WHERE tipo = 'humano' AND recente) AS f_humano_60d,
     p.pessoa IN (SELECT pessoa FROM deals_abertos WHERE tipo = 'humano' AND NOT recente) AS f_humano_antigo,
-    p.pessoa IN (SELECT pessoa FROM zenvia_ativa) AS f_zenvia,
+    p.pessoa IN (SELECT pessoa FROM zenvia_followup) AS f_zenvia,
     p.pessoa IN (SELECT pessoa FROM compra_7d) AS f_compra7
   FROM cbp p
 )
