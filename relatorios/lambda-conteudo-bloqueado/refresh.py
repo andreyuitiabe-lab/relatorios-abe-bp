@@ -109,7 +109,8 @@ por_pessoa AS (
     COUNTIF(NOT eh_lambda AND bl_is_commercial_channel) qt_com,
     COUNTIF(NOT eh_lambda AND NOT bl_is_commercial_channel) qt_dig,
     SUM(vl_payment_gross) vl
-  FROM m GROUP BY 1
+  -- só vendas APÓS a entrada na lista (pedido de 30/jul)
+  FROM m WHERE dt_ordered_at >= dt_entrou_lista GROUP BY 1
 )
 SELECT
   CASE WHEN qt_lambda > 0 THEN 'lambda'
@@ -124,13 +125,13 @@ FROM por_pessoa GROUP BY 1
 Q_LAMBDA_DIA = f"""
 WITH {CB_PESSOAS}, {VENDAS}, {MATCH}
 SELECT DATE(dt_ordered_at) dia, COUNT(*) qt, ROUND(SUM(vl_payment_gross), 2) vl
-FROM m WHERE eh_lambda GROUP BY 1 ORDER BY 1
+FROM m WHERE eh_lambda AND dt_ordered_at >= dt_entrou_lista GROUP BY 1 ORDER BY 1
 """
 
 Q_LAMBDA_PLANO = f"""
 WITH {CB_PESSOAS}, {VENDAS}, {MATCH}
 SELECT nm_plan_label plano, COUNT(*) qt, ROUND(SUM(vl_payment_gross), 2) vl
-FROM m WHERE eh_lambda GROUP BY 1 ORDER BY vl DESC
+FROM m WHERE eh_lambda AND dt_ordered_at >= dt_entrou_lista GROUP BY 1 ORDER BY vl DESC
 """
 
 Q_TIMING = f"""

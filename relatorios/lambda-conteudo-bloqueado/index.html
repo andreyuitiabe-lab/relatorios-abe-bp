@@ -175,7 +175,7 @@
     <div class="stats">
       <div class="stat lam"><div class="n" id="stLeads">—</div><div class="l">leads enviados à Lambda</div></div>
       <div class="stat"><div class="n" id="stLotes">—</div><div class="l">lotes de criação de cards</div></div>
-      <div class="stat"><div class="n" id="stSemCompra">—</div><div class="l">não compraram nada no período</div></div>
+      <div class="stat"><div class="n" id="stSemCompra">—</div><div class="l">não compraram nada após entrar na lista</div></div>
     </div>
     <div class="card">
       <p class="label">Cards criados por dia</p>
@@ -216,10 +216,12 @@
 
   <!-- ── 3. DESFECHO ─────────────────────────────────────────────────────── -->
   <section>
-    <h2>3 · O que aconteceu com quem comprou</h2>
+    <h2>3 · O que aconteceu depois de entrar na lista</h2>
     <p class="section-sub">Cada pessoa classificada pelo melhor desfecho
       (<span class="chip lambda">Lambda</span> → <span class="chip humano">outro vendedor</span> →
-      <span class="chip digital">digital</span>). A Lambda é minoria das pessoas e do valor.</p>
+      <span class="chip digital">digital</span>), contando <strong>apenas compras feitas após a criação
+      do deal CB da pessoa</strong>. A Lambda é minoria das pessoas e do valor. Compras anteriores à
+      lista estão na seção 5.</p>
     <div class="grid-2">
       <div class="card">
         <p class="label">Pessoas por desfecho</p>
@@ -242,7 +244,7 @@
   <section>
     <h2>4 · As vendas da própria Lambda (link C0113)</h2>
     <div class="stats">
-      <div class="stat lam"><div class="n" id="stLambdaQt">—</div><div class="l">vendas da Lambda na base</div></div>
+      <div class="stat lam"><div class="n" id="stLambdaQt">—</div><div class="l">vendas da Lambda na base, após a entrada na lista</div></div>
       <div class="stat lam"><div class="n" id="stLambdaVl">—</div><div class="l">receita Lambda</div></div>
       <div class="stat bad"><div class="n" id="stDashVl">—</div><div class="l">o que o funil (dtm_seller_conversion_rate) mostra hoje — nenhuma é da Lambda</div></div>
     </div>
@@ -422,7 +424,7 @@ function fillStatics(D) {
        <td class="num">${NUM(d.vendas)}</td><td class="num">${BRL(d.valor)}</td></tr>`);
   });
   tb.insertAdjacentHTML("beforeend",
-    `<tr><td>não comprou nada no período</td><td class="num">${NUM(D.base.sem_compra)}</td>
+    `<tr><td>não comprou nada após entrar na lista</td><td class="num">${NUM(D.base.sem_compra)}</td>
      <td class="num">—</td><td class="num">—</td></tr>`);
 
   const tp = document.querySelector("#tbPlanos tbody");
