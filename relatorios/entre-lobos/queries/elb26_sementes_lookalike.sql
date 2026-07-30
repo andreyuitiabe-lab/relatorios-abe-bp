@@ -35,6 +35,14 @@ compradores_els AS (
   WHERE sigla = 'ELS' AND bl_tem_email
 ),
 
+-- Leads A+/A do próprio ELB26 (IQL) — "sinal forte" da campanha
+-- ⚠️ pré-merge da MR !2426 o fct atualiza só com dbt run manual (ver iql.md)
+leads_aa_elb26 AS (
+  SELECT DISTINCT LOWER(nm_email) AS email
+  FROM `bp-staging.dbt_abe.fct_lead_iql`
+  WHERE nm_tag = 'ELB26' AND nm_iql_band IN ('A+', 'A')
+),
+
 usuario AS (
   SELECT
     LOWER(nm_email) AS email,
@@ -73,6 +81,8 @@ segmentos AS (
   UNION ALL
   SELECT '6_els_x_viewers_elb', email
   FROM compradores_els JOIN viewers_elb USING (email)
+  UNION ALL
+  SELECT '7_leads_aa_elb26', email FROM leads_aa_elb26
 )
 
 SELECT

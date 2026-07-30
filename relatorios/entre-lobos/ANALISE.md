@@ -47,6 +47,16 @@ de lookalike (LKL) para a fase de venda do ELB26.
 Sub-tamanhos úteis: viewers decil7+ = 135k; viewers cartão premium = 184k;
 compradores ELB22 decil7+ = 6,4k.
 
+## IQL integrado (30/07)
+
+Seção de qualidade dos leads adicionada ao relatório, lendo `bp-staging.dbt_abe.fct_lead_iql`
+(agregados por faixa apenas — governança D20). 59,5k leads escorados até 29/07: **21,3% A+/A**
+(12.657). O % A+/A diário caiu de ~50% (dia 1, base quente) para platô de ~20% com a mídia escalada.
+Os leads A+/A entraram como **semente nº 7** ("sinal forte" da própria campanha, recência máxima) —
+perfil de renda menor por construção (decil 5,03 / 38% cartão premium): o IQL qualifica por
+probabilidade de conversão, não por renda. ⚠️ Pré-merge da MR !2426 o fct atualiza só com dbt run
+manual (ver `wiki-bp/iql.md`).
+
 ## Achados
 
 - **Compradores ELB22 são a semente de melhor perfil** (decil 5,63 / 41,2% decil7+ — acima até

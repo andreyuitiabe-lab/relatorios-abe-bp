@@ -52,7 +52,28 @@ SEMENTES_LABELS = {
     "4_viewers_elb_1h_mais": "Viewers ≥1h de watch time",
     "5_compradores_els":     "Compradores ELS",
     "6_els_x_viewers_elb":   "Compradores ELS ∩ viewers ELB",
+    "7_leads_aa_elb26":      "Leads A+/A do ELB26 (IQL)",
 }
+
+# IQL do ELB26 — agregados por faixa e por dia.
+# Governança D20: repo público só recebe agregados (faixa/%), nunca pontos ou pesos.
+# ⚠️ pré-merge (MR !2426) o fct_lead_iql atualiza só com dbt run manual — ver iql.md.
+Q_IQL_FAIXAS = """
+SELECT nm_iql_band AS faixa, COUNT(*) AS n
+FROM `bp-staging.dbt_abe.fct_lead_iql`
+WHERE nm_tag = 'ELB26'
+GROUP BY 1 ORDER BY 1
+"""
+
+Q_IQL_DIA = """
+SELECT
+  DATE(dt_registered_at_br) AS dia,
+  COUNT(*) AS leads,
+  ROUND(COUNTIF(nm_iql_band IN ('A+', 'A')) / COUNT(*) * 100, 1) AS pct_aa
+FROM `bp-staging.dbt_abe.fct_lead_iql`
+WHERE nm_tag = 'ELB26'
+GROUP BY 1 ORDER BY 1
+"""
 
 # Benchmark fixo: testes de segmentação da fase [VENDA] do ELS (20/05–17/07/2026).
 # Fonte: els-analise.md — atribuição pixel Meta (facebook_ads_funnel), não o modelo interno.
@@ -89,6 +110,18 @@ def build() -> dict:
     print("  leads ELB26 por dia...", flush=True)
     leads_rows = bq(Q_LEADS_DIA)
 
+    print("  IQL ELB26 (faixas + diário)...", flush=True)
+    iql_faixas = bq(Q_IQL_FAIXAS)
+    iql_dia = bq(Q_IQL_DIA)
+    ordem = ["A+", "A", "B", "C", "D"]
+    faixas = sorted(iql_faixas, key=lambda r: ordem.index(r["faixa"]))
+    total_iql = sum(ii(r["n"]) for r in faixas)
+    n_aa = sum(ii(r["n"]) for r in faixas if r["faixa"] in ("A+", "A"))
+
+    # governança D20: garantir que só agregados vão ao repo público
+    assert all(set(r.keys()) <= {"faixa", "n"} for r in iql_faixas)
+    assert all(set(r.keys()) <= {"dia", "leads", "pct_aa"} for r in iql_dia)
+
     return {
         "updated_at": datetime.datetime.now().isoformat(timespec="seconds"),
         "campaign": TAG,
@@ -99,6 +132,21 @@ def build() -> dict:
         },
         "total_leads": sum(ii(r["leads"]) for r in leads_rows),
         "bench_els": BENCH_ELS,
+        "iql": {
+            "updated_ref": max((str(r["dia"]) for r in iql_dia), default=None),
+            "total_escorados": total_iql,
+            "n_aa": n_aa,
+            "pct_aa": round(n_aa / total_iql * 100, 1) if total_iql else 0,
+            "faixas": {
+                "labels": [r["faixa"] for r in faixas],
+                "n": [ii(r["n"]) for r in faixas],
+            },
+            "dia": {
+                "labels": [str(r["dia"]) for r in iql_dia],
+                "pct_aa": [fi(r["pct_aa"]) for r in iql_dia],
+                "leads": [ii(r["leads"]) for r in iql_dia],
+            },
+        },
     }
 
 # ─── main ────────────────────────────────────────────────────────────────────

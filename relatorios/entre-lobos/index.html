@@ -36,7 +36,8 @@
               letter-spacing: .06em; color: var(--soft); margin-bottom: 12px; }
     .card   { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
     .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
-    @media (max-width: 640px) { .grid-3 { grid-template-columns: 1fr; } }
+    .grid-iql { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 640px) { .grid-3, .grid-iql { grid-template-columns: 1fr; } }
     .stats  { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 24px; }
     .bigstat .bs-num { font-size: 36px; font-weight: 800; color: var(--blue); line-height: 1; }
     .bigstat .bs-num.g { color: var(--green); }
@@ -105,6 +106,39 @@
     </div>
   </section>
 
+  <!-- ── 1b. IQL do aquecimento ──────────────────────────────────────────── -->
+  <section>
+    <h2>Qualidade dos leads do aquecimento (IQL)</h2>
+    <div class="stats">
+      <div class="bigstat">
+        <div class="bs-num" id="statIqlTotal">—</div>
+        <div class="bs-cap">leads escorados pelo IQL</div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num g" id="statIqlPct">—</div>
+        <div class="bs-cap">faixa A+/A (lead qualificado)</div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num g" id="statIqlAA">—</div>
+        <div class="bs-cap">leads A+/A — viram a semente nº 7</div>
+      </div>
+    </div>
+    <div class="grid-iql">
+      <div class="card">
+        <p class="label">Distribuição por faixa IQL</p>
+        <canvas id="chIqlFaixas" height="200"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">% de leads A+/A por dia de cadastro</p>
+        <canvas id="chIqlDia" height="200"></canvas>
+      </div>
+    </div>
+    <div class="nota">IQL = scorecard que escora cada lead no dia do cadastro (status, histórico, pesquisa) —
+    metodologia no <a href="../qualificacao-leads/iql/">dashboard IQL</a>. Por governança, este relatório mostra
+    só faixas agregadas, nunca pontos. Cobertura da pesquisa no ELB26: ~50% dos leads.
+    <span id="iqlRef"></span></div>
+  </section>
+
   <!-- ── 2. Por que semente importa ──────────────────────────────────────── -->
   <section>
     <h2>O que o ELS ensinou: a semente decide o ROAS</h2>
@@ -137,7 +171,9 @@
       </table>
     </div>
     <div class="nota">Perfil via <code>dtm_purchasing_power</code> (decil de renda por CEP), <code>int_credit_card_level</code>
-    (nível máximo de cartão) e <code>dim_user</code> (gênero inferido). Cobertura de renda: 78–83% por segmento.</div>
+    (nível máximo de cartão) e <code>dim_user</code> (gênero inferido). Cobertura de renda: 78–83% por segmento.
+    A semente "Leads A+/A do ELB26" tem perfil de renda menor por construção — o IQL qualifica por
+    probabilidade de conversão (status, histórico, pesquisa), não por renda; é semente de comportamento, não de poder aquisitivo.</div>
   </section>
 
   <!-- ── 4. Recomendação ─────────────────────────────────────────────────── -->
@@ -159,6 +195,11 @@
         <p>Afinidade temática real (segurança pública): 13,7% dos compradores ELS assistiram Entre Lobos.
         Semente já validada em campanha. O overlap ELS ∩ viewers ELB (4,8k) é o público mais premium
         (60% cartão premium) — testar com spend marginal.</p>
+      </div>
+      <div class="rec">
+        <b>4. LKL leads A+/A do próprio ELB26</b> <span class="tag t-g">semente fresca — cresce com o aquecimento</span>
+        <p>Os leads que o IQL classifica como qualificados nesta campanha — o análogo mais direto do
+        "sinal forte" (ROAS 2,13), com recência máxima. Atualizar a lista quando a venda abrir.</p>
       </div>
       <div class="rec warn">
         <b>Não fazer: remarketing "viu a série" na venda</b> <span class="tag t-r">lição ELS</span>
@@ -245,6 +286,57 @@ function initCharts(D) {
       }
     }
   });
+
+  /* IQL — bigstats, faixas e trilha diária */
+  if (D.iql) {
+    document.getElementById('statIqlTotal').textContent = nBR(D.iql.total_escorados);
+    document.getElementById('statIqlPct').textContent   = pt1(D.iql.pct_aa) + '%';
+    document.getElementById('statIqlAA').textContent    = nBR(D.iql.n_aa);
+    const ref = document.getElementById('iqlRef');
+    if (ref && D.iql.updated_ref) ref.textContent = 'Leads escorados até ' +
+      D.iql.updated_ref.split('-').reverse().join('/') + ' (pré-merge, atualização manual do modelo).';
+
+    /* faixas: escala ordinal A+→D — rampa sequencial de um matiz */
+    const RAMP = ['#1d4ed8', '#3b6ef5', '#7ca1f8', '#b3c7fb', '#dbe3f8'];
+    const totalIql = D.iql.total_escorados;
+    new Chart(chIqlFaixas, {
+      type: 'bar',
+      data: {
+        labels: D.iql.faixas.labels,
+        datasets: [{ data: D.iql.faixas.n, backgroundColor: RAMP, borderRadius: 4, barThickness: 40 }]
+      },
+      options: {
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: { label: c => nBR(c.raw) + ' leads · ' + pt1(c.raw / totalIql * 100) + '%' } } },
+        scales: {
+          x: { grid: { display: false } },
+          y: { display: false, max: Math.max(...D.iql.faixas.n) * 1.2 }
+        }
+      },
+      plugins: [valueLabels(v => pt1(v / totalIql * 100) + '%')]
+    });
+
+    new Chart(chIqlDia, {
+      type: 'line',
+      data: {
+        labels: D.iql.dia.labels.map(d => d.slice(5).split('-').reverse().join('/')),
+        datasets: [{
+          label: '% A+/A', data: D.iql.dia.pct_aa,
+          borderColor: BLUE, borderWidth: 2, pointRadius: 0, pointHitRadius: 12, tension: .25
+        }]
+      },
+      options: {
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: {
+            label: c => pt1(c.raw) + '% A+/A · ' + nBR(D.iql.dia.leads[c.dataIndex]) + ' leads' } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+          y: { grid: { color: '#eef1f6' }, ticks: { callback: v => pt1(v) + '%' }, beginAtZero: true }
+        }
+      }
+    });
+  }
 
   /* benchmark ELS — ROAS por segmentação */
   new Chart(chBench, {
