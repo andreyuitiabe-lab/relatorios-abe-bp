@@ -171,7 +171,7 @@
     <h2>1 · A lista</h2>
     <p class="section-sub">Deals <code>UPSELL | &lt;plano&gt;→&lt;plano&gt; | …</code> no Pipedrive, criados em lote
       e enviados à Lambda. Todos nascem com owner <strong>wellington.santos</strong> / stage
-      <strong>9. OUTROS</strong> — ver seção 5.</p>
+      <strong>9. OUTROS</strong> — ver seção 6.</p>
     <div class="stats">
       <div class="stat lam"><div class="n" id="stLeads">—</div><div class="l">leads enviados à Lambda</div></div>
       <div class="stat"><div class="n" id="stLotes">—</div><div class="l">lotes de criação de cards</div></div>
@@ -183,9 +183,38 @@
     </div>
   </section>
 
-  <!-- ── 2. DESFECHO ─────────────────────────────────────────────────────── -->
+  <!-- ── 2. CENÁRIO NA GERAÇÃO ───────────────────────────────────────────── -->
   <section>
-    <h2>2 · O que aconteceu com quem comprou</h2>
+    <h2>2 · O cenário no momento da geração dos leads</h2>
+    <p class="section-sub">Estado de cada pessoa <strong>no dia em que entrou na lista</strong>. Metade da base
+      já tinha alguma pendência que deveria tê-la excluído do disparo — é a base da discussão sobre
+      o que deve acontecer na geração das próximas listas.</p>
+    <div class="stats">
+      <div class="stat good"><div class="n" id="cnLimpo">—</div><div class="l">leads "limpos" — sem abordagem, sem lista Lambda, sem compra recente</div></div>
+      <div class="stat bad"><div class="n" id="cnHumano">—</div><div class="l">já em abordagem humana ativa (deal aberto ≤60d ou conversa Zenvia)</div></div>
+      <div class="stat"><div class="n" id="cnLambda">—</div><div class="l">já em OUTRA lista/automação da Lambda (deal AWSALES aberto)</div></div>
+      <div class="stat"><div class="n" id="cnCompra">—</div><div class="l">tinham comprado (qualquer canal) nos 7 dias anteriores</div></div>
+    </div>
+    <div class="card">
+      <p class="label">Composição da base na entrada (corte exclusivo, por prioridade)</p>
+      <canvas id="chCenario" height="80"></canvas>
+      <div class="tablebox" style="margin-top:14px">
+        <table id="tbCenario">
+          <thead><tr><th>Situação na entrada</th><th class="num">Pessoas</th><th class="num">% da base</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="nota">Leitura: <b>não é culpa da Lambda nem dos vendedores</b> — é a geração da lista sem os
+      filtros canônicos. Pessoa em abordagem humana recebe duas conversas concorrentes; pessoa em outra lista
+      Lambda recebe duas conversas <b>da própria IA</b>; comprador recente recebe upsell dias após gastar.
+      "Deal humano zumbi" = deal aberto no Pipe há mais de 60 dias sem conversa ativa (higiene de CRM, não
+      abordagem real). Correções na seção 6.</div>
+  </section>
+
+  <!-- ── 3. DESFECHO ─────────────────────────────────────────────────────── -->
+  <section>
+    <h2>3 · O que aconteceu com quem comprou</h2>
     <p class="section-sub">Cada pessoa classificada pelo melhor desfecho
       (<span class="chip lambda">Lambda</span> → <span class="chip humano">outro vendedor</span> →
       <span class="chip digital">digital</span>). A Lambda é minoria das pessoas e do valor.</p>
@@ -207,9 +236,9 @@
     </div>
   </section>
 
-  <!-- ── 3. VENDAS DA LAMBDA ─────────────────────────────────────────────── -->
+  <!-- ── 4. VENDAS DA LAMBDA ─────────────────────────────────────────────── -->
   <section>
-    <h2>3 · As vendas da própria Lambda (link C0113)</h2>
+    <h2>4 · As vendas da própria Lambda (link C0113)</h2>
     <div class="stats">
       <div class="stat lam"><div class="n" id="stLambdaQt">—</div><div class="l">vendas da Lambda na base</div></div>
       <div class="stat lam"><div class="n" id="stLambdaVl">—</div><div class="l">receita Lambda</div></div>
@@ -230,12 +259,12 @@
     </div>
     <div class="nota warn">⚠️ O funil oficial da campanha está invertido: mostra <b><span id="ntDash">—</span> vendas
       (<span id="ntDashVl">—</span>)</b> que são de outros vendedores/links, penduradas nos deals da campanha por
-      proximidade de data — e <b>nenhuma</b> das vendas reais da Lambda. Causa e correção na seção 5.</div>
+      proximidade de data — e <b>nenhuma</b> das vendas reais da Lambda. Causa e correção na seção 6.</div>
   </section>
 
-  <!-- ── 4. PARA ONDE FOI O RESTO ────────────────────────────────────────── -->
+  <!-- ── 5. PARA ONDE FOI O RESTO ────────────────────────────────────────── -->
   <section>
-    <h2>4 · Para onde foi o resto do dinheiro</h2>
+    <h2>5 · Para onde foi o resto do dinheiro</h2>
     <p class="section-sub">Compras das mesmas pessoas por outros canais, divididas pelo momento:
       <strong>antes</strong> ou <strong>depois</strong> de entrarem na lista da Lambda. O grosso é pré-lista —
       a lista incluiu compradores recentes.</p>
@@ -254,10 +283,16 @@
       Humanos fecham vitalícios de R$ 1,5–5k nas mesmas pessoas em que a Lambda fecha Apoiador/Básico de R$ 120–228.</div>
   </section>
 
-  <!-- ── 5. O QUE TEM QUE SER FEITO ──────────────────────────────────────── -->
+  <!-- ── 6. O QUE TEM QUE SER FEITO ──────────────────────────────────────── -->
   <section>
-    <h2>5 · O que tem que ser feito</h2>
-    <p class="section-sub">Correções para o time de implementação. As três primeiras (em vermelho) são as
+    <h2>6 · O que tem que ser feito</h2>
+    <div class="nota warn" style="margin: 0 0 16px; font-size: 13px;">
+      <b>Pedido prioritário ao time de implementação — owner do deal:</b> criar os deals das listas da Lambda
+      com owner <b>gustavo.koetz</b> e stage <b>10. AWSALES LISTA</b> (correção nº 3 abaixo). É a mudança que faz o
+      funil oficial (<code>dtm_seller_conversion_rate</code>) voltar a medir a Lambda — sem ela, todo
+      acompanhamento desta frente continua dependendo de reconstrução manual por pessoa.
+    </div>
+    <p class="section-sub">Correções completas, em ordem de fluxo. As três primeiras (em vermelho) são as
       essenciais; as duas últimas completam a medição.</p>
     <div class="fixes">
 
@@ -268,8 +303,9 @@
            <b>contato Zenvia em followUp / carteira Mecenas</b> e quem <b>já está em outra lista Lambda</b>
            (AWSALES). Hoje a lista entrega à IA leads que vendedores humanos já estão trabalhando —
            os dois canais se atropelam na conversa com o mesmo cliente.</p>
-        <span class="ev">Evidência: 100% das vendas humanas pós-lista tinham abordagem no meio; casos em
-           carteira Mecenas desde maio/junho; 5 pessoas em duas listas Lambda ao mesmo tempo.</span>
+        <span class="ev">Evidência (seção 2): 1.133 pessoas da base (~39%) já estavam em abordagem humana ativa
+           na entrada; 402 (~14%) já tinham outro deal Lambda aberto (Abandono de Carrinho, Compra Negada,
+           Oportunidade de Venda); 100% das vendas humanas pós-lista tinham abordagem no meio.</span>
       </div>
 
       <div class="fix core">
@@ -279,8 +315,8 @@
            selfcheckout). A maior parte do dinheiro da base foi gasto ANTES de a pessoa entrar na lista —
            a lista foi montada em cima de compradores recentes do Aniversário/Clube do Livro, que dias
            depois receberam oferta de upsell da IA.</p>
-        <span class="ev">Evidência: R$ 140k+ comprados pela base antes da entrada na lista (seção 4),
-           incluindo 53 vitalícios.</span>
+        <span class="ev">Evidência: R$ 140k+ comprados pela base antes da entrada na lista (seção 5),
+           incluindo 53 vitalícios; 321 pessoas (11%) entraram na lista com compra feita há menos de 7 dias (seção 2).</span>
       </div>
 
       <div class="fix core">
@@ -317,7 +353,8 @@
 
 <footer>
   <p>Fontes: <code>staging.int_pipedrive_analytics</code> · <code>masterdata.fct_transactions</code> ·
-     <code>datamart.dtm_seller_conversion_rate</code> · <code>dtm_sales_by_zenvia</code> (bp-datawarehouse).
+     <code>datamart.dtm_seller_conversion_rate</code> · <code>dtm_sales_by_zenvia</code> (bp-datawarehouse) ·
+     <code>conversation_report_bp</code> (lambdalabs-gcp, conversas da IA).
      Venda Lambda = tracking C0113 (regra do Dashboard Lambda). Queries em <code>queries/</code>,
      contexto completo em <code>ANALISE.md</code>. Investigação caso a caso: dossiê interno de 30/jul/2026.</p>
 </footer>
@@ -331,8 +368,8 @@ function tokens() {
   const t = k => s.getPropertyValue(k).trim();
   return {
     lambda: t("--lambda"), humano: t("--humano"), digital: t("--digital"),
-    neutro: t("--neutro-mark"), grid: t("--grid"), ink2: t("--ink-2"),
-    ink3: t("--ink-3"), surface: t("--surface"),
+    venda: t("--venda"), neutro: t("--neutro-mark"), grid: t("--grid"),
+    ink2: t("--ink-2"), ink3: t("--ink-3"), surface: t("--surface"),
   };
 }
 
@@ -388,6 +425,29 @@ function fillStatics(D) {
   const tp = document.querySelector("#tbPlanos tbody");
   D.lambda_planos.forEach(p => tp.insertAdjacentHTML("beforeend",
     `<tr><td>${p.plano}</td><td class="num">${p.qt}</td><td class="num">${BRL(p.vl)}</td></tr>`));
+
+  // 2 · cenário na geração
+  if (D.cenario) {
+    const cn = D.cenario;
+    const pctb = v => Math.round(100 * v / cn.base) + "%";
+    document.getElementById("cnLimpo").textContent = NUM(cn.exclusivo.limpo) + " (" + pctb(cn.exclusivo.limpo) + ")";
+    document.getElementById("cnHumano").textContent = NUM(cn.flags.abordagem_humana_ativa) + " (" + pctb(cn.flags.abordagem_humana_ativa) + ")";
+    document.getElementById("cnLambda").textContent = NUM(cn.flags.outra_lista_lambda) + " (" + pctb(cn.flags.outra_lista_lambda) + ")";
+    document.getElementById("cnCompra").textContent = NUM(cn.flags.comprou_7d_antes) + " (" + pctb(cn.flags.comprou_7d_antes) + ")";
+
+    const tc = document.querySelector("#tbCenario tbody");
+    const linhas = [
+      ["Em abordagem humana ativa (deal ≤60d ou Zenvia)", cn.exclusivo.abordagem_humana],
+      ["Em outra lista/automação da Lambda", cn.exclusivo.outra_lista_lambda],
+      ["Comprou nos 7 dias anteriores (sem os acima)", cn.exclusivo.comprou_7d],
+      ["Deal humano zumbi (aberto há +60d, sem conversa)", cn.exclusivo.deal_zumbi],
+      ["Limpo — apto a receber o disparo", cn.exclusivo.limpo],
+    ];
+    linhas.forEach(([l, v]) => tc.insertAdjacentHTML("beforeend",
+      `<tr><td>${l}</td><td class="num">${NUM(v)}</td><td class="num">${pctb(v)}</td></tr>`));
+    tc.insertAdjacentHTML("beforeend",
+      `<tr><td><b>Base</b></td><td class="num"><b>${NUM(cn.base)}</b></td><td class="num">100%</td></tr>`);
+  }
 }
 
 function renderCharts(D) {
@@ -454,6 +514,40 @@ function renderCharts(D) {
                 y: { beginAtZero: true, grid: gridOpts, ticks: { stepSize: 1 } } }
     }
   }));
+
+  // 2 · cenário — barra única empilhada (corte exclusivo)
+  if (D.cenario) {
+    const ex = D.cenario.exclusivo;
+    const segs = [
+      { label: "Abordagem humana ativa", v: ex.abordagem_humana, cor: C.humano },
+      { label: "Outra lista Lambda", v: ex.outra_lista_lambda, cor: C.lambda },
+      { label: "Comprou ≤7d", v: ex.comprou_7d, cor: C.digital },
+      { label: "Deal zumbi", v: ex.deal_zumbi, cor: C.neutro },
+      { label: "Limpo", v: ex.limpo, cor: C.venda },
+    ];
+    charts.push(new Chart(chCenario, {
+      type: "bar",
+      data: {
+        labels: ["Base na entrada"],
+        datasets: segs.map(s => ({
+          label: s.label, data: [s.v], backgroundColor: s.cor,
+          borderColor: C.surface, borderWidth: 2, stack: "cenario",
+        })),
+      },
+      options: {
+        indexAxis: "y",
+        plugins: {
+          legend: { position: "bottom", labels: { boxWidth: 10, boxHeight: 10, color: C.ink2 } },
+          tooltip: { callbacks: { label: c =>
+            `${c.dataset.label}: ${NUM(c.parsed.x)} (${Math.round(100 * c.parsed.x / D.cenario.base)}%)` } },
+        },
+        scales: {
+          x: { stacked: true, grid: gridOpts, ticks: { callback: v => NUM(v) } },
+          y: { stacked: true, grid: { display: false } },
+        },
+      },
+    }));
+  }
 
   // 4 · timing — "antes" deliberadamente recessivo (neutro), "depois" em destaque
   const T = D.timing;

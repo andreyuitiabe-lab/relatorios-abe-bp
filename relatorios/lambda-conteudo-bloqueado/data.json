@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-07-30T14:39:30",
+  "updated_at": "2026-07-30T16:26:00",
   "periodo_inicio": "2026-07-15",
   "base": {
-    "leads": 2923,
-    "sem_compra": 2572
+    "leads": 2936,
+    "sem_compra": 2577
   },
   "lotes": {
     "labels": [
@@ -18,24 +18,24 @@
       25,
       765,
       100,
-      65
+      78
     ]
   },
   "desfecho": {
+    "digital": {
+      "pessoas": 251,
+      "vendas": 289,
+      "valor": 80665.12
+    },
     "outro_comercial": {
-      "pessoas": 75,
-      "vendas": 88,
-      "valor": 90775.65
+      "pessoas": 79,
+      "vendas": 89,
+      "valor": 91712.85
     },
     "lambda": {
-      "pessoas": 27,
-      "vendas": 27,
-      "valor": 5416.8
-    },
-    "digital": {
-      "pessoas": 249,
-      "vendas": 287,
-      "valor": 77917.12
+      "pessoas": 29,
+      "vendas": 29,
+      "valor": 5776.8
     }
   },
   "lambda_dia": {
@@ -62,10 +62,10 @@
       1,
       3,
       2,
-      1,
+      2,
       3,
       4,
-      2
+      3
     ],
     "vl": [
       240.0,
@@ -76,17 +76,17 @@
       120.0,
       370.8,
       250.8,
-      120.0,
+      240.0,
       1908.0,
       634.8,
-      312.0
+      552.0
     ]
   },
   "lambda_planos": [
     {
       "plano": "Apoiador",
-      "qt": 16,
-      "vl": 1920.0
+      "qt": 17,
+      "vl": 2040.0
     },
     {
       "plano": "Premium GBB Vitalício",
@@ -94,14 +94,14 @@
       "vl": 1668.0
     },
     {
+      "plano": "Premium GBB",
+      "qt": 2,
+      "vl": 718.8
+    },
+    {
       "plano": "Básico",
       "qt": 4,
       "vl": 696.0
-    },
-    {
-      "plano": "Premium GBB",
-      "qt": 1,
-      "vl": 478.8
     },
     {
       "plano": "Bp Economico Combo El Salvador",
@@ -122,36 +122,52 @@
   "timing": {
     "comercial": {
       "antes": {
-        "qt": 66,
-        "vl": 64003.23,
-        "vitalicios": 30
+        "qt": 67,
+        "vl": 64963.23,
+        "vitalicios": 32
       },
       "depois": {
-        "qt": 17,
-        "vl": 25061.22,
+        "qt": 18,
+        "vl": 25169.22,
         "vitalicios": 7
       }
     },
     "digital": {
       "antes": {
-        "qt": 285,
-        "vl": 76477.12,
+        "qt": 284,
+        "vl": 76346.32,
         "vitalicios": 23
       },
       "depois": {
-        "qt": 7,
-        "vl": 3151.2,
-        "vitalicios": 2
+        "qt": 9,
+        "vl": 5899.2,
+        "vitalicios": 4
       }
     }
   },
   "pos_lista": {
-    "total": 17,
-    "com_abordagem_previa": 14,
-    "vl": 25061.22
+    "total": 18,
+    "com_abordagem_previa": 15,
+    "vl": 25169.22
   },
   "dash_hoje": {
-    "qt": 9,
-    "vl": 13207.56
+    "qt": 10,
+    "vl": 13447.56
+  },
+  "cenario": {
+    "base": 2936,
+    "flags": {
+      "abordagem_humana_ativa": 1133,
+      "outra_lista_lambda": 402,
+      "comprou_7d_antes": 321,
+      "deal_humano_zumbi": 265
+    },
+    "exclusivo": {
+      "abordagem_humana": 1133,
+      "outra_lista_lambda": 183,
+      "comprou_7d": 10,
+      "deal_zumbi": 174,
+      "limpo": 1434
+    }
   }
 }
