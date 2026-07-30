@@ -296,8 +296,7 @@
       funil oficial (<code>dtm_seller_conversion_rate</code>) voltar a medir a Lambda — sem ela, todo
       acompanhamento desta frente continua dependendo de reconstrução manual por pessoa.
     </div>
-    <p class="section-sub">Correções completas, em ordem de fluxo. As três primeiras (em vermelho) são as
-      essenciais; as duas últimas completam a medição.</p>
+    <p class="section-sub">Correções para o time de implementação, em ordem de fluxo.</p>
     <div class="fixes">
 
       <div class="fix core">
@@ -333,22 +332,6 @@
            cai no deal da campanha e o funil mede o vendedor errado.</p>
         <span class="ev">Evidência: 0 das vendas Lambda caíram nos deals da campanha; as 9 vendas que o funil
            mostra são de outros vendedores, atribuídas por proximidade de data.</span>
-      </div>
-
-      <div class="fix">
-        <p class="who">Checkout / links</p>
-        <h3>Preencher o vendedor em todo link C0113 (e demais links de campanha)</h3>
-        <p>Os checkouts "(Disparo/IA) c0113" saem com <code>nm_salesman_email</code> vazio (67% das vendas
-           C0113). Sem vendedor na venda, o match por owner é impossível e o modelo cai no desempate por
-           recência. O mesmo vale para links humanos de campanha (c0115, c0117…), que também saem sem vendedor.</p>
-      </div>
-
-      <div class="fix">
-        <p class="who">Automação + checkout</p>
-        <h3>Criar o card quando o lead vai para a Lambda + identificar a campanha no tracking</h3>
-        <p>22 das 25 primeiras vendas ocorreram <b>antes</b> do card existir (cards criados em lote dias após
-           o disparo) — o modelo exige card anterior à venda. E o C0113 é genérico para toda a Lambda: incluir
-           um identificador da lista/campanha no tracking para medir resultado por lista.</p>
       </div>
 
     </div>

@@ -70,8 +70,10 @@ os resultados serem acompanháveis. (MM via Bárbara Olivieri, jul/2026.)
    7 dias.
 3. **Regras de owner/stage**: deals da lista criados com `gustavo.koetz` /
    `10. AWSALES LISTA` para o `dtm_seller_conversion_rate` funcionar.
-4. Preencher vendedor em todo link C0113 (e links de campanha humanos, que têm o mesmo bug).
-5. Criar o card no disparo do lead (não em lote) + identificador de campanha no tracking.
+
+(Itens complementares — vendedor preenchido no checkout C0113 e card criado no disparo +
+id de campanha no tracking — retirados do relatório a pedido do André em 30/jul para focar
+a discussão nos 3 essenciais; seguem documentados na wiki `fluxo-comercial.md`.)
 
 ## Pendências / próximos passos
 
