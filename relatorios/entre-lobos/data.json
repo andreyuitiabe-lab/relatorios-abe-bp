@@ -1,0 +1,151 @@
+{
+  "updated_at": "2026-07-30T13:52:08",
+  "campaign": "ELB26",
+  "sementes": [
+    {
+      "key": "1_compradores_elb22",
+      "label": "Compradores ELB 2022",
+      "n": 18538,
+      "decil": 5.63,
+      "decil7": 41.2,
+      "premium": 53.8,
+      "masc": 74.6,
+      "n_decil7": 6368,
+      "n_premium": 8995
+    },
+    {
+      "key": "2_viewers_elb_todos",
+      "label": "Viewers da série (todos, ≥5min)",
+      "n": 462553,
+      "decil": 5.3,
+      "decil7": 36.6,
+      "premium": 49.8,
+      "masc": 73.1,
+      "n_decil7": 135262,
+      "n_premium": 184280
+    },
+    {
+      "key": "3_viewers_elb_12m",
+      "label": "Viewers últimos 12 meses",
+      "n": 59977,
+      "decil": 5.17,
+      "decil7": 34.2,
+      "premium": 51.6,
+      "masc": 73.6,
+      "n_decil7": 16510,
+      "n_premium": 25257
+    },
+    {
+      "key": "4_viewers_elb_1h_mais",
+      "label": "Viewers ≥1h de watch time",
+      "n": 295941,
+      "decil": 5.33,
+      "decil7": 37.0,
+      "premium": 50.0,
+      "masc": 74.8,
+      "n_decil7": 87972,
+      "n_premium": 120968
+    },
+    {
+      "key": "5_compradores_els",
+      "label": "Compradores ELS",
+      "n": 35143,
+      "decil": 5.47,
+      "decil7": 38.3,
+      "premium": 57.0,
+      "masc": 68.7,
+      "n_decil7": 10841,
+      "n_premium": 16099
+    },
+    {
+      "key": "6_els_x_viewers_elb",
+      "label": "Compradores ELS ∩ viewers ELB",
+      "n": 4826,
+      "decil": 5.46,
+      "decil7": 38.9,
+      "premium": 60.2,
+      "masc": 76.8,
+      "n_decil7": 1516,
+      "n_premium": 2520
+    }
+  ],
+  "leads_dia": {
+    "labels": [
+      "2026-07-14",
+      "2026-07-15",
+      "2026-07-16",
+      "2026-07-17",
+      "2026-07-18",
+      "2026-07-19",
+      "2026-07-20",
+      "2026-07-21",
+      "2026-07-22",
+      "2026-07-23",
+      "2026-07-24",
+      "2026-07-25",
+      "2026-07-26",
+      "2026-07-27",
+      "2026-07-28",
+      "2026-07-29",
+      "2026-07-30"
+    ],
+    "leads": [
+      4,
+      987,
+      2178,
+      1612,
+      1669,
+      2086,
+      2546,
+      3713,
+      6339,
+      6365,
+      4974,
+      5997,
+      6585,
+      3928,
+      13296,
+      11539,
+      8822
+    ]
+  },
+  "total_leads": 82640,
+  "bench_els": [
+    {
+      "nome": "Teste sinal forte",
+      "roas": 2.13,
+      "spend": "R$ 15k",
+      "ref": false
+    },
+    {
+      "nome": "LKL compradores ELS 1%",
+      "roas": 1.9,
+      "spend": "R$ 28k",
+      "ref": false
+    },
+    {
+      "nome": "LKL viewers do doc",
+      "roas": 1.68,
+      "spend": "R$ 53k",
+      "ref": false
+    },
+    {
+      "nome": "Advantage amplo (referência)",
+      "roas": 1.4,
+      "spend": "R$ 4,1M",
+      "ref": true
+    },
+    {
+      "nome": "Remarketing quente (Viu o Doc)",
+      "roas": 1.15,
+      "spend": "R$ 3,6k",
+      "ref": false
+    },
+    {
+      "nome": "LKL 1% genérico",
+      "roas": 0.98,
+      "spend": "R$ 34k",
+      "ref": false
+    }
+  ]
+}
