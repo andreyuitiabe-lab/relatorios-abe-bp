@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lambda · Campanha Conteúdo Bloqueado</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* ── tokens (paleta validada: light 7a5cb8/b07018/3d6fb4 · dark 9673e0/bd831f/5a8fd4) ── */
+    :root {
+      --bg: #f7f6f3;
+      --surface: #ffffff;
+      --ink: #22252b;
+      --ink-2: #5b6069;
+      --ink-3: #8a8f99;
+      --line: #e3e1db;
+      --accent: #1f6f6b;
+      --lambda: #7a5cb8;   --lambda-bg: #efe9f9;
+      --humano: #b07018;   --humano-bg: #faf0dc;
+      --digital: #3d6fb4;  --digital-bg: #e8eff9;
+      --venda: #1f7a3d;    --venda-bg: #e2f2e7;
+      --alerta: #b0403a;   --alerta-bg: #f9e8e6;
+      --neutro-mark: #b9b5ac;
+      --grid: #ecebe6;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #191b1f; --surface: #22252b; --ink: #e8e6e1; --ink-2: #b0b4bc;
+        --ink-3: #7d828c; --line: #33373f; --accent: #5cc0ba;
+        --lambda: #9673e0;  --lambda-bg: #352b4d;
+        --humano: #bd831f;  --humano-bg: #40331b;
+        --digital: #5a8fd4; --digital-bg: #26344a;
+        --venda: #6cc98b;   --venda-bg: #1e3a29;
+        --alerta: #e08079;  --alerta-bg: #46261f;
+        --neutro-mark: #565b64;
+        --grid: #2b2f36;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font: 14.5px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap { max-width: 1020px; margin: 0 auto; padding: 44px 24px 80px; }
+    section { margin-bottom: 56px; }
+
+    /* ── tipografia ── */
+    .eyebrow {
+      font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent); font-weight: 700; margin-bottom: 10px;
+    }
+    h1 {
+      font-family: ui-serif, "Iowan Old Style", Georgia, "Times New Roman", serif;
+      font-size: clamp(25px, 4vw, 34px); line-height: 1.16; font-weight: 600;
+      text-wrap: balance; margin-bottom: 10px;
+    }
+    h2 {
+      font-family: ui-serif, "Iowan Old Style", Georgia, serif;
+      font-size: 21px; font-weight: 600; margin-bottom: 6px;
+    }
+    .sub { color: var(--ink-2); font-size: 13.5px; max-width: 76ch; }
+    .section-sub { color: var(--ink-2); font-size: 13.5px; max-width: 78ch; margin-bottom: 18px; }
+    .section-sub strong, .sub strong { color: var(--ink); }
+    .label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--ink-3); margin-bottom: 12px;
+    }
+    code {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .92em;
+      background: var(--bg); border: 1px solid var(--line);
+      padding: 0 4px; border-radius: 4px;
+    }
+
+    header.top { margin-bottom: 44px; padding-bottom: 26px; border-bottom: 2px solid var(--line); }
+
+    /* ── cards / grid ── */
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 680px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* ── stat tiles ── */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px; }
+    .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+    .stat .n {
+      font-size: 27px; font-weight: 700; line-height: 1.1;
+      font-variant-numeric: tabular-nums; letter-spacing: -.01em;
+    }
+    .stat .l { font-size: 12px; color: var(--ink-2); margin-top: 4px; }
+    .stat.good .n { color: var(--venda); }
+    .stat.bad .n { color: var(--alerta); }
+    .stat.lam .n { color: var(--lambda); }
+
+    /* ── chips por canal ── */
+    .chip {
+      display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; padding: 1px 8px; border-radius: 99px; white-space: nowrap;
+    }
+    .chip.lambda  { color: var(--lambda);  background: var(--lambda-bg); }
+    .chip.humano  { color: var(--humano);  background: var(--humano-bg); }
+    .chip.digital { color: var(--digital); background: var(--digital-bg); }
+
+    /* ── tabelas ── */
+    .tablebox { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      text-align: left; font-weight: 700; color: var(--ink-3); font-size: 11px;
+      text-transform: uppercase; letter-spacing: .06em;
+      border-bottom: 2px solid var(--line); padding: 8px 10px; white-space: nowrap;
+    }
+    td { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    tr:last-child td { border-bottom: none; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    /* ── notas ── */
+    .nota {
+      background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+      border-radius: 8px; padding: 12px 16px; font-size: 12.5px; color: var(--ink-2); margin-top: 16px;
+    }
+    .nota b { color: var(--ink); }
+    .nota.warn { border-left-color: var(--alerta); }
+
+    /* ── correções ── */
+    .fixes { counter-reset: fix; display: grid; gap: 12px; }
+    .fix {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+      padding: 16px 18px 14px 58px; position: relative;
+    }
+    .fix::before {
+      counter-increment: fix; content: counter(fix);
+      position: absolute; left: 16px; top: 15px; width: 28px; height: 28px;
+      border-radius: 8px; background: var(--accent); color: var(--surface);
+      font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center;
+    }
+    .fix.core::before { background: var(--alerta); }
+    .fix h3 { font-size: 15px; font-weight: 700; margin-bottom: 2px; font-family: inherit; }
+    .fix .who {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; color: var(--accent); margin-bottom: 5px;
+    }
+    .fix.core .who { color: var(--alerta); }
+    .fix p { font-size: 13px; color: var(--ink-2); margin-bottom: 5px; max-width: 92ch; }
+    .fix p b { color: var(--ink); }
+    .fix .ev {
+      font-size: 12px; color: var(--ink-3); background: var(--bg);
+      padding: 6px 10px; border-radius: 7px; display: block; margin-top: 3px;
+    }
+
+    footer {
+      margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line);
+      font-size: 12px; color: var(--ink-3); max-width: 92ch;
+    }
+
+    canvas { max-width: 100%; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">Brasil Paralelo · Comercial · Lambda</p>
+  <h1>Campanha Conteúdo Bloqueado — o que aconteceu com os leads</h1>
+  <p class="sub">Leads de upsell (clique em conteúdo bloqueado) conduzidos pela <strong>Lambda</strong>,
+    venda pelo link C0113 · desde <span id="perIni">—</span> · atualizado em <span id="updatedAt">—</span></p>
+</header>
+
+<main>
+
+  <!-- ── 1. A LISTA ──────────────────────────────────────────────────────── -->
+  <section>
+    <h2>1 · A lista</h2>
+    <p class="section-sub">Deals <code>UPSELL | &lt;plano&gt;→&lt;plano&gt; | …</code> no Pipedrive, criados em lote
+      e enviados à Lambda. Todos nascem com owner <strong>wellington.santos</strong> / stage
+      <strong>9. OUTROS</strong> — ver seção 5.</p>
+    <div class="stats">
+      <div class="stat lam"><div class="n" id="stLeads">—</div><div class="l">leads enviados à Lambda</div></div>
+      <div class="stat"><div class="n" id="stLotes">—</div><div class="l">lotes de criação de cards</div></div>
+      <div class="stat"><div class="n" id="stSemCompra">—</div><div class="l">não compraram nada no período</div></div>
+    </div>
+    <div class="card">
+      <p class="label">Cards criados por dia</p>
+      <canvas id="chLotes" height="130"></canvas>
+    </div>
+  </section>
+
+  <!-- ── 2. DESFECHO ─────────────────────────────────────────────────────── -->
+  <section>
+    <h2>2 · O que aconteceu com quem comprou</h2>
+    <p class="section-sub">Cada pessoa classificada pelo melhor desfecho
+      (<span class="chip lambda">Lambda</span> → <span class="chip humano">outro vendedor</span> →
+      <span class="chip digital">digital</span>). A Lambda é minoria das pessoas e do valor.</p>
+    <div class="grid-2">
+      <div class="card">
+        <p class="label">Pessoas por desfecho</p>
+        <canvas id="chDesfecho" height="190"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">Valor comprado por desfecho</p>
+        <canvas id="chDesfechoVl" height="190"></canvas>
+      </div>
+    </div>
+    <div class="card tablebox" style="margin-top:16px">
+      <table id="tbDesfecho">
+        <thead><tr><th>Desfecho</th><th class="num">Pessoas</th><th class="num">Vendas</th><th class="num">Valor</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── 3. VENDAS DA LAMBDA ─────────────────────────────────────────────── -->
+  <section>
+    <h2>3 · As vendas da própria Lambda (link C0113)</h2>
+    <div class="stats">
+      <div class="stat lam"><div class="n" id="stLambdaQt">—</div><div class="l">vendas da Lambda na base</div></div>
+      <div class="stat lam"><div class="n" id="stLambdaVl">—</div><div class="l">receita Lambda</div></div>
+      <div class="stat bad"><div class="n" id="stDashVl">—</div><div class="l">o que o funil (dtm_seller_conversion_rate) mostra hoje — nenhuma é da Lambda</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <p class="label">Vendas Lambda por dia</p>
+        <canvas id="chLambdaDia" height="190"></canvas>
+      </div>
+      <div class="card tablebox">
+        <p class="label">O que a Lambda vendeu</p>
+        <table id="tbPlanos">
+          <thead><tr><th>Plano</th><th class="num">Vendas</th><th class="num">Valor</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="nota warn">⚠️ O funil oficial da campanha está invertido: mostra <b><span id="ntDash">—</span> vendas
+      (<span id="ntDashVl">—</span>)</b> que são de outros vendedores/links, penduradas nos deals da campanha por
+      proximidade de data — e <b>nenhuma</b> das vendas reais da Lambda. Causa e correção na seção 5.</div>
+  </section>
+
+  <!-- ── 4. PARA ONDE FOI O RESTO ────────────────────────────────────────── -->
+  <section>
+    <h2>4 · Para onde foi o resto do dinheiro</h2>
+    <p class="section-sub">Compras das mesmas pessoas por outros canais, divididas pelo momento:
+      <strong>antes</strong> ou <strong>depois</strong> de entrarem na lista da Lambda. O grosso é pré-lista —
+      a lista incluiu compradores recentes.</p>
+    <div class="card">
+      <p class="label">Valor comprado (R$) · canal × momento</p>
+      <canvas id="chTiming" height="170"></canvas>
+    </div>
+    <div class="stats" style="margin-top:18px">
+      <div class="stat"><div class="n" id="stPreLista">—</div><div class="l">comprados ANTES de entrar na lista (comercial + digital)</div></div>
+      <div class="stat"><div class="n" id="stPosCom">—</div><div class="l">comercial humano DEPOIS da lista</div></div>
+      <div class="stat bad"><div class="n" id="stPosPrevia">—</div><div class="l">dessas, de pessoas que JÁ estavam em abordagem antes da lista</div></div>
+    </div>
+    <div class="nota">Investigação caso a caso (30/jul, transcrições Zenvia): <b>100% das vendas humanas pós-lista
+      tiveram vendedor humano na conversa</b> — as sem abordagem anterior foram atendidas entre a lista e a compra
+      (cliente puxou o chat ou outbound de carteira). Não há venda "de link frio" competindo com a Lambda.
+      Humanos fecham vitalícios de R$ 1,5–5k nas mesmas pessoas em que a Lambda fecha Apoiador/Básico de R$ 120–228.</div>
+  </section>
+
+  <!-- ── 5. O QUE TEM QUE SER FEITO ──────────────────────────────────────── -->
+  <section>
+    <h2>5 · O que tem que ser feito</h2>
+    <p class="section-sub">Correções para o time de implementação. As três primeiras (em vermelho) são as
+      essenciais; as duas últimas completam a medição.</p>
+    <div class="fixes">
+
+      <div class="fix core">
+        <p class="who">Geração da lista</p>
+        <h3>Filtrar leads que já estão em abordagem comercial</h3>
+        <p>Antes de enviar a lista à Lambda, excluir quem tem <b>deal aberto</b> no Pipedrive,
+           <b>contato Zenvia em followUp / carteira Mecenas</b> e quem <b>já está em outra lista Lambda</b>
+           (AWSALES). Hoje a lista entrega à IA leads que vendedores humanos já estão trabalhando —
+           os dois canais se atropelam na conversa com o mesmo cliente.</p>
+        <span class="ev">Evidência: 100% das vendas humanas pós-lista tinham abordagem no meio; casos em
+           carteira Mecenas desde maio/junho; 5 pessoas em duas listas Lambda ao mesmo tempo.</span>
+      </div>
+
+      <div class="fix core">
+        <p class="who">Geração da lista</p>
+        <h3>Período de garantia de 7 dias sem compra</h3>
+        <p>Excluir da lista quem comprou <b>em qualquer canal nos últimos 7 dias</b> (comercial ou
+           selfcheckout). A maior parte do dinheiro da base foi gasto ANTES de a pessoa entrar na lista —
+           a lista foi montada em cima de compradores recentes do Aniversário/Clube do Livro, que dias
+           depois receberam oferta de upsell da IA.</p>
+        <span class="ev">Evidência: R$ 140k+ comprados pela base antes da entrada na lista (seção 4),
+           incluindo 53 vitalícios.</span>
+      </div>
+
+      <div class="fix core">
+        <p class="who">Automação Pipedrive</p>
+        <h3>Regras de owner/stage para o funil (dtm_seller_conversion_rate) funcionar</h3>
+        <p>Criar os deals da lista com owner <b>gustavo.koetz</b> (usuário das listas automatizadas) e stage
+           <b>10. AWSALES LISTA</b> — hoje nascem com wellington.santos / 9. OUTROS. O modelo casa venda ↔ deal
+           priorizando <b>owner do deal = vendedor da venda</b>; com owner divergente, a venda da Lambda nunca
+           cai no deal da campanha e o funil mede o vendedor errado.</p>
+        <span class="ev">Evidência: 0 das vendas Lambda caíram nos deals da campanha; as 9 vendas que o funil
+           mostra são de outros vendedores, atribuídas por proximidade de data.</span>
+      </div>
+
+      <div class="fix">
+        <p class="who">Checkout / links</p>
+        <h3>Preencher o vendedor em todo link C0113 (e demais links de campanha)</h3>
+        <p>Os checkouts "(Disparo/IA) c0113" saem com <code>nm_salesman_email</code> vazio (67% das vendas
+           C0113). Sem vendedor na venda, o match por owner é impossível e o modelo cai no desempate por
+           recência. O mesmo vale para links humanos de campanha (c0115, c0117…), que também saem sem vendedor.</p>
+      </div>
+
+      <div class="fix">
+        <p class="who">Automação + checkout</p>
+        <h3>Criar o card quando o lead vai para a Lambda + identificar a campanha no tracking</h3>
+        <p>22 das 25 primeiras vendas ocorreram <b>antes</b> do card existir (cards criados em lote dias após
+           o disparo) — o modelo exige card anterior à venda. E o C0113 é genérico para toda a Lambda: incluir
+           um identificador da lista/campanha no tracking para medir resultado por lista.</p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Fontes: <code>staging.int_pipedrive_analytics</code> · <code>masterdata.fct_transactions</code> ·
+     <code>datamart.dtm_seller_conversion_rate</code> · <code>dtm_sales_by_zenvia</code> (bp-datawarehouse).
+     Venda Lambda = tracking C0113 (regra do Dashboard Lambda). Queries em <code>queries/</code>,
+     contexto completo em <code>ANALISE.md</code>. Investigação caso a caso: dossiê interno de 30/jul/2026.</p>
+</footer>
+
+</div>
+
+<script>
+/* ── tokens → JS (re-lidos a cada render p/ acompanhar o tema) ── */
+function tokens() {
+  const s = getComputedStyle(document.documentElement);
+  const t = k => s.getPropertyValue(k).trim();
+  return {
+    lambda: t("--lambda"), humano: t("--humano"), digital: t("--digital"),
+    neutro: t("--neutro-mark"), grid: t("--grid"), ink2: t("--ink-2"),
+    ink3: t("--ink-3"), surface: t("--surface"),
+  };
+}
+
+const BRL  = v => "R$ " + Number(v).toLocaleString("pt-BR", {maximumFractionDigits: 0});
+const BRLk = v => v >= 1000 ? "R$ " + (v/1000).toLocaleString("pt-BR", {maximumFractionDigits: 1}) + " mil" : BRL(v);
+const NUM  = v => Number(v).toLocaleString("pt-BR");
+const DAY  = d => new Date(d + "T00:00:00").toLocaleDateString("pt-BR", {day: "2-digit", month: "2-digit"});
+
+const FONT = 'ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif';
+Chart.defaults.font.family = FONT;
+Chart.defaults.font.size = 12;
+
+let charts = [];
+
+function fillStatics(D) {
+  document.getElementById("perIni").textContent = new Date(D.periodo_inicio + "T00:00:00").toLocaleDateString("pt-BR");
+  document.getElementById("updatedAt").textContent = new Date(D.updated_at).toLocaleString("pt-BR");
+  document.getElementById("stLeads").textContent = NUM(D.base.leads);
+  document.getElementById("stLotes").textContent = D.lotes.labels.length;
+  document.getElementById("stSemCompra").textContent =
+    NUM(D.base.sem_compra) + " (" + Math.round(100 * D.base.sem_compra / D.base.leads) + "%)";
+
+  const lqt = D.desfecho.lambda ? D.desfecho.lambda.vendas : 0;
+  const lvl = D.desfecho.lambda ? D.desfecho.lambda.valor : 0;
+  document.getElementById("stLambdaQt").textContent = NUM(lqt);
+  document.getElementById("stLambdaVl").textContent = BRLk(lvl);
+  document.getElementById("stDashVl").textContent = BRLk(D.dash_hoje.vl);
+  document.getElementById("ntDash").textContent = NUM(D.dash_hoje.qt);
+  document.getElementById("ntDashVl").textContent = BRL(D.dash_hoje.vl);
+
+  const T = D.timing;
+  document.getElementById("stPreLista").textContent = BRLk(T.comercial.antes.vl + T.digital.antes.vl);
+  document.getElementById("stPosCom").textContent = NUM(D.pos_lista.total) + " vendas · " + BRLk(D.pos_lista.vl);
+  document.getElementById("stPosPrevia").textContent = NUM(D.pos_lista.com_abordagem_previa) + " de " + NUM(D.pos_lista.total);
+
+  const ordem = ["lambda", "outro_comercial", "digital"];
+  const nomes = {
+    lambda: '<span class="chip lambda">Lambda</span> comprou via Lambda (C0113)',
+    outro_comercial: '<span class="chip humano">humano</span> comprou com outro vendedor/link',
+    digital: '<span class="chip digital">digital</span> comprou selfcheckout/digital',
+  };
+  const tb = document.querySelector("#tbDesfecho tbody");
+  ordem.forEach(k => {
+    const d = D.desfecho[k] || {pessoas: 0, vendas: 0, valor: 0};
+    tb.insertAdjacentHTML("beforeend",
+      `<tr><td>${nomes[k]}</td><td class="num">${NUM(d.pessoas)}</td>
+       <td class="num">${NUM(d.vendas)}</td><td class="num">${BRL(d.valor)}</td></tr>`);
+  });
+  tb.insertAdjacentHTML("beforeend",
+    `<tr><td>não comprou nada no período</td><td class="num">${NUM(D.base.sem_compra)}</td>
+     <td class="num">—</td><td class="num">—</td></tr>`);
+
+  const tp = document.querySelector("#tbPlanos tbody");
+  D.lambda_planos.forEach(p => tp.insertAdjacentHTML("beforeend",
+    `<tr><td>${p.plano}</td><td class="num">${p.qt}</td><td class="num">${BRL(p.vl)}</td></tr>`));
+}
+
+function renderCharts(D) {
+  charts.forEach(c => c.destroy());
+  charts = [];
+  const C = tokens();
+  Chart.defaults.color = C.ink3;
+
+  const gridOpts = { color: C.grid, drawTicks: false };
+  const bar = { borderRadius: 4, borderSkipped: "start", maxBarThickness: 42 };
+
+  // 1 · lotes (série única — entidade lista/Lambda)
+  charts.push(new Chart(chLotes, {
+    type: "bar",
+    data: { labels: D.lotes.labels.map(DAY),
+            datasets: [{ data: D.lotes.qt, backgroundColor: C.lambda, ...bar }] },
+    options: {
+      plugins: { legend: { display: false },
+                 tooltip: { callbacks: { label: c => NUM(c.parsed.y) + " cards" } } },
+      scales: { x: { grid: { display: false } }, y: { beginAtZero: true, grid: gridOpts } }
+    }
+  }));
+
+  // 2 · desfecho — cor segue a entidade (canal), rótulo no eixo
+  const ordem = ["lambda", "outro_comercial", "digital"];
+  const rotulos = ["via Lambda (C0113)", "outro vendedor/link", "selfcheckout/digital"];
+  const cores = [C.lambda, C.humano, C.digital];
+  const dsf = ordem.map(k => D.desfecho[k] || {pessoas: 0, valor: 0});
+
+  charts.push(new Chart(chDesfecho, {
+    type: "bar",
+    data: { labels: rotulos,
+            datasets: [{ data: dsf.map(d => d.pessoas), backgroundColor: cores, ...bar }] },
+    options: {
+      indexAxis: "y",
+      plugins: { legend: { display: false },
+                 tooltip: { callbacks: { label: c => NUM(c.parsed.x) + " pessoas" } } },
+      scales: { x: { beginAtZero: true, grid: gridOpts }, y: { grid: { display: false } } }
+    }
+  }));
+  charts.push(new Chart(chDesfechoVl, {
+    type: "bar",
+    data: { labels: rotulos,
+            datasets: [{ data: dsf.map(d => d.valor), backgroundColor: cores, ...bar }] },
+    options: {
+      indexAxis: "y",
+      plugins: { legend: { display: false },
+                 tooltip: { callbacks: { label: c => BRL(c.parsed.x) } } },
+      scales: { x: { beginAtZero: true, grid: gridOpts, ticks: { callback: v => BRLk(v) } },
+                y: { grid: { display: false } } }
+    }
+  }));
+
+  // 3 · lambda por dia (série única — entidade Lambda)
+  charts.push(new Chart(chLambdaDia, {
+    type: "bar",
+    data: { labels: D.lambda_dia.labels.map(DAY),
+            datasets: [{ data: D.lambda_dia.qt, backgroundColor: C.lambda, ...bar }] },
+    options: {
+      plugins: { legend: { display: false },
+                 tooltip: { callbacks: {
+                   label: c => NUM(c.parsed.y) + " vendas · " + BRL(D.lambda_dia.vl[c.dataIndex]) } } },
+      scales: { x: { grid: { display: false } },
+                y: { beginAtZero: true, grid: gridOpts, ticks: { stepSize: 1 } } }
+    }
+  }));
+
+  // 4 · timing — "antes" deliberadamente recessivo (neutro), "depois" em destaque
+  const T = D.timing;
+  charts.push(new Chart(chTiming, {
+    type: "bar",
+    data: {
+      labels: ["Comercial humano", "Selfcheckout / digital"],
+      datasets: [
+        { label: "Antes de entrar na lista", data: [T.comercial.antes.vl, T.digital.antes.vl],
+          backgroundColor: C.neutro, ...bar },
+        { label: "Depois de entrar na lista", data: [T.comercial.depois.vl, T.digital.depois.vl],
+          backgroundColor: C.lambda, ...bar },
+      ]
+    },
+    options: {
+      plugins: { legend: { position: "top", align: "end", labels: { boxWidth: 10, boxHeight: 10, color: C.ink2 } },
+                 tooltip: { callbacks: { label: c => c.dataset.label + ": " + BRL(c.parsed.y) } } },
+      scales: { x: { grid: { display: false } },
+                y: { beginAtZero: true, grid: gridOpts, ticks: { callback: v => BRLk(v) } } }
+    }
+  }));
+}
+
+fetch("./data.json")
+  .then(r => r.json())
+  .then(D => {
+    fillStatics(D);
+    renderCharts(D);
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => renderCharts(D));
+  })
+  .catch(e => { document.body.insertAdjacentHTML("afterbegin",
+    `<p style="color:#b0403a;padding:16px">Erro ao carregar data.json: ${e}</p>`); });
+</script>
+</body>
+</html>
