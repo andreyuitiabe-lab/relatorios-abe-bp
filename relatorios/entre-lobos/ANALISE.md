@@ -93,6 +93,29 @@ viewers por produção (série principal 441k / Parte I-2023 30,6k / entrevistas
 - Viewers Parte I (2023): cobertura de dados ~55% → audiência de fora (janela para leads),
   perfil ≈ funil de lead.
 
+## Mergulho demográfico fino (31/07 — idade, gênero, geo, profissão, pesquisa)
+
+Base: `bp-staging.dbt_abe.tb_elb26_segmentos` (segmento × email, materializada dos 9 segmentos —
+recriar rodando o CTE de `elb26_perfil_socio_expandido.sql`). Cortes ad-hoc, não versionados como .sql.
+
+- **Idade mediana**: compradores/viewers 47–50; conversos ELB24 55; leads A+/A **60** (472 com 65+
+  vs 40 com 25–34 entre quem informa).
+- **Gênero — conflito entre fontes no A+/A**: declarado (`nm_gender`, n=2,9k) 83,9% masc vs
+  inferido por nome 56,5%. O declarado é enviesado na base toda (610k M vs 113k F declarados) —
+  usar o inferido como estimador; registrar o conflito.
+- **Profissões** (cobertura ~13%): compradores ELB22 = policial militar 5,5% + militar 4,6% (o
+  tema atrai o próprio público de segurança); ELS = empresário 8,5%; funil de lead (conversos +
+  A+/A) = aposentado/a no topo (13,6–15%). Superfãs (entrevistas) = policial militar 4,9%.
+- **Geo**: distribuições parecidas (SP 22–30%). Desvios: conversos ELB24 e A+/A over-index RJ
+  (~21%/15,4% vs 12,6% dos viewers); compradores ELS under-index RJ (8,5%) e over-index Sul (22,3%).
+- **Pesquisa ELB26 (4 perguntas, ~50% cobertura) — A+/A vs B/C/D**: ⚠️ as 4 perguntas alimentam
+  o IQL, então diferenças são parcialmente por construção. Retrato do lead A+/A: **73% conhece a
+  BP há 1+ ano** (vs 67% de "primeiro contato" no B/C/D — a mídia capta novos, mas o lead
+  qualificado é fã antigo se cadastrando); 87% "profundamente incomodado" com mídia tradicional;
+  31,5% assina streaming (vs 17%); renda declarada R$5k+ = 33% de quem informa (vs 11% no B/C/D —
+  **contradiz o proxy por CEP**: decil mede o bairro, não a pessoa; aposentado de renda ok em
+  bairro médio).
+
 ## Arquitetura [VENDA] revisada (agente growth, pós-correção de benchmark)
 
 Split de referência (R$4M): **Advantage 60%** · **"sinal forte" replicado 15%** (Advantage+ com
