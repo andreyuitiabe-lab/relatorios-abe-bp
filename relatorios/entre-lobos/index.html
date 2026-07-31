@@ -107,6 +107,32 @@
   .legend .sw { display: inline-block; width: 11px; height: 11px; border-radius: 3px;
     margin-right: 5px; vertical-align: -1px; }
 
+  /* ── tabela socio ── */
+  .socio { font-size: 12px; }
+  .socio th, .socio td { padding: 5px 8px; }
+  .socio thead tr.blk th {
+    font-size: 9.5px; color: var(--soft); text-align: center;
+    border-bottom: none; padding-bottom: 0; letter-spacing: .08em;
+  }
+  .socio th:nth-child(3), .socio td:nth-child(3),
+  .socio th:nth-child(6), .socio td:nth-child(6),
+  .socio th:nth-child(9), .socio td:nth-child(9) { border-left: 1px solid var(--grid); }
+  .socio thead tr.blk th[colspan] { border-left: 1px solid var(--grid); }
+  .socio tr.grp td {
+    padding: 10px 8px 4px; border-bottom: 1px solid var(--line); border-left: none;
+    font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  }
+  .socio tr.grp .gdot { display: inline-block; width: 8px; height: 8px;
+    border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+  .socio td.seg { box-shadow: inset 3px 0 0 var(--gc); font-weight: 600; }
+  .socio td.dim { color: var(--muted); }
+  .socio tbody tr:not(.grp):hover td { background-color: var(--grid); }
+  @media (max-width: 680px) {
+    .socio th:first-child, .socio td:first-child {
+      position: sticky; left: 0; background: var(--card); z-index: 1;
+    }
+  }
+
   #tip {
     position: fixed; pointer-events: none; z-index: 10; display: none;
     background: var(--tipbg); color: var(--tipink); font-size: 11.5px; font-weight: 600;
@@ -235,10 +261,21 @@
   </div>
   <div class="card tblwrap" style="margin-top:14px">
     <p class="chart-title">Todas as dimensões</p>
-    <table>
-      <thead><tr><th>Semente</th><th class="num">N</th><th class="num">Decil</th><th class="num">Renda p.c. med.</th>
-        <th class="num">% black</th><th class="num">% masc.</th><th class="num">Idade média</th>
-        <th class="num">% 60+</th><th class="num">% capital</th><th class="num">% Sudeste</th><th class="num">% Sul</th></tr></thead>
+    <table class="socio">
+      <thead>
+        <tr class="blk">
+          <th></th><th></th>
+          <th colspan="3">Poder de compra</th>
+          <th colspan="3">Demografia</th>
+          <th colspan="3">Geografia</th>
+        </tr>
+        <tr>
+          <th>Segmento</th><th class="num">N</th>
+          <th class="num">Decil</th><th class="num">Renda med. (R$)</th><th class="num">% black</th>
+          <th class="num">% masc.</th><th class="num">Idade méd.</th><th class="num">% 60+</th>
+          <th class="num">% capital</th><th class="num">% SE</th><th class="num">% Sul</th>
+        </tr>
+      </thead>
       <tbody id="tbSocio"></tbody>
     </table>
   </div>
@@ -591,12 +628,49 @@ function render() {
     { k: 'pct_basico', label: 'Básico/débito' }, { k: 'pct_gold', label: 'Gold' },
     { k: 'pct_plat_amex', label: 'Platinum/Amex' }, { k: 'pct_black', label: 'Black' }
   ], RAMP, short);
-  document.getElementById('tbSocio').innerHTML = P.map(r =>
-    `<tr><td>${r.label}</td><td class="num">${nBR(r.n)}</td><td class="num">${p2(r.decil_medio)}</td>
-     <td class="num">R$ ${nBR(Math.round(r.renda_pc_mediana))}</td><td class="num ${r.pct_black >= 30 ? 'hl' : ''}">${p1(r.pct_black)}%</td>
-     <td class="num">${p1(r.pct_masc)}%</td><td class="num ${r.idade_media >= 55 ? 'hl' : ''}">${p1(r.idade_media)}</td>
-     <td class="num ${r.pct_60_mais >= 38 ? 'hl' : ''}">${p1(r.pct_60_mais)}%</td><td class="num">${p1(r.pct_capital)}%</td>
-     <td class="num">${p1(r.pct_sudeste)}%</td><td class="num">${p1(r.pct_sul)}%</td></tr>`).join('');
+  /* tabela socio — heat por coluna (min–max, teto 14% de --ink); geografia com domínio fixo */
+  const COLS = [
+    { k: 'decil_medio',      fmt: p2 },
+    { k: 'renda_pc_mediana', fmt: v => nBR(Math.round(v)) },
+    { k: 'pct_black',        fmt: v => p1(v) + '%' },
+    { k: 'pct_masc',         fmt: v => p1(v) + '%' },
+    { k: 'idade_media',      fmt: p1 },
+    { k: 'pct_60_mais',      fmt: v => p1(v) + '%' },
+    { k: 'pct_capital',      fmt: v => p1(v) + '%', dom: [40, 60] },
+    { k: 'pct_sudeste',      fmt: v => p1(v) + '%', dom: [40, 60] },
+    { k: 'pct_sul',          fmt: v => p1(v) + '%', dom: [40, 60] },
+  ];
+  COLS.forEach(c => {
+    if (!c.dom) {
+      const vs = P.map(r => r[c.k]);
+      c.dom = [Math.min(...vs), Math.max(...vs)];
+    }
+  });
+  const heat = (v, [a, b]) => {
+    const t = Math.max(0, Math.min(1, b > a ? (v - a) / (b - a) : 0));
+    const pct = (t * 14).toFixed(1);
+    return `background-image:linear-gradient(0deg,
+      color-mix(in srgb, var(--ink) ${pct}%, transparent) 0 0,
+      color-mix(in srgb, var(--ink) ${pct}%, transparent))`;
+  };
+  const GRUPOS = [
+    { id: 'c', label: 'Compradores de campanha' },
+    { id: 'v', label: 'Viewers por produção' },
+    { id: 'f', label: 'Funil de lead' },
+  ];
+  document.getElementById('tbSocio').innerHTML = GRUPOS.map(g => {
+    const head = `<tr class="grp"><td colspan="11" style="color:${GC[g.id]}">
+      <span class="gdot" style="background:${GC[g.id]}"></span>${g.label}</td></tr>`;
+    const rows = P.filter(r => r.grupo === g.id).map(r =>
+      `<tr>
+        <td class="seg" style="--gc:${GC[g.id]}" title="${r.label}">${short(r)}</td>
+        <td class="num dim">${nBR(r.n)}</td>
+        ${COLS.map(c =>
+          `<td class="num" style="${heat(r[c.k], c.dom)}">${c.fmt(r[c.k])}</td>`
+        ).join('')}
+      </tr>`).join('');
+    return head + rows;
+  }).join('');
 }
 
 /* carregar data.json — NUNCA colocar dados direto no HTML */
