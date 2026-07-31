@@ -59,18 +59,19 @@ Quem está comprando na BP10, por produto: membros novos, ex-membros ou ativos? 
 
 - **Atribuição**: replicada a regra do dashboard de campanhas (UTM `bp10`/`vit`, tracking `BP10`, caminhos `anos`/`aniversario`/`10`), **com correção**: `10` só como segmento de caminho. A regra original (contains) casa com o tier `[10r]` (Apoiador R$10) e infla ~8k+ vendas de outros funis (combos ELS, EVG, CDL, `[10r] seja-membro`). ⚠️ Provável bug no dashboard — reportar.
 - **Janela**: `dt_ordered_at >= 2026-06-11` (início do aquecimento), approved, sem renovações.
-- **Classificação por email** (1ª compra BP10 da pessoa, todas as contas do email via `dim_contact`):
-  - *Novo* = nenhuma tx aprovada antes da 1ª compra BP10
-  - *Membro ativo* = assinatura ativa (`active`/`wo renewal`, paid, vigente na data) OU vitalício prévio
-  - *Ex-membro* = tinha histórico mas nada ativo
+- **Classificação por email** — padrão canônico de `queries-referencia.md` §"status do membro no momento da compra" (join `dim_user` → `dim_subscriptions`, operador `>` estrito porque o checkout BP10 vende assinatura junto):
+  - *Membro ativo* = assinatura paga iniciada ANTES da compra e cobrindo a data, ou vitalício prévio (`nm_subscription_recurrence = 'vitalício'`)
+  - *Ex-membro* = teve assinatura iniciada antes, nenhuma cobrindo a data
+  - *Não era membro* = nunca teve assinatura paga
+  - ⚠️ **Correção (31/07 tarde):** a 1ª versão usava status atual + `dt_started_at <= compra` — a assinatura criada pelo próprio checkout contava como "ativo" e "novo" era qualquer pessoa sem tx prévia. Isso subestimava ex-membros para ~1%; o correto é **24%**.
 - **Leads**: `dtm_analytics_lead_conversion` por email; tag BP10 vs outras tags com cadastro anterior à compra.
 
 ## Achados principais
 
 - **Cohort: 3.481 compradores, ~R$3,02M** (11/06→30/07). Vitalício = 36% dos compradores e **69% da receita** (R$2,06M).
-- **Perfil por produto (novo / ativo / ex)**: Vitalício 32/66/2 · Mecenas 5/95/0 · Clube do Livro 10/89/0 · Assinaturas 58/42/<1.
-- **Ex-membros ≈ 1% do cohort** (~30 pessoas) — a campanha não está reativando churned; converte base ativa (high-ticket) + gente nova (assinaturas de entrada).
-- **Vitalício Black é o mais "base"**: 75% ativos, ticket R$3,7k. Premium (R$958k) e Básico (R$573k) Vit têm ~34% de novos — vitalício de entrada está trazendo gente de fora.
+- **Status na compra (não era / ativo / ex)**: cohort inteiro **41 / 35 / 24**. Por produto: Vitalício 30/48/22 · Mecenas 5/95/0 · Clube do Livro 10/75/15 · Assinaturas 55/21/25.
+- **Ex-membros = 24% do cohort (838 pessoas)** — a campanha reativa churned de verdade. Destaques: Assinatura Premium **36% ex**, Vitalício Básico 26%, Vitalício Premium 23%. Mecenas e Black Vit não reativam (0–6%).
+- **Vitalício Black é o mais "base"**: 86% ativos, ticket R$3,7k, só 8% nunca-membros. Premium (R$958k) e Básico (R$573k) Vit têm ~32–34% de nunca-membros + ~1/4 de ex — porta de aquisição E de reativação.
 - **Leads**: 40% dos compradores nunca foram lead de nenhuma campanha (Vitalício: **53%** — venda direta via CRM/base, coerente com `[VIT]`). Só 24% se cadastraram na LP da BP10.
 - **Cadastros prévios pulverizados**: lp-principal (6,9%), VIT (5,9%), EVG (5,8%), TLR (5,5%), RBP (4,9%), BMA (4,7%) — nenhuma campanha domina a origem.
 - **Socioeconômico (vs base ativa)**: demografia idêntica (masc 61,2/60,7 · região igual · idade madura, +2pp em 65+); o que distingue é poder de compra — decil 7+ 45,9% vs 42,5%, cartão premium 63,1% vs 57,2%, black 36,7% vs 30,3%.
