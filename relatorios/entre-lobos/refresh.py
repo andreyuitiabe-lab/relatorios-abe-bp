@@ -36,6 +36,26 @@ def ii(v) -> int:
 
 # ─── queries ─────────────────────────────────────────────────────────────────
 Q_SEMENTES = (Path(__file__).parent / "queries" / "elb26_sementes_lookalike.sql").read_text()
+Q_SOCIO = (Path(__file__).parent / "queries" / "elb26_perfil_socio_expandido.sql").read_text()
+
+SOCIO_LABELS = {
+    "1_compradores_elb22":       "Compradores ELB 2022",
+    "2_compradores_elb24":       "Compradores ELB 2024",
+    "3_conversos_leads_elb24":   "Conversos de leads ELB24",
+    "4_viewers_serie_principal": "Viewers série principal",
+    "5_viewers_parte1_2023":     "Viewers Parte I (2023)",
+    "6_viewers_entrevistas":     "Viewers entrevistas (superfãs)",
+    "7_viewers_producao_2026":   "Viewers produção 2026",
+    "8_compradores_els":         "Compradores ELS",
+    "9_leads_aa_elb26":          "Leads A+/A ELB26 (IQL)",
+}
+# grupo de cada segmento: c = comprador de campanha, v = viewer, f = funil de lead
+SOCIO_GRUPOS = {
+    "1_compradores_elb22": "c", "2_compradores_elb24": "c", "8_compradores_els": "c",
+    "4_viewers_serie_principal": "v", "5_viewers_parte1_2023": "v",
+    "6_viewers_entrevistas": "v", "7_viewers_producao_2026": "v",
+    "3_conversos_leads_elb24": "f", "9_leads_aa_elb26": "f",
+}
 
 Q_LEADS_DIA = f"""
 SELECT DATE(ts_registered_at) AS dia, COUNT(*) AS leads
@@ -75,15 +95,17 @@ WHERE nm_tag = 'ELB26'
 GROUP BY 1 ORDER BY 1
 """
 
-# Benchmark fixo: testes de segmentação da fase [VENDA] do ELS (20/05–17/07/2026).
-# Fonte: els-analise.md — atribuição pixel Meta (facebook_ads_funnel), não o modelo interno.
+# Benchmark fixo: testes de segmentação da fase [VENDA] do ELS, comparados com o Advantage
+# NA MESMA JANELA de spend do teste (+7d de cauda) — correção de 30/07 (ver els-analise.md).
+# Os testes foram rajadas de 2–13 dias numa curva que decai 4,8→1,6; comparar com o agregado
+# (1,40) era injusto. Atribuição pixel Meta (facebook_ads_funnel), não o modelo interno.
 BENCH_ELS = [
-    {"nome": "Teste sinal forte",            "roas": 2.13, "spend": "R$ 15k",  "ref": False},
-    {"nome": "LKL compradores ELS 1%",       "roas": 1.90, "spend": "R$ 28k",  "ref": False},
-    {"nome": "LKL viewers do doc",           "roas": 1.68, "spend": "R$ 53k",  "ref": False},
-    {"nome": "Advantage amplo (referência)", "roas": 1.40, "spend": "R$ 4,1M", "ref": True},
-    {"nome": "Remarketing quente (Viu o Doc)","roas": 1.15, "spend": "R$ 3,6k","ref": False},
-    {"nome": "LKL 1% genérico",              "roas": 0.98, "spend": "R$ 34k",  "ref": False},
+    {"nome": "Carrinho abandonado",     "janela": "21–31/05", "spend": "R$ 1,5k",  "roas": 2.72, "adv": 1.52, "nota": "n=13, anedótico"},
+    {"nome": "Sinal forte",             "janela": "21–29/05", "spend": "R$ 15k",   "roas": 1.98, "adv": 1.59, "nota": "+25%"},
+    {"nome": "LKL compradores ELS",     "janela": "29–31/05", "spend": "R$ 27,5k", "roas": 1.64, "adv": 1.34, "nota": "+22%"},
+    {"nome": "LKL 1% genérico",         "janela": "08–20/06", "spend": "R$ 34,5k", "roas": 0.97, "adv": 1.15, "nota": "−16%"},
+    {"nome": "LKL viewers do doc",      "janela": "03–09/06", "spend": "R$ 52,8k", "roas": 0.91, "adv": 1.05, "nota": "−13% — o 1,68 antigo era outlier Comercial de R$40k"},
+    {"nome": "Remarketing Viu o Doc",   "janela": "29–30/05", "spend": "R$ 2,1k",  "roas": 0.0,  "adv": 1.38, "nota": "zero vendas"},
 ]
 
 # ─── build ───────────────────────────────────────────────────────────────────
@@ -106,6 +128,23 @@ def build() -> dict:
             "n_decil7": ii(r["n_decil7mais"]),
             "n_premium": ii(r["n_cartao_premium"]),
         })
+
+    print("  perfil socioeconômico completo...", flush=True)
+    socio_rows = {r["segmento"]: r for r in bq(Q_SOCIO)}
+    FLOAT_KEYS = ["decil_medio", "pct_decil7", "renda_pc_mediana", "cob_renda",
+                  "pct_black", "pct_plat_amex", "pct_gold", "pct_basico", "cob_cartao",
+                  "pct_masc", "idade_media", "pct_14_29", "pct_30_44", "pct_45_59",
+                  "pct_60_mais", "cob_idade", "pct_sudeste", "pct_sul", "pct_nordeste",
+                  "pct_centrooeste", "pct_norte", "pct_capital", "pct_cid_grande",
+                  "pct_cid_pequena", "cob_geo"]
+    perfil_socio = []
+    for key, label in SOCIO_LABELS.items():
+        r = socio_rows.get(key)
+        if not r:
+            continue
+        perfil_socio.append({"key": key, "label": label, "grupo": SOCIO_GRUPOS[key],
+                             "n": ii(r["n"]),
+                             **{k: fi(r[k]) for k in FLOAT_KEYS if k in r}})
 
     print("  leads ELB26 por dia...", flush=True)
     leads_rows = bq(Q_LEADS_DIA)
@@ -132,6 +171,7 @@ def build() -> dict:
         },
         "total_leads": sum(ii(r["leads"]) for r in leads_rows),
         "bench_els": BENCH_ELS,
+        "perfil_socio": perfil_socio,
         "iql": {
             "updated_ref": max((str(r["dia"]) for r in iql_dia), default=None),
             "total_escorados": total_iql,

@@ -56,6 +56,7 @@
     .t-g    { background: #d1fae5; color: #065f46; }
     .t-r    { background: #fee2e2; color: #991b1b; }
     .t-n    { background: #f1f5f9; color: #475569; }
+    .tblwrap { overflow-x: auto; }
     .nota   { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px;
               padding: 12px 16px; font-size: 12.5px; color: var(--muted); margin-top: 16px; }
     .rec    { border-left: 3px solid var(--blue); padding-left: 16px; margin-bottom: 16px; }
@@ -141,16 +142,18 @@
 
   <!-- ── 2. Por que semente importa ──────────────────────────────────────── -->
   <section>
-    <h2>O que o ELS ensinou: a semente decide o ROAS</h2>
-    <p class="sub" style="margin-bottom:16px">Testes de segmentação na fase de venda do ELS (20/05–17/07/2026).
-    Sementes específicas da campanha bateram o Advantage amplo; a semente genérica ficou abaixo de 1.</p>
+    <h2>O que o ELS ensinou: a semente decide o ROAS (comparação na mesma janela)</h2>
+    <p class="sub" style="margin-bottom:16px">Correção de 30/07: os testes foram rajadas de 2–13 dias em momentos
+    diferentes de uma curva que decai de ~4,8 para ~1,6 — cada teste agora é comparado com o Advantage
+    <b>na mesma janela de spend</b> (+7d de cauda). Prêmio real das sementes boas: +20–25%.</p>
     <div class="card">
-      <p class="label">ROAS por segmentação testada no ELS · barra cinza = referência Advantage</p>
-      <canvas id="chBench" height="200"></canvas>
+      <p class="label">ROAS do teste (azul) vs Advantage na mesma janela (cinza)</p>
+      <canvas id="chBench" height="240"></canvas>
     </div>
-    <div class="nota">⚠ Atribuição via pixel Meta (facebook_ads_funnel), não o modelo interno. Spend dos testes foi
-    marginal (R$ 15–53k cada vs R$ 4,1M do Advantage) — ROAS indicativo, nenhum teste foi escalado.
-    O remarketing "Viu o Doc" vendeu zero: 96% dos viewers assistem <em>depois</em> de comprar.</div>
+    <div class="nota">⚠ O LKL de viewers (1,68 na versão anterior deste relatório) na verdade <b>perdeu</b> do
+    Advantage na própria janela — o número era inflado por uma única venda Comercial de R$ 40k atribuída 12 dias
+    após o fim do spend. Atribuição via pixel Meta; janelas curtas (13–253 vendas por teste) — tratar como
+    direcional. O remarketing "Viu o Doc" vendeu zero: 96% dos viewers assistem <em>depois</em> de comprar.</div>
   </section>
 
   <!-- ── 3. Sementes candidatas ──────────────────────────────────────────── -->
@@ -176,35 +179,86 @@
     probabilidade de conversão (status, histórico, pesquisa), não por renda; é semente de comportamento, não de poder aquisitivo.</div>
   </section>
 
+  <!-- ── 3b. Perfil socioeconômico completo ──────────────────────────────── -->
+  <section>
+    <h2>Perfil socioeconômico — todas as gerações de Entre Lobos</h2>
+    <p class="sub" style="margin-bottom:16px">Compradores de 2022/2024/ELS, viewers por produção e o funil de lead
+    (conversos ELB24 + leads A+/A), em todas as dimensões do warehouse. Dois padrões: <b>cartão black separa
+    compradores (31–34%) de viewers (19–27%)</b> — decil não separa; e <b>o funil de lead envelhece e empobrece
+    quem converte</b> (55–59 anos, decil 4,6–5,1) — confirmado por conversão real (ELB24) e por score (IQL).</p>
+    <div class="grid-iql">
+      <div class="card">
+        <p class="label">Composição etária (entre quem informa nascimento)</p>
+        <canvas id="chIdade" height="300"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">Hierarquia de cartão de crédito (nível máximo já usado)</p>
+        <canvas id="chCartao" height="300"></canvas>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <p class="label">Todas as dimensões</p>
+      <div class="tblwrap">
+        <table>
+          <thead><tr>
+            <th>Semente</th><th class="num">N</th><th class="num">Decil</th><th class="num">% decil 7+</th>
+            <th class="num">Renda p.c. mediana</th><th class="num">% black</th><th class="num">% masc.</th>
+            <th class="num">Idade média</th><th class="num">% 60+</th><th class="num">% capital</th>
+            <th class="num">% Sudeste</th><th class="num">% Sul</th>
+          </tr></thead>
+          <tbody id="tbSocio"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="nota">⚠ Coberturas variam por dimensão e semente: renda 79–83% (leads A+/A: <b>39%</b>; viewers
+    Parte I: 57% — audiência que veio de fora, janela para leads), cartão 80–90% (A+/A: 36%), idade 9–40%
+    (A+/A: <b>8,5%</b> — quem informa nascimento é amostra enviesada; o padrão 60+ é direcional, mas confirmado
+    pelos conversos reais do ELB24). Percentuais sobre quem tem o dado. Renda per capita = IBGE por CEP, não renda
+    declarada. Parte do gap de %black pode ser viés de cobertura — comprador sempre tem transação registrada.</div>
+  </section>
+
   <!-- ── 4. Recomendação ─────────────────────────────────────────────────── -->
   <section>
-    <h2>Recomendação para a fase [VENDA]</h2>
+    <h2>Arquitetura recomendada para a fase [VENDA] <span class="tag t-n" style="vertical-align:4px">revisada 31/07 pós-correção</span></h2>
     <div class="card">
       <div class="rec">
-        <b>1. LKL compradores ELB 2022</b> <span class="tag t-b">18,5k · semente principal</span>
-        <p>Melhor perfil de todas (decil 5,63 · 41,2% decil 7+) e tamanho ideal de seed. Análogo direto do
-        "LKL compradores ELS 1%" que fez ROAS 1,90. Risco: recência — a compra foi há 4 anos.</p>
+        <b>Advantage amplo — 60% do budget</b>
+        <p>Motor de escala e benchmark vivo: todo adset se avalia pelo <b>delta vs Advantage na mesma janela
+        (+7d)</b>, nunca vs o agregado da fase. Promover com ≥ +15% e ≥50 compras; cortar com ≤ −15% em duas
+        leituras maduras. Excluir membros ativos e compradores da campanha de todos os adsets de aquisição.</p>
       </div>
       <div class="rec">
-        <b>2. LKL viewers premium da série</b> <span class="tag t-b">135k decil 7+ · 184k cartão premium</span>
-        <p>Recorte de qualidade sobre os 462k viewers — reproduz a lógica do "sinal forte", melhor teste
-        do ELS (ROAS 2,13). Viewers em massa são semente de volume, não de qualidade (decil 5,30 ≈ base).</p>
+        <b>1. Replicar o "sinal forte" — 15%</b> <span class="tag t-b">melhor teste sobrevivente: +25%</span>
+        <p>É config de Advantage+ (provável sugestão de audiência), não semente — sem teto de audiência.
+        Pendência: copiar a config no Gerenciador. Se não recuperar até a abertura: Advantage+ com sugestão
+        de audiência = compradores ELS.</p>
       </div>
       <div class="rec">
-        <b>3. LKL compradores ELS</b> <span class="tag t-b">35,1k · custo zero de montagem</span>
-        <p>Afinidade temática real (segurança pública): 13,7% dos compradores ELS assistiram Entre Lobos.
-        Semente já validada em campanha. O overlap ELS ∩ viewers ELB (4,8k) é o público mais premium
-        (60% cartão premium) — testar com spend marginal.</p>
+        <b>2. LKL 1% compradores ELS — 12%</b> <span class="tag t-b">35,1k · prêmio validado +22%</span>
+        <p>Semente mais recente e tematicamente vizinha (13,7% assistiram Entre Lobos). ELB22 (18,5k, melhor
+        perfil) só entra se o match rate do upload for aceitável — e-mails de 4 anos.</p>
       </div>
       <div class="rec">
-        <b>4. LKL leads A+/A do próprio ELB26</b> <span class="tag t-g">semente fresca — cresce com o aquecimento</span>
-        <p>Os leads que o IQL classifica como qualificados nesta campanha — o análogo mais direto do
-        "sinal forte" (ROAS 2,13), com recência máxima. Atualizar a lista quando a venda abrir.</p>
+        <b>3. Carrinho abandonado always-on — 2–3%</b> <span class="tag t-g">+79% no ELS (n=13)</span>
+        <p>Ligar no D1 da venda — no ELS rodou tarde e pequeno. Teto natural pelo tamanho da audiência.</p>
+      </div>
+      <div class="rec">
+        <b>4. Teste: LKL "conversor de funil" — 3%</b> <span class="tag t-g">16,8k · A+/A ∪ conversos ELB24</span>
+        <p>União dos leads A+/A (15,7k) com os conversos reais de leads ELB24 (1,1k) — perfis quase idênticos
+        (55–59 anos, decil 4,6–5,1). Sucesso = empatar com o Advantage; o valor é ter semente pronta no D1 de
+        campanhas futuras. Excluir a base de leads ELB26 do targeting. Para o público 55+: criativo dedicado
+        dentro dos adsets + oferta via CRM — não adset segmentado por idade.</p>
+      </div>
+      <div class="rec">
+        <b>5. Teste: upsell membros com viewers da produção 2026 — 3%</b> <span class="tag t-g">interesse quente pré-venda</span>
+        <p>A produção nova estreou antes da venda: quem assiste é membro com interesse no tema esta semana
+        (27,5% black). Audiência do adset de upgrade/vitalício, atualizada 2×/semana. Sucesso = ROAS ≥ 2.
+        Como seed de LKL, só quando passar de ~10k.</p>
       </div>
       <div class="rec warn">
-        <b>Não fazer: remarketing "viu a série" na venda</b> <span class="tag t-r">lição ELS</span>
-        <p>No ELS o remarketing de viewers gastou R$ 3,6k com zero vendas — quem assiste em geral já é membro.
-        Viewer serve como semente de LKL (o Meta acha gente parecida fora da base), não como alvo direto.</p>
+        <b>Cortado: LKL de sementes de viewers · remarketing "viu a série"</b> <span class="tag t-r">correção 30/07 + lição ELS</span>
+        <p>Nenhum LKL de viewer bateu o Advantage na comparação justa (0,91 vs 1,05 na janela) — o 1,68 antigo
+        era outlier Comercial de R$ 40k. E o remarketing de viewers vendeu zero: 96% assistem <em>depois</em> de comprar.</p>
       </div>
     </div>
   </section>
@@ -338,22 +392,25 @@ function initCharts(D) {
     });
   }
 
-  /* benchmark ELS — ROAS por segmentação */
+  /* benchmark ELS — teste vs Advantage na mesma janela */
   new Chart(chBench, {
     type: 'bar',
     data: {
-      labels: D.bench_els.map(b => b.nome),
-      datasets: [{
-        data: D.bench_els.map(b => b.roas),
-        backgroundColor: D.bench_els.map(b => b.ref ? GREY : BLUE),
-        borderRadius: 4, barThickness: 20
-      }]
+      labels: D.bench_els.map(b => [b.nome, b.janela + ' · ' + b.spend]),
+      datasets: [
+        { label: 'ROAS do teste', data: D.bench_els.map(b => b.roas),
+          backgroundColor: BLUE, borderRadius: 4, barThickness: 13 },
+        { label: 'Advantage na mesma janela', data: D.bench_els.map(b => b.adv),
+          backgroundColor: GREY, borderRadius: 4, barThickness: 13 }
+      ]
     },
     options: {
       indexAxis: 'y',
       plugins: { legend: { display: false },
         tooltip: { callbacks: {
-          label: c => 'ROAS ' + pt2(c.raw) + ' · spend ' + D.bench_els[c.dataIndex].spend } } },
+          label: c => c.datasetIndex === 0
+            ? 'Teste: ' + pt2(c.raw) + ' · ' + D.bench_els[c.dataIndex].nota
+            : 'Advantage na janela: ' + pt2(c.raw) } } },
       scales: {
         x: { display: false, max: Math.max(...D.bench_els.map(b => b.roas)) * 1.25 },
         y: { grid: { display: false } }
@@ -385,6 +442,53 @@ function initCharts(D) {
     },
     plugins: [valueLabels(v => pt1(v) + '%')]
   });
+
+  /* perfil socioeconômico — 2 stacked 100% + tabela */
+  if (D.perfil_socio?.length) {
+    const P = D.perfil_socio;
+    /* faixas ordinais → rampa sequencial (claro=jovem/básico, escuro=velho/black) */
+    const RAMP4 = ['#dbe3f8', '#9db9f9', '#5b86f7', '#1d4ed8'];
+    const stack100 = (el, labels, series) => new Chart(el, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: series.map((s, i) => ({
+          label: s.label, data: s.data, backgroundColor: RAMP4[i],
+          borderColor: '#fff', borderWidth: 1, barThickness: 16
+        }))
+      },
+      options: {
+        indexAxis: 'y',
+        plugins: { legend: { position: 'top', labels: { boxWidth: 12, boxHeight: 12 } },
+          tooltip: { callbacks: { label: c => c.dataset.label + ': ' + pt1(c.raw) + '%' } } },
+        scales: {
+          x: { stacked: true, max: 100, ticks: { callback: v => v + '%' }, grid: { display: false } },
+          y: { stacked: true, grid: { display: false } }
+        }
+      }
+    });
+    const rot = P.map(p => p.label);
+    stack100(chIdade, rot, [
+      { label: '14–29', data: P.map(p => p.pct_14_29) },
+      { label: '30–44', data: P.map(p => p.pct_30_44) },
+      { label: '45–59', data: P.map(p => p.pct_45_59) },
+      { label: '60+',   data: P.map(p => p.pct_60_mais) }
+    ]);
+    stack100(chCartao, rot, [
+      { label: 'Básico/débito', data: P.map(p => p.pct_basico) },
+      { label: 'Gold',          data: P.map(p => p.pct_gold) },
+      { label: 'Platinum/Amex', data: P.map(p => p.pct_plat_amex) },
+      { label: 'Black',         data: P.map(p => p.pct_black) }
+    ]);
+    document.getElementById('tbSocio').innerHTML = P.map(p =>
+      `<tr><td>${p.label}</td><td class="num">${nBR(p.n)}</td><td class="num">${pt2(p.decil_medio)}</td>
+       <td class="num">${pt1(p.pct_decil7)}%</td><td class="num">R$ ${nBR(Math.round(p.renda_pc_mediana))}</td>
+       <td class="num">${pt1(p.pct_black)}%</td><td class="num">${pt1(p.pct_masc)}%</td>
+       <td class="num">${pt1(p.idade_media)}</td><td class="num">${pt1(p.pct_60_mais)}%</td>
+       <td class="num">${pt1(p.pct_capital)}%</td><td class="num">${pt1(p.pct_sudeste)}%</td>
+       <td class="num">${pt1(p.pct_sul)}%</td></tr>`
+    ).join('');
+  }
 
   /* tabela */
   document.getElementById('tbSementes').innerHTML = D.sementes.map(s =>

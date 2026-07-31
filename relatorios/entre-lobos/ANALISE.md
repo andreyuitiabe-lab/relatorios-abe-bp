@@ -57,6 +57,56 @@ perfil de renda menor por construção (decil 5,03 / 38% cartão premium): o IQL
 probabilidade de conversão, não por renda. ⚠️ Pré-merge da MR !2426 o fct atualiza só com dbt run
 manual (ver `wiki-bp/iql.md`).
 
+## Perfil socioeconômico completo (31/07)
+
+Seção nova no relatório com todas as dimensões do warehouse (renda decil + R$ p.c., hierarquia
+de cartão, gênero, idade, região, capital/porte via CEP→IBGE). Query:
+`queries/elb26_perfil_socioeconomico.sql`. Achados:
+
+- **A semente A+/A (IQL) é outro bicho**: idade média 58,8 (53% com 60+, vs ~19–23% das demais),
+  56,5% masc (vs 73–77%), cartão mais fraco (12,9% black, 24% básico), renda menor (mediana R$972).
+  O IQL seleciona por comportamento/conversão — que na prática significa público mais velho e mais
+  feminino, não mais rico. LKL dela vai buscar um público diferente dos LKLs de compradores.
+- **% black distingue comprador de viewer**: compradores ELS 32,9% black e overlap ELS∩ELB 34,0%,
+  vs 22–26% dos viewers. Decil quase não separa (5,17–5,63); o cartão separa mais.
+- **Idade e geo são homogêneas** nas sementes de compradores/viewers: média 48–50 anos (faixa
+  45–59 dominante), SE 52–54%, capital 41–51%. ELB22 mais capital (51%); ELS mais Sul (22,3%).
+- **Coberturas** (calculado sobre quem tem o dado): renda 79–83% (A+/A 39%), cartão 80–90%
+  (A+/A 36%), idade 9–40% (A+/A 8,5% — amostra de quem informa nascimento é enviesada), geo 36–39%.
+
+## Perfil expandido — todas as gerações de Entre Lobos (31/07 tarde)
+
+Query: `queries/elb26_perfil_socio_expandido.sql`. Segmentos novos: compradores ELB24 (302 —
+relançamento 2024 quase não teve venda direta), conversos de leads ELB24 (1.132 de 36,7k = 3,1%),
+viewers por produção (série principal 441k / Parte I-2023 30,6k / entrevistas 15k / produção 2026
+1,4k em 3 dias). Achados:
+
+- **%black separa comprador de viewer em 3 gerações** (31–34% vs 19–27%); decil não separa.
+  Critério de ranking de sementes daqui em diante: %black > decil. (Ressalva: parte do gap pode
+  ser viés de cobertura — comprador sempre tem transação.)
+- **Funil de lead envelhece/empobrece quem converte — 2 fontes independentes**: conversos reais
+  ELB24 (55,5 anos, decil 4,64, 12% black) ≈ leads A+/A IQL (58,8, 5,08, 13%). Compradores
+  diretos de mídia: 48–50 anos, 23–33% black. Nuance (agente growth): o IQL foi treinado em
+  conversão de lead, então as fontes medem o mesmo fenômeno — é fato sobre o **caminho lead**
+  (~4–8% da receita), não sobre a campanha.
+- Viewers produção 2026 premium (27,5% black, decil 5,44) mas n=1.410/3 dias — direcional.
+- Viewers Parte I (2023): cobertura de dados ~55% → audiência de fora (janela para leads),
+  perfil ≈ funil de lead.
+
+## Arquitetura [VENDA] revisada (agente growth, pós-correção de benchmark)
+
+Split de referência (R$4M): **Advantage 60%** · **"sinal forte" replicado 15%** (Advantage+ com
+sugestão de audiência = compradores ELS, se a config original não for recuperada) · **LKL
+compradores ELS 12%** (ELB22 só se match rate ok) · **carrinho abandonado always-on 2–3%**
+(+79% no ELS, ligado tarde) · **Teste A: LKL "conversor de funil"** = A+/A ∪ conversos ELB24
+(~16,8k, excluir leads ELB26 do targeting) 3%, sucesso = empatar com Advantage · **Teste B:
+upsell membros** com audiência = viewers produção 2026 (interesse quente pré-venda, atualizar
+2×/sem) 3%, sucesso = ROAS ≥2. **Cortado: qualquer LKL de semente viewer; remarketing Viu o Doc.**
+
+Decisões de leitura: avaliação de adset por **delta vs Advantage na mesma janela +7d** (promover
+≥ +15% com ≥50 compras; cortar ≤ −15% em 2 leituras), nunca vs agregado. Público 55+ do funil de
+lead: criativo dedicado DENTRO dos adsets (não adset por idade) + oferta via CRM para os A+/A.
+
 ## Achados
 
 - **Compradores ELB22 são a semente de melhor perfil** (decil 5,63 / 41,2% decil7+ — acima até
@@ -85,7 +135,8 @@ manual (ver `wiki-bp/iql.md`).
 
 | Arquivo | O quê |
 |---|---|
-| [queries/elb26_sementes_lookalike.sql](queries/elb26_sementes_lookalike.sql) | Dimensiona e perfila as 6 sementes candidatas |
+| [queries/elb26_sementes_lookalike.sql](queries/elb26_sementes_lookalike.sql) | Dimensiona e perfila as 7 sementes candidatas |
+| [queries/elb26_perfil_socioeconomico.sql](queries/elb26_perfil_socioeconomico.sql) | Perfil socioeconômico completo (renda, cartão, idade, gênero, geo IBGE) |
 
 ## Wiki atualizada
 
