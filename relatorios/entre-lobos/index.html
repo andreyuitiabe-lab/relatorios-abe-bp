@@ -1,513 +1,543 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Entre Lobos 2026 — Sementes de Lookalike</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entre Lobos 2026 — Sementes de Lookalike</title>
+<style>
+  :root {
+    --paper: #F7F8FA; --card: #FFFFFF; --ink: #1B2330; --muted: #5A6577;
+    --soft: #8A93A5; --line: #DDE2EA; --grid: #ECEFF4;
+    --blue: #3B6EF5; --amber: #D97706; --grey: #9AA3B2;
+    --green: #16A34A; --red: #DC3D3D;
+    --r1: #DBE3F8; --r2: #9DB9F9; --r3: #5B86F7; --r4: #1D4ED8;
+    --tipbg: #1B2330; --tipink: #F7F8FA;
+  }
+  @media (prefers-color-scheme: dark) {
     :root {
-      --bg:     #f8fafc;
-      --card:   #ffffff;
-      --line:   #e2e8f0;
-      --text:   #1e293b;
-      --muted:  #475569;
-      --soft:   #94a3b8;
-      --blue:   #3b6ef5;
-      --green:  #16a34a;
-      --red:    #e23b3b;
-      --amber:  #d97706;
-      --violet: #7c5cfc;
+      --paper: #12161E; --card: #1A202B; --ink: #E6EAF2; --muted: #A6AFC0;
+      --soft: #788296; --line: #2A3140; --grid: #232A38;
+      --blue: #6B93FF; --amber: #E08A2E; --grey: #6E7889;
+      --green: #34C46A; --red: #F06060;
+      --r1: #2C3B5E; --r2: #3D5CA8; --r3: #6B93FF; --r4: #B7CBFF;
+      --tipbg: #E6EAF2; --tipink: #12161E;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .wrap   { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
-    section { margin-bottom: 56px; }
-    h1      { font-size: 26px; font-weight: 700; color: var(--text); }
-    h2      { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
-    .sub    { color: var(--muted); font-size: 13px; margin-top: 4px; }
-    .label  { font-size: 11px; font-weight: 600; text-transform: uppercase;
-              letter-spacing: .06em; color: var(--soft); margin-bottom: 12px; }
-    .card   { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
-    .grid-iql { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media (max-width: 640px) { .grid-3, .grid-iql { grid-template-columns: 1fr; } }
-    .stats  { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 24px; }
-    .bigstat .bs-num { font-size: 36px; font-weight: 800; color: var(--blue); line-height: 1; }
-    .bigstat .bs-num.g { color: var(--green); }
-    .bigstat .bs-num.n { color: var(--soft); }
-    .bigstat .bs-cap { font-size: 12px; color: var(--muted); margin-top: 4px; max-width: 190px; }
-    table   { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th      { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px;
-              text-transform: uppercase; letter-spacing: .05em;
-              border-bottom: 2px solid var(--line); padding: 8px 10px; }
-    td      { padding: 8px 10px; border-bottom: 1px solid var(--line); }
-    tr:last-child td { border-bottom: none; }
-    td.num  { text-align: right; font-variant-numeric: tabular-nums; }
-    .tag    { display: inline-block; padding: 2px 8px; border-radius: 20px;
-              font-size: 11px; font-weight: 600; }
-    .t-b    { background: #dbeafe; color: #1d4ed8; }
-    .t-g    { background: #d1fae5; color: #065f46; }
-    .t-r    { background: #fee2e2; color: #991b1b; }
-    .t-n    { background: #f1f5f9; color: #475569; }
-    .tblwrap { overflow-x: auto; }
-    .nota   { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px;
-              padding: 12px 16px; font-size: 12.5px; color: var(--muted); margin-top: 16px; }
-    .rec    { border-left: 3px solid var(--blue); padding-left: 16px; margin-bottom: 16px; }
-    .rec b  { font-size: 14px; }
-    .rec p  { font-size: 13px; color: var(--muted); }
-    .rec.warn { border-left-color: var(--red); }
-    header  { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
-    footer  { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
-              font-size: 12px; color: var(--soft); }
-  </style>
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font: 14px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 44px 24px 88px; }
+  section { margin-top: 52px; }
+
+  h1 {
+    font-family: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+    font-size: 32px; line-height: 1.15; font-weight: 600; text-wrap: balance;
+  }
+  h2 {
+    font-family: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+    font-size: 21px; font-weight: 600; margin-bottom: 6px; text-wrap: balance;
+  }
+  .eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+    color: var(--soft); margin-bottom: 10px;
+  }
+  .lede { color: var(--muted); max-width: 62ch; margin-bottom: 18px; }
+
+  header { padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+  .statusbar { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; font-size: 12px; }
+  .chip {
+    border: 1px solid var(--line); background: var(--card); border-radius: 999px;
+    padding: 3px 12px; color: var(--muted); font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .chip b { color: var(--ink); }
+  .chip .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+    margin-right: 6px; vertical-align: 1px; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 20px 22px;
+  }
+  .card + .card { margin-top: 14px; }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 680px) { .duo { grid-template-columns: 1fr; } }
+  .chart-title { font-size: 11px; font-weight: 700; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--soft); margin-bottom: 12px; }
+
+  svg { display: block; width: 100%; height: auto; }
+  svg text { font: 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    fill: var(--muted); }
+  svg text.val { font-weight: 700; fill: var(--ink); }
+  svg text.cat { fill: var(--muted); }
+  .hover-target { cursor: default; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px;
+    font-variant-numeric: tabular-nums; }
+  th { text-align: left; font-size: 10.5px; font-weight: 700; letter-spacing: .05em;
+    text-transform: uppercase; color: var(--soft); padding: 7px 9px;
+    border-bottom: 2px solid var(--line); white-space: nowrap; }
+  td { padding: 7px 9px; border-bottom: 1px solid var(--grid); }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; }
+  .tblwrap { overflow-x: auto; }
+  td.hl { color: var(--blue); font-weight: 700; }
+
+  .note {
+    border-left: 3px solid var(--line); padding: 2px 0 2px 14px;
+    font-size: 12.5px; color: var(--muted); margin-top: 14px; max-width: 68ch;
+  }
+  .note b { color: var(--ink); }
+
+  .rec { border-left: 3px solid var(--blue); padding: 2px 0 4px 16px; }
+  .rec + .rec { margin-top: 16px; }
+  .rec.warn { border-left-color: var(--red); }
+  .rec h3 { font-size: 14px; font-weight: 700; }
+  .rec p { font-size: 13px; color: var(--muted); max-width: 66ch; }
+  .tag { display: inline-block; font-size: 10.5px; font-weight: 700; border-radius: 999px;
+    padding: 1px 9px; margin-left: 6px; vertical-align: 1px;
+    background: color-mix(in srgb, var(--blue) 12%, transparent); color: var(--blue); }
+  .tag.r { background: color-mix(in srgb, var(--red) 12%, transparent); color: var(--red); }
+  .tag.g { background: color-mix(in srgb, var(--green) 14%, transparent); color: var(--green); }
+
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 11.5px;
+    color: var(--muted); margin-bottom: 10px; }
+  .legend .sw { display: inline-block; width: 11px; height: 11px; border-radius: 3px;
+    margin-right: 5px; vertical-align: -1px; }
+
+  #tip {
+    position: fixed; pointer-events: none; z-index: 10; display: none;
+    background: var(--tipbg); color: var(--tipink); font-size: 11.5px; font-weight: 600;
+    padding: 5px 9px; border-radius: 6px; white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  footer { margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--line);
+    font-size: 11.5px; color: var(--soft); line-height: 1.7; }
+  @media (prefers-reduced-motion: no-preference) {
+    section { animation: rise .4s ease both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+  }
+</style>
 </head>
 <body>
 <div class="wrap">
-
 <header>
-  <p class="label">Brasil Paralelo · Campanhas & Mídia Paga</p>
-  <h1>Entre Lobos 2026 — Sementes de Lookalike</h1>
-  <p class="sub">Relançamento ELB26 (aquecimento desde 14/07/2026, venda ainda não aberta). Estudo dos públicos-semente
-  para as campanhas Meta da fase de venda, replicando a metodologia validada no ELS.</p>
+  <p class="eyebrow">Brasil Paralelo · Inteligência de campanha · <span id="hdrDate">—</span></p>
+  <h1>Entre Lobos 2026 — as sementes de lookalike para a fase de venda</h1>
+  <p class="lede" style="margin-top:10px">O relançamento está captando leads em ritmo recorde e a venda ainda não abriu.
+  Este relatório dimensiona os públicos-semente disponíveis, traz o benchmark honesto do ELS
+  (comparado na mesma janela) e o perfil socioeconômico completo de cada semente.</p>
+  <div class="statusbar">
+    <span class="chip"><span class="dot" style="background:var(--green)"></span>Aquecimento desde 14/07 · <b id="chipLeads">—</b></span>
+    <span class="chip"><span class="dot" style="background:var(--amber)"></span>Venda: <b>não abriu</b> — janela para montar sementes</span>
+    <span class="chip">IQL: <b id="chipIql">—</b></span>
+  </div>
 </header>
 
 <main>
 
-  <!-- ── 1. Contexto ─────────────────────────────────────────────────────── -->
-  <section>
-    <h2>Onde a campanha está</h2>
-    <div class="stats">
-      <div class="bigstat">
-        <div class="bs-num" id="statLeads">—</div>
-        <div class="bs-cap">leads ELB26 no aquecimento</div>
-      </div>
-      <div class="bigstat">
-        <div class="bs-num" id="statViewers">—</div>
-        <div class="bs-cap">viewers da série na plataforma (≥5min, desde 2022)</div>
-      </div>
-      <div class="bigstat">
-        <div class="bs-num g" id="statCompr22">—</div>
-        <div class="bs-cap">compradores do ELB original (2022), rastreáveis por atribuição</div>
-      </div>
-      <div class="bigstat">
-        <div class="bs-num n">não abriu</div>
-        <div class="bs-cap">fase de venda — janela para montar as sementes agora</div>
-      </div>
+<!-- ── 1 · Aquecimento ─────────────────────────────────────────────── -->
+<section>
+  <p class="eyebrow">1 · Onde a campanha está</p>
+  <h2 id="h2Aquec">O aquecimento acelera</h2>
+  <p class="lede">Captação em ritmo ELS (que fez 215k em dois meses). A qualidade estabilizou:
+  o % de leads A+/A caiu dos ~50% do dia 1 (base quente) para o platô estrutural de ~20% com a mídia escalada.</p>
+  <div class="duo">
+    <div class="card">
+      <p class="chart-title">Leads por dia</p>
+      <div id="chLeads"></div>
     </div>
     <div class="card">
-      <p class="label">Leads ELB26 por dia (aquecimento em andamento)</p>
-      <canvas id="chLeads" height="170"></canvas>
+      <p class="chart-title">% de leads A+/A (IQL) por dia de cadastro</p>
+      <div id="chAA"></div>
     </div>
-  </section>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <p class="chart-title">Distribuição por faixa IQL · <span id="iqlTotais"></span></p>
+    <div id="chFaixas"></div>
+  </div>
+  <p class="note">O último dia é parcial. IQL escorado até <span id="iqlRef">—</span> (modelo pré-merge, atualização
+  manual); cobertura da pesquisa no ELB26: ~50% dos leads. Por governança, só faixas agregadas — nunca pontos.</p>
+</section>
 
-  <!-- ── 1b. IQL do aquecimento ──────────────────────────────────────────── -->
-  <section>
-    <h2>Qualidade dos leads do aquecimento (IQL)</h2>
-    <div class="stats">
-      <div class="bigstat">
-        <div class="bs-num" id="statIqlTotal">—</div>
-        <div class="bs-cap">leads escorados pelo IQL</div>
-      </div>
-      <div class="bigstat">
-        <div class="bs-num g" id="statIqlPct">—</div>
-        <div class="bs-cap">faixa A+/A (lead qualificado)</div>
-      </div>
-      <div class="bigstat">
-        <div class="bs-num g" id="statIqlAA">—</div>
-        <div class="bs-cap">leads A+/A — viram a semente nº 7</div>
-      </div>
+<!-- ── 2 · Benchmark ELS ───────────────────────────────────────────── -->
+<section>
+  <p class="eyebrow">2 · O benchmark honesto do ELS</p>
+  <h2>Na comparação justa, o prêmio das sementes boas é +20–25%</h2>
+  <p class="lede">Os testes do ELS foram rajadas de 2–13 dias em momentos diferentes de uma curva que decai
+  de ~4,8 para ~1,6. Comparando cada teste com o Advantage <em>na mesma janela de spend</em> (+7d de cauda),
+  dois vencedores sobrevivem — e o LKL de viewers cai.</p>
+  <div class="card">
+    <div class="legend">
+      <span><span class="sw" style="background:var(--blue)"></span>ROAS do teste</span>
+      <span><span class="sw" style="background:var(--grey)"></span>ROAS do Advantage na mesma janela</span>
     </div>
-    <div class="grid-iql">
-      <div class="card">
-        <p class="label">Distribuição por faixa IQL</p>
-        <canvas id="chIqlFaixas" height="200"></canvas>
-      </div>
-      <div class="card">
-        <p class="label">% de leads A+/A por dia de cadastro</p>
-        <canvas id="chIqlDia" height="200"></canvas>
-      </div>
-    </div>
-    <div class="nota">IQL = scorecard que escora cada lead no dia do cadastro (status, histórico, pesquisa) —
-    metodologia no <a href="../qualificacao-leads/iql/">dashboard IQL</a>. Por governança, este relatório mostra
-    só faixas agregadas, nunca pontos. Cobertura da pesquisa no ELB26: ~50% dos leads.
-    <span id="iqlRef"></span></div>
-  </section>
+    <div id="chBench"></div>
+  </div>
+  <p class="note"><b>O que mudou com a correção:</b> o "sinal forte 2,13 vs 1,40" comparava semana de pico com
+  agregado — o prêmio real é 1,98 vs 1,59. E o LKL de viewers (1,68 na tabela antiga) na verdade
+  <b>perdeu</b> do Advantage na própria janela: o número era inflado por <b>uma única venda Comercial de
+  R$ 40k atribuída 12 dias após o fim do spend</b>. Atribuição = pixel Meta; janelas curtas — tratar como direcional.</p>
+</section>
 
-  <!-- ── 2. Por que semente importa ──────────────────────────────────────── -->
-  <section>
-    <h2>O que o ELS ensinou: a semente decide o ROAS (comparação na mesma janela)</h2>
-    <p class="sub" style="margin-bottom:16px">Correção de 30/07: os testes foram rajadas de 2–13 dias em momentos
-    diferentes de uma curva que decai de ~4,8 para ~1,6 — cada teste agora é comparado com o Advantage
-    <b>na mesma janela de spend</b> (+7d de cauda). Prêmio real das sementes boas: +20–25%.</p>
+<!-- ── 3 · Sementes ────────────────────────────────────────────────── -->
+<section>
+  <p class="eyebrow">3 · As sementes candidatas</p>
+  <h2>Sete sementes, três com respaldo empírico</h2>
+  <div class="card">
+    <div class="legend">
+      <span><span class="sw" style="background:var(--blue)"></span>% decil 7+ de renda</span>
+      <span><span class="sw" style="background:var(--amber)"></span>% cartão premium (platinum/amex/black)</span>
+    </div>
+    <div id="chSeeds"></div>
+  </div>
+  <div class="card tblwrap">
+    <p class="chart-title">Detalhe</p>
+    <table>
+      <thead><tr><th>Semente</th><th class="num">Tamanho</th><th class="num">Decil médio</th>
+        <th class="num">% decil 7+</th><th class="num">% cartão premium</th><th class="num">% masc.</th></tr></thead>
+      <tbody id="tbSeeds"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── 4 · Perfil socioeconômico ───────────────────────────────────── -->
+<section>
+  <p class="eyebrow">4 · Perfil socioeconômico completo</p>
+  <h2>Três públicos distintos: comprador, viewer e o funil de lead</h2>
+  <p class="lede">Todas as gerações de Entre Lobos (2022, 2024, 2026) e o ELS, em todas as dimensões do
+  warehouse. Cada ponto é um segmento; a cor é o grupo. Dois padrões saltam: <b>cartão black separa
+  compradores de viewers</b> (decil não separa), e <b>o funil de lead envelhece e empobrece quem
+  converte</b> — confirmado por conversão real (ELB24) e por score (IQL).</p>
+  <div class="card">
+    <div class="legend">
+      <span><span class="sw" style="background:var(--blue)"></span>Compradores de campanha</span>
+      <span><span class="sw" style="background:var(--grey)"></span>Viewers por produção</span>
+      <span><span class="sw" style="background:var(--amber)"></span>Funil de lead (conversos + A+/A)</span>
+    </div>
+    <div id="chStrips"></div>
+  </div>
+  <div class="duo" style="margin-top:14px">
     <div class="card">
-      <p class="label">ROAS do teste (azul) vs Advantage na mesma janela (cinza)</p>
-      <canvas id="chBench" height="240"></canvas>
+      <p class="chart-title">Composição etária · entre quem informa nascimento</p>
+      <div class="legend" id="lgIdade"></div>
+      <div id="chIdade"></div>
     </div>
-    <div class="nota">⚠ O LKL de viewers (1,68 na versão anterior deste relatório) na verdade <b>perdeu</b> do
-    Advantage na própria janela — o número era inflado por uma única venda Comercial de R$ 40k atribuída 12 dias
-    após o fim do spend. Atribuição via pixel Meta; janelas curtas (13–253 vendas por teste) — tratar como
-    direcional. O remarketing "Viu o Doc" vendeu zero: 96% dos viewers assistem <em>depois</em> de comprar.</div>
-  </section>
-
-  <!-- ── 3. Sementes candidatas ──────────────────────────────────────────── -->
-  <section>
-    <h2>As sementes candidatas para o ELB26</h2>
     <div class="card">
-      <p class="label">Qualidade do perfil por semente · % decil 7+ de renda e % cartão premium (platinum/amex/black)</p>
-      <canvas id="chPerfil" height="260"></canvas>
+      <p class="chart-title">Hierarquia de cartão · nível máximo já usado</p>
+      <div class="legend" id="lgCartao"></div>
+      <div id="chCartao"></div>
     </div>
-    <div class="card" style="margin-top:16px">
-      <p class="label">Detalhe das sementes</p>
-      <table>
-        <thead><tr>
-          <th>Semente</th><th class="num">Tamanho</th><th class="num">Decil médio</th>
-          <th class="num">% decil 7+</th><th class="num">% cartão premium</th><th class="num">% masc.</th>
-        </tr></thead>
-        <tbody id="tbSementes"></tbody>
-      </table>
-    </div>
-    <div class="nota">Perfil via <code>dtm_purchasing_power</code> (decil de renda por CEP), <code>int_credit_card_level</code>
-    (nível máximo de cartão) e <code>dim_user</code> (gênero inferido). Cobertura de renda: 78–83% por segmento.
-    A semente "Leads A+/A do ELB26" tem perfil de renda menor por construção — o IQL qualifica por
-    probabilidade de conversão (status, histórico, pesquisa), não por renda; é semente de comportamento, não de poder aquisitivo.</div>
-  </section>
+  </div>
+  <div class="card tblwrap" style="margin-top:14px">
+    <p class="chart-title">Todas as dimensões</p>
+    <table>
+      <thead><tr><th>Semente</th><th class="num">N</th><th class="num">Decil</th><th class="num">Renda p.c. med.</th>
+        <th class="num">% black</th><th class="num">% masc.</th><th class="num">Idade média</th>
+        <th class="num">% 60+</th><th class="num">% capital</th><th class="num">% Sudeste</th><th class="num">% Sul</th></tr></thead>
+      <tbody id="tbSocio"></tbody>
+    </table>
+  </div>
+  <p class="note">Coberturas variam por dimensão: renda 79–83% (leads A+/A: <b>39%</b>; viewers Parte I: 57% —
+  audiência que veio de fora, janela para leads), cartão 80–90% (A+/A: 36%), idade 9–40% (A+/A: <b>8,5%</b> —
+  quem informa nascimento é amostra enviesada; o padrão 60+ é direcional, mas confirmado pelos conversos
+  reais do ELB24). Percentuais sobre quem tem o dado. Renda per capita = IBGE por CEP, não renda declarada.
+  Parte do gap de %black pode ser viés de cobertura — comprador sempre tem transação registrada.</p>
+</section>
 
-  <!-- ── 3b. Perfil socioeconômico completo ──────────────────────────────── -->
-  <section>
-    <h2>Perfil socioeconômico — todas as gerações de Entre Lobos</h2>
-    <p class="sub" style="margin-bottom:16px">Compradores de 2022/2024/ELS, viewers por produção e o funil de lead
-    (conversos ELB24 + leads A+/A), em todas as dimensões do warehouse. Dois padrões: <b>cartão black separa
-    compradores (31–34%) de viewers (19–27%)</b> — decil não separa; e <b>o funil de lead envelhece e empobrece
-    quem converte</b> (55–59 anos, decil 4,6–5,1) — confirmado por conversão real (ELB24) e por score (IQL).</p>
-    <div class="grid-iql">
-      <div class="card">
-        <p class="label">Composição etária (entre quem informa nascimento)</p>
-        <canvas id="chIdade" height="300"></canvas>
-      </div>
-      <div class="card">
-        <p class="label">Hierarquia de cartão de crédito (nível máximo já usado)</p>
-        <canvas id="chCartao" height="300"></canvas>
-      </div>
+<!-- ── 5 · Recomendação ────────────────────────────────────────────── -->
+<section>
+  <p class="eyebrow">5 · Arquitetura recomendada para a fase [VENDA] · revisada 31/07</p>
+  <h2>Onde colocar o budget de segmentação</h2>
+  <div class="card">
+    <div class="rec">
+      <h3>Advantage amplo — 60% do budget</h3>
+      <p>Motor de escala e benchmark vivo: todo adset se avalia pelo <b>delta vs Advantage na mesma janela
+      (+7d)</b>, nunca vs o agregado da fase. Promover com ≥ +15% e ≥50 compras; cortar com ≤ −15% em duas
+      leituras maduras. Excluir membros ativos e compradores da campanha de todos os adsets de aquisição.</p>
     </div>
-    <div class="card" style="margin-top:16px">
-      <p class="label">Todas as dimensões</p>
-      <div class="tblwrap">
-        <table>
-          <thead><tr>
-            <th>Semente</th><th class="num">N</th><th class="num">Decil</th><th class="num">% decil 7+</th>
-            <th class="num">Renda p.c. mediana</th><th class="num">% black</th><th class="num">% masc.</th>
-            <th class="num">Idade média</th><th class="num">% 60+</th><th class="num">% capital</th>
-            <th class="num">% Sudeste</th><th class="num">% Sul</th>
-          </tr></thead>
-          <tbody id="tbSocio"></tbody>
-        </table>
-      </div>
+    <div class="rec">
+      <h3>1 · Replicar o "sinal forte" — 15% <span class="tag">melhor teste sobrevivente: +25%</span></h3>
+      <p>É config de Advantage+ (provável sugestão de audiência), não semente — sem teto de audiência.
+      Pendência: copiar a config no Gerenciador. Se não recuperar até a abertura: Advantage+ com sugestão
+      de audiência = compradores ELS.</p>
     </div>
-    <div class="nota">⚠ Coberturas variam por dimensão e semente: renda 79–83% (leads A+/A: <b>39%</b>; viewers
-    Parte I: 57% — audiência que veio de fora, janela para leads), cartão 80–90% (A+/A: 36%), idade 9–40%
-    (A+/A: <b>8,5%</b> — quem informa nascimento é amostra enviesada; o padrão 60+ é direcional, mas confirmado
-    pelos conversos reais do ELB24). Percentuais sobre quem tem o dado. Renda per capita = IBGE por CEP, não renda
-    declarada. Parte do gap de %black pode ser viés de cobertura — comprador sempre tem transação registrada.</div>
-  </section>
-
-  <!-- ── 4. Recomendação ─────────────────────────────────────────────────── -->
-  <section>
-    <h2>Arquitetura recomendada para a fase [VENDA] <span class="tag t-n" style="vertical-align:4px">revisada 31/07 pós-correção</span></h2>
-    <div class="card">
-      <div class="rec">
-        <b>Advantage amplo — 60% do budget</b>
-        <p>Motor de escala e benchmark vivo: todo adset se avalia pelo <b>delta vs Advantage na mesma janela
-        (+7d)</b>, nunca vs o agregado da fase. Promover com ≥ +15% e ≥50 compras; cortar com ≤ −15% em duas
-        leituras maduras. Excluir membros ativos e compradores da campanha de todos os adsets de aquisição.</p>
-      </div>
-      <div class="rec">
-        <b>1. Replicar o "sinal forte" — 15%</b> <span class="tag t-b">melhor teste sobrevivente: +25%</span>
-        <p>É config de Advantage+ (provável sugestão de audiência), não semente — sem teto de audiência.
-        Pendência: copiar a config no Gerenciador. Se não recuperar até a abertura: Advantage+ com sugestão
-        de audiência = compradores ELS.</p>
-      </div>
-      <div class="rec">
-        <b>2. LKL 1% compradores ELS — 12%</b> <span class="tag t-b">35,1k · prêmio validado +22%</span>
-        <p>Semente mais recente e tematicamente vizinha (13,7% assistiram Entre Lobos). ELB22 (18,5k, melhor
-        perfil) só entra se o match rate do upload for aceitável — e-mails de 4 anos.</p>
-      </div>
-      <div class="rec">
-        <b>3. Carrinho abandonado always-on — 2–3%</b> <span class="tag t-g">+79% no ELS (n=13)</span>
-        <p>Ligar no D1 da venda — no ELS rodou tarde e pequeno. Teto natural pelo tamanho da audiência.</p>
-      </div>
-      <div class="rec">
-        <b>4. Teste: LKL "conversor de funil" — 3%</b> <span class="tag t-g">16,8k · A+/A ∪ conversos ELB24</span>
-        <p>União dos leads A+/A (15,7k) com os conversos reais de leads ELB24 (1,1k) — perfis quase idênticos
-        (55–59 anos, decil 4,6–5,1). Sucesso = empatar com o Advantage; o valor é ter semente pronta no D1 de
-        campanhas futuras. Excluir a base de leads ELB26 do targeting. Para o público 55+: criativo dedicado
-        dentro dos adsets + oferta via CRM — não adset segmentado por idade.</p>
-      </div>
-      <div class="rec">
-        <b>5. Teste: upsell membros com viewers da produção 2026 — 3%</b> <span class="tag t-g">interesse quente pré-venda</span>
-        <p>A produção nova estreou antes da venda: quem assiste é membro com interesse no tema esta semana
-        (27,5% black). Audiência do adset de upgrade/vitalício, atualizada 2×/semana. Sucesso = ROAS ≥ 2.
-        Como seed de LKL, só quando passar de ~10k.</p>
-      </div>
-      <div class="rec warn">
-        <b>Cortado: LKL de sementes de viewers · remarketing "viu a série"</b> <span class="tag t-r">correção 30/07 + lição ELS</span>
-        <p>Nenhum LKL de viewer bateu o Advantage na comparação justa (0,91 vs 1,05 na janela) — o 1,68 antigo
-        era outlier Comercial de R$ 40k. E o remarketing de viewers vendeu zero: 96% assistem <em>depois</em> de comprar.</p>
-      </div>
+    <div class="rec">
+      <h3>2 · LKL 1% compradores ELS — 12% <span class="tag">35,1k · prêmio validado +22%</span></h3>
+      <p>Semente mais recente e tematicamente vizinha (13,7% assistiram Entre Lobos). ELB22 (18,5k, melhor
+      perfil) só entra se o match rate do upload for aceitável — e-mails de 4 anos.</p>
     </div>
-  </section>
+    <div class="rec">
+      <h3>3 · Carrinho abandonado always-on — 2–3% <span class="tag g">+79% no ELS (n=13)</span></h3>
+      <p>Ligar no D1 da venda — no ELS rodou tarde e pequeno. Teto natural pelo tamanho da audiência.</p>
+    </div>
+    <div class="rec">
+      <h3>4 · Teste: LKL "conversor de funil" — 3% <span class="tag g">16,8k · A+/A ∪ conversos ELB24</span></h3>
+      <p>União dos leads A+/A (15,7k) com os conversos reais de leads ELB24 (1,1k) — perfis quase idênticos
+      (55–59 anos, decil 4,6–5,1). Sucesso = empatar com o Advantage; o valor é ter semente pronta no D1 de
+      campanhas futuras. Excluir a base de leads ELB26 do targeting. Para o público 55+: criativo dedicado
+      dentro dos adsets + oferta via CRM — não adset segmentado por idade.</p>
+    </div>
+    <div class="rec">
+      <h3>5 · Teste: upsell membros com viewers da produção 2026 — 3% <span class="tag g">interesse quente pré-venda</span></h3>
+      <p>A produção nova estreou antes da venda: quem assiste é membro com interesse no tema esta semana
+      (27,5% black). Audiência do adset de upgrade/vitalício, atualizada 2×/semana. Sucesso = ROAS ≥ 2.
+      Como seed de LKL, só quando passar de ~10k.</p>
+    </div>
+    <div class="rec warn">
+      <h3>Cortado: LKL de sementes de viewers · remarketing "viu a série" <span class="tag r">correção 30/07 + lição ELS</span></h3>
+      <p>Nenhum LKL de viewer bateu o Advantage na comparação justa (0,91 vs 1,05 na janela) — o 1,68 antigo
+      era outlier Comercial de R$ 40k. E o remarketing de viewers vendeu zero: 96% assistem <em>depois</em> de comprar.</p>
+    </div>
+  </div>
+</section>
 
 </main>
 
 <footer>
-  Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
-  Fontes: bp-lake.marketing.lead_registration · datamart.obt_kafka__view_sessions ·
-  masterdata.fct_transactions · dtm_purchasing_power · int_credit_card_level ·
-  bp-staging.dbt_abe.tb_aqv_compradores · benchmarks ELS: els-analise.md
+  Fontes: bp-lake.marketing.lead_registration · datamart.obt_kafka__view_sessions · masterdata.fct_transactions ·
+  dtm_purchasing_power · int_credit_card_level · IBGE via CEP · bp-staging.dbt_abe.tb_aqv_compradores ·
+  fct_lead_iql · dtm_analytics_facebook_ads_funnel.<br>
+  <span id="lastUpdate">—</span> · análise André Abe, gerada com Claude Code · detalhamento completo em ANALISE.md
 </footer>
-
 </div>
+<div id="tip" role="status"></div>
 
 <script>
-const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
-Chart.defaults.font.family = FONT;
-Chart.defaults.font.size   = 12;
-Chart.defaults.color       = "#6b7689";
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const nBR = v => v.toLocaleString('pt-BR');
+const p1 = v => v.toFixed(1).replace('.', ',');
+const p2 = v => v.toFixed(2).replace('.', ',');
+const dBR = d => d.slice(5).split('-').reverse().join('/');
 
-const BLUE="#3b6ef5", AMBER="#d97706", GREY="#aab2c4", RED="#e23b3b";
-
-/* plugin: value labels sobre barras */
-const valueLabels = (fmt) => ({
-  id: 'vlab',
-  afterDatasetsDraw(c) {
-    const { ctx } = c; ctx.save();
-    c.data.datasets.forEach((ds, di) => {
-      const meta = c.getDatasetMeta(di);
-      if (meta.hidden) return;
-      meta.data.forEach((el, i) => {
-        const v = ds.data[i]; if (v == null) return;
-        const label = fmt(v, di, i); if (label == null) return;
-        ctx.fillStyle = "#3a4254"; ctx.font = "700 11px " + FONT;
-        if (c.options.indexAxis === 'y') {
-          ctx.textAlign = "left"; ctx.textBaseline = "middle";
-          ctx.fillText(label, el.x + 8, el.y);
-        } else {
-          ctx.textAlign = "center"; ctx.textBaseline = "bottom";
-          ctx.fillText(label, el.x, el.y - 5);
-        }
-      });
-    }); ctx.restore();
-  }
-});
-const nBR  = v => v.toLocaleString('pt-BR');
-const pt1  = v => v.toFixed(1).replace('.', ',');
-const pt2  = v => v.toFixed(2).replace('.', ',');
-
-function initCharts(D) {
-  const upd = document.getElementById('lastUpdate');
-  if (upd) upd.textContent = 'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
-
-  /* bigstats */
-  const S = Object.fromEntries(D.sementes.map(s => [s.key, s]));
-  document.getElementById('statLeads').textContent   = nBR(D.total_leads);
-  document.getElementById('statViewers').textContent = nBR(S['2_viewers_elb_todos']?.n ?? 0);
-  document.getElementById('statCompr22').textContent = nBR(S['1_compradores_elb22']?.n ?? 0);
-
-  /* leads por dia */
-  new Chart(chLeads, {
-    type: 'line',
-    data: {
-      labels: D.leads_dia.labels.map(d => d.slice(5).split('-').reverse().join('/')),
-      datasets: [{
-        label: 'Leads/dia', data: D.leads_dia.leads,
-        borderColor: BLUE, backgroundColor: BLUE + '22',
-        borderWidth: 2, pointRadius: 0, pointHitRadius: 12, fill: true, tension: .25
-      }]
-    },
-    options: {
-      interaction: { mode: 'index', intersect: false },
-      plugins: { legend: { display: false },
-        tooltip: { callbacks: { label: c => nBR(c.raw) + ' leads' } } },
-      scales: {
-        x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } },
-        y: { grid: { color: '#eef1f6' }, ticks: { callback: nBR }, beginAtZero: true }
-      }
-    }
-  });
-
-  /* IQL — bigstats, faixas e trilha diária */
-  if (D.iql) {
-    document.getElementById('statIqlTotal').textContent = nBR(D.iql.total_escorados);
-    document.getElementById('statIqlPct').textContent   = pt1(D.iql.pct_aa) + '%';
-    document.getElementById('statIqlAA').textContent    = nBR(D.iql.n_aa);
-    const ref = document.getElementById('iqlRef');
-    if (ref && D.iql.updated_ref) ref.textContent = 'Leads escorados até ' +
-      D.iql.updated_ref.split('-').reverse().join('/') + ' (pré-merge, atualização manual do modelo).';
-
-    /* faixas: escala ordinal A+→D — rampa sequencial de um matiz */
-    const RAMP = ['#1d4ed8', '#3b6ef5', '#7ca1f8', '#b3c7fb', '#dbe3f8'];
-    const totalIql = D.iql.total_escorados;
-    new Chart(chIqlFaixas, {
-      type: 'bar',
-      data: {
-        labels: D.iql.faixas.labels,
-        datasets: [{ data: D.iql.faixas.n, backgroundColor: RAMP, borderRadius: 4, barThickness: 40 }]
-      },
-      options: {
-        plugins: { legend: { display: false },
-          tooltip: { callbacks: { label: c => nBR(c.raw) + ' leads · ' + pt1(c.raw / totalIql * 100) + '%' } } },
-        scales: {
-          x: { grid: { display: false } },
-          y: { display: false, max: Math.max(...D.iql.faixas.n) * 1.2 }
-        }
-      },
-      plugins: [valueLabels(v => pt1(v / totalIql * 100) + '%')]
+/* ── tooltip ── */
+const tip = document.getElementById('tip');
+function bindTips(root) {
+  root.querySelectorAll('[data-tip]').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      tip.textContent = el.dataset.tip;
+      tip.style.display = 'block';
+      tip.style.left = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8) + 'px';
+      tip.style.top = (e.clientY - 34) + 'px';
     });
-
-    new Chart(chIqlDia, {
-      type: 'line',
-      data: {
-        labels: D.iql.dia.labels.map(d => d.slice(5).split('-').reverse().join('/')),
-        datasets: [{
-          label: '% A+/A', data: D.iql.dia.pct_aa,
-          borderColor: BLUE, borderWidth: 2, pointRadius: 0, pointHitRadius: 12, tension: .25
-        }]
-      },
-      options: {
-        interaction: { mode: 'index', intersect: false },
-        plugins: { legend: { display: false },
-          tooltip: { callbacks: {
-            label: c => pt1(c.raw) + '% A+/A · ' + nBR(D.iql.dia.leads[c.dataIndex]) + ' leads' } } },
-        scales: {
-          x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
-          y: { grid: { color: '#eef1f6' }, ticks: { callback: v => pt1(v) + '%' }, beginAtZero: true }
-        }
-      }
-    });
-  }
-
-  /* benchmark ELS — teste vs Advantage na mesma janela */
-  new Chart(chBench, {
-    type: 'bar',
-    data: {
-      labels: D.bench_els.map(b => [b.nome, b.janela + ' · ' + b.spend]),
-      datasets: [
-        { label: 'ROAS do teste', data: D.bench_els.map(b => b.roas),
-          backgroundColor: BLUE, borderRadius: 4, barThickness: 13 },
-        { label: 'Advantage na mesma janela', data: D.bench_els.map(b => b.adv),
-          backgroundColor: GREY, borderRadius: 4, barThickness: 13 }
-      ]
-    },
-    options: {
-      indexAxis: 'y',
-      plugins: { legend: { display: false },
-        tooltip: { callbacks: {
-          label: c => c.datasetIndex === 0
-            ? 'Teste: ' + pt2(c.raw) + ' · ' + D.bench_els[c.dataIndex].nota
-            : 'Advantage na janela: ' + pt2(c.raw) } } },
-      scales: {
-        x: { display: false, max: Math.max(...D.bench_els.map(b => b.roas)) * 1.25 },
-        y: { grid: { display: false } }
-      }
-    },
-    plugins: [valueLabels(v => pt2(v))]
+    el.addEventListener('mouseleave', () => tip.style.display = 'none');
   });
+}
 
-  /* perfil das sementes — 2 séries (%) */
-  new Chart(chPerfil, {
-    type: 'bar',
-    data: {
-      labels: D.sementes.map(s => s.label),
-      datasets: [
-        { label: '% decil 7+ de renda', data: D.sementes.map(s => s.decil7),
-          backgroundColor: BLUE,  borderRadius: 4, barThickness: 14 },
-        { label: '% cartão premium',    data: D.sementes.map(s => s.premium),
-          backgroundColor: AMBER, borderRadius: 4, barThickness: 14 }
-      ]
-    },
-    options: {
-      indexAxis: 'y',
-      plugins: { legend: { position: 'top', labels: { boxWidth: 12, boxHeight: 12 } },
-        tooltip: { callbacks: { label: c => c.dataset.label + ': ' + pt1(c.raw) + '%' } } },
-      scales: {
-        x: { display: false, max: Math.max(...D.sementes.map(s => s.premium)) * 1.25 },
-        y: { grid: { display: false } }
-      }
-    },
-    plugins: [valueLabels(v => pt1(v) + '%')]
-  });
-
-  /* perfil socioeconômico — 2 stacked 100% + tabela */
-  if (D.perfil_socio?.length) {
-    const P = D.perfil_socio;
-    /* faixas ordinais → rampa sequencial (claro=jovem/básico, escuro=velho/black) */
-    const RAMP4 = ['#dbe3f8', '#9db9f9', '#5b86f7', '#1d4ed8'];
-    const stack100 = (el, labels, series) => new Chart(el, {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: series.map((s, i) => ({
-          label: s.label, data: s.data, backgroundColor: RAMP4[i],
-          borderColor: '#fff', borderWidth: 1, barThickness: 16
-        }))
-      },
-      options: {
-        indexAxis: 'y',
-        plugins: { legend: { position: 'top', labels: { boxWidth: 12, boxHeight: 12 } },
-          tooltip: { callbacks: { label: c => c.dataset.label + ': ' + pt1(c.raw) + '%' } } },
-        scales: {
-          x: { stacked: true, max: 100, ticks: { callback: v => v + '%' }, grid: { display: false } },
-          y: { stacked: true, grid: { display: false } }
-        }
-      }
-    });
-    const rot = P.map(p => p.label);
-    stack100(chIdade, rot, [
-      { label: '14–29', data: P.map(p => p.pct_14_29) },
-      { label: '30–44', data: P.map(p => p.pct_30_44) },
-      { label: '45–59', data: P.map(p => p.pct_45_59) },
-      { label: '60+',   data: P.map(p => p.pct_60_mais) }
-    ]);
-    stack100(chCartao, rot, [
-      { label: 'Básico/débito', data: P.map(p => p.pct_basico) },
-      { label: 'Gold',          data: P.map(p => p.pct_gold) },
-      { label: 'Platinum/Amex', data: P.map(p => p.pct_plat_amex) },
-      { label: 'Black',         data: P.map(p => p.pct_black) }
-    ]);
-    document.getElementById('tbSocio').innerHTML = P.map(p =>
-      `<tr><td>${p.label}</td><td class="num">${nBR(p.n)}</td><td class="num">${pt2(p.decil_medio)}</td>
-       <td class="num">${pt1(p.pct_decil7)}%</td><td class="num">R$ ${nBR(Math.round(p.renda_pc_mediana))}</td>
-       <td class="num">${pt1(p.pct_black)}%</td><td class="num">${pt1(p.pct_masc)}%</td>
-       <td class="num">${pt1(p.idade_media)}</td><td class="num">${pt1(p.pct_60_mais)}%</td>
-       <td class="num">${pt1(p.pct_capital)}%</td><td class="num">${pt1(p.pct_sudeste)}%</td>
-       <td class="num">${pt1(p.pct_sul)}%</td></tr>`
-    ).join('');
+/* ── line/area ── */
+function lineChart(el, labels, vals, { fmt, area = true, suffix = '' }) {
+  const W = 440, H = 190, L = 44, R = 8, T = 12, B = 26;
+  const max = Math.max(...vals) * 1.12;
+  const x = i => L + i * (W - L - R) / (labels.length - 1);
+  const y = v => T + (H - T - B) * (1 - v / max);
+  const pts = vals.map((v, i) => `${x(i)},${y(v)}`).join(' ');
+  let g = '';
+  for (let k = 0; k <= 4; k++) {
+    const v = max * k / 4, yy = y(v);
+    g += `<line x1="${L}" y1="${yy}" x2="${W - R}" y2="${yy}" stroke="var(--grid)" stroke-width="1"/>`
+       + `<text x="${L - 6}" y="${yy + 3}" text-anchor="end">${fmt(v)}</text>`;
   }
+  let xl = '';
+  const step = Math.ceil(labels.length / 6);
+  labels.forEach((d, i) => { if (i % step === 0) xl += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${d}</text>`; });
+  const areaP = area ? `<polygon points="${L},${y(0)} ${pts} ${x(vals.length - 1)},${y(0)}" fill="var(--blue)" opacity=".12"/>` : '';
+  const dots = vals.map((v, i) =>
+    `<circle class="hover-target" cx="${x(i)}" cy="${y(v)}" r="9" fill="transparent" data-tip="${labels[i]} · ${fmt(v)}${suffix}"/>`).join('');
+  const last = vals.length - 1;
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img">${g}${areaP}
+    <polyline points="${pts}" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="${x(last)}" cy="${y(vals[last])}" r="3.5" fill="var(--blue)"/>${dots}${xl}</svg>`;
+  bindTips(el);
+}
 
-  /* tabela */
-  document.getElementById('tbSementes').innerHTML = D.sementes.map(s =>
-    `<tr><td>${s.label}</td><td class="num">${nBR(s.n)}</td><td class="num">${pt2(s.decil)}</td>
-     <td class="num">${pt1(s.decil7)}%</td><td class="num">${pt1(s.premium)}%</td><td class="num">${pt1(s.masc)}%</td></tr>`
-  ).join('');
+/* ── faixas IQL (barras verticais, rampa ordinal) ── */
+function faixasChart(el, labels, vals, ramp) {
+  const W = 860, H = 170, L = 10, B = 24, T = 18;
+  const total = vals.reduce((a, b) => a + b, 0);
+  const max = Math.max(...vals) * 1.15;
+  const bw = 90, gap = (W - L * 2 - labels.length * bw) / (labels.length - 1);
+  let s = '';
+  labels.forEach((lb, i) => {
+    const x0 = L + i * (bw + gap), h = (H - T - B) * vals[i] / max, y0 = H - B - h;
+    s += `<rect class="hover-target" x="${x0}" y="${y0}" width="${bw}" height="${h}" rx="3"
+      fill="${ramp[Math.min(i, ramp.length - 1)]}" data-tip="${lb}: ${nBR(vals[i])} leads · ${p1(vals[i] / total * 100)}%"/>
+      <text class="val" x="${x0 + bw / 2}" y="${y0 - 5}" text-anchor="middle">${p1(vals[i] / total * 100)}%</text>
+      <text x="${x0 + bw / 2}" y="${H - 8}" text-anchor="middle">${lb}</text>`;
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img">${s}</svg>`;
+  bindTips(el);
+}
+
+/* ── barras pareadas (bench) ── */
+function benchChart(el, rows) {
+  const W = 860, rowH = 52, L = 190, R = 60, H = rows.length * rowH + 8;
+  const max = 3.0;
+  const w = v => (W - L - R) * v / max;
+  let s = '';
+  rows.forEach((r, i) => {
+    const y0 = 8 + i * rowH;
+    s += `<text class="cat" x="${L - 10}" y="${y0 + 20}" text-anchor="end">${r.nome}</text>
+      <text x="${L - 10}" y="${y0 + 34}" text-anchor="end" opacity=".65" font-size="10">${r.janela} · ${r.spend}</text>
+      <rect class="hover-target" x="${L}" y="${y0 + 6}" width="${Math.max(w(r.roas), 1.5)}" height="13" rx="3" fill="var(--blue)"
+        data-tip="ROAS teste ${p2(r.roas)} · ${r.nota}"/>
+      <text class="val" x="${L + Math.max(w(r.roas), 1.5) + 7}" y="${y0 + 17}">${p2(r.roas)}</text>
+      <rect class="hover-target" x="${L}" y="${y0 + 23}" width="${w(r.adv)}" height="13" rx="3" fill="var(--grey)"
+        data-tip="Advantage na mesma janela: ${p2(r.adv)}"/>
+      <text x="${L + w(r.adv) + 7}" y="${y0 + 34}">${p2(r.adv)}</text>`;
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img">${s}</svg>`;
+  bindTips(el);
+}
+
+/* ── barras pareadas (sementes) ── */
+function seedsChart(el, rows) {
+  const W = 860, rowH = 50, L = 200, R = 62, H = rows.length * rowH + 6;
+  const max = 70;
+  const w = v => (W - L - R) * v / max;
+  let s = '';
+  rows.forEach((r, i) => {
+    const y0 = 6 + i * rowH;
+    s += `<text class="cat" x="${L - 10}" y="${y0 + 19}" text-anchor="end">${r.label}</text>
+      <text x="${L - 10}" y="${y0 + 33}" text-anchor="end" opacity=".65" font-size="10">${nBR(r.n)}</text>
+      <rect class="hover-target" x="${L}" y="${y0 + 5}" width="${w(r.decil7)}" height="13" rx="3" fill="var(--blue)"
+        data-tip="% decil 7+: ${p1(r.decil7)}%"/>
+      <text class="val" x="${L + w(r.decil7) + 7}" y="${y0 + 16}">${p1(r.decil7)}%</text>
+      <rect class="hover-target" x="${L}" y="${y0 + 22}" width="${w(r.premium)}" height="13" rx="3" fill="var(--amber)"
+        data-tip="% cartão premium: ${p1(r.premium)}%"/>
+      <text x="${L + w(r.premium) + 7}" y="${y0 + 33}">${p1(r.premium)}%</text>`;
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img">${s}</svg>`;
+  bindTips(el);
+}
+
+/* ── dot strips ── */
+function dotStrips(el, rows, dims, groupColor) {
+  const W = 860, rowH = 46, L = 185, R = 40, H = dims.length * rowH + 6;
+  let s = '';
+  dims.forEach((dim, di) => {
+    const y = 24 + di * rowH;
+    const vals = rows.map(r => r[dim.k]);
+    const lo = Math.min(...vals), hi = Math.max(...vals);
+    const pad = (hi - lo) * 0.08 || 1;
+    const x = v => L + (W - L - R) * (v - lo + pad) / (hi - lo + 2 * pad);
+    s += `<text class="cat" x="${L - 12}" y="${y + 4}" text-anchor="end" font-weight="600">${dim.label}</text>
+      <line x1="${L}" y1="${y}" x2="${W - R}" y2="${y}" stroke="var(--grid)" stroke-width="2"/>
+      <text x="${x(lo)}" y="${y + 20}" text-anchor="middle" font-size="10.5">${dim.fmt(lo)}</text>
+      <text class="val" x="${x(hi)}" y="${y - 12}" text-anchor="middle" font-size="10.5">${dim.fmt(hi)}</text>`;
+    rows.forEach(r => {
+      s += `<circle class="hover-target" cx="${x(r[dim.k])}" cy="${y}" r="6.5"
+        fill="${groupColor[r.grupo]}" stroke="var(--card)" stroke-width="2"
+        data-tip="${r.label}: ${dim.fmt(r[dim.k])}"/>`;
+    });
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img">${s}</svg>`;
+  bindTips(el);
+}
+
+/* ── stacked 100% ── */
+function stackChart(el, legendEl, rows, bands, ramp, shortLabel) {
+  const W = 440, rowH = 34, L = 150, R = 12, H = rows.length * rowH + 24;
+  let s = '';
+  rows.forEach((r, i) => {
+    const y0 = 4 + i * rowH;
+    let acc = 0;
+    s += `<text class="cat" x="${L - 8}" y="${y0 + 16}" text-anchor="end" font-size="10.5">${shortLabel(r)}</text>`;
+    bands.forEach((b, k) => {
+      const v = r[b.k], bw = (W - L - R) * v / 100;
+      s += `<rect class="hover-target" x="${L + acc}" y="${y0 + 4}" width="${Math.max(bw - 1.5, 0)}" height="15" rx="2"
+        fill="${ramp[k]}" data-tip="${r.label} · ${b.label}: ${p1(v)}%"/>`;
+      acc += bw;
+    });
+  });
+  const ax = [0, 25, 50, 75, 100].map(v =>
+    `<text x="${L + (W - L - R) * v / 100}" y="${H - 4}" text-anchor="middle" font-size="10">${v}%</text>`).join('');
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img">${s}${ax}</svg>`;
+  legendEl.innerHTML = bands.map((b, k) =>
+    `<span><span class="sw" style="background:${ramp[k]}"></span>${b.label}</span>`).join('');
+  bindTips(el);
+}
+
+const SHORT = {
+  "1_compradores_elb22": "Compr. ELB22", "2_compradores_elb24": "Compr. ELB24",
+  "3_conversos_leads_elb24": "Conversos ELB24", "4_viewers_serie_principal": "Série principal",
+  "5_viewers_parte1_2023": "Parte I (2023)", "6_viewers_entrevistas": "Entrevistas",
+  "7_viewers_producao_2026": "Produção 2026", "8_compradores_els": "Compr. ELS",
+  "9_leads_aa_elb26": "Leads A+/A",
+};
+
+let DATA = null;
+function render() {
+  const D = DATA; if (!D) return;
+  const RAMP = [css('--r1'), css('--r2'), css('--r3'), css('--r4')];
+  const GC = { c: css('--blue'), v: css('--grey'), f: css('--amber') };
+
+  /* header dinâmico */
+  document.getElementById('hdrDate').textContent = new Date(D.updated_at).toLocaleDateString('pt-BR');
+  document.getElementById('lastUpdate').textContent = 'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
+  document.getElementById('chipLeads').textContent = nBR(D.total_leads) + ' leads';
+  document.getElementById('chipIql').textContent = p1(D.iql.pct_aa) + '% A+/A (' + nBR(D.iql.total_escorados) + ' escorados)';
+  document.getElementById('h2Aquec').textContent =
+    'O aquecimento acelera — ' + (Math.max(...D.leads_dia.leads) / 1000).toFixed(1).replace('.', ',') + 'k leads no pico diário';
+  if (D.iql.updated_ref) document.getElementById('iqlRef').textContent = dBR(D.iql.updated_ref);
+  document.getElementById('iqlTotais').textContent = nBR(D.iql.n_aa) + ' leads A+/A — viram a semente "conversor de funil"';
+
+  /* seção 1 */
+  const dias = D.leads_dia.labels.map(dBR);
+  lineChart(document.getElementById('chLeads'), dias, D.leads_dia.leads,
+    { fmt: v => v >= 1000 ? (v / 1000).toFixed(v >= 10000 ? 0 : 1).replace('.', ',') + 'k' : Math.round(v), suffix: ' leads' });
+  lineChart(document.getElementById('chAA'), D.iql.dia.labels.map(dBR), D.iql.dia.pct_aa,
+    { fmt: v => p1(v) + '%', area: false });
+  faixasChart(document.getElementById('chFaixas'), D.iql.faixas.labels, D.iql.faixas.n,
+    [css('--r4'), css('--r3'), css('--r2'), css('--r1'), css('--grey')]);
+
+  /* seção 2 + 3 */
+  benchChart(document.getElementById('chBench'), D.bench_els);
+  seedsChart(document.getElementById('chSeeds'), D.sementes);
+  document.getElementById('tbSeeds').innerHTML = D.sementes.map(r =>
+    `<tr><td>${r.label}</td><td class="num">${nBR(r.n)}</td><td class="num">${p2(r.decil)}</td>
+     <td class="num">${p1(r.decil7)}%</td><td class="num">${p1(r.premium)}%</td><td class="num">${p1(r.masc)}%</td></tr>`).join('');
+
+  /* seção 4 */
+  const P = D.perfil_socio;
+  dotStrips(document.getElementById('chStrips'), P, [
+    { k: 'pct_black', label: '% cartão black', fmt: v => p1(v) + '%' },
+    { k: 'decil_medio', label: 'Decil médio de renda', fmt: v => p2(v) },
+    { k: 'renda_pc_mediana', label: 'Renda p.c. mediana', fmt: v => 'R$ ' + nBR(Math.round(v)) },
+    { k: 'idade_media', label: 'Idade média', fmt: v => p1(v) },
+    { k: 'pct_60_mais', label: '% com 60+', fmt: v => p1(v) + '%' },
+    { k: 'pct_masc', label: '% masculino', fmt: v => p1(v) + '%' }
+  ], GC);
+  const short = r => SHORT[r.key] || r.label;
+  stackChart(document.getElementById('chIdade'), document.getElementById('lgIdade'), P, [
+    { k: 'pct_14_29', label: '14–29' }, { k: 'pct_30_44', label: '30–44' },
+    { k: 'pct_45_59', label: '45–59' }, { k: 'pct_60_mais', label: '60+' }
+  ], RAMP, short);
+  stackChart(document.getElementById('chCartao'), document.getElementById('lgCartao'), P, [
+    { k: 'pct_basico', label: 'Básico/débito' }, { k: 'pct_gold', label: 'Gold' },
+    { k: 'pct_plat_amex', label: 'Platinum/Amex' }, { k: 'pct_black', label: 'Black' }
+  ], RAMP, short);
+  document.getElementById('tbSocio').innerHTML = P.map(r =>
+    `<tr><td>${r.label}</td><td class="num">${nBR(r.n)}</td><td class="num">${p2(r.decil_medio)}</td>
+     <td class="num">R$ ${nBR(Math.round(r.renda_pc_mediana))}</td><td class="num ${r.pct_black >= 30 ? 'hl' : ''}">${p1(r.pct_black)}%</td>
+     <td class="num">${p1(r.pct_masc)}%</td><td class="num ${r.idade_media >= 55 ? 'hl' : ''}">${p1(r.idade_media)}</td>
+     <td class="num ${r.pct_60_mais >= 38 ? 'hl' : ''}">${p1(r.pct_60_mais)}%</td><td class="num">${p1(r.pct_capital)}%</td>
+     <td class="num">${p1(r.pct_sudeste)}%</td><td class="num">${p1(r.pct_sul)}%</td></tr>`).join('');
 }
 
 /* carregar data.json — NUNCA colocar dados direto no HTML */
 fetch('./data.json')
   .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-  .then(D => initCharts(D))
+  .then(D => { DATA = D; render(); })
   .catch(err => {
     console.error('Falha ao carregar data.json:', err);
     document.querySelector('main').insertAdjacentHTML('afterbegin',
-      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
+      `<div style="background:color-mix(in srgb, var(--red) 12%, transparent);border:1px solid var(--red);border-radius:8px;padding:16px;margin-top:24px;color:var(--red);font-size:13px">
         ⚠ Erro ao carregar dados: ${err.message}. Para visualização local, usar <code>python -m http.server</code> na pasta do relatório.
       </div>`);
   });
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
 </script>
 </body>
 </html>
