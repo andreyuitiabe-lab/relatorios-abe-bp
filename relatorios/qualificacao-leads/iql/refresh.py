@@ -2,14 +2,12 @@
 """
 Relatório: IQL — Índice de Qualidade de Lead (monitoramento do modelo + resultados).
 
-Puxa dos modelos dbt do IQL (fct_lead_iql / fct_iql_weights — pré-merge em
-bp-staging.dbt_abe; pós-merge trocar DATASET para bp-datawarehouse.datamart) e do
+Puxa dos modelos dbt do IQL (fct_lead_iql / fct_iql_weights, em
+bp-datawarehouse.masterdata desde o merge da MR !2426) e do
 spend Meta, agrega server-side e escreve data.json. Nenhum número hardcoded no
 index.html, exceto o bloco BACKTEST (resultado da recalibração local).
 
-⚠️ Pré-merge o fct_lead_iql NÃO atualiza sozinho — rodar antes, no repo bp-dbt-dw:
-  dbt run --select models/marts/marketing/iql --target local --defer --state manifest --favor-state
-Pós-merge o job diário (tag 11h00_utc) assume e este aviso morre.
+O job diário (tag 11h00_utc) mantém os modelos atualizados.
 
 ⚠️ Não expor pesos do scorecard aqui (repo público) — apenas faixas, IV e agregados.
 
@@ -28,9 +26,10 @@ TAGS_PESQUISA = "('" + "','".join(TAGS) + "')"
 # filtro de campanhas Meta (nm_campaign_name carrega a sigla entre colchetes)
 FILTRO_META = " OR ".join(f"CONTAINS_SUBSTR(nm_campaign_name,'[{t}]')" for t in TAGS)
 
-# Fonte: modelos dbt do IQL. Pré-merge (MR !2426) vivem em bp-staging.dbt_abe;
-# no cutover pós-merge, trocar apenas esta constante.
-DATASET = "bp-staging.dbt_abe"
+# Fonte: modelos dbt do IQL em produção. Atenção: o schema é definido por prefixo
+# (macro get_inferred_schema) — fct_/dim_ vão para masterdata, int_ para staging e
+# cbo_ para datamart. Este relatório lê os dois fct_, então masterdata.
+DATASET = "bp-datawarehouse.masterdata"
 FCT = f"`{DATASET}.fct_lead_iql`"
 PESOS = f"`{DATASET}.fct_iql_weights`"
 

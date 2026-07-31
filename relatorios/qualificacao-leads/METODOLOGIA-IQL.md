@@ -68,7 +68,7 @@ O β vem de uma regressão logística sobre os atributos WOE-codificados e resol
 
 **A única manutenção humana que sobrou é o de-para.**
 
-Trava de maturidade: uma tag entra no treino quando o **p99** dos seus cadastros é ≤ hoje−240 dias **e** ela tem ≥100 conversões de Não Membro — hoje 13 tags. O p99 (em vez do máximo) evita que um cadastro retardatário segure a campanha inteira fora do treino; os 240 dias cobrem o membro que compra no evento seguinte.
+Trava de maturidade: uma tag entra no treino quando o **p99** dos seus cadastros é ≤ hoje−240 dias **e** ela tem ≥100 conversões de Não Membro — hoje 14 tags. O p99 (em vez do máximo) evita que um cadastro retardatário segure a campanha inteira fora do treino; os 240 dias cobrem o membro que compra no evento seguinte.
 
 Enquanto não há campanha madura com pesquisa in-funnel, os atributos de pesquisa rodam sobre um **prior de bootstrap** (a calibração v0.3 entra como pseudo-observações de peso fixo). Ele domina agora e desaparece sozinho conforme dado maduro acumula — o EVG matura por volta de mar/2027.
 
