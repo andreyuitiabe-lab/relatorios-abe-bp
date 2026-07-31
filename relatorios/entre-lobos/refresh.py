@@ -98,6 +98,79 @@ WHERE nm_tag = 'ELB26'
 GROUP BY 1 ORDER BY 1
 """
 
+# Perfil do espectador da produção 2026 (padrão do relatório el-salvador):
+# novos viewers/dia, plano de assinatura, % membros ativos, % novos da campanha, score de upsell ML.
+Q_V26_DIA = """
+WITH v AS (
+  SELECT LOWER(nm_email) AS email, MIN(DATE(dt_created_at)) AS dia
+  FROM `bp-datawarehouse.datamart.obt_kafka__view_sessions`
+  WHERE nm_playlist LIKE 'Entre Lobos 2026%' AND nm_email IS NOT NULL
+  GROUP BY 1
+  HAVING SUM(vl_watch_time_seconds) >= 300
+)
+SELECT dia, COUNT(*) AS novos FROM v GROUP BY 1 ORDER BY 1
+"""
+
+Q_V26_PLANO = """
+WITH v AS (
+  SELECT LOWER(nm_email) AS email
+  FROM `bp-datawarehouse.datamart.obt_kafka__view_sessions`
+  WHERE nm_playlist LIKE 'Entre Lobos 2026%' AND nm_email IS NOT NULL
+  GROUP BY 1
+  HAVING SUM(vl_watch_time_seconds) >= 300
+),
+u AS (
+  SELECT LOWER(nm_email) AS email, MAX(id_user) AS id_user
+  FROM `bp-datawarehouse.masterdata.dim_user`
+  WHERE nm_email IS NOT NULL GROUP BY 1
+),
+s AS (
+  SELECT id_user, nm_plan_label, nm_gateway_status,
+    MIN(dt_started_at) OVER (PARTITION BY id_user) AS primeira_assinatura
+  FROM `bp-datawarehouse.masterdata.dim_subscriptions`
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY id_user ORDER BY dt_started_at DESC) = 1
+)
+SELECT
+  COALESCE(s.nm_plan_label, 'Sem assinatura') AS plano,
+  COUNT(*) AS n,
+  COUNTIF(s.nm_gateway_status = 'active') AS ativos,
+  COUNTIF(DATE(s.primeira_assinatura) >= '2026-07-14') AS novos_campanha
+FROM v
+JOIN u USING (email)
+LEFT JOIN s USING (id_user)
+GROUP BY 1 ORDER BY n DESC
+"""
+
+Q_V26_UPSELL = """
+WITH v26 AS (
+  SELECT LOWER(nm_email) AS email, 'producao_2026' AS grupo
+  FROM `bp-datawarehouse.datamart.obt_kafka__view_sessions`
+  WHERE nm_playlist LIKE 'Entre Lobos 2026%' AND nm_email IS NOT NULL
+  GROUP BY 1 HAVING SUM(vl_watch_time_seconds) >= 300
+),
+vserie AS (
+  SELECT LOWER(nm_email) AS email, 'serie_principal' AS grupo
+  FROM `bp-datawarehouse.datamart.obt_kafka__view_sessions`
+  WHERE nm_playlist = 'Entre Lobos' AND nm_email IS NOT NULL
+  GROUP BY 1 HAVING SUM(vl_watch_time_seconds) >= 300
+),
+g AS (SELECT * FROM v26 UNION ALL SELECT * FROM vserie),
+u AS (
+  SELECT LOWER(nm_email) AS email, MAX(id_user) AS id_user
+  FROM `bp-datawarehouse.masterdata.dim_user`
+  WHERE nm_email IS NOT NULL GROUP BY 1
+)
+SELECT g.grupo,
+  COUNT(*) AS n_com_score,
+  ROUND(AVG(p.cd_percentile_y_predicted_probabilities), 1) AS percentil_medio,
+  ROUND(COUNTIF(p.cd_percentile_y_predicted_probabilities >= 80) / COUNT(*) * 100, 1) AS pct_top20
+FROM g
+JOIN u USING (email)
+JOIN `bp-datawarehouse.ml_models.dtm_lead_score_predictions_upsell_current` p USING (id_user)
+WHERE p.nm_target_variable = 'upsell_in_30_days'
+GROUP BY 1
+"""
+
 # Benchmark fixo: testes de segmentação da fase [VENDA] do ELS, comparados com o Advantage
 # NA MESMA JANELA de spend do teste (+7d de cauda) — correção de 30/07 (ver els-analise.md).
 # Os testes foram rajadas de 2–13 dias numa curva que decai 4,8→1,6; comparar com o agregado
@@ -152,6 +225,31 @@ def build() -> dict:
     print("  leads ELB26 por dia...", flush=True)
     leads_rows = bq(Q_LEADS_DIA)
 
+    print("  perfil do espectador (produção 2026)...", flush=True)
+    v26_dia = bq(Q_V26_DIA)
+    v26_plano = bq(Q_V26_PLANO)
+    v26_upsell = {r["grupo"]: r for r in bq(Q_V26_UPSELL)}
+    total_v26 = sum(ii(r["n"]) for r in v26_plano)
+    espectador = {
+        "total": total_v26,
+        "ativos": sum(ii(r["ativos"]) for r in v26_plano),
+        "novos_campanha": sum(ii(r["novos_campanha"]) for r in v26_plano),
+        "dia": {
+            "labels": [str(r["dia"]) for r in v26_dia],
+            "novos": [ii(r["novos"]) for r in v26_dia],
+        },
+        "planos": [
+            {"plano": r["plano"], "n": ii(r["n"]), "ativos": ii(r["ativos"])}
+            for r in v26_plano[:8]
+        ],
+        "outros_planos": sum(ii(r["n"]) for r in v26_plano[8:]),
+        "upsell": {
+            g: {"n": ii(r["n_com_score"]), "percentil_medio": fi(r["percentil_medio"]),
+                "pct_top20": fi(r["pct_top20"])}
+            for g, r in v26_upsell.items()
+        },
+    }
+
     print("  IQL ELB26 (faixas + diário)...", flush=True)
     iql_faixas = bq(Q_IQL_FAIXAS)
     iql_dia = bq(Q_IQL_DIA)
@@ -175,6 +273,7 @@ def build() -> dict:
         "total_leads": sum(ii(r["leads"]) for r in leads_rows),
         "bench_els": BENCH_ELS,
         "perfil_socio": perfil_socio,
+        "espectador": espectador,
         "iql": {
             "updated_ref": max((str(r["dia"]) for r in iql_dia), default=None),
             "total_escorados": total_iql,

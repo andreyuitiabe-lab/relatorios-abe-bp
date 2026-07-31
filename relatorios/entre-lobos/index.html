@@ -251,7 +251,33 @@
 
 <!-- ── 5 · Recomendação ────────────────────────────────────────────── -->
 <section>
-  <p class="eyebrow">5 · Arquitetura recomendada para a fase [VENDA] · revisada 31/07</p>
+  <p class="eyebrow">5 · Perfil do espectador — produção 2026</p>
+  <h2 id="h2Espectador">Quem está assistindo "Só o Crime Está Seguro"</h2>
+  <p class="lede">A produção nova estreou em 29/07, <b>antes</b> da venda abrir — quem assiste agora é a
+  audiência de upsell do adset de membros (métricas no padrão do relatório do El Salvador). Atualiza
+  a cada refresh.</p>
+  <div class="statusbar" style="margin-bottom:14px">
+    <span class="chip">Viewers ≥5min: <b id="chipV26">—</b></span>
+    <span class="chip">Membros ativos: <b id="chipV26Ativos">—</b></span>
+    <span class="chip">Assinaram após 14/07 (novos da campanha): <b id="chipV26Novos">—</b></span>
+    <span class="chip">Top-20% propensão a upsell (ML): <b id="chipV26Upsell">—</b></span>
+  </div>
+  <div class="duo">
+    <div class="card">
+      <p class="chart-title">Novos viewers únicos por dia</p>
+      <div id="chV26Dia"></div>
+    </div>
+    <div class="card">
+      <p class="chart-title">Plano de assinatura dos viewers (assinatura mais recente)</p>
+      <div id="chV26Plano"></div>
+    </div>
+  </div>
+  <p class="note" id="noteUpsell">—</p>
+</section>
+
+<!-- ── 6 · Recomendação ────────────────────────────────────────────── -->
+<section>
+  <p class="eyebrow">6 · Arquitetura recomendada para a fase [VENDA] · revisada 31/07</p>
   <h2>Onde colocar o budget de segmentação</h2>
   <div class="card">
     <div class="rec">
@@ -418,6 +444,23 @@ function seedsChart(el, rows) {
   bindTips(el);
 }
 
+/* ── barras horizontais simples ── */
+function hbarChart(el, rows, { fmt, color }) {
+  const W = 440, rowH = 33, L = 165, R = 56, H = rows.length * rowH + 6;
+  const max = Math.max(...rows.map(r => r.v)) * 1.1;
+  const w = v => (W - L - R) * v / max;
+  let s = '';
+  rows.forEach((r, i) => {
+    const y0 = 5 + i * rowH;
+    s += `<text class="cat" x="${L - 8}" y="${y0 + 15}" text-anchor="end" font-size="10.5">${r.l}</text>
+      <rect class="hover-target" x="${L}" y="${y0 + 4}" width="${Math.max(w(r.v), 1.5)}" height="15" rx="3"
+        fill="${color}" data-tip="${r.l}: ${fmt(r.v)}${r.extra || ''}"/>
+      <text class="val" x="${L + Math.max(w(r.v), 1.5) + 7}" y="${y0 + 16}">${fmt(r.v)}</text>`;
+  });
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img">${s}</svg>`;
+  bindTips(el);
+}
+
 /* ── dot strips ── */
 function dotStrips(el, rows, dims, groupColor) {
   const W = 860, rowH = 46, L = 185, R = 40, H = dims.length * rowH + 6;
@@ -504,6 +547,30 @@ function render() {
   document.getElementById('tbSeeds').innerHTML = D.sementes.map(r =>
     `<tr><td>${r.label}</td><td class="num">${nBR(r.n)}</td><td class="num">${p2(r.decil)}</td>
      <td class="num">${p1(r.decil7)}%</td><td class="num">${p1(r.premium)}%</td><td class="num">${p1(r.masc)}%</td></tr>`).join('');
+
+  /* seção 5 — perfil do espectador produção 2026 */
+  if (D.espectador) {
+    const E = D.espectador;
+    document.getElementById('chipV26').textContent = nBR(E.total);
+    document.getElementById('chipV26Ativos').textContent =
+      nBR(E.ativos) + ' (' + p1(E.ativos / E.total * 100) + '%)';
+    document.getElementById('chipV26Novos').textContent =
+      nBR(E.novos_campanha) + ' (' + p1(E.novos_campanha / E.total * 100) + '%)';
+    const u26 = E.upsell.producao_2026, useR = E.upsell.serie_principal;
+    if (u26) document.getElementById('chipV26Upsell').textContent = p1(u26.pct_top20) + '%';
+    lineChart(document.getElementById('chV26Dia'), E.dia.labels.map(dBR), E.dia.novos,
+      { fmt: v => nBR(Math.round(v)), suffix: ' novos viewers' });
+    hbarChart(document.getElementById('chV26Plano'),
+      E.planos.map(p => ({ l: p.plano, v: p.n,
+        extra: ' · ' + nBR(p.ativos) + ' ativos' })),
+      { fmt: nBR, color: css('--blue') });
+    if (u26 && useR) document.getElementById('noteUpsell').innerHTML =
+      `<b>Score de upsell (ML, upsell_in_30_days):</b> ${p1(u26.pct_top20)}% dos viewers da produção 2026
+      estão no top-20% de propensão (percentil médio ${p1(u26.percentil_medio)}), vs
+      ${p1(useR.pct_top20)}% na audiência histórica da série (percentil médio ${p1(useR.percentil_medio)}) —
+      régua para priorizar a audiência do adset de upsell. Score disponível para quem tem conta
+      (${nBR(u26.n)} viewers da produção 2026 escorados).`;
+  }
 
   /* seção 4 */
   const P = D.perfil_socio;
