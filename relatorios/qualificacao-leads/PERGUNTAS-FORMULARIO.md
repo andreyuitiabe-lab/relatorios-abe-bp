@@ -8,7 +8,7 @@ Adicionar candidatas aqui conforme surgirem; promover a "em coleta" quando entra
 - **Máx. 2 perguntas novas por campanha** — cada pergunta custa conversão do formulário.
 - **Sempre fechadas** e com wording neutro (nunca "caro", nunca opção que induza).
 - Ciclo de vida: `candidata → em coleta → ativa (IV comprova) → aposentada (IV não comprova)`.
-- Operacional: pergunta nova = linhas novas no `seed_iql_de_para`; entra rodando no prior
+- Operacional: pergunta nova = linhas novas no `dim_iql_mapping`; entra rodando no prior
   (D39) e **o IV decide se fica** — zero mudança de código.
 - Governança D20: pesos e IV das respostas **não circulam** para quem opera campanha.
 

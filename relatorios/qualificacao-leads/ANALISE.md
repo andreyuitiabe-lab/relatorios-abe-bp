@@ -1,18 +1,19 @@
 # Análise: Qualificação de Leads — Framework CPL×CAC → IQL
 
 **Data:** mai/2026 → jul/2026 (fase de produção)
-**Status:** IQL v1 com **pesos vivos** implementado, revisado 3× e commitado na **MR !2426** (pipeline verde) — aguardando merge
-**Relatório:** [index.html](index.html) · **Metodologia canônica:** [METODOLOGIA-IQL.md](METODOLOGIA-IQL.md) (decisões D1–D41)
+**Status:** IQL v1 (pesos vivos) na **MR !2426** (pipeline verde, `mergeable`) — aguardando merge. **Dashboard já roda no modelo v1** (D44, 27/jul): 5 faixas A+/A/B/C/D, ELB26 monitorada, personas Fantasma/sem Reencontrado (D42–D43), visão por campanha Meta e métrica de página de obrigado (D45).
+**Relatório:** [iql/index.html](iql/index.html) · **Metodologia canônica:** [METODOLOGIA-IQL.md](METODOLOGIA-IQL.md) (decisões D1–D45) · **Banco de perguntas:** [PERGUNTAS-FORMULARIO.md](PERGUNTAS-FORMULARIO.md)
 **Wiki:** `~/.claude/wiki-bp/pages/iql.md` · `metricas-referencia.md` | memória: `project_lead_qualification_framework`
 
 ---
 
 ## Para retomar
 
-**Próximo passo:** a MR !2426 está pronta para revisão humana (pipeline 100% verde no commit `6e339e8e8`). Atribuir revisor no GitLab. **Após o merge**, executar o cutover D+1:
-1. Repontar a view do dashboard do André para `bp-datawarehouse.datamart.cbo_lead_conversion_iql` (hoje lê a ad-hoc `bp-staging.dbt_abe.vw_lead_conversion_iql`).
-2. Aposentar o protótipo `tb_lead_iql` (v0.2, scheduled query parada desde 08/07) e a `vw_lead_conversion_iql`.
-3. Pedir ao Claude para **recriar o health-check diário** apontando para produção (receita completa em `~/.claude/AGENDA.md` → Recorrentes; foi pausado pré-merge por re-enfileirar fora de hora).
+**Próximo passo:** merge da MR !2426 (pipeline verde no `6e339e8e8`, sem revisor formal — padrão do repo é o autor mergear; dúvida de seeds resolvida em comentário na MR). **Cutover pós-merge ficou trivial** (D44): trocar a constante `DATASET` no `iql/refresh.py` para `bp-datawarehouse.datamart` — e então:
+1. Aposentar de vez o protótipo (`tb_lead_iql` + `vw_lead_conversion_iql`); antes, migrar `tb_iql_woe_respostas`/`tb_iql_iv_perguntas` (ainda derivam do protótipo — sql em `~/meu_projeto/BigQuery/iql_v0/sql/`) para o `mart_iql_iv` no dbt.
+2. Recriar o health-check diário apontando para produção (receita em `~/.claude/AGENDA.md` → Recorrentes).
+3. **Enquanto o merge não sai**: para atualizar o dashboard, rodar antes `dbt run --select models/marts/marketing/iql --target local --defer --state manifest --favor-state` no `bp-dbt-dw` (o fct em staging não atualiza sozinho), depois `python3 iql/refresh.py`.
+4. **Commit pendente no repo `relatorios-abe-bp`**: todo o trabalho de 27/jul (dashboard v1, personas, ELB26, PERGUNTAS-FORMULARIO.md, D42–D45) está só no working tree — commitar com o André.
 
 **Wiki a carregar:** `wiki-bp/pages/iql.md` (mapa do modelo) → `dbt-status.md` → `dbt-overview.md`. Para mexer no código: `bp-dbt-dw/models/marts/marketing/iql/README.md` (DAG + ordem de revisão + gotchas de CI).
 
@@ -20,9 +21,9 @@
 - **SQLFluff é pinado em 3.4.0** no CI (`requirements.txt`). Lintar com outra versão dá falso-verde — as regras de indentação de jinja divergem.
 - Modelos incrementais têm `full_refresh=false`. Ao renomear coluna antes do merge, é preciso dropar as cópias stale em `bp-staging:docs_validation.<modelo>` e `pipeline_integrity_validation.<modelo>`, senão o CI quebra.
 - Validação local usa **swap-materialization**: compilar e trocar os refs de upstream para produção antes de rodar em `bp-staging.dbt_abe`.
-- Betas (`seed_iql_betas`) são **congelados**, estimados offline por `~/meu_projeto/BigQuery/iql_v0/iql_recalibra_v03.py`. Não rodam no pipeline (ver "por que" na D39).
+- Betas (`dim_iql_betas`) são **congelados**, estimados offline por `~/meu_projeto/BigQuery/iql_v0/iql_recalibra_v03.py`. Não rodam no pipeline (ver "por que" na D39).
 
-**Fila do projeto (pós-merge):** (1) apresentação; (2) piloto ELB26 formalizado (gate Spearman CPLq×CAC, leitura D+60); (3) modelo IV no dbt (`mart_iql_iv` — hoje protótipo `tb_iql_iv_perguntas`), pré-requisito do dash de perguntas; (4) CAPI v2; (5) **1º refit ~mar/2027** quando EVG maturar: revalidar β, reavaliar quarentena do DDD, threshold de uniformidade 2,0, ablação da `paga_conteudo` (β 0,19 = mais sobreposta).
+**Fila do projeto (pós-merge):** (1) apresentação; (2) piloto ELB26 formalizado (gate Spearman CPLq×CAC, leitura D+60 ~set/2026; acompanhamento já no dashboard); (3) perguntas de intenção/motivação no próximo formulário (P1/P2 do [PERGUNTAS-FORMULARIO.md](PERGUNTAS-FORMULARIO.md)); (4) modelo IV no dbt (`mart_iql_iv` — hoje protótipo `tb_iql_iv_perguntas`), pré-requisito do dash de perguntas e da aposentadoria total do protótipo; (5) CAPI v2 (EV por faixa já disponível em `vl_reference_ev`); (6) **1º refit ~mar/2027** quando EVG maturar: revalidar β, reavaliar quarentena do DDD, threshold de uniformidade 2,0, ablação da `paga_conteudo`, re-medir múltiplos D28/D31 por 5 faixas (hoje aproximados A+∪A→A, C∪D→C), reavaliar promoção do "Reincidente silencioso" a persona e RFV pré-cadastro como família de atributos.
 
 ---
 
@@ -164,11 +165,11 @@ O protótipo (`tb_lead_iql`, scheduled query) virou modelo dbt versionado. Detal
 
 | Camada | Modelos |
 |---|---|
-| Níveis | `int_iql_lead_niveis` (grão e-mail×tag; status direto do dtm) |
-| Pesos vivos | `int_iql_woe_vivo` → `fct_iql_pesos` (versionado, append-only, gate no insert) |
-| Score | `fct_lead_iql` → `cbo_lead_conversion_iql` (consumo) + `fct_lead_iql_historico` (auditoria) |
-| Config | `seed_iql_de_para` · `_betas` · `_woe_bootstrap` · `_cutoffs` · `_ddd_regiao` |
-| Testes | `iql_pesos_sanidade` (warn) · `iql_niveis_sem_peso` (error) |
+| Níveis | `int_iql_lead_levels` (grão e-mail×tag; status direto do dtm) |
+| Pesos vivos | `int_iql_woe_live` → `fct_iql_weights` (versionado, append-only, gate no insert) |
+| Score | `fct_lead_iql` → `cbo_lead_conversion_iql` (consumo) + `fct_lead_iql_history` (auditoria) |
+| Config | `dim_iql_mapping` · `_betas` · `_woe_bootstrap` · `_cutoffs` · `_ddd_region` |
+| Testes | `iql_weights_sanity` (warn) · `iql_missing_weight_levels` (error) |
 
 **A mudança de arquitetura (D39 — "pesos vivos")**: o WOE de cada resposta passou a ser **recalculado pelo próprio pipeline** a partir das campanhas maduras, congelado por evento de safra (`cd_version` = hash do conjunto de treino). A única manutenção humana que sobrou é o **de-para**. Motivador: pedido explícito de "recalcular o valor de cada resposta sem rodar script e subir MR".
 

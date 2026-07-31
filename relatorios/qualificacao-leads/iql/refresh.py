@@ -2,7 +2,7 @@
 """
 Relatório: IQL — Índice de Qualidade de Lead (monitoramento do modelo + resultados).
 
-Puxa dos modelos dbt do IQL (fct_lead_iql / fct_iql_pesos — pré-merge em
+Puxa dos modelos dbt do IQL (fct_lead_iql / fct_iql_weights — pré-merge em
 bp-staging.dbt_abe; pós-merge trocar DATASET para bp-datawarehouse.datamart) e do
 spend Meta, agrega server-side e escreve data.json. Nenhum número hardcoded no
 index.html, exceto o bloco BACKTEST (resultado da recalibração local).
@@ -32,7 +32,7 @@ FILTRO_META = " OR ".join(f"CONTAINS_SUBSTR(nm_campaign_name,'[{t}]')" for t in 
 # no cutover pós-merge, trocar apenas esta constante.
 DATASET = "bp-staging.dbt_abe"
 FCT = f"`{DATASET}.fct_lead_iql`"
-PESOS = f"`{DATASET}.fct_iql_pesos`"
+PESOS = f"`{DATASET}.fct_iql_weights`"
 
 # Faixas do scorecard v1 (5 bandas). "Qualificado" (IQL/CPLq) = A+ ∪ A — preserva a
 # semântica da v0.2 (A ≈ ≥2× conversão base); para os múltiplos de valor D28
@@ -334,7 +334,7 @@ def main():
       GROUP BY 1, 2 ORDER BY 1, 2""")
 
     # ── impacto: o que move o score ─────────────────────────────────────────
-    # Aliases do UNPIVOT = valores de nm_attribute em fct_iql_pesos (join abaixo).
+    # Aliases do UNPIVOT = valores de nm_attribute em fct_iql_weights (join abaixo).
     # Pontos ficam apenas na memória deste processo (governança D20).
     UNPIVOT = """UNPIVOT(nivel FOR atributo IN (
           nm_status_level AS 'status_cadastro', nm_survey_response_level AS 'respondeu_pesquisa',
