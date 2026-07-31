@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil do Comprador — BP 10 Anos · Brasil Paralelo Analytics · snapshot 31/07</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <style>
+    :root {
+      --bg-base:        #0D0F12;
+      --bg-card:        #111318;
+      --bg-card-alt:    #1E293B;
+      --border:         #1E293B;
+      --border-subtle:  #334155;
+      --text-primary:   #F1F5F9;
+      --text-secondary: #CBD5E1;
+      --text-muted:     #64748B;
+      --text-label:     #475569;
+      --brand:          #00C896;
+      --brand-light:    #2DD9B4;
+      --brand-subtle:   rgba(0, 200, 150, 0.12);
+      --positive:       #00C896;
+      --negative:       #EF4444;
+      --warning:        #F59E0B;
+      --font-sans:      'Inter', system-ui, sans-serif;
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+      --space-6: 1.5rem; --space-8: 2rem; --space-12: 3rem; --space-16: 4rem;
+      --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-pill: 999px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--bg-base); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+    .page-wrapper { max-width: 1280px; margin: 0 auto; padding: var(--space-8) var(--space-6) var(--space-16); }
+
+    .report-header { border-bottom: 1px solid var(--border); padding-bottom: var(--space-8); margin-bottom: var(--space-8); }
+    .breadcrumb { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand); margin-bottom: var(--space-3); display: flex; align-items: center; gap: var(--space-2); }
+    .breadcrumb-sep { color: var(--text-label); }
+    h1 { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: var(--space-2); }
+    .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: var(--space-4); }
+    .header-meta { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+
+    .badge { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.25rem 0.7rem; border-radius: var(--radius-pill); }
+    .badge-active  { background: var(--brand-subtle); color: var(--brand-light); border: 1px solid rgba(0,200,150,.3); }
+    .badge-warning { background: rgba(245,158,11,.12); color: #FCD34D; border: 1px solid rgba(245,158,11,.3); }
+    .badge-neutral { background: rgba(100,116,139,.12); color: #94A3B8; border: 1px solid rgba(100,116,139,.3); }
+
+    .section { margin-bottom: var(--space-12); }
+    .section-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-label); padding-bottom: var(--space-3); border-bottom: 1px solid var(--border); margin-bottom: var(--space-6); display: flex; align-items: center; gap: var(--space-2); }
+    .section-label-brand { border-bottom-color: var(--brand); color: var(--brand); }
+
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-6); }
+    .card-brand-border { border-top: 2px solid var(--brand); }
+    .card-warning-border { border-top: 2px solid var(--warning); }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-8); }
+    .kpi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-6); position: relative; overflow: hidden; }
+    .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--brand); }
+    .kpi-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-label); margin-bottom: var(--space-2); display: flex; align-items: center; gap: var(--space-2); }
+    .kpi-value { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+    .kpi-value span { color: var(--brand); }
+    .kpi-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: var(--space-2); }
+
+    .chart-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); margin-bottom: var(--space-8); }
+    @media (max-width: 900px) { .chart-grid-2 { grid-template-columns: 1fr; } }
+    .chart-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); margin-bottom: var(--space-8); }
+    @media (max-width: 1000px) { .chart-grid-3 { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .chart-grid-3 { grid-template-columns: 1fr; } }
+
+    /* barras comparativas BP10 vs base (padrão relatório ELS) */
+    .compare-block { margin-bottom: var(--space-3); }
+    .compare-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .compare-name { font-size: 0.8rem; color: var(--text-secondary); }
+    .compare-values { display: flex; gap: var(--space-4); font-size: 0.8rem; }
+    .cv-es { color: var(--brand); font-weight: 600; }
+    .cv-bg { color: var(--text-muted); }
+    .compare-bars { display: flex; gap: 4px; flex-direction: column; }
+    .compare-bar-track { flex: 1; background: var(--border); border-radius: var(--radius-pill); height: 5px; overflow: hidden; }
+    .compare-bar-fill { height: 100%; border-radius: var(--radius-pill); }
+    .es-fill { background: var(--brand); }
+    .bg-fill { background: #334155; }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead th { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-label); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); text-align: left; }
+    thead th.right { text-align: right; }
+    tbody td { font-size: 0.875rem; color: var(--text-secondary); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border-subtle); }
+    tbody td.right { text-align: right; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: rgba(255,255,255,.02); }
+    .td-mono { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; font-weight: 500; }
+
+    /* barra empilhada novo/ativo/ex */
+    .stack-block { margin-bottom: var(--space-4); }
+    .stack-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; gap: var(--space-3); }
+    .stack-name { font-size: 0.83rem; color: var(--text-secondary); font-weight: 500; }
+    .stack-meta { font-size: 0.72rem; color: var(--text-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .stack-track { display: flex; height: 10px; border-radius: var(--radius-pill); overflow: hidden; background: var(--border); }
+    .seg-novo  { background: var(--warning); }
+    .seg-ativo { background: var(--brand); }
+    .seg-ex    { background: var(--negative); }
+    .legend { display: flex; gap: var(--space-4); margin-bottom: var(--space-4); flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--text-muted); }
+    .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+
+    /* barra simples */
+    .bar-row { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); }
+    .bar-label { font-size: 0.8rem; color: var(--text-secondary); width: 170px; flex-shrink: 0; }
+    .bar-track { flex: 1; background: var(--border); border-radius: var(--radius-pill); height: 6px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: var(--radius-pill); background: var(--brand); }
+    .bar-fill.warning { background: var(--warning); }
+    .bar-fill.alt { background: #334155; }
+    .bar-value { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); width: 64px; text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+    /* ranking */
+    .affinity-row { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) 0; border-bottom: 1px solid var(--border-subtle); }
+    .affinity-row:last-child { border-bottom: none; }
+    .affinity-rank { width: 24px; height: 24px; border-radius: var(--radius-sm); background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 700; color: var(--text-muted); flex-shrink: 0; }
+    .affinity-rank.top3 { background: var(--brand-subtle); color: var(--brand); }
+    .affinity-name { flex: 1; font-size: 0.875rem; color: var(--text-secondary); }
+    .affinity-bar-wrap { width: 140px; display: flex; align-items: center; gap: var(--space-2); }
+    .affinity-pct { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); width: 46px; text-align: right; font-variant-numeric: tabular-nums; }
+
+    .insight-list { display: flex; flex-direction: column; gap: var(--space-4); }
+    .insight-item { display: flex; gap: var(--space-4); align-items: flex-start; }
+    .insight-icon { width: 36px; height: 36px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .insight-icon.brand { background: var(--brand-subtle); color: var(--brand); }
+    .insight-icon.warning { background: rgba(245,158,11,.12); color: #FCD34D; }
+    .insight-icon.info { background: rgba(100,116,139,.12); color: #94A3B8; }
+    .insight-title { font-size: 0.875rem; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+    .insight-body { font-size: 0.825rem; color: var(--text-muted); line-height: 1.5; }
+
+    .footnote { font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; }
+    .footnote code { background: var(--bg-card-alt); padding: 1px 5px; border-radius: var(--radius-sm); font-size: 0.72rem; }
+    .table-scroll { overflow-x: auto; }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- ── HEADER ── -->
+  <header class="report-header">
+    <div class="breadcrumb">
+      Brasil Paralelo
+      <span class="breadcrumb-sep">·</span>
+      Analytics
+      <span class="breadcrumb-sep">·</span>
+      Perfil de Compradores
+    </div>
+    <h1>Perfil do Comprador<br>BP 10 Anos</h1>
+    <p class="subtitle">Quem compra na campanha de aniversário, por produto · aquecimento 11/06 → snapshot 30/07/2026</p>
+    <div class="header-meta">
+      <span class="badge badge-warning">Campanha em aberto — números parciais</span>
+      <span class="badge badge-active">Dados atualizados 31/07</span>
+      <span class="badge badge-neutral">3.481 compradores</span>
+      <span class="badge badge-neutral">R$ 3,02M em vendas atribuídas</span>
+    </div>
+  </header>
+
+  <!-- ── KPIs ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="bar-chart-2" style="width:14px;height:14px"></i>
+      Números-chave
+    </div>
+    <div class="kpi-grid">
+
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="users" style="width:12px;height:12px"></i> Compradores</div>
+        <div class="kpi-value">3<span>.</span>481</div>
+        <div class="kpi-sub">pessoas únicas (email) · 11/06 → 30/07</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="gem" style="width:12px;height:12px"></i> Receita Vitalício</div>
+        <div class="kpi-value">69<span>%</span></div>
+        <div class="kpi-sub">R$ 2,06M de R$ 3,02M · 1.244 compradores</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="user-check" style="width:12px;height:12px"></i> Membros ativos</div>
+        <div class="kpi-value">55<span>%</span></div>
+        <div class="kpi-sub">tinham assinatura ativa ou vitalício na compra</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="user-plus" style="width:12px;height:12px"></i> Novos (1ª compra)</div>
+        <div class="kpi-value">44<span>%</span></div>
+        <div class="kpi-sub">nenhuma compra aprovada antes da campanha</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="user-x" style="width:12px;height:12px"></i> Ex-membros</div>
+        <div class="kpi-value">~1<span>%</span></div>
+        <div class="kpi-sub">30 pessoas — a campanha não reativa churned</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label"><i data-lucide="mail-x" style="width:12px;height:12px"></i> Nunca foram lead</div>
+        <div class="kpi-value">40<span>%</span></div>
+        <div class="kpi-sub">sem cadastro em nenhuma campanha · Vitalício: 53%</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── PERFIL POR PRODUTO ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="layers" style="width:14px;height:14px"></i>
+      Perfil por produto — novo · ativo · ex-membro
+    </div>
+
+    <div class="chart-grid-2">
+      <div class="card card-brand-border">
+        <div class="section-label">Composição dos compradores</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot seg-novo"></div>Novo (1ª compra)</div>
+          <div class="legend-item"><div class="legend-dot seg-ativo"></div>Membro ativo</div>
+          <div class="legend-item"><div class="legend-dot seg-ex"></div>Ex-membro</div>
+        </div>
+
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Vitalício Black</span><span class="stack-meta">83 · 16% novos</span></div>
+          <div class="stack-track"><div class="seg-novo" style="width:15.7%"></div><div class="seg-ativo" style="width:74.7%"></div><div class="seg-ex" style="width:9.6%"></div></div>
+        </div>
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Vitalício Premium</span><span class="stack-meta">499 · 34% novos</span></div>
+          <div class="stack-track"><div class="seg-novo" style="width:33.9%"></div><div class="seg-ativo" style="width:65.3%"></div><div class="seg-ex" style="width:0.8%"></div></div>
+        </div>
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Vitalício Básico</span><span class="stack-meta">481 · 35% novos</span></div>
+          <div class="stack-track"><div class="seg-novo" style="width:35.1%"></div><div class="seg-ativo" style="width:62.6%"></div><div class="seg-ex" style="width:2.3%"></div></div>
+        </div>
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Vitalício Apoiador + outros</span><span class="stack-meta">181 · 24% novos</span></div>
+          <div class="stack-track"><div class="seg-novo" style="width:23.8%"></div><div class="seg-ativo" style="width:75.7%"></div><div class="seg-ex" style="width:0.5%"></div></div>
+        </div>
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Mecenas</span><span class="stack-meta">21 · 95% ativos</span></div>
+          <div class="stack-track"><div class="seg-novo" style="width:4.8%"></div><div class="seg-ativo" style="width:95.2%"></div></div>
+        </div>
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Clube do Livro</span><span class="stack-meta">300 · 89% ativos</span></div>
+          <div class="stack-track"><div class="seg-novo" style="width:10.3%"></div><div class="seg-ativo" style="width:89.3%"></div><div class="seg-ex" style="width:0.3%"></div></div>
+        </div>
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Assinatura Premium</span><span class="stack-meta">247 · 41% novos</span></div>
+          <div class="stack-track"><div class="seg-novo" style="width:41.3%"></div><div class="seg-ativo" style="width:58.3%"></div><div class="seg-ex" style="width:0.4%"></div></div>
+        </div>
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Assinatura Essencial/Interm.</span><span class="stack-meta">894 · 59% novos</span></div>
+          <div class="stack-track"><div class="seg-novo" style="width:58.5%"></div><div class="seg-ativo" style="width:41.4%"></div><div class="seg-ex" style="width:0.1%"></div></div>
+        </div>
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Assinatura Apoiador/combos</span><span class="stack-meta">772 · 63% novos</span></div>
+          <div class="stack-track"><div class="seg-novo" style="width:63.0%"></div><div class="seg-ativo" style="width:36.7%"></div><div class="seg-ex" style="width:0.4%"></div></div>
+        </div>
+      </div>
+
+      <div class="card card-brand-border">
+        <div class="section-label">Compradores e receita por produto</div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th class="right">Compradores</th>
+                <th class="right">Receita</th>
+                <th class="right">Ticket médio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Vitalício Premium</td><td class="right td-mono">499</td><td class="right td-mono">R$ 958k</td><td class="right td-mono">R$ 1.921</td></tr>
+              <tr><td>Vitalício Básico</td><td class="right td-mono">481</td><td class="right td-mono">R$ 573k</td><td class="right td-mono">R$ 1.192</td></tr>
+              <tr><td>Clube do Livro</td><td class="right td-mono">300</td><td class="right td-mono">R$ 371k</td><td class="right td-mono">R$ 1.238</td></tr>
+              <tr><td>Vitalício Black</td><td class="right td-mono">83</td><td class="right td-mono">R$ 330k</td><td class="right td-mono">R$ 3.979</td></tr>
+              <tr><td>Vitalício Apoiador + outros</td><td class="right td-mono">181</td><td class="right td-mono">R$ 202k</td><td class="right td-mono">R$ 1.116</td></tr>
+              <tr><td>Assinatura Essencial/Interm.</td><td class="right td-mono">894</td><td class="right td-mono">R$ 192k</td><td class="right td-mono">R$ 215</td></tr>
+              <tr><td>Mecenas</td><td class="right td-mono">21</td><td class="right td-mono">R$ 174k</td><td class="right td-mono">R$ 8.289</td></tr>
+              <tr><td>Assinatura Premium</td><td class="right td-mono">247</td><td class="right td-mono">R$ 113k</td><td class="right td-mono">R$ 457</td></tr>
+              <tr><td>Assinatura Apoiador/combos</td><td class="right td-mono">772</td><td class="right td-mono">R$ 104k</td><td class="right td-mono">R$ 134</td></tr>
+              <tr><td>Odisseia</td><td class="right td-mono">3</td><td class="right td-mono">R$ 4k</td><td class="right td-mono">R$ 1.288</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--border);">
+          <span class="badge badge-active">Dois públicos: high-ticket = base ativa · assinaturas = gente nova</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PERFIL SOCIOECONÔMICO ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="users" style="width:14px;height:14px"></i>
+      Perfil socioeconômico — comprador BP10 vs base ativa
+    </div>
+    <div class="chart-grid-3">
+
+      <!-- GÊNERO -->
+      <div class="card card-brand-border">
+        <div class="section-label">Gênero <span style="color:var(--text-label);font-weight:400">(inferido)</span></div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--brand)"></div>BP10</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#334155"></div>Base ativa</div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">Masculino</span>
+            <div class="compare-values"><span class="cv-es">61,2%</span><span class="cv-bg">60,7%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:61.2%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:60.7%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">Feminino</span>
+            <div class="compare-values"><span class="cv-es">38,8%</span><span class="cv-bg">39,3%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:38.8%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:39.3%"></div></div>
+          </div>
+        </div>
+        <div style="margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--border);">
+          <span class="badge badge-neutral">Idêntico à base</span>
+        </div>
+      </div>
+
+      <!-- FAIXA ETÁRIA -->
+      <div class="card card-brand-border">
+        <div class="section-label">Faixa etária <span style="color:var(--text-label);font-weight:400">(quem informou · n=1.033)</span></div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--brand)"></div>BP10</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#334155"></div>Base ativa</div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">18 – 24</span>
+            <div class="compare-values"><span class="cv-es">1,4%</span><span class="cv-bg">0,9%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:1.4%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:0.9%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">25 – 34</span>
+            <div class="compare-values"><span class="cv-es">6,2%</span><span class="cv-bg">7,2%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:6.2%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:7.2%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">35 – 44</span>
+            <div class="compare-values"><span class="cv-es">25,0%</span><span class="cv-bg">24,0%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:25.0%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:24.0%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">45 – 54</span>
+            <div class="compare-values"><span class="cv-es">29,9%</span><span class="cv-bg">29,9%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:29.9%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:29.9%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">55 – 64</span>
+            <div class="compare-values"><span class="cv-es">19,2%</span><span class="cv-bg">21,7%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:19.2%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:21.7%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">65+</span>
+            <div class="compare-values"><span class="cv-es">18,4%</span><span class="cv-bg">16,3%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:18.4%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:16.3%"></div></div>
+          </div>
+        </div>
+        <div style="margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--border);">
+          <span class="badge badge-active">+2pp em 65+ · maduro como a base</span>
+        </div>
+      </div>
+
+      <!-- REGIÃO -->
+      <div class="card card-brand-border">
+        <div class="section-label">Região <span style="color:var(--text-label);font-weight:400">(quem tem UF)</span></div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--brand)"></div>BP10</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#334155"></div>Base ativa</div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">Sudeste</span>
+            <div class="compare-values"><span class="cv-es">53,5%</span><span class="cv-bg">52,7%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:53.5%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:52.7%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">Sul</span>
+            <div class="compare-values"><span class="cv-es">19,4%</span><span class="cv-bg">19,1%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:19.4%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:19.1%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">Nordeste</span>
+            <div class="compare-values"><span class="cv-es">13,5%</span><span class="cv-bg">13,5%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:13.5%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:13.5%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">Centro-Oeste</span>
+            <div class="compare-values"><span class="cv-es">9,5%</span><span class="cv-bg">10,2%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:9.5%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:10.2%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">Norte</span>
+            <div class="compare-values"><span class="cv-es">4,0%</span><span class="cv-bg">4,5%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:4.0%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:4.5%"></div></div>
+          </div>
+        </div>
+        <div style="margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--border);">
+          <span class="badge badge-neutral">Mesma geografia da base</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-grid-2">
+      <!-- RENDA E CARTÃO -->
+      <div class="card card-brand-border">
+        <div class="section-label">Renda e cartão de crédito</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--brand)"></div>BP10</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#334155"></div>Base ativa</div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">% decil 7+ de renda (IBGE por CEP)</span>
+            <div class="compare-values"><span class="cv-es">45,9%</span><span class="cv-bg">42,5%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:45.9%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:42.5%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">% cartão premium (platinum/amex/black)</span>
+            <div class="compare-values"><span class="cv-es">63,1%</span><span class="cv-bg">57,2%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:63.1%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:57.2%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">% cartão black</span>
+            <div class="compare-values"><span class="cv-es">36,7%</span><span class="cv-bg">30,3%</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:36.7%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:30.3%"></div></div>
+          </div>
+        </div>
+        <div class="compare-block">
+          <div class="compare-header"><span class="compare-name">Decil médio de renda</span>
+            <div class="compare-values"><span class="cv-es">5,89</span><span class="cv-bg">5,71</span></div></div>
+          <div class="compare-bars">
+            <div class="compare-bar-track"><div class="compare-bar-fill es-fill" style="width:58.9%"></div></div>
+            <div class="compare-bar-track"><div class="compare-bar-fill bg-fill" style="width:57.1%"></div></div>
+          </div>
+        </div>
+        <div style="margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--border);">
+          <span class="badge badge-active">+3,4pp decil 7+ · +6pp cartão premium e black</span>
+        </div>
+      </div>
+
+      <div class="card card-brand-border">
+        <div class="section-label">Leitura</div>
+        <div class="insight-list">
+          <div class="insight-item">
+            <div class="insight-icon info"><i data-lucide="copy" style="width:18px;height:18px"></i></div>
+            <div>
+              <div class="insight-title">Demograficamente, o comprador BP10 é a base ativa</div>
+              <div class="insight-body">Gênero, idade e região praticamente idênticos à base de assinantes — esperado, já que 55% dos compradores são membros ativos e o high-ticket vende via CRM para dentro de casa.</div>
+            </div>
+          </div>
+          <div class="insight-item">
+            <div class="insight-icon brand"><i data-lucide="wallet" style="width:18px;height:18px"></i></div>
+            <div>
+              <div class="insight-title">O que distingue é o bolso, não a demografia</div>
+              <div class="insight-body">O comprador BP10 é um degrau acima em poder de compra: +3,4pp em decil 7+ de renda, +6pp em cartão premium e +6pp em cartão black — consistente com o ticket médio puxado por Vitalício e Mecenas.</div>
+            </div>
+          </div>
+          <div class="insight-item">
+            <div class="insight-icon info"><i data-lucide="alert-circle" style="width:18px;height:18px"></i></div>
+            <div>
+              <div class="insight-title">Cobertura dos dados</div>
+              <div class="insight-body">Gênero inferido via IBGE (~86% cobertura); idade só de quem informou nascimento (n=1.033, ~30%); renda = decil IBGE por CEP (~59%); cartão = nível máximo já usado (quem tem cartão conhecido). Comparações sempre sobre quem tem o dado.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ORIGEM DE CADASTRO ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="mail" style="width:14px;height:14px"></i>
+      Origem de cadastro (lead) — antes da compra
+    </div>
+
+    <div class="chart-grid-2">
+      <div class="card card-brand-border">
+        <div class="section-label">Por grupo de produto</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--brand)"></div>Cadastrou na LP BP10</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--warning)"></div>Só outras campanhas</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#334155"></div>Nunca foi lead</div>
+        </div>
+
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Vitalício</span><span class="stack-meta">1.244</span></div>
+          <div class="stack-track"><div style="background:var(--brand);width:5.7%"></div><div style="background:var(--warning);width:41.3%"></div><div style="background:#334155;width:53.0%"></div></div>
+          <div class="stack-meta" style="margin-top:4px">6% BP10 · 41% outras · <strong style="color:var(--text-secondary)">53% nunca foi lead</strong></div>
+        </div>
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Assinatura</span><span class="stack-meta">1.913</span></div>
+          <div class="stack-track"><div style="background:var(--brand);width:34.1%"></div><div style="background:var(--warning);width:33.1%"></div><div style="background:#334155;width:32.8%"></div></div>
+          <div class="stack-meta" style="margin-top:4px">34% BP10 · 33% outras · 33% nunca foi lead</div>
+        </div>
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Clube do Livro</span><span class="stack-meta">300</span></div>
+          <div class="stack-track"><div style="background:var(--brand);width:33.3%"></div><div style="background:var(--warning);width:34.0%"></div><div style="background:#334155;width:32.7%"></div></div>
+          <div class="stack-meta" style="margin-top:4px">33% BP10 · 34% outras · 33% nunca foi lead</div>
+        </div>
+        <div class="stack-block">
+          <div class="stack-header"><span class="stack-name">Mecenas</span><span class="stack-meta">21</span></div>
+          <div class="stack-track"><div style="background:var(--brand);width:28.6%"></div><div style="background:var(--warning);width:47.6%"></div><div style="background:#334155;width:23.8%"></div></div>
+          <div class="stack-meta" style="margin-top:4px">29% BP10 · 48% outras · 24% nunca foi lead</div>
+        </div>
+
+        <div style="margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--border);">
+          <span class="badge badge-warning">Só 24% do cohort passou pela LP da BP10</span>
+        </div>
+      </div>
+
+      <div class="card card-brand-border">
+        <div class="section-label">Campanhas prévias mais comuns <span style="color:var(--text-label);font-weight:400">(% do cohort · cadastro anterior à compra)</span></div>
+
+        <div class="affinity-row"><div class="affinity-rank top3">1</div><div class="affinity-name">lp-principal (site)</div><div class="affinity-bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="affinity-pct">6,9%</div></div></div>
+        <div class="affinity-row"><div class="affinity-rank top3">2</div><div class="affinity-name">VIT — CRM Vitalício</div><div class="affinity-bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:86%"></div></div><div class="affinity-pct">5,9%</div></div></div>
+        <div class="affinity-row"><div class="affinity-rank top3">3</div><div class="affinity-name">EVG — Brasil Evangélico</div><div class="affinity-bar-wrap"><div class="bar-track"><div class="bar-fill" style="width:84%"></div></div><div class="affinity-pct">5,8%</div></div></div>
+        <div class="affinity-row"><div class="affinity-rank">4</div><div class="affinity-name">TLR — Teller</div><div class="affinity-bar-wrap"><div class="bar-track"><div class="bar-fill alt" style="width:80%"></div></div><div class="affinity-pct">5,5%</div></div></div>
+        <div class="affinity-row"><div class="affinity-rank">5</div><div class="affinity-name">RBP — Rádio BP</div><div class="affinity-bar-wrap"><div class="bar-track"><div class="bar-fill alt" style="width:71%"></div></div><div class="affinity-pct">4,9%</div></div></div>
+        <div class="affinity-row"><div class="affinity-rank">6</div><div class="affinity-name">BMA — Raio-X Banco Master</div><div class="affinity-bar-wrap"><div class="bar-track"><div class="bar-fill alt" style="width:68%"></div></div><div class="affinity-pct">4,7%</div></div></div>
+        <div class="affinity-row"><div class="affinity-rank">7</div><div class="affinity-name">DOM — Domingo Sem Deus</div><div class="affinity-bar-wrap"><div class="bar-track"><div class="bar-fill alt" style="width:54%"></div></div><div class="affinity-pct">3,7%</div></div></div>
+        <div class="affinity-row"><div class="affinity-rank">8</div><div class="affinity-name">NTL21 — Natal 2021</div><div class="affinity-bar-wrap"><div class="bar-track"><div class="bar-fill alt" style="width:54%"></div></div><div class="affinity-pct">3,7%</div></div></div>
+        <div class="affinity-row"><div class="affinity-rank">9</div><div class="affinity-name">NTL25 — Natal 2025</div><div class="affinity-bar-wrap"><div class="bar-track"><div class="bar-fill alt" style="width:46%"></div></div><div class="affinity-pct">3,2%</div></div></div>
+        <div class="affinity-row"><div class="affinity-rank">10</div><div class="affinity-name">ELS — El Salvador</div><div class="affinity-bar-wrap"><div class="bar-track"><div class="bar-fill alt" style="width:46%"></div></div><div class="affinity-pct">3,2%</div></div></div>
+
+        <div style="margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--border);">
+          <span class="badge badge-neutral">Origem pulverizada — nenhuma campanha domina (≤7%)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── COMPRAS PRÉVIAS ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="shopping-cart" style="width:14px;height:14px"></i>
+      O que os não-novos já tinham comprado
+    </div>
+
+    <div class="chart-grid-2">
+      <div class="card card-brand-border">
+        <div class="section-label">Produtos prévios <span style="color:var(--text-label);font-weight:400">(compradores com o produto no histórico)</span></div>
+        <div class="bar-row"><div class="bar-label">Básico (good)</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-value">1.045</div></div>
+        <div class="bar-row"><div class="bar-label">Premium GBB</div><div class="bar-track"><div class="bar-fill" style="width:56%"></div></div><div class="bar-value">584</div></div>
+        <div class="bar-row"><div class="bar-label">Apoiador</div><div class="bar-track"><div class="bar-fill" style="width:46%"></div></div><div class="bar-value">479</div></div>
+        <div class="bar-row"><div class="bar-label">Patriota (legado)</div><div class="bar-track"><div class="bar-fill" style="width:46%"></div></div><div class="bar-value">479</div></div>
+        <div class="bar-row"><div class="bar-label">Núcleo (legado)</div><div class="bar-track"><div class="bar-fill alt" style="width:26%"></div></div><div class="bar-value">275</div></div>
+        <div class="bar-row"><div class="bar-label">Acesso Total (legado)</div><div class="bar-track"><div class="bar-fill alt" style="width:24%"></div></div><div class="bar-value">249</div></div>
+        <div class="bar-row"><div class="bar-label">Clube do Livro</div><div class="bar-track"><div class="bar-fill alt" style="width:18%"></div></div><div class="bar-value">184</div></div>
+        <div class="bar-row"><div class="bar-label">Teller</div><div class="bar-track"><div class="bar-fill alt" style="width:13%"></div></div><div class="bar-value">138</div></div>
+        <div class="bar-row"><div class="bar-label">Intermediário</div><div class="bar-track"><div class="bar-fill alt" style="width:13%"></div></div><div class="bar-value">131</div></div>
+        <div class="bar-row"><div class="bar-label">Mecenas</div><div class="bar-track"><div class="bar-fill warning" style="width:9%"></div></div><div class="bar-value">90</div></div>
+        <div class="bar-row"><div class="bar-label">Outro Vitalício</div><div class="bar-track"><div class="bar-fill warning" style="width:23%"></div></div><div class="bar-value">243</div></div>
+      </div>
+
+      <div class="card card-brand-border">
+        <div class="section-label">Leituras</div>
+        <div class="insight-list">
+          <div class="insight-item">
+            <div class="insight-icon brand"><i data-lucide="arrow-up-right" style="width:18px;height:18px"></i></div>
+            <div>
+              <div class="insight-title">O upgrade típico é GBB → Vitalício</div>
+              <div class="insight-body">Básico (1.045) e Premium GBB (584) dominam o histórico dos não-novos — o Vitalício da BP10 está convertendo a base recorrente de assinatura em pagamento único.</div>
+            </div>
+          </div>
+          <div class="insight-item">
+            <div class="insight-icon warning"><i data-lucide="repeat" style="width:18px;height:18px"></i></div>
+            <div>
+              <div class="insight-title">243 já tinham outro Vitalício e compraram de novo</div>
+              <div class="insight-body">Recompra/upgrade de tier (ex: Básico Vit → Black Vit) ou compra para terceiros. 90 compradores eram Mecenas.</div>
+            </div>
+          </div>
+          <div class="insight-item">
+            <div class="insight-icon info"><i data-lucide="history" style="width:18px;height:18px"></i></div>
+            <div>
+              <div class="insight-title">Base antiga presente</div>
+              <div class="insight-body">Planos legados (Patriota, Núcleo, Acesso Total — pré-2022) somam centenas de compradores: a campanha de aniversário mobiliza clientes de longa data, inclusive cadastrados no Natal 2021.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONCLUSÕES ── -->
+  <section class="section">
+    <div class="section-label section-label-brand">
+      <i data-lucide="lightbulb" style="width:14px;height:14px"></i>
+      Conclusões
+    </div>
+    <div class="card card-brand-border">
+      <div class="insight-list">
+        <div class="insight-item">
+          <div class="insight-icon brand"><i data-lucide="split" style="width:18px;height:18px"></i></div>
+          <div>
+            <div class="insight-title">A BP10 é duas campanhas em uma</div>
+            <div class="insight-body">O high-ticket (Vitalício, Mecenas, CDL = 84% da receita) vende para a <strong style="color:var(--text-secondary)">base ativa</strong> — 2/3 a 95% membros, metade sem nunca ter sido lead (CRM direto). As assinaturas de entrada (R$10–239) trazem <strong style="color:var(--text-secondary)">~60% de gente nova</strong>.</div>
+          </div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-icon warning"><i data-lucide="user-x" style="width:18px;height:18px"></i></div>
+          <div>
+            <div class="insight-title">Ex-membros praticamente não voltam (~1%)</div>
+            <div class="insight-body">Apenas ~30 dos 3.481 compradores são churned reativados. Se reativação for objetivo da campanha, o resultado atual é nulo — a oferta atual fala com quem já está dentro ou com quem nunca comprou.</div>
+          </div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-icon brand"><i data-lucide="gem" style="width:18px;height:18px"></i></div>
+          <div>
+            <div class="insight-title">Vitalício Black é o mais "de casa"; Premium/Básico Vit trazem gente de fora</div>
+            <div class="insight-body">Black Vit: 75% membros ativos, ticket R$ 3,7k. Já Premium e Básico Vitalício têm ~34–35% de compradores novos — o vitalício de entrada funciona como porta de aquisição, não só como upsell.</div>
+          </div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-icon info"><i data-lucide="alert-triangle" style="width:18px;height:18px"></i></div>
+          <div>
+            <div class="insight-title">⚠️ Regra de atribuição do dashboard infla a campanha</div>
+            <div class="insight-body">A regra "Caminhos: <code style="background:var(--bg-card-alt);padding:1px 5px;border-radius:4px">anos;aniversario;10</code>" (contains) casa com o tier <code style="background:var(--bg-card-alt);padding:1px 5px;border-radius:4px">[10r]</code> (Apoiador R$10) no nome do checkout e puxa ~8k+ vendas de outros funis (combos El Salvador, Evangélico, CDL, seja-membro genérico). Este relatório usa a regra corrigida: <code style="background:var(--bg-card-alt);padding:1px 5px;border-radius:4px">10</code> só como segmento de caminho.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── METODOLOGIA ── -->
+  <section class="section">
+    <div class="section-label">
+      <i data-lucide="info" style="width:14px;height:14px"></i>
+      Metodologia
+    </div>
+    <div class="card">
+      <p class="footnote">
+        <strong style="color:var(--text-secondary)">Atribuição:</strong> transações aprovadas, sem renovações, <code>dt_ordered_at ≥ 2026-06-11</code>, com UTM contendo <code>bp10</code>/<code>vit</code>, lead tracking contendo <code>bp10</code>, ou caminho de checkout com <code>anos</code>/<code>aniversario</code>/<code>10</code> como segmento (correção sobre a regra do dashboard — ver conclusões).<br>
+        <strong style="color:var(--text-secondary)">Classificação por pessoa</strong> (email, todas as contas via <code>dim_contact</code>), na data da 1ª compra BP10: <em>Novo</em> = sem compra aprovada anterior · <em>Membro ativo</em> = assinatura vigente (<code>active</code>/<code>wo renewal</code>, paid) ou vitalício prévio · <em>Ex-membro</em> = histórico sem nada ativo.<br>
+        <strong style="color:var(--text-secondary)">Leads:</strong> <code>dtm_analytics_lead_conversion</code>, cadastros anteriores à compra.<br>
+        Queries: <code>aniversario-2026/queries/06–10*.sql</code> · Análise completa: <code>aniversario-2026/ANALISE.md</code> · Snapshot 31/07/2026 — campanha em aberto, re-rodar no fechamento.
+      </p>
+    </div>
+  </section>
+
+</div>
+<script>lucide.createIcons();</script>
+</body>
+</html>

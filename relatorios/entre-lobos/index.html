@@ -159,7 +159,9 @@
     <div id="chFaixas"></div>
   </div>
   <p class="note">O último dia é parcial. IQL escorado até <span id="iqlRef">—</span> (modelo pré-merge, atualização
-  manual); cobertura da pesquisa no ELB26: ~50% dos leads. Por governança, só faixas agregadas — nunca pontos.</p>
+  manual); cobertura da pesquisa no ELB26: ~50% dos leads. Por governança, só faixas agregadas — nunca pontos.
+  <b>Conversão</b> = % de leads da faixa com venda atribuída até o snapshot — a venda ainda não abriu, então são
+  compras da fase de cadastro (página de obrigado/CRM); a monotonia A+&gt;A&gt;B&gt;C≈D já aparece.</p>
 </section>
 
 <!-- ── 2 · Benchmark ELS ───────────────────────────────────────────── -->
@@ -353,18 +355,22 @@ function lineChart(el, labels, vals, { fmt, area = true, suffix = '' }) {
 }
 
 /* ── faixas IQL (barras verticais, rampa ordinal) ── */
-function faixasChart(el, labels, vals, ramp) {
-  const W = 860, H = 170, L = 10, B = 24, T = 18;
+function faixasChart(el, labels, vals, ramp, conv) {
+  const W = 860, H = conv ? 188 : 170, L = 10, B = conv ? 42 : 24, T = 18;
   const total = vals.reduce((a, b) => a + b, 0);
   const max = Math.max(...vals) * 1.15;
   const bw = 90, gap = (W - L * 2 - labels.length * bw) / (labels.length - 1);
   let s = '';
   labels.forEach((lb, i) => {
     const x0 = L + i * (bw + gap), h = (H - T - B) * vals[i] / max, y0 = H - B - h;
+    const tip = `${lb}: ${nBR(vals[i])} leads · ${p1(vals[i] / total * 100)}%` +
+      (conv ? ` · conversão ${p2(conv[i])}%` : '');
     s += `<rect class="hover-target" x="${x0}" y="${y0}" width="${bw}" height="${h}" rx="3"
-      fill="${ramp[Math.min(i, ramp.length - 1)]}" data-tip="${lb}: ${nBR(vals[i])} leads · ${p1(vals[i] / total * 100)}%"/>
+      fill="${ramp[Math.min(i, ramp.length - 1)]}" data-tip="${tip}"/>
       <text class="val" x="${x0 + bw / 2}" y="${y0 - 5}" text-anchor="middle">${p1(vals[i] / total * 100)}%</text>
-      <text x="${x0 + bw / 2}" y="${H - 8}" text-anchor="middle">${lb}</text>`;
+      <text x="${x0 + bw / 2}" y="${H - (conv ? 26 : 8)}" text-anchor="middle">${lb}</text>`;
+    if (conv) s += `<text x="${x0 + bw / 2}" y="${H - 8}" text-anchor="middle"
+      fill="var(--green)" font-size="11" font-weight="600">conv ${p2(conv[i])}%</text>`;
   });
   el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img">${s}</svg>`;
   bindTips(el);
@@ -490,7 +496,7 @@ function render() {
   lineChart(document.getElementById('chAA'), D.iql.dia.labels.map(dBR), D.iql.dia.pct_aa,
     { fmt: v => p1(v) + '%', area: false });
   faixasChart(document.getElementById('chFaixas'), D.iql.faixas.labels, D.iql.faixas.n,
-    [css('--r4'), css('--r3'), css('--r2'), css('--r1'), css('--grey')]);
+    [css('--r4'), css('--r3'), css('--r2'), css('--r1'), css('--grey')], D.iql.faixas.conv || null);
 
   /* seção 2 + 3 */
   benchChart(document.getElementById('chBench'), D.bench_els);

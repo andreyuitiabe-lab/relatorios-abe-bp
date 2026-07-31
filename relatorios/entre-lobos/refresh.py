@@ -79,7 +79,10 @@ SEMENTES_LABELS = {
 # Governança D20: repo público só recebe agregados (faixa/%), nunca pontos ou pesos.
 # ⚠️ pré-merge (MR !2426) o fct_lead_iql atualiza só com dbt run manual — ver iql.md.
 Q_IQL_FAIXAS = """
-SELECT nm_iql_band AS faixa, COUNT(*) AS n
+SELECT
+  nm_iql_band AS faixa,
+  COUNT(*) AS n,
+  ROUND(100 * COUNTIF(qt_sales > 0) / COUNT(*), 2) AS pct_conv
 FROM `bp-staging.dbt_abe.fct_lead_iql`
 WHERE nm_tag = 'ELB26'
 GROUP BY 1 ORDER BY 1
@@ -158,7 +161,7 @@ def build() -> dict:
     n_aa = sum(ii(r["n"]) for r in faixas if r["faixa"] in ("A+", "A"))
 
     # governança D20: garantir que só agregados vão ao repo público
-    assert all(set(r.keys()) <= {"faixa", "n"} for r in iql_faixas)
+    assert all(set(r.keys()) <= {"faixa", "n", "pct_conv"} for r in iql_faixas)
     assert all(set(r.keys()) <= {"dia", "leads", "pct_aa"} for r in iql_dia)
 
     return {
@@ -180,6 +183,7 @@ def build() -> dict:
             "faixas": {
                 "labels": [r["faixa"] for r in faixas],
                 "n": [ii(r["n"]) for r in faixas],
+                "conv": [fi(r["pct_conv"]) for r in faixas],
             },
             "dia": {
                 "labels": [str(r["dia"]) for r in iql_dia],

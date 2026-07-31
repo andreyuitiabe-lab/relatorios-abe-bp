@@ -47,3 +47,52 @@ Qual é a meta de leads de aquecimento para atingir R$15M na campanha de anivers
 - `metricas-referencia.md` — adicionado BPDay 2025 e BF 2023/2024 receita/leads
 - `dbt-fct-leads-events.md` — adicionado nota sobre campos de data da `lead_registration`
 - `vitalicio.md` — achados de saturação e composição do 24m+
+
+---
+
+# Análise 2: Perfil dos compradores BP10 (31 jul/2026 — campanha em aberto)
+
+## Pergunta original
+Quem está comprando na BP10, por produto: membros novos, ex-membros ou ativos? Se cadastraram em outras campanhas (quais)? O que já tinham comprado?
+
+## Decisões de abordagem
+
+- **Atribuição**: replicada a regra do dashboard de campanhas (UTM `bp10`/`vit`, tracking `BP10`, caminhos `anos`/`aniversario`/`10`), **com correção**: `10` só como segmento de caminho. A regra original (contains) casa com o tier `[10r]` (Apoiador R$10) e infla ~8k+ vendas de outros funis (combos ELS, EVG, CDL, `[10r] seja-membro`). ⚠️ Provável bug no dashboard — reportar.
+- **Janela**: `dt_ordered_at >= 2026-06-11` (início do aquecimento), approved, sem renovações.
+- **Classificação por email** (1ª compra BP10 da pessoa, todas as contas do email via `dim_contact`):
+  - *Novo* = nenhuma tx aprovada antes da 1ª compra BP10
+  - *Membro ativo* = assinatura ativa (`active`/`wo renewal`, paid, vigente na data) OU vitalício prévio
+  - *Ex-membro* = tinha histórico mas nada ativo
+- **Leads**: `dtm_analytics_lead_conversion` por email; tag BP10 vs outras tags com cadastro anterior à compra.
+
+## Achados principais
+
+- **Cohort: 3.481 compradores, ~R$3,02M** (11/06→30/07). Vitalício = 36% dos compradores e **69% da receita** (R$2,06M).
+- **Perfil por produto (novo / ativo / ex)**: Vitalício 32/66/2 · Mecenas 5/95/0 · Clube do Livro 10/89/0 · Assinaturas 58/42/<1.
+- **Ex-membros ≈ 1% do cohort** (~30 pessoas) — a campanha não está reativando churned; converte base ativa (high-ticket) + gente nova (assinaturas de entrada).
+- **Vitalício Black é o mais "base"**: 75% ativos, ticket R$3,7k. Premium (R$958k) e Básico (R$573k) Vit têm ~34% de novos — vitalício de entrada está trazendo gente de fora.
+- **Leads**: 40% dos compradores nunca foram lead de nenhuma campanha (Vitalício: **53%** — venda direta via CRM/base, coerente com `[VIT]`). Só 24% se cadastraram na LP da BP10.
+- **Cadastros prévios pulverizados**: lp-principal (6,9%), VIT (5,9%), EVG (5,8%), TLR (5,5%), RBP (4,9%), BMA (4,7%) — nenhuma campanha domina a origem.
+- **Socioeconômico (vs base ativa)**: demografia idêntica (masc 61,2/60,7 · região igual · idade madura, +2pp em 65+); o que distingue é poder de compra — decil 7+ 45,9% vs 42,5%, cartão premium 63,1% vs 57,2%, black 36,7% vs 30,3%.
+- **Compras prévias** (não-novos): Básico 1.045, Premium GBB 584, Apoiador 479, Patriota 479, Núcleo 275; **243 já tinham outro vitalício** e recompraram; 90 eram Mecenas.
+
+## Queries
+
+| Query | O quê |
+|---|---|
+| [06_perfil_compradores_bp10.sql](queries/06_perfil_compradores_bp10.sql) | Novo/ativo/ex-membro × produto |
+| [07_leads_origem_compradores.sql](queries/07_leads_origem_compradores.sql) | Visão geral de cadastro de leads |
+| [08_tags_previas_compradores.sql](queries/08_tags_previas_compradores.sql) | Top campanhas prévias |
+| [09_compras_previas.sql](queries/09_compras_previas.sql) | Produtos já comprados antes |
+| [10_leads_por_produto.sql](queries/10_leads_por_produto.sql) | Origem de cadastro × produto |
+| [11_perfil_socioeconomico.sql](queries/11_perfil_socioeconomico.sql) | Gênero, idade, região, renda, cartão — BP10 vs base ativa |
+
+## Relatório
+- [perfil-compradores/index.html](perfil-compradores/index.html) — página HTML no padrão do relatório El Salvador (KPIs, composição novo/ativo/ex por produto, origem de cadastro, compras prévias, conclusões). Snapshot 31/07, dados hardcoded — re-gerar no fechamento da campanha.
+
+## Wiki atualizada
+- `wiki-bp/pages/metricas-referencia.md` — seção "BP10 — perfil dos compradores" (números + gotcha da atribuição `[10r]`)
+
+## Pendências
+- Reportar ao dono do dashboard de campanhas o falso positivo da regra "Caminhos: 10" (casa com tier `[10r]`).
+- Campanha em aberto — números crescem; re-rodar no fechamento.
