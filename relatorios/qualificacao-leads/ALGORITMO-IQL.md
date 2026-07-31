@@ -1,7 +1,9 @@
-# IQL — Índice de Qualidade de Lead (proposta de algoritmo)
+# IQL — Índice de Qualidade de Lead (caderno de evidências do algoritmo)
+
+> ⚠️ **Este documento é o caderno de evidências** (ablações, IV, referências), com medições datadas de jul/2026. Para o **estado atual** do modelo — atributos ativos, faixas, pipeline e governança — a fonte canônica é [METODOLOGIA-IQL.md](METODOLOGIA-IQL.md), cujo registro de decisões (D1–D50) é mantido a cada mudança. Atualizado em 31/jul/2026 nos pontos que contradiziam o estado atual.
 
 **Data:** jul/2026
-**Status:** proposta — aguardando validação com time de mídia
+**Status:** modelo implementado (MR !2426); este caderno reúne as evidências que o sustentam
 **Objetivo:** dar ao marketing uma métrica de direção além do CPL durante a fase de captação, alinhada a expandir a base **e** mirar retorno financeiro de longo prazo.
 
 ---
@@ -25,9 +27,9 @@ Features no momento do cadastro, em 3 blocos:
 | **Status** | Membro Ativo / Vitalício / Ex-Membro / Não Membro | 5–11× Membro vs NM |
 | **Região via DDD** (candidato v0.2) | grupo de UF extraído do telefone | Validado jul/2026: cobertura 86% dos NM, IV 0,032–0,043 (fraco). MT/PR/SC/ES 1,2–1,34× vs Nordeste/AM 0,71–0,95×; "sem DDD válido" 0,78×. Substituto parcial do proxy de renda. Ressalvas: portabilidade, confundimento com targeting regional. Query: `iql_v0/sql/04_exploracao_ddd.sql` |
 | **Histórico de cadastro** | nº do cadastro (1º vs recorrente), **recência do cadastro anterior** | Validado jul/2026 (cohort 2025, NM): recadastro ≤30d converte 4,75% vs 3,93% do 1º cadastro (lift 1,21×, z≈7,7); recadastro 181–365d cai para 3,26% (0,83×); 5+ cadastros 3,31% (0,84×). Sinal modesto mas 100% de cobertura (não depende de pesquisa). ⚠️ Conflita com achado EVG de reativação >1 ano (+50%) — definições diferentes; peso final sai da recalibração WOE, não de ajuste manual. ⚠️ Conversão por cadastro dilui mecanicamente para multi-cadastrantes (compra atribuída a 1 dos N cadastros) — estimar pesos só dentro de NM. Query: `queries/07_recencia_frequencia_cadastro.sql` |
-| **Pesquisa** (NM principalmente) | ~~renda~~ (pergunta removida jul/2026), relação com BP, tempo que conhece BP, fonte de confiança, streaming, respondeu (sim/não) | responder +50%; "nunca ouvi falar" 0,24% vs 1%; streaming como proxy parcial de poder de compra |
+| **Pesquisa** (NM principalmente) | renda, relação com BP, tempo que conhece BP, confiança na mídia tradicional, streaming, respondeu (sim/não) | responder +50%; "nunca ouvi falar" 0,24% vs 1%; streaming como proxy parcial de poder de compra |
 
-⚠️ **Remoção da pergunta de renda (jul/2026)** — ablação no dataset EVG/BP10 (`modelo_evg_bp10/ablacao_renda.py`): para NM (survey-only), AUC cai 0,685→0,665 e o top decil passa a capturar **20,9% das vendas (lift 2,09×) vs 25,5% (2,55×) com renda**. No modelo completo (status+survey) a perda é menor: AUC 0,745→0,734, top decil 35,1%→33,9%. O score continua útil; renda respondida era 38,6% dos NM (34,6% "prefiro não informar") e a faixa R$10k+ era ~4,7% dos respondentes. Substitutos parciais: streaming/qtd_streaming (poder de compra), proxy geo de renda via CEP/IBGE (se CEP for capturado no cadastro). No desenho parametrizável, o atributo `renda_declarada` fica dormente (nível "sem resposta" = 0 pts) — nada quebra; se a pergunta voltar (ou virar faixa menos invasiva), reativa-se o atributo na recalibração.
+⚠️ **Renda: removida e depois retomada** — o registro abaixo é de quando a pergunta estava fora do formulário. Ela **voltou**, e `renda_declarada` é hoje um dos atributos de maior peso. Mantido como evidência da ablação e como demonstração do desenho parametrizável (o atributo ficou dormente e voltou a pontuar sem mudança de código). Medição original — ablação no dataset EVG/BP10 (`modelo_evg_bp10/ablacao_renda.py`): para NM (survey-only), AUC cai 0,685→0,665 e o top decil passa a capturar **20,9% das vendas (lift 2,09×) vs 25,5% (2,55×) com renda**. No modelo completo (status+survey) a perda é menor: AUC 0,745→0,734, top decil 35,1%→33,9%. O score continua útil; renda respondida era 38,6% dos NM (34,6% "prefiro não informar") e a faixa R$10k+ era ~4,7% dos respondentes. Substitutos parciais: streaming/qtd_streaming (poder de compra), proxy geo de renda via CEP/IBGE (se CEP for capturado no cadastro). No desenho parametrizável, o atributo `renda_declarada` ficou dormente (nível "sem resposta" = 0 pts) — nada quebrou, e a reativação foi só de configuração quando a pergunta voltou.
 
 Benchmark atual (modelo EVG/BP10): AUC 0,746 (status+survey), top decil = 35% das vendas / lift 3,5× (geral); para mídia usar o headline **NM-only: top decil = 26% das vendas / lift 2,6×**.
 
@@ -85,16 +87,16 @@ Duas leituras complementares por pergunta:
 
 | Pergunta | Cobertura | IV total | IV respondentes | Ação |
 |---|---|---|---|---|
-| renda (removida) | 38,6% | 0,262 | 0,185 | — |
+| renda | 38,6% | 0,262 | 0,185 | **voltou ao formulário — atributo ativo** |
 | relacao_bp | 43,7% | 0,182 | 0,178 | novo carro-chefe |
 | streaming | 37,8% | 0,163 | 0,039 | manter, codificar binário: "assina algo pago" 1,52% conv vs "Nenhum" 1,08% (1,4× entre respondentes) — não usar níveis por plataforma (células pequenas) |
 | tempo_conhece_bp | 24,1% | 0,075 | **0,266** | **subexposta — aumentar exposição** |
-| midia_tradicional | 18,3% | 0,042 | 0,155 | subexposta — observar |
+| midia_tradicional | 18,3% | 0,042 | 0,155 | **promovida a atributo ativo (D48)** — remedida em jul/2026 com exposição maior: IV 0,328 em não-membro, a 2ª mais forte do formulário |
 | religiao | 25,4% | 0,040 | 0,015 | fraca |
-| qtd_streaming | 24,7% | 0,013 | 0,051 | aposentar (libera slot) |
-| fonte_confianca | 24,9% | 0,010 | 0,038 | aposentar (libera slot) |
+| qtd_streaming | 24,7% | 0,013 | 0,051 | aposentada (D14) — ⚠️ remedição posterior deu IV 0,069, acima do que justificou a aposentadoria; revisitar no 1º refit |
+| fonte_confianca | 24,9% | 0,010 | 0,038 | aposentada (D14) — ⚠️ remedição posterior deu IV 0,099 (medium baixo); revisitar no 1º refit |
 
-**Decomposição da renda** (responde à objeção "população de alta renda é pequena"): as faixas R$10k+ (1,8% dos NM) contribuíam só ~20% do IV da pergunta (0,051 de 0,262). O grosso vinha de **R$5–10k** (4,7% pop, lift 2,7×, IV 0,083) + contraste respondeu/não + "Até R$5.000" (lift 1,5). Se a pergunta voltar: **3 faixas bastam** (Até R$5k / R$5k+ / prefiro não informar) — mantém a maior parte do sinal com menos atrito.
+**Decomposição da renda** (responde à objeção "população de alta renda é pequena"): as faixas R$10k+ (1,8% dos NM) contribuíam só ~20% do IV da pergunta (0,051 de 0,262). O grosso vinha de **R$5–10k** (4,7% pop, lift 2,7×, IV 0,083) + contraste respondeu/não + "Até R$5.000" (lift 1,5). A pergunta voltou com 5 níveis; a simplificação para **3 faixas** (Até R$5k / R$5k+ / prefiro não informar) segue medida e pendente para o 1º refit — mantém a maior parte do sinal com menos atrito.
 
 **Ciclo de vida** (o mecanismo de aprendizado):
 1. **Entrada — modo coleta:** pergunta nova entra no de-para mapeada a um atributo canônico, peso 0. Coleta sem afetar o score.

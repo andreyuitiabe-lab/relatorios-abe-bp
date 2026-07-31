@@ -1,6 +1,6 @@
 # Metodologia IQL — Índice de Qualidade de Lead
 
-**Data:** jul/2026 · **Status:** proposta para apresentação
+**Data:** jul/2026 · **Status:** implementado (MR !2426, aguardando merge) — atualizado 31/jul/2026
 **Complementa:** [ALGORITMO-IQL.md](ALGORITMO-IQL.md) (evidências, ablações, ciclo de vida das perguntas, referências)
 
 Este documento é o desenho formal da metodologia — feito para ser apresentado, defender credibilidade e manter-se com baixo custo quando perguntas e campanhas mudarem.
@@ -11,45 +11,68 @@ Este documento é o desenho formal da metodologia — feito para ser apresentado
 
 CPL mede o custo de captar um lead, não a chance de ele virar receita — e os dois anticorrelacionam (DOM: CPL 2,6× maior que VDS, CAC 6,4× maior). Como a conversão de Não Membro demora ~421 dias, precisamos de um sinal **no dia do cadastro**. O IQL é esse sinal: um scorecard — a mesma metodologia que bancos usam há 50 anos para aprovar crédito no ato da proposta — que converte o que sabemos do lead no momento zero (status, histórico de cadastro, pesquisa) em probabilidade de conversão. Para o time de mídia, ele vira duas métricas na rotina existente: **IQL** (% de leads qualificados por anúncio) e **CPLq** (custo por lead qualificado — o CPL que importa).
 
-**Por que scorecard e não uma caixa-preta de ML:** empatou com boosting nos nossos dados (AUC 0,746 vs 0,766, diferença sem valor prático), é explicável ao negócio ponto a ponto, e — decisivo para manutenção — os pesos vivem em tabelas de configuração versionadas, não em código ou modelo serializado. Quando uma pergunta muda, muda-se uma linha de configuração.
+**Por que scorecard e não uma caixa-preta de ML:** empatou com boosting nos nossos dados (AUC 0,746 vs 0,766, diferença sem valor prático), é explicável ao negócio ponto a ponto, e — decisivo para manutenção — o peso de cada resposta é recalculado pelo próprio pipeline a partir das campanhas maduras e versionado por safra, não fica preso em código nem em modelo serializado. Quando uma pergunta muda, muda-se uma linha de configuração.
 
 ## 2. Arquitetura: 5 passos
 
 ```
 pergunta crua ──(1) de-para──▶ atributo canônico ──(2) binning──▶ nível
                                                                     │
-lead ◀──(4) faixa A/B/C ◀── score = Σ pontos ◀──(3) pontos por nível (WOE)
+lead ◀──(4) faixa A+/A/B/C/D ◀── score = Σ pontos ◀──(3) pontos por nível (WOE × β × PDO)
   │
-  └──(5) agregação por anúncio: IQL (% faixa A) e CPLq (spend ÷ faixa A)
+  └──(5) agregação por anúncio: IQL (% faixa A+∪A) e CPLq (spend ÷ faixa A+∪A)
 ```
 
 ### Passo 1 — Normalização (o que torna o sistema parametrizável)
 
-O score **nunca** referencia uma pergunta diretamente. Perguntas cruas são mapeadas para **atributos canônicos** — dimensões estáveis do lead — via tabela de-para:
+O score **nunca** referencia uma pergunta diretamente. Perguntas cruas são mapeadas para **atributos canônicos** — dimensões estáveis do lead — via `dim_iql_mapping`. São 11 atributos, dos quais 8 ativos e 3 em quarentena:
 
-| Atributo canônico | O que mede | Pergunta atual que o alimenta | Se a pergunta mudar |
+| Atributo canônico | O que mede | Fonte | Estado |
 |---|---|---|---|
-| `status_cadastro` | relação contratual com BP | (não é pergunta — vem de `dim_subscriptions`) | nunca muda |
-| `historico_cadastro` | reincidência e recência de cadastro | (não é pergunta — vem do histórico de leads) | nunca muda |
-| `afinidade_bp` | proximidade declarada com a marca | relacao_bp + tempo_conhece_bp | nova pergunta → novas linhas no de-para |
-| `paga_conteudo` | disposição a pagar por conteúdo | streaming (binário: paga algo / nenhum) | idem |
-| `renda_declarada` | poder de compra declarado | *(dormente — pergunta removida jul/2026)* | reativa se a pergunta voltar |
-| `respondeu_pesquisa` | intencionalidade | derivado (respondeu ≥1 pergunta) | automático |
+| `status_cadastro` | relação contratual com a BP no dia do cadastro | `st_member_status_at_registration` do dtm (D41) | ativo — o mais forte |
+| `historico_cadastro` | reincidência e recência de cadastro | histórico de leads do próprio e-mail | ativo |
+| `respondeu_pesquisa` | intencionalidade | derivado (respondeu ≥1 pergunta) | ativo |
+| `afinidade_bp` | proximidade declarada com a marca | `relacao_bp` | ativo |
+| `tempo_conhece` | há quanto tempo conhece a BP | `tempo_conhece_bp` | ativo |
+| `paga_conteudo` | disposição a pagar por conteúdo | `streaming` / `assina_streaming` | ativo — 3 níveis (D47) |
+| `renda_declarada` | poder de compra declarado | `renda` | ativo |
+| `confianca_midia` | ruptura com a imprensa tradicional | `midia_tradicional` | ativo desde a D48 |
+| `regiao_ddd` | proxy geográfico de poder de compra | DDD do telefone do cadastro | **quarentena** — sinal inverte entre eras (D39) |
+| `idade` | faixa etária | *(o formulário não coleta)* | **quarentena** (D49) |
+| `ocupacao` | ocupação declarada | *(o formulário não coleta)* | **quarentena** (D49) |
 
-A pesquisa muda de campanha para campanha; os atributos não. Uma pergunta nova entra no de-para em **modo coleta** (peso 0) e só ganha pontos quando prova IV — o ciclo de vida completo está na [seção 4b do ALGORITMO-IQL.md](ALGORITMO-IQL.md).
+Quarentena = β 0, contribui zero pontos. Não é remoção: o atributo segue mapeado e volta trocando uma linha de configuração quando o sinal se provar.
+
+A pesquisa muda de campanha para campanha; os atributos não. Uma pergunta nova entra no de-para em **modo coleta** (`nm_status = 'coleta'`, zero ponto) e só é promovida quando o IV comprova — ciclo de vida completo em [PERGUNTAS-FORMULARIO.md](PERGUNTAS-FORMULARIO.md).
 
 ### Passo 2 — Binning (coarse classing)
 
-Respostas cruas → níveis do atributo, seguindo as regras da literatura (Siddiqi):
-- 4–6 níveis por atributo; nenhum nível com <5% da população nem >~50%;
-- **"sem resposta" é sempre um nível próprio** (é informativo: não-respondente converte 0,70× a base);
-- a tendência de WOE entre níveis deve fazer sentido de negócio — quebrar monotonia para ganhar IV é ruído (foi o critério que aposentou `qtd_streaming`).
+Respostas cruas → níveis do atributo, seguindo Siddiqi:
+- a tendência de WOE entre níveis deve fazer sentido de negócio — quebrar monotonia para ganhar IV é ruído;
+- **"sem resposta" é sempre um nível próprio** (é informativo: não-respondente converte abaixo da base);
+- só se juntam bins de **risco similar**. Foi por isso que a D47 revogou a D46 e devolveu o `bp_informal` a nível próprio: colapsá-lo em `paga_algum` juntava bins que convertem 5,11% e 2,66% (1,9× de diferença) e derrubava o IV do atributo de 0,125 para 0,068.
 
-### Passo 3 — Pontuação (WOE → pontos)
+**O critério operativo de tamanho de bin é número de conversões, não percentual da população.** A régua dos 5% da literatura não protege contra o caso real: um nível com 8% da base e 19 conversões dá WOE instável. Foi esse critério que colapsou os dois níveis superiores de `confianca_midia` (D48) e os níveis de topo de `renda_declarada`.
 
-Para cada nível: `WOE = ln(P(nível|converteu) / P(nível|não converteu))`, com suavização para células pequenas e **pooling entre campanhas** (empirical Bayes) para estabilidade. Os pontos escalam o WOE pelo método padrão PDO de scorecards, com uma regressão logística sobre os atributos WOE-codificados resolvendo a correlação entre atributos (ex.: não responder 3 perguntas não penaliza 3×).
+### Passo 3 — Pontuação (WOE → pontos), com **pesos vivos**
 
-**Ninguém escolhe peso na mão.** Os pontos são gerados por script a partir dos dados e exportados para a tabela de configuração. Recalibrar = rodar o script na cohort madura nova. Ordem de grandeza dos sinais já validados (escala 20·ln(lift)):
+Para cada nível: `WOE = ln(P(nível|converteu) / P(nível|não converteu))`, com suavização para células pequenas e **pooling entre campanhas** para estabilidade. Os pontos escalam o WOE pelo método PDO padrão:
+
+```
+pontos = ROUND(fator_PDO × β × WOE)      fator_PDO = 20 / ln(2) = 28,8539
+```
+
+O β vem de uma regressão logística sobre os atributos WOE-codificados e resolve a correlação entre eles (não responder 3 perguntas não penaliza 3×).
+
+**Ninguém escolhe peso na mão — e desde a D39 ninguém roda script para recalibrar.** O WOE é recalculado **pelo próprio pipeline dbt** a cada execução, a partir das campanhas maduras, e congelado por **evento de safra** (`cd_version` = hash do conjunto de tags de treino). O β fica congelado, revalidado por evento (mudança de formulário, primeira safra madura no regime), não por rotina.
+
+**A única manutenção humana que sobrou é o de-para.**
+
+Trava de maturidade: uma tag entra no treino quando o **p99** dos seus cadastros é ≤ hoje−240 dias **e** ela tem ≥100 conversões de Não Membro — hoje 13 tags. O p99 (em vez do máximo) evita que um cadastro retardatário segure a campanha inteira fora do treino; os 240 dias cobrem o membro que compra no evento seguinte.
+
+Enquanto não há campanha madura com pesquisa in-funnel, os atributos de pesquisa rodam sobre um **prior de bootstrap** (a calibração v0.3 entra como pseudo-observações de peso fixo). Ele domina agora e desaparece sozinho conforme dado maduro acumula — o EVG matura por volta de mar/2027.
+
+Ordem de grandeza dos sinais já validados (escala 20·ln(lift)) — os valores exatos vivem no repo dbt, não aqui (governança D20):
 
 | Sinal | Lift medido | Pontos (ordem de grandeza) |
 |---|---|---|
@@ -62,92 +85,108 @@ Para cada nível: `WOE = ln(P(nível|converteu) / P(nível|não converteu))`, co
 | NM · recadastro frio (>180d) ou 5+ cadastros | 0,83× | ~−4 |
 | NM · "nunca ouvi falar" | 0,23× | ~−28 |
 
-*(valores finais saem do ajuste na semana 2 do plano — esta tabela é a ordem de grandeza para apresentação)*
-
 ### Passo 4 — Faixas
 
-| Faixa | Definição | Leitura de negócio |
-|---|---|---|
-| **A — Qualificado** | pontos ≥ cutoff (calibrado para p(conv) ≥ ~2× a base NM) | vale pagar CPL premium |
-| **B — Potencial** | intermediário | nutrir |
-| **C — Frio** | pontos baixos | não pagar por mais desses |
+Cinco faixas, com **valor esperado em R$** por lead (a evolução v0.3 planejada em jul/2026 já está implementada):
 
-O cutoff é **fixo em pontos durante a campanha** (definido na calibração) — não é percentil intra-campanha, senão o IQL% seria 20% por construção e não diferenciaria anúncios.
+| Faixa | Leitura de negócio |
+|---|---|
+| **A+** | topo (~1,5% dos NM in-funnel) — vale abordagem ativa |
+| **A** | qualificado — é o que entra no IQL e no CPLq |
+| **B** | potencial — nutrir |
+| **C** | frio — não pagar por mais desses |
+| **D** | fundo — suprimir WhatsApp quando o EV cai abaixo da régua de custo (D33) |
 
-> **Evolução planejada (v0.3, pós-auditoria de literatura jul/2026):** cortes deixarão de ser múltiplos da taxa base e passarão a ser definidos por **valor esperado em R$** com estatística marginal (A: EV ≥ R$X; piso = break-even de Elkan: EV ≥ custo de tratamento), e a métrica de mídia ganhará o **ROAS esperado contínuo** (EV(s) via fórmula PDO × ticket maturado) ao lado do CPLq. Ver ALGORITMO-IQL.md §4b-2.
+Os cortes são **fixos em pontos durante a campanha** — não percentil intra-campanha, senão o IQL% seria constante por construção e não diferenciaria anúncios. São rederivados **por evento de safra**, com histerese de ±2 pontos para não oscilar por ruído, mirando os percentis operacionais 1,5 / 15 / 50 / 85% dos NM in-funnel.
+
+Para métricas que foram medidas em 3 faixas (múltiplos de valor D28, forecast D31), a correspondência é A+∪A → A, B → B, C∪D → C, até serem re-medidas em 5 faixas no 1º refit.
 
 ### Passo 5 — Agregação para mídia
 
-- **IQL** = % de leads faixa A do anúncio/adset — só comparável **dentro da mesma campanha**;
-- **CPLq** = spend ÷ leads faixa A;
+- **IQL** = % de leads faixa A+∪A do anúncio/adset — só comparável **dentro da mesma campanha**;
+- **CPLq** = spend ÷ leads faixa A+∪A;
 - **NM-A/R$** = Não Membros faixa A por real gasto — o guardrail da meta de expandir a base (evita "melhorar o IQL" recapturando membros).
 
 Regras de leitura obrigatórias: n ≥ 50 leads por criativo; shrinkage do IQL em direção à média da campanha proporcional ao n; decisão pós-campanha por conversão observada (nunca eRPL — refutado por circularidade).
 
 ## 3. Validação (o que dá credibilidade na apresentação)
 
-1. **Backtest out-of-time** no EVG/BP10: o scorecard é ajustado numa janela e avaliado na seguinte. Critério: lift monotônico por decil e top-decil NM capturando ≥2× a base (benchmark atual do modelo: 2,1× sem renda, 2,6× com).
-2. **Calibração:** faixa A deve converter na taxa prevista (±30%) na cohort madura.
-3. **Teste retrospectivo da decisão:** aplicar a matriz CPL×IQL nos anúncios do EVG e mostrar que ela teria realocado budget do Pack 2 (CPL R$1,84, 11% qualificados) para o AD35 (CPL R$1,47, 30% qualificados) — decisão que o CPL sozinho não tomaria.
-4. **Hit-rate contínuo:** a cada campanha encerrada, correlação de ranking (Spearman) entre CPLq da fase de captação e CAC real por adset — registrada em `metricas-referencia.md`. É o número que responde "o IQL funcionou?" campanha após campanha.
+1. **Ordenamento monotônico dentro de campanha** — o critério válido (D16: o agregado entre campanhas **não** é comparável, porque a mistura de faixas difere por campanha). EVG: A+ 3,78% → D 0,30%. BP10: A+ converte 21× o D.
+2. **Distribuição bate o alvo de percentis** nos NM in-funnel: A+ 1,5% (alvo 1,5%), acumulado A 16,4% (alvo 15%), acumulado C 85% (alvo 85%).
+3. **Backtest out-of-time** (treino EVG → teste BP10): AUC NM 0,618 → 0,750; top decil 20,4% → 32,4% das vendas (lift 3,24×).
+4. **Teste retrospectivo da decisão:** aplicando a matriz CPL×IQL nos anúncios do EVG, ela teria realocado budget do Pack 2 (CPL R$1,84, 11% qualificados) para o AD35 (CPL R$1,47, 30% qualificados) — decisão que o CPL sozinho não tomaria.
+5. **Hit-rate contínuo:** a cada campanha encerrada, correlação de ranking (Spearman) entre CPLq da captação e CAC real por adset — registrada em `metricas-referencia.md`. É o número que responde "o IQL funcionou?" campanha após campanha.
 
-## 4. Manutenibilidade: 3 tabelas de configuração + 2 scripts
+⚠️ **O EV de referência não transfere entre campanhas.** O RPL real varia muito (BIT R$79 → RIO R$10, 8×) enquanto o EV de referência é achatado e ancorado numa campanha só. Ele serve para **ordenar** faixas, não para prever receita absoluta de uma campanha nova.
 
-Tudo que muda com o tempo vive em **seeds versionados no git** (repo dbt):
+## 4. Manutenibilidade: 1 tabela editada à mão
 
-| Artefato | Conteúdo | Quem mexe | Quando |
+Toda a configuração vive em **modelos SQL versionados no git** (repo dbt) — não em seeds CSV: o CI roda `dbt run --defer`, que não executa `dbt seed`, então os cinco são `SELECT ... FROM UNNEST([STRUCT(...)])` com a tag do job diário (D38). Continuam sendo config-como-dado, com diff revisável em MR.
+
+| Modelo de config | Conteúdo | Quem mexe | Quando |
 |---|---|---|---|
-| `seed_iql_de_para.csv` | pergunta crua × resposta → atributo × nível | analytics | nova pergunta/campanha (antes do go-live) |
-| `seed_iql_pontos.csv` | atributo × nível → pontos + `versao` | **gerado por script** | recalibração (pós-campanha) |
-| `seed_iql_cutoffs.csv` | faixas A/B/C + parâmetros (n mínimo, shrinkage) | analytics | raramente |
-| `iql_recalibra.py` | cohort madura → WOE/PDO → exporta seed_iql_pontos | roda pós-campanha | |
-| `iv_perguntas.py` | leaderboard IV/CSI por pergunta (já existe) | roda pós-campanha | |
+| `dim_iql_mapping` | pergunta crua × resposta → atributo × nível (+ precedência para multi-resposta) | **analytics (manual)** | **nova pergunta de formulário — a única rotina** |
+| `dim_iql_betas` | β congelado por atributo; β 0 = quarentena | analytics | por evento (atributo novo, revalidação) |
+| `dim_iql_cutoffs` | cortes das 5 faixas + EV em R$ + n mínimo | analytics | evento de safra (histerese ±2 pts) |
+| `dim_iql_woe_bootstrap` | prior de WOE (calibração v0.3) | ~nunca | desaparece sozinho conforme dado maduro acumula |
+| `dim_iql_ddd_region` | DDD → UF → grupo de região | ~nunca | — |
+
+O que **saiu** da manutenção humana com a D39: a tabela de pontos. Não existe mais `seed_iql_pontos.csv` nem script de recalibração no fluxo — o `fct_iql_weights` é gerado pelo pipeline e versionado por safra.
 
 Regras de governança:
-- **Marketing não vê os pesos exatos** (anti-Goodhart) — vê IQL, CPLq e a matriz de decisão.
-- Scorecard versionado: toda pontuação de lead grava `cd_scorecard_version`; backtest sempre usa a versão vigente na época.
+- **Marketing não vê os pesos exatos** (anti-Goodhart) — vê IQL, CPLq, faixa e a matriz de decisão. Os β e os pontos vivem no repo dbt (privado); este documento fica na ordem de grandeza.
+- Scorecard versionado: toda pontuação grava `cd_scorecard_version`; backtest sempre usa a versão vigente na época.
 - Pergunta com opções alteradas ou posição mudada no formulário = pergunta **nova** no de-para (a antiga arquiva).
 - Checklist de lançamento de campanha: pesquisa no fluxo + perguntas mapeadas no de-para + `fbp`/`fbc` capturados no cadastro (habilita a v2 CAPI).
 
 ## 5. Pipeline técnico
 
+11 modelos + 1 macro + 2 testes, no repo `bp-dbt-dw` (MR !2426), todos na tag `11h00_utc` do job diário:
+
 ```
-dtm_analytics_lead_conversion (diário)
-  └─ int_iql_survey_normalizada   (aplica seed_iql_de_para)
-      └─ fct_lead_iql             (pontos + faixa por lead; cd_scorecard_version)
-          └─ mart_iql_midia       (anúncio × adset × dia: leads, IQL, CPLq, NM-A; join spend Meta)
-              └─ relatório HTML no portal (padrão template: refresh.py + data.json)
+CONFIG (dim_iql_*)                          FONTE
+  mapping · ddd_region · betas                dtm_analytics_lead_conversion
+  woe_bootstrap · cutoffs                            │
+        │                                            ▼
+        ├───────────────────────▶ ① int_iql_lead_levels     (níveis canônicos por lead × tag)
+        │                                            ▼
+        ├───────────────────────▶ ② int_iql_woe_live        (WOE das tags maduras + prior; define a versão)
+        │                                            ▼
+        ├───────────────────────▶ ③ fct_iql_weights         (WOE × β × PDO → pontos) [incremental, append-only]
+        │                                            ▼
+        └───────────────────────▶ ④ fct_lead_iql            (score + faixa + EV por lead)
+                                                     ├──▶ ⑤ cbo_lead_conversion_iql  (dtm + score — consumo)
+                                                     └──▶ ⑥ fct_lead_iql_history     (auditoria) [incremental]
+
+TESTES: iql_weights_sanity (warn) · iql_missing_weight_levels (error)
+MACRO:  iql_attributes() — fonte única do mapa atributo → coluna → regime
 ```
 
-Modelos dbt em `dbt_abe` (staging) na fase piloto; promoção a prod após a campanha piloto validar.
+**O gate no lugar da revisão humana.** Como ninguém revisa os pesos a cada safra, o `fct_iql_weights` só grava uma versão nova se ela passar por um gate de sanidade **embutido no INSERT**: âncoras de sinal do status, treino não-vazio, atributo universal com dado real além do prior, delta ≤5 pts por nível entre versões, anti-colapso do `sem_resposta`, unicidade. Candidata reprovada = zero linhas gravadas = **a versão vigente permanece** (rollback implícito). O teste `iql_weights_sanity` é o monitor que avisa quando isso acontece.
 
-**Promoção ao dbt (quando a validação passar)** — mapeamento do protótipo v0 (`~/meu_projeto/BigQuery/iql_v0/`) para o repo:
+`full_refresh=false` nos dois modelos incrementais protege a trilha de auditoria — rollback exige DDL manual, com runbook no README do diretório.
 
-| Hoje (protótipo) | No dbt |
+Nomenclatura: modelos, colunas, CTEs e documentação em **inglês** (RDA-0005); **valores de dado em português** (`membro_ativo`, `sem_resposta`…), porque o de-para casa com o texto literal das respostas do formulário (D49/D50).
+
+## 6. Estado e próximos passos
+
+| Fase | Estado |
 |---|---|
-| `seeds/*.csv` (de-para, pontos, cutoffs) | `seeds/` nativos do dbt (versionados no git do repo — privado, ok para pesos) |
-| `sql/01_tb_lead_iql.sql` | `int_lead_iql_niveis` + `fct_lead_iql` — ⚠️ ler das **fontes** (`lead_registration`, `dim_subscriptions`), não do `dtm`, se o `dtm` for consumir o score (evita ciclo no DAG) |
-| `sql/03_tb_iql_iv_perguntas.sql` | `mart_iql_iv_perguntas` + `mart_iql_woe_respostas` (schedule diário/semanal do próprio dbt Cloud/cron) |
-| `vw_lead_conversion_iql` | coluna no `dtm` via join com `fct_lead_iql`, ou mantém como view |
-| scheduled queries (agendar.sh) | substituídas pelo job dbt — descartar |
+| **1. Config e score** | ✅ jul/2026 |
+| **2. Calibração** | ✅ jul/2026 — v0.3, backtest out-of-campaign validado |
+| **3. Dashboard** | ✅ jul/2026 — `qualificacao-leads/iql/` no portal |
+| **4. Modelo no dbt** | ✅ jul/2026 — MR !2426, pesos vivos (D39), 4 revisões independentes aplicadas, 25/25 testes |
+| **5. Piloto ELB26** | 🔲 em curso — leitura D+60 (~set/2026), gate = Spearman(CPLq, CAC) > Spearman(CPL, CAC) |
+| **6. Fechamento do piloto** | 🔲 hit-rate Spearman, leaderboard IV, go/no-go CAPI |
+| **7. CAPI v2** | 🔲 evento server-side com valor por faixa (EV já disponível em `vl_reference_ev`); `id_fbclid` capturado em 81,9% dos cadastros 2026 |
+| **8. 1º refit** | 🔲 ~mar/2027, quando o EVG maturar |
 
-Requisitos da promoção: testes dbt (unicidade email×tag, faixas ∈ {A,B,C}, versão preenchida), SQLFluff, e gate de validação = critérios de sucesso do piloto (§6). Contrato: `cd_scorecard_version` gravada em toda linha continua obrigatória.
+**Critérios de sucesso do piloto** (meta verificável):
+1. Ordenamento monotônico por faixa dentro da campanha;
+2. Time de mídia toma ≥1 decisão de realocação usando a matriz CPL×IQL e a registra;
+3. Spearman(CPLq, CAC real) por adset > Spearman(CPL, CAC real) — o IQL precisa prever o CAC melhor que o CPL, senão não paga a complexidade.
 
-## 6. Plano de implementação
-
-| Fase | Entregável | Esforço | Dependência |
-|---|---|---|---|
-| **1. Config e score** (semana 1) | ✅ **feito (jul/2026)** — 3 seeds + `tb_lead_iql` v0.1 escorando jan/2025+ (validado: faixa A 1,9× base) + `tb_iql_iv_perguntas` com auto-descoberta de perguntas | 2–3 dias | — |
-| **2. Calibração v0.2** (semana 2) | ✅ **feito (jul/2026)** — `iql_recalibra.py` (WOE + regressão + PDO), atributos novos (`regiao_ddd`, `status_pessoa` via identity graph, `tempo_conhece`). **Backtest out-of-campaign (treino EVG → teste BP10): AUC NM 0,618 → 0,750; top decil 20,4% → 32,4% das vendas (lift 3,24×); sem relacao_bp perde quase nada (31,0%)** — valida a mudança do formulário. Ressalva: tempo_conhece tem IV suspeito no BP10; número pode estar otimista | 3–4 dias | fase 1 ✅ |
-| **3. Dashboard** (semana 3) | ✅ **feito (jul/2026)** — relatório `qualificacao-leads/iql/` (template padrão): backtest, faixas × conversão real, monotonia, **CPL × IQL × CPLq por anúncio** (89 anúncios EVG/BP10), leaderboard IV com recomendações automáticas. Publicação no portal pendente de commit | 2 dias | fase 2 ✅ |
-| **4. Piloto** (campanha seguinte) | rotina com time de mídia: leitura diária, matriz de decisão, realocações registradas | acompanhamento | fase 3 + pesquisa no fluxo |
-| **5. Fechamento do piloto** | recalibração v2 do scorecard, hit-rate Spearman CPLq×CAC, leaderboard IV, go/no-go CAPI | 2 dias | cohort madura |
-| **6. CAPI** (v2) | evento server-side "LeadQualificado" → Meta; otimização da campanha aponta para ele (leads são de site, não Instant Forms — ver correção no ALGORITMO-IQL.md §6) | a estimar c/ eng. | ✅ praticamente resolvida: `id_fbclid` já capturado (81,9% dos cadastros 2026) |
-
-**Critérios de sucesso do piloto** (meta verificável antes de começar):
-1. Backtest: lift monotônico por decil, top decil NM ≥2× a base;
-2. Operação: time de mídia toma ≥1 decisão de realocação usando a matriz CPL×IQL e a registra;
-3. Resultado: Spearman(CPLq, CAC real) por adset > Spearman(CPL, CAC real) — o IQL precisa prever o CAC melhor que o CPL, senão não paga a complexidade.
+**Agenda do 1º refit:** revalidar os β; reavaliar a quarentena de `regiao_ddd`, `idade` e `ocupacao`; threshold de uniformidade de exposição (2,0); simplificações de binning já medidas (`renda_declarada` 5→3 níveis, `status_cadastro` 4→3, `tempo_conhece` 4→3); decidir sobre `religiao` (IV 0,015) e revisitar a D14; re-medir os múltiplos D28/D31 nas 5 faixas; avaliar **trava de maturidade por regime** (D50 — a janela curta preserva o ordenamento dentro do NM, mas inverte no `status_cadastro`).
 
 ## 7. Registro de decisões (auditoria)
 
@@ -233,4 +272,4 @@ Detalhes de implementação do dashboard (iterações, decisões de visualizaç�
 | "E se a pesquisa mudar?" | O score referencia atributos, não perguntas. Pergunta nova entra em modo coleta e só ganha peso quando prova IV. Nada quebra. |
 | "E quem não responde a pesquisa?" | Status + histórico de cadastro cobrem 100% dos leads; "não respondeu" é sinal por si (0,70×). |
 | "O marketing não vai 'hackear' o score?" | Pesos não são divulgados; o hit-rate contra CAC real é auditado toda campanha; sinal majoritário (status, histórico) não é manipulável. |
-| "Como funciona numa campanha nova?" | Pontua desde o dia 1 com o scorecard vigente (atributos são da pessoa, não da campanha; status+histórico cobrem 100% dos leads). Pesos ficam congelados durante a campanha (comparabilidade entre anúncios + auditoria via `cd_scorecard_version`) e o sistema reaprende entre campanhas: recalibração com pooling quando a cohort matura, pergunta nova entra em modo coleta e é promovida se provar IV. Aprendizado em lote versionado, não online — recalibrar no meio com as primeiras conversões enviesaria o score para o comprador rápido (NM típico demora ~14 meses). |
+| "Como funciona numa campanha nova?" | Pontua desde o dia 1 com o scorecard vigente (atributos são da pessoa, não da campanha; status+histórico cobrem 100% dos leads). Pesos ficam congelados durante a campanha (comparabilidade entre anúncios + auditoria via `cd_scorecard_version`) e o sistema reaprende **sozinho** entre campanhas: quando uma cohort matura, ela entra no treino, o pipeline recalcula o WOE e grava uma versão nova — sem script e sem MR (D39). Pergunta nova entra em modo coleta e é promovida se provar IV. Aprendizado em lote versionado, não online — recalibrar no meio com as primeiras conversões enviesaria o score para o comprador rápido (NM típico demora ~14 meses). |
