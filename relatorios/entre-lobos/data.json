@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-31T19:09:49",
+  "updated_at": "2026-08-04T10:04:51",
   "campaign": "ELB26",
   "sementes": [
     {
@@ -11,40 +11,40 @@
       "premium": 53.8,
       "masc": 74.6,
       "n_decil7": 6368,
-      "n_premium": 8995
+      "n_premium": 8999
     },
     {
       "key": "2_viewers_elb_todos",
       "label": "Viewers da série (todos, ≥5min)",
-      "n": 463161,
+      "n": 465600,
       "decil": 5.3,
       "decil7": 36.6,
       "premium": 49.8,
       "masc": 73.1,
-      "n_decil7": 135432,
-      "n_premium": 184538
+      "n_decil7": 136096,
+      "n_premium": 185674
     },
     {
       "key": "3_viewers_elb_12m",
       "label": "Viewers últimos 12 meses",
-      "n": 61279,
-      "decil": 5.17,
-      "decil7": 34.3,
-      "premium": 51.7,
-      "masc": 73.5,
-      "n_decil7": 16922,
-      "n_premium": 25876
+      "n": 66061,
+      "decil": 5.19,
+      "decil7": 34.7,
+      "premium": 52.1,
+      "masc": 73.3,
+      "n_decil7": 18424,
+      "n_premium": 28263
     },
     {
       "key": "4_viewers_elb_1h_mais",
       "label": "Viewers ≥1h de watch time",
-      "n": 296288,
+      "n": 297848,
       "decil": 5.33,
       "decil7": 37.0,
       "premium": 50.0,
       "masc": 74.8,
-      "n_decil7": 88078,
-      "n_premium": 121143
+      "n_decil7": 88500,
+      "n_premium": 121878
     },
     {
       "key": "5_compradores_els",
@@ -54,19 +54,19 @@
       "decil7": 38.3,
       "premium": 57.0,
       "masc": 68.7,
-      "n_decil7": 10841,
-      "n_premium": 16099
+      "n_decil7": 10840,
+      "n_premium": 16103
     },
     {
       "key": "6_els_x_viewers_elb",
       "label": "Compradores ELS ∩ viewers ELB",
-      "n": 4880,
-      "decil": 5.45,
-      "decil7": 38.8,
-      "premium": 60.1,
-      "masc": 76.6,
-      "n_decil7": 1529,
-      "n_premium": 2542
+      "n": 5131,
+      "decil": 5.43,
+      "decil7": 38.5,
+      "premium": 59.4,
+      "masc": 76.2,
+      "n_decil7": 1591,
+      "n_premium": 2629
     },
     {
       "key": "7_leads_aa_elb26",
@@ -75,9 +75,9 @@
       "decil": 5.08,
       "decil7": 33.8,
       "premium": 39.1,
-      "masc": 56.5,
-      "n_decil7": 2095,
-      "n_premium": 2176
+      "masc": 56.4,
+      "n_decil7": 2097,
+      "n_premium": 2182
     }
   ],
   "leads_dia": {
@@ -99,7 +99,11 @@
       "2026-07-28",
       "2026-07-29",
       "2026-07-30",
-      "2026-07-31"
+      "2026-07-31",
+      "2026-08-01",
+      "2026-08-02",
+      "2026-08-03",
+      "2026-08-04"
     ],
     "leads": [
       4,
@@ -119,10 +123,14 @@
       13296,
       11539,
       9212,
-      380
+      387,
+      72,
+      195,
+      129,
+      46
     ]
   },
-  "total_leads": 83410,
+  "total_leads": 83859,
   "bench_els": [
     {
       "nome": "Carrinho abandonado",
@@ -181,7 +189,7 @@
       "n": 18538,
       "decil_medio": 5.63,
       "pct_decil7": 41.2,
-      "renda_pc_mediana": 1135.0,
+      "renda_pc_mediana": 1136.0,
       "cob_renda": 83.3,
       "pct_black": 23.4,
       "pct_plat_amex": 30.4,
@@ -189,12 +197,12 @@
       "pct_basico": 18.5,
       "cob_cartao": 90.3,
       "pct_masc": 74.6,
-      "idade_media": 49.8,
+      "idade_media": 49.9,
       "pct_14_29": 3.4,
       "pct_30_44": 33.0,
-      "pct_45_59": 40.8,
-      "pct_60_mais": 22.7,
-      "cob_idade": 40.5,
+      "pct_45_59": 40.9,
+      "pct_60_mais": 22.8,
+      "cob_idade": 40.6,
       "pct_sudeste": 53.7,
       "pct_sul": 15.5,
       "pct_nordeste": 15.3,
@@ -206,22 +214,22 @@
       "label": "Compradores ELB 2024",
       "grupo": "c",
       "n": 302,
-      "decil_medio": 5.3,
-      "pct_decil7": 36.9,
-      "renda_pc_mediana": 1058.0,
-      "cob_renda": 83.4,
+      "decil_medio": 5.32,
+      "pct_decil7": 37.2,
+      "renda_pc_mediana": 1064.0,
+      "cob_renda": 83.8,
       "pct_black": 31.6,
       "pct_plat_amex": 26.9,
       "pct_gold": 26.5,
       "pct_basico": 15.0,
       "cob_cartao": 77.5,
       "pct_masc": 72.2,
-      "idade_media": 48.4,
+      "idade_media": 48.5,
       "pct_14_29": 3.8,
-      "pct_30_44": 41.0,
-      "pct_45_59": 38.5,
-      "pct_60_mais": 16.7,
-      "cob_idade": 25.8,
+      "pct_30_44": 40.5,
+      "pct_45_59": 38.0,
+      "pct_60_mais": 17.7,
+      "cob_idade": 26.2,
       "pct_sudeste": 48.7,
       "pct_sul": 14.4,
       "pct_nordeste": 18.5,
@@ -232,50 +240,50 @@
       "key": "3_conversos_leads_elb24",
       "label": "Conversos de leads ELB24",
       "grupo": "f",
-      "n": 1132,
-      "decil_medio": 4.64,
-      "pct_decil7": 28.6,
+      "n": 1135,
+      "decil_medio": 4.63,
+      "pct_decil7": 28.5,
       "renda_pc_mediana": 844.0,
       "cob_renda": 82.0,
       "pct_black": 11.7,
       "pct_plat_amex": 25.4,
-      "pct_gold": 39.6,
-      "pct_basico": 23.3,
-      "cob_cartao": 70.2,
-      "pct_masc": 72.5,
+      "pct_gold": 39.7,
+      "pct_basico": 23.2,
+      "cob_cartao": 70.3,
+      "pct_masc": 72.6,
       "idade_media": 55.3,
       "pct_14_29": 1.8,
       "pct_30_44": 18.6,
       "pct_45_59": 41.9,
       "pct_60_mais": 37.7,
-      "cob_idade": 14.8,
+      "cob_idade": 14.7,
       "pct_sudeste": 54.5,
       "pct_sul": 13.0,
-      "pct_nordeste": 21.8,
-      "pct_capital": 52.7,
+      "pct_nordeste": 21.7,
+      "pct_capital": 52.8,
       "pct_cid_grande": 82.7
     },
     {
       "key": "4_viewers_serie_principal",
       "label": "Viewers série principal",
       "grupo": "v",
-      "n": 441090,
+      "n": 441263,
       "decil_medio": 5.31,
       "pct_decil7": 36.7,
       "renda_pc_mediana": 1030.0,
       "cob_renda": 81.5,
-      "pct_black": 22.6,
+      "pct_black": 22.7,
       "pct_plat_amex": 27.3,
       "pct_gold": 31.4,
       "pct_basico": 18.7,
       "cob_cartao": 81.9,
       "pct_masc": 73.2,
       "idade_media": 48.3,
-      "pct_14_29": 4.8,
+      "pct_14_29": 4.7,
       "pct_30_44": 36.2,
       "pct_45_59": 39.9,
       "pct_60_mais": 19.1,
-      "cob_idade": 30.9,
+      "cob_idade": 31.0,
       "pct_sudeste": 52.2,
       "pct_sul": 16.8,
       "pct_nordeste": 15.3,
@@ -286,9 +294,9 @@
       "key": "5_viewers_parte1_2023",
       "label": "Viewers Parte I (2023)",
       "grupo": "v",
-      "n": 30644,
+      "n": 30643,
       "decil_medio": 5.07,
-      "pct_decil7": 33.4,
+      "pct_decil7": 33.5,
       "renda_pc_mediana": 963.0,
       "cob_renda": 56.6,
       "pct_black": 18.6,
@@ -302,7 +310,7 @@
       "pct_30_44": 31.5,
       "pct_45_59": 39.0,
       "pct_60_mais": 25.3,
-      "cob_idade": 21.7,
+      "cob_idade": 21.8,
       "pct_sudeste": 52.1,
       "pct_sul": 16.1,
       "pct_nordeste": 16.1,
@@ -325,11 +333,11 @@
       "cob_cartao": 86.3,
       "pct_masc": 72.1,
       "idade_media": 48.9,
-      "pct_14_29": 5.0,
-      "pct_30_44": 34.6,
+      "pct_14_29": 4.9,
+      "pct_30_44": 34.5,
       "pct_45_59": 39.6,
-      "pct_60_mais": 20.9,
-      "cob_idade": 37.8,
+      "pct_60_mais": 21.0,
+      "cob_idade": 37.9,
       "pct_sudeste": 55.4,
       "pct_sul": 14.8,
       "pct_nordeste": 14.8,
@@ -340,28 +348,28 @@
       "key": "7_viewers_producao_2026",
       "label": "Viewers produção 2026",
       "grupo": "v",
-      "n": 1410,
-      "decil_medio": 5.44,
-      "pct_decil7": 39.7,
-      "renda_pc_mediana": 1071.0,
-      "cob_renda": 79.2,
-      "pct_black": 27.5,
-      "pct_plat_amex": 26.8,
-      "pct_gold": 30.3,
-      "pct_basico": 15.4,
-      "cob_cartao": 84.8,
-      "pct_masc": 73.6,
-      "idade_media": 51.7,
-      "pct_14_29": 4.6,
-      "pct_30_44": 25.1,
-      "pct_45_59": 40.5,
-      "pct_60_mais": 29.9,
-      "cob_idade": 34.2,
-      "pct_sudeste": 55.5,
-      "pct_sul": 16.4,
-      "pct_nordeste": 14.8,
-      "pct_capital": 48.5,
-      "pct_cid_grande": 80.2
+      "n": 6637,
+      "decil_medio": 5.38,
+      "pct_decil7": 38.1,
+      "renda_pc_mediana": 1062.0,
+      "cob_renda": 79.9,
+      "pct_black": 28.7,
+      "pct_plat_amex": 27.3,
+      "pct_gold": 28.8,
+      "pct_basico": 15.2,
+      "cob_cartao": 86.0,
+      "pct_masc": 72.3,
+      "idade_media": 51.0,
+      "pct_14_29": 3.0,
+      "pct_30_44": 29.8,
+      "pct_45_59": 41.2,
+      "pct_60_mais": 25.9,
+      "cob_idade": 32.7,
+      "pct_sudeste": 54.1,
+      "pct_sul": 16.9,
+      "pct_nordeste": 15.4,
+      "pct_capital": 46.1,
+      "pct_cid_grande": 79.3
     },
     {
       "key": "8_compradores_els",
@@ -381,9 +389,9 @@
       "idade_media": 49.6,
       "pct_14_29": 3.8,
       "pct_30_44": 33.5,
-      "pct_45_59": 39.7,
-      "pct_60_mais": 23.0,
-      "cob_idade": 9.8,
+      "pct_45_59": 39.5,
+      "pct_60_mais": 23.1,
+      "cob_idade": 10.1,
       "pct_sudeste": 48.6,
       "pct_sul": 22.3,
       "pct_nordeste": 13.4,
@@ -399,94 +407,100 @@
       "pct_decil7": 33.8,
       "renda_pc_mediana": 973.0,
       "cob_renda": 39.6,
-      "pct_black": 12.9,
-      "pct_plat_amex": 26.2,
+      "pct_black": 13.0,
+      "pct_plat_amex": 26.1,
       "pct_gold": 36.9,
-      "pct_basico": 24.0,
-      "cob_cartao": 35.5,
-      "pct_masc": 56.5,
+      "pct_basico": 23.9,
+      "cob_cartao": 35.6,
+      "pct_masc": 56.4,
       "idade_media": 58.8,
-      "pct_14_29": 1.3,
+      "pct_14_29": 1.4,
       "pct_30_44": 12.6,
-      "pct_45_59": 33.1,
+      "pct_45_59": 33.0,
       "pct_60_mais": 53.0,
-      "cob_idade": 8.6,
+      "cob_idade": 8.7,
       "pct_sudeste": 54.1,
       "pct_sul": 16.1,
       "pct_nordeste": 17.3,
-      "pct_capital": 47.7,
+      "pct_capital": 47.6,
       "pct_cid_grande": 80.5
     }
   ],
   "espectador": {
-    "total": 1410,
-    "ativos": 1170,
-    "novos_campanha": 69,
+    "total": 6637,
+    "ativos": 5569,
+    "novos_campanha": 392,
     "dia": {
       "labels": [
         "2026-07-29",
         "2026-07-30",
-        "2026-07-31"
+        "2026-07-31",
+        "2026-08-01",
+        "2026-08-02",
+        "2026-08-03"
       ],
       "novos": [
         1,
-        1212,
-        197
+        1278,
+        1808,
+        1795,
+        1661,
+        94
       ]
     },
     "planos": [
       {
         "plano": "Básico",
-        "n": 440,
-        "ativos": 404
+        "n": 2033,
+        "ativos": 1866
       },
       {
         "plano": "Apoiador",
-        "n": 269,
-        "ativos": 246
+        "n": 1288,
+        "ativos": 1185
       },
       {
         "plano": "Premium GBB",
-        "n": 176,
-        "ativos": 134
+        "n": 817,
+        "ativos": 610
       },
       {
         "plano": "Travessia",
-        "n": 63,
-        "ativos": 15
+        "n": 306,
+        "ativos": 84
       },
       {
         "plano": "Teller",
-        "n": 56,
-        "ativos": 34
-      },
-      {
-        "plano": "Black",
-        "n": 40,
-        "ativos": 40
+        "n": 261,
+        "ativos": 166
       },
       {
         "plano": "Básico Vitalício",
-        "n": 34,
-        "ativos": 34
+        "n": 212,
+        "ativos": 212
       },
       {
-        "plano": "Intermediário",
-        "n": 34,
-        "ativos": 27
+        "plano": "Bp Economico Combo El Salvador Novo",
+        "n": 170,
+        "ativos": 153
+      },
+      {
+        "plano": "Black",
+        "n": 165,
+        "ativos": 160
       }
     ],
-    "outros_planos": 298,
+    "outros_planos": 1385,
     "upsell": {
-      "serie_principal": {
-        "n": 161291,
-        "percentil_medio": 50.5,
-        "pct_top20": 22.2
-      },
       "producao_2026": {
-        "n": 1264,
-        "percentil_medio": 60.8,
-        "pct_top20": 34.7
+        "n": 6041,
+        "percentil_medio": 68.9,
+        "pct_top20": 44.6
+      },
+      "serie_principal": {
+        "n": 161262,
+        "percentil_medio": 50.8,
+        "pct_top20": 22.5
       }
     }
   },
