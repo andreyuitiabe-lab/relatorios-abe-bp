@@ -9,11 +9,16 @@
 
 ## Para retomar
 
-**Próximo passo:** merge da MR !2426 (pipeline verde no `6e339e8e8`, sem revisor formal — padrão do repo é o autor mergear; dúvida de seeds resolvida em comentário na MR). **Cutover pós-merge ficou trivial** (D44): trocar a constante `DATASET` no `iql/refresh.py` para `bp-datawarehouse.datamart` — e então:
-1. Aposentar de vez o protótipo (`tb_lead_iql` + `vw_lead_conversion_iql`); antes, migrar `tb_iql_woe_respostas`/`tb_iql_iv_perguntas` (ainda derivam do protótipo — sql em `~/meu_projeto/BigQuery/iql_v0/sql/`) para o `mart_iql_iv` no dbt.
-2. Recriar o health-check diário apontando para produção (receita em `~/.claude/AGENDA.md` → Recorrentes).
-3. **Enquanto o merge não sai**: para atualizar o dashboard, rodar antes `dbt run --select models/marts/marketing/iql --target local --defer --state manifest --favor-state` no `bp-dbt-dw` (o fct em staging não atualiza sozinho), depois `python3 iql/refresh.py`.
-4. **Commit pendente no repo `relatorios-abe-bp`**: todo o trabalho de 27/jul (dashboard v1, personas, ELB26, PERGUNTAS-FORMULARIO.md, D42–D45) está só no working tree — commitar com o André.
+**Estado:** MR !2426 **mergeada** em 31/jul (`fac983cd1`). Os 11 modelos estão em produção, distribuídos por prefixo pela macro `get_inferred_schema`: `int_` → `bp-datawarehouse.staging`, `dim_`/`fct_` → `masterdata`, `cbo_` → `datamart`. Relatório já lê produção (`DATASET = bp-datawarehouse.masterdata` — **não** `datamart`, como o plano antigo dizia). 2,91M leads escorados, versão `v1-d3245efb`, 14 tags no treino.
+
+**Próximo passo:**
+1. **Push do repo `relatorios-abe-bp`** — 4 commits locais (rename D50, documentação, cutover). Publica no GitHub Pages, incluindo a metodologia corrigida.
+2. **Aposentar o protótipo**: dropar `tb_lead_iql` + `vw_lead_conversion_iql`. ⚠️ Manter `tb_iql_woe_respostas`/`tb_iql_iv_perguntas` até o `mart_iql_iv` existir — o dashboard ainda os consome.
+3. **Recriar o health-check diário** apontando para `bp-datawarehouse.masterdata` (receita em `~/.claude/AGENDA.md` → Recorrentes).
+4. **Avisar o Victor**: `dbt:CommitManifest` falhando na `main` desde este merge (2 tentativas), `manifest/manifest.json` com 14,5 MB, erro `curl 55` no push. O manifest do remoto está em 30/jul, então o `state:modified` do próximo MR de qualquer pessoa compara contra estado velho.
+5. **Decidir a D51** (trava de maturidade por regime) — medida, não implementada.
+
+**Wiki a carregar:** `wiki-bp/pages/iql.md` (mapa do modelo) → `dbt-status.md` → `dbt-overview.md`. Para mexer no código: `bp-dbt-dw/models/marts/marketing/iql/README.md`.
 
 **Wiki a carregar:** `wiki-bp/pages/iql.md` (mapa do modelo) → `dbt-status.md` → `dbt-overview.md`. Para mexer no código: `bp-dbt-dw/models/marts/marketing/iql/README.md` (DAG + ordem de revisão + gotchas de CI).
 
@@ -22,6 +27,27 @@
 - Modelos incrementais têm `full_refresh=false`. Ao renomear coluna antes do merge, é preciso dropar as cópias stale em `bp-staging:docs_validation.<modelo>` e `pipeline_integrity_validation.<modelo>`, senão o CI quebra.
 - Validação local usa **swap-materialization**: compilar e trocar os refs de upstream para produção antes de rodar em `bp-staging.dbt_abe`.
 - Betas (`dim_iql_betas`) são **congelados**, estimados offline por `~/meu_projeto/BigQuery/iql_v0/iql_recalibra_v03.py`. Não rodam no pipeline (ver "por que" na D39).
+
+### Operacionalização do IQL (plano de 31/jul — pedido do André)
+
+Três frentes para colocar o modelo em prática, todas lendo `fct_lead_iql`/`cbo_lead_conversion_iql` (staging até o merge da !2426; cutover = 1 linha):
+
+1. **Relatório IQL no marketing-bp** (time de marketing) — página nova no app (padrão das PRs #106/#110: página + hook + edge fn BQ), com (a) visão geral: leads/semana por faixa, % A+/A, CPLq; (b) por campanha: mix de faixas, CPLq vs CPL, EV acumulado; (c) personas/ICP: perfil das faixas altas em atributos legíveis (renda, tempo que conhece BP, relação com mídia, status). Linguagem de marketing: faixa + CPLq + "valor esperado por lead (R$)" — **nunca pontos/pesos (D20)**.
+2. **Visão por anúncio para mídia** — mart `cbo_ads_iql_daily` (grain `id_advertising` × dia): spend/impressões do `dtm_analytics_facebook_ads_funnel` + leads por faixa via `REGEXP_EXTRACT(utm_content, r'(\d{10,})$')`. Métricas: CPL, CPLq, EV/spend, mix de faixas, taxa de resposta. Evolução do que a D45 já mostra no dashboard HTML.
+3. **Send-back Meta (CAPI)** — modelo dbt `cbo_meta_capi_lead_iql` (grain lead): `event_id` surrogate (email×tag, dedup de reenvio), `event_time` = cadastro, match keys (SHA256 email, telefone E.164, `id_fbclid` — **88% de cobertura jun–jul/2026**), `value` = `vl_reference_ev`, `currency` BRL. **Métrica recomendada: EV da faixa como valor de evento único** (`LeadQualificado`) → otimização por valor no Meta; anti-Goodhart preservado (só 5 valores agregados circulam). Achado 31/jul: `js_metadata` da `lead_registration` existe mas está 100% vazio — **não há event_id de pixel**; o evento será novo, server-side, sem necessidade de dedup browser×server. Envio (script agendado vs edge fn) e criação do dataset/custom event: definir com o time de mídia. Janela CAPI = 7 dias; enviar D+1.
+
+**Decisão de métrica (04/ago):** a página de acompanhamento usa **retorno esperado (RPL esperado ÷ CPL, meta 1,5×)** como métrica-mestra — não CPLq. Racional do André: tudo bem captar lead ruim se ele for barato o bastante para se pagar; CPLq pune o mix sem olhar o custo. RPL esperado = Σ share_faixa × EV_faixa (fórmula D28). Mockup da aba "Aquecimento · Qualidade" (v3): artifact `a3fd60ec` — estrutura validada contra o guia de estilo do DashCampanha (abas AnimatedTabsList, KPI cards shadcn, heatmap 4 degraus emerald/amber/red, personas no formato "Perfis com maior conversão" da aba Perfil).
+
+**Decisões do André (31/jul):** relatório vive no **marketing-bp**; CAPI começa **binário A+/A com teste A/B** (revisão dos EVs por tier fica para a fase de value optimization — usar fórmula D28 para reescalar por campanha); operação CAPI = **tabela BQ como fonte** + ponte de envio (recomendado: script agendado; alternativas: template Dataflow oficial da Meta `fbsamples/gcp-to-conversions-api-dataflow-template` ou reverse ETL SaaS).
+
+**Auditoria marketing-bp (31/jul)** — como o app mostra ads de aquecimento hoje:
+- Aba "Ads" do bloco Aquecimento em `/dashboard-campanha/:campaignName` → `src/components/dash-campanha/CampanhasAquecimentoAdsTab.tsx` (hierarquia Campanha→AdSet→Anúncio). Colunas: Criativo, Anúncio, Gasto (gross-up 1,1383), Hook, Hold, CTR, Leads, CPL, RPL, Respostas, Custo/Resp. Único proxy de qualidade = respostas de survey (CPR). **Nenhuma menção a IQL/CPLq no repo.**
+- Fontes: spend/impressões vêm de **planilha Adveronix** (edge `fetch-google-sheet`), não do BQ; leads/respostas/receita vêm da edge `fetch-leads-attribution` (BQ: `lead_registration` + `dtm_analytics_lead_conversion`).
+- ⚠️ **Bug encontrado:** `fetch-leads-attribution` extrai o ad_id com regex `__(\d+)$` — o padrão que **perde o BP10 inteiro** (utm_content com id puro). Corrigir para `(\d{10,})$` (gotcha documentado em `wiki-bp/pages/bq-leads.md`).
+- Molde de página nova = PR #110 (edge fn + hook + página + rota) **mais** os 2 registros do PR #106 (`src/lib/systemResources.ts` → SYSTEM_PAGES; `src/components/SubHeader.tsx` → PAGE_ICONS/MENU_SECTIONS).
+- Aba `perfil-leads` (`CampaignLeadProfile.tsx` + edge `fetch-campaign-lead-conversion`) já desdobra survey por pergunta/resposta com conversão — base natural para a visão de personas/ICP.
+
+Implementação da frente 2 revisada: em vez de mart novo isolado, **estender a aba existente** — nova edge fn (ou extensão da `fetch-leads-attribution`) lendo `cbo_lead_conversion_iql` por ad_id (regex robusta) e adicionando colunas **IQL% (share A+/A), CPLq e mix de faixas** à tabela, com heatmap análogo ao do CPL. Pré-requisito: acesso da SA `growthbooks@bp-lake` ao dataset (staging `bp-staging.dbt_abe` pré-merge / `datamart` pós-merge).
 
 **Fila do projeto (pós-merge):** (1) apresentação; (2) piloto ELB26 formalizado (gate Spearman CPLq×CAC, leitura D+60 ~set/2026; acompanhamento já no dashboard); (3) perguntas de intenção/motivação no próximo formulário (P1/P2 do [PERGUNTAS-FORMULARIO.md](PERGUNTAS-FORMULARIO.md)); (4) modelo IV no dbt (`mart_iql_iv` — hoje protótipo `tb_iql_iv_perguntas`), pré-requisito do dash de perguntas e da aposentadoria total do protótipo; (5) CAPI v2 (EV por faixa já disponível em `vl_reference_ev`); (6) **1º refit ~mar/2027** quando EVG maturar: revalidar β, reavaliar quarentena do DDD, threshold de uniformidade 2,0, ablação da `paga_conteudo`, re-medir múltiplos D28/D31 por 5 faixas (hoje aproximados A+∪A→A, C∪D→C), reavaliar promoção do "Reincidente silencioso" a persona e RFV pré-cadastro como família de atributos.
 
