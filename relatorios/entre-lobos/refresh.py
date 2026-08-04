@@ -171,6 +171,50 @@ WHERE p.nm_target_variable = 'upsell_in_30_days'
 GROUP BY 1
 """
 
+# Mídia Meta ELB26 por dia/fase — alimenta o estado dinâmico da campanha e o CPL/CPLq
+Q_MIDIA = """
+SELECT reference_date AS dia,
+  IF(nm_campaign_name LIKE '%[VENDA]%', 'venda', 'lead') AS fase,
+  ROUND(SUM(vl_amount_spent)) AS spend,
+  SUM(qt_total_sales) AS vendas
+FROM `bp-datawarehouse.datamart.dtm_analytics_facebook_ads_funnel`
+WHERE reference_date >= '2026-07-14'
+  AND REGEXP_CONTAINS(LOWER(nm_campaign_name), r'(^|[^a-z])elb(26)?([^a-z0-9]|$)|entre[-_ ]?lobos')
+GROUP BY 1, 2 ORDER BY 1
+"""
+
+# Sobreposição entre as sementes da arquitetura (base: tb_elb26_segmentos, snapshot 31/07)
+Q_OVERLAP = """
+WITH sementes AS (
+  SELECT 'Compradores ELS' AS semente, email
+  FROM `bp-staging.dbt_abe.tb_elb26_segmentos` WHERE segmento = '8_compradores_els'
+  UNION ALL
+  SELECT 'Compradores ELB22', email
+  FROM `bp-staging.dbt_abe.tb_elb26_segmentos` WHERE segmento = '1_compradores_elb22'
+  UNION ALL
+  SELECT 'Conversor de funil', email
+  FROM `bp-staging.dbt_abe.tb_elb26_segmentos`
+  WHERE segmento IN ('9_leads_aa_elb26', '3_conversos_leads_elb24')
+),
+dedup AS (SELECT DISTINCT semente, email FROM sementes)
+SELECT a.semente AS de, b.semente AS para,
+  COUNT(DISTINCT a.email) AS n_de,
+  COUNT(DISTINCT IF(b2.email IS NOT NULL, a.email, NULL)) AS n_overlap
+FROM dedup a
+CROSS JOIN (SELECT DISTINCT semente FROM dedup) b
+LEFT JOIN dedup b2 ON b2.semente = b.semente AND b2.email = a.email
+WHERE a.semente != b.semente
+GROUP BY 1, 2
+"""
+
+# Forecast de cenários da venda: leads × R$/lead blended de campanhas de aquisição
+# (coeficientes medidos em relatorios/aquecimento-vendas — receita total da campanha ÷ leads de aquecimento)
+FORECAST_COEF = [
+    {"cenario": "Conservador", "ancora": "DOM",  "coef": 14.8},
+    {"cenario": "Central",     "ancora": "ELS",  "coef": 47.5},
+    {"cenario": "Otimista",    "ancora": "ODD",  "coef": 110.3},
+]
+
 # Benchmark fixo: testes de segmentação da fase [VENDA] do ELS, comparados com o Advantage
 # NA MESMA JANELA de spend do teste (+7d de cauda) — correção de 30/07 (ver els-analise.md).
 # Os testes foram rajadas de 2–13 dias numa curva que decai 4,8→1,6; comparar com o agregado
@@ -262,6 +306,34 @@ def build() -> dict:
     assert all(set(r.keys()) <= {"faixa", "n", "pct_conv"} for r in iql_faixas)
     assert all(set(r.keys()) <= {"dia", "leads", "pct_aa"} for r in iql_dia)
 
+    print("  mídia por fase + overlap de sementes...", flush=True)
+    midia_rows = bq(Q_MIDIA)
+    dias_midia = sorted({str(r["dia"]) for r in midia_rows})
+    midia = {
+        "labels": dias_midia,
+        "spend_lead":  [sum(fi(r["spend"]) for r in midia_rows if str(r["dia"]) == d and r["fase"] == "lead") for d in dias_midia],
+        "spend_venda": [sum(fi(r["spend"]) for r in midia_rows if str(r["dia"]) == d and r["fase"] == "venda") for d in dias_midia],
+        "vendas":      [sum(ii(r["vendas"]) for r in midia_rows if str(r["dia"]) == d) for d in dias_midia],
+    }
+    spend_lead_total = sum(midia["spend_lead"]) + sum(midia["spend_venda"])  # aquecimento: tudo pré-venda
+    total_leads = sum(ii(r["leads"]) for r in leads_rows)
+    custo = {
+        "spend_lead_total": round(spend_lead_total),
+        "cpl": round(spend_lead_total / total_leads, 2) if total_leads else None,
+        "cplq": round(spend_lead_total / n_aa, 2) if n_aa else None,
+        "nota": "CPL blendado: spend Meta ELB26 ÷ todos os leads da tag (inclui orgânico/CRM). "
+                "CPLq = mesmo spend ÷ leads A+/A escorados.",
+    }
+    overlap_rows = bq(Q_OVERLAP)
+    overlap = [
+        {"de": r["de"], "para": r["para"], "n_de": ii(r["n_de"]),
+         "pct": round(ii(r["n_overlap"]) / ii(r["n_de"]) * 100, 1) if ii(r["n_de"]) else 0}
+        for r in overlap_rows
+    ]
+    forecast = [
+        {**f, "receita": round(total_leads * f["coef"] / 1e6, 2)} for f in FORECAST_COEF
+    ]
+
     return {
         "updated_at": datetime.datetime.now().isoformat(timespec="seconds"),
         "campaign": TAG,
@@ -270,7 +342,11 @@ def build() -> dict:
             "labels": [str(r["dia"]) for r in leads_rows],
             "leads":  [ii(r["leads"]) for r in leads_rows],
         },
-        "total_leads": sum(ii(r["leads"]) for r in leads_rows),
+        "total_leads": total_leads,
+        "midia": midia,
+        "custo": custo,
+        "overlap": overlap,
+        "forecast": forecast,
         "bench_els": BENCH_ELS,
         "perfil_socio": perfil_socio,
         "espectador": espectador,

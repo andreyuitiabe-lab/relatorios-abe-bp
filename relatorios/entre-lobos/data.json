@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-04T10:04:51",
+  "updated_at": "2026-08-04T14:33:08",
   "campaign": "ELB26",
   "sementes": [
     {
@@ -16,35 +16,35 @@
     {
       "key": "2_viewers_elb_todos",
       "label": "Viewers da série (todos, ≥5min)",
-      "n": 465600,
+      "n": 466123,
       "decil": 5.3,
       "decil7": 36.6,
       "premium": 49.8,
       "masc": 73.1,
-      "n_decil7": 136096,
-      "n_premium": 185674
+      "n_decil7": 136237,
+      "n_premium": 185898
     },
     {
       "key": "3_viewers_elb_12m",
       "label": "Viewers últimos 12 meses",
-      "n": 66061,
+      "n": 66998,
       "decil": 5.19,
       "decil7": 34.7,
-      "premium": 52.1,
+      "premium": 52.2,
       "masc": 73.3,
-      "n_decil7": 18424,
-      "n_premium": 28263
+      "n_decil7": 18698,
+      "n_premium": 28720
     },
     {
       "key": "4_viewers_elb_1h_mais",
       "label": "Viewers ≥1h de watch time",
-      "n": 297848,
+      "n": 298166,
       "decil": 5.33,
       "decil7": 37.0,
       "premium": 50.0,
       "masc": 74.8,
-      "n_decil7": 88500,
-      "n_premium": 121878
+      "n_decil7": 88592,
+      "n_premium": 122033
     },
     {
       "key": "5_compradores_els",
@@ -60,13 +60,13 @@
     {
       "key": "6_els_x_viewers_elb",
       "label": "Compradores ELS ∩ viewers ELB",
-      "n": 5131,
+      "n": 5181,
       "decil": 5.43,
       "decil7": 38.5,
-      "premium": 59.4,
+      "premium": 59.3,
       "masc": 76.2,
-      "n_decil7": 1591,
-      "n_premium": 2629
+      "n_decil7": 1605,
+      "n_premium": 2650
     },
     {
       "key": "7_leads_aa_elb26",
@@ -127,10 +127,168 @@
       72,
       195,
       129,
-      46
+      64
     ]
   },
-  "total_leads": 83859,
+  "total_leads": 83877,
+  "midia": {
+    "labels": [
+      "2026-07-15",
+      "2026-07-16",
+      "2026-07-17",
+      "2026-07-18",
+      "2026-07-19",
+      "2026-07-20",
+      "2026-07-21",
+      "2026-07-22",
+      "2026-07-23",
+      "2026-07-24",
+      "2026-07-25",
+      "2026-07-26",
+      "2026-07-27",
+      "2026-07-28",
+      "2026-07-29",
+      "2026-07-30",
+      "2026-07-31",
+      "2026-08-01",
+      "2026-08-02",
+      "2026-08-03",
+      "2026-08-04"
+    ],
+    "spend_lead": [
+      1983.0,
+      2043.0,
+      1172.0,
+      2148.0,
+      2604.0,
+      2668.0,
+      4732.0,
+      8517.0,
+      7959.0,
+      5527.0,
+      10312.0,
+      7011.0,
+      9603.0,
+      22115.0,
+      23030.0,
+      10273.0,
+      38.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "spend_venda": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      723.0,
+      419.0,
+      1849.0,
+      293.0,
+      1161.0,
+      2431.0,
+      1011.0,
+      0.0,
+      0.0,
+      0
+    ],
+    "vendas": [
+      6,
+      6,
+      7,
+      4,
+      1,
+      8,
+      6,
+      13,
+      15,
+      11,
+      18,
+      14,
+      7,
+      43,
+      30,
+      18,
+      5,
+      4,
+      1,
+      2,
+      0
+    ]
+  },
+  "custo": {
+    "spend_lead_total": 129622,
+    "cpl": 1.55,
+    "cplq": 8.27,
+    "nota": "CPL blendado: spend Meta ELB26 ÷ todos os leads da tag (inclui orgânico/CRM). CPLq = mesmo spend ÷ leads A+/A escorados."
+  },
+  "overlap": [
+    {
+      "de": "Compradores ELS",
+      "para": "Compradores ELB22",
+      "n_de": 35143,
+      "pct": 0.5
+    },
+    {
+      "de": "Compradores ELS",
+      "para": "Conversor de funil",
+      "n_de": 35143,
+      "pct": 0.6
+    },
+    {
+      "de": "Compradores ELB22",
+      "para": "Compradores ELS",
+      "n_de": 18538,
+      "pct": 0.9
+    },
+    {
+      "de": "Compradores ELB22",
+      "para": "Conversor de funil",
+      "n_de": 18538,
+      "pct": 0.7
+    },
+    {
+      "de": "Conversor de funil",
+      "para": "Compradores ELS",
+      "n_de": 16746,
+      "pct": 1.3
+    },
+    {
+      "de": "Conversor de funil",
+      "para": "Compradores ELB22",
+      "n_de": 16746,
+      "pct": 0.8
+    }
+  ],
+  "forecast": [
+    {
+      "cenario": "Conservador",
+      "ancora": "DOM",
+      "coef": 14.8,
+      "receita": 1.24
+    },
+    {
+      "cenario": "Central",
+      "ancora": "ELS",
+      "coef": 47.5,
+      "receita": 3.98
+    },
+    {
+      "cenario": "Otimista",
+      "ancora": "ODD",
+      "coef": 110.3,
+      "receita": 9.25
+    }
+  ],
   "bench_els": [
     {
       "nome": "Carrinho abandonado",
@@ -267,7 +425,7 @@
       "key": "4_viewers_serie_principal",
       "label": "Viewers série principal",
       "grupo": "v",
-      "n": 441263,
+      "n": 441302,
       "decil_medio": 5.31,
       "pct_decil7": 36.7,
       "renda_pc_mediana": 1030.0,
@@ -287,7 +445,7 @@
       "pct_sudeste": 52.2,
       "pct_sul": 16.8,
       "pct_nordeste": 15.3,
-      "pct_capital": 45.5,
+      "pct_capital": 45.6,
       "pct_cid_grande": 77.5
     },
     {
@@ -297,7 +455,7 @@
       "n": 30643,
       "decil_medio": 5.07,
       "pct_decil7": 33.5,
-      "renda_pc_mediana": 963.0,
+      "renda_pc_mediana": 962.0,
       "cob_renda": 56.6,
       "pct_black": 18.6,
       "pct_plat_amex": 27.4,
@@ -348,27 +506,27 @@
       "key": "7_viewers_producao_2026",
       "label": "Viewers produção 2026",
       "grupo": "v",
-      "n": 6637,
-      "decil_medio": 5.38,
-      "pct_decil7": 38.1,
-      "renda_pc_mediana": 1062.0,
-      "cob_renda": 79.9,
+      "n": 7614,
+      "decil_medio": 5.36,
+      "pct_decil7": 37.9,
+      "renda_pc_mediana": 1058.0,
+      "cob_renda": 79.8,
       "pct_black": 28.7,
-      "pct_plat_amex": 27.3,
-      "pct_gold": 28.8,
-      "pct_basico": 15.2,
+      "pct_plat_amex": 27.2,
+      "pct_gold": 29.0,
+      "pct_basico": 15.1,
       "cob_cartao": 86.0,
-      "pct_masc": 72.3,
-      "idade_media": 51.0,
+      "pct_masc": 72.0,
+      "idade_media": 50.8,
       "pct_14_29": 3.0,
-      "pct_30_44": 29.8,
-      "pct_45_59": 41.2,
-      "pct_60_mais": 25.9,
-      "cob_idade": 32.7,
+      "pct_30_44": 30.6,
+      "pct_45_59": 40.8,
+      "pct_60_mais": 25.5,
+      "cob_idade": 32.3,
       "pct_sudeste": 54.1,
       "pct_sul": 16.9,
       "pct_nordeste": 15.4,
-      "pct_capital": 46.1,
+      "pct_capital": 46.0,
       "pct_cid_grande": 79.3
     },
     {
@@ -388,7 +546,7 @@
       "pct_masc": 68.7,
       "idade_media": 49.6,
       "pct_14_29": 3.8,
-      "pct_30_44": 33.5,
+      "pct_30_44": 33.6,
       "pct_45_59": 39.5,
       "pct_60_mais": 23.1,
       "cob_idade": 10.1,
@@ -427,9 +585,9 @@
     }
   ],
   "espectador": {
-    "total": 6637,
-    "ativos": 5569,
-    "novos_campanha": 392,
+    "total": 7614,
+    "ativos": 6390,
+    "novos_campanha": 467,
     "dia": {
       "labels": [
         "2026-07-29",
@@ -437,70 +595,72 @@
         "2026-07-31",
         "2026-08-01",
         "2026-08-02",
-        "2026-08-03"
+        "2026-08-03",
+        "2026-08-04"
       ],
       "novos": [
         1,
-        1278,
+        1280,
+        1819,
         1808,
-        1795,
-        1661,
-        94
+        1679,
+        939,
+        88
       ]
     },
     "planos": [
       {
         "plano": "Básico",
-        "n": 2033,
-        "ativos": 1866
+        "n": 2328,
+        "ativos": 2137
       },
       {
         "plano": "Apoiador",
-        "n": 1288,
-        "ativos": 1185
+        "n": 1495,
+        "ativos": 1377
       },
       {
         "plano": "Premium GBB",
-        "n": 817,
-        "ativos": 610
+        "n": 929,
+        "ativos": 693
       },
       {
         "plano": "Travessia",
-        "n": 306,
-        "ativos": 84
+        "n": 343,
+        "ativos": 95
       },
       {
         "plano": "Teller",
-        "n": 261,
-        "ativos": 166
+        "n": 305,
+        "ativos": 192
       },
       {
         "plano": "Básico Vitalício",
-        "n": 212,
-        "ativos": 212
+        "n": 240,
+        "ativos": 240
       },
       {
         "plano": "Bp Economico Combo El Salvador Novo",
-        "n": 170,
-        "ativos": 153
+        "n": 202,
+        "ativos": 184
       },
       {
         "plano": "Black",
-        "n": 165,
-        "ativos": 160
+        "n": 189,
+        "ativos": 182
       }
     ],
-    "outros_planos": 1385,
+    "outros_planos": 1583,
     "upsell": {
-      "producao_2026": {
-        "n": 6041,
-        "percentil_medio": 68.9,
-        "pct_top20": 44.6
-      },
       "serie_principal": {
-        "n": 161262,
+        "n": 161297,
         "percentil_medio": 50.8,
         "pct_top20": 22.5
+      },
+      "producao_2026": {
+        "n": 6933,
+        "percentil_medio": 67.8,
+        "pct_top20": 43.4
       }
     }
   },

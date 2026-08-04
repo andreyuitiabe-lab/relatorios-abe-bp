@@ -57,6 +57,12 @@
   .chip .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%;
     margin-right: 6px; vertical-align: 1px; }
 
+  .stats { display: flex; gap: 36px; flex-wrap: wrap; }
+  .stat .n { font-size: 26px; font-weight: 800; letter-spacing: -.01em;
+    font-variant-numeric: tabular-nums; }
+  .stat .n.b { color: var(--blue); }
+  .stat .c { font-size: 12px; color: var(--muted); max-width: 190px; }
+
   .card {
     background: var(--card); border: 1px solid var(--line); border-radius: 10px;
     padding: 20px 22px;
@@ -152,9 +158,8 @@
 <header>
   <p class="eyebrow">Brasil Paralelo · Inteligência de campanha · <span id="hdrDate">—</span></p>
   <h1>Entre Lobos 2026 — as sementes de lookalike para a fase de venda</h1>
-  <p class="lede" style="margin-top:10px">O relançamento está captando leads em ritmo recorde e a venda ainda não abriu.
-  Este relatório dimensiona os públicos-semente disponíveis, traz o benchmark honesto do ELS
-  (comparado na mesma janela) e o perfil socioeconômico completo de cada semente.</p>
+  <p class="lede" style="margin-top:10px">Relatório vivo da campanha: estado do funil, públicos-semente dimensionados, benchmark
+  honesto do ELS (comparado na mesma janela) e o perfil socioeconômico completo de cada semente.</p>
   <div class="statusbar">
     <span class="chip"><span class="dot" style="background:var(--green)"></span>Aquecimento desde 14/07 · <b id="chipLeads">—</b></span>
     <span class="chip"><span class="dot" style="background:var(--amber)"></span>Venda: <b>não abriu</b> — janela para montar sementes</span>
@@ -164,12 +169,33 @@
 
 <main>
 
+<!-- ── 0 · Decisão & status ────────────────────────────────────────── -->
+<section>
+  <div class="card" style="border-left:3px solid var(--blue)">
+    <p class="chart-title">Decisão &amp; status</p>
+    <p id="decEstado" style="font-weight:700; margin-bottom:10px">—</p>
+    <div class="statusbar" style="margin:0 0 14px">
+      <span class="chip">CPL: <b id="chipCpl">—</b></span>
+      <span class="chip">CPLq (por lead A+/A): <b id="chipCplq">—</b></span>
+      <span class="chip">Spend do aquecimento: <b id="chipSpend">—</b></span>
+    </div>
+    <div class="stats" id="forecastTiles" style="margin:0 0 14px"></div>
+    <p style="font-size:13px; color:var(--muted); max-width:70ch"><b style="color:var(--ink)">Para aprovar:</b>
+    o split de budget da fase [VENDA] (seção 6) e o upload das 3 sementes (sobreposição entre elas ≈ 1% — seção 3).
+    <b style="color:var(--ink)">Pendências com o tráfego:</b> config do adset "sinal forte" do ELS no Gerenciador
+    e match rate do upload da semente ELB22.</p>
+  </div>
+  <p class="note">Forecast = 83,9k leads × R$/lead blendado (receita total ÷ leads de aquecimento) de campanhas
+  de aquisição já encerradas — faixa larga por natureza; o cenário central usa o ELS, o vizinho temático.
+  Coeficientes: <code>relatorios/aquecimento-vendas</code>.</p>
+</section>
+
 <!-- ── 1 · Aquecimento ─────────────────────────────────────────────── -->
 <section>
   <p class="eyebrow">1 · Onde a campanha está</p>
-  <h2 id="h2Aquec">O aquecimento acelera</h2>
-  <p class="lede">Captação em ritmo ELS (que fez 215k em dois meses). A qualidade estabilizou:
-  o % de leads A+/A caiu dos ~50% do dia 1 (base quente) para o platô estrutural de ~20% com a mídia escalada.</p>
+  <h2 id="h2Aquec">—</h2>
+  <p class="lede" id="ledeAquec">A qualidade estabilizou: o % de leads A+/A caiu dos ~50% do dia 1 (base quente)
+  para o platô estrutural de ~20% com a mídia escalada.</p>
   <div class="duo">
     <div class="card">
       <p class="chart-title">Leads por dia</p>
@@ -229,6 +255,14 @@
       <tbody id="tbSeeds"></tbody>
     </table>
   </div>
+  <div class="card" style="margin-top:14px">
+    <p class="chart-title">Sobreposição entre as sementes da arquitetura · % da linha que também está na coluna</p>
+    <table style="max-width:560px">
+      <thead id="ovHead"></thead>
+      <tbody id="ovBody"></tbody>
+    </table>
+    <p style="font-size:12.5px; color:var(--muted); margin-top:10px" id="ovLeitura"></p>
+  </div>
 </section>
 
 <!-- ── 4 · Perfil socioeconômico ───────────────────────────────────── -->
@@ -260,7 +294,7 @@
     </div>
   </div>
   <div class="card tblwrap" style="margin-top:14px">
-    <p class="chart-title">Todas as dimensões</p>
+    <p class="chart-title">Todas as dimensões · fundo mais escuro = maior valor na coluna (geografia: escala fixa 40–60%)</p>
     <table class="socio">
       <thead>
         <tr class="blk">
@@ -283,7 +317,7 @@
   audiência que veio de fora, janela para leads), cartão 80–90% (A+/A: 36%), idade 9–40% (A+/A: <b>8,5%</b> —
   quem informa nascimento é amostra enviesada; o padrão 60+ é direcional, mas confirmado pelos conversos
   reais do ELB24). Percentuais sobre quem tem o dado. Decil de renda = ranking 1–10 da renda domiciliar per capita do CEP (IBGE), não renda declarada da pessoa.
-  Parte do gap de %black pode ser viés de cobertura — comprador sempre tem transação registrada.</p>
+  Parte do gap de %black pode ser viés de cobertura — comprador sempre tem transação registrada. % masc = gênero inferido pelo nome (86% de cobertura); o declarado diverge no funil de lead (84% masc declarado vs 56% inferido — amostra de quem declara é enviesada).</p>
 </section>
 
 <!-- ── 5 · Recomendação ────────────────────────────────────────────── -->
@@ -564,8 +598,72 @@ function render() {
   document.getElementById('lastUpdate').textContent = 'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
   document.getElementById('chipLeads').textContent = nBR(D.total_leads) + ' leads';
   document.getElementById('chipIql').textContent = p1(D.iql.pct_aa) + '% A+/A (' + nBR(D.iql.total_escorados) + ' escorados)';
-  document.getElementById('h2Aquec').textContent =
-    'O aquecimento acelera — ' + (Math.max(...D.leads_dia.leads) / 1000).toFixed(1).replace('.', ',') + 'k leads no pico diário';
+  /* estado da campanha derivado dos dados: aquecimento ativo / pausa pré-venda / venda aberta */
+  const pico = Math.max(...D.leads_dia.leads);
+  const picoK = (pico / 1000).toFixed(1).replace('.', ',') + 'k';
+  const totalK = (D.total_leads / 1000).toFixed(1).replace('.', ',') + 'k';
+  const ult3 = arr => { const a = arr.slice(0, -1).slice(-3); return a.reduce((x, y) => x + y, 0) / (a.length || 1); };
+  const captacaoAtiva = ult3(D.leads_dia.leads) > 0.15 * pico;
+  const vendaAberta = D.midia && (ult3(D.midia.spend_venda) > 5000 || ult3(D.midia.vendas) > 50);
+  const estado = vendaAberta ? 'venda' : (captacaoAtiva ? 'aquecimento' : 'pausa');
+  const EST = {
+    aquecimento: {
+      h2: 'O aquecimento acelera — ' + picoK + ' leads no pico diário',
+      lede: 'Captação em andamento. A qualidade estabilizou: o % de leads A+/A caiu dos ~50% do dia 1 (base quente) para o platô estrutural de ~20% com a mídia escalada.',
+      chip: 'Aquecimento ativo · <b>' + nBR(D.total_leads) + ' leads</b>', dot: 'var(--green)',
+      dec: 'Aquecimento ativo (' + totalK + ' leads). Janela para montar as sementes antes da venda abrir.'
+    },
+    pausa: {
+      h2: 'Captação encerrada — ' + totalK + ' leads em ' + D.leads_dia.labels.length + ' dias',
+      lede: 'A captação desligou (spend Meta zerado) e a venda ainda não abriu — é a janela exata para subir as sementes no Meta. Pico de ' + picoK + '/dia; % A+/A estabilizou em ~20% após os ~50% do dia 1 (base quente).',
+      chip: 'Captação encerrada · <b>' + nBR(D.total_leads) + ' leads</b>', dot: 'var(--amber)',
+      dec: 'Captação encerrada (' + totalK + ' leads, CPL abaixo do benchmark) e venda ainda fechada — subir as sementes AGORA, antes da abertura.'
+    },
+    venda: {
+      h2: 'Venda aberta — acompanhar delta vs Advantage na mesma janela',
+      lede: 'A fase [VENDA] está rodando. Régua de leitura: adset se avalia pelo delta vs Advantage na mesma janela +7d; curva esperada decai do pico (~3,5–4,8) para platô (~1,6–1,8) — queda até o platô é normal.',
+      chip: 'Venda aberta · <b>' + nBR(D.total_leads) + ' leads captados</b>', dot: 'var(--blue)',
+      dec: 'Venda aberta — acompanhar ROAS semanal por bloco e promover/cortar adsets pelo delta vs Advantage.'
+    }
+  }[estado];
+  document.getElementById('h2Aquec').textContent = EST.h2;
+  document.getElementById('ledeAquec').textContent = EST.lede;
+  document.getElementById('decEstado').textContent = EST.dec;
+  const chipLeadsEl = document.getElementById('chipLeads').closest('.chip');
+  chipLeadsEl.innerHTML = '<span class="dot" style="background:' + EST.dot + '"></span>' + EST.chip;
+
+  /* bloco de decisão: custo + forecast */
+  if (D.custo) {
+    document.getElementById('chipCpl').textContent = 'R$ ' + p2(D.custo.cpl);
+    document.getElementById('chipCplq').textContent = 'R$ ' + p2(D.custo.cplq);
+    document.getElementById('chipSpend').textContent = 'R$ ' + nBR(Math.round(D.custo.spend_lead_total / 1000)) + 'k';
+  }
+  if (D.forecast) {
+    document.getElementById('forecastTiles').innerHTML = D.forecast.map(f =>
+      `<div class="stat"><div class="n ${f.cenario === 'Central' ? 'b' : ''}">R$ ${p2(f.receita)}M</div>
+       <div class="c">${f.cenario} · R$ ${p1(f.coef)}/lead (âncora ${f.ancora})</div></div>`).join('');
+  }
+
+  /* overlap de sementes */
+  if (D.overlap?.length) {
+    const nomes = [...new Set(D.overlap.map(o => o.de))];
+    document.getElementById('ovHead').innerHTML = '<tr><th>Semente (N)</th>' +
+      nomes.map(n => `<th class="num">∩ ${n}</th>`).join('') + '</tr>';
+    document.getElementById('ovBody').innerHTML = nomes.map(de => {
+      const nDe = D.overlap.find(o => o.de === de).n_de;
+      return `<tr><td>${de} <span style="color:var(--soft)">(${nBR(nDe)})</span></td>` +
+        nomes.map(para => {
+          if (de === para) return '<td class="num" style="color:var(--soft)">—</td>';
+          const o = D.overlap.find(x => x.de === de && x.para === para);
+          return `<td class="num">${p1(o.pct)}%</td>`;
+        }).join('') + '</tr>';
+    }).join('');
+    const maxOv = Math.max(...D.overlap.map(o => o.pct));
+    document.getElementById('ovLeitura').textContent = maxOv < 5
+      ? 'Leitura: sobreposição máxima de ' + p1(maxOv) + '% — os públicos são praticamente disjuntos; os adsets não competem entre si no leilão e podem rodar separados.'
+      : 'Leitura: sobreposição máxima de ' + p1(maxOv) + '% — acima de 40% entre duas sementes, consolidar num adset único.';
+  }
+
   if (D.iql.updated_ref) document.getElementById('iqlRef').textContent = dBR(D.iql.updated_ref);
   document.getElementById('iqlTotais').textContent = nBR(D.iql.n_aa) + ' leads A+/A — viram a semente "conversor de funil"';
 
