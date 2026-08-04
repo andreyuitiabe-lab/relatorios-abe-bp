@@ -148,6 +148,23 @@ lead: criativo dedicado DENTRO dos adsets (não adset por idade) + oferta via CR
 4. Opcional: overlap ELS∩ELB (4,8k) — pequeno mas premium; testar com spend marginal
 5. **Não usar viewers ELB para remarketing de venda** — lição ELS: viewer em geral já é membro
 
+## Revisão data-analyst implementada (04/08)
+
+- **Bloco "Decisão & status"** no topo + **estado da campanha derivado dos dados** (aquecimento
+  ativo / pausa pré-venda / venda aberta — regras sobre leads/dia e spend Meta por fase). Headline,
+  chips e ledes mudam sozinhos com o estado. Estado atual: pausa pré-venda (captação encerrou ~31/07).
+- **CPL R$ 1,55 / CPLq R$ 8,27** (spend Meta R$ 130k ÷ 83,9k leads / ÷ 15,7k A+/A) — CPL abaixo
+  do benchmark DOM (R$ 2,27). CPL blendado (inclui leads orgânicos no denominador).
+- **Forecast de cenários da venda**: 83,9k leads × R$/lead blendado → R$ 1,24M (âncora DOM) /
+  R$ 3,98M (ELS, central) / R$ 9,25M (ODD). Coeficientes de `aquecimento-vendas`.
+- **Matriz de overlap das sementes** (tb_elb26_segmentos): máx **1,3%** entre ELS × ELB22 ×
+  conversor de funil — públicos disjuntos, 3 adsets independentes sem canibalização.
+- **Conversão por faixa IQL visível**: A+ 2,92% / A 1,32% / B 0,49% / C 0,19% / D 0,23% —
+  monotonia quase perfeita, lift A+ vs C ≈ 15× (compras da fase de cadastro; venda não abriu).
+- Legenda do heat na tabela, nota do conflito gênero declarado×inferido, lede do header neutro.
+- Fica para o D1 da venda: curva D+N com benchmark ELS/ODD/DOM recebendo o realizado; recorte
+  de recência na semente compradores ELS.
+
 ## Pendências / próximos passos
 
 - [ ] Decidir quais sementes exportar (listas de e-mail hasheadas para upload no Meta — fora do repo)
