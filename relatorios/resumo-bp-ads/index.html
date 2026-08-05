@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resumo BP · BP Ads — Funil da Newsletter</title>
+<style>
+  :root{
+    --ink:#14201C; --ink-2:#3D4A44; --ink-3:#6B7770;
+    --paper:#F5F6F2; --card:#FFFFFF; --line:#DFE3DC;
+    --verde:#0F5C46; --verde-soft:#E3EEE9; --ouro:#A67C2E;
+    --good:#2E7D4F; --warn:#B3541E;
+    --serif:Georgia,'Times New Roman',serif;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5}
+  .num{font-variant-numeric:tabular-nums}
+
+  header{background:var(--ink);color:#EDF1EC}
+  .topbar{max-width:1080px;margin:0 auto;padding:20px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+  .brand h1{font-family:var(--serif);font-size:22px;font-weight:400;margin:0;text-wrap:balance}
+  .brand .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9FB3A9;margin-bottom:2px}
+  .spacer{flex:1}
+  .viewswitch{display:flex;gap:8px;align-items:center}
+  .viewswitch button{font:inherit;font-size:13px;padding:7px 14px;border:1px solid #3D544B;border-radius:3px;background:transparent;color:#CBD6CF;cursor:pointer}
+  .viewswitch button.active{background:var(--verde);border-color:var(--verde);color:#fff}
+  .viewswitch button:focus-visible,select:focus-visible{outline:2px solid var(--ouro);outline-offset:2px}
+  .viewswitch select{font:inherit;font-size:13px;padding:7px 10px;border:1px solid #3D544B;border-radius:3px;background:#1E2C26;color:#EDF1EC;display:none}
+  body[data-view="parceiro"] .viewswitch select{display:block}
+
+  main{max-width:1080px;margin:0 auto;padding:24px}
+  .context{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;margin-bottom:18px}
+  .context h2{font-family:var(--serif);font-size:19px;font-weight:400;margin:0}
+  .context .period{color:var(--ink-3);font-size:13px}
+  .badge-partner{display:none;background:var(--verde-soft);color:var(--verde);border:1px solid #C4DACF;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600}
+  body[data-view="parceiro"] .badge-partner{display:inline-block}
+
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+  .kpi{background:var(--card);border:1px solid var(--line);padding:14px 16px}
+  .kpi .label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  .kpi .value{font-family:var(--serif);font-size:27px;margin-top:4px}
+  .kpi .sub{font-size:12px;color:var(--ink-2);margin-top:2px}
+  .kpi .sub strong{color:var(--verde)}
+
+  section{background:var(--card);border:1px solid var(--line);padding:18px 20px;margin-bottom:20px}
+  section h3{font-family:var(--serif);font-size:16px;font-weight:400;margin:0 0 4px}
+  section .hint{font-size:12px;color:var(--ink-3);margin:0 0 14px}
+
+  .funnel .stage{display:grid;grid-template-columns:110px 1fr 170px;align-items:center;gap:12px;padding:7px 0}
+  .funnel .stage+.stage{border-top:1px dashed var(--line)}
+  .funnel .name{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+  .funnel .bar{height:26px;background:var(--verde-soft);position:relative}
+  .funnel .bar i{display:block;height:100%;background:var(--verde)}
+  .funnel .stage:last-child .bar i{background:var(--ouro)}
+  .funnel .val{font-size:13px;text-align:right}
+  .funnel .val b{font-family:var(--serif);font-size:15px;font-weight:400}
+  .funnel .val .rate{color:var(--ink-3);display:block;font-size:11.5px}
+
+  .chart-wrap,.table-wrap{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap}
+  th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600;text-align:right;padding:8px 10px;border-bottom:2px solid var(--ink)}
+  th:first-child,td:first-child{text-align:left}
+  td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}
+  tr:hover td{background:#FAFBF8}
+  .pill{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11.5px;font-weight:600}
+  .pill.good{background:#E5F1E9;color:var(--good)}
+  .pill.low{background:#F7EADF;color:var(--warn)}
+
+  .note{border-left:3px solid var(--ouro);background:#FBF7EF;padding:12px 16px;font-size:13px;color:var(--ink-2);margin-bottom:20px}
+  .note b{color:var(--ink)}
+  footer{max-width:1080px;margin:0 auto;padding:0 24px 32px;font-size:12px;color:var(--ink-3)}
+  .only-parceiro{display:none}
+  body[data-view="parceiro"] .only-parceiro{display:block}
+  body[data-view="parceiro"] .only-consolidada{display:none}
+</style>
+</head>
+<body data-view="consolidada">
+
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="eyebrow">BP Ads · Newsletter</div>
+      <h1>Resumo BP — Funil de Conversão</h1>
+    </div>
+    <div class="spacer"></div>
+    <div class="viewswitch" role="group" aria-label="Visão">
+      <button id="btn-consolidada" class="active" onclick="setView('consolidada')">Visão BP (consolidada)</button>
+      <button id="btn-parceiro" onclick="setView('parceiro')">Visão do parceiro</button>
+      <select id="sel-parceiro" aria-label="Selecionar parceiro" onchange="render()"></select>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="context">
+    <h2 id="ctx-title">Todas as edições</h2>
+    <span class="badge-partner" id="ctx-badge"></span>
+    <span class="period" id="ctx-period"></span>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section class="funnel">
+    <h3>Funil médio por edição</h3>
+    <p class="hint">Enviados → entregues → abertos (abertura humana, exclui Apple MPP) → pessoas que clicaram. A abertura "padrão mercado" (com MPP) aparece nos KPIs e na tabela; o funil usa a humana para não inflar a etapa.</p>
+    <div id="funnel"></div>
+  </section>
+
+  <section>
+    <h3 id="chart-title">Cliques por edição</h3>
+    <p class="hint">Barras: pessoas únicas que clicaram · linha tracejada: média do período.</p>
+    <div class="chart-wrap"><canvas id="chart" width="1020" height="220" role="img" aria-label="Gráfico de cliques por edição"></canvas></div>
+  </section>
+
+  <section class="only-consolidada">
+    <h3>Cliques por destino (período)</h3>
+    <p class="hint">Como os cliques da newsletter se distribuem entre conteúdo BP, canais sociais e anunciantes.</p>
+    <div class="table-wrap"><table id="tbl-destinos"></table></div>
+  </section>
+
+  <section>
+    <h3 id="tbl-title">Edições em detalhe</h3>
+    <p class="hint" id="tbl-hint"></p>
+    <div class="table-wrap"><table id="tbl-edicoes"></table></div>
+  </section>
+
+  <div class="note only-consolidada">
+    <b>Gap a resolver antes de abrir para parceiros:</b> hoje os links de anunciante saem <b>sem UTM</b> (ex.: <span class="num">vimansca.com.br/</span> puro). A segmentação usa o domínio da URL clicada, o que funciona — mas padronizar <span class="num">utm_source=resumo_bp&amp;utm_campaign=&lt;parceiro&gt;&amp;utm_content=&lt;edição&gt;</span> permitiria (1) ao parceiro medir no analytics dele e (2) distinguir dois anúncios do mesmo parceiro na mesma edição.
+  </div>
+  <div class="note only-parceiro">
+    <b>Sobre estes números:</b> enviados, entregues e aberturas referem-se às edições em que seu anúncio foi veiculado. Cliques contam apenas os links do seu anúncio. Mostramos duas taxas de abertura: a <b>padrão de mercado</b> (comparável a benchmarks de newsletter, inclui pré-carregamento do Apple Mail) e a <b>humana</b> (pessoas que de fato abriram).
+  </div>
+</main>
+
+<footer id="footer">
+  Fonte: <span class="num">staging.stg_insider__events</span> (campanhas <span class="num">[RBP]</span>) · aberturas humanas = <span class="num">bl_human_open</span> · edições recentes ainda acumulam aberturas/cliques por alguns dias.
+</footer>
+
+<script>
+let D = null;
+
+const fmt = n => n.toLocaleString('pt-BR');
+const pct = (a,b) => b ? (100*a/b).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%' : '—';
+
+function setView(v){
+  document.body.dataset.view = v;
+  document.getElementById('btn-consolidada').classList.toggle('active', v==='consolidada');
+  document.getElementById('btn-parceiro').classList.toggle('active', v==='parceiro');
+  render();
+}
+
+function dadosAtuais(){
+  const v = document.body.dataset.view || 'consolidada';
+  if (v==='consolidada') return {parceiro:null, edicoes:D.edicoes};
+  const dom = document.getElementById('sel-parceiro').value;
+  const p = D.parceiros[dom];
+  if (!p) return {parceiro:null, edicoes:D.edicoes};
+  const eds = D.edicoes.filter(e => p.cliques.some(c=>c.ed===e.ed))
+    .map(e => ({...e, cli: p.cliques.find(c=>c.ed===e.ed).pes, cliqTot: p.cliques.find(c=>c.ed===e.ed).cliq}));
+  return {parceiro:p, edicoes:eds};
+}
+
+function render(){
+  if (!D) return;
+  const {parceiro, edicoes} = dadosAtuais();
+  const S = k => edicoes.reduce((a,e)=>a+e[k],0);
+  const env=S('env'), ent=S('ent'), abr=S('abr'), abrT=S('abrT'), cli=S('cli');
+
+  document.getElementById('ctx-title').textContent = parceiro ? 'Edições com anúncio veiculado' : 'Todas as edições';
+  document.getElementById('ctx-badge').textContent = parceiro ? parceiro.nome : '';
+
+  const kpis = [
+    {l:'Enviados', v:fmt(env), s:edicoes.length+' edições'},
+    {l:'Entregues', v:fmt(ent), s:'<strong>'+pct(ent,env)+'</strong> de entrega'},
+    {l:'Aberturas (padrão mercado)', v:fmt(abrT), s:'<strong>'+pct(abrT,ent)+'</strong> · inclui Apple MPP'},
+    {l:'Aberturas humanas', v:fmt(abr), s:'<strong>'+pct(abr,ent)+'</strong> · pessoas reais'},
+    {l:parceiro?'Cliques no seu anúncio':'Pessoas que clicaram', v:fmt(cli), s:'CTR <strong>'+pct(cli,ent)+'</strong> · CTOR <strong>'+pct(cli,abr)+'</strong>'},
+  ];
+  document.getElementById('kpis').innerHTML = kpis.map(k=>
+    `<div class="kpi"><div class="label">${k.l}</div><div class="value num">${k.v}</div><div class="sub">${k.s}</div></div>`).join('');
+
+  const n = edicoes.length || 1;
+  const stages = [
+    {n:'Enviados', v:env/n}, {n:'Entregues', v:ent/n}, {n:'Abertos', v:abr/n},
+    {n:parceiro?'Cliques anúncio':'Clicaram', v:cli/n},
+  ];
+  const max = stages[0].v || 1;
+  document.getElementById('funnel').innerHTML = stages.map((s,i)=>{
+    const prev = i? stages[i-1].v : s.v;
+    return `<div class="stage"><div class="name">${s.n}</div>
+      <div class="bar"><i style="width:${Math.max(100*s.v/max, .4)}%"></i></div>
+      <div class="val num"><b>${fmt(Math.round(s.v))}</b><span class="rate">${i? pct(s.v,prev)+' da etapa anterior':'média por edição'}</span></div></div>`;
+  }).join('');
+
+  document.getElementById('chart-title').textContent = parceiro ? 'Cliques no anúncio por edição' : 'Cliques por edição';
+  desenhaChart(edicoes, parceiro);
+
+  document.getElementById('tbl-title').textContent = parceiro ? 'Suas veiculações' : 'Edições em detalhe';
+  document.getElementById('tbl-hint').textContent = parceiro
+    ? 'Uma linha por edição em que o anúncio do parceiro foi veiculado. Entre parênteses: total de cliques (com repetição).'
+    : 'Uma linha por edição do Resumo BP. Aberturas: padrão mercado (com Apple MPP) e humana.';
+  const ctrMedia = edicoes.length ? edicoes.reduce((a,e)=>a+e.cli/e.ent,0)/edicoes.length : 0;
+  document.getElementById('tbl-edicoes').innerHTML =
+    `<tr><th>Edição</th><th>Enviados</th><th>Entregues</th><th>Abertos (mercado)</th><th>Tx. abertura</th><th>Abertos (humano)</th><th>Tx. humana</th><th>${parceiro?'Pessoas (cliques)':'Clicaram'}</th><th>CTR</th><th></th></tr>`+
+    edicoes.slice().reverse().map(e=>{
+      const ctr = e.cli/e.ent;
+      const pill = ctr >= ctrMedia ? '<span class="pill good">acima da média</span>' : '<span class="pill low">abaixo da média</span>';
+      const cliCell = parceiro ? `${fmt(e.cli)} <span style="color:var(--ink-3)">(${fmt(e.cliqTot)})</span>` : fmt(e.cli);
+      return `<tr><td>${e.ed}</td><td class="num">${fmt(e.env)}</td><td class="num">${fmt(e.ent)}</td><td class="num">${fmt(e.abrT)}</td><td class="num">${pct(e.abrT,e.ent)}</td><td class="num">${fmt(e.abr)}</td><td class="num">${pct(e.abr,e.ent)}</td><td class="num">${cliCell}</td><td class="num">${pct(e.cli,e.ent)}</td><td>${pill}</td></tr>`;
+    }).join('');
+
+  const totD = D.destinos.reduce((a,d)=>a+d.cliq,0);
+  document.getElementById('tbl-destinos').innerHTML =
+    '<tr><th>Destino</th><th>Cliques</th><th>Share</th></tr>'+
+    D.destinos.map(d=>{
+      const isAd = d.grupo.includes('(anunciante)');
+      return `<tr><td>${isAd?'<b>'+d.grupo+'</b>':d.grupo}</td><td class="num">${fmt(d.cliq)}</td><td class="num">${pct(d.cliq,totD)}</td></tr>`;
+    }).join('');
+}
+
+function desenhaChart(eds, parceiro){
+  const cv = document.getElementById('chart'), ctx = cv.getContext('2d');
+  const W=cv.width, H=cv.height, padL=52, padB=32, padT=14, padR=10;
+  ctx.clearRect(0,0,W,H);
+  if(!eds.length) return;
+  const max = Math.max(...eds.map(e=>e.cli))*1.15;
+  const iw = (W-padL-padR)/eds.length;
+  ctx.font='11px -apple-system,Segoe UI,sans-serif';
+  ctx.strokeStyle='#E8ECE5'; ctx.fillStyle='#6B7770'; ctx.textAlign='right';
+  for(let g=0; g<=4; g++){
+    const y = padT + (H-padT-padB)*(1-g/4);
+    ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
+    ctx.fillText(Math.round(max*g/4).toLocaleString('pt-BR'), padL-6, y+4);
+  }
+  eds.forEach((e,i)=>{
+    const h = (H-padT-padB)*e.cli/max;
+    const x = padL + i*iw + iw*0.18, bw = iw*0.64;
+    ctx.fillStyle = parceiro ? '#A67C2E' : '#0F5C46';
+    ctx.fillRect(x, H-padB-h, bw, h);
+    ctx.fillStyle='#6B7770'; ctx.textAlign='center';
+    ctx.fillText(e.ed, x+bw/2, H-padB+16);
+    if(eds.length<=8){ ctx.fillStyle='#14201C'; ctx.fillText(e.cli.toLocaleString('pt-BR'), x+bw/2, H-padB-h-6); }
+  });
+  const media = eds.reduce((a,e)=>a+e.cli,0)/eds.length;
+  const ym = padT + (H-padT-padB)*(1-media/max);
+  ctx.strokeStyle='#B3541E'; ctx.setLineDash([5,4]);
+  ctx.beginPath(); ctx.moveTo(padL,ym); ctx.lineTo(W-padR,ym); ctx.stroke(); ctx.setLineDash([]);
+}
+
+function fmtData(iso){
+  const d = new Date(iso+'T00:00:00');
+  return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+}
+
+fetch('./data.json').then(r=>r.json()).then(data=>{
+  D = data;
+  const sel = document.getElementById('sel-parceiro');
+  sel.innerHTML = Object.entries(D.parceiros)
+    .map(([dom,p])=>`<option value="${dom}">${p.nome}</option>`).join('')
+    || '<option value="">— sem anunciantes no período —</option>';
+  const per = D.periodo.inicio ? `${fmtData(D.periodo.inicio)} – ${fmtData(D.periodo.fim)} · ${D.edicoes.length} edições` : '';
+  document.getElementById('ctx-period').textContent = `${per} · atualizado ${new Date(D.updated_at).toLocaleDateString('pt-BR')}`;
+  render();
+});
+</script>
+</body>
+</html>

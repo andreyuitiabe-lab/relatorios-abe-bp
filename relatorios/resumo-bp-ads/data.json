@@ -1,0 +1,187 @@
+{
+ "updated_at": "2026-08-05T16:12:31",
+ "periodo": {
+  "inicio": "2026-07-06",
+  "fim": "2026-07-28"
+ },
+ "edicoes": [
+  {
+   "ed": "06/07",
+   "env": 393264,
+   "ent": 376762,
+   "abrT": 176168,
+   "abr": 38610,
+   "cli": 1007,
+   "unsub": 664
+  },
+  {
+   "ed": "07/07",
+   "env": 393017,
+   "ent": 376615,
+   "abrT": 174699,
+   "abr": 37070,
+   "cli": 968,
+   "unsub": 696
+  },
+  {
+   "ed": "08/07",
+   "env": 393171,
+   "ent": 376758,
+   "abrT": 173877,
+   "abr": 36901,
+   "cli": 653,
+   "unsub": 758
+  },
+  {
+   "ed": "09/07",
+   "env": 392906,
+   "ent": 376582,
+   "abrT": 174483,
+   "abr": 37892,
+   "cli": 539,
+   "unsub": 888
+  },
+  {
+   "ed": "10/07",
+   "env": 390383,
+   "ent": 374067,
+   "abrT": 179064,
+   "abr": 45810,
+   "cli": 746,
+   "unsub": 1047
+  },
+  {
+   "ed": "13/07",
+   "env": 363330,
+   "ent": 347589,
+   "abrT": 160201,
+   "abr": 33485,
+   "cli": 608,
+   "unsub": 925
+  },
+  {
+   "ed": "14/07",
+   "env": 390048,
+   "ent": 373511,
+   "abrT": 172520,
+   "abr": 37440,
+   "cli": 490,
+   "unsub": 935
+  },
+  {
+   "ed": "15/07",
+   "env": 391449,
+   "ent": 374928,
+   "abrT": 174002,
+   "abr": 39519,
+   "cli": 473,
+   "unsub": 910
+  },
+  {
+   "ed": "17/07",
+   "env": 383378,
+   "ent": 366983,
+   "abrT": 169886,
+   "abr": 38213,
+   "cli": 350,
+   "unsub": 817
+  },
+  {
+   "ed": "20/07",
+   "env": 233243,
+   "ent": 219190,
+   "abrT": 69432,
+   "abr": 5938,
+   "cli": 882,
+   "unsub": 391
+  },
+  {
+   "ed": "21/07",
+   "env": 389400,
+   "ent": 372996,
+   "abrT": 153909,
+   "abr": 10605,
+   "cli": 751,
+   "unsub": 726
+  },
+  {
+   "ed": "23/07",
+   "env": 388629,
+   "ent": 372221,
+   "abrT": 169848,
+   "abr": 37015,
+   "cli": 393,
+   "unsub": 686
+  },
+  {
+   "ed": "27/07",
+   "env": 387813,
+   "ent": 371241,
+   "abrT": 151259,
+   "abr": 10752,
+   "cli": 1384,
+   "unsub": 539
+  },
+  {
+   "ed": "28/07",
+   "env": 381165,
+   "ent": 364920,
+   "abrT": 145827,
+   "abr": 9859,
+   "cli": 986,
+   "unsub": 488
+  }
+ ],
+ "parceiros": {
+  "vimansca.com.br": {
+   "nome": "Vimansca",
+   "cliques": [
+    {
+     "ed": "14/07",
+     "cliq": 143,
+     "pes": 68
+    }
+   ]
+  },
+  "sndflw.com": {
+   "nome": "Sendflow",
+   "cliques": [
+    {
+     "ed": "28/07",
+     "cliq": 50,
+     "pes": 34
+    }
+   ]
+  }
+ },
+ "destinos": [
+  {
+   "grupo": "Notícias BP",
+   "cliq": 17189
+  },
+  {
+   "grupo": "WhatsApp (canal BP)",
+   "cliq": 1083
+  },
+  {
+   "grupo": "YouTube BP",
+   "cliq": 452
+  },
+  {
+   "grupo": "Vimansca (anunciante)",
+   "cliq": 143
+  },
+  {
+   "grupo": "App BP",
+   "cliq": 119
+  },
+  {
+   "grupo": "Sendflow (anunciante)",
+   "cliq": 50
+  },
+  {
+   "grupo": "Links BP (encurtador)",
+   "cliq": 18
+  }
+ ]
+}
