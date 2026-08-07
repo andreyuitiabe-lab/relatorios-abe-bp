@@ -1,0 +1,152 @@
+[
+  {
+    "icp": 2,
+    "doadores": 3095,
+    "pc_receita": 41.1,
+    "doacao_mediana": 2376,
+    "doacao_media": 6985,
+    "nao_doadores": 39686,
+    "lift": 4.95,
+    "taxa_no_cluster": 7.2,
+    "traits": {
+      "socio": 91.3,
+      "cap1m": 30.8,
+      "cartao_top": 69.0,
+      "renda_top": 42.2,
+      "vitalicio": 39.1,
+      "certif": 0.4,
+      "cdl": 15.6,
+      "comercial": 100.0,
+      "feminino": 29.3,
+      "idade": 53.3,
+      "anos_casa": 5.1,
+      "gasto_previo": 3422,
+      "multi_doacao": 38.4
+    },
+    "uf_top": {
+      "SP": 1170,
+      "MG": 268,
+      "PR": 240
+    }
+  },
+  {
+    "icp": 4,
+    "doadores": 1182,
+    "pc_receita": 20.1,
+    "doacao_mediana": 2496,
+    "doacao_media": 8954,
+    "nao_doadores": 4191,
+    "lift": 15.06,
+    "taxa_no_cluster": 22.0,
+    "traits": {
+      "socio": 43.4,
+      "cap1m": 12.6,
+      "cartao_top": 70.5,
+      "renda_top": 41.2,
+      "vitalicio": 69.0,
+      "certif": 100.0,
+      "cdl": 34.5,
+      "comercial": 100.0,
+      "feminino": 39.4,
+      "idade": 56.1,
+      "anos_casa": 5.6,
+      "gasto_previo": 8999,
+      "multi_doacao": 53.4
+    },
+    "uf_top": {
+      "SP": 437,
+      "RJ": 117,
+      "MG": 102
+    }
+  },
+  {
+    "icp": 1,
+    "doadores": 2150,
+    "pc_receita": 19.8,
+    "doacao_mediana": 2148,
+    "doacao_media": 4848,
+    "nao_doadores": 29019,
+    "lift": 4.72,
+    "taxa_no_cluster": 6.9,
+    "traits": {
+      "socio": 4.7,
+      "cap1m": 0.2,
+      "cartao_top": 61.4,
+      "renda_top": 39.2,
+      "vitalicio": 91.1,
+      "certif": 0.0,
+      "cdl": 31.3,
+      "comercial": 100.0,
+      "feminino": 48.5,
+      "idade": 55.6,
+      "anos_casa": 5.3,
+      "gasto_previo": 5069,
+      "multi_doacao": 43.1
+    },
+    "uf_top": {
+      "SP": 644,
+      "RJ": 320,
+      "MG": 206
+    }
+  },
+  {
+    "icp": 0,
+    "doadores": 2631,
+    "pc_receita": 18.7,
+    "doacao_mediana": 1668,
+    "doacao_media": 3743,
+    "nao_doadores": 99771,
+    "lift": 1.76,
+    "taxa_no_cluster": 2.6,
+    "traits": {
+      "socio": 5.1,
+      "cap1m": 0.4,
+      "cartao_top": 46.0,
+      "renda_top": 35.3,
+      "vitalicio": 0.0,
+      "certif": 0.0,
+      "cdl": 0.8,
+      "comercial": 100.0,
+      "feminino": 44.9,
+      "idade": 52.0,
+      "anos_casa": 4.8,
+      "gasto_previo": 1177,
+      "multi_doacao": 29.5
+    },
+    "uf_top": {
+      "SP": 871,
+      "RJ": 322,
+      "MG": 196
+    }
+  },
+  {
+    "icp": 3,
+    "doadores": 111,
+    "pc_receita": 0.2,
+    "doacao_mediana": 359,
+    "doacao_media": 782,
+    "nao_doadores": 445832,
+    "lift": 0.02,
+    "taxa_no_cluster": 0.0,
+    "traits": {
+      "socio": 27.0,
+      "cap1m": 9.0,
+      "cartao_top": 55.0,
+      "renda_top": 41.4,
+      "vitalicio": 18.0,
+      "certif": 3.6,
+      "cdl": 6.3,
+      "comercial": 0.0,
+      "feminino": 42.3,
+      "idade": 59.2,
+      "anos_casa": 3.2,
+      "gasto_previo": 1213,
+      "multi_doacao": 1.8
+    },
+    "uf_top": {
+      "SP": 35,
+      "RJ": 14,
+      "RS": 11
+    }
+  }
+]

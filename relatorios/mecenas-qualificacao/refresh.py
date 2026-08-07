@@ -73,7 +73,7 @@ Q_TIERS = f"""
 SELECT
   CASE WHEN vl_maior_tx_mecenas > 10000 THEN 'Alto (acima de R$ 10 mil)'
        WHEN vl_maior_tx_mecenas >= 1188 THEN 'Bolsas (R$ 1.188 a R$ 10 mil)'
-       ELSE 'Solidario (R$ 359 a R$ 1.188)' END AS tier,
+       ELSE 'Solidário (R$ 359 a R$ 1.188)' END AS tier,
   COUNT(*)                  AS pessoas,
   SUM(vl_total_mecenas)     AS receita,
   AVG(vl_total_mecenas)     AS por_pessoa

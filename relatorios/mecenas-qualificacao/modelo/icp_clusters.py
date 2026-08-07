@@ -18,7 +18,8 @@ from google.cloud import bigquery
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 
-OUT = Path(__file__).parent / "saida"
+OUT = Path(__file__).resolve().parent / "saida"
+ICP_JSON = Path(__file__).resolve().parent.parent / "icp.json"   # agregado, versionado no repo
 OUT.mkdir(exist_ok=True)
 BASE = "bp-staging.dbt_abe.tb_mecenas_qualificacao_base"
 
@@ -149,6 +150,41 @@ def main():
         })
     lk = pd.DataFrame(look).sort_values("lift", ascending=False)
     lk.to_csv(OUT / "icp_lookalike.csv", index=False)
+
+    # ── icp.json: só agregados, para o index.html consumir (sem nenhum dado por pessoa) ──
+    import json
+    lkm = {int(r.icp): r for _, r in lk.iterrows()}
+    payload = []
+    for _, r in car.iterrows():
+        k = int(r.icp)
+        payload.append({
+            "icp": k,
+            "doadores": int(r.pessoas),
+            "pc_receita": round(float(r.pc_receita), 1),
+            "doacao_mediana": round(float(r.doacao_mediana)),
+            "doacao_media": round(float(lkm[k].doacao_media)),
+            "nao_doadores": int(lkm[k].nao_doadores),
+            "lift": round(float(lkm[k].lift), 2),
+            "taxa_no_cluster": round(float(lkm[k].taxa_no_cluster), 1),
+            "traits": {
+                "socio": round(float(r.pc_socio), 1),
+                "cap1m": round(float(r.pc_cap1m), 1),
+                "cartao_top": round(float(r.pc_cartao_top), 1),
+                "renda_top": round(float(r.pc_renda_top), 1),
+                "vitalicio": round(float(r.pc_vitalicio), 1),
+                "certif": round(float(r.pc_certif), 1),
+                "cdl": round(float(r.pc_cdl), 1),
+                "comercial": round(float(r.pc_comercial), 1),
+                "feminino": round(float(r.pc_fem), 1),
+                "idade": round(float(r.idade), 1),
+                "anos_casa": round(float(r.anos_casa), 1),
+                "gasto_previo": round(float(r.gasto_previo)),
+                "multi_doacao": round(float(r.doou_mais_de_1x), 1),
+            },
+            "uf_top": {str(a): int(b) for a, b in list(r.uf_top.items())[:3]},
+        })
+    ICP_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"\n✓ {ICP_JSON.name} — {len(payload)} perfis (agregado, sem PII)")
     print("\n=== ALVO DE MÍDIA: quanta gente parecida ainda não doou ===")
     print(lk.round(2).to_string(index=False))
 
