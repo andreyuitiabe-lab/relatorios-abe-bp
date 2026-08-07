@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil de quem compra o Mecenas — Brasil Paralelo</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:#f8fafc; --card:#ffffff; --line:#e2e8f0;
+      --text:#1e293b; --muted:#475569; --soft:#94a3b8;
+      --blue:#3b6ef5; --amber:#b45309; --green:#15803d; --grey:#94a3b8;
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+           background:var(--bg); color:var(--text); font-size:14px; line-height:1.6; }
+    .wrap { max-width:960px; margin:0 auto; padding:48px 24px 80px; }
+    section { margin-bottom:56px; }
+    h1 { font-size:26px; font-weight:700; }
+    h2 { font-size:18px; font-weight:700; margin-bottom:6px; }
+    .sub { color:var(--muted); font-size:13px; margin-top:4px; }
+    .lede { color:var(--muted); font-size:14px; margin-bottom:18px; max-width:70ch; }
+    .label { font-size:11px; font-weight:600; text-transform:uppercase;
+             letter-spacing:.06em; color:var(--soft); margin-bottom:12px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:24px; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media (max-width:720px){ .grid-2{ grid-template-columns:1fr; } }
+    .stats { display:flex; gap:32px; flex-wrap:wrap; margin-bottom:24px; }
+    .bigstat .bs-num { font-size:36px; font-weight:800; color:var(--blue); line-height:1; }
+    .bigstat .bs-num.a { color:var(--amber); }
+    .bigstat .bs-cap { font-size:12px; color:var(--muted); margin-top:4px; max-width:190px; }
+    .tblwrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th { text-align:left; font-weight:600; color:var(--muted); font-size:11px;
+         text-transform:uppercase; letter-spacing:.05em;
+         border-bottom:2px solid var(--line); padding:8px 10px; white-space:nowrap; }
+    td { padding:8px 10px; border-bottom:1px solid var(--line); }
+    tr:last-child td { border-bottom:none; }
+    td.num { text-align:right; font-variant-numeric:tabular-nums; }
+    td.strong { font-weight:700; }
+    .tag { display:inline-block; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:600; }
+    .t-b { background:#dbeafe; color:#1d4ed8; }
+    .t-a { background:#fef3c7; color:#92400e; }
+    .t-n { background:#f1f5f9; color:#475569; }
+    .nota { background:#f8fafc; border:1px solid var(--line); border-radius:8px;
+            padding:12px 16px; font-size:12.5px; color:var(--muted); margin-top:16px; }
+    .nota.warn { background:#fffbeb; border-color:#fde68a; color:#78350f; }
+    .keyline { border-left:3px solid var(--blue); padding-left:14px; margin:18px 0;
+               font-size:14.5px; color:var(--text); }
+    header { margin-bottom:40px; padding-bottom:24px; border-bottom:2px solid var(--line); }
+    footer { margin-top:64px; padding-top:24px; border-top:1px solid var(--line);
+             font-size:12px; color:var(--soft); }
+    .legend { display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--muted); margin-bottom:14px; }
+    .legend span { display:inline-flex; align-items:center; gap:6px; }
+    .swatch { width:11px; height:11px; border-radius:3px; display:inline-block; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Base &amp; Produtos</p>
+  <h1>Perfil de quem compra o Mecenas</h1>
+  <p class="sub">Quem doa, o que diferencia essas pessoas da base e onde estão as próximas. Campanha de bolsas da Licenciatura em História.</p>
+</header>
+
+<main>
+
+  <!-- ── 1. O TAMANHO DA COISA ──────────────────────────────────────────── -->
+  <section>
+    <h2>O tamanho da coisa</h2>
+    <p class="lede">Doador Mecenas é raro: pouco mais de meio por cento de quem já comprou algo na
+    Brasil Paralelo. E a receita é extremamente concentrada.</p>
+
+    <div class="stats">
+      <div class="bigstat">
+        <div class="bs-num" id="stDoadores">—</div>
+        <div class="bs-cap">pessoas já doaram alguma vez</div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num" id="stReceita">—</div>
+        <div class="bs-cap">arrecadados no histórico</div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num a" id="stTopo">—</div>
+        <div class="bs-cap">pessoas do topo respondem por <b id="stTopoPc">—</b> de toda a receita</div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num" id="stTaxa">—</div>
+        <div class="bs-cap">da base de compradores vira doador</div>
+      </div>
+    </div>
+
+    <div class="keyline" id="keyConcentracao">—</div>
+
+    <div class="card tblwrap">
+      <p class="label">Três públicos diferentes, não um só</p>
+      <table>
+        <thead><tr>
+          <th>Faixa de doação</th><th class="num">Pessoas</th>
+          <th class="num">Receita</th><th class="num">Por pessoa</th><th class="num">% da receita</th>
+        </tr></thead>
+        <tbody id="tbTiers"></tbody>
+      </table>
+      <div class="nota">Faixa definida pela <b>maior doação</b> que a pessoa já fez. Quem doou várias
+      vezes entra pela maior. Não são etapas de uma escada — são perfis distintos, como as próximas
+      seções mostram.</div>
+    </div>
+  </section>
+
+  <!-- ── 2. DOADOR vs MEMBRO ────────────────────────────────────────────── -->
+  <section>
+    <h2>O doador comparado ao membro comum</h2>
+    <p class="lede">Toda porcentagem abaixo só significa algo ao lado da mesma porcentagem na base.
+    A barra cinza é o membro ativo comum — a régua de comparação.</p>
+
+    <div class="card">
+      <p class="label">% de cada grupo com o atributo</p>
+      <div class="legend" id="lgPerfil"></div>
+      <canvas id="chPerfil" height="260"></canvas>
+    </div>
+
+    <div class="card tblwrap" style="margin-top:16px">
+      <table>
+        <thead><tr>
+          <th>Atributo</th><th class="num">Membro ativo</th>
+          <th class="num">Doador bolsas</th><th class="num">Doador alto</th>
+        </tr></thead>
+        <tbody id="tbPerfil"></tbody>
+      </table>
+    </div>
+
+    <div class="keyline" id="keyRetrato">—</div>
+  </section>
+
+  <!-- ── 3. O QUE MAIS INDICA ───────────────────────────────────────────── -->
+  <section>
+    <h2>O que mais indica propensão a doar</h2>
+    <p class="lede">Lift = quantas vezes o grupo converte mais que a média da base. Lift 10 significa
+    dez vezes mais provável. Abaixo de 1, converte menos que a média.</p>
+
+    <div class="card">
+      <p class="label">Lift sobre a taxa média da base</p>
+      <canvas id="chLift" height="330"></canvas>
+    </div>
+
+    <div class="keyline" id="keyComportamento">—</div>
+
+    <div class="nota">Cada barra é um recorte isolado, e os recortes se sobrepõem — quem gastou muito
+    também costuma ser antigo de casa. Quando todas as variáveis competem numa mesma regressão,
+    <b>vitalício, Black e Clube do Livro perdem 72–76% da força</b>: são reflexo de gasto e tempo de
+    casa, não causa independente. As duas que se sustentam sozinhas são <b>maior valor já pago</b> e
+    <b>já ter comprado pelo Comercial</b>.</div>
+  </section>
+
+  <!-- ── 4. SÓCIO DE EMPRESA ────────────────────────────────────────────── -->
+  <section>
+    <h2>Ser sócio de empresa ajuda?</h2>
+    <p class="lede">Ajuda pouco. O que realmente separa é o <b>porte</b> da empresa — não o fato de
+    ter CNPJ.</p>
+
+    <div class="grid-2">
+      <div class="card">
+        <p class="label">Por capital social da empresa</p>
+        <canvas id="chCapital" height="200"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">Por número de empresas</p>
+        <canvas id="chEmpresas" height="200"></canvas>
+      </div>
+    </div>
+
+    <div class="card tblwrap" style="margin-top:16px">
+      <p class="label">Por setor da empresa (CNAE)</p>
+      <table>
+        <thead><tr>
+          <th>Setor</th><th class="num">Pessoas</th><th class="num">Doadores</th>
+          <th class="num">Lift</th><th class="num">Doação média</th>
+        </tr></thead>
+        <tbody id="tbCnae"></tbody>
+      </table>
+    </div>
+
+    <div class="nota warn"><b>Cuidado ao usar isso como filtro.</b> Sozinha, a marca de "é sócio"
+    rende lift de apenas 1,6× — e quando entram tempo de casa, histórico de compra e passagem pelo
+    Comercial numa regressão, ela <b>perde totalmente a significância</b>. O sócio doa mais porque é
+    antigo de casa e já pagou caro antes, não porque é sócio. Já o <b>capital social se sustenta</b>
+    em qualquer controle. Regra prática: filtrar por capital, nunca por "tem CNPJ".<br><br>
+    A base de sócios da Receita inclui administradores e conselheiros, não só donos — conferir antes
+    de abordar nominalmente.</div>
+  </section>
+
+  <!-- ── 5. O QUE MUDOU EM AGOSTO ───────────────────────────────────────── -->
+  <section>
+    <h2>Quem está comprando agora</h2>
+    <p class="lede">Agosto mudou o <b>canal e o ticket</b> — não o perfil socioeconômico de quem doa.</p>
+
+    <div class="card tblwrap">
+      <table>
+        <thead><tr>
+          <th>Safra</th><th class="num">Doadores</th><th class="num">Ticket médio</th>
+          <th class="num">% via Comercial</th><th class="num">% renda topo</th>
+          <th class="num">% cartão topo</th><th class="num">% vitalício</th>
+        </tr></thead>
+        <tbody id="tbSafras"></tbody>
+      </table>
+    </div>
+
+    <div class="keyline" id="keyAgosto">—</div>
+
+    <div class="nota">O <b>Mecenas Solidário</b> (R$ 359 / 719 / 1.079, "1, 2 ou 3 reais por dia")
+    entrou no self-checkout em julho e em agosto passou o Comercial em volume. Ele <b>traz gente
+    nova</b>: 62,7% de quem compra nunca havia comprado nenhum produto de alto valor na BP. A
+    canibalização é pequena e mensurável — 10 pessoas que já eram doadoras migraram para o ticket
+    menor. <b>O ponto de atenção é outro:</b> um terço dos compradores de Solidário já tem Black ou
+    vitalício, ou seja, tem capacidade de pagar mais e está pagando R$ 359 porque ninguém ofereceu
+    o degrau seguinte.</div>
+  </section>
+
+  <!-- ── 6. QUEM ABORDAR ────────────────────────────────────────────────── -->
+  <section>
+    <h2>Onde estão as próximas doações</h2>
+    <p class="lede">Grupos que já existem na base e <b>ainda não doaram</b>, ordenados por propensão.
+    O bolsão é o número de pessoas disponíveis para abordagem hoje.</p>
+
+    <div class="card tblwrap">
+      <table>
+        <thead><tr>
+          <th>Segmento</th><th class="num">Bolsão</th><th class="num">Membros ativos</th>
+          <th class="num">Já doaram</th><th class="num">Lift</th><th class="num">Doação esperada</th>
+        </tr></thead>
+        <tbody id="tbSeg"></tbody>
+      </table>
+    </div>
+
+    <div class="keyline" id="keyOrdem">—</div>
+
+    <div class="nota">Antes de virar lista de abordagem, aplicar as exclusões obrigatórias: quem já
+    está em contato no Zenvia ou com negócio aberto no Pipedrive, blacklist do CRM e checagem tripla
+    por e-mail, telefone e CPF (a mesma pessoa aparece em contas diferentes).</div>
+  </section>
+
+  <!-- ── 7. COMO LER ────────────────────────────────────────────────────── -->
+  <section>
+    <h2>Como estes números foram apurados</h2>
+    <div class="card">
+      <p style="margin-bottom:12px"><b>Quem conta como doador:</b> quem fez ao menos uma compra
+      aprovada de Mecenas de <b>R$ 300 ou mais</b>.</p>
+      <p style="margin-bottom:12px"><b>Por que o corte de valor:</b> existem dois "order bumps" de
+      Mecenas — aquelas caixinhas marcadas no checkout de outro produto. Um deles, de R$ 180
+      ("adicione R$ 15/mês"), <b>não tem a palavra "order bump" no nome</b> e passa por qualquer
+      filtro comum. São 2.726 pessoas que marcaram um checkbox ao assinar um plano barato: não são
+      doadoras, e incluí-las distorce todo o perfil. Em março/2026 elas produziram 2.535 "vendas de
+      Mecenas" com ticket de R$ 421, o que nada tem a ver com doação.</p>
+      <p style="margin-bottom:12px"><b>Grupo de comparação:</b> <span id="mtControle">—</span>
+      membros com assinatura ativa que nunca doaram.</p>
+      <p><b>Cobertura dos dados:</b> renda estimada pelo CEP (decil do IBGE, não renda pessoal
+      declarada) cobre 98% do universo; nível de cartão, 77%; empresa via Receita Federal, 24%.
+      Idade e profissão têm cobertura baixa e aparecem só como indicação.</p>
+      <div class="nota warn" style="margin-top:16px"><b>Não usar o score de propensão a Mecenas que
+      está no BigQuery.</b> Testado contra o que de fato aconteceu em julho e agosto, o topo dele
+      (percentil 95+) converteu <b>menos que a média da base</b> — o desempenho histórico aparente
+      vinha de o modelo já "conhecer" quem era doador. Os segmentos desta página, que são regras
+      simples, acertam muito mais.</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
+  Fontes: <code>masterdata.fct_transactions</code>, <code>dim_contact</code>,
+  <code>dim_subscriptions</code>, <code>dim_user</code>, <code>dim_entrepreneurs</code>,
+  <code>datamart.dtm_purchasing_power</code>, <code>staging.int_credit_card_level</code>.
+</footer>
+
+</div>
+
+<script>
+const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.family = FONT;
+Chart.defaults.font.size   = 12;
+Chart.defaults.color       = "#6b7689";
+
+/* paleta validada (dataviz): azul + âmbar categóricos, cinza para o grupo de referência */
+const BLUE = "#3b6ef5", AMBER = "#b45309", GREEN = "#15803d", GREY = "#94a3b8";
+
+const brl  = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+const brlC = v => v >= 1e6 ? 'R$ ' + (v/1e6).toFixed(1).replace('.',',') + 'M'
+                           : 'R$ ' + Math.round(v/1e3) + 'k';
+const n1   = v => v.toFixed(1).replace('.', ',');
+const int  = v => Math.round(v).toLocaleString('pt-BR');
+
+/* rótulos diretos — exigência de codificação secundária da paleta */
+const valueLabels = (fmt) => ({
+  id: 'vlab',
+  afterDatasetsDraw(c) {
+    const { ctx } = c; ctx.save();
+    c.data.datasets.forEach((ds, di) => {
+      const meta = c.getDatasetMeta(di);
+      if (meta.hidden) return;
+      meta.data.forEach((el, i) => {
+        const v = ds.data[i]; if (v == null) return;
+        const label = fmt(v); if (label == null) return;
+        ctx.fillStyle = "#3a4254"; ctx.font = "700 10.5px " + FONT;
+        if (c.options.indexAxis === 'y') {
+          ctx.textAlign = "left"; ctx.textBaseline = "middle";
+          ctx.fillText(label, el.x + 7, el.y);
+        } else {
+          ctx.textAlign = "center"; ctx.textBaseline = "bottom";
+          ctx.fillText(label, el.x, el.y - 4);
+        }
+      });
+    }); ctx.restore();
+  }
+});
+
+function initCharts(D) {
+  const upd = document.getElementById('lastUpdate');
+  if (upd) upd.textContent = 'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
+
+  const R = D.resumo;
+
+  /* ── bigstats ── */
+  document.getElementById('stDoadores').textContent = int(R.doadores);
+  document.getElementById('stReceita').textContent  = 'R$ ' + (R.receita/1e6).toFixed(1).replace('.',',') + 'M';
+  document.getElementById('stTopo').textContent     = int(R.n_topo);
+  document.getElementById('stTopoPc').textContent   = n1(R.pc_receita_topo) + '%';
+  document.getElementById('stTaxa').textContent     = R.taxa_base.toFixed(2).replace('.',',') + '%';
+  document.getElementById('mtControle').textContent = int(R.membros_controle);
+
+  document.getElementById('keyConcentracao').innerHTML =
+    `<b>${int(R.n_topo)} pessoas — ${n1(100*R.n_topo/R.doadores)}% dos doadores — respondem por
+     ${n1(R.pc_receita_topo)}% da receita.</b> Qualificar para o topo é um problema de algumas
+     centenas de pessoas, não de segmentação de massa.`;
+
+  /* ── tabela de tiers ── */
+  const tiersDesc = [...D.tiers].sort((a,b) => b.receita - a.receita);
+  document.getElementById('tbTiers').innerHTML = tiersDesc.map(t => `
+    <tr>
+      <td class="strong">${t.tier}</td>
+      <td class="num">${int(t.pessoas)}</td>
+      <td class="num">${brlC(t.receita)}</td>
+      <td class="num">${brl(t.por_pessoa)}</td>
+      <td class="num">${n1(100*t.receita/R.receita)}%</td>
+    </tr>`).join('');
+
+  /* ── perfil comparado ── */
+  const P = {};
+  D.perfil.forEach(p => P[p.grupo] = p);
+  const ATTRS = [
+    ['renda_top',    'Renda no topo (decil 9-10)'],
+    ['cartao_top',   'Cartão black ou amex'],
+    ['capital_1m',   'Sócio de empresa > R$ 1 mi'],
+    ['vitalicio',    'Já comprou vitalício'],
+    ['certificacao', 'Já comprou certificação'],
+    ['cdl',          'Já comprou Clube do Livro'],
+    ['socio',        'Sócio de qualquer empresa'],
+  ];
+  const GRUPOS = [
+    ['Membro ativo',  GREY],
+    ['Doador bolsas', BLUE],
+    ['Doador alto',   AMBER],
+  ];
+
+  document.getElementById('lgPerfil').innerHTML = GRUPOS.map(([g,c]) =>
+    `<span><i class="swatch" style="background:${c}"></i>${g}${
+      P[g] ? ` <span style="color:#94a3b8">(${int(P[g].pessoas)})</span>` : ''}</span>`).join('');
+
+  new Chart(chPerfil, {
+    type: 'bar',
+    data: {
+      labels: ATTRS.map(a => a[1]),
+      datasets: GRUPOS.map(([g,c]) => ({
+        label: g,
+        data: ATTRS.map(a => P[g] ? +P[g][a[0]].toFixed(1) : 0),
+        backgroundColor: c, borderRadius: 4, borderSkipped: false,
+        borderColor: '#ffffff', borderWidth: 2   /* gap de 2px entre barras adjacentes */
+      }))
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${n1(c.raw)}%` } }
+      },
+      scales: {
+        x: { grid: { color:'#eef1f6' }, ticks: { callback: v => v + '%' }, max: 90 },
+        y: { grid: { display:false } }
+      }
+    }
+  });
+
+  /* tabela do perfil (inclui o que não cabe no gráfico) */
+  const LINHAS = [
+    ['Renda no topo (decil 9-10)', g => n1(P[g].renda_top) + '%'],
+    ['Cartão black ou amex',       g => n1(P[g].cartao_top) + '%'],
+    ['Sócio de empresa',           g => n1(P[g].socio) + '%'],
+    ['Sócio com capital > R$ 1 mi',g => n1(P[g].capital_1m) + '%'],
+    ['Já comprou vitalício',       g => n1(P[g].vitalicio) + '%'],
+    ['Já comprou certificação',    g => n1(P[g].certificacao) + '%'],
+    ['Já comprou Clube do Livro',  g => n1(P[g].cdl) + '%'],
+    ['Mulheres',                   g => n1(P[g].feminino) + '%'],
+    ['Idade média',                g => n1(P[g].idade) + ' anos'],
+    ['Tempo de casa',              g => n1(P[g].anos_casa) + ' anos'],
+    ['Já gastou na BP (fora doação)', g => brl(P[g].gasto_previo)],
+  ];
+  document.getElementById('tbPerfil').innerHTML = LINHAS.map(([nome, fn]) => `
+    <tr>
+      <td>${nome}</td>
+      <td class="num">${fn('Membro ativo')}</td>
+      <td class="num">${fn('Doador bolsas')}</td>
+      <td class="num strong">${fn('Doador alto')}</td>
+    </tr>`).join('');
+
+  const pa = P['Doador alto'];
+  document.getElementById('keyRetrato').innerHTML =
+    `<b>O doador de alto valor, em uma frase:</b> sócio de empresa grande
+     (${n1(pa.capital_1m)}% têm empresa com capital acima de R$ 1 milhão, contra
+     ${n1(P['Membro ativo'].capital_1m)}% da base), com cartão black ou amex, que já comprou
+     vitalício e certificação, gastou ${brl(pa.gasto_previo)} na BP <i>antes</i> de doar e está há
+     ${n1(pa.anos_casa)} anos na casa.`;
+
+  /* ── lift univariado ── */
+  const PICK = [
+    ['gasto_previo',   'gastou 5k+',        'Já gastou R$ 5 mil ou mais'],
+    ['produto_previo', 'certificacao',      'Comprou certificação'],
+    ['produto_previo', 'vitalicio',         'Comprou vitalício'],
+    ['gasto_previo',   'gastou 2-5k',       'Já gastou R$ 2 a 5 mil'],
+    ['tempo_casa',     '7+ anos',           'Está há 7+ anos na casa'],
+    ['produto_previo', 'clube do livro',    'Comprou Clube do Livro'],
+    ['cartao',         'black/amex',        'Cartão black ou amex'],
+    ['renda',          'decil 9-10',        'Renda no topo (decil 9-10)'],
+    ['cnpj',           'socio @0.95',       'É sócio de empresa'],
+    ['genero',         'Feminino',          'É mulher'],
+    ['cartao',         'sem cartao',        'Sem cartão mapeado'],
+  ];
+  const idx = {};
+  D.lift.forEach(l => idx[l.dim + '|' + l.val] = l);
+  const liftRows = PICK.map(([d,v,nome]) => ({ nome, ...idx[d + '|' + v] })).filter(r => r.lift != null);
+
+  new Chart(chLift, {
+    type: 'bar',
+    data: {
+      labels: liftRows.map(r => r.nome),
+      datasets: [{
+        label: 'Lift',
+        data: liftRows.map(r => r.lift),
+        backgroundColor: liftRows.map(r => r.lift >= 1 ? BLUE : GREY),
+        borderRadius: 4, borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => {
+          const r = liftRows[c.dataIndex];
+          return `${n1(r.lift)}× · ${n1(r.conv)}% convertem · ${int(r.pessoas)} pessoas`;
+        } } }
+      },
+      scales: {
+        x: { grid: { color:'#eef1f6' }, max: Math.ceil(Math.max(...liftRows.map(r=>r.lift)) * 1.18),
+             ticks: { callback: v => v + '×' } },
+        y: { grid: { display:false } }
+      }
+    },
+    plugins: [valueLabels(v => n1(v) + '×')]
+  });
+
+  const g5k = idx['gasto_previo|gastou 5k+'], dec = idx['renda|decil 9-10'];
+  document.getElementById('keyComportamento').innerHTML =
+    `<b>Comportamento de compra vale mais que perfil socioeconômico.</b> Já ter gastado R$ 5 mil na
+     BP indica ${n1(g5k.lift)}× mais propensão; estar no topo de renda indica ${n1(dec.lift)}×. A
+     pergunta certa não é "quem é rico", é <b>"quem já provou que compra caro aqui"</b>.`;
+
+  /* ── CNPJ: capital e nº de empresas ── */
+  const cap = D.cnpj.filter(c => c.dim === 'capital')
+                    .sort((a,b) => a.lift - b.lift);
+  new Chart(chCapital, {
+    type: 'bar',
+    data: { labels: cap.map(c => c.val.replace('Capital ','')),
+      datasets: [{ label:'Lift', data: cap.map(c => c.lift), backgroundColor: AMBER,
+                   borderRadius: 4, borderSkipped: false }] },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend:{display:false}, tooltip:{ callbacks:{ label: c => {
+        const r = cap[c.dataIndex];
+        return `${n1(r.lift)}× · doação média ${brl(r.ticket)} · ${int(r.pessoas)} pessoas`; } } } },
+      scales: { x: { grid:{color:'#eef1f6'}, max: Math.ceil(Math.max(...cap.map(c=>c.lift))*1.25),
+                     ticks:{ callback: v => v + '×' } }, y: { grid:{display:false} } }
+    },
+    plugins: [valueLabels(v => n1(v) + '×')]
+  });
+
+  const emp = D.cnpj.filter(c => c.dim === 'qtd_empresas').sort((a,b) => a.val.localeCompare(b.val));
+  new Chart(chEmpresas, {
+    type: 'bar',
+    data: { labels: emp.map(c => c.val === '4' ? '4 ou mais' : c.val + (c.val === '1' ? ' empresa' : ' empresas')),
+      datasets: [{ label:'Lift', data: emp.map(c => c.lift), backgroundColor: AMBER,
+                   borderRadius: 4, borderSkipped: false }] },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend:{display:false}, tooltip:{ callbacks:{ label: c => {
+        const r = emp[c.dataIndex];
+        return `${n1(r.lift)}× · doação média ${brl(r.ticket)} · ${int(r.pessoas)} pessoas`; } } } },
+      scales: { x: { grid:{color:'#eef1f6'}, max: Math.ceil(Math.max(...emp.map(c=>c.lift))*1.25),
+                     ticks:{ callback: v => v + '×' } }, y: { grid:{display:false} } }
+    },
+    plugins: [valueLabels(v => n1(v) + '×')]
+  });
+
+  /* ── CNAE ── */
+  const cnae = D.cnpj.filter(c => c.dim === 'cnae').sort((a,b) => b.lift - a.lift).slice(0, 10);
+  document.getElementById('tbCnae').innerHTML = cnae.map(c => `
+    <tr>
+      <td>${c.val}</td>
+      <td class="num">${int(c.pessoas)}</td>
+      <td class="num">${int(c.mecenas)}</td>
+      <td class="num strong">${n1(c.lift)}×</td>
+      <td class="num">${brl(c.ticket)}</td>
+    </tr>`).join('');
+
+  /* ── safras ── */
+  const MES = ['','janeiro','fevereiro','março','abril','maio','junho',
+               'julho','agosto','setembro','outubro','novembro','dezembro'];
+  const safraNome = s => {
+    const m = /^(\d{4})-(\d{2})$/.exec(s);
+    return m ? MES[+m[2]] + '/' + m[1] : s;
+  };
+  document.getElementById('tbSafras').innerHTML = D.safras.map(s => `
+    <tr>
+      <td class="strong">${safraNome(s.safra)}</td>
+      <td class="num">${int(s.pessoas)}</td>
+      <td class="num">${brl(s.ticket)}</td>
+      <td class="num">${n1(s.comercial)}%</td>
+      <td class="num">${n1(s.renda_top)}%</td>
+      <td class="num">${n1(s.cartao_top)}%</td>
+      <td class="num">${n1(s.vitalicio)}%</td>
+    </tr>`).join('');
+
+  const ult = D.safras[D.safras.length - 1], pen = D.safras[D.safras.length - 2];
+  document.getElementById('keyAgosto').innerHTML =
+    `Entre ${safraNome(pen.safra)} e ${safraNome(ult.safra)} o ticket médio caiu de ${brl(pen.ticket)} para
+     ${brl(ult.ticket)} e a fatia do Comercial foi de ${n1(pen.comercial)}% para
+     ${n1(ult.comercial)}%. <b>Mas a renda no topo praticamente não se moveu
+     (${n1(pen.renda_top)}% → ${n1(ult.renda_top)}%)</b> — quem doa continua sendo o mesmo tipo de
+     pessoa, comprando por outro caminho e por outro valor.`;
+
+  /* ── segmentos ── */
+  const NOMES = {
+    'S1 Patrono: cap1M+ & black/amex & vitalicio':        'Empresário grande, cartão topo e já é vitalício',
+    'S6 Certificacao & premium':                          'Comprou certificação e tem cartão topo',
+    'S3 Fiel rico: black/amex & vitalicio & 2k+':         'Cartão topo, vitalício e já gastou R$ 2 mil+',
+    'S5 Alto gasto premium':                              'Cartão topo e já gastou R$ 2 mil+',
+    'S2 Empresario premium: cap1M+ & black/amex':         'Empresário grande com cartão topo',
+    'S4 Socio qualificado: socio & black/amex & decil9+': 'Sócio, cartão topo e renda no topo',
+  };
+  document.getElementById('tbSeg').innerHTML = D.segmentos.map(g => `
+    <tr>
+      <td class="strong">${NOMES[g.segmento] || g.segmento}</td>
+      <td class="num">${int(g.bolsao)}</td>
+      <td class="num">${int(g.bolsao_ativo)}</td>
+      <td class="num">${n1(g.convertido)}%</td>
+      <td class="num"><span class="tag ${g.lift >= 10 ? 't-a' : 't-b'}">${n1(g.lift)}×</span></td>
+      <td class="num">${brl(g.ticket)}</td>
+    </tr>`).join('');
+
+  const s1 = D.segmentos[0], s3 = D.segmentos.find(g => g.segmento.startsWith('S3'));
+  document.getElementById('keyOrdem').innerHTML =
+    `<b>Por onde começar:</b> o primeiro grupo tem só ${int(s1.bolsao)} pessoas, mas doação esperada
+     de ${brl(s1.ticket)} — é onde estão os próximos doadores de alto valor. O grupo "cartão topo,
+     vitalício e já gastou R$ 2 mil+" é o maior bolsão com propensão alta
+     (${int(s3.bolsao)} pessoas, ${n1(s3.lift)}×) e sustenta o volume da campanha.`;
+}
+
+fetch('./data.json')
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(D => initCharts(D))
+  .catch(err => {
+    console.error('Falha ao carregar data.json:', err);
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
+        ⚠ Erro ao carregar dados: ${err.message}. Para visualização local, usar <code>python -m http.server</code> na pasta do relatório.
+      </div>`);
+  });
+</script>
+</body>
+</html>

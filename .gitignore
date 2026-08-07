@@ -3,6 +3,11 @@
 *.csv
 *.xlsx
 *.pdf
+# formatos binários de dados — caches de análise costumam conter a base inteira por pessoa
+*.parquet
+*.pkl
+*.joblib
+*.feather
 ~$*
 __pycache__/
 err.log
