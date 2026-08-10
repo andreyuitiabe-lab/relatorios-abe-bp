@@ -1,4 +1,6 @@
--- Como o perfil do doador mudou por safra. Grain = pessoa (id_person), não conta.
+-- Como o perfil do DOADOR DE BOLSA mudou por safra. Grain = pessoa (id_person), não conta.
+-- ⚠️ Só bolsa (>= R$ 1.000, sem Solidário): misturar o Solidário faz o ticket despencar em
+--    ago/2026 e parecer que o doador mudou, quando o que entrou foi outro produto.
 WITH mec_tx AS (
   SELECT
     m.id_person,
@@ -12,7 +14,9 @@ WITH mec_tx AS (
     AND ((t.nm_gateway_plan LIKE 'mecenas%' AND t.nm_gateway_plan <> 'mecenas_bp-essencial')
       OR LOWER(COALESCE(t.nm_gateway_product, '')) LIKE '%mecenas%')
     AND LOWER(COALESCE(t.nm_gateway_offer, '')) NOT LIKE '%order bump%'
-    AND t.vl_payment_gross >= 300
+    AND t.vl_payment_gross >= 1000                     -- bolsa: 1 bolsa = R$ 1.188/1.668
+    AND LOWER(COALESCE(t.nm_gateway_product, '')) NOT LIKE '%solid%'
+    AND LOWER(COALESCE(t.nm_gateway_offer, '')) NOT LIKE '%solid%'
     AND DATE(t.dt_ordered_at) >= '2025-01-01'
 ),
 

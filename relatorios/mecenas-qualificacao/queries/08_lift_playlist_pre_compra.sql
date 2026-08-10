@@ -13,7 +13,8 @@ WITH mecenas AS (
     AND ((t.nm_gateway_plan LIKE 'mecenas%' AND t.nm_gateway_plan <> 'mecenas_bp-essencial')
       OR LOWER(COALESCE(t.nm_gateway_product, '')) LIKE '%mecenas%')
     AND LOWER(COALESCE(t.nm_gateway_offer, '')) NOT LIKE '%order bump%'
-    AND t.vl_payment_gross >= 300          -- exclui o order bump de R$180 (não é doador)
+    AND t.vl_payment_gross >= 1000         -- só bolsa (o order bump e o Solidário não são doador clássico)
+    AND LOWER(COALESCE(t.nm_gateway_product, '')) NOT LIKE '%solid%'
     AND DATE(t.dt_ordered_at) >= '2026-01-01'
     AND c.nm_email IS NOT NULL
   GROUP BY 1

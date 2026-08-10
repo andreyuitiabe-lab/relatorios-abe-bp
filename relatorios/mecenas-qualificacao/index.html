@@ -483,8 +483,8 @@
   <section>
     <div class="sec-head">
       <h2>Quem está comprando agora</h2>
-      <p class="lede">Agosto mudou o <b>canal e o ticket</b> — não o perfil socioeconômico de
-      quem doa.</p>
+      <p class="lede">O doador de bolsa <b>não mudou</b>. O que mudou é que passou a existir um
+      produto novo ao lado dele.</p>
     </div>
     <div class="twrap">
       <table>
@@ -495,13 +495,16 @@
       </table>
     </div>
     <p class="note key" id="keyAgosto"></p>
-    <p class="note">O <b>Mecenas Solidário</b> (R$ 359 / 719 / 1.079, "1, 2 ou 3 reais por dia")
-    entrou no self-checkout em julho e em agosto passou o Comercial em volume. Ele <b>traz gente
-    nova</b>: 62,7% de quem compra nunca havia comprado nenhum produto de alto valor na BP. A
-    canibalização é pequena e mensurável — 10 pessoas que já eram doadoras migraram para o ticket
-    menor. <b>O ponto de atenção é outro:</b> um terço dos compradores de Solidário já tem Black
-    ou vitalício, ou seja, tem capacidade de pagar mais e está pagando R$ 359 porque ninguém
-    ofereceu o degrau seguinte.</p>
+    <p class="note"><b>Uma leitura que erramos antes vale registrar.</b> Somando bolsa e
+    Solidário na mesma conta, agosto parecia ter derrubado o ticket (de ~R$ 4.800 para ~R$ 1.900)
+    e o Comercial (de 81% para 36%) — a conclusão natural seria "o doador mudou". Estava errado:
+    o que caiu foi a <b>média de uma mistura</b>. Separando os dois produtos, o doador de bolsa
+    segue 100% Comercial e com ticket <i>maior</i>. Toda vez que um produto novo entra num rótulo
+    antigo, a série temporal do rótulo deixa de significar o que significava.</p>
+
+    <p class="note">⚠️ Agosto está <b>parcial</b> (dados até o dia 10), então o número de pessoas
+    do mês não se compara com os anteriores — só o ticket, o canal e o perfil se comparam. O
+    Mecenas Solidário, que é o produto que entrou em julho, está na aba ao lado.</p>
   </section>
 
   <section>
@@ -528,16 +531,26 @@
     <div class="sec-head"><h2>Como estes números foram apurados</h2></div>
     <div class="method">
       <dl style="margin:0">
-        <dt>Quem conta como doador</dt>
-        <dd>Quem fez ao menos uma compra aprovada de Mecenas de <b>R$ 300 ou mais</b>.</dd>
+        <dt>Quem conta como doador nesta página</dt>
+        <dd>Quem patrocinou ao menos <b>uma bolsa</b>: tem <b>uma compra</b> aprovada de Mecenas
+        de <b>R$ 1.000 ou mais</b>. O Mecenas nasceu como patrocínio de bolsa e uma bolsa custa
+        R$ 1.188 (com desconto) ou R$ 1.668, então abaixo de R$ 1.000 não existe bolsa inteira.
+        O corte é por compra, não pela soma do que a pessoa já doou — quem fez três doações de
+        R$ 500 não entra. Na prática isso muda <b>uma</b> pessoa em 8.995, então não altera nada;
+        e deixa fora o pagamento fracionado de uma bolsa (2× R$ 594), que também é raro.</dd>
 
-        <dt>Por que existe um corte de valor</dt>
-        <dd>Existem dois "order bumps" de Mecenas — aquelas caixinhas marcadas no checkout de
-        outro produto. Um deles, de R$ 180 ("adicione R$ 15 por mês"), <b>não tem a palavra order
-        bump no nome</b> e passa por qualquer filtro comum. São 6.961 pessoas que marcaram um
-        checkbox ao assinar um plano barato: não são doadoras, e incluí-las distorce o perfil
-        inteiro. Em março de 2026 elas produziram 2.535 "vendas de Mecenas" com ticket de R$ 421,
-        o que não tem relação com doação.</dd>
+        <dt>As outras duas coisas chamadas "Mecenas"</dt>
+        <dd>O <b>Mecenas Solidário</b> (aba ao lado) é a campanha atual: contribuição recorrente
+        a partir de ~R$ 30 por mês, sem teto. São 203 pessoas, analisadas separadamente porque o
+        perfil é diferente. E existem dois <b>"order bumps"</b> — caixinhas marcadas no checkout
+        de outro produto. Um deles, de R$ 180 ("adicione R$ 15 por mês"), <b>não tem a palavra
+        order bump no nome</b> e passa por qualquer filtro comum: são 6.961 pessoas que marcaram
+        um checkbox ao assinar um plano barato. Não são doadoras. Em março de 2026 elas
+        produziram 2.535 "vendas de Mecenas" com ticket de R$ 421.</dd>
+
+        <dt>Por que o Solidário não se separa por valor</dt>
+        <dd>Porque a oferta de "R$ 3 por dia" custa R$ 1.078,80 e passaria do corte de R$ 1.000,
+        caindo em "bolsa" por engano. A separação é pelo <b>produto</b>, não pelo preço.</dd>
 
         <dt>Uma pessoa, não uma conta</dt>
         <dd>Muita gente paga com e-mails diferentes. Todos os números desta página estão
@@ -545,8 +558,15 @@
         <b>20,6% dos doadores tinham mais de uma conta</b>. Sem essa unificação, a contagem de
         doadores infla e a doação por pessoa aparece menor do que é.</dd>
 
-        <dt>Grupo de comparação</dt>
-        <dd><span id="mtControle">—</span> pessoas com assinatura ativa que nunca doaram.</dd>
+        <dt>Os dois grupos de comparação (não confundir)</dt>
+        <dd>A página usa dois denominadores, de propósito:
+        <br>• <b>Para "quantas vezes mais provável"</b> (a seção de propensão): todo mundo que já
+        comprou algo na BP — <span id="mtUniverso">—</span> pessoas. É o universo de quem
+        poderia doar, e é dele que sai a média de referência de <span id="mtTaxa">—</span>.
+        <br>• <b>Para o retrato "doador vs. membro comum"</b>: só
+        <span id="mtControle">—</span> pessoas com assinatura ativa que nunca doaram. Comparar o
+        doador com quem está ativo hoje é mais honesto do que comparar com ex-compradores
+        inativos, que puxariam a base para baixo e inflariam a diferença.</dd>
 
         <dt>Cobertura dos dados</dt>
         <dd>Renda é estimada pelo CEP (decil do IBGE, não renda pessoal declarada) e cobre 98% do
@@ -713,7 +733,8 @@ const n2   = v => v.toFixed(2).replace('.', ',');
 const pct  = v => n1(v) + '%';
 const brl  = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
 const brlC = v => v >= 1e6 ? 'R$ ' + n1(v / 1e6) + 'M' : 'R$ ' + Math.round(v / 1e3) + ' mil';
-const lift = v => (v < 0.1 ? n2(v) : n1(v)) + '×';
+/* abaixo de 1 o lift precisa de 2 decimais: 0,15 e 0,08 dizem coisas diferentes */
+const lift = v => (v < 1 ? n2(v) : n1(v)) + '×';
 const el   = id => document.getElementById(id);
 
 /* ── abas ── */
@@ -847,6 +868,8 @@ function render(D, ICP) {
   el('stTaxa').textContent     = n2(R.taxa_base) + '%';
   el('stControle').textContent = int(Math.round(R.membros_controle / 1000)) + ' mil';
   el('mtControle').textContent = int(R.membros_controle);
+  el('mtUniverso').textContent = int(R.universo);
+  el('mtTaxa').textContent     = n2(R.taxa_base) + '%';
   el('tese').innerHTML =
     `pessoas — <b>${pct(100 * R.n_topo / R.doadores)} dos doadores</b> — respondem por
      <b>${pct(R.pc_receita_topo)} de toda a receita do Mecenas</b>. Qualificar para o topo não é
@@ -987,13 +1010,13 @@ function render(D, ICP) {
 
   const u = D.safras.at(-1), p2 = D.safras.at(-2);
   el('keyAgosto').innerHTML =
-    `De ${nomeSafra(p2.safra)} para ${nomeSafra(u.safra)} o ticket médio caiu de
-     ${brl(p2.ticket)} para ${brl(u.ticket)} e a fatia do Comercial foi de ${pct(p2.comercial)}
-     para ${pct(u.comercial)}. <b>Mas a renda no topo quase não se moveu
-     (${pct(p2.renda_top)} → ${pct(u.renda_top)})</b> — quem doa continua sendo o mesmo tipo de
-     pessoa, chegando por outro caminho e por outro valor.`;
+    `Entre ${nomeSafra(p2.safra)} e ${nomeSafra(u.safra)} o ticket médio do doador de bolsa foi de
+     ${brl(p2.ticket)} para ${brl(u.ticket)}, com <b>${pct(u.comercial)} vindo do Comercial</b> —
+     o canal não se moveu. A renda no topo ficou em ${pct(u.renda_top)} e a fatia com vitalício
+     subiu para ${pct(u.vitalicio)}. <b>Nada indica mudança no perfil de quem patrocina bolsa</b>:
+     a novidade de julho é um produto diferente, não um doador diferente.`;
 
-  /* ── segmentos ── */
+/* ── segmentos ── */
   const NOME_SEG = {
     S1: 'Empresário grande, cartão topo e já é vitalício',
     S2: 'Empresário grande com cartão topo',

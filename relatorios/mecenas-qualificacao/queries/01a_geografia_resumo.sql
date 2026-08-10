@@ -42,8 +42,7 @@ mec_tier AS (
       WHEN qt_tx_bolsa = 0      THEN 'B0 order bump R$180'
       WHEN vl_max_bolsa > 10000 THEN 'B3 alto/patrono'
       WHEN vl_max_bolsa >= 1188 THEN 'B2 bolsas comercial'
-      WHEN vl_max_bolsa >= 300  THEN 'B1 solidario digital'
-      ELSE 'B0 micro (<R$300)'
+      ELSE 'abaixo de R$ 1.000 (não é bolsa)'
     END AS grupo,
     COALESCE(dt_first_bolsa, dt_first_mecenas_any) AS dt_ref
   FROM mec_person

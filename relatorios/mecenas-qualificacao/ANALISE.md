@@ -38,7 +38,11 @@ O rótulo "Mecenas" cobre três coisas que não têm relação entre si. Separá
 | **Solidário** | Campanha atual (jul/2026+). Recorrente de ~R$ 30/mês, sem teto | Produto/oferta contendo "solid", ou plano `mecenas_mecenas-solidario-premium` | **203** |
 | **Order bump** | R$ 180 (R$ 15/mês) marcado no checkout de outro produto | Oferta **ou produto** contendo "order bump" **e** Mecenas | 6.961 |
 
-⚠️ O corte de R$ 1.000 deixa fora o **pagamento fracionado** de 1 bolsa (ex.: 2× R$ 594). Perda pequena, aceita para não contaminar o perfil.
+**A regra exata, como está no SQL:** é doador de bolsa quem tem **ao menos uma transação aprovada** de Mecenas com `vl_payment_gross >= 1000`, que **não** seja Solidário (produto/oferta com "solid", ou plano `mecenas_mecenas-solidario-premium`) nem order bump (oferta **ou** produto com "order bump").
+
+⚠️ O corte é **por transação, não pela soma** do que a pessoa já doou. Medido: só **1 pessoa** em 8.995 tem soma ≥ R$ 1.000 sem nenhuma compra individual ≥ R$ 1.000 — a escolha não muda nada na prática. Também deixa fora o **pagamento fracionado** de 1 bolsa (2× R$ 594), igualmente raro.
+
+⚠️ **Dois denominadores na análise, de propósito:** os *lifts* usam o universo de **1.541.244 compradores** (quem poderia doar), de onde vem a taxa base de 0,584%. O *retrato* "doador vs. membro comum" usa só os **620.563 membros ativos** que nunca doaram — comparar com ex-compradores inativos puxaria a base para baixo e inflaria as diferenças.
 
 ### ⚠️ E os order bumps
 
@@ -140,18 +144,25 @@ Resposta à pergunta do time, em quatro camadas — porque ela muda conforme o c
 
 Convergente com a análise de profissão de 05/08: saúde sobre-indexada pelos dois métodos (profissão declarada 1,93× · CNAE 3,32×).
 
-### 5. Quem compra agora (ago/2026)
+### 5. Quem compra agora — e uma leitura que erramos antes
 
-| | 2025 | 2026 H1 | jul/2026 | **ago/2026** |
+**Só doador de bolsa** (o Solidário está na §13):
+
+| | 2025 | 2026 H1 | jul/2026 | ago/2026* |
 |---|---|---|---|---|
-| Doadores | 2.410 | 692 | 161 | 170 |
-| Ticket médio | R$ 4.721 | R$ 4.671 | R$ 4.817 | **R$ 1.974** |
-| % via Comercial | 100% | 97% | 81% | **36%** |
-| % renda topo | 40,0% | 41,2% | 47,2% | 41,2% |
-| % cartão topo | 66,8% | 67,6% | 73,3% | 62,4% |
-| % vitalício | 51,7% | 53,2% | 60,9% | 46,5% |
+| Doadores | 2.410 | 658 | 126 | 49 |
+| Ticket médio | R$ 4.721 | R$ 4.867 | R$ 6.002 | **R$ 5.589** |
+| % via Comercial | 100% | 100% | 100% | **100%** |
+| % renda topo | 40,3% | 43,0% | 46,0% | 44,9% |
+| % vitalício | 51,9% | 53,5% | 66,7% | 73,5% |
 
-**Mudou o canal e o ticket, não o perfil socioeconômico.** A renda no topo praticamente não se moveu (47,2% → 41,2%). Causa: o **Mecenas Solidário** (self-checkout, R$ 358,80 / 718,80 / 1.078,80 — "1/2/3 reais por dia"), que entrou em jul/2026 e em agosto passou o Comercial em volume.
+\* agosto parcial (até o dia 10) — o número de pessoas não se compara; ticket, canal e perfil sim.
+
+**O doador de bolsa não mudou.** Ticket subiu, canal segue 100% Comercial, renda no topo estável e a fatia com vitalício até cresceu.
+
+⚠️ **Correção de uma conclusão anterior.** Com bolsa e Solidário na mesma conta, agosto parecia ter derrubado o ticket (R$ 4.817 → R$ 1.929) e o Comercial (81% → 36%), e a leitura natural era "o doador mudou de perfil". **Era artefato da mistura**: a média de duas populações diferentes caiu porque a mais barata cresceu, não porque alguém mudou. Separando os produtos, nada no doador de bolsa se moveu.
+
+**A lição que fica:** quando um produto novo entra num rótulo antigo, a série temporal do rótulo deixa de significar o que significava. Vale para qualquer produto da BP que ganhe variante de entrada.
 
 ### 6. O Solidário traz gente nova — não canibaliza (mas tem risco)
 
@@ -224,13 +235,13 @@ Bolsões de quem **ainda não doou**:
 
 ### 10. Direcionamento de mídia (para o time de marketing)
 
-**a) Maturidade da base é o filtro nº 1 — e é gigante.** Quem tem menos de 2 anos de casa praticamente não doa: 682.403 pessoas (44% do universo) produziram 303 doadores. `<1 ano` = lift **0,04×** · `1–2 anos` = **0,09×** · `4–7 anos` = 2,35× · `7+ anos` = 7,59×. **Excluir quem tem menos de 2 anos de qualquer campanha de Mecenas** — é quase metade do alcance pago indo para audiência que não converte. Mecenas é produto de base madura, não de aquisição.
+**a) Maturidade da base é o filtro nº 1 — e é gigante.** Quem tem menos de 2 anos de casa praticamente não doa: 682.403 pessoas (44% do universo) produziram 303 doadores. `<1 ano` = lift **0,02×** · `1–2 anos` = **0,08×** · `4–7 anos` = 2,35× · `7+ anos` = 7,67×. **Excluir quem tem menos de 2 anos de qualquer campanha de Mecenas** — é quase metade do alcance pago indo para audiência que não converte. Mecenas é produto de base madura, não de aquisição.
 
 **b) Novembro e dezembro são mortos.** Nov (3,1%) + dez (0,9%) = **4% do ano**, contra 8,3% esperado por mês. Black Friday e Natal canibalizam — a base está comprando produto para si. Pico em março (12,0%). ⚠️ Contraintuitivo (dezembro é o mês de filantropia no hemisfério norte). Mas o **ticket sobe** (R$ 6.660 em nov, o maior do ano): nov/dez servem para abordagem individual do Comercial ao tier alto, não para campanha de volume.
 
-**c) Geografia — Brasília destoa.** DF lift **1,69×** (maior do país, provável concentração de servidores de alto escalão). SP 1,23× e **maior doação média, R$ 6.811** — principal mercado em receita. RS 1,15×. MG abaixo da média (0,84×). Nordeste inteiro entre 0,41× e 0,65×.
+**c) Geografia — Brasília destoa.** DF lift **1,70×** (maior do país, provável concentração de servidores de alto escalão). SP 1,23× e **maior doação média, R$ 6.920** — principal mercado em receita. RS 1,15×. MG abaixo da média (0,84×). Nordeste inteiro entre 0,41× e 0,65×.
 
-**d) A janela não é pós-compra imediata.** Só **13,5%** doam em até 30 dias da compra anterior; **40,5% doam 6–12 meses depois**, alinhado ao ciclo anual da assinatura. Retargeting pós-compra imediato não é o caminho — a campanha deve mirar quem comprou algo **há 6–12 meses**.
+**d) A janela não é pós-compra imediata.** Só **13,5%** doam em até 30 dias da compra anterior; **40,8% doam 6–12 meses depois**, alinhado ao ciclo anual da assinatura. Retargeting pós-compra imediato não é o caminho — a campanha deve mirar quem comprou algo **há 6–12 meses**.
 
 **e) Como levar ao Meta.** Os atributos que discriminam (cartão black, capital social, decil de renda) **não existem como segmentação na plataforma**. O caminho é **custom audience a partir de S1/S3 → lookalike**, nunca targeting por interesse. Os bolsões (3,1k e 19,7k) estão acima do mínimo para semente.
 

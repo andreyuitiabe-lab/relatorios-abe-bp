@@ -1,4 +1,5 @@
 -- Três recortes para direcionamento de mídia: sazonalidade, geografia e janela pós-compra.
+-- ⚠️ Só DOADOR DE BOLSA (>= R$ 1.000, sem Solidário).
 -- Rodar os blocos separadamente (estão juntos por serem do mesmo tema).
 
 -- ── 1. Sazonalidade: em que mês as pessoas doam ──────────────────────────────
@@ -13,7 +14,9 @@ WITH doacoes AS (
     AND ((t.nm_gateway_plan LIKE 'mecenas%' AND t.nm_gateway_plan <> 'mecenas_bp-essencial')
       OR LOWER(COALESCE(t.nm_gateway_product, '')) LIKE '%mecenas%')
     AND LOWER(COALESCE(t.nm_gateway_offer, '')) NOT LIKE '%order bump%'
-    AND t.vl_payment_gross >= 300
+    AND t.vl_payment_gross >= 1000
+    AND LOWER(COALESCE(t.nm_gateway_product, '')) NOT LIKE '%solid%'
+    AND LOWER(COALESCE(t.nm_gateway_offer, '')) NOT LIKE '%solid%'
     AND DATE(t.dt_ordered_at) BETWEEN '2023-01-01' AND '2026-07-31'
 )
 
@@ -71,7 +74,9 @@ WITH mec AS (
     AND ((t.nm_gateway_plan LIKE 'mecenas%' AND t.nm_gateway_plan <> 'mecenas_bp-essencial')
       OR LOWER(COALESCE(t.nm_gateway_product, '')) LIKE '%mecenas%')
     AND LOWER(COALESCE(t.nm_gateway_offer, '')) NOT LIKE '%order bump%'
-    AND t.vl_payment_gross >= 300
+    AND t.vl_payment_gross >= 1000                     -- bolsa: 1 bolsa = R$ 1.188/1.668
+    AND LOWER(COALESCE(t.nm_gateway_product, '')) NOT LIKE '%solid%'
+    AND LOWER(COALESCE(t.nm_gateway_offer, '')) NOT LIKE '%solid%'
   GROUP BY 1
 ),
 
@@ -90,7 +95,9 @@ anterior AS (
     AND NOT (
       ((t.nm_gateway_plan LIKE 'mecenas%' AND t.nm_gateway_plan <> 'mecenas_bp-essencial')
         OR LOWER(COALESCE(t.nm_gateway_product, '')) LIKE '%mecenas%')
-      AND t.vl_payment_gross >= 300
+      AND t.vl_payment_gross >= 1000                     -- bolsa: 1 bolsa = R$ 1.188/1.668
+    AND LOWER(COALESCE(t.nm_gateway_product, '')) NOT LIKE '%solid%'
+    AND LOWER(COALESCE(t.nm_gateway_offer, '')) NOT LIKE '%solid%'
     )
   GROUP BY 1, 2
 )

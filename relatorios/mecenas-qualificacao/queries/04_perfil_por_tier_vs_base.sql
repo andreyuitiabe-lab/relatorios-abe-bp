@@ -1,10 +1,10 @@
 -- Perfil comparado: cada tier de Mecenas vs o membro ativo padrão (grupo de controle).
 -- É a ficha "quem é o mecenas x quem é a base".
 SELECT
-  CASE WHEN bl_is_mecenas AND vl_maior_tx_mecenas > 10000 THEN 'Mecenas B3 alto (>10k)'
-       WHEN bl_is_mecenas AND vl_maior_tx_mecenas >= 1188 THEN 'Mecenas B2 bolsas'
-       WHEN bl_is_mecenas AND vl_maior_tx_mecenas >= 300 THEN 'Mecenas B1 solidario'
-       WHEN bl_is_mecenas THEN 'Mecenas B0 micro (order bump)'
+  CASE WHEN bl_is_mecenas AND vl_maior_tx_mecenas > 10000 THEN 'Bolsa: alto (> R$ 10 mil)'
+       WHEN bl_is_mecenas AND vl_maior_tx_mecenas >= 2000 THEN 'Bolsa: múltiplas (R$ 2 a 10 mil)'
+       WHEN bl_is_mecenas THEN 'Bolsa: única (R$ 1 a 2 mil)'
+       WHEN bl_is_solidario THEN 'Mecenas Solidário (campanha atual)'
        WHEN bl_membro_ativo = 1 THEN 'MEMBRO ATIVO (controle)'
        ELSE 'ex-comprador inativo' END AS grupo,
   COUNT(*) AS pessoas,

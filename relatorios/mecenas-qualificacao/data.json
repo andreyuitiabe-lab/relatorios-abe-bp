@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-10T11:56:40",
+  "updated_at": "2026-08-10T15:06:32",
   "resumo": {
     "universo": 1541244,
     "doadores": 8995,
@@ -566,36 +566,36 @@
     },
     {
       "safra": "2026 H1",
-      "pessoas": 692,
-      "ticket": 4671.0,
-      "comercial": 97.0,
-      "renda_top": 42.1,
-      "cartao_top": 67.6,
-      "capital_1m": 16.2,
-      "vitalicio": 53.2,
-      "gasto_previo": 5928.0
+      "pessoas": 658,
+      "ticket": 4867.0,
+      "comercial": 100.0,
+      "renda_top": 43.0,
+      "cartao_top": 68.7,
+      "capital_1m": 16.6,
+      "vitalicio": 53.5,
+      "gasto_previo": 6041.0
     },
     {
       "safra": "2026-07",
-      "pessoas": 161,
-      "ticket": 4817.0,
-      "comercial": 81.0,
-      "renda_top": 46.6,
-      "cartao_top": 73.3,
-      "capital_1m": 18.6,
-      "vitalicio": 60.9,
-      "gasto_previo": 8385.0
+      "pessoas": 126,
+      "ticket": 6002.0,
+      "comercial": 100.0,
+      "renda_top": 46.0,
+      "cartao_top": 77.0,
+      "capital_1m": 19.8,
+      "vitalicio": 66.7,
+      "gasto_previo": 9623.0
     },
     {
       "safra": "2026-08",
-      "pessoas": 214,
-      "ticket": 1714.0,
-      "comercial": 35.0,
-      "renda_top": 41.1,
-      "cartao_top": 62.1,
-      "capital_1m": 13.6,
-      "vitalicio": 46.7,
-      "gasto_previo": 3684.0
+      "pessoas": 49,
+      "ticket": 5589.0,
+      "comercial": 100.0,
+      "renda_top": 44.9,
+      "cartao_top": 73.5,
+      "capital_1m": 30.6,
+      "vitalicio": 73.5,
+      "gasto_previo": 7249.0
     }
   ],
   "solidario": {
