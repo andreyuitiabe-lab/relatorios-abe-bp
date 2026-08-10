@@ -20,7 +20,8 @@ Importa porque a abordagem de Mecenas é feita pelo Comercial, um a um, com cust
 | Decisão | Por quê |
 |---|---|
 | **Doador de bolsa = compra Mecenas ≥ R$ 1.000** | O produto nasceu como patrocínio de bolsa: 1 bolsa custa R$ 1.188 ou R$ 1.668. Abaixo de R$ 1.000 não existe bolsa inteira. Decisão de negócio (ago/2026) |
-| **Mecenas Solidário analisado à parte** | Campanha atual (jul/2026+), de ~R$ 30/mês sem teto. É outra população — misturar produz um perfil médio que não existe. Identificado por **produto**, nunca por valor: a oferta de R$ 1.078,80 passa de R$ 1.000 e cairia em "bolsa" |
+| **Mecenas Solidário = os 5 produtos do mapeamento do sistema** | Decisão do negócio (10/ago): usar o mesmo agrupamento do `produtos_bp/mappings`, para o número bater com o dashboard do marketing-bp. Inclui **Patrono** (R$ 36–72 mil) e **Apoiador** (R$ 4,5–9 mil), que não têm "Solidário" no nome. Vai de R$ 27 a R$ 72.000 → identificado por **produto**, nunca por valor |
+| **No Solidário, sempre mediana — nunca média** | Patrono e Apoiador são 3,6% das pessoas e **64% da receita** do grupo. A média (R$ 654) não descreve ninguém; a mediana (R$ 359) é o que a maioria escolhe |
 | Chave = **`id_person`** (identity graph), não e-mail | **20,6% dos doadores têm mais de uma conta.** Agregar por e-mail infla a contagem e subestima a doação por pessoa. Resolução por e-mail, telefone ou CPF via `dim_person_identity`; apoio em `tb_mecenas_person_map` |
 | Universo = **1,54M compradores** (≥1 tx aprovada), não só membros ativos | É o universo abordável real. Membro ativo (618,5k) é o grupo de controle |
 | Grupo de controle **explícito** em toda comparação | "40% dos doadores são decil 9+" não diz nada sem o 17,7% da base. Tudo é reportado como **lift** |
@@ -322,6 +323,28 @@ Produto lançado em jul/2026: contribuição recorrente a partir de ~R$ 30/mês,
 ⚠️ Ressalva: a idade só existe para uma fração da base (n=61 no Solidário), então a mediana de idade é a menos firme das quatro diferenças significativas.
 
 ⚠️ **Corte temporal:** o Solidário está vendendo agora. Estes números são de 10/08/2026 às 15:28 — nas 3 horas seguintes ao snapshot anterior (11:52) entraram 7 pessoas. O **perfil** é estável; a **contagem** não.
+
+
+### 14. O histórico de compras prevê SE doa, não QUANTO doa
+
+Pergunta do time: o valor pago varia conforme quantas compras a pessoa já fez?
+
+| Compras anteriores | Bolsa (mediana) | Solidário (mediana) |
+|---|---|---|
+| Nenhuma | R$ 2.148 | R$ 719 |
+| 1 | R$ 2.148 | R$ 359 |
+| 2–3 | R$ 2.148 | R$ 359 |
+| 4–6 | R$ 2.148 | R$ 359 |
+| 7–10 | R$ 2.148 | R$ 359 |
+| 11+ | R$ 2.628 | R$ 359 |
+
+**Praticamente não varia.** Na bolsa a diferença é estatisticamente significativa (Kruskal p<0,001), mas isso é efeito de n=8.964: a correlação é **rho +0,06** e a mediana só sai de R$ 2.148 na faixa de 11+ compras (+10%). Todo mundo compra **uma** bolsa. No Solidário **não há diferença nenhuma** (p=0,17) — mediana R$ 359 em todas as faixas, e quem nunca comprou nada escolhe a faixa *mais alta* (R$ 719).
+
+**Consequência para a régua de qualificação:** o histórico de compras é um preditor forte de **propensão** (gasto prévio ≥ R$ 5k dá lift 24,9×) e **nulo** de **valor**. São duas perguntas e os dados de compra só respondem a primeira.
+
+➡️ **Não segmentar a oferta por histórico** (do tipo "quem gastou mais recebe o plano de R$ 3/dia"). Usar histórico para escolher **quem abordar**, e testar o valor no criativo/oferta.
+
+**Perfil de quem compra o Solidário, por histórico** (n=193 novos na doação): mediana de **4 compras** anteriores, e só **5,9% nunca compraram nada**. O que já tinham: Básico 66% · Patriota 37% · Premium GBB 34% · Apoiador 32% · Clube do Livro 19% · Black 11%. Maior compra anterior mediana: **R$ 420**. É assinante antigo de consumo frequente e ticket baixo — o padrão dele é ticket baixo, não bolso pequeno.
 
 
 ## Pendências / próximos passos

@@ -62,6 +62,8 @@ tx AS (
       LOWER(COALESCE(t.nm_gateway_product, '')) NOT LIKE '%solid%'
       AND LOWER(COALESCE(t.nm_gateway_offer, '')) NOT LIKE '%solid%'
       AND t.nm_gateway_plan <> 'mecenas_mecenas-solidario-premium'
+      AND t.nm_gateway_product NOT LIKE '%Mecenas Patrono%'    -- foi para o Solidário (mapeamento)
+      AND t.nm_gateway_product NOT LIKE '%Mecenas Apoiador%'   -- idem
       AND LOWER(COALESCE(t.nm_gateway_offer, '')) NOT LIKE '%order bump%'
       AND LOWER(COALESCE(t.nm_gateway_product, '')) NOT LIKE '%order bump%'
       AND ((t.nm_gateway_plan LIKE 'mecenas%' AND t.nm_gateway_plan <> 'mecenas_bp-essencial')
@@ -69,15 +71,26 @@ tx AS (
       AND t.vl_payment_gross >= 1000
     ) AS bl_bolsa,
 
-    -- 2) SOLIDÁRIO — campanha atual (jul/2026+). Recorrente a partir de ~R$ 30/mês, sem teto.
-    --    Ofertas: R$ 27 e R$ 97 mensais; anuais de R$ 358,80 / 718,80 / 1.078,80 ("1, 2 ou 3
-    --    reais por dia"); e pacotes do Comercial por meses de formação (até R$ 3.000).
-    --    ⚠️ Identificar por PRODUTO, nunca por valor: o de R$ 1.078,80 passa de R$ 1.000 e
-    --    cairia em "bolsa" por engano.
+    -- 2) SOLIDÁRIO — a campanha atual. Segue o MAPEAMENTO DO SISTEMA (produtos_bp/mappings),
+    --    que agrupa 5 produtos sob "Mecenas Solidário" — decisão do negócio (10/ago/2026),
+    --    para o número bater com o dashboard do marketing-bp:
+    --      Brasil Paralelo - Mecenas Solidário            (R$ 27/97 mensal; R$ 358,80/718,80 anual)
+    --      Brasil Paralelo - Mecenas Solidário + Premium  (R$ 1.078,80, com Premium incluso)
+    --      Comercial - Mecenas Solidário                  ("N reais por dia"; meses de formação)
+    --      Comercial - Mecenas Patrono                    (R$ 36.000 e R$ 72.000)
+    --      Comercial - Mecenas Apoiador                   (R$ 4.500 e R$ 9.000)
+    --    ⚠️ Identificar por PRODUTO, nunca por valor: Solidário vai de R$ 27 a R$ 72.000, então
+    --    qualquer corte de valor separa errado.
+    --    ⚠️ Patrono e Apoiador são 7 transações mas ~63% da receita do grupo — SEMPRE reportar
+    --    mediana e distribuição, nunca média. A média deste grupo não descreve ninguém.
+    --    ⚠️ 1 Apoiador é de 09/jun/2026, anterior ao lançamento do Solidário (25/jul) — o
+    --    mapeamento é por produto, não por janela de campanha.
     (
       LOWER(COALESCE(t.nm_gateway_product, '')) LIKE '%solid%'
       OR LOWER(COALESCE(t.nm_gateway_offer, '')) LIKE '%solid%'
       OR t.nm_gateway_plan = 'mecenas_mecenas-solidario-premium'
+      OR t.nm_gateway_product LIKE '%Mecenas Patrono%'
+      OR t.nm_gateway_product LIKE '%Mecenas Apoiador%'
     ) AS bl_solidario,
 
     -- 3) ORDER BUMP DE MECENAS — R$ 180 (R$ 15/mês) marcado no checkout de outro produto.

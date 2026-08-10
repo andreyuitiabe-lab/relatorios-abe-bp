@@ -599,9 +599,10 @@
     <div class="sec-head">
       <h2>Mecenas Solidário: a campanha atual</h2>
       <p class="lede">O Mecenas nasceu como <b>patrocínio de bolsa</b> — 1 bolsa custa R$ 1.188
-      ou R$ 1.668, e é assim desde 2021. O <b>Solidário</b>, lançado em julho de 2026, é outra
-      coisa: contribuição recorrente a partir de cerca de R$ 30 por mês, sem teto. Por isso as
-      duas populações são analisadas separadas em toda esta página.</p>
+      ou R$ 1.668, e é assim desde 2021. O <b>Solidário</b> é a campanha atual e agrupa cinco
+      produtos, conforme o mapeamento do sistema: os planos de contribuição recorrente (de R$ 27
+      por mês a R$ 3 por dia), o bundle com Premium, e os pacotes do Comercial —
+      <b>Apoiador</b> e <b>Patrono</b>. Vai de R$ 27 a R$ 72.000.</p>
     </div>
 
     <div class="metrics">
@@ -626,11 +627,23 @@
 
     <p class="note key" id="keySolFaixa"></p>
 
+    <p class="note">⚠️ <b>A receita deste grupo é dominada por 8 pessoas.</b> Patrono e Apoiador
+    são 3,6% das pessoas e <b>64% da arrecadação</b>. Por isso toda estatística de valor aqui é
+    <b>mediana</b>, nunca média: a média do grupo (R$ 654) não descreve ninguém, enquanto a
+    mediana (R$ 359) é o que a esmagadora maioria escolhe. Para ler o tamanho da campanha, olhe
+    a receita por faixa; para ler o comportamento, olhe a mediana.</p>
+
+    <p class="note">⚠️ <b>A receita deste grupo é dominada por 8 pessoas.</b> Patrono e Apoiador
+    somam 3,6% das pessoas e <b>64% da arrecadação</b>. Por isso toda estatística de valor aqui é
+    <b>mediana</b>, nunca média: a média (R$ 654) não descreve ninguém, enquanto a mediana
+    (R$ 359) é o que a esmagadora maioria escolhe. Para ler o tamanho da campanha, olhe a receita
+    por faixa; para ler o comportamento, olhe a mediana.</p>
+
     <p class="note">⚠️ <b>Estes números mudam durante o dia.</b> O Solidário está em campanha
-    ativa e o corte desta página é o horário indicado no rodapé — no dia em que esta versão foi
-    apurada, 7 pessoas compraram nas 3 horas seguintes ao corte. Para acompanhamento diário, o
-    dashboard do marketing-bp é a fonte; aqui o objetivo é o <b>perfil</b>, que não oscila com
-    algumas dezenas de vendas.</p>
+    ativa e o corte desta página é o horário indicado no rodapé. Além disso, uma compra leva
+    alguns minutos para chegar no banco (mediana de 5, com cauda de até uma hora), então o número
+    de hoje é sempre parcial. Para acompanhamento diário, o dashboard do marketing-bp é a fonte;
+    aqui o objetivo é o <b>perfil</b>, que não oscila com algumas dezenas de vendas.</p>
   </section>
 
   <section>
@@ -1068,15 +1081,19 @@ function render(D, ICP) {
       <td class="n">${pct(100 * f.pessoas / somaP)}</td>
       <td class="n">${brl(f.receita)}</td></tr>`).join('');
 
-  const maior = S.faixas[0];
+  /* a maior faixa em PESSOAS, não em receita (a lista vem ordenada por receita) */
+  const maiorPop = [...S.faixas].sort((a, b) => b.pessoas - a.pessoas)[0];
+  const topoRec  = S.faixas[0];
   el('keySolFaixa').innerHTML =
-    `<b>A maioria escolhe a menor faixa:</b> ${pct(100 * maior.pessoas / somaP)} ficam em
-     "${maior.faixa}". Mas as faixas de R$ 2 e R$ 3 por dia, com menos gente, já respondem por
-     parte relevante da arrecadação — o que sugere que existe espaço para oferecer degraus acima
-     sem perder volume.`;
+    `<b>A maioria escolhe a menor faixa:</b> ${pct(100 * maiorPop.pessoas / somaP)} ficam em
+     "${maiorPop.faixa}". Mas a arrecadação vem de outro lugar — <b>"${topoRec.faixa}" responde por
+     ${pct(100 * topoRec.receita / S.faixas.reduce((a, f) => a + f.receita, 0))} do total com
+     ${topoRec.pessoas} ${topoRec.pessoas === 1 ? 'pessoa' : 'pessoas'}</b>. São dois negócios
+     dentro do mesmo nome: um de volume e ticket baixo, outro de pouquíssimas doações grandes
+     fechadas pelo Comercial.`;
 
   const LSOL = [
-    ['Contribuição típica',        g => brl(g.doacao_mediana)],
+    ['Contribuição típica (mediana)', g => brl(g.doacao_mediana)],
     ['Mulheres',                   g => pct(g.feminino)],
     ['Idade mediana',              g => g.idade_mediana ? n1(g.idade_mediana) + ' anos' : '—'],
     ['Renda no topo (decil 9-10)', g => pct(g.renda_top)],

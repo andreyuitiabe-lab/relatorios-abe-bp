@@ -11,10 +11,11 @@ queries/00_base_qualificacao.sql. Rodar aquela query primeiro se a base mudar.
 
 ⚠️ TRÊS populações separadas (ver queries/00_base_qualificacao.sql), nunca somar:
   bolsa      = doador clássico, patrocínio de bolsa (>= R$ 1.000). Base do perfil.
-  solidário  = campanha atual (jul/2026+), recorrente de ~R$ 30/mês sem teto.
+  solidário  = campanha atual, pelo MAPEAMENTO DO SISTEMA (5 produtos, inclui Patrono e
+               Apoiador). Vai de R$ 27 a R$ 72.000 — sempre reportar mediana, nunca média.
   order bump = R$ 180 no checkout de outro produto. Não é doador.
-O Solidário é identificado por PRODUTO, nunca por valor: a oferta de R$ 1.078,80 passa
-de R$ 1.000 e cairia em "bolsa" por engano.
+O Solidário é identificado por PRODUTO, nunca por valor: vai de R$ 27 a R$ 72.000, então
+qualquer corte de valor separa errado.
 """
 
 import json, subprocess, sys, datetime, warnings
@@ -116,11 +117,13 @@ GROUP BY 1
 # Distribuição das faixas de contribuição do Solidário
 Q_SOLIDARIO_FAIXA = f"""
 SELECT
-  CASE WHEN vl_maior_tx_solidario < 100 THEN 'Mensal (R$ 27 a 97)'
-       WHEN vl_maior_tx_solidario < 500 THEN 'R$ 1/dia (R$ 358,80)'
-       WHEN vl_maior_tx_solidario < 900 THEN 'R$ 2/dia (R$ 718,80)'
-       WHEN vl_maior_tx_solidario < 2000 THEN 'R$ 3/dia (R$ 1.078,80)'
-       ELSE 'Pacote do Comercial (R$ 2 mil+)' END AS faixa,
+  CASE WHEN vl_maior_tx_solidario < 100   THEN 'Mensal (R$ 27 a 97)'
+       WHEN vl_maior_tx_solidario < 500   THEN 'R$ 1/dia (R$ 358,80)'
+       WHEN vl_maior_tx_solidario < 900   THEN 'R$ 2/dia (R$ 718,80)'
+       WHEN vl_maior_tx_solidario < 2000  THEN 'R$ 3/dia (R$ 1.078,80)'
+       WHEN vl_maior_tx_solidario < 4000  THEN 'Meses de formação (R$ 2 a 3 mil)'
+       WHEN vl_maior_tx_solidario < 20000 THEN 'Apoiador (R$ 4,5 a 9 mil)'
+       ELSE 'Patrono (R$ 36 a 72 mil)' END AS faixa,
   COUNT(*) AS pessoas,
   SUM(vl_total_solidario) AS receita
 FROM `{BASE}`
@@ -288,7 +291,7 @@ def build() -> dict:
             "faixas": sorted(
                 [{"faixa": f["faixa"], "pessoas": ii(f["pessoas"]), "receita": fi(f["receita"])}
                  for f in sol_faixa],
-                key=lambda x: -x["pessoas"],
+                key=lambda x: -x["receita"],
             ),
         },
         "segmentos": [
