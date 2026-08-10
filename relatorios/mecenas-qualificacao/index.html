@@ -374,8 +374,10 @@
   <div class="tabs" role="tablist" aria-label="Seções do relatório">
     <button class="tab" id="tab-dados" role="tab" aria-selected="true"
             aria-controls="panel-dados" type="button">Os dados</button>
+    <button class="tab" id="tab-solidario" role="tab" aria-selected="false"
+            aria-controls="panel-solidario" type="button">A campanha atual</button>
     <button class="tab" id="tab-icp" role="tab" aria-selected="false"
-            aria-controls="panel-icp" type="button">Os cinco perfis</button>
+            aria-controls="panel-icp" type="button">Os perfis</button>
   </div>
 </header>
 
@@ -400,9 +402,10 @@
 
   <section>
     <div class="sec-head">
-      <h2>São três públicos, não um</h2>
-      <p class="lede">A faixa é dada pela maior doação que a pessoa já fez. Não são degraus de
-      uma escada — são perfis distintos, como as próximas seções mostram.</p>
+      <h2>Quanto cada doador patrocina</h2>
+      <p class="lede">Faixa dada pela maior doação que a pessoa já fez. Uma bolsa custa R$ 1.188
+      ou R$ 1.668 — quem aparece acima disso está patrocinando várias. ⚠️ Esta página trata só do
+      doador de bolsa; a campanha atual (Mecenas Solidário) está na aba ao lado.</p>
     </div>
     <div class="share" id="share" role="img" aria-label="Composição da receita por faixa"></div>
     <div class="twrap">
@@ -569,10 +572,91 @@
 
 </div><!-- /panel-dados -->
 
+
+<div class="panel" id="panel-solidario" role="tabpanel" aria-labelledby="tab-solidario" hidden>
+  <section>
+    <div class="sec-head">
+      <h2>Mecenas Solidário: a campanha atual</h2>
+      <p class="lede">O Mecenas nasceu como <b>patrocínio de bolsa</b> — 1 bolsa custa R$ 1.188
+      ou R$ 1.668, e é assim desde 2021. O <b>Solidário</b>, lançado em julho de 2026, é outra
+      coisa: contribuição recorrente a partir de cerca de R$ 30 por mês, sem teto. Por isso as
+      duas populações são analisadas separadas em toda esta página.</p>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><div class="v" id="solN">—</div>
+        <div class="k">pessoas entraram pelo Solidário</div></div>
+      <div class="metric"><div class="v" id="solReceita">—</div>
+        <div class="k">arrecadados desde julho</div></div>
+      <div class="metric"><div class="v" id="solTicket">—</div>
+        <div class="k">contribuição típica</div></div>
+      <div class="metric"><div class="v" id="solJaDoador">—</div>
+        <div class="k">já eram doadores de bolsa antes</div></div>
+    </div>
+
+    <div class="twrap">
+      <table>
+        <caption>Faixa escolhida</caption>
+        <thead><tr><th>Faixa</th><th class="n">Pessoas</th><th class="n">% das pessoas</th>
+          <th class="n">Receita</th></tr></thead>
+        <tbody id="tbSolFaixa"></tbody>
+      </table>
+    </div>
+
+    <p class="note key" id="keySolFaixa"></p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Quem é o doador do Solidário</h2>
+      <p class="lede">Comparado ao doador de bolsa e ao membro comum. A coluna que importa é a
+      diferença entre as duas primeiras.</p>
+    </div>
+    <div class="twrap">
+      <table>
+        <thead><tr><th>Atributo</th><th class="n">Solidário</th>
+          <th class="n">Doador de bolsa</th><th class="n">Membro ativo</th></tr></thead>
+        <tbody id="tbSol"></tbody>
+      </table>
+    </div>
+    <p class="note key" id="keySolPerfil"></p>
+    <p class="note" id="notaSolSig"></p>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>O que isso significa para a campanha</h2></div>
+    <div class="method">
+      <dl style="margin:0">
+        <dt>O ticket baixo não é limitação de renda</dt>
+        <dd>O comprador do Solidário tem <b>a mesma renda e o mesmo nível de cartão</b> do doador
+        de bolsa — as diferenças nesses dois atributos não passam de ruído estatístico. Ele não
+        contribui pouco porque pode pouco: contribui pouco porque essa é a porta que existia para
+        ele. Isso muda a leitura do produto: o Solidário não é desconto, é <b>ponto de entrada</b>
+        para gente que já tinha capacidade e não estava sendo convertida.</dd>
+
+        <dt>É uma persona diferente da histórica</dt>
+        <dd>Mais velho e mais feminino que o doador de bolsa, com menos histórico de compra na BP.
+        A campanha atual está falando com um público que o Mecenas clássico não alcançava — e a
+        mensagem que funciona para o empresário que patrocina uma bolsa não é a mesma.</dd>
+
+        <dt>Canibalização é pequena e mensurável</dt>
+        <dd><span id="solCanib">—</span> pessoas que já eram doadoras de bolsa também compraram
+        Solidário. São as que têm o maior histórico de gasto do grupo — vale checar se estão
+        trocando uma bolsa inteira por uma contribuição mensal, ou se é doação adicional.</dd>
+
+        <dt>Metade não passa pelo Comercial</dt>
+        <dd><span id="solComercial">—</span> dos compradores do Solidário já compraram pelo
+        Comercial alguma vez, contra praticamente todos os doadores de bolsa. É o primeiro produto
+        Mecenas que converte sozinho, sem venda consultiva.</dd>
+      </dl>
+    </div>
+  </section>
+</div>
+
 <div class="panel" id="panel-icp" role="tabpanel" aria-labelledby="tab-icp" hidden>
   <section>
     <div class="sec-head">
-      <h2>Cinco perfis de doador</h2>
+      <h2>Três perfis de doador de bolsa</h2>
       <p class="lede">Os perfis não foram desenhados por intuição: saíram de uma clusterização
       dos doadores reais. Entraram no modelo apenas atributos que existem <b>antes</b> de a
       pessoa doar — assim cada perfil vem com o tamanho do público equivalente que ainda não
@@ -595,12 +679,12 @@
       </table>
     </div>
     <p class="note key" id="keyIcp"></p>
-    <p class="note"><b>A e C pedem mensagens opostas e valem quase o mesmo.</b> Um é patrocínio
+    <p class="note"><b>A e B pedem mensagens opostas e valem quase o mesmo.</b> Um é patrocínio
     e legado; o outro é pertencimento. Rodar uma campanha só, com uma mensagem só, desperdiça um
     dos dois. É a decisão de criativo mais concreta que sai desta análise.</p>
     <p class="note" id="notaEntrouDoando"></p>
     <div class="warn">
-      <p><b>Como isso foi construído.</b> K-means sobre os doadores, cinco grupos, usando renda,
+      <p><b>Como isso foi construído.</b> K-means sobre os doadores de bolsa, quatro grupos (um deles resíduo de 10 pessoas, fora desta página), usando renda,
       cartão, empresa e capital, tempo de casa, maior valor já pago, produtos comprados e canal.
       <b>O valor da doação ficou de fora do modelo</b> de propósito: não é conhecido antes de a
       pessoa doar, e incluí-lo produziria perfis impossíveis de encontrar na base. O mesmo modelo
@@ -686,77 +770,57 @@ const LIFT_PICK = [
   ['cartao',         'sem cartao',     'Sem cartão mapeado',          ' under'],
 ];
 
-/* ── ICPs: nome e narrativa por assinatura de cluster (o k-means não nomeia) ── */
+/* ── ICPs: nome e narrativa por assinatura de cluster (o k-means não nomeia) ──
+   Com o Solidário fora do label, os doadores de bolsa se separam por dois eixos:
+   tem empresa (sim/não) × tem histórico de produto high-ticket (sim/não).           */
 function batizar(p) {
   const t = p.traits;
-  if (t.comercial < 50) return {
-    letra: 'E', nome: 'O R$ 1 por dia', tag: 'o novo',
-    quem: `O comprador do <b>Mecenas Solidário</b> no self-checkout, produto que só existe desde
-      julho. O único perfil que não passa pelo Comercial. Doa pouco, mas <b>62,7% de quem compra
-      Solidário nunca havia comprado nada de alto valor na BP</b> — é entrada, não upgrade.`,
-    falar: `Baixa fricção e valor diário: "1, 2 ou 3 reais por dia" é a formulação que está
-      funcionando. Não peça decisão grande.`,
-    onde: `⚠️ <b>Este perfil não é segmentável.</b> A propensão dentro do grupo parecido é
-      <b>${lift(p.lift)}</b> — é estatisticamente indistinguível da base geral. Quem compra
-      Solidário não tem assinatura de perfil: converte por <b>oferta e canal</b>, não por
-      targeting. Mídia ampla com a oferta certa, nunca lookalike.`,
-    traits: ['comercial', 'doacao_mediana', 'idade', 'feminino', 'vitalicio', 'anos_casa'],
-  };
-  if (t.certif > 90) return {
-    letra: 'B', nome: 'O aluno colecionador', tag: 'maior valor por pessoa',
-    quem: `Compra tudo. Certificação, vitalício, Clube do Livro — <b>gastou
-      ${brl(t.gasto_previo)} antes de doar</b>, quase o triplo do empresário. É o menor grupo em
-      pessoas e o maior em valor por cabeça. O mais velho e o mais antigo de casa. Forte em
-      saúde.`,
-    falar: `O único perfil em que o <b>conteúdo da formação</b> é argumento de venda — ele é
-      aluno, entende a grade, valoriza o rigor acadêmico. Fale da licenciatura em si: currículo,
-      professores, o que o bolsista vai estudar.`,
-    onde: `Só <b>${int(p.nao_doadores)} pessoas parecidas</b> ainda não doaram — mas a propensão
-      é <b>${lift(p.lift)}</b>, de longe a maior, e <b>${pct(p.taxa_no_cluster)} desse perfil já
-      doou</b>. Público pequeno e quente: merece abordagem individual, não campanha.`,
-    traits: ['certif', 'vitalicio', 'gasto_previo', 'cartao_top', 'socio', 'idade', 'anos_casa', 'multi_doacao'],
-  };
   if (t.socio > 60) return {
     letra: 'A', nome: 'O empresário', tag: null,
-    quem: `O maior bloco de receita. <b>Todos têm empresa registrada na Receita Federal</b>, com
-      capital social declarado. Consolidado na base há cinco anos, já comprou vitalício mas
-      <b>não é aluno</b>: praticamente nenhum comprou certificação. Consome pouco em relação ao
-      que pode pagar — gastou ${brl(t.gasto_previo)} antes de doar e doa o dobro disso. São
-      Paulo, Minas e Paraná; saúde e serviços profissionais.`,
+    quem: `O maior bloco de receita. <b>Praticamente todos têm empresa registrada na Receita
+      Federal</b>, e ${Math.round(t.cap1m)}% dela com capital acima de R$ 1 milhão. Está na base
+      há ${n1(t.anos_casa)} anos, gastou ${brl(t.gasto_previo)} antes de doar e patrocina
+      ${brl(p.doacao_media)}. É o mais masculino dos perfis (${Math.round(100 - t.feminino)}%
+      homens). São Paulo, Minas e Paraná; saúde e serviços profissionais.`,
     falar: `Não é o público de "aprofunde seus estudos" — é o de <b>legado e patrocínio</b>.
       Financia a formação de professores como quem patrocina uma obra, não como quem compra um
       curso. Peça institucional, nome associado à bolsa, prestação de contas.`,
     onde: `<b>${int(p.nao_doadores)} pessoas parecidas</b> ainda não doaram — propensão
-      <b>${lift(p.lift)}</b>. É a maior audiência de alto valor disponível para mídia.`,
-    traits: ['socio', 'cap1m', 'cartao_top', 'feminino', 'idade', 'anos_casa', 'gasto_previo', 'certif'],
+      <b>${lift(p.lift)}</b> e doação esperada de ${brl(p.doacao_media)}. É a maior audiência de
+      alto valor disponível.`,
+    traits: ['socio', 'cap1m', 'cartao_top', 'feminino', 'idade', 'anos_casa', 'gasto_previo', 'vitalicio'],
   };
   if (t.vitalicio > 60) return {
-    letra: 'C', nome: 'O vitalício fiel', tag: null,
-    quem: `Comprou o vitalício e parou por ali — não é aluno, não tem empresa. <b>Quase metade é
-      mulher</b>, o perfil mais feminino junto do Solidário. Gastou ${brl(t.gasto_previo)} antes
-      de doar, mais que o empresário: o dinheiro dele vem de salário ou patrimônio pessoal, não
-      de CNPJ. Rio tem peso maior aqui do que nos outros perfis.`,
+    letra: 'B', nome: 'O vitalício fiel', tag: 'maior gasto prévio',
+    quem: `Comprou o vitalício e continuou comprando — <b>${Math.round(t.vitalicio)}% têm
+      vitalício</b> e ${Math.round(t.certif)}% já fizeram certificação, mas quase nenhum tem
+      empresa (${n1(t.socio)}%). <b>Gastou ${brl(t.gasto_previo)} antes de doar, mais que o
+      empresário</b>: o dinheiro vem de salário ou patrimônio pessoal, não de CNPJ. É o mais
+      velho (${n1(t.idade)} anos) e o mais antigo de casa, e quase metade é mulher
+      (${Math.round(t.feminino)}%). Rio pesa mais aqui.`,
     falar: `Pertencimento, não patrocínio. Funciona a lógica de <b>fazer parte de algo maior</b>
       — a bolsa como continuação natural de anos acompanhando a BP. Prova social de outros
-      membros, o rosto do professor formado, o efeito somado de muitos doadores.`,
+      membros, o rosto do professor formado. É também o único perfil em que o <b>conteúdo da
+      formação</b> é argumento: ele é aluno.`,
     onde: `<b>${int(p.nao_doadores)} pessoas parecidas</b> ainda não doaram — propensão
-      <b>${lift(p.lift)}</b>, praticamente empatada com a do empresário. Alvo de mídia tão bom
-      quanto, com mensagem oposta.`,
-    traits: ['vitalicio', 'socio', 'cartao_top', 'feminino', 'idade', 'anos_casa', 'gasto_previo', 'certif'],
+      <b>${lift(p.lift)}</b>, quase empatada com a do empresário. Alvo de mídia tão bom quanto,
+      com mensagem oposta.`,
+    traits: ['vitalicio', 'certif', 'socio', 'gasto_previo', 'cartao_top', 'feminino', 'idade', 'anos_casa'],
   };
   return {
-    letra: 'D', nome: 'O assinante comum', tag: 'maior bolsão',
-    quem: `O assinante sem nada de alto valor no histórico: sem vitalício, sem certificação, sem
-      empresa. <b>Gastou ${brl(t.gasto_previo)} na BP e doou ${brl(p.doacao_media)} — mais do que
-      já tinha gasto na vida inteira.</b> É a prova de que capacidade de doar não se lê pelo
-      consumo passado: aqui a doação é o primeiro ato grande da pessoa.`,
+    letra: 'C', nome: 'O assinante comum', tag: 'maior bolsão',
+    quem: `Nada de alto valor no histórico: sem vitalício, sem certificação, sem empresa.
+      <b>Gastou ${brl(t.gasto_previo)} na BP e doou ${brl(p.doacao_media)} — mais do que já
+      tinha gasto na vida inteira.</b> É a prova de que capacidade de doar não se lê pelo consumo
+      passado: aqui a doação é o primeiro ato grande da pessoa. O mais jovem dos perfis
+      (${n1(t.idade)} anos).`,
     falar: `Não pressupõe patrimônio nem erudição. O argumento é a <b>causa</b>: o problema do
       ensino de História, o que muda na vida de um professor formado. É o perfil que mais se
-      aproxima de doação no sentido clássico — e o que melhor responde a valor parcelado.`,
+      aproxima de doação no sentido clássico.`,
     onde: `<b>${int(p.nao_doadores)} pessoas parecidas</b> ainda não doaram — o maior bolsão de
       todos, com propensão <b>${lift(p.lift)}</b>. Baixa propensão, mas volume que nenhum outro
       perfil oferece.`,
-    traits: ['vitalicio', 'certif', 'socio', 'cartao_top', 'gasto_previo', 'idade', 'anos_casa', 'doacao_mediana'],
+    traits: ['vitalicio', 'certif', 'socio', 'gasto_previo', 'cartao_top', 'feminino', 'idade', 'anos_casa'],
   };
 }
 /* nos cards de ICP a porcentagem vai sem decimal — é retrato, não medição fina */
@@ -770,8 +834,7 @@ const TRAIT_LABEL = {
   anos_casa: ['de casa', v => n1(v) + ' anos'], gasto_previo: ['gastou antes de doar', brl],
   multi_doacao: ['doou mais de uma vez', p0], doacao_mediana: ['doação típica', brl],
 };
-const CANAL = { A: 'Lookalike + Comercial', B: 'Comercial, um a um', C: 'Lookalike + CRM',
-                D: 'Mídia de volume', E: 'Mídia ampla + oferta' };
+const CANAL = { A: 'Lookalike + Comercial', B: 'Lookalike + CRM', C: 'Mídia de volume' };
 
 function render(D, ICP) {
   const R = D.resumo;
@@ -791,7 +854,8 @@ function render(D, ICP) {
 
   /* ── composição da receita + tiers ── */
   const tiers = [...D.tiers].sort((a, b) => b.receita - a.receita);
-  const cls = t => t.tier.startsWith('Alto') ? 's-alto' : t.tier.startsWith('Bolsas') ? 's-bolsas' : 's-sol';
+  const cls = t => t.tier.startsWith('Alto') ? 's-alto'
+                 : t.tier.startsWith('Múltiplas') ? 's-bolsas' : 's-sol';
   el('share').innerHTML = tiers.map(t => {
     const p = 100 * t.receita / R.receita;
     const nome = t.tier.split(' (')[0];
@@ -955,8 +1019,70 @@ function render(D, ICP) {
      "cartão topo, vitalício e já gastou R$ 2 mil+" é o maior bolsão com propensão alta
      (${int(s3.bolsao)} pessoas, ${lift(s3.lift)}) e sustenta o volume da campanha.`;
 
+
+  /* ── campanha atual: Mecenas Solidário ── */
+  const S = D.solidario, SN = S.grupos.solidario_novo, SJ = S.grupos.solidario_ja_doador,
+        SB = S.grupos.bolsa, SC = S.grupos.controle;
+  const totalSol = SN.pessoas + (SJ ? SJ.pessoas : 0);
+  el('solN').textContent        = int(totalSol);
+  el('solReceita').textContent  = 'R$ ' + int(S.faixas.reduce((a, f) => a + f.receita, 0) / 1000) + ' mil';
+  el('solTicket').textContent   = brl(SN.doacao_mediana);
+  el('solJaDoador').textContent = SJ ? int(SJ.pessoas) : '0';
+
+  const somaP = S.faixas.reduce((a, f) => a + f.pessoas, 0);
+  el('tbSolFaixa').innerHTML = S.faixas.map(f => `
+    <tr><td class="name">${f.faixa}</td><td class="n">${int(f.pessoas)}</td>
+      <td class="n">${pct(100 * f.pessoas / somaP)}</td>
+      <td class="n">${brl(f.receita)}</td></tr>`).join('');
+
+  const maior = S.faixas[0];
+  el('keySolFaixa').innerHTML =
+    `<b>A maioria escolhe a menor faixa:</b> ${pct(100 * maior.pessoas / somaP)} ficam em
+     "${maior.faixa}". Mas as faixas de R$ 2 e R$ 3 por dia, com menos gente, já respondem por
+     parte relevante da arrecadação — o que sugere que existe espaço para oferecer degraus acima
+     sem perder volume.`;
+
+  const LSOL = [
+    ['Contribuição típica',        g => brl(g.doacao_mediana)],
+    ['Mulheres',                   g => pct(g.feminino)],
+    ['Idade mediana',              g => g.idade_mediana ? n1(g.idade_mediana) + ' anos' : '—'],
+    ['Renda no topo (decil 9-10)', g => pct(g.renda_top)],
+    ['Cartão black ou amex',       g => pct(g.cartao_top)],
+    ['Sócio de empresa',           g => pct(g.socio)],
+    ['Empresa com capital > R$ 1 mi', g => pct(g.capital_1m)],
+    ['Já tem vitalício',           g => pct(g.vitalicio)],
+    ['Já comprou certificação',    g => pct(g.certificacao)],
+    ['Gasto na BP antes de doar (mediana)', g => brl(g.gasto_previo_mediana)],
+    ['Tempo de casa',              g => n1(g.anos_casa) + ' anos'],
+    ['Já comprou pelo Comercial',  g => pct(g.via_comercial)],
+  ];
+  el('tbSol').innerHTML = LSOL.map(([lab, fmt]) => `
+    <tr><td>${lab}</td><td class="n hi">${fmt(SN)}</td>
+      <td class="n">${fmt(SB)}</td><td class="n">${fmt(SC)}</td></tr>`).join('');
+
+  el('keySolPerfil').innerHTML =
+    `<b>Mesmo dinheiro, pessoa diferente.</b> O comprador do Solidário tem renda no topo
+     (${pct(SN.renda_top)}) e cartão premium (${pct(SN.cartao_top)}) <b>equivalentes ao doador de
+     bolsa</b> (${pct(SB.renda_top)} e ${pct(SB.cartao_top)}) — a capacidade de pagar é a mesma.
+     O que muda é quem ele é: <b>${pct(SN.feminino)} são mulheres</b> contra ${pct(SB.feminino)},
+     a idade mediana é <b>${n1(SN.idade_mediana)} anos</b> contra ${n1(SB.idade_mediana)}, e ele
+     gastou <b>${brl(SN.gasto_previo_mediana)}</b> na BP antes de doar, contra
+     ${brl(SB.gasto_previo_mediana)} do doador de bolsa.`;
+
+  el('notaSolSig').innerHTML =
+    `Testado com ${int(SN.pessoas)} pessoas no Solidário contra ${int(SB.pessoas)} doadores de
+     bolsa: as diferenças de <b>gênero, idade, gasto prévio e vitalício são estatisticamente
+     significativas</b>; as de <b>renda e cartão não são</b> — ou seja, a semelhança no poder
+     aquisitivo é achado, não falta de dado. Ressalva: a idade só existe para uma fração da base,
+     então a mediana de idade é a menos firme das quatro.`;
+
+  el('solCanib').textContent    = SJ ? int(SJ.pessoas) : '0';
+  el('solComercial').textContent = pct(SN.via_comercial);
+
   /* ── ICPs ── */
-  const perfis = ICP.map(p => ({ ...p, meta: batizar(p) }))
+  /* clusters minúsculos são resíduo do k-means, não perfil — fora da apresentação */
+  const perfis = ICP.filter(p => p.doadores >= 50)
+                    .map(p => ({ ...p, meta: batizar(p) }))
                     .sort((a, b) => b.pc_receita - a.pc_receita);
   el('icpCards').innerHTML = perfis.map(p => {
     const m = p.meta, t = p.traits;
@@ -994,20 +1120,19 @@ function render(D, ICP) {
       <td>${CANAL[m.letra]}</td></tr>`;
   }).join('');
 
-  const B = perfis.find(p => p.meta.letra === 'B'), A = perfis.find(p => p.meta.letra === 'A'),
-        C = perfis.find(p => p.meta.letra === 'C'), Dd = perfis.find(p => p.meta.letra === 'D');
+  const A = perfis.find(p => p.meta.letra === 'A'), B = perfis.find(p => p.meta.letra === 'B'),
+        C = perfis.find(p => p.meta.letra === 'C');
   el('keyIcp').innerHTML =
-    `<b>A leitura de alocação:</b> ${B.meta.letra} tem a maior propensão do conjunto mas só
-     ${int(B.nao_doadores)} pessoas — não sustenta campanha, sustenta abordagem individual.
-     <b>A e C são o ponto ótimo para mídia</b>: juntos somam
-     ${int(A.nao_doadores + C.nao_doadores)} pessoas com propensão perto de ${lift(A.lift)} e
-     doação de ${brl(C.doacao_media)} a ${brl(A.doacao_media)}. D é onde está o volume
-     (${int(Dd.nao_doadores)} pessoas), com um terço da propensão.`;
+    `<b>A leitura de alocação:</b> A e B valem quase o mesmo como alvo de mídia — propensão
+     ${lift(A.lift)} e ${lift(B.lift)}, somando ${int(A.nao_doadores + B.nao_doadores)} pessoas —
+     mas <b>pedem mensagens opostas</b>: A é patrocínio e legado, B é pertencimento. C tem o
+     maior bolsão (${int(C.nao_doadores)} pessoas) com um terço da propensão: é volume, não
+     precisão.`;
 
   el('notaEntrouDoando').innerHTML =
-    `Um fenômeno que não virou perfil próprio, mas existe: <b>419 doadores (4,6%) gastaram menos
+    `Um fenômeno que não virou perfil próprio, mas existe: <b>411 doadores (4,6%) gastaram menos
      de R$ 100 na BP antes de doar</b> — para 98% deles a doação foi a primeira compra. Doaram
-     R$ 7.214 em média e trouxeram 5,8% da receita. É gente que veio pela causa, sem passar pelo
+     R$ 7.341 em média e trouxeram 5,8% da receita. É gente que veio pela causa, sem passar pelo
      funil de produto. Vale testar aquisição falando só da causa.`;
 }
 

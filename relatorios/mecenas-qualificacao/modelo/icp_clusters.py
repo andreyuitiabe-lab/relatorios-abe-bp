@@ -89,7 +89,10 @@ def main():
     # Assim o rótulo do ICP e a contagem de lookalike falam do mesmo cluster.
     F = featurize(doa)
     sc = StandardScaler().fit(F)
-    K = 5
+    # K=4: com o Solidário fora do label (analisado à parte), K=5 produzia um cluster
+    # degenerado de ~10 pessoas. Os 4 grupos que sobram se separam por dois eixos limpos:
+    # tem empresa (sim/não) × tem histórico de produto high-ticket (sim/não).
+    K = 4
     km = KMeans(n_clusters=K, n_init=25, random_state=42).fit(sc.transform(F))
     doa["icp"] = km.labels_
     lab_nao = km.predict(sc.transform(featurize(nao)))

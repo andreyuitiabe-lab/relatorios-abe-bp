@@ -1,138 +1,130 @@
 {
-  "updated_at": "2026-08-07T19:32:32",
+  "updated_at": "2026-08-10T11:56:40",
   "resumo": {
-    "universo": 1539086,
-    "doadores": 9169,
-    "taxa_base": 0.5957431878400558,
-    "receita": 52561580.26999998,
+    "universo": 1541244,
+    "doadores": 8995,
+    "taxa_base": 0.5836194658340924,
+    "receita": 52443615.43999998,
     "n_topo": 306,
-    "receita_topo": 14947676.660000002,
-    "pc_receita_topo": 28.438408022012098,
-    "membros_controle": 618499
+    "receita_topo": 14942776.659999998,
+    "pc_receita_topo": 28.49303301198946,
+    "membros_controle": 620563
   },
   "tiers": [
     {
-      "tier": "Solidário (R$ 359 a R$ 1.188)",
-      "pessoas": 174,
-      "receita": 104238.82999999999,
-      "por_pessoa": 599.0737356321838
+      "tier": "Bolsa única (R$ 1 a 2 mil)",
+      "pessoas": 4111,
+      "receita": 8358462.12,
+      "por_pessoa": 2033.1943857942108
     },
     {
       "tier": "Alto (acima de R$ 10 mil)",
       "pessoas": 306,
-      "receita": 14947676.659999998,
-      "por_pessoa": 48848.61653594771
+      "receita": 14942776.66,
+      "por_pessoa": 48832.603464052285
     },
     {
-      "tier": "Bolsas (R$ 1.188 a R$ 10 mil)",
-      "pessoas": 8689,
-      "receita": 37509664.77999999,
-      "por_pessoa": 4316.913888824952
+      "tier": "Múltiplas bolsas (R$ 2 a 10 mil)",
+      "pessoas": 4578,
+      "receita": 29142376.65999998,
+      "por_pessoa": 6365.744137177809
     }
   ],
   "perfil": [
     {
       "grupo": "Membro ativo",
-      "pessoas": 618499,
-      "renda_top": 17.596148094014687,
-      "cartao_top": 28.070053468154377,
-      "socio": 24.53197175743209,
-      "capital_1m": 3.275348868793636,
-      "vitalicio": 10.204705262255862,
-      "certificacao": 0.8274871907634441,
-      "cdl": 3.6974999151170884,
-      "feminino": 37.80814520314505,
-      "idade": 51.32687976468748,
-      "anos_casa": 2.292898195625043,
-      "gasto_previo": 856.7072575865114
+      "pessoas": 620563,
+      "renda_top": 17.599985819328573,
+      "cartao_top": 28.105446183546253,
+      "socio": 24.54174676866008,
+      "capital_1m": 3.2831477223102272,
+      "vitalicio": 10.274702165614121,
+      "certificacao": 0.8253795343905447,
+      "cdl": 3.692453465643291,
+      "feminino": 37.782626421491564,
+      "idade": 51.3234481488303,
+      "anos_casa": 2.2945267707522965,
+      "gasto_previo": 854.6593355710875
     },
     {
       "grupo": "Doador bolsas",
-      "pessoas": 8863,
-      "renda_top": 38.99356876903984,
-      "cartao_top": 59.94584226559856,
-      "socio": 38.60995148369626,
-      "capital_1m": 11.057204106961525,
-      "vitalicio": 43.34875324382264,
-      "certificacao": 12.738350445673023,
-      "cdl": 16.811463387114973,
-      "feminino": 40.09928917973598,
-      "idade": 53.99866615853658,
-      "anos_casa": 5.114859528376396,
-      "gasto_previo": 3616.3535405618873
+      "pessoas": 8689,
+      "renda_top": 39.01484635746346,
+      "cartao_top": 59.995396478305906,
+      "socio": 38.78467027275867,
+      "capital_1m": 11.094487282771324,
+      "vitalicio": 43.698929681206124,
+      "certificacao": 12.901369547703997,
+      "cdl": 16.8488894003913,
+      "feminino": 40.0046035216941,
+      "idade": 53.952096960369374,
+      "anos_casa": 5.151598068412746,
+      "gasto_previo": 3648.626124985613
     },
     {
       "grupo": "Doador alto",
       "pessoas": 306,
-      "renda_top": 50.65359477124181,
+      "renda_top": 50.65359477124183,
       "cartao_top": 81.04575163398692,
-      "socio": 59.80392156862746,
+      "socio": 59.80392156862745,
       "capital_1m": 47.712418300653596,
-      "vitalicio": 52.941176470588225,
+      "vitalicio": 52.941176470588246,
       "certificacao": 22.875816993464053,
-      "cdl": 33.00653594771243,
+      "cdl": 33.006535947712415,
       "feminino": 29.411764705882348,
-      "idade": 56.1764705882353,
-      "anos_casa": 4.880678664159727,
-      "gasto_previo": 10800.964673202614
+      "idade": 56.17647058823529,
+      "anos_casa": 4.88889784224192,
+      "gasto_previo": 10819.095392156865
     }
   ],
   "lift": [
     {
       "dim": "cartao",
       "val": "black/amex",
-      "pessoas": 291372,
-      "mecenas": 5561,
-      "conv": 1.91,
+      "pessoas": 292122,
+      "mecenas": 5461,
+      "conv": 1.87,
       "lift": 3.2
     },
     {
       "dim": "cartao",
       "val": "platinum",
-      "pessoas": 310594,
-      "mecenas": 2022,
-      "conv": 0.65,
+      "pessoas": 310997,
+      "mecenas": 1978,
+      "conv": 0.64,
       "lift": 1.09
     },
     {
       "dim": "cartao",
       "val": "gold",
-      "pessoas": 369472,
-      "mecenas": 810,
+      "pessoas": 369968,
+      "mecenas": 798,
       "conv": 0.22,
       "lift": 0.37
     },
     {
       "dim": "cartao",
       "val": "standard/debit",
-      "pessoas": 228014,
-      "mecenas": 477,
-      "conv": 0.21,
+      "pessoas": 228255,
+      "mecenas": 466,
+      "conv": 0.2,
       "lift": 0.35
     },
     {
       "dim": "cartao",
       "val": "sem cartao",
-      "pessoas": 339634,
-      "mecenas": 299,
+      "pessoas": 339902,
+      "mecenas": 292,
       "conv": 0.09,
       "lift": 0.15
     },
     {
       "dim": "cnpj",
       "val": "socio @0.95",
-      "pessoas": 364492,
-      "mecenas": 3605,
-      "conv": 0.99,
-      "lift": 1.66
-    },
-    {
-      "dim": "cnpj",
-      "val": "socio @0.70",
-      "pessoas": 29545,
-      "mecenas": 211,
-      "conv": 0.71,
-      "lift": 1.2
+      "pessoas": 365020,
+      "mecenas": 3553,
+      "conv": 0.97,
+      "lift": 1.67
     },
     {
       "dim": "cnpj",
@@ -140,416 +132,424 @@
       "pessoas": 1717,
       "mecenas": 12,
       "conv": 0.7,
-      "lift": 1.17
+      "lift": 1.2
+    },
+    {
+      "dim": "cnpj",
+      "val": "socio @0.70",
+      "pessoas": 29620,
+      "mecenas": 206,
+      "conv": 0.7,
+      "lift": 1.19
     },
     {
       "dim": "cnpj",
       "val": "socio @<0.70",
-      "pessoas": 95984,
-      "mecenas": 561,
-      "conv": 0.58,
+      "pessoas": 96182,
+      "mecenas": 552,
+      "conv": 0.57,
       "lift": 0.98
     },
     {
       "dim": "cnpj",
       "val": "sem empresa",
-      "pessoas": 1047348,
-      "mecenas": 4780,
-      "conv": 0.46,
-      "lift": 0.77
+      "pessoas": 1048705,
+      "mecenas": 4672,
+      "conv": 0.45,
+      "lift": 0.76
     },
     {
       "dim": "gasto_previo",
       "val": "gastou 5k+",
-      "pessoas": 15770,
-      "mecenas": 2308,
-      "conv": 14.64,
-      "lift": 24.57
+      "pessoas": 15806,
+      "mecenas": 2294,
+      "conv": 14.51,
+      "lift": 24.87
     },
     {
       "dim": "gasto_previo",
       "val": "gastou 2-5k",
-      "pessoas": 68694,
-      "mecenas": 2836,
-      "conv": 4.13,
-      "lift": 6.93
+      "pessoas": 68822,
+      "mecenas": 2794,
+      "conv": 4.06,
+      "lift": 6.96
     },
     {
       "dim": "gasto_previo",
       "val": "gastou <100",
-      "pessoas": 41411,
-      "mecenas": 419,
-      "conv": 1.01,
-      "lift": 1.7
+      "pessoas": 45595,
+      "mecenas": 411,
+      "conv": 0.9,
+      "lift": 1.54
     },
     {
       "dim": "gasto_previo",
       "val": "gastou 500-2k",
-      "pessoas": 320673,
-      "mecenas": 2584,
-      "conv": 0.81,
+      "pessoas": 320603,
+      "mecenas": 2517,
+      "conv": 0.79,
       "lift": 1.35
     },
     {
       "dim": "gasto_previo",
       "val": "gastou 100-500",
-      "pessoas": 1092538,
-      "mecenas": 1022,
+      "pessoas": 1090418,
+      "mecenas": 979,
       "conv": 0.09,
-      "lift": 0.16
+      "lift": 0.15
     },
     {
       "dim": "genero",
       "val": "Feminino",
-      "pessoas": 557076,
-      "mecenas": 3644,
-      "conv": 0.65,
+      "pessoas": 557776,
+      "mecenas": 3566,
+      "conv": 0.64,
       "lift": 1.1
     },
     {
       "dim": "genero",
       "val": "Masculino",
-      "pessoas": 930984,
-      "mecenas": 5283,
-      "conv": 0.57,
+      "pessoas": 932337,
+      "mecenas": 5193,
+      "conv": 0.56,
       "lift": 0.95
     },
     {
       "dim": "genero",
       "val": "?",
-      "pessoas": 51026,
-      "mecenas": 242,
-      "conv": 0.47,
-      "lift": 0.8
+      "pessoas": 51131,
+      "mecenas": 236,
+      "conv": 0.46,
+      "lift": 0.79
     },
     {
       "dim": "produto_previo",
       "val": "certificacao",
-      "pessoas": 3957,
-      "mecenas": 361,
-      "conv": 9.12,
-      "lift": 15.31
+      "pessoas": 3946,
+      "mecenas": 357,
+      "conv": 9.05,
+      "lift": 15.5
     },
     {
       "dim": "produto_previo",
       "val": "vitalicio",
-      "pessoas": 69504,
-      "mecenas": 4004,
-      "conv": 5.76,
-      "lift": 9.67
+      "pessoas": 70112,
+      "mecenas": 3959,
+      "conv": 5.65,
+      "lift": 9.68
     },
     {
       "dim": "produto_previo",
       "val": "black",
-      "pessoas": 2917,
+      "pessoas": 2913,
       "mecenas": 91,
       "conv": 3.12,
-      "lift": 5.24
+      "lift": 5.35
     },
     {
       "dim": "produto_previo",
       "val": "clube do livro",
-      "pessoas": 15384,
-      "mecenas": 366,
-      "conv": 2.38,
-      "lift": 3.99
+      "pessoas": 15359,
+      "mecenas": 354,
+      "conv": 2.3,
+      "lift": 3.95
     },
     {
       "dim": "produto_previo",
       "val": "nenhum high-ticket",
-      "pessoas": 1447324,
-      "mecenas": 4347,
-      "conv": 0.3,
+      "pessoas": 1448914,
+      "mecenas": 4234,
+      "conv": 0.29,
       "lift": 0.5
     },
     {
       "dim": "renda",
       "val": "decil 9-10",
-      "pessoas": 241769,
-      "mecenas": 3611,
-      "conv": 1.49,
+      "pessoas": 242120,
+      "mecenas": 3545,
+      "conv": 1.46,
       "lift": 2.51
     },
     {
       "dim": "renda",
       "val": "decil 7-8",
-      "pessoas": 247953,
-      "mecenas": 1760,
-      "conv": 0.71,
-      "lift": 1.19
+      "pessoas": 248318,
+      "mecenas": 1737,
+      "conv": 0.7,
+      "lift": 1.2
     },
     {
       "dim": "renda",
       "val": "sem CEP",
-      "pessoas": 281891,
-      "mecenas": 1344,
-      "conv": 0.48,
-      "lift": 0.8
+      "pessoas": 282212,
+      "mecenas": 1329,
+      "conv": 0.47,
+      "lift": 0.81
     },
     {
       "dim": "renda",
       "val": "decil 4-6",
-      "pessoas": 393581,
-      "mecenas": 1525,
-      "conv": 0.39,
+      "pessoas": 394165,
+      "mecenas": 1489,
+      "conv": 0.38,
       "lift": 0.65
     },
     {
       "dim": "renda",
       "val": "decil 1-3",
-      "pessoas": 373892,
-      "mecenas": 929,
-      "conv": 0.25,
-      "lift": 0.42
+      "pessoas": 374429,
+      "mecenas": 895,
+      "conv": 0.24,
+      "lift": 0.41
     },
     {
       "dim": "tempo_casa",
       "val": "7+ anos",
-      "pessoas": 22662,
-      "mecenas": 1025,
-      "conv": 4.52,
-      "lift": 7.59
+      "pessoas": 22797,
+      "mecenas": 1021,
+      "conv": 4.48,
+      "lift": 7.67
     },
     {
       "dim": "tempo_casa",
       "val": "4-7 anos",
-      "pessoas": 421820,
-      "mecenas": 5894,
-      "conv": 1.4,
+      "pessoas": 424383,
+      "mecenas": 5826,
+      "conv": 1.37,
       "lift": 2.35
     },
     {
       "dim": "tempo_casa",
       "val": "2-4 anos",
-      "pessoas": 412201,
-      "mecenas": 1947,
-      "conv": 0.47,
+      "pessoas": 411284,
+      "mecenas": 1897,
+      "conv": 0.46,
       "lift": 0.79
     },
     {
       "dim": "tempo_casa",
       "val": "1-2 anos",
-      "pessoas": 462862,
-      "mecenas": 248,
+      "pessoas": 462340,
+      "mecenas": 220,
       "conv": 0.05,
-      "lift": 0.09
+      "lift": 0.08
     },
     {
       "dim": "tempo_casa",
       "val": "<1 ano",
-      "pessoas": 219541,
-      "mecenas": 55,
-      "conv": 0.03,
-      "lift": 0.04
+      "pessoas": 220440,
+      "mecenas": 31,
+      "conv": 0.01,
+      "lift": 0.02
     }
   ],
   "cnpj": [
     {
       "dim": "capital",
       "val": "Capital acima de R$ 1 mi",
-      "pessoas": 30151,
-      "mecenas": 927,
-      "conv": 3.07,
-      "lift": 5.16,
-      "ticket": 12944.0
+      "pessoas": 30223,
+      "mecenas": 913,
+      "conv": 3.02,
+      "lift": 5.18,
+      "ticket": 13123.0
     },
     {
       "dim": "capital",
       "val": "Capital R$ 100 mil a 1 mi",
-      "pessoas": 74519,
-      "mecenas": 812,
-      "conv": 1.09,
-      "lift": 1.83,
-      "ticket": 6054.0
+      "pessoas": 74669,
+      "mecenas": 804,
+      "conv": 1.08,
+      "lift": 1.84,
+      "ticket": 6088.0
     },
     {
       "dim": "capital",
       "val": "Capital R$ 10 a 100 mil",
-      "pessoas": 123134,
-      "mecenas": 1032,
-      "conv": 0.84,
+      "pessoas": 123286,
+      "mecenas": 1015,
+      "conv": 0.82,
       "lift": 1.41,
-      "ticket": 5169.0
+      "ticket": 5242.0
     },
     {
       "dim": "capital",
       "val": "Capital abaixo de R$ 10 mil",
-      "pessoas": 136688,
-      "mecenas": 834,
-      "conv": 0.61,
-      "lift": 1.02,
-      "ticket": 4451.0
+      "pessoas": 136842,
+      "mecenas": 821,
+      "conv": 0.6,
+      "lift": 1.03,
+      "ticket": 4536.0
     },
     {
       "dim": "cnae",
       "val": "Atividades Financeiras, De Seguros E Serviços Relacionados",
-      "pessoas": 13218,
-      "mecenas": 292,
-      "conv": 2.21,
-      "lift": 3.71,
-      "ticket": 13214.0
-    },
-    {
-      "dim": "cnae",
-      "val": "Saúde Humana E Serviços Sociais",
-      "pessoas": 34308,
-      "mecenas": 679,
-      "conv": 1.98,
-      "lift": 3.32,
-      "ticket": 5532.0
+      "pessoas": 13453,
+      "mecenas": 284,
+      "conv": 2.11,
+      "lift": 3.62,
+      "ticket": 10978.0
     },
     {
       "dim": "cnae",
       "val": "Atividades Imobiliárias",
-      "pessoas": 13193,
-      "mecenas": 258,
-      "conv": 1.96,
-      "lift": 3.28,
-      "ticket": 9779.0
+      "pessoas": 13230,
+      "mecenas": 272,
+      "conv": 2.06,
+      "lift": 3.52,
+      "ticket": 9654.0
+    },
+    {
+      "dim": "cnae",
+      "val": "Saúde Humana E Serviços Sociais",
+      "pessoas": 34414,
+      "mecenas": 688,
+      "conv": 2.0,
+      "lift": 3.43,
+      "ticket": 5497.0
     },
     {
       "dim": "cnae",
       "val": "Informação E Comunicação",
-      "pessoas": 14951,
-      "mecenas": 180,
-      "conv": 1.2,
-      "lift": 2.02,
-      "ticket": 5395.0
+      "pessoas": 14978,
+      "mecenas": 178,
+      "conv": 1.19,
+      "lift": 2.04,
+      "ticket": 5630.0
     },
     {
       "dim": "cnae",
       "val": "Atividades Profissionais, Científicas E Técnicas",
-      "pessoas": 45247,
-      "mecenas": 500,
-      "conv": 1.11,
-      "lift": 1.85,
-      "ticket": 6320.0
+      "pessoas": 45429,
+      "mecenas": 479,
+      "conv": 1.05,
+      "lift": 1.81,
+      "ticket": 6549.0
     },
     {
       "dim": "cnae",
       "val": "Atividades Administrativas E Serviços Complementares",
-      "pessoas": 27955,
-      "mecenas": 247,
-      "conv": 0.88,
-      "lift": 1.48,
-      "ticket": 6024.0
+      "pessoas": 27828,
+      "mecenas": 231,
+      "conv": 0.83,
+      "lift": 1.42,
+      "ticket": 5990.0
     },
     {
       "dim": "cnae",
       "val": "Educação",
-      "pessoas": 18078,
-      "mecenas": 144,
-      "conv": 0.8,
-      "lift": 1.34,
-      "ticket": 5734.0
-    },
-    {
-      "dim": "cnae",
-      "val": "Indústrias De Transformação",
-      "pessoas": 29230,
-      "mecenas": 231,
-      "conv": 0.79,
-      "lift": 1.33,
-      "ticket": 9491.0
+      "pessoas": 18103,
+      "mecenas": 149,
+      "conv": 0.82,
+      "lift": 1.41,
+      "ticket": 5835.0
     },
     {
       "dim": "cnae",
       "val": "Construção",
-      "pessoas": 21459,
-      "mecenas": 164,
+      "pessoas": 21639,
+      "mecenas": 165,
       "conv": 0.76,
-      "lift": 1.28,
-      "ticket": 7244.0
+      "lift": 1.31,
+      "ticket": 8800.0
     },
     {
       "dim": "cnae",
-      "val": "Artes, Cultura, Esporte E Recreação",
-      "pessoas": 5183,
-      "mecenas": 35,
-      "conv": 0.68,
-      "lift": 1.13,
-      "ticket": 5458.0
+      "val": "Indústrias De Transformação",
+      "pessoas": 28894,
+      "mecenas": 215,
+      "conv": 0.74,
+      "lift": 1.27,
+      "ticket": 8977.0
     },
     {
       "dim": "cnae",
       "val": "Transporte, Armazenagem E Correio",
-      "pessoas": 13674,
-      "mecenas": 91,
+      "pessoas": 13634,
+      "mecenas": 92,
       "conv": 0.67,
+      "lift": 1.16,
+      "ticket": 8684.0
+    },
+    {
+      "dim": "cnae",
+      "val": "Artes, Cultura, Esporte E Recreação",
+      "pessoas": 5207,
+      "mecenas": 34,
+      "conv": 0.65,
       "lift": 1.12,
-      "ticket": 10522.0
+      "ticket": 6516.0
     },
     {
       "dim": "cnae",
       "val": "Outras Atividades De Serviços",
-      "pessoas": 26849,
-      "mecenas": 173,
-      "conv": 0.64,
-      "lift": 1.08,
-      "ticket": 4916.0
-    },
-    {
-      "dim": "cnae",
-      "val": "Água, Esgoto, Atividades De Gestão De Resíduos E Descontaminação",
-      "pessoas": 659,
-      "mecenas": 4,
+      "pessoas": 27090,
+      "mecenas": 165,
       "conv": 0.61,
-      "lift": 1.02,
-      "ticket": 5322.0
+      "lift": 1.04,
+      "ticket": 4977.0
     },
     {
       "dim": "cnae",
       "val": "Comércio; Reparação De Veículos Automotores E Motocicletas",
-      "pessoas": 81259,
-      "mecenas": 437,
+      "pessoas": 81193,
+      "mecenas": 435,
       "conv": 0.54,
-      "lift": 0.9,
-      "ticket": 5579.0
+      "lift": 0.92,
+      "ticket": 7546.0
     },
     {
       "dim": "cnae",
       "val": "Alojamento E Alimentação",
-      "pessoas": 13681,
-      "mecenas": 72,
-      "conv": 0.53,
-      "lift": 0.88,
-      "ticket": 5339.0
+      "pessoas": 13689,
+      "mecenas": 65,
+      "conv": 0.47,
+      "lift": 0.81,
+      "ticket": 4807.0
+    },
+    {
+      "dim": "cnae",
+      "val": "Água, Esgoto, Atividades De Gestão De Resíduos E Descontaminação",
+      "pessoas": 676,
+      "mecenas": 3,
+      "conv": 0.44,
+      "lift": 0.76,
+      "ticket": 4832.0
     },
     {
       "dim": "qtd_empresas",
       "val": "4",
-      "pessoas": 18873,
-      "mecenas": 525,
-      "conv": 2.78,
+      "pessoas": 18934,
+      "mecenas": 516,
+      "conv": 2.73,
       "lift": 4.67,
-      "ticket": 15034.0
+      "ticket": 15284.0
     },
     {
       "dim": "qtd_empresas",
       "val": "3",
-      "pessoas": 20034,
-      "mecenas": 421,
-      "conv": 2.1,
-      "lift": 3.53,
-      "ticket": 7502.0
+      "pessoas": 20065,
+      "mecenas": 416,
+      "conv": 2.07,
+      "lift": 3.55,
+      "ticket": 7575.0
     },
     {
       "dim": "qtd_empresas",
       "val": "2",
-      "pessoas": 55734,
-      "mecenas": 782,
-      "conv": 1.4,
+      "pessoas": 55832,
+      "mecenas": 770,
+      "conv": 1.38,
       "lift": 2.36,
-      "ticket": 6715.0
+      "ticket": 6831.0
     },
     {
       "dim": "qtd_empresas",
       "val": "1",
-      "pessoas": 269851,
-      "mecenas": 1877,
-      "conv": 0.7,
+      "pessoas": 270189,
+      "mecenas": 1851,
+      "conv": 0.69,
       "lift": 1.17,
-      "ticket": 5146.0
+      "ticket": 5199.0
     }
   ],
   "safras": [
@@ -558,94 +558,201 @@
       "pessoas": 2410,
       "ticket": 4721.0,
       "comercial": 100.0,
-      "renda_top": 40.0,
+      "renda_top": 40.3,
       "cartao_top": 66.8,
       "capital_1m": 14.1,
-      "vitalicio": 51.7,
-      "gasto_previo": 5375.0
+      "vitalicio": 51.9,
+      "gasto_previo": 5381.0
     },
     {
       "safra": "2026 H1",
       "pessoas": 692,
       "ticket": 4671.0,
       "comercial": 97.0,
-      "renda_top": 41.2,
+      "renda_top": 42.1,
       "cartao_top": 67.6,
       "capital_1m": 16.2,
       "vitalicio": 53.2,
-      "gasto_previo": 5914.0
+      "gasto_previo": 5928.0
     },
     {
       "safra": "2026-07",
       "pessoas": 161,
       "ticket": 4817.0,
       "comercial": 81.0,
-      "renda_top": 47.2,
+      "renda_top": 46.6,
       "cartao_top": 73.3,
       "capital_1m": 18.6,
       "vitalicio": 60.9,
-      "gasto_previo": 8374.0
+      "gasto_previo": 8385.0
     },
     {
       "safra": "2026-08",
-      "pessoas": 170,
-      "ticket": 1974.0,
-      "comercial": 36.0,
-      "renda_top": 41.2,
-      "cartao_top": 62.4,
-      "capital_1m": 14.1,
-      "vitalicio": 46.5,
-      "gasto_previo": 3878.0
+      "pessoas": 214,
+      "ticket": 1714.0,
+      "comercial": 35.0,
+      "renda_top": 41.1,
+      "cartao_top": 62.1,
+      "capital_1m": 13.6,
+      "vitalicio": 46.7,
+      "gasto_previo": 3684.0
     }
   ],
+  "solidario": {
+    "grupos": {
+      "controle": {
+        "pessoas": 620386,
+        "receita": 0.0,
+        "doacao_media": 0.0,
+        "doacao_mediana": 0.0,
+        "renda_top": 17.592595577592,
+        "cartao_top": 28.09686227606681,
+        "socio": 24.5405279938619,
+        "capital_1m": 3.2810218154503787,
+        "vitalicio": 10.267801014207281,
+        "certificacao": 0.8241643106066225,
+        "feminino": 37.77922132349862,
+        "idade": 51.31980353801664,
+        "idade_mediana": 50.0,
+        "anos_casa": 2.294070024190418,
+        "gasto_previo": 854.2761221723243,
+        "gasto_previo_mediana": 360.0,
+        "via_comercial": 27.854432562952695
+      },
+      "bolsa": {
+        "pessoas": 8972,
+        "receita": 0.0,
+        "doacao_media": 3476.165378956754,
+        "doacao_mediana": 2148.0,
+        "renda_top": 39.433794025858234,
+        "cartao_top": 60.722246990637544,
+        "socio": 39.50066874721356,
+        "capital_1m": 12.371823450735619,
+        "vitalicio": 43.9812750780205,
+        "certificacao": 13.23004904146233,
+        "feminino": 39.60098082924654,
+        "idade": 54.00577281191805,
+        "idade_mediana": 53.0,
+        "anos_casa": 5.142065421188598,
+        "gasto_previo": 3889.6284518502007,
+        "gasto_previo_mediana": 2494.0,
+        "via_comercial": 99.88854213107446
+      },
+      "solidario_novo": {
+        "pessoas": 180,
+        "receita": 99120.43000000002,
+        "doacao_media": 544.682388888889,
+        "doacao_mediana": 358.8,
+        "renda_top": 43.333333333333336,
+        "cartao_top": 58.333333333333336,
+        "socio": 28.333333333333332,
+        "capital_1m": 10.555555555555555,
+        "vitalicio": 35.0,
+        "certificacao": 5.0,
+        "feminino": 49.44444444444444,
+        "idade": 60.189655172413794,
+        "idade_mediana": 62.0,
+        "anos_casa": 3.8889649923896505,
+        "gasto_previo": 2221.588166666667,
+        "gasto_previo_mediana": 1229.9,
+        "via_comercial": 46.111111111111114
+      },
+      "solidario_ja_doador": {
+        "pessoas": 23,
+        "receita": 13320.6,
+        "doacao_media": 579.1565217391303,
+        "doacao_mediana": 358.8,
+        "renda_top": 30.43478260869565,
+        "cartao_top": 56.52173913043478,
+        "socio": 39.130434782608695,
+        "capital_1m": 0.0,
+        "vitalicio": 56.52173913043478,
+        "certificacao": 17.391304347826086,
+        "feminino": 56.52173913043478,
+        "idade": 62.46666666666667,
+        "idade_mediana": 65.0,
+        "anos_casa": 5.375104228707565,
+        "gasto_previo": 5035.179130434782,
+        "gasto_previo_mediana": 4322.0,
+        "via_comercial": 100.0
+      }
+    },
+    "faixas": [
+      {
+        "faixa": "R$ 1/dia (R$ 358,80)",
+        "pessoas": 118,
+        "receita": 42697.20000000001
+      },
+      {
+        "faixa": "R$ 2/dia (R$ 718,80)",
+        "pessoas": 63,
+        "receita": 46003.229999999996
+      },
+      {
+        "faixa": "R$ 3/dia (R$ 1.078,80)",
+        "pessoas": 17,
+        "receita": 18339.6
+      },
+      {
+        "faixa": "Mensal (R$ 27 a 97)",
+        "pessoas": 3,
+        "receita": 151.0
+      },
+      {
+        "faixa": "Pacote do Comercial (R$ 2 mil+)",
+        "pessoas": 2,
+        "receita": 5250.0
+      }
+    ]
+  },
   "segmentos": [
     {
       "segmento": "S1 Patrono: cap1M+ & black/amex & vitalicio",
-      "bolsao": 3091,
-      "bolsao_ativo": 2999,
-      "convertido": 12.0,
+      "bolsao": 3138,
+      "bolsao_ativo": 3044,
+      "convertido": 11.8,
       "lift": 20.2,
-      "ticket": 14814.0
+      "ticket": 14939.0
     },
     {
       "segmento": "S3 Fiel rico: black/amex & vitalicio & 2k+",
-      "bolsao": 19730,
-      "bolsao_ativo": 18560,
-      "convertido": 9.6,
+      "bolsao": 19861,
+      "bolsao_ativo": 18686,
+      "convertido": 9.5,
       "lift": 16.2,
-      "ticket": 6343.0
+      "ticket": 6434.0
     },
     {
       "segmento": "S6 Certificacao & premium",
-      "bolsao": 226,
+      "bolsao": 225,
       "bolsao_ativo": 93,
-      "convertido": 8.1,
-      "lift": 13.6,
+      "convertido": 8.2,
+      "lift": 14.0,
       "ticket": 5250.0
     },
     {
       "segmento": "S5 Alto gasto premium",
-      "bolsao": 11440,
-      "bolsao_ativo": 8728,
-      "convertido": 5.1,
+      "bolsao": 11442,
+      "bolsao_ativo": 8727,
+      "convertido": 5.0,
       "lift": 8.6,
-      "ticket": 5735.0
+      "ticket": 5742.0
     },
     {
       "segmento": "S2 Empresario premium: cap1M+ & black/amex",
-      "bolsao": 16181,
-      "bolsao_ativo": 9117,
-      "convertido": 2.8,
-      "lift": 4.6,
-      "ticket": 12028.0
+      "bolsao": 16206,
+      "bolsao_ativo": 9140,
+      "convertido": 2.7,
+      "lift": 4.7,
+      "ticket": 12161.0
     },
     {
       "segmento": "S4 Socio qualificado: socio & black/amex & decil9+",
-      "bolsao": 19685,
-      "bolsao_ativo": 11461,
-      "convertido": 2.0,
-      "lift": 3.4,
-      "ticket": 5784.0
+      "bolsao": 19748,
+      "bolsao_ativo": 11505,
+      "convertido": 1.9,
+      "lift": 3.3,
+      "ticket": 5894.0
     }
   ]
 }

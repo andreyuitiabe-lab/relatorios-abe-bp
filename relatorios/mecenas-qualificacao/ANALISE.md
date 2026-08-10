@@ -19,34 +19,48 @@ Importa porque a abordagem de Mecenas é feita pelo Comercial, um a um, com cust
 
 | Decisão | Por quê |
 |---|---|
-| **Doador = compra Mecenas ≥ R$ 300** | Ver abaixo — é a decisão que mais afeta os números |
+| **Doador de bolsa = compra Mecenas ≥ R$ 1.000** | O produto nasceu como patrocínio de bolsa: 1 bolsa custa R$ 1.188 ou R$ 1.668. Abaixo de R$ 1.000 não existe bolsa inteira. Decisão de negócio (ago/2026) |
+| **Mecenas Solidário analisado à parte** | Campanha atual (jul/2026+), de ~R$ 30/mês sem teto. É outra população — misturar produz um perfil médio que não existe. Identificado por **produto**, nunca por valor: a oferta de R$ 1.078,80 passa de R$ 1.000 e cairia em "bolsa" |
 | Chave = **`id_person`** (identity graph), não e-mail | **20,6% dos doadores têm mais de uma conta.** Agregar por e-mail infla a contagem e subestima a doação por pessoa. Resolução por e-mail, telefone ou CPF via `dim_person_identity`; apoio em `tb_mecenas_person_map` |
 | Universo = **1,54M compradores** (≥1 tx aprovada), não só membros ativos | É o universo abordável real. Membro ativo (618,5k) é o grupo de controle |
 | Grupo de controle **explícito** em toda comparação | "40% dos doadores são decil 9+" não diz nada sem o 17,7% da base. Tudo é reportado como **lift** |
-| Segmentar em **3 tiers** por maior doação | Não são uma população só: Solidário, Bolsas, Alto. Misturá-los produz um perfil médio que não existe |
+| Segmentar o doador de bolsa em **3 faixas** por maior doação | Bolsa única, múltiplas bolsas e alto (>R$10 mil) têm perfis diferentes; a média deles não descreve ninguém |
 | Validação **out-of-time** (treino ≤ jun/2026, teste jul–ago/2026), excluindo quem já era doador | Sem isso o lift é vazamento: o modelo "acerta" quem já converteu |
 | CNPJ: vários thresholds, controle estratificado **e** logística completa | Sócio correlaciona com riqueza *e* com antiguidade — só o controle completo revela o que sobra |
 
-### ⚠️ A decisão que mais mexe nos números: excluir os order bumps
+### ⚠️ As três populações (a decisão que mais mexe nos números)
+
+O rótulo "Mecenas" cobre três coisas que não têm relação entre si. Separá-las é a decisão estruturante desta análise:
+
+| População | O que é | Como identificar | Pessoas |
+|---|---|---|---|
+| **Bolsa** | Patrocínio de bolsa, o produto original (2021→hoje). 1 bolsa = R$ 1.188 ou R$ 1.668; pacotes vão a 500 bolsas | Mecenas, não Solidário, não order bump, **≥ R$ 1.000** | **8.995** |
+| **Solidário** | Campanha atual (jul/2026+). Recorrente de ~R$ 30/mês, sem teto | Produto/oferta contendo "solid", ou plano `mecenas_mecenas-solidario-premium` | **203** |
+| **Order bump** | R$ 180 (R$ 15/mês) marcado no checkout de outro produto | Oferta **ou produto** contendo "order bump" **e** Mecenas | 6.961 |
+
+⚠️ O corte de R$ 1.000 deixa fora o **pagamento fracionado** de 1 bolsa (ex.: 2× R$ 594). Perda pequena, aceita para não contaminar o perfil.
+
+### ⚠️ E os order bumps
 
 Existem **dois** order bumps de Mecenas, e só um se identifica pelo nome:
 
 | Order bump | Como identificar | Volume |
 |---|---|---|
-| `BP Essencial - 20%Off Order Bump Mecenas` | `nm_gateway_offer LIKE '%order bump%'` (`nm_gateway_plan = 'good'`) | ~336 tx/mês |
-| **`Brasil Paralelo / Comercial - Mecenas Order Bump`** (R$ 180 = R$ 15/mês) | ⚠️ **Não tem "order bump" na oferta** — as ofertas são "Adicione + R$ 15/mês…" e "Upsell pós compra…". **Só o corte `vl_payment_gross >= 300` pega** | 2.726 pessoas |
+| `BP Essencial - 20%Off Order Bump Mecenas` | tem "order bump" na **oferta** (`nm_gateway_plan = 'good'`) | ~336 tx/mês |
+| **`Brasil Paralelo / Comercial - Mecenas Order Bump`** (R$ 180 = R$ 15/mês) | ⚠️ **Não tem "order bump" na oferta** ("Adicione + R$ 15/mês…", "Upsell pós compra…") — só se pega testando o **produto** | 6.961 pessoas |
 
-O segundo é um checkbox no checkout de assinatura barata. Em **mar/2026** ele produziu 2.535 "vendas Mecenas" com ticket de R$ 421 (94% do mês), vindas de tráfego pago de aquisição de plano Básico — 28% eram clientes novos comprando no mesmo dia. **Não é população de doador**, e incluí-la contamina todo o perfil.
+O segundo é um checkbox no checkout de assinatura barata. Em **mar/2026** ele produziu 2.535 "vendas Mecenas" com ticket de R$ 421 (94% do mês), vindas de tráfego pago de aquisição de plano Básico — 28% eram clientes novos comprando no mesmo dia. **Não é população de doador.**
 
-Sanity check: por e-mail dá 9.482 ≈ os **9.499** da análise de profissão de 05/08/2026 (que também contava por e-mail). Consolidando por pessoa, **9.169**.
+⚠️ O filtro de order bump é restrito a Mecenas de propósito: order bump de Clube do Livro ou BP Clube é compra legítima e continua contando no histórico (`vl_total_outras`). Sem essa restrição o gasto prévio de todo mundo afunda.
 
-**Definição canônica final:** `nm_gateway_plan LIKE 'mecenas%'` (exceto `mecenas_bp-essencial`) ou produto contendo "mecenas", **excluindo** oferta com "order bump" **e** `vl_payment_gross >= 300`.
+**Definição canônica:** ver o bloco de flags em [00_base_qualificacao.sql](queries/00_base_qualificacao.sql) — as três populações são calculadas lá, com comentário explicando cada corte.
 
 ## Números de referência
 
-- **9.169 doadores** (pessoas reais) / **R$ 52,56M** histórico
-- Universo: 1.539.086 compradores → **taxa base 0,596%**
-- Controle: 618.499 membros ativos que nunca doaram
+- **8.995 doadores de bolsa** (pessoas reais) / **R$ 52,44M** histórico
+- Universo: 1.541.244 compradores → **taxa base 0,584%**
+- Controle: 620.563 membros ativos que nunca doaram
+- **Mecenas Solidário: 203 pessoas / R$ 112 mil** (campanha atual, seção 13)
 - Multi-conta: 1,24 contas por doador (1,08 na base geral) — quem compra muito espalha mais
 
 ## Achados principais
@@ -55,27 +69,27 @@ Sanity check: por e-mail dá 9.482 ≈ os **9.499** da análise de profissão de
 
 | Tier | Critério (maior doação) | Pessoas | Receita | R$/pessoa | % receita |
 |---|---|---|---|---|---|
-| Solidário | R$ 359–1.188 | 174 | R$ 0,10M | 599 | 0,2% |
-| Bolsas | R$ 1.188–10k | 8.689 | R$ 37,51M | 4.317 | 71,4% |
-| **Alto** | > R$ 10k | **306** | **R$ 14,95M** | 48.849 | **28,4%** |
+| Bolsa única | R$ 1–2 mil | 4.111 | R$ 8,36M | 2.033 | 15,9% |
+| Múltiplas bolsas | R$ 2–10 mil | 4.578 | R$ 29,14M | 6.366 | 55,6% |
+| **Alto** | > R$ 10 mil | **306** | **R$ 14,94M** | 48.833 | **28,5%** |
 
-**306 pessoas (3,3% dos doadores) respondem por 28,4% da receita.** Qualificar para o topo é um problema de algumas centenas de pessoas, não de segmentação de massa.
+**306 pessoas (3,4% dos doadores) respondem por 28,5% da receita.** Qualificar para o topo é um problema de algumas centenas de pessoas, não de segmentação de massa.
 
 ### 2. Perfil: doador vs. membro padrão
 
-| Atributo | **Membro ativo (618,5k)** | Doador bolsas (8.863) | **Doador alto (306)** | Lift alto |
+| Atributo | **Membro ativo (620,6k)** | Doador de bolsa (8.688) | **Doador alto (306)** | Lift alto |
 |---|---|---|---|---|
 | Renda decil 9-10 | 17,6% | 39,0% | 50,7% | 2,9× |
-| Cartão black/amex | 28,1% | 59,9% | 81,0% | 2,9× |
-| Sócio de empresa | 24,5% | 38,6% | 59,8% | 2,4× |
+| Cartão black/amex | 28,1% | 60,0% | 81,0% | 2,9× |
+| Sócio de empresa | 24,5% | 38,8% | 59,8% | 2,4× |
 | **Empresa capital 1M+** | **3,3%** | 11,1% | **47,7%** | **14,5×** |
-| Já tem vitalício | 10,2% | 43,3% | 52,9% | 5,2× |
-| Já tem certificação | 0,8% | 12,7% | 22,9% | 28,6× |
-| Já tem Clube do Livro | 3,7% | 16,8% | 33,0% | 8,9× |
-| Gasto prévio (fora doação) | R$ 857 | R$ 3.616 | **R$ 10.801** | 12,6× |
-| Mulheres | 37,8% | 40,1% | 29,4% | 0,8× |
+| Já tem vitalício | 10,3% | 43,7% | 52,9% | 5,1× |
+| Já tem certificação | 0,8% | 12,9% | 22,9% | 28,6× |
+| Já tem Clube do Livro | 3,7% | 16,9% | 33,0% | 8,9× |
+| Gasto prévio (fora doação) | R$ 855 | R$ 3.649 | **R$ 10.819** | 12,7× |
+| Mulheres | 37,8% | 40,0% | 29,4% | 0,8× |
 | Idade média | 51,3 | 54,0 | 56,2 | — |
-| Tempo de casa | 2,3 anos | 5,1 anos | 4,9 anos | 2,1× |
+| Tempo de casa | 2,3 anos | 5,2 anos | 4,9 anos | 2,1× |
 
 **O doador de alto valor é: sócio de empresa grande, cartão black/amex, já comprou vitalício + certificação, gastou ~R$ 10,8 mil na BP antes de doar, ~4,9 anos de casa, homem de ~56 anos.**
 
@@ -83,20 +97,22 @@ Sanity check: por e-mail dá 9.482 ≈ os **9.499** da análise de profissão de
 
 | Feature | Conversão | Lift |
 |---|---|---|
-| Gasto prévio R$ 5k+ | 14,64% | **24,6×** |
-| Já comprou certificação | 9,12% | **15,3×** |
-| Já tem vitalício | 5,76% | **9,7×** |
-| 7+ anos de casa | 4,52% | **7,6×** |
-| Gasto prévio R$ 2–5k | 4,13% | 6,9× |
-| Black (produto) | 3,12% | 5,2× |
-| Sócio com capital 1M+ | 3,07% | 5,2× |
-| Sócio com 4+ empresas | 2,78% | 4,7× |
-| Já tem Clube do Livro | 2,38% | 4,0× |
-| Cartão black/amex | 1,91% | 3,2× |
-| Decil de renda 9-10 | 1,49% | 2,5× |
-| Sócio de empresa (@0,95) | 0,99% | 1,7× |
-| Gênero feminino | 0,65% | 1,1× |
+| Gasto prévio R$ 5k+ | 14,51% | **24,9×** |
+| Já comprou certificação | 9,05% | **15,5×** |
+| Já tem vitalício | 5,65% | **9,7×** |
+| 7+ anos de casa | 4,48% | **7,7×** |
+| Gasto prévio R$ 2–5k | 4,06% | 7,0× |
+| Black (produto) | 3,12% | 5,4× |
+| Sócio com capital 1M+ | 3,02% | 5,2× |
+| Sócio com 4+ empresas | 2,73% | 4,7× |
+| Já tem Clube do Livro | 2,30% | 4,0× |
+| Cartão black/amex | 1,87% | 3,2× |
+| Decil de renda 9-10 | 1,46% | 2,5× |
+| Sócio de empresa (@0,95) | 0,97% | 1,7× |
+| Gênero feminino | 0,64% | 1,1× |
 | **Sem cartão mapeado** | 0,09% | **0,15×** |
+| **1–2 anos de casa** | 0,05% | **0,08×** |
+| **< 1 ano de casa** | 0,01% | **0,02×** |
 
 **Comportamento de compra domina demografia.** Quanto a pessoa já gastou vale ~10× mais como sinal do que o decil de renda dela. Gênero é ruído (1,1×). E **não ter nível de cartão mapeado é sinal negativo forte** (0,2×) — é informação, não ausência dela.
 
@@ -111,14 +127,14 @@ Resposta à pergunta do time, em quatro camadas — porque ela muda conforme o c
 
 | Recorte | Lift | Doação média |
 |---|---|---|
-| Capital acima de R$ 1 mi | **5,16×** | R$ 12.944 |
-| Capital R$ 100 mil–1 mi | 1,83× | R$ 6.054 |
-| Capital R$ 10–100 mil | 1,41× | R$ 5.169 |
-| Capital abaixo de R$ 10 mil | 1,02× | R$ 4.451 |
-| 4+ empresas | **4,67×** | R$ 15.034 |
-| 1 empresa | 1,17× | R$ 5.146 |
+| Capital acima de R$ 1 mi | **5,18×** | R$ 13.123 |
+| Capital R$ 100 mil–1 mi | 1,84× | R$ 6.088 |
+| Capital R$ 10–100 mil | 1,41× | R$ 5.242 |
+| Capital abaixo de R$ 10 mil | 1,03× | R$ 4.536 |
+| 4+ empresas | **4,67×** | R$ 15.284 |
+| 1 empresa | 1,17× | R$ 5.199 |
 
-**Setores (CNAE):** financeiro/seguros **3,71×** (doação média R$ 13.214), saúde 3,32× (R$ 5.532), imobiliário 3,28× (R$ 9.779), informação/comunicação 2,02×. **Comércio fica abaixo da base (0,90×)** — não vale abordar. Educação, apesar de ser o tema do produto, é só 1,34×.
+**Setores (CNAE):** financeiro/seguros **3,62×** (doação média R$ 10.978), imobiliário 3,52× (R$ 9.654), saúde 3,43× (R$ 5.497). **Comércio fica abaixo da base** — não vale abordar. Educação, apesar de ser o tema do produto, é só 1,34×.
 
 **Uso prático:** filtrar por `vl_share_capital_total >= 1.000.000`, nunca pela flag de sócio. **Exceção:** para público **sem histórico transacional**, o CNPJ volta a ajudar (no modelo estrutural `socio_95` reaparece com coef 0,068).
 
@@ -197,14 +213,14 @@ Bolsões de quem **ainda não doou**:
 
 | Segmento | Bolsão | Membros ativos | Já doaram | Lift | Doação esperada |
 |---|---|---|---|---|---|
-| **S1 Patrono** — capital 1M+ & black/amex & vitalício | **3.091** | 2.999 | 12,0% | **20,2×** | R$ 14.814 |
-| **S3 Fiel rico** — black/amex & vitalício & gasto 2k+ | **19.730** | 18.560 | 9,6% | **16,2×** | R$ 6.343 |
-| S6 Certificação & premium | 226 | 93 | 8,1% | 13,6× | R$ 5.250 |
-| S5 Alto gasto premium | 11.440 | 8.728 | 5,1% | 8,6× | R$ 5.735 |
-| S2 Empresário premium — capital 1M+ & black/amex | 16.181 | 9.117 | 2,8% | 4,6× | R$ 12.028 |
-| S4 Sócio qualificado — sócio & black/amex & decil 9+ | 19.685 | 11.461 | 2,0% | 3,4× | R$ 5.784 |
+| **S1 Patrono** — capital 1M+ & black/amex & vitalício | **3.138** | 3.044 | 11,8% | **20,2×** | R$ 14.939 |
+| **S3 Fiel rico** — black/amex & vitalício & gasto 2k+ | **19.861** | 18.686 | 9,5% | **16,2×** | R$ 6.434 |
+| S6 Certificação & premium | 225 | 93 | 8,2% | 14,0× | R$ 5.250 |
+| S5 Alto gasto premium | 11.442 | 8.727 | 5,0% | 8,6× | R$ 5.742 |
+| S2 Empresário premium — capital 1M+ & black/amex | 16.206 | 9.140 | 2,7% | 4,7× | R$ 12.161 |
+| S4 Sócio qualificado — sócio & black/amex & decil 9+ | 19.748 | 11.505 | 1,9% | 3,3× | R$ 5.894 |
 
-**Ordem de ataque: S1 → S3 → S2.** S1+S3 = 22,8k pessoas com lift 16–20×.
+**Ordem de ataque: S1 → S3 → S2.** S1+S3 = 23,0k pessoas com lift 16–20×.
 
 ### 10. Direcionamento de mídia (para o time de marketing)
 
@@ -230,22 +246,59 @@ Causa diagnosticada: a execução com N=3.747 incluía os order bumps de R$ 180 
 
 ### 12. Os cinco ICPs (k-means)
 
-Clusterização dos 9.169 doadores. **O valor da doação não entra no modelo** — não é conhecido antes de a pessoa doar, e incluí-lo produziria perfis impossíveis de localizar na base. O mesmo modelo é aplicado aos 618,5k membros ativos para dimensionar o alvo de mídia de cada perfil.
+Clusterização dos 8.995 doadores de bolsa. **O valor da doação não entra no modelo** — não é conhecido antes de a pessoa doar, e incluí-lo produziria perfis impossíveis de localizar na base. O mesmo modelo é aplicado aos 618,5k membros ativos para dimensionar o alvo de mídia de cada perfil.
+
+Com o Solidário fora do label (analisado à parte, §13), os doadores de bolsa se separam por dois eixos limpos: **tem empresa** × **tem histórico de produto high-ticket**. K=4; um dos clusters é resíduo de 10 pessoas e foi descartado.
 
 | ICP | Doadores | % receita | Doa | Marca registrada | Alvo na base | Lift |
 |---|---|---|---|---|---|---|
-| **A · Empresário** | 3.095 | **41,1%** | R$ 6.985 | 91% sócio · 31% capital 1M+ · 71% homem · 0,4% certificação | **39.686** | 4,9× |
-| **B · Aluno colecionador** | 1.182 | 20,1% | **R$ 8.954** | 100% certificação · 69% vitalício · gastou R$ 8.999 antes | 4.191 | **15,1×** |
-| **C · Vitalício fiel** | 2.150 | 19,8% | R$ 4.848 | 91% vitalício · só 4,7% sócio · 49% mulher | 29.019 | 4,7× |
-| **D · Assinante comum** | 2.631 | 18,7% | R$ 3.743 | 0% vitalício · 0% certificação · gastou só R$ 1.177 | **99.771** | 1,8× |
-| E · R$ 1 por dia | 111 | 0,2% | R$ 782 | Solidário, 0% Comercial, 59 anos | — | 0,02× |
+| **A · Empresário** | 3.546 | **52,6%** | R$ 7.780 | 91% sócio · 31% capital 1M+ · 70% homem | **36.656** | 6,2× |
+| **B · Vitalício fiel** | 2.673 | 27,4% | R$ 5.378 | 89% vitalício · 22% certificação · só 4,7% sócio · 47% mulher | 29.930 | 5,7× |
+| **C · Assinante comum** | 2.766 | 19,9% | R$ 3.779 | 0% vitalício · 0% certificação · gastou só R$ 1.221 | **106.299** | 1,8× |
 
-- **B → Comercial, um a um.** Maior propensão do conjunto (22% já doaram), mas só 4,2k pessoas: não sustenta campanha.
-- **A e C → mídia.** Somados, 68,7k pessoas com propensão ~5×. ⚠️ **Pedem mensagens opostas**: A é patrocínio/legado (financia como quem patrocina obra), C é pertencimento (continuação de anos acompanhando a BP). Rodar uma campanha só desperdiça um dos dois — é a decisão de criativo mais concreta desta análise.
-- **D → volume.** Maior bolsão (99,8k), propensão 1,8×. Notável: gastou R$ 1.177 e doa R$ 3.743 — **doa mais do que já gastou na vida**. Capacidade de doar não se lê pelo consumo passado.
-- ⚠️ **E não é segmentável** (lift 0,02×, indistinguível da base): converte por oferta e canal, não por perfil. Mídia ampla com a oferta, nunca lookalike.
+- **A e B são o ponto ótimo de mídia** e valem quase o mesmo: propensão 6,2× e 5,7×, somando 66,6k pessoas. ⚠️ **Pedem mensagens opostas**: A é patrocínio/legado (financia como quem patrocina obra), B é pertencimento (continuação de anos acompanhando a BP) — e B é o único em que o conteúdo da formação é argumento, porque ele é aluno. Rodar uma campanha só desperdiça um dos dois: é a decisão de criativo mais concreta desta análise.
+- **B tem o maior gasto prévio** (R$ 5.832) — mais que o empresário. O dinheiro dele vem de salário ou patrimônio, não de CNPJ.
+- **C → volume.** Maior bolsão (106,3k), propensão 1,8×. Notável: gastou R$ 1.221 e doa R$ 3.779 — **doa mais do que já gastou na vida**. Capacidade de doar não se lê pelo consumo passado.
 
-**Fora dos clusters:** 419 doadores (4,6%, 5,8% da receita) gastaram < R$ 100 antes de doar — para **98% deles a doação foi a primeira compra na BP**, com R$ 7.214 médios. Vieram pela causa, sem funil de produto. Candidato a teste de aquisição falando só da causa.
+**Fora dos clusters:** 411 doadores (4,6%, 5,8% da receita) gastaram < R$ 100 antes de doar — para **98% deles a doação foi a primeira compra na BP**, com R$ 7.341 médios. Vieram pela causa, sem funil de produto. Candidato a teste de aquisição falando só da causa.
+
+
+### 13. Mecenas Solidário — a campanha atual
+
+Produto lançado em jul/2026: contribuição recorrente a partir de ~R$ 30/mês, sem teto. **203 pessoas, R$ 112 mil.** Faixa escolhida:
+
+| Faixa | Pessoas | % | Receita |
+|---|---|---|---|
+| R$ 1/dia (R$ 358,80) | 118 | 58,1% | R$ 42.697 |
+| R$ 2/dia (R$ 718,80) | 63 | 31,0% | **R$ 46.003** |
+| R$ 3/dia (R$ 1.078,80) | 17 | 8,4% | R$ 18.340 |
+| Mensal (R$ 27 a 97) | 3 | 1,5% | R$ 151 |
+| Pacote do Comercial (R$ 2 mil+) | 2 | 1,0% | R$ 5.250 |
+
+⚠️ **A faixa de R$ 2/dia arrecada mais que a de R$ 1/dia** (R$ 46,0k vs R$ 42,7k) com metade das pessoas. Há espaço para posicionar o degrau do meio como padrão.
+
+#### O achado: mesmo dinheiro, pessoa diferente
+
+| Atributo | **Solidário (180)** | Doador de bolsa (8.972) | Membro ativo | Significância |
+|---|---|---|---|---|
+| Contribuição típica | R$ 359 | R$ 2.148 | — | — |
+| **Mulheres** | **51,4%** | 40,7% | 37,8% | **p=0,005** ✓ |
+| **Idade mediana** | **62 anos** | 53 anos | 51 | **p=0,0003** ✓ |
+| Renda no topo (decil 9-10) | 43,6% | 40,0% | 17,6% | p=0,36 ✗ |
+| Cartão black/amex | 60,7% | 62,8% | 28,1% | p=0,58 ✗ |
+| Já tem vitalício | 35,0% | 44,0% | 10,3% | p=0,019 ✓ |
+| **Gasto prévio (mediana)** | **R$ 1.230** | R$ 2.494 | R$ 360 | **p<0,001** ✓ |
+| Já comprou pelo Comercial | 46,1% | 99,9% | 27,9% | — |
+
+**O ticket baixo não é limitação de renda.** Renda e cartão são estatisticamente **iguais** aos do doador de bolsa — e o fato de não serem distinguíveis é o achado, não falta de dado. Quem compra Solidário tem o mesmo poder aquisitivo de quem patrocina uma bolsa de R$ 1.668; contribui menos porque essa é a porta que passou a existir para ele.
+
+**O que muda é quem ele é:** mais velho (62 vs 53), mais feminino (51% vs 41%) e com metade do histórico de compra na BP. **É a persona que o Mecenas clássico não alcançava** — e a mensagem de "patrocine uma bolsa" não é a que a converte.
+
+**Metade não passa pelo Comercial** (46% vs 99,9% do doador de bolsa): é o primeiro produto Mecenas que converte sem venda consultiva.
+
+**Canibalização:** 23 pessoas que já eram doadoras de bolsa também compraram Solidário — e são as de maior gasto prévio do grupo (mediana R$ 4.322), 100% via Comercial, 57% vitalício. Vale checar se estão trocando bolsa por contribuição mensal.
+
+⚠️ Ressalva: a idade só existe para uma fração da base (n=58 no Solidário), então a mediana de idade é a menos firme das quatro diferenças significativas.
 
 
 ## Pendências / próximos passos
@@ -276,6 +329,8 @@ Clusterização dos 9.169 doadores. **O valor da doação não entra no modelo**
 | [00b_person_map.sql](queries/00b_person_map.sql) | Mapa conta do gateway → pessoa real (id_person) |
 | [09_cnpj_capital_setor.sql](queries/09_cnpj_capital_setor.sql) | Propensão por capital, nº de empresas e CNAE |
 | [10_direcionamento_midia.sql](queries/10_direcionamento_midia.sql) | Sazonalidade, geografia por UF e janela pós-compra |
+| [11_perfil_solidario.sql](queries/11_perfil_solidario.sql) | Perfil do Mecenas Solidário vs doador de bolsa vs controle |
+| [12_lista_abordagem_fundador_black.sql](queries/12_lista_abordagem_fundador_black.sql) | Lista de abordagem: Membros Fundadores + Black, com exclusões |
 
 **Modelos:** [modelo/icp_clusters.py](modelo/icp_clusters.py) — k-means dos 5 ICPs + dimensionamento do alvo. [modelo/logistica_multivariada.py](modelo/logistica_multivariada.py) — logística com validação out-of-time e blocos de controle para o CNPJ. Saídas em `modelo/saida/`.
 

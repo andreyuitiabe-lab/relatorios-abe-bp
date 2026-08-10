@@ -6,11 +6,10 @@
 -- Resolução via dim_person_identity por e-mail, telefone OU CPF (o que casar primeiro).
 -- Quem não resolve cai num id sintético a partir do e-mail, para não sumir da base.
 --
--- ⚠️ Doador = compra Mecenas >= R$ 300. Dois order bumps precisam sair e só um tem
--- "order bump" no nome da oferta:
---   (a) BP Essencial - 20%Off Order Bump Mecenas → pega pelo nome
---   (b) Brasil Paralelo/Comercial - Mecenas Order Bump (R$180 = R$15/mês) → ofertas
---       "Adicione + R$ 15/mês..." / "Upsell pós compra...". Só o corte de valor pega.
+-- ⚠️ TRÊS populações separadas (ver bloco de flags abaixo), nunca somar:
+--   bl_is_mecenas    = BOLSA, o doador clássico (>= R$ 1.000). É a base da análise de perfil.
+--   bl_is_solidario  = campanha atual (jul/2026+), de ~R$ 30/mês sem teto.
+--   bl_is_order_bump = R$ 180 no checkout de outro produto. Não é doador.
 --
 -- ⚠️ id_person NÃO é estável entre runs do dbt (ver wiki dbt-identity-graph) — sempre
 -- reresolver via JOIN, nunca armazenar em modelo incremental.
@@ -51,12 +50,47 @@ tx AS (
     t.nm_gateway_plan,
     t.bl_lifetime_offer,
     t.bl_is_commercial_channel,
+    -- ── Três populações distintas, nunca misturar ─────────────────────────────
+    -- O Mecenas nasceu como PATROCÍNIO DE BOLSA: 1 bolsa = R$ 1.188 (com desconto) ou
+    -- R$ 1.668. Todo o histórico 2021–2026 é assim (Bolsas, Missão Mecenas, Funding,
+    -- Patrono, Certificação). É esse o "doador clássico" da análise de perfil.
+
+    -- 1) BOLSA — doador clássico. Corte em R$ 1.000 (decisão de negócio, ago/2026): abaixo
+    --    disso não existe bolsa inteira. ⚠️ Deixa fora o pagamento fracionado de 1 bolsa
+    --    (ex.: 2× R$ 594); perda pequena, aceitável para não contaminar o perfil.
     (
-      ((t.nm_gateway_plan LIKE 'mecenas%' AND t.nm_gateway_plan <> 'mecenas_bp-essencial')
-        OR LOWER(COALESCE(t.nm_gateway_product, '')) LIKE '%mecenas%')
+      LOWER(COALESCE(t.nm_gateway_product, '')) NOT LIKE '%solid%'
+      AND LOWER(COALESCE(t.nm_gateway_offer, '')) NOT LIKE '%solid%'
+      AND t.nm_gateway_plan <> 'mecenas_mecenas-solidario-premium'
       AND LOWER(COALESCE(t.nm_gateway_offer, '')) NOT LIKE '%order bump%'
-      AND t.vl_payment_gross >= 300
-    ) AS bl_mecenas
+      AND LOWER(COALESCE(t.nm_gateway_product, '')) NOT LIKE '%order bump%'
+      AND ((t.nm_gateway_plan LIKE 'mecenas%' AND t.nm_gateway_plan <> 'mecenas_bp-essencial')
+        OR LOWER(COALESCE(t.nm_gateway_product, '')) LIKE '%mecenas%')
+      AND t.vl_payment_gross >= 1000
+    ) AS bl_bolsa,
+
+    -- 2) SOLIDÁRIO — campanha atual (jul/2026+). Recorrente a partir de ~R$ 30/mês, sem teto.
+    --    Ofertas: R$ 27 e R$ 97 mensais; anuais de R$ 358,80 / 718,80 / 1.078,80 ("1, 2 ou 3
+    --    reais por dia"); e pacotes do Comercial por meses de formação (até R$ 3.000).
+    --    ⚠️ Identificar por PRODUTO, nunca por valor: o de R$ 1.078,80 passa de R$ 1.000 e
+    --    cairia em "bolsa" por engano.
+    (
+      LOWER(COALESCE(t.nm_gateway_product, '')) LIKE '%solid%'
+      OR LOWER(COALESCE(t.nm_gateway_offer, '')) LIKE '%solid%'
+      OR t.nm_gateway_plan = 'mecenas_mecenas-solidario-premium'
+    ) AS bl_solidario,
+
+    -- 3) ORDER BUMP DE MECENAS — R$ 180 (R$ 15/mês) marcado no checkout de outro produto.
+    --    NÃO é doador. Um dos dois não tem "order bump" no nome da OFERTA, daí testar também
+    --    o produto. ⚠️ Restringir a Mecenas: order bump de CDL/BP Clube é compra legítima e
+    --    deve continuar contando no histórico (vl_total_outras), senão o gasto prévio afunda.
+    (
+      (LOWER(COALESCE(t.nm_gateway_offer, '')) LIKE '%order bump%'
+        OR LOWER(COALESCE(t.nm_gateway_product, '')) LIKE '%order bump%')
+      AND (LOWER(COALESCE(t.nm_gateway_offer, '')) LIKE '%mecenas%'
+        OR LOWER(COALESCE(t.nm_gateway_product, '')) LIKE '%mecenas%'
+        OR t.nm_gateway_plan LIKE 'mecenas%')
+    ) AS bl_order_bump
   FROM `bp-datawarehouse.masterdata.fct_transactions` t
   JOIN contato ct ON ct.id_gateway_customer = t.id_gateway_customer
   WHERE t.nm_status = 'approved'
@@ -65,22 +99,28 @@ tx AS (
 pessoa AS (
   SELECT
     id_person,
-    MAX(bl_mecenas)                                          AS bl_is_mecenas,
+    MAX(bl_bolsa)                                            AS bl_is_mecenas,     -- doador clássico
+    MAX(bl_solidario)                                        AS bl_is_solidario,
+    MAX(bl_order_bump)                                       AS bl_is_order_bump,
     MIN(dt_ordered_at)                                       AS dt_primeira_compra,
     MAX(dt_ordered_at)                                       AS dt_ultima_compra,
-    MIN(IF(bl_mecenas, dt_ordered_at, NULL))                 AS dt_primeiro_mecenas,
-    MAX(IF(bl_mecenas, vl_payment_gross, NULL))              AS vl_maior_tx_mecenas,
-    SUM(IF(bl_mecenas, vl_payment_gross, 0))                 AS vl_total_mecenas,
-    COUNTIF(bl_mecenas)                                      AS qt_tx_mecenas,
-    COUNTIF(NOT bl_mecenas)                                  AS qt_tx_outras,
-    SUM(IF(NOT bl_mecenas, vl_payment_gross, 0))             AS vl_total_outras,
-    MAX(IF(NOT bl_mecenas, vl_payment_gross, 0))             AS vl_maior_tx_outras,
-    MAX(IF(NOT bl_mecenas AND nm_gateway_plan = 'black', 1, 0))              AS bl_black,
-    MAX(IF(NOT bl_mecenas AND bl_lifetime_offer, 1, 0))                      AS bl_vitalicio,
-    MAX(IF(NOT bl_mecenas AND nm_gateway_plan IN
+    MIN(IF(bl_bolsa, dt_ordered_at, NULL))                   AS dt_primeiro_mecenas,
+    MIN(IF(bl_solidario, dt_ordered_at, NULL))               AS dt_primeiro_solidario,
+    MAX(IF(bl_bolsa, vl_payment_gross, NULL))                AS vl_maior_tx_mecenas,
+    MAX(IF(bl_solidario, vl_payment_gross, NULL))            AS vl_maior_tx_solidario,
+    SUM(IF(bl_bolsa, vl_payment_gross, 0))                   AS vl_total_mecenas,
+    SUM(IF(bl_solidario, vl_payment_gross, 0))               AS vl_total_solidario,
+    COUNTIF(bl_bolsa)                                        AS qt_tx_mecenas,
+    COUNTIF(bl_solidario)                                    AS qt_tx_solidario,
+    COUNTIF(NOT bl_bolsa AND NOT bl_solidario AND NOT bl_order_bump) AS qt_tx_outras,
+    SUM(IF(NOT bl_bolsa AND NOT bl_solidario AND NOT bl_order_bump, vl_payment_gross, 0)) AS vl_total_outras,
+    MAX(IF(NOT bl_bolsa AND NOT bl_solidario AND NOT bl_order_bump, vl_payment_gross, 0)) AS vl_maior_tx_outras,
+    MAX(IF(NOT bl_bolsa AND NOT bl_solidario AND nm_gateway_plan = 'black', 1, 0))              AS bl_black,
+    MAX(IF(NOT bl_bolsa AND NOT bl_solidario AND bl_lifetime_offer, 1, 0))                      AS bl_vitalicio,
+    MAX(IF(NOT bl_bolsa AND NOT bl_solidario AND nm_gateway_plan IN
       ('bitcoin','ciencia-politica','geopolitica','metodo-bp','travessia','travessia-familia'), 1, 0)) AS bl_certificacao,
-    MAX(IF(NOT bl_mecenas AND nm_gateway_plan LIKE 'clube-do-livro%', 1, 0)) AS bl_cdl,
-    MAX(IF(NOT bl_mecenas AND nm_gateway_plan LIKE '%teller%', 1, 0))        AS bl_teller,
+    MAX(IF(NOT bl_bolsa AND NOT bl_solidario AND nm_gateway_plan LIKE 'clube-do-livro%', 1, 0)) AS bl_cdl,
+    MAX(IF(NOT bl_bolsa AND NOT bl_solidario AND nm_gateway_plan LIKE '%teller%', 1, 0))        AS bl_teller,
     MAX(IF(bl_is_commercial_channel, 1, 0))                                  AS bl_ja_comprou_comercial,
     COUNT(DISTINCT id_person)                                                AS _chk
   FROM tx

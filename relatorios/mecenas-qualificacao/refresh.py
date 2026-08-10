@@ -9,10 +9,12 @@ Uso:
 Depende da tabela `bp-staging.dbt_abe.tb_mecenas_qualificacao_base`, recriada por
 queries/00_base_qualificacao.sql. Rodar aquela query primeiro se a base mudar.
 
-⚠️ Definição de doador Mecenas (ver queries/00_base_qualificacao.sql): exclui os DOIS
-order bumps. O de R$180 ("Mecenas Order Bump") não tem "order bump" no nome da oferta —
-só o corte vl_payment_gross >= 300 pega. Sem isso entram 2.726 pessoas que marcaram um
-checkbox no checkout de assinatura barata e o perfil todo se contamina.
+⚠️ TRÊS populações separadas (ver queries/00_base_qualificacao.sql), nunca somar:
+  bolsa      = doador clássico, patrocínio de bolsa (>= R$ 1.000). Base do perfil.
+  solidário  = campanha atual (jul/2026+), recorrente de ~R$ 30/mês sem teto.
+  order bump = R$ 180 no checkout de outro produto. Não é doador.
+O Solidário é identificado por PRODUTO, nunca por valor: a oferta de R$ 1.078,80 passa
+de R$ 1.000 e cairia em "bolsa" por engano.
 """
 
 import json, subprocess, sys, datetime, warnings
@@ -72,13 +74,57 @@ FROM `{BASE}`
 Q_TIERS = f"""
 SELECT
   CASE WHEN vl_maior_tx_mecenas > 10000 THEN 'Alto (acima de R$ 10 mil)'
-       WHEN vl_maior_tx_mecenas >= 1188 THEN 'Bolsas (R$ 1.188 a R$ 10 mil)'
-       ELSE 'Solidário (R$ 359 a R$ 1.188)' END AS tier,
+       WHEN vl_maior_tx_mecenas >= 2000 THEN 'Múltiplas bolsas (R$ 2 a 10 mil)'
+       ELSE 'Bolsa única (R$ 1 a 2 mil)' END AS tier,
   COUNT(*)                  AS pessoas,
   SUM(vl_total_mecenas)     AS receita,
   AVG(vl_total_mecenas)     AS por_pessoa
 FROM `{BASE}`
 WHERE bl_is_mecenas
+GROUP BY 1
+"""
+
+# Campanha atual: Solidário vs doador de bolsa vs controle
+Q_SOLIDARIO = f"""
+SELECT
+  CASE WHEN bl_is_solidario AND bl_is_mecenas THEN 'solidario_ja_doador'
+       WHEN bl_is_solidario                   THEN 'solidario_novo'
+       WHEN bl_is_mecenas                     THEN 'bolsa'
+       ELSE 'controle' END AS grupo,
+  COUNT(*) AS pessoas,
+  SUM(vl_total_solidario) AS receita_solidario,
+  AVG(IF(bl_is_solidario, vl_maior_tx_solidario, vl_maior_tx_mecenas)) AS doacao_media,
+  APPROX_QUANTILES(IF(bl_is_solidario, vl_maior_tx_solidario, vl_maior_tx_mecenas), 2)[OFFSET(1)] AS doacao_mediana,
+  100 * AVG(IF(cd_income_decile >= 9, 1, 0)) AS renda_top,
+  100 * AVG(IF(nm_credit_card_level_max IN ('6_black','5_amex'), 1, 0)) AS cartao_top,
+  100 * AVG(IF(pc_similaridade >= 0.95, 1, 0)) AS socio,
+  100 * AVG(IF(vl_capital_social >= 1000000, 1, 0)) AS capital_1m,
+  100 * AVG(bl_vitalicio) AS vitalicio,
+  100 * AVG(bl_certificacao) AS certificacao,
+  100 * AVG(IF(nm_gender_inferred = 'Feminino', 1, 0)) AS feminino,
+  AVG(qt_idade) AS idade,
+  APPROX_QUANTILES(qt_idade, 2)[OFFSET(1)] AS idade_mediana,
+  AVG(qt_dias_casa) / 365 AS anos_casa,
+  AVG(vl_total_outras) AS gasto_previo,
+  APPROX_QUANTILES(vl_total_outras, 2)[OFFSET(1)] AS gasto_previo_mediana,
+  100 * AVG(bl_ja_comprou_comercial) AS via_comercial
+FROM `{BASE}`
+WHERE bl_is_solidario OR bl_is_mecenas OR bl_membro_ativo = 1
+GROUP BY 1
+"""
+
+# Distribuição das faixas de contribuição do Solidário
+Q_SOLIDARIO_FAIXA = f"""
+SELECT
+  CASE WHEN vl_maior_tx_solidario < 100 THEN 'Mensal (R$ 27 a 97)'
+       WHEN vl_maior_tx_solidario < 500 THEN 'R$ 1/dia (R$ 358,80)'
+       WHEN vl_maior_tx_solidario < 900 THEN 'R$ 2/dia (R$ 718,80)'
+       WHEN vl_maior_tx_solidario < 2000 THEN 'R$ 3/dia (R$ 1.078,80)'
+       ELSE 'Pacote do Comercial (R$ 2 mil+)' END AS faixa,
+  COUNT(*) AS pessoas,
+  SUM(vl_total_solidario) AS receita
+FROM `{BASE}`
+WHERE bl_is_solidario
 GROUP BY 1
 """
 
@@ -127,6 +173,10 @@ def build() -> dict:
 
     print("  segmentos...", flush=True)
     seg = bq_file("06_segmentos_bolsoes.sql")
+
+    print("  solidário (campanha atual)...", flush=True)
+    sol = {x["grupo"]: x for x in bq(Q_SOLIDARIO)}
+    sol_faixa = bq(Q_SOLIDARIO_FAIXA)
 
     ordem = {"Membro ativo": 0, "Doador bolsas": 1, "Doador alto": 2}
 
@@ -212,6 +262,35 @@ def build() -> dict:
             }
             for s in safras
         ],
+        "solidario": {
+            "grupos": {
+                g: {
+                    "pessoas": ii(v["pessoas"]),
+                    "receita": fi(v["receita_solidario"]),
+                    "doacao_media": fi(v["doacao_media"]),
+                    "doacao_mediana": fi(v["doacao_mediana"]),
+                    "renda_top": fi(v["renda_top"]),
+                    "cartao_top": fi(v["cartao_top"]),
+                    "socio": fi(v["socio"]),
+                    "capital_1m": fi(v["capital_1m"]),
+                    "vitalicio": fi(v["vitalicio"]),
+                    "certificacao": fi(v["certificacao"]),
+                    "feminino": fi(v["feminino"]),
+                    "idade": fi(v["idade"]),
+                    "idade_mediana": fi(v["idade_mediana"]),
+                    "anos_casa": fi(v["anos_casa"]),
+                    "gasto_previo": fi(v["gasto_previo"]),
+                    "gasto_previo_mediana": fi(v["gasto_previo_mediana"]),
+                    "via_comercial": fi(v["via_comercial"]),
+                }
+                for g, v in sol.items()
+            },
+            "faixas": sorted(
+                [{"faixa": f["faixa"], "pessoas": ii(f["pessoas"]), "receita": fi(f["receita"])}
+                 for f in sol_faixa],
+                key=lambda x: -x["pessoas"],
+            ),
+        },
         "segmentos": [
             {
                 "segmento": g["segmento"],

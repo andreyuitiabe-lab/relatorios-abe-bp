@@ -29,7 +29,7 @@ SELECT
   COUNTIF(NOT bl_is_mecenas) AS bolsao_abordavel,
   COUNTIF(NOT bl_is_mecenas AND bl_membro_ativo = 1) AS bolsao_membro_ativo,
   ROUND(100 * COUNTIF(bl_is_mecenas) / COUNT(*), 1) AS pc_ja_convertido,
-  ROUND((COUNTIF(bl_is_mecenas) / COUNT(*)) / 0.00596, 1) AS lift_vs_base,
+  ROUND((COUNTIF(bl_is_mecenas) / COUNT(*)) / 0.00584, 1) AS lift_vs_base,
   ROUND(AVG(IF(bl_is_mecenas, vl_total_mecenas, NULL))) AS ticket_medio_esperado
 FROM seg
 WHERE segmento IS NOT NULL
