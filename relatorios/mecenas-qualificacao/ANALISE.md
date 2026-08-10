@@ -322,7 +322,7 @@ Produto lançado em jul/2026: contribuição recorrente a partir de ~R$ 30/mês,
 
 ⚠️ Ressalva: a idade só existe para uma fração da base (n=61 no Solidário), então a mediana de idade é a menos firme das quatro diferenças significativas.
 
-⚠️ **Corte temporal:** o Solidário está vendendo agora. Estes números são de 10/08/2026 às 15:28 — nas 3 horas seguintes ao snapshot anterior (11:52) entraram 7 pessoas. O **perfil** é estável; a **contagem** não.
+**Corte temporal:** o Solidário segue vendendo, e o `fct_transactions` tem latência de ingestão (mediana 5 min, cauda de ~1h), então a contagem do dia é sempre parcial. Isso é irrelevante para o objetivo desta análise, que é **perfil** — decidido com o time (10/ago). O `verifica.py` trata essa diferença como latência, não como erro. Para volume diário, usar o dashboard do marketing-bp.
 
 
 ### 14. O histórico de compras prevê SE doa, não QUANTO doa
