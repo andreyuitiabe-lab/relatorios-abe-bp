@@ -1,6 +1,6 @@
 -- Casa leads de um formulário externo (planilha) com contas do gateway, por e-mail E telefone.
 -- ⚠️ Os literais de e-mail/telefone foram trocados por parâmetros: este repo é PÚBLICO.
---    Passar @emails e @fones como ARRAY<STRING> (telefone em E.164 sem '+', ex: 5522998749558).
+--    Passar @emails e @fones como ARRAY<STRING> (telefone em E.164 sem '+', ex: 5511999998888 — número fictício).
 --
 -- ⚠️ GOTCHA que motivou os filtros de sujeira: um lead informou "(11) 99999-9999", que casa com
 --    1.234 contas na base. Sem os dois filtros abaixo o match inflava de 90 para 1.324 contas:

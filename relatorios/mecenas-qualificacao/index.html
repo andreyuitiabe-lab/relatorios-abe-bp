@@ -445,10 +445,11 @@
     <p class="note key" id="keyLift"></p>
     <p class="note">Cada barra é um recorte isolado, e os recortes se sobrepõem: quem gastou
     muito também costuma ser antigo de casa. Quando todas as variáveis competem numa mesma
-    regressão, <b>vitalício, Black e Clube do Livro perdem de 72% a 76% da força</b> — são
-    reflexo de gasto e tempo de casa, não causa independente. As duas que se sustentam sozinhas
-    são o <b>maior valor já pago</b> e <b>já ter comprado pelo Comercial</b>, que é a variável
-    mais forte do modelo inteiro e nem aparece nesta lista.</p>
+    regressão, <b>vitalício, Black e Clube do Livro guardam só 18% a 29% da força</b> — são
+    reflexo de gasto e tempo de casa, não causa independente. O que se sustenta é <b>tempo de
+    casa</b> (93%) e o <b>maior valor já pago</b> (59%). A marca de "é sócio de empresa"
+    <b>desaparece por completo</b> nesse teste (p=0,87) — o que fica de pé é o <b>capital</b> da
+    empresa, não o fato de existir uma.</p>
   </section>
 
   <section>
@@ -470,7 +471,7 @@
       <p><b>Cuidado ao usar "tem CNPJ" como filtro.</b> Sozinha, a marca de sócio rende
       propensão de apenas <span id="liftSocio">—</span>. E quando entram tempo de casa,
       histórico de compra e passagem pelo Comercial numa regressão, ela <b>perde totalmente a
-      significância</b>. O sócio doa mais porque é antigo de casa e já pagou caro antes, não
+      significância</b> (p = 0,87). O sócio doa mais porque é antigo de casa e já pagou caro antes, não
       porque é sócio. Já o <b>capital social se sustenta</b> em qualquer controle. Regra
       prática: filtrar por capital, nunca por "tem CNPJ".</p>
       <p>Ter empresa aqui significa <b>ter sido encontrado</b> no cruzamento com a Receita
@@ -624,6 +625,12 @@
     </div>
 
     <p class="note key" id="keySolFaixa"></p>
+
+    <p class="note">⚠️ <b>Estes números mudam durante o dia.</b> O Solidário está em campanha
+    ativa e o corte desta página é o horário indicado no rodapé — no dia em que esta versão foi
+    apurada, 7 pessoas compraram nas 3 horas seguintes ao corte. Para acompanhamento diário, o
+    dashboard do marketing-bp é a fonte; aqui o objetivo é o <b>perfil</b>, que não oscila com
+    algumas dezenas de vendas.</p>
   </section>
 
   <section>
@@ -859,7 +866,10 @@ const CANAL = { A: 'Lookalike + Comercial', B: 'Lookalike + CRM', C: 'Mídia de 
 
 function render(D, ICP) {
   const R = D.resumo;
-  el('lastUpdate').textContent = 'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
+  /* hora importa: o Solidário está vendendo agora, o número muda ao longo do dia */
+  const dt = new Date(D.updated_at);
+  el('lastUpdate').textContent = 'Dados apurados em ' + dt.toLocaleDateString('pt-BR')
+    + ' às ' + dt.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
 
   /* ── tese e métricas ── */
   el('stTopo').textContent     = int(R.n_topo);

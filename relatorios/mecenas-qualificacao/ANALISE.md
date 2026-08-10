@@ -35,14 +35,14 @@ O rótulo "Mecenas" cobre três coisas que não têm relação entre si. Separá
 | População | O que é | Como identificar | Pessoas |
 |---|---|---|---|
 | **Bolsa** | Patrocínio de bolsa, o produto original (2021→hoje). 1 bolsa = R$ 1.188 ou R$ 1.668; pacotes vão a 500 bolsas | Mecenas, não Solidário, não order bump, **≥ R$ 1.000** | **8.995** |
-| **Solidário** | Campanha atual (jul/2026+). Recorrente de ~R$ 30/mês, sem teto | Produto/oferta contendo "solid", ou plano `mecenas_mecenas-solidario-premium` | **203** |
+| **Solidário** | Campanha atual (jul/2026+). Recorrente de ~R$ 30/mês, sem teto | Produto/oferta contendo "solid", ou plano `mecenas_mecenas-solidario-premium` | **211** |
 | **Order bump** | R$ 180 (R$ 15/mês) marcado no checkout de outro produto | Oferta **ou produto** contendo "order bump" **e** Mecenas | 6.961 |
 
 **A regra exata, como está no SQL:** é doador de bolsa quem tem **ao menos uma transação aprovada** de Mecenas com `vl_payment_gross >= 1000`, que **não** seja Solidário (produto/oferta com "solid", ou plano `mecenas_mecenas-solidario-premium`) nem order bump (oferta **ou** produto com "order bump").
 
 ⚠️ O corte é **por transação, não pela soma** do que a pessoa já doou. Medido: só **1 pessoa** em 8.995 tem soma ≥ R$ 1.000 sem nenhuma compra individual ≥ R$ 1.000 — a escolha não muda nada na prática. Também deixa fora o **pagamento fracionado** de 1 bolsa (2× R$ 594), igualmente raro.
 
-⚠️ **Dois denominadores na análise, de propósito:** os *lifts* usam o universo de **1.541.244 compradores** (quem poderia doar), de onde vem a taxa base de 0,584%. O *retrato* "doador vs. membro comum" usa só os **620.563 membros ativos** que nunca doaram — comparar com ex-compradores inativos puxaria a base para baixo e inflaria as diferenças.
+⚠️ **Dois denominadores na análise, de propósito:** os *lifts* usam o universo de **1.541.244 compradores** (quem poderia doar), de onde vem a taxa base de 0,584%. O *retrato* "doador vs. membro comum" usa só os **620.556 membros ativos** que nunca doaram — comparar com ex-compradores inativos puxaria a base para baixo e inflaria as diferenças.
 
 ### ⚠️ E os order bumps
 
@@ -62,9 +62,9 @@ O segundo é um checkbox no checkout de assinatura barata. Em **mar/2026** ele p
 ## Números de referência
 
 - **8.995 doadores de bolsa** (pessoas reais) / **R$ 52,44M** histórico
-- Universo: 1.541.244 compradores → **taxa base 0,584%**
-- Controle: 620.563 membros ativos que nunca doaram
-- **Mecenas Solidário: 203 pessoas / R$ 112 mil** (campanha atual, seção 13)
+- Universo: 1.541.389 compradores → **taxa base 0,584%**
+- Controle: 620.556 membros ativos que nunca doaram
+- **Mecenas Solidário: 211 pessoas / R$ 117 mil** (campanha atual, seção 13)
 - Multi-conta: 1,24 contas por doador (1,08 na base geral) — quem compra muito espalha mais
 
 ## Achados principais
@@ -181,23 +181,33 @@ Coortes jul–ago/2026:
 
 ### 7. Logística multivariada: o que sobra quando tudo compete
 
-AUC out-of-time: **0,884** no modelo completo, **0,848** no estrutural. ⚠️ O 0,884 é otimista — a tabela tem features *all-time*, então para os positivos de jul–ago o gasto inclui compras posteriores à conversão. **O número honesto é 0,848.**
+Rerodada com a base atual (corte de R$ 1.000, grain `id_person`). AUC out-of-time: **0,872** no modelo estrutural — é o número honesto. O modelo completo dá 0,972, mas ⚠️ **não use esse**: a base tem features *all-time*, então para os positivos recentes o gasto inclui compras posteriores à conversão, e o teste tem só **47 positivos**.
 
 | Variável | Uni | Multi | Retenção |
 |---|---|---|---|
-| **Já comprou pelo Comercial** | 1,18 | **1,02** | 87% |
-| **Maior ticket já pago** | 0,79 | **0,79** | 99% |
-| Anos de casa | 0,62 | 0,67 | 109% |
-| Membro ativo | 0,66 | 0,58 | 89% |
-| Nível de cartão | 0,80 | 0,41 | 51% |
-| Decil de renda | 0,57 | 0,26 | 45% |
-| log(capital social) | 0,35 | 0,15 | 42% |
-| Vitalício / Black / CDL | 0,56 / 0,36 / 0,32 | 0,14 / 0,10 / 0,08 | **25% / 28% / 24%** |
-| Sócio (@0,95) | 0,27 | 0,009 | **morre (p=0,49)** |
+| **Já comprou pelo Comercial** | 3,48 | **3,27** | 94% |
+| **Anos de casa** | 1,22 | **1,13** | 93% |
+| **Maior ticket já pago** | 1,15 | 0,69 | 59% |
+| Nível de cartão | 0,94 | 0,46 | 49% |
+| log(capital social) | 0,40 | 0,17 | 42% |
+| Nº de empresas | 0,07 | 0,03 | 41% |
+| Decil de renda | 0,70 | 0,26 | 38% |
+| Certificação | 0,35 | 0,13 | 37% |
+| Clube do Livro | 0,38 | 0,11 | 29% |
+| Capital 1M+ | 0,28 | 0,07 | 26% |
+| Vitalício | 0,68 | 0,17 | **25%** |
+| Black | 0,40 | 0,07 | **18%** |
+| **Sócio (@0,95)** | 0,32 | −0,003 | **morre (p=0,87)** |
 
-- **O canal Comercial é a variável mais forte** (OR 2,78 por desvio-padrão) e não aparece em análise univariada de demografia. Mecenas de bolsa é venda consultiva.
-- **Vitalício, Black e CDL são quase inteiramente proxy** (perdem 72–76%). Servem de filtro, não são causa — **podem sair das regras sem perda relevante.**
-- ⚠️ **`vl_total_outras` inverte de sinal no multivariado — colinearidade (r = 0,92 com o maior ticket), não achado. Não interpretar.** Usar `vl_maior_tx_outras`. Mediana do maior ticket: R$ 708 (doador) vs. R$ 180 (base).
+**O que se confirma:**
+- **`socio_95` morre — e agora com folga** (p=0,87, contra p=0,49 na versão anterior). A conclusão "filtre por capital, não pela flag de sócio" está mais firme, não menos.
+- **`log_capital` e `capital_1M` seguem significativos** (p<0,0001). O capital é o que carrega sinal.
+- **Vitalício, Black e CDL retêm 18–29%.** São proxy de gasto e antiguidade, não causa. Podem sair das regras.
+- ⚠️ **`vl_total_outras` continua invertendo de sinal** (−1,19) por colinearidade com o maior ticket. **Não interpretar**; usar `vl_maior_tx_outras`.
+
+⚠️ **Ressalva importante sobre o canal Comercial.** Ele aparece como a variável mais forte do modelo (OR 26,3 por desvio-padrão), mas **99,9% dos doadores de bolsa vêm do Comercial** — a variável quase *determina* o rótulo, então o coeficiente é em boa parte tautológico. A leitura correta é descritiva: **bolsa é venda consultiva, praticamente não existe fora do Comercial.** Não é um "preditor" utilizável para achar quem ainda não doou, porque metade da base também já comprou pelo Comercial em algum momento.
+
+⚠️ **Gênero mudou de status e merece atenção.** No univariado é quase nada (coef 0,07); no multivariado sobe para 0,15 — ou seja, controlando renda, cartão, tempo de casa e histórico, **ser mulher passa a contribuir positivamente**. É o oposto do que a leitura simples sugere (o doador de alto valor é 70% homem). Provável explicação: mulheres estão sub-representadas entre os de maior gasto, então, comparadas a homens de mesmo perfil de compra, doam mais. **Não está no relatório como achado** porque n é suficiente mas o mecanismo não foi investigado — fica como hipótese.
 
 ### 8. O score de ML em produção não discrimina — está pior que a base
 
@@ -276,30 +286,30 @@ Com o Solidário fora do label (analisado à parte, §13), os doadores de bolsa 
 
 ### 13. Mecenas Solidário — a campanha atual
 
-Produto lançado em jul/2026: contribuição recorrente a partir de ~R$ 30/mês, sem teto. **203 pessoas, R$ 112 mil.** Faixa escolhida:
+Produto lançado em jul/2026: contribuição recorrente a partir de ~R$ 30/mês, sem teto. **211 pessoas, R$ 117 mil.** Faixa escolhida:
 
 | Faixa | Pessoas | % | Receita |
 |---|---|---|---|
-| R$ 1/dia (R$ 358,80) | 118 | 58,1% | R$ 42.697 |
-| R$ 2/dia (R$ 718,80) | 63 | 31,0% | **R$ 46.003** |
-| R$ 3/dia (R$ 1.078,80) | 17 | 8,4% | R$ 18.340 |
-| Mensal (R$ 27 a 97) | 3 | 1,5% | R$ 151 |
-| Pacote do Comercial (R$ 2 mil+) | 2 | 1,0% | R$ 5.250 |
+| R$ 1/dia (R$ 358,80) | 122 | 57,8% | R$ 43.774 |
+| R$ 2/dia (R$ 718,80) | 65 | 30,8% | **R$ 47.441** |
+| R$ 3/dia (R$ 1.078,80) | 19 | 9,0% | R$ 20.497 |
+| Mensal (R$ 27 a 97) | 3 | 1,4% | R$ 151 |
+| Pacote do Comercial (R$ 2 mil+) | 2 | 0,9% | R$ 5.250 |
 
-⚠️ **A faixa de R$ 2/dia arrecada mais que a de R$ 1/dia** (R$ 46,0k vs R$ 42,7k) com metade das pessoas. Há espaço para posicionar o degrau do meio como padrão.
+⚠️ **A faixa de R$ 2/dia arrecada mais que a de R$ 1/dia** (R$ 47,4k vs R$ 43,8k) com metade das pessoas. Há espaço para posicionar o degrau do meio como padrão.
 
 #### O achado: mesmo dinheiro, pessoa diferente
 
-| Atributo | **Solidário (180)** | Doador de bolsa (8.972) | Membro ativo | Significância |
+| Atributo | **Solidário (188)** | Doador de bolsa (8.972) | Membro ativo | Significância |
 |---|---|---|---|---|
 | Contribuição típica | R$ 359 | R$ 2.148 | — | — |
-| **Mulheres** | **51,4%** | 40,7% | 37,8% | **p=0,005** ✓ |
-| **Idade mediana** | **62 anos** | 53 anos | 51 | **p=0,0003** ✓ |
-| Renda no topo (decil 9-10) | 43,6% | 40,0% | 17,6% | p=0,36 ✗ |
-| Cartão black/amex | 60,7% | 62,8% | 28,1% | p=0,58 ✗ |
-| Já tem vitalício | 35,0% | 44,0% | 10,3% | p=0,019 ✓ |
-| **Gasto prévio (mediana)** | **R$ 1.230** | R$ 2.494 | R$ 360 | **p<0,001** ✓ |
-| Já comprou pelo Comercial | 46,1% | 99,9% | 27,9% | — |
+| **Mulheres** | **50,6%** | 40,6% | 37,8% | **p=0,009** ✓ |
+| **Idade mediana** | **63 anos** | 53 anos | 51 | **p<0,0001** ✓ |
+| Renda no topo (decil 9-10) | 44,3% | 39,9% | 17,6% | p=0,23 ✗ |
+| Cartão black/amex | 61,1% | 62,8% | 28,1% | p=0,64 ✗ |
+| Já tem vitalício | 34,6% | 44,0% | 10,3% | p=0,011 ✓ |
+| **Gasto prévio (mediana)** | **R$ 1.308** | R$ 2.472 | R$ 360 | **p<0,001** ✓ |
+| Já comprou pelo Comercial | 46,8% | 99,9% | 27,9% | — |
 
 **O ticket baixo não é limitação de renda.** Renda e cartão são estatisticamente **iguais** aos do doador de bolsa — e o fato de não serem distinguíveis é o achado, não falta de dado. Quem compra Solidário tem o mesmo poder aquisitivo de quem patrocina uma bolsa de R$ 1.668; contribui menos porque essa é a porta que passou a existir para ele.
 
@@ -309,7 +319,9 @@ Produto lançado em jul/2026: contribuição recorrente a partir de ~R$ 30/mês,
 
 **Canibalização:** 23 pessoas que já eram doadoras de bolsa também compraram Solidário — e são as de maior gasto prévio do grupo (mediana R$ 4.322), 100% via Comercial, 57% vitalício. Vale checar se estão trocando bolsa por contribuição mensal.
 
-⚠️ Ressalva: a idade só existe para uma fração da base (n=58 no Solidário), então a mediana de idade é a menos firme das quatro diferenças significativas.
+⚠️ Ressalva: a idade só existe para uma fração da base (n=61 no Solidário), então a mediana de idade é a menos firme das quatro diferenças significativas.
+
+⚠️ **Corte temporal:** o Solidário está vendendo agora. Estes números são de 10/08/2026 às 15:28 — nas 3 horas seguintes ao snapshot anterior (11:52) entraram 7 pessoas. O **perfil** é estável; a **contagem** não.
 
 
 ## Pendências / próximos passos
