@@ -161,9 +161,9 @@ Convergente com a análise de profissão de 05/08: saúde sobre-indexada pelos d
 
 **O doador de bolsa não mudou.** Ticket subiu, canal segue 100% Comercial, renda no topo estável e a fatia com vitalício até cresceu.
 
-⚠️ **Correção de uma conclusão anterior.** Com bolsa e Solidário na mesma conta, agosto parecia ter derrubado o ticket (R$ 4.817 → R$ 1.929) e o Comercial (81% → 36%), e a leitura natural era "o doador mudou de perfil". **Era artefato da mistura**: a média de duas populações diferentes caiu porque a mais barata cresceu, não porque alguém mudou. Separando os produtos, nada no doador de bolsa se moveu.
+⚠️ **Por que bolsa e Solidário não podem ser somados numa série temporal.** Se as duas populações entram na mesma conta, agosto aparece com ticket de R$ 1.929 (contra R$ 4.817 em julho) e 36% de Comercial (contra 81%) — o que leria como "o doador mudou de perfil". Não mudou: o que cai é a **média de uma mistura**, porque a população mais barata cresceu. Separados, o doador de bolsa mantém canal e ganha ticket.
 
-**A lição que fica:** quando um produto novo entra num rótulo antigo, a série temporal do rótulo deixa de significar o que significava. Vale para qualquer produto da BP que ganhe variante de entrada.
+**Regra geral:** quando um produto novo entra num rótulo antigo, a série temporal do rótulo deixa de significar o que significava. Vale para qualquer produto da BP que ganhe variante de entrada — separar antes de comparar períodos.
 
 ### 6. O Solidário traz gente nova — não canibaliza (mas tem risco)
 
