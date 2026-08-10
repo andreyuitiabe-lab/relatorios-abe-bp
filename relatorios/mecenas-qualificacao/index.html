@@ -530,21 +530,22 @@
         de <b>R$ 1.000 ou mais</b>. O Mecenas nasceu como patrocínio de bolsa e uma bolsa custa
         R$ 1.188 (com desconto) ou R$ 1.668, então abaixo de R$ 1.000 não existe bolsa inteira.
         O corte é por compra, não pela soma do que a pessoa já doou — quem fez três doações de
-        R$ 500 não entra. Na prática isso muda <b>uma</b> pessoa em 8.995, então não altera nada;
+        R$ 500 não entra. Na prática isso muda <b>uma</b> pessoa em <span id="mtDoad">—</span>, então não altera nada;
         e deixa fora o pagamento fracionado de uma bolsa (2× R$ 594), que também é raro.</dd>
 
         <dt>As outras duas coisas chamadas "Mecenas"</dt>
-        <dd>O <b>Mecenas Solidário</b> (aba ao lado) é a campanha atual: contribuição recorrente
-        a partir de ~R$ 30 por mês, sem teto. São 203 pessoas, analisadas separadamente porque o
-        perfil é diferente. E existem dois <b>"order bumps"</b> — caixinhas marcadas no checkout
+        <dd>O <b>Mecenas Solidário</b> (aba ao lado) é a campanha atual: cinco produtos, de
+        R$ 27 por mês a R$ 72.000. São <span id="mtSol">—</span> pessoas, analisadas
+        separadamente porque o perfil é diferente. E existem dois <b>"order bumps"</b> — caixinhas marcadas no checkout
         de outro produto. Um deles, de R$ 180 ("adicione R$ 15 por mês"), <b>não tem a palavra
         order bump no nome</b> e passa por qualquer filtro comum: são 6.961 pessoas que marcaram
         um checkbox ao assinar um plano barato. Não são doadoras. Em março de 2026 elas
         produziram 2.535 "vendas de Mecenas" com ticket de R$ 421.</dd>
 
         <dt>Por que o Solidário não se separa por valor</dt>
-        <dd>Porque a oferta de "R$ 3 por dia" custa R$ 1.078,80 e passaria do corte de R$ 1.000,
-        caindo em "bolsa" por engano. A separação é pelo <b>produto</b>, não pelo preço.</dd>
+        <dd>Porque o Solidário vai de R$ 27 a R$ 72.000 — a oferta de "R$ 3 por dia" custa
+        R$ 1.078,80 e o Patrono custa R$ 72.000, ambos acima do corte da bolsa. Qualquer régua de
+        preço separaria errado, então a separação é pelo <b>produto</b>.</dd>
 
         <dt>Uma pessoa, não uma conta</dt>
         <dd>Muita gente paga com e-mails diferentes. Todos os números desta página estão
@@ -883,6 +884,8 @@ function render(D, ICP) {
   el('stControle').textContent = int(Math.round(R.membros_controle / 1000)) + ' mil';
   el('mtControle').textContent = int(R.membros_controle);
   el('mtUniverso').textContent = int(R.universo);
+  el('mtSol').textContent      = int(D.solidario.faixas.reduce((a, f) => a + f.pessoas, 0));
+  el('mtDoad').textContent     = int(R.doadores);
   el('mtTaxa').textContent     = n2(R.taxa_base) + '%';
   el('tese').innerHTML =
     `pessoas — <b>${pct(100 * R.n_topo / R.doadores)} dos doadores</b> — respondem por
