@@ -3,7 +3,7 @@
 ICPs do Mecenas — clusterização dos doadores reais.
 
 Objetivo: deixar os perfis EMERGIREM dos dados, em vez de recortar por regra.
-Roda k-means sobre os 9.482 doadores, caracteriza cada cluster e mede quanta
+Roda k-means sobre os doadores de BOLSA (>= R$ 1.000; o Solidário é analisado à parte),
 gente parecida existe na base que ainda não doou (o alvo de mídia de cada ICP).
 
 Saída: modelo/saida/icp_clusters.csv + icp_lookalike.csv
