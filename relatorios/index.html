@@ -4,239 +4,757 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Relatórios — Brasil Paralelo</title>
+  <meta name="description" content="Catálogo de análises de dados da Brasil Paralelo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ── tokens ────────────────────────────────────────────────────────── */
+    :root {
+      --ink:        #080d1c;
+      --surface:    #0f1730;
+      --surface-2:  #16214a;
+      --line:       #1e2a4f;
+      --line-soft:  #15203d;
+      --paper:      #eaeef9;
+      --muted:      #8a97bd;
+      --faint:      #5a6791;
+      --blue:       #6e9bff;
+      --blue-soft:  rgba(110,155,255,.13);
+      --vivo:       #4ade80;
+      --snap:       #f5a524;
+
+      --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+      --rail: 208px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0f1117;
-      color: #e2e8f0;
-      min-height: 100vh;
-      padding: 48px 24px;
+      font-family: var(--sans);
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 15px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
     }
-    .container { max-width: 960px; margin: 0 auto; }
-    header { margin-bottom: 28px; }
-    header h1 { font-size: 28px; font-weight: 700; color: #f8fafc; }
-    header p { margin-top: 8px; color: #94a3b8; font-size: 15px; }
 
-    .toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 36px; }
+    /* faixa de luz no topo — dá profundidade sem virar gradiente decorativo */
+    body::before {
+      content: ''; position: fixed; inset: 0 0 auto 0; height: 340px; z-index: 0;
+      background: radial-gradient(120% 100% at 15% 0%, rgba(110,155,255,.10), transparent 62%);
+      pointer-events: none;
+    }
+
+    a { color: inherit; }
+
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+    /* ── shell ─────────────────────────────────────────────────────────── */
+    main { min-width: 0; }
+
+    .shell {
+      position: relative; z-index: 1;
+      max-width: 1260px; margin: 0 auto;
+      padding: 40px 24px 0;
+      display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); gap: 48px;
+      align-items: start;
+    }
+
+    /* ── rail de navegação ─────────────────────────────────────────────── */
+    .rail { position: sticky; top: 40px; }
+    .rail-title {
+      font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .12em; color: var(--faint);
+      padding-left: 13px; margin-bottom: 12px;
+    }
+    .rail-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .rail-link {
+      display: flex; align-items: baseline; gap: 8px;
+      padding: 7px 12px; border-left: 2px solid var(--line-soft);
+      font-size: 13.5px; color: var(--muted); text-decoration: none;
+      transition: color .18s, border-color .18s, background .18s;
+    }
+    .rail-link:hover { color: var(--paper); background: rgba(110,155,255,.06); }
+    .rail-link .n {
+      margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--faint);
+      font-variant-numeric: tabular-nums;
+    }
+    .rail-link.on { color: var(--paper); border-left-color: var(--blue); }
+    .rail-link.on .n { color: var(--blue); }
+    .rail-link.off { opacity: .32; }
+
+    .rail-foot {
+      margin-top: 20px; padding: 12px 13px 0; border-top: 1px solid var(--line-soft);
+      font-family: var(--mono); font-size: 10.5px; line-height: 1.7; color: var(--faint);
+    }
+    .rail-foot kbd {
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 4px; padding: 1px 5px;
+    }
+
+    /* ── cabeçalho ─────────────────────────────────────────────────────── */
+    .hd { padding-bottom: 28px; }
+    .hd-kicker {
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .16em; color: var(--blue);
+      margin-bottom: 14px;
+    }
+    .hd h1 {
+      font-size: clamp(30px, 4.4vw, 44px); font-weight: 700;
+      letter-spacing: -.025em; line-height: 1.06;
+    }
+    .hd p { margin-top: 12px; color: var(--muted); font-size: 15px; max-width: 54ch; }
+
+    /* ── mais recentes ─────────────────────────────────────────────────── */
+    .recent {
+      border: 1px solid var(--line); border-radius: 12px;
+      background: linear-gradient(180deg, rgba(110,155,255,.07), rgba(110,155,255,0));
+      padding: 16px 18px; margin-bottom: 28px;
+    }
+    .recent-hd {
+      font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .12em; color: var(--blue);
+      margin-bottom: 10px;
+    }
+    .recent-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .recent-list a {
+      display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap;
+      padding: 5px 0; text-decoration: none; font-size: 14px; color: var(--paper);
+      transition: color .15s;
+    }
+    .recent-list a:hover { color: var(--blue); }
+    .recent-list .sec-of {
+      margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--faint);
+      white-space: nowrap;
+    }
+
+    /* ── barra de controle ─────────────────────────────────────────────── */
+    .bar {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+      padding: 14px 0 12px;
+      background: linear-gradient(180deg, var(--ink) 72%, rgba(8,13,28,0));
+    }
+    .search { position: relative; flex: 1 1 240px; min-width: 200px; }
+    .search svg {
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      width: 15px; height: 15px; color: var(--faint); pointer-events: none;
+    }
     #busca {
-      flex: 1; min-width: 220px;
-      background: #1e293b; border: 1px solid #334155; border-radius: 8px;
-      padding: 10px 14px; color: #e2e8f0; font-size: 14px; outline: none;
+      width: 100%; font-family: var(--sans); font-size: 14px; color: var(--paper);
+      background: var(--surface); border: 1px solid var(--line); border-radius: 9px;
+      padding: 10px 14px 10px 36px; outline: none;
+      transition: border-color .18s, background .18s;
     }
-    #busca:focus { border-color: #3b82f6; }
-    .nav { display: flex; gap: 8px; flex-wrap: wrap; }
-    .nav a {
-      font-size: 12px; color: #94a3b8; text-decoration: none;
-      background: #1e293b; border: 1px solid #334155; border-radius: 999px;
-      padding: 5px 12px; transition: color .15s, border-color .15s;
-    }
-    .nav a:hover { color: #e2e8f0; border-color: #3b82f6; }
+    #busca::placeholder { color: var(--faint); }
+    #busca:focus { border-color: var(--blue); background: var(--surface-2); }
+    #busca::-webkit-search-cancel-button { -webkit-appearance: none; }
 
-    .section { margin-bottom: 40px; }
-    .section h2 {
+    .ctl { display: flex; align-items: center; gap: 8px; }
+    .ctl-lbl {
+      font-family: var(--mono); font-size: 10.5px; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--faint);
+    }
+    .seg {
+      display: flex; gap: 2px; padding: 3px;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 9px;
+    }
+    .seg button {
+      font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .04em;
+      color: var(--muted); background: none; border: 0; border-radius: 6px;
+      padding: 6px 11px; cursor: pointer; transition: color .15s, background .15s;
+    }
+    .seg button:hover { color: var(--paper); }
+    .seg button[aria-pressed="true"] { color: var(--ink); background: var(--paper); }
+
+    /* ── linha de consulta (assinatura) ────────────────────────────────── */
+    .q {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      font-family: var(--mono); font-size: 11.5px; color: var(--faint);
+      padding: 0 0 26px; border-bottom: 1px solid var(--line-soft); margin-bottom: 34px;
+    }
+    .q b { color: var(--muted); font-weight: 500; }
+    .q .tok {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--blue); background: var(--blue-soft);
+      border: 1px solid rgba(110,155,255,.28); border-radius: 5px;
+      padding: 2px 4px 2px 8px;
+    }
+    .q .tok button {
+      font: inherit; line-height: 1; color: inherit; background: none;
+      border: 0; cursor: pointer; padding: 2px 3px; border-radius: 3px; opacity: .7;
+    }
+    .q .tok button:hover { opacity: 1; background: rgba(110,155,255,.2); }
+    .q .out { margin-left: auto; color: var(--muted); }
+    .q .out strong { color: var(--paper); font-weight: 600; }
+
+    /* ── seções ────────────────────────────────────────────────────────── */
+    .sec { margin-bottom: 52px; scroll-margin-top: 96px; }
+    .sec-h { display: flex; align-items: baseline; gap: 12px; margin-bottom: 18px; }
+    .sec-h h2 {
       font-size: 13px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.08em; color: #64748b; margin-bottom: 16px;
-      padding-bottom: 8px; border-bottom: 1px solid #1e293b;
+      letter-spacing: .1em; color: var(--paper);
     }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .sec-h .rule { flex: 1; height: 1px; background: var(--line-soft); }
+    .sec-h .n { font-family: var(--mono); font-size: 11px; color: var(--faint); }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 14px; }
+
+    /* ── cards ─────────────────────────────────────────────────────────── */
     .card {
-      display: flex; flex-direction: column;
-      background: #1e293b; border: 1px solid #334155; border-radius: 10px;
-      padding: 20px; text-decoration: none; color: inherit;
-      transition: border-color 0.15s, transform 0.15s;
+      position: relative; display: flex; flex-direction: column;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+      padding: 20px 20px 16px; text-decoration: none; color: inherit;
+      transition: border-color .18s, background .18s, transform .18s;
     }
-    .card:hover { border-color: #3b82f6; transform: translateY(-2px); }
-    .card-title { font-size: 15px; font-weight: 600; color: #f1f5f9; margin-bottom: 6px; }
-    .card-desc { font-size: 13px; color: #94a3b8; line-height: 1.5; flex: 1; }
-    .card-meta { display: flex; gap: 8px; align-items: center; margin-top: 14px; }
-    .card-date { font-size: 12px; color: #475569; }
+    .card::after {
+      content: '↗'; position: absolute; top: 17px; right: 18px;
+      font-size: 13px; color: var(--blue); opacity: 0;
+      transform: translate(-3px, 3px); transition: opacity .18s, transform .18s;
+    }
+    .card:hover, .card:focus-visible {
+      border-color: rgba(110,155,255,.55); background: var(--surface-2); transform: translateY(-2px);
+    }
+    .card:hover::after, .card:focus-visible::after { opacity: 1; transform: translate(0, 0); }
+
+    .card-title {
+      font-size: 15px; font-weight: 600; letter-spacing: -.01em; color: #fff;
+      margin-bottom: 7px; padding-right: 22px; line-height: 1.35;
+    }
+    .card-desc { font-size: 13px; color: var(--muted); line-height: 1.55; flex: 1; }
+    .card-meta {
+      display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap;
+      margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line-soft);
+    }
+    .card-date {
+      font-family: var(--mono); font-size: 11px; color: var(--faint);
+      margin-left: auto; font-variant-numeric: tabular-nums;
+    }
+    .card-upd {
+      font-family: var(--mono); font-size: 10.5px; color: var(--faint); opacity: .7;
+      font-variant-numeric: tabular-nums;
+    }
+
     .badge {
-      font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em;
-      border-radius: 4px; padding: 2px 7px;
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 10px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .09em;
     }
-    .badge.vivo { color: #4ade80; background: rgba(74,222,128,.1); }
-    .badge.snapshot { color: #fbbf24; background: rgba(251,191,36,.1); }
+    .badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+    .badge.vivo { color: var(--vivo); }
+    .badge.snapshot { color: var(--snap); }
+
+    /* ── vazio ─────────────────────────────────────────────────────────── */
+    .empty {
+      display: none; padding: 56px 24px; text-align: center;
+      border: 1px dashed var(--line); border-radius: 12px;
+    }
+    .empty.on { display: block; }
+    .empty p { color: var(--muted); font-size: 14px; }
+    .empty button {
+      margin-top: 14px; font-family: var(--mono); font-size: 12px; color: var(--ink);
+      background: var(--paper); border: 0; border-radius: 7px; padding: 8px 16px; cursor: pointer;
+    }
+
     .hidden { display: none !important; }
-    footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #1e293b; color: #475569; font-size: 12px; line-height: 1.6; }
+
+    /* ── rodapé ────────────────────────────────────────────────────────── */
+    footer {
+      margin-top: 8px; padding: 22px 0 56px; border-top: 1px solid var(--line-soft);
+      color: var(--faint); font-size: 12.5px; line-height: 1.75;
+    }
+    footer strong { color: var(--muted); font-weight: 600; }
+
+    /* ── entrada ───────────────────────────────────────────────────────── */
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .card { animation: rise .45s cubic-bezier(.22,.7,.3,1) backwards; }
+
+    /* ── responsivo ────────────────────────────────────────────────────── */
+    @media (max-width: 1120px) {
+      .ctl-lbl { display: none; }
+    }
+    @media (max-width: 900px) {
+      .shell { grid-template-columns: minmax(0, 1fr); gap: 0; padding-top: 28px; }
+      .rail {
+        position: sticky; top: 0; z-index: 11; margin: 0 -24px 4px; padding: 10px 24px;
+        background: var(--ink); border-bottom: 1px solid var(--line-soft);
+      }
+      .rail-title, .rail-foot { display: none; }
+      .rail-list { flex-direction: row; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+      .rail-list::-webkit-scrollbar { display: none; }
+      .rail-link {
+        border-left: 0; border: 1px solid var(--line); border-radius: 999px;
+        padding: 6px 13px; white-space: nowrap; font-size: 12.5px;
+      }
+      .rail-link.on { border-color: var(--blue); background: var(--blue-soft); }
+      .rail-link .n { margin-left: 6px; }
+      .bar { top: 47px; }
+      .q .out { margin-left: 0; width: 100%; }
+    }
+    @media (max-width: 560px) {
+      .shell { padding-left: 18px; padding-right: 18px; }
+      .rail { margin-left: -18px; margin-right: -18px; padding-left: 18px; padding-right: 18px; }
+      .grid { grid-template-columns: 1fr; }
+      .ctl { flex: 1 1 100%; }
+      .seg { width: 100%; }
+      .seg button { flex: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Relatórios — Brasil Paralelo</h1>
-      <p>Análises de dados · André Abe · geradas com Claude Code</p>
-    </header>
+  <div class="shell">
 
-    <div class="toolbar">
-      <input id="busca" type="search" placeholder="Buscar relatório… (ex: vitalício, CPL, EVG)" autocomplete="off">
-      <nav class="nav">
-        <a href="#campanhas">Campanhas &amp; Leads</a>
-        <a href="#midia">Mídia Paga</a>
-        <a href="#base">Base &amp; Produtos</a>
-        <a href="#comercial">Comercial &amp; Retenção</a>
-      </nav>
-    </div>
+    <!-- ── navegação (reconstruída em JS conforme o agrupamento) ─────── -->
+    <aside class="rail">
+      <p class="rail-title">Seções</p>
+      <ul class="rail-list" id="rail">
+        <li><a class="rail-link" href="#campanhas">Campanhas &amp; Leads</a></li>
+        <li><a class="rail-link" href="#midia">Mídia Paga</a></li>
+        <li><a class="rail-link" href="#base">Base &amp; Produtos</a></li>
+        <li><a class="rail-link" href="#comercial">Comercial &amp; Retenção</a></li>
+      </ul>
+      <p class="rail-foot"><kbd>/</kbd> busca · <kbd>esc</kbd> limpa</p>
+    </aside>
 
-    <div class="section" id="campanhas">
-      <h2>Campanhas &amp; Leads</h2>
-      <div class="grid">
-        <a class="card" href="resumo-bp-ads/">
-          <div class="card-title">Resumo BP × BP Ads — Funil da Newsletter</div>
-          <div class="card-desc">Funil por edição (enviados, entregues, aberturas mercado/humana, cliques) com visão consolidada e visão segmentada por anunciante via domínio do link clicado.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Ago 2026</span></div>
-        </a>
-        <a class="card" href="entre-lobos/">
-          <div class="card-title">Entre Lobos 2026 — Sementes de Lookalike</div>
-          <div class="card-desc">Públicos-semente para a fase de venda do ELB26: compradores ELB 2022, viewers da série e compradores ELS, perfilados por renda e cartão. Inclui benchmark de ROAS por segmentação do ELS.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
-        </a>
-        <a class="card" href="influenciadores/">
-          <div class="card-title">Influenciadores — Ranking de Vendas</div>
-          <div class="card-desc">Quem mais vendeu BP desde 2025: anúncios com criativo de influ, links diretos e venda indireta, por influenciador e por campanha.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
-        </a>
-        <a class="card" href="campanhas/aniversario-2026/">
-          <div class="card-title">Aniversário BP 2026 — Meta de Leads e Forecast</div>
-          <div class="card-desc">Estratégia de aquecimento das 2 frentes (Vitalício + bundle): saturação da base, meta de leads, orçamento a CPL R$3 e forecast de receita.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jun 2026</span></div>
-        </a>
-        <a class="card" href="campanhas/">
-          <div class="card-title">Eficiência do Aquecimento — Campanhas 2026</div>
-          <div class="card-desc">Conversão de leads por campanha, curva de tempo, canal de aquisição, perfil geográfico e pesquisa de público (4 surveys).</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Mai 2026</span></div>
-        </a>
-        <a class="card" href="qualificacao-leads/">
-          <div class="card-title">Qualificação de Leads — Framework CPL×CAC</div>
-          <div class="card-desc">342k respostas de 4 formulários. Qual survey prediz conversão, quais perguntas usar, modelo de lead score e formulário ideal.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Mai 2026</span></div>
-        </a>
-        <a class="card" href="qualificacao-leads/iql/">
-          <div class="card-title">IQL — Índice de Qualidade de Lead</div>
-          <div class="card-desc">Scorecard que escora cada lead no dia do cadastro (status, histórico, pesquisa) em faixas A/B/C. Dashboard por campanha com CPL × IQL × CPLq e matriz de decisão de mídia. Inclui a metodologia e o algoritmo.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
-        </a>
-        <a class="card" href="qualificacao-leads/evg-bp10-pesquisa/">
-          <div class="card-title">Pesquisa de Qualificação — EVG × BP10</div>
-          <div class="card-desc">Versão atual da análise de pesquisa de qualificação, cruzando os lançamentos EVG e BP10 (pós-revisão adversarial jul/2026).</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
-        </a>
-        <a class="card" href="qualificacao-leads/2026-06-19-v3/">
-          <div class="card-title">Qualificação EVG v3 — Globoplay e Taxa de Resposta</div>
-          <div class="card-desc">Snapshot apresentado em jun/2026: achado do Globoplay (4,9–6,7% conv), evolução da taxa de resposta do form (8% → 67–70%) e pixel event.</div>
-          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
-        </a>
-        <a class="card" href="evento-resposta/">
-          <div class="card-title">Otimização por Evento de Resposta — Survey</div>
-          <div class="card-desc">Teste de otimização Meta por evento de resposta ao survey (EVG/BP10): CPL, custo por respondente e conversão vs campanha padrão.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
-        </a>
-        <a class="card" href="pesquisa-evangelico/">
-          <div class="card-title">Campanha EVG — Perfil da Base</div>
-          <div class="card-desc">Perfil da base e performance das variantes da pesquisa na campanha Brasil Evangélico.</div>
-          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
-        </a>
-        <a class="card" href="el-salvador/">
-          <div class="card-title">Perfil do Público — El Salvador</div>
-          <div class="card-desc">Funil viewers × leads × compradores do documentário ELS: perfil socioeconômico, canais e produtos.</div>
-          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Mai 2026</span></div>
-        </a>
+    <main>
+      <header class="hd">
+        <p class="hd-kicker">Brasil Paralelo · Dados</p>
+        <h1>Relatórios</h1>
+        <p>Análises de aquisição, base e comercial. Cada relatório traz os números,
+           as decisões de método e as queries que os geraram.</p>
+      </header>
+
+      <!-- ── mais recentes (derivado das datas dos cards) ─────────────── -->
+      <section class="recent" id="recent" hidden aria-labelledby="recent-hd">
+        <p class="recent-hd" id="recent-hd">Mais recentes</p>
+        <ul class="recent-list" id="recent-list"></ul>
+      </section>
+
+      <!-- ── controles ────────────────────────────────────────────────── -->
+      <div class="bar">
+        <div class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+          </svg>
+          <input id="busca" type="search" autocomplete="off"
+                 aria-label="Buscar relatório"
+                 placeholder="Buscar por tema, campanha ou métrica…">
+        </div>
+        <div class="ctl">
+          <span class="ctl-lbl" id="lbl-status">status</span>
+          <div class="seg" id="seg-status" role="group" aria-labelledby="lbl-status">
+            <button type="button" data-status="todos" aria-pressed="true">todos</button>
+            <button type="button" data-status="vivo" aria-pressed="false">vivo</button>
+            <button type="button" data-status="snapshot" aria-pressed="false">snapshot</button>
+          </div>
+        </div>
+        <div class="ctl">
+          <span class="ctl-lbl" id="lbl-agrupar">organizar</span>
+          <div class="seg" id="seg-agrupar" role="group" aria-labelledby="lbl-agrupar">
+            <button type="button" data-grupo="assunto" aria-pressed="true">assunto</button>
+            <button type="button" data-grupo="data" aria-pressed="false">data</button>
+            <button type="button" data-grupo="status" aria-pressed="false">status</button>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="section" id="midia">
-      <h2>Mídia Paga</h2>
-      <div class="grid">
-        <a class="card" href="midia-paga/">
-          <div class="card-title">Curva de Resposta &amp; Eficiência Rolante</div>
-          <div class="card-desc">Meta Ads VENDA: curva de resposta ao investimento, ponto ótimo de CPA e sinais prospectivos de aumento/redução de budget.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jun 2026</span></div>
-        </a>
-        <a class="card" href="app-engajamento-els/">
-          <div class="card-title">App Engajamento ELS — Google Ads</div>
-          <div class="card-desc">Desempenho diário das campanhas de app/engajamento ligadas ao ELS no Google Ads.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jun 2026</span></div>
-        </a>
+      <!-- ── linha de consulta ────────────────────────────────────────── -->
+      <p class="q" id="q">
+        <b>relatorios</b>
+        <span id="q-toks"></span>
+        <span class="out" aria-live="polite" id="q-out"></span>
+      </p>
+
+      <!-- ── catálogo (agrupado por assunto; JS reagrupa) ─────────────── -->
+      <div id="fluxo">
+
+        <!-- ── Campanhas & Leads ──────────────────────────────────────── -->
+        <section class="sec" id="campanhas" aria-labelledby="h-campanhas">
+          <div class="sec-h">
+            <h2 id="h-campanhas">Campanhas &amp; Leads</h2>
+            <span class="rule"></span><span class="n"></span>
+          </div>
+          <div class="grid">
+            <a class="card" href="resumo-bp-ads/" data-date="2026-08" data-k="newsletter email anunciante bp ads open rate ctr" data-updated="2026-08-07">
+              <div class="card-title">Resumo BP × BP Ads — Funil da Newsletter</div>
+              <div class="card-desc">Funil por edição (enviados, entregues, aberturas mercado/humana, cliques) com visão consolidada e visão segmentada por anunciante via domínio do link clicado.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Ago 2026</span></div>
+            </a>
+            <a class="card" href="entre-lobos/" data-date="2026-07" data-k="ELB26 ELB lookalike público semente roas" data-updated="2026-08-04">
+              <div class="card-title">Entre Lobos 2026 — Sementes de Lookalike</div>
+              <div class="card-desc">Públicos-semente para a fase de venda do ELB26: compradores ELB 2022, viewers da série e compradores ELS, perfilados por renda e cartão. Inclui benchmark de ROAS por segmentação do ELS.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
+            </a>
+            <a class="card" href="influenciadores/" data-date="2026-07" data-k="influ parceria publi criativo atribuição" data-updated="2026-07-21">
+              <div class="card-title">Influenciadores — Ranking de Vendas</div>
+              <div class="card-desc">Quem mais vendeu BP desde 2025: anúncios com criativo de influ, links diretos e venda indireta, por influenciador e por campanha.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
+            </a>
+            <a class="card" href="campanhas/aniversario-2026/" data-date="2026-06" data-k="ANV aniversário forecast budget vitalício bundle CPL" data-updated="2026-07-31">
+              <div class="card-title">Aniversário BP 2026 — Meta de Leads e Forecast</div>
+              <div class="card-desc">Estratégia de aquecimento das 2 frentes (Vitalício + bundle): saturação da base, meta de leads, orçamento a CPL R$3 e forecast de receita.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jun 2026</span></div>
+            </a>
+            <a class="card" href="campanhas/" data-date="2026-05" data-k="aquecimento conversão survey geografia canal" data-updated="2026-06-12">
+              <div class="card-title">Eficiência do Aquecimento — Campanhas 2026</div>
+              <div class="card-desc">Conversão de leads por campanha, curva de tempo, canal de aquisição, perfil geográfico e pesquisa de público (4 surveys).</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Mai 2026</span></div>
+            </a>
+            <a class="card" href="qualificacao-leads/" data-date="2026-05" data-k="lead score survey formulário CAC CPL framework" data-updated="2026-08-04">
+              <div class="card-title">Qualificação de Leads — Framework CPL×CAC</div>
+              <div class="card-desc">342k respostas de 4 formulários. Qual survey prediz conversão, quais perguntas usar, modelo de lead score e formulário ideal.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Mai 2026</span></div>
+            </a>
+            <a class="card" href="qualificacao-leads/iql/" data-date="2026-07" data-k="IQL score CPLq faixa A B C matriz de decisão mídia" data-updated="2026-07-31">
+              <div class="card-title">IQL — Índice de Qualidade de Lead</div>
+              <div class="card-desc">Scorecard que escora cada lead no dia do cadastro (status, histórico, pesquisa) em faixas A/B/C. Dashboard por campanha com CPL × IQL × CPLq e matriz de decisão de mídia. Inclui a metodologia e o algoritmo.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
+            </a>
+            <a class="card" href="qualificacao-leads/evg-bp10-pesquisa/" data-date="2026-07" data-k="EVG BP10 evangélico pesquisa qualificação" data-updated="2026-07-06">
+              <div class="card-title">Pesquisa de Qualificação — EVG × BP10</div>
+              <div class="card-desc">Versão atual da análise de pesquisa de qualificação, cruzando os lançamentos EVG e BP10 (pós-revisão adversarial jul/2026).</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
+            </a>
+            <a class="card" href="qualificacao-leads/2026-06-19-v3/" data-date="2026-06" data-k="EVG globoplay taxa de resposta pixel v3" data-updated="2026-06-22">
+              <div class="card-title">Qualificação EVG v3 — Globoplay e Taxa de Resposta</div>
+              <div class="card-desc">Snapshot apresentado em jun/2026: achado do Globoplay (4,9–6,7% conv), evolução da taxa de resposta do form (8% → 67–70%) e pixel event.</div>
+              <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
+            </a>
+            <a class="card" href="evento-resposta/" data-date="2026-07" data-k="meta ads otimização evento survey EVG BP10 custo por respondente" data-updated="2026-07-06">
+              <div class="card-title">Otimização por Evento de Resposta — Survey</div>
+              <div class="card-desc">Teste de otimização Meta por evento de resposta ao survey (EVG/BP10): CPL, custo por respondente e conversão vs campanha padrão.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
+            </a>
+            <a class="card" href="pesquisa-evangelico/" data-date="2026-06" data-k="EVG evangélico perfil variantes" data-updated="2026-07-06">
+              <div class="card-title">Campanha EVG — Perfil da Base</div>
+              <div class="card-desc">Perfil da base e performance das variantes da pesquisa na campanha Brasil Evangélico.</div>
+              <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
+            </a>
+            <a class="card" href="el-salvador/" data-date="2026-05" data-k="ELS documentário funil viewers socioeconômico" data-updated="2026-06-12">
+              <div class="card-title">Perfil do Público — El Salvador</div>
+              <div class="card-desc">Funil viewers × leads × compradores do documentário ELS: perfil socioeconômico, canais e produtos.</div>
+              <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Mai 2026</span></div>
+            </a>
+          </div>
+        </section>
+
+        <!-- ── Mídia Paga ─────────────────────────────────────────────── -->
+        <section class="sec" id="midia" aria-labelledby="h-midia">
+          <div class="sec-h">
+            <h2 id="h-midia">Mídia Paga</h2>
+            <span class="rule"></span><span class="n"></span>
+          </div>
+          <div class="grid">
+            <a class="card" href="midia-paga/" data-date="2026-06" data-k="meta ads CPA budget saturação curva de resposta MMM" data-updated="2026-07-06">
+              <div class="card-title">Curva de Resposta &amp; Eficiência Rolante</div>
+              <div class="card-desc">Meta Ads VENDA: curva de resposta ao investimento, ponto ótimo de CPA e sinais prospectivos de aumento/redução de budget.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jun 2026</span></div>
+            </a>
+            <a class="card" href="app-engajamento-els/" data-date="2026-06" data-k="google ads app install ELS engajamento" data-updated="2026-07-06">
+              <div class="card-title">App Engajamento ELS — Google Ads</div>
+              <div class="card-desc">Desempenho diário das campanhas de app/engajamento ligadas ao ELS no Google Ads.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jun 2026</span></div>
+            </a>
+          </div>
+        </section>
+
+        <!-- ── Base & Produtos ────────────────────────────────────────── -->
+        <section class="sec" id="base" aria-labelledby="h-base">
+          <div class="sec-h">
+            <h2 id="h-base">Base &amp; Produtos</h2>
+            <span class="rule"></span><span class="n"></span>
+          </div>
+          <div class="grid">
+            <a class="card" href="mecenas-qualificacao/" data-date="2026-08" data-k="mecenas doação CNPJ lift segmento high ticket" data-updated="2026-08-10">
+              <div class="card-title">Perfil de quem compra o Mecenas</div>
+              <div class="card-desc">Quem doa, o que diferencia essas pessoas da base e onde estão as próximas: lift por atributo, o peso real do CNPJ e segmentos de abordagem dimensionados.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Ago 2026</span></div>
+            </a>
+            <a class="card" href="vitalicio/" data-date="2026-05" data-k="vitalício LTV upgrade upsell tier comercial digital" data-updated="2026-06-12">
+              <div class="card-title">Análise Estratégica Vitalício 2026</div>
+              <div class="card-desc">Diagnóstico completo da base vitalícia: LTV por tier, upgrades, Comercial vs Digital e oportunidades de upsell.</div>
+              <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Mai 2026</span></div>
+            </a>
+            <a class="card" href="clube-do-livro/" data-date="2026-06" data-k="CDL clube do livro membro antiguidade canal" data-updated="2026-07-07">
+              <div class="card-title">Perfil de Compra — Clube do Livro</div>
+              <div class="card-desc">Quem comprou o CDL: status de membro, antiguidade na BP, histórico de consumo e canal de venda.</div>
+              <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
+            </a>
+            <a class="card" href="odisseia/" data-date="2026-07" data-k="SSR pesquisa sintética PSM forecast box última cruzada luxo" data-updated="2026-07-22">
+              <div class="card-title">Edições de Luxo — Odisseia &amp; Box A Última Cruzada (SSR)</div>
+              <div class="card-desc">Pesquisa sintética de intenção de compra (2 abas): livro de luxo Odisseia e Box da série A Última Cruzada. Veredicto, perfil de compra, PSM e forecast recalibrado (fator de preço corrigido pós-CdL).</div>
+              <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jul 2026</span></div>
+            </a>
+            <a class="card" href="nucleo-formacao/" data-date="2026-06" data-k="certificação curso playlist horas consumo top 500" data-updated="2026-07-06">
+              <div class="card-title">Núcleo de Formação — Top Consumidores</div>
+              <div class="card-desc">Top 500 usuários por horas em certificações e cursos (30d/90d/360d/total), com interesses por playlist. Dados anonimizados.</div>
+              <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
+            </a>
+            <a class="card" href="teller/" data-date="2026-07" data-k="audiolivro teller escuta upsell recuperação" data-updated="2026-07-06">
+              <div class="card-title">Teller — Vendas, Perfil e Engajamento</div>
+              <div class="card-desc">Vendas 2026 do audiolivro: perfil dos compradores, se é aquisição/upsell/recuperação, correlação com vendas gerais e engajamento de escuta.</div>
+              <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jul 2026</span></div>
+            </a>
+          </div>
+        </section>
+
+        <!-- ── Comercial & Retenção ───────────────────────────────────── -->
+        <section class="sec" id="comercial" aria-labelledby="h-comercial">
+          <div class="sec-h">
+            <h2 id="h-comercial">Comercial &amp; Retenção</h2>
+            <span class="rule"></span><span class="n"></span>
+          </div>
+          <div class="grid">
+            <a class="card" href="lambda-conteudo-bloqueado/" data-date="2026-07" data-k="lambda IA upsell hotlead zenvia medição" data-updated="2026-07-30">
+              <div class="card-title">Lambda — Campanha Conteúdo Bloqueado</div>
+              <div class="card-desc">O que aconteceu com os 2,9k leads de upsell enviados à IA: vendas reais vs o que o funil mostra, sobreposição com o Comercial humano e as 5 correções para a medição funcionar.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
+            </a>
+            <a class="card" href="odisseia-lancamento/" data-date="2026-07" data-k="odisseia CDL lançamento zenvia esforço BP10" data-updated="2026-07-22">
+              <div class="card-title">Odisseia vs Clube do Livro — Lançamento Comercial</div>
+              <div class="card-desc">Por que a Odisseia vende 141× menos que o CDL no Comercial: esforço medido nas conversas Zenvia, hipótese BP10 e diferenças estruturais das campanhas.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
+            </a>
+            <a class="card" href="ia-vs-comercial/" data-date="2026-06" data-k="IA lambda hotlead conversão vendedor humano" data-updated="2026-07-06">
+              <div class="card-title">IA (Lambda) vs Comercial — Hotleads</div>
+              <div class="card-desc">Conversão de hotleads abordados pela IA de vendas vs pelo time Comercial humano.</div>
+              <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jun 2026</span></div>
+            </a>
+            <a class="card" href="retencao-assinantes/" data-date="2026-06" data-k="churn downgrade anual mensal saldo recuperação assinatura" data-updated="2026-06-08">
+              <div class="card-title">Retenção — Downgrade Anual → Mensal</div>
+              <div class="card-desc">Impacto financeiro do downgrade por saldo insuficiente: clientes impactados, taxa de recuperação atual e cenários.</div>
+              <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
+            </a>
+          </div>
+        </section>
       </div>
-    </div>
 
-    <div class="section" id="base">
-      <h2>Base &amp; Produtos</h2>
-      <div class="grid">
-        <a class="card" href="mecenas-qualificacao/">
-          <div class="card-title">Perfil de quem compra o Mecenas</div>
-          <div class="card-desc">Quem doa, o que diferencia essas pessoas da base e onde estão as próximas: lift por atributo, o peso real do CNPJ e segmentos de abordagem dimensionados.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Ago 2026</span></div>
-        </a>
-        <a class="card" href="vitalicio/">
-          <div class="card-title">Análise Estratégica Vitalício 2026</div>
-          <div class="card-desc">Diagnóstico completo da base vitalícia: LTV por tier, upgrades, Comercial vs Digital e oportunidades de upsell.</div>
-          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Mai 2026</span></div>
-        </a>
-        <a class="card" href="clube-do-livro/">
-          <div class="card-title">Perfil de Compra — Clube do Livro</div>
-          <div class="card-desc">Quem comprou o CDL: status de membro, antiguidade na BP, histórico de consumo e canal de venda.</div>
-          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
-        </a>
-        <a class="card" href="odisseia/">
-          <div class="card-title">Edições de Luxo — Odisseia &amp; Box A Última Cruzada (SSR)</div>
-          <div class="card-desc">Pesquisa sintética de intenção de compra (2 abas): livro de luxo Odisseia e Box da série A Última Cruzada. Veredicto, perfil de compra, PSM e forecast recalibrado (fator de preço corrigido pós-CdL).</div>
-          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jul 2026</span></div>
-        </a>
-        <a class="card" href="nucleo-formacao/">
-          <div class="card-title">Núcleo de Formação — Top Consumidores</div>
-          <div class="card-desc">Top 500 usuários por horas em certificações e cursos (30d/90d/360d/total), com interesses por playlist. Dados anonimizados.</div>
-          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
-        </a>
-        <a class="card" href="teller/">
-          <div class="card-title">Teller — Vendas, Perfil e Engajamento</div>
-          <div class="card-desc">Vendas 2026 do audiolivro: perfil dos compradores, se é aquisição/upsell/recuperação, correlação com vendas gerais e engajamento de escuta.</div>
-          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jul 2026</span></div>
-        </a>
+      <div class="empty" id="empty">
+        <p>Nenhum relatório corresponde a esse filtro.</p>
+        <button type="button" id="limpar">Limpar filtros</button>
       </div>
-    </div>
 
-    <div class="section" id="comercial">
-      <h2>Comercial &amp; Retenção</h2>
-      <div class="grid">
-        <a class="card" href="lambda-conteudo-bloqueado/">
-          <div class="card-title">Lambda — Campanha Conteúdo Bloqueado</div>
-          <div class="card-desc">O que aconteceu com os 2,9k leads de upsell enviados à IA: vendas reais vs o que o funil mostra, sobreposição com o Comercial humano e as 5 correções para a medição funcionar.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
-        </a>
-        <a class="card" href="odisseia-lancamento/">
-          <div class="card-title">Odisseia vs Clube do Livro — Lançamento Comercial</div>
-          <div class="card-desc">Por que a Odisseia vende 141× menos que o CDL no Comercial: esforço medido nas conversas Zenvia, hipótese BP10 e diferenças estruturais das campanhas.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jul 2026</span></div>
-        </a>
-        <a class="card" href="ia-vs-comercial/">
-          <div class="card-title">IA (Lambda) vs Comercial — Hotleads</div>
-          <div class="card-desc">Conversão de hotleads abordados pela IA de vendas vs pelo time Comercial humano.</div>
-          <div class="card-meta"><span class="badge vivo">Vivo</span><span class="card-date">Jun 2026</span></div>
-        </a>
-        <a class="card" href="retencao-assinantes/">
-          <div class="card-title">Retenção — Downgrade Anual → Mensal</div>
-          <div class="card-desc">Impacto financeiro do downgrade por saldo insuficiente: clientes impactados, taxa de recuperação atual e cenários.</div>
-          <div class="card-meta"><span class="badge snapshot">Snapshot</span><span class="card-date">Jun 2026</span></div>
-        </a>
-      </div>
-    </div>
-
-    <footer>
-      <strong>Vivo</strong> = relatório com pipeline de atualização (refresh.py) ou análise em evolução · <strong>Snapshot</strong> = retrato de um momento, não atualizado.<br>
-      Entregas tipo lista/export (sem página HTML) e relatórios com dados sensíveis não aparecem no portal — ver ANALISE.md nas pastas do repo.
-    </footer>
+      <footer>
+        <strong>Vivo</strong> — relatório com pipeline de atualização (<span class="mono">refresh.py</span>) ou análise em evolução.
+        <strong>Snapshot</strong> — retrato de um momento, não atualizado.<br>
+        A data do card é a da análise; <span class="mono">atz</span> é o último commit que tocou a pasta do relatório.
+        Entregas tipo lista/export e relatórios com dados sensíveis não aparecem aqui — ver o
+        <span class="mono">ANALISE.md</span> na pasta do repo.
+      </footer>
+    </main>
   </div>
 
   <script>
+  (() => {
     const busca = document.getElementById('busca');
-    const cards = [...document.querySelectorAll('.card')];
-    const sections = [...document.querySelectorAll('.section')];
-    busca.addEventListener('input', () => {
-      const q = busca.value.trim().toLowerCase();
-      cards.forEach(c => c.classList.toggle('hidden', q && !c.textContent.toLowerCase().includes(q)));
-      sections.forEach(s => s.classList.toggle('hidden', ![...s.querySelectorAll('.card')].some(c => !c.classList.contains('hidden'))));
+    const fluxo = document.getElementById('fluxo');
+    const rail  = document.getElementById('rail');
+    const qToks = document.getElementById('q-toks');
+    const qOut  = document.getElementById('q-out');
+    const empty = document.getElementById('empty');
+    const cards = [...fluxo.querySelectorAll('.card')];
+    const MES   = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+    const Mes   = m => MES[m - 1].replace(/^./, c => c.toUpperCase());
+
+    let status = 'todos';
+    let grupo  = 'assunto';
+    let obs    = null;
+    let atuais = [];
+
+    const norm = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+    /* ── modelo: lido uma vez do HTML estático ───────────────────────── */
+    const assuntos = [...fluxo.querySelectorAll('.sec')].map(s => ({
+      id: s.id,
+      rotulo: s.querySelector('h2').textContent,
+      cards: [...s.querySelectorAll('.card')]
+    }));
+
+    cards.forEach(c => {
+      c.dataset.hay = norm(c.textContent + ' ' + (c.dataset.k || ''));
+      c.dataset.st  = c.querySelector('.badge').classList.contains('vivo') ? 'vivo' : 'snapshot';
+      c.dataset.sec = c.closest('.sec').querySelector('h2').textContent;
+
+      // "atz" só aparece quando o commit é de outro mês que não o da análise —
+      // senão repete a data que já está ao lado
+      const upd = c.dataset.updated;
+      if (upd && upd.slice(0, 7) !== c.dataset.date) {
+        const [ano, m, d] = upd.split('-');
+        const span = document.createElement('span');
+        span.className = 'card-upd';
+        span.textContent = `· atz ${+d} ${MES[+m - 1]}`;
+        span.title = `Última atualização no repositório: ${d}/${m}/${ano}`;
+        c.querySelector('.card-date').after(span);
+      }
     });
+
+    /* ── mais recentes: os cards com a data máxima do catálogo ───────── */
+    (() => {
+      const max = cards.reduce((m, c) => c.dataset.date > m ? c.dataset.date : m, '');
+      const novos = cards.filter(c => c.dataset.date === max);
+      if (!max || !novos.length || novos.length > 4) return;
+      const [ano, mes] = max.split('-');
+      document.getElementById('recent-hd').textContent = `Mais recentes · ${MES[+mes - 1]}/${ano}`;
+      document.getElementById('recent-list').innerHTML = novos.map(c => `
+        <li><a href="${c.getAttribute('href')}">
+          <span>${c.querySelector('.card-title').textContent}</span>
+          <span class="sec-of">${c.dataset.sec}</span>
+        </a></li>`).join('');
+      document.getElementById('recent').hidden = false;
+    })();
+
+    /* ── agrupamentos ────────────────────────────────────────────────── */
+    function grupos() {
+      if (grupo === 'data') {
+        return [...new Set(cards.map(c => c.dataset.date))].sort().reverse().map(d => ({
+          id: 'd-' + d,
+          rotulo: `${Mes(+d.slice(5))} ${d.slice(0, 4)}`,
+          cards: cards.filter(c => c.dataset.date === d)
+        }));
+      }
+      if (grupo === 'status') {
+        return [
+          { id: 'st-vivo',     rotulo: 'Vivo',     cards: cards.filter(c => c.dataset.st === 'vivo') },
+          { id: 'st-snapshot', rotulo: 'Snapshot', cards: cards.filter(c => c.dataset.st === 'snapshot') }
+        ];
+      }
+      return assuntos;
+    }
+
+    /* ── render: monta as seções e a rail a partir dos grupos ────────── */
+    function render() {
+      atuais = grupos();
+      fluxo.textContent = '';
+      rail.textContent = '';
+
+      atuais.forEach(g => {
+        const sec = document.createElement('section');
+        sec.className = 'sec';
+        sec.id = g.id;
+        sec.setAttribute('aria-labelledby', 'h-' + g.id);
+        sec.innerHTML = `<div class="sec-h">
+            <h2 id="h-${g.id}">${g.rotulo}</h2>
+            <span class="rule"></span><span class="n"></span>
+          </div><div class="grid"></div>`;
+        sec.querySelector('.grid').append(...g.cards);
+        fluxo.append(sec);
+        g.el = sec;
+
+        const li = document.createElement('li');
+        li.innerHTML = `<a class="rail-link" href="#${g.id}">${g.rotulo}<span class="n"></span></a>`;
+        rail.append(li);
+        g.link = li.firstElementChild;
+      });
+
+      if (obs) obs.disconnect();
+      obs = new IntersectionObserver(entradas => {
+        const visivel = entradas.filter(e => e.isIntersecting)
+                                .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (visivel) atuais.forEach(g => g.link.classList.toggle('on', g.el === visivel.target));
+      }, { rootMargin: '-96px 0px -60% 0px', threshold: 0 });
+      atuais.forEach(g => obs.observe(g.el));
+
+      cards.forEach((c, i) => c.style.animationDelay = Math.min(i * 24, 400) + 'ms');
+      if (atuais[0]) atuais[0].link.classList.add('on');
+    }
+
+    /* ── filtro ──────────────────────────────────────────────────────── */
+    function aplicar() {
+      const q = norm(busca.value.trim());
+      let total = 0;
+
+      cards.forEach(c => {
+        const ok = (!q || c.dataset.hay.includes(q)) &&
+                   (status === 'todos' || c.dataset.st === status);
+        c.classList.toggle('hidden', !ok);
+        if (ok) total++;
+      });
+
+      atuais.forEach(g => {
+        const n = g.cards.filter(c => !c.classList.contains('hidden')).length;
+        g.el.classList.toggle('hidden', n === 0);
+        g.el.querySelector('.sec-h .n').textContent = String(n).padStart(2, '0');
+        g.link.querySelector('.n').textContent = String(n).padStart(2, '0');
+        g.link.classList.toggle('off', n === 0);
+      });
+
+      const toks = [];
+      if (q) toks.push(['busca', `"${busca.value.trim()}"`, () => { busca.value = ''; aplicar(); }]);
+      if (status !== 'todos') toks.push(['status', status, () => setStatus('todos')]);
+      if (grupo !== 'assunto') toks.push(['agrupado por', grupo, () => setGrupo('assunto')]);
+
+      qToks.textContent = '';
+      toks.forEach(([campo, valor, desfazer], i) => {
+        qToks.append(i === 0 ? ' · onde ' : ' e ');
+        const tok = document.createElement('span');
+        tok.className = 'tok';
+        tok.append(`${campo} = ${valor}`);
+        const x = document.createElement('button');
+        x.type = 'button'; x.textContent = '×';
+        x.setAttribute('aria-label', `Remover ${campo}`);
+        x.addEventListener('click', desfazer);
+        tok.append(x);
+        qToks.append(tok);
+      });
+
+      qOut.innerHTML = `<strong>${total}</strong> de ${cards.length} relatórios`;
+      empty.classList.toggle('on', total === 0);
+    }
+
+    function setStatus(s) {
+      status = s;
+      document.querySelectorAll('#seg-status button')
+        .forEach(b => b.setAttribute('aria-pressed', String(b.dataset.status === s)));
+      aplicar();
+    }
+
+    function setGrupo(g) {
+      grupo = g;
+      document.querySelectorAll('#seg-agrupar button')
+        .forEach(b => b.setAttribute('aria-pressed', String(b.dataset.grupo === g)));
+      render();
+      aplicar();
+    }
+
+    busca.addEventListener('input', aplicar);
+    document.querySelectorAll('#seg-status button')
+      .forEach(b => b.addEventListener('click', () => setStatus(b.dataset.status)));
+    document.querySelectorAll('#seg-agrupar button')
+      .forEach(b => b.addEventListener('click', () => setGrupo(b.dataset.grupo)));
+    document.getElementById('limpar').addEventListener('click', () => {
+      busca.value = ''; setStatus('todos'); busca.focus();
+    });
+
+    /* ── atalhos ─────────────────────────────────────────────────────── */
+    document.addEventListener('keydown', e => {
+      const digitando = /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName);
+      if ((e.key === '/' && !digitando) || ((e.metaKey || e.ctrlKey) && e.key === 'k')) {
+        e.preventDefault(); busca.focus(); busca.select();
+      } else if (e.key === 'Escape' && digitando) {
+        busca.value = ''; aplicar(); busca.blur();
+      }
+    });
+
+    render();
+    aplicar();
+  })();
   </script>
 </body>
 </html>
