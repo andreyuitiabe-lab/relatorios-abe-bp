@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pulso do Comercial — abordagens dos últimos 14 dias</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --page:    #f9f9f7;
+      --surface: #fcfcfb;
+      --ink:     #0b0b0b;
+      --ink-2:   #52514e;
+      --muted:   #898781;
+      --grid:    #e1e0d9;
+      --line:    #e1e0d9;
+      --border:  rgba(11,11,11,0.10);
+      /* categórica validada (dataviz) — cor segue a entidade, ordem fixa */
+      --c-vitalicio: #2a78d6;
+      --c-bp10:      #eb6834;
+      --c-cdl:       #1baf7a;
+      --c-odisseia:  #eda100;
+      --c-mecenas:   #e87ba4;
+      --c-outros:    #c3c2b7;
+      --deemph:      #c3c2b7;
+      --good:  #006300;
+      --bad:   #d03b3b;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--page); color: var(--ink); font-size: 14px; line-height: 1.6;
+    }
+    .wrap   { max-width: 980px; margin: 0 auto; padding: 48px 24px 80px; }
+    section { margin-bottom: 52px; }
+    h1      { font-size: 26px; font-weight: 700; }
+    h2      { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    p.para  { color: var(--ink-2); margin-bottom: 12px; }
+    .sub    { color: var(--ink-2); font-size: 13px; margin-top: 4px; }
+    .label  { font-size: 11px; font-weight: 600; text-transform: uppercase;
+              letter-spacing: .06em; color: var(--muted); margin-bottom: 12px; }
+    .card   { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 680px) { .grid-2, .grid-4 { grid-template-columns: 1fr; } }
+
+    .tile .t-label { font-size: 11px; font-weight: 600; text-transform: uppercase;
+                     letter-spacing: .06em; color: var(--muted); }
+    .tile .t-value { font-size: 30px; font-weight: 600; line-height: 1.15; margin-top: 6px; }
+    .tile .t-delta { font-size: 12.5px; margin-top: 4px; color: var(--ink-2); }
+    .tile .t-delta .up   { color: var(--good); font-weight: 600; }
+    .tile .t-delta .down { color: var(--bad); font-weight: 600; }
+
+    table  { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th     { text-align: left; font-weight: 600; color: var(--ink-2); font-size: 11px;
+             text-transform: uppercase; letter-spacing: .05em;
+             border-bottom: 2px solid var(--line); padding: 8px 10px; }
+    td     { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    tr:last-child td { border-bottom: none; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    th.num { text-align: right; }
+    .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px;
+              margin-right: 8px; vertical-align: baseline; }
+
+    .nota  { background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+             padding: 12px 16px; font-size: 12.5px; color: var(--ink-2); margin-top: 16px; }
+    .nota strong { color: var(--ink); }
+    ul.clean { margin: 6px 0 6px 18px; color: var(--ink-2); }
+    ul.clean li { margin-bottom: 6px; }
+
+    header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+    footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+             font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Comercial</p>
+  <h1>Pulso do Comercial — o que o time está oferecendo</h1>
+  <p class="sub">Abordagens no Zenvia e vendas do canal Comercial nos últimos 14 dias completos (<span class="js-range">—</span>), comparados aos 14 anteriores (<span class="js-range-prev">—</span>). O que o time oferece é medido por menção ao tema na transcrição da conversa.<br>
+  Atualizado: <span id="updated">—</span></p>
+</header>
+
+<main>
+
+  <!-- KPIs -->
+  <section>
+    <h2>Resumo do período</h2>
+    <div class="grid-4">
+      <div class="card tile">
+        <div class="t-label">Abordagens</div>
+        <div class="t-value" id="kpi-abordagens">—</div>
+        <div class="t-delta" id="kpi-abordagens-d">—</div>
+      </div>
+      <div class="card tile">
+        <div class="t-label">Vendas comerciais</div>
+        <div class="t-value" id="kpi-vendas">—</div>
+        <div class="t-delta" id="kpi-vendas-d">—</div>
+      </div>
+      <div class="card tile">
+        <div class="t-label">Receita comercial</div>
+        <div class="t-value" id="kpi-receita">—</div>
+        <div class="t-delta" id="kpi-receita-d">—</div>
+      </div>
+      <div class="card tile">
+        <div class="t-label">Vendedores (pico/dia)</div>
+        <div class="t-value" id="kpi-vendedores">—</div>
+        <div class="t-delta" id="kpi-vendedores-d">—</div>
+      </div>
+    </div>
+    <div class="nota" id="nota-resumo">—</div>
+  </section>
+
+  <!-- Volume -->
+  <section>
+    <h2>Ritmo de abordagens por dia</h2>
+    <div class="card">
+      <canvas id="chartVolume" height="200"></canvas>
+    </div>
+    <div class="nota">Janela atual em azul; os 14 dias anteriores em cinza, como contexto. Fins de semana rodam a ~900 abordagens/dia; dias úteis entre 3 e 6 mil. O número de vendedores ativos de cada dia está no tooltip.</div>
+  </section>
+
+  <!-- Temas -->
+  <section>
+    <h2>Para onde o script aponta — menções por tema nas conversas</h2>
+    <p class="para">Conversas por dia que mencionam cada tema (uma conversa pode citar mais de um). "BP10" agrupa "10 anos / aniversário" — no Comercial, isso é a oferta de Vitalício Aniv26.</p>
+    <div class="card">
+      <canvas id="chartTemas" height="240"></canvas>
+    </div>
+    <div class="nota" id="nota-temas">—</div>
+  </section>
+
+  <!-- Vendas -->
+  <section>
+    <h2>O que o time está vendendo</h2>
+    <div class="card">
+      <p class="label">Vendas comerciais por dia e produto</p>
+      <canvas id="chartVendas" height="220"></canvas>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <p class="label">Últimos 14 dias por produto — oferta, venda e conversão</p>
+      <table id="tblProdutos">
+        <thead><tr>
+          <th>Produto</th><th class="num">Conversas que mencionam</th><th class="num">Vendas</th>
+          <th class="num">vs 14d ant.</th><th class="num">Receita</th><th class="num">Ticket</th>
+          <th class="num">Conversão/conversa</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="nota" id="nota-vendas">—</div>
+  </section>
+
+  <!-- Conversão -->
+  <section>
+    <h2>Conversão por conversa</h2>
+    <p class="para">Vendas comerciais do produto ÷ conversas que mencionam o tema, na janela atual. Aproximação: a venda não é vinculada à conversa individual.</p>
+    <div class="grid-2">
+      <div class="card">
+        <p class="label">Taxa por tema (%)</p>
+        <canvas id="chartConv" height="200"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">Onde as conversas com menção à Odisseia acontecem</p>
+        <canvas id="chartStagesOdi" height="200"></canvas>
+      </div>
+    </div>
+    <div class="nota" id="nota-conv">—</div>
+  </section>
+
+  <!-- Etapas -->
+  <section>
+    <h2>Em que etapa do funil as abordagens acontecem</h2>
+    <div class="card">
+      <canvas id="chartStages" height="240"></canvas>
+    </div>
+  </section>
+
+  <!-- Leitura -->
+  <section>
+    <h2>Leitura</h2>
+    <div class="card">
+      <ul class="clean" id="leitura"></ul>
+    </div>
+  </section>
+
+  <!-- Limitações -->
+  <section>
+    <h2>Limitações</h2>
+    <div class="card">
+      <ul class="clean">
+        <li><strong>Menção ≠ oferta formal:</strong> a contagem por regex pega qualquer citação do tema na conversa (inclusive cliente perguntando). "Aniversário" pode ter falsos positivos pontuais.</li>
+        <li><strong>Conversão por conversa é aproximação:</strong> a venda não é vinculada à conversa por <code>id_transaction</code>; vendas originadas fora do Zenvia (telefone, lista fria) inflam a taxa do produto.</li>
+        <li><strong>Só canal Comercial:</strong> vendas digitais/CRM ficam fora; renovações excluídas (<code>bl_is_renovation = FALSE</code>).</li>
+        <li><strong>Janela móvel:</strong> os números mudam a cada refresh (últimos 14 dias completos).</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Fontes: masterdata.dim_zenvia_approaches (transcrições), masterdata.fct_transactions (vendas).<br>
+  Queries canônicas em <code>queries/</code> · dados via <code>refresh.py</code> · André Abe · ago/2026.
+</footer>
+
+</div>
+
+<script>
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const COR = {
+  'Vitalício': css('--c-vitalicio'), 'BP10': css('--c-bp10'),
+  'Clube do Livro': css('--c-cdl'), 'Odisseia': css('--c-odisseia'),
+  'Mecenas': css('--c-mecenas'), 'Assinaturas/outros': css('--c-outros'),
+};
+const TEMA_LABEL = { vitalicio: 'Vitalício', bp10: 'BP10', cdl: 'Clube do Livro',
+                     odisseia: 'Odisseia', mecenas: 'Mecenas' };
+const SURFACE = css('--surface'), GRID = css('--grid'), MUTED = css('--muted'), INK2 = css('--ink-2');
+
+const fmtInt = v => v.toLocaleString('pt-BR');
+const fmtBRL = v => 'R$ ' + (v >= 1e6 ? (v/1e6).toFixed(2).replace('.', ',') + 'M'
+                    : v >= 1e3 ? Math.round(v/1e3) + 'k' : Math.round(v));
+const fmtDelta = (cur, prev, upGood = true) => {
+  if (!prev) return '';
+  const d = Math.round(100 * cur / prev - 100);
+  const cls = (d >= 0) === upGood ? 'up' : 'down';
+  return '<span class="' + cls + '">' + (d >= 0 ? '+' : '') + d + '%</span> vs 14d anteriores';
+};
+const fmtDM = iso => iso.slice(8, 10) + '/' + iso.slice(5, 7);
+
+Chart.defaults.font.family = 'system-ui, -apple-system, "Segoe UI", sans-serif';
+Chart.defaults.color = MUTED;
+Chart.defaults.borderColor = GRID;
+Chart.defaults.plugins.legend.position = 'bottom';
+Chart.defaults.plugins.legend.labels.boxWidth = 10;
+Chart.defaults.plugins.legend.labels.boxHeight = 10;
+
+fetch('./data.json').then(r => r.json()).then(D => {
+  document.getElementById('updated').textContent = D.updated_at.replace('T', ' ');
+  const C = D.config;
+  document.querySelectorAll('.js-range').forEach(el =>
+    el.textContent = fmtDM(C.ini) + '–' + fmtDM(C.fim));
+  document.querySelectorAll('.js-range-prev').forEach(el =>
+    el.textContent = fmtDM(C.ini_prev) + '–' + fmtDM(C.fim_prev));
+
+  const A = D.resumo.atual, P = D.resumo.anterior;
+
+  // KPIs
+  document.getElementById('kpi-abordagens').textContent = fmtInt(A.abordagens);
+  document.getElementById('kpi-abordagens-d').innerHTML = fmtDelta(A.abordagens, P.abordagens);
+  document.getElementById('kpi-vendas').textContent = fmtInt(A.vendas_total);
+  document.getElementById('kpi-vendas-d').innerHTML = fmtDelta(A.vendas_total, P.vendas_total);
+  document.getElementById('kpi-receita').textContent = fmtBRL(A.receita_total);
+  document.getElementById('kpi-receita-d').innerHTML = fmtDelta(A.receita_total, P.receita_total);
+  document.getElementById('kpi-vendedores').textContent = A.vendedores_pico;
+  document.getElementById('kpi-vendedores-d').innerHTML = fmtDelta(A.vendedores_pico, P.vendedores_pico);
+
+  const pctConv = t => {
+    const c = D.conversao[t];
+    return c && c.taxa_pct != null ? c.taxa_pct.toLocaleString('pt-BR') + '%' : '—';
+  };
+  const shareMenc = t => Math.round(100 * A.mencoes[t] / A.abordagens) + '%';
+  document.getElementById('nota-resumo').innerHTML =
+    '<strong>O script do time está no Vitalício:</strong> ' + shareMenc('vitalicio') +
+    ' das abordagens mencionam vitalício (' + fmtInt(A.mencoes.vitalicio) + ' conversas) e o produto responde por ' +
+    Math.round(100 * A.receita['Vitalício'] / A.receita_total) + '% da receita comercial do período. A Odisseia aparece em ' +
+    shareMenc('odisseia') + ' das conversas (' + fmtInt(A.mencoes.odisseia) + ').';
+
+  // ---- volume por dia (atual azul, anterior cinza = ênfase) ----
+  const dias = D.diario.map(r => r.dia);
+  const labels = dias.map(fmtDM);
+  const isAtual = d => d >= C.ini;
+  new Chart(document.getElementById('chartVolume'), {
+    type: 'bar',
+    data: { labels, datasets: [{
+      label: 'Abordagens',
+      data: D.diario.map(r => r.abordagens),
+      backgroundColor: dias.map(d => isAtual(d) ? COR['Vitalício'] : css('--deemph')),
+      maxBarThickness: 16, borderRadius: { topLeft: 4, topRight: 4 },
+    }]},
+    options: {
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: {
+          afterLabel: ctx => D.diario[ctx.dataIndex].vendedores + ' vendedores ativos' } } },
+      scales: { y: { beginAtZero: true, grid: { color: GRID }, border: { display: false } },
+                x: { grid: { display: false } } },
+    }
+  });
+
+  // ---- menções por tema (linhas) ----
+  new Chart(document.getElementById('chartTemas'), {
+    type: 'line',
+    data: { labels, datasets: Object.keys(TEMA_LABEL).map(t => ({
+      label: TEMA_LABEL[t],
+      data: D.diario.map(r => r[t]),
+      borderColor: COR[TEMA_LABEL[t]], backgroundColor: COR[TEMA_LABEL[t]],
+      borderWidth: 2, pointRadius: 0, pointHoverRadius: 5,
+      pointHoverBorderColor: SURFACE, pointHoverBorderWidth: 2, tension: 0,
+    }))},
+    options: {
+      interaction: { mode: 'index', intersect: false },
+      plugins: { tooltip: { itemSort: (a, b) => b.parsed.y - a.parsed.y } },
+      scales: { y: { beginAtZero: true, grid: { color: GRID }, border: { display: false } },
+                x: { grid: { display: false }, ticks: { maxTicksLimit: 14 } } },
+    }
+  });
+  const varPct = (t) => Math.round(100 * A.mencoes[t] / Math.max(P.mencoes[t], 1) - 100);
+  document.getElementById('nota-temas').innerHTML =
+    '<strong>O BP10 está esvaziando (' + varPct('bp10') + '% de menções vs 14d anteriores) e a carteira Mecenas voltou ao script (' +
+    (varPct('mecenas') >= 0 ? '+' : '') + varPct('mecenas') + '%).</strong> As menções à Odisseia caíram ' +
+    Math.abs(varPct('odisseia')) + '% — o pico da oferta ativa foi no fim de julho; agora ela roda em nível baixo e constante. Picos isolados (ex.: 11/08) são disparos em massa com script de aniversário.';
+
+  // ---- vendas por dia/produto (stacked) ----
+  new Chart(document.getElementById('chartVendas'), {
+    type: 'bar',
+    data: { labels, datasets: C.produtos.map(p => ({
+      label: p,
+      data: D.vendas.map(r => r[p].vendas),
+      backgroundColor: COR[p], stack: 's',
+      maxBarThickness: 16, borderColor: SURFACE, borderWidth: 1,
+    }))},
+    options: {
+      plugins: { tooltip: { callbacks: {
+        footer: items => 'Total: ' + fmtInt(items.reduce((s, i) => s + i.parsed.y, 0)) } } },
+      scales: { y: { beginAtZero: true, stacked: true, grid: { color: GRID }, border: { display: false } },
+                x: { stacked: true, grid: { display: false }, ticks: { maxTicksLimit: 14 } } },
+    }
+  });
+
+  // ---- tabela por produto ----
+  const mencDoProduto = { 'Vitalício': 'vitalicio', 'Clube do Livro': 'cdl',
+                          'Odisseia': 'odisseia', 'Mecenas': 'mecenas' };
+  const tbody = document.querySelector('#tblProdutos tbody');
+  const ordem = [...C.produtos].sort((a, b) => A.receita[b] - A.receita[a]);
+  for (const p of ordem) {
+    const v = A.vendas[p], r = A.receita[p], vPrev = P.vendas[p];
+    const t = mencDoProduto[p];
+    const dv = vPrev ? Math.round(100 * v / vPrev - 100) : null;
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><span class="swatch" style="background:' + COR[p] + '"></span>' + p + '</td>' +
+      '<td class="num">' + (t ? fmtInt(A.mencoes[t]) : '—') + '</td>' +
+      '<td class="num">' + fmtInt(v) + '</td>' +
+      '<td class="num">' + (dv == null ? '—' : (dv >= 0 ? '+' : '') + dv + '%') + '</td>' +
+      '<td class="num">' + fmtBRL(r) + '</td>' +
+      '<td class="num">' + (v ? fmtBRL(r / v) : '—') + '</td>' +
+      '<td class="num">' + (t ? pctConv(t) : '—') + '</td>';
+    tbody.appendChild(tr);
+  }
+  document.getElementById('nota-vendas').innerHTML =
+    '<strong>A Odisseia vendeu ' + fmtInt(A.vendas['Odisseia']) + ' unidades (' + fmtBRL(A.receita['Odisseia']) +
+    ') nos últimos 14 dias' + (P.vendas['Odisseia'] ? ', ' + fmtDelta(A.vendas['Odisseia'], P.vendas['Odisseia']) : '') +
+    '.</strong> O Clube do Livro segue no mix, mas em queda (' +
+    Math.round(100 * A.vendas['Clube do Livro'] / Math.max(P.vendas['Clube do Livro'], 1) - 100) + '% em vendas).';
+
+  // ---- conversão por tema (barra horizontal, rótulo direto) ----
+  const convTemas = ['odisseia', 'vitalicio', 'mecenas', 'cdl']
+    .sort((a, b) => (D.conversao[b].taxa_pct ?? 0) - (D.conversao[a].taxa_pct ?? 0));
+  const rotuloDireto = {
+    id: 'rotuloDireto',
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
+      ctx.save();
+      ctx.font = '600 12px system-ui, -apple-system, "Segoe UI", sans-serif';
+      ctx.fillStyle = INK2;
+      ctx.textBaseline = 'middle';
+      chart.getDatasetMeta(0).data.forEach((bar, i) => {
+        const v = chart.data.datasets[0].data[i];
+        ctx.fillText(v.toLocaleString('pt-BR') + '%', bar.x + 6, bar.y);
+      });
+      ctx.restore();
+    }
+  };
+  new Chart(document.getElementById('chartConv'), {
+    type: 'bar',
+    data: { labels: convTemas.map(t => TEMA_LABEL[t]), datasets: [{
+      data: convTemas.map(t => D.conversao[t].taxa_pct ?? 0),
+      backgroundColor: convTemas.map(t => COR[TEMA_LABEL[t]]),
+      maxBarThickness: 18, borderRadius: { topRight: 4, bottomRight: 4 },
+    }]},
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: ctx => {
+          const c = D.conversao[convTemas[ctx.dataIndex]];
+          return fmtInt(c.vendas) + ' vendas / ' + fmtInt(c.mencoes) + ' conversas';
+        } } } },
+      scales: { x: { beginAtZero: true, grid: { color: GRID }, border: { display: false },
+                     ticks: { callback: v => v + '%' } },
+                y: { grid: { display: false } } },
+      layout: { padding: { right: 48 } },
+    }
+  });
+
+  // ---- etapas das conversas Odisseia ----
+  new Chart(document.getElementById('chartStagesOdi'), {
+    type: 'bar',
+    data: { labels: D.stages_odisseia.map(s => s.stage), datasets: [{
+      data: D.stages_odisseia.map(s => s.conversas),
+      backgroundColor: COR['Vitalício'],
+      maxBarThickness: 18, borderRadius: { topRight: 4, bottomRight: 4 },
+    }]},
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: { x: { beginAtZero: true, grid: { color: GRID }, border: { display: false } },
+                y: { grid: { display: false } } },
+    }
+  });
+  const topOdi = D.stages_odisseia[0];
+  document.getElementById('nota-conv').innerHTML =
+    '<strong>A Odisseia tem a melhor conversão por conversa (' + pctConv('odisseia') +
+    ') — quando entra na conversa, vende.</strong> E ela é vendida sobretudo dentro da <strong>' + topOdi.stage +
+    '</strong> (' + fmtInt(topOdi.conversas) + ' conversas): virou item do pitch de carteira, não uma frente própria — a etapa "odisseia" do Zenvia quase não é usada.';
+
+  // ---- etapas gerais ----
+  new Chart(document.getElementById('chartStages'), {
+    type: 'bar',
+    data: { labels: D.stages.map(s => s.stage), datasets: [{
+      label: 'Abordagens',
+      data: D.stages.map(s => s.abordagens),
+      backgroundColor: COR['Vitalício'],
+      maxBarThickness: 18, borderRadius: { topRight: 4, bottomRight: 4 },
+    }]},
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: { x: { beginAtZero: true, grid: { color: GRID }, border: { display: false } },
+                y: { grid: { display: false } } },
+    }
+  });
+
+  // ---- leitura ----
+  const li = [];
+  li.push('<li><strong>Ritmo estável:</strong> ' + fmtInt(A.abordagens) + ' abordagens em 14 dias (' +
+    fmtDelta(A.abordagens, P.abordagens) + '), pico de ' + A.vendedores_pico + ' vendedores/dia.</li>');
+  li.push('<li><strong>Pauta do time:</strong> Vitalício domina as conversas (' + fmtInt(A.mencoes.vitalicio) +
+    ' menções) e a receita (' + fmtBRL(A.receita['Vitalício']) + ', ' +
+    Math.round(100 * A.receita['Vitalício'] / A.receita_total) + '% do total). O tema BP10/aniversário está esvaziando (' +
+    varPct('bp10') + '%), e a carteira Mecenas voltou com força ao script (' +
+    (varPct('mecenas') >= 0 ? '+' : '') + varPct('mecenas') + '% de menções).</li>');
+  li.push('<li><strong>Odisseia:</strong> nicho no script (' + shareMenc('odisseia') + ' das conversas, ' +
+    varPct('odisseia') + '% vs 14d ant.), mas com a melhor conversão por conversa (' + pctConv('odisseia') +
+    ') e vendas em alta (' + fmtInt(A.vendas['Odisseia']) + ', ' + fmtDelta(A.vendas['Odisseia'], P.vendas['Odisseia']) +
+    '). Se a meta é acelerá-la, o espaço está em dar constância à oferta — hoje ela vive de picos.</li>');
+  li.push('<li><strong>Clube do Livro:</strong> ainda presente (' + fmtInt(A.mencoes.cdl) + ' menções), mas com a pior conversão (' +
+    pctConv('cdl') + ') e vendas em queda — cauda de campanha.</li>');
+  document.getElementById('leitura').innerHTML = li.join('');
+});
+</script>
+
+</body>
+</html>
