@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campanha Odisseia — visão completa: CRM, Ads e Comercial</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --page:    #f9f9f7;
+      --surface: #fcfcfb;
+      --ink:     #0b0b0b;
+      --ink-2:   #52514e;
+      --muted:   #898781;
+      --grid:    #e1e0d9;
+      --line:    #e1e0d9;
+      --border:  rgba(11,11,11,0.10);
+      /* categórica validada (dataviz) — cor segue a entidade, ordem fixa */
+      --c1: #2a78d6;  /* azul — digital / série principal */
+      --c2: #eb6834;  /* laranja — comercial */
+      --c3: #1baf7a;  /* aqua — WhatsApp */
+      --c4: #eda100;  /* amarelo */
+      --c5: #e87ba4;  /* magenta */
+      --deemph: #c3c2b7;
+      --good: #006300;
+      --bad:  #d03b3b;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+           background: var(--page); color: var(--ink); font-size: 14px; line-height: 1.6; }
+    .wrap   { max-width: 980px; margin: 0 auto; padding: 48px 24px 80px; }
+    section { margin-bottom: 52px; }
+    h1 { font-size: 26px; font-weight: 700; }
+    h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    p.para { color: var(--ink-2); margin-bottom: 12px; }
+    .sub   { color: var(--ink-2); font-size: 13px; margin-top: 4px; }
+    .label { font-size: 11px; font-weight: 600; text-transform: uppercase;
+             letter-spacing: .06em; color: var(--muted); margin-bottom: 12px; }
+    .card  { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+    @media (max-width: 720px) { .grid-2, .grid-3, .grid-5 { grid-template-columns: 1fr; } }
+
+    .tile .t-label { font-size: 11px; font-weight: 600; text-transform: uppercase;
+                     letter-spacing: .06em; color: var(--muted); }
+    .tile .t-value { font-size: 26px; font-weight: 600; line-height: 1.15; margin-top: 6px; }
+    .tile .t-sub   { font-size: 12px; margin-top: 4px; color: var(--ink-2); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; font-weight: 600; color: var(--ink-2); font-size: 11px;
+         text-transform: uppercase; letter-spacing: .05em;
+         border-bottom: 2px solid var(--line); padding: 8px 10px; }
+    td { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    tr:last-child td { border-bottom: none; }
+    td.num, th.num { text-align: right; }
+    td.num { font-variant-numeric: tabular-nums; }
+    tr.hi td { background: #f4f8f2; font-weight: 600; }
+
+    .nota { background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+            padding: 12px 16px; font-size: 12.5px; color: var(--ink-2); margin-top: 16px; }
+    .nota strong { color: var(--ink); }
+    ul.clean { margin: 6px 0 6px 18px; color: var(--ink-2); }
+    ul.clean li { margin-bottom: 8px; }
+    ol.clean { margin: 6px 0 6px 18px; color: var(--ink-2); }
+    ol.clean li { margin-bottom: 10px; }
+    .rec { border: 1px solid #cfe6c8; background: #f4f8f2; border-radius: 10px; padding: 20px 24px; }
+
+    header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+    footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+             font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Campanha Odisseia</p>
+  <h1>Campanha Odisseia — CRM, Ads e Comercial numa visão só</h1>
+  <p class="sub">Campanha inteira: mídia desde 03/07, venda desde 17/07, dados até <span class="js-fim">—</span> (dias completos). Atribuição digital por último clique (publisher + medium da transação).<br>
+  Atualizado: <span id="updated">—</span> · Relatórios irmãos: <a href="../odisseia-lancamento/">vs Clube do Livro</a> · <a href="../comercial-abordagens/">Pulso do Comercial</a> · <a href="../odisseia/">SSR pré-lançamento</a></p>
+</header>
+
+<main>
+
+  <!-- KPIs -->
+  <section>
+    <h2>A campanha em números</h2>
+    <div class="grid-5">
+      <div class="card tile">
+        <div class="t-label">Receita total</div>
+        <div class="t-value" id="kpi-receita">—</div>
+        <div class="t-sub" id="kpi-receita-s">—</div>
+      </div>
+      <div class="card tile">
+        <div class="t-label">Vendas</div>
+        <div class="t-value" id="kpi-vendas">—</div>
+        <div class="t-sub" id="kpi-ticket">—</div>
+      </div>
+      <div class="card tile">
+        <div class="t-label">Investimento em ads</div>
+        <div class="t-value" id="kpi-spend">—</div>
+        <div class="t-sub">Meta + Google + PMax</div>
+      </div>
+      <div class="card tile">
+        <div class="t-label">Retorno / spend</div>
+        <div class="t-value" id="kpi-roas">—</div>
+        <div class="t-sub">receita total da campanha ÷ spend</div>
+      </div>
+      <div class="card tile">
+        <div class="t-label">Via Comercial</div>
+        <div class="t-value" id="kpi-comercial">—</div>
+        <div class="t-sub" id="kpi-comercial-s">—</div>
+      </div>
+    </div>
+    <div class="nota" id="nota-kpis">—</div>
+  </section>
+
+  <!-- Funil geral -->
+  <section>
+    <h2>Vendas por dia e canal</h2>
+    <div class="card"><canvas id="chartFunil" height="210"></canvas></div>
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card">
+        <p class="label">De onde vem a receita digital (último clique)</p>
+        <canvas id="chartOrigem" height="220"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">Como a venda do Comercial chega (última sessão antes da venda)</p>
+        <canvas id="chartComOrigem" height="220"></canvas>
+      </div>
+    </div>
+    <div class="nota" id="nota-origem">—</div>
+  </section>
+
+  <!-- CRM -->
+  <section>
+    <h2>CRM — e-mail, WhatsApp e push</h2>
+    <div class="grid-3" id="crm-tiles"></div>
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card">
+        <p class="label">E-mails entregues por dia</p>
+        <canvas id="chartCrmEmail" height="200"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">WhatsApp entregues por dia</p>
+        <canvas id="chartCrmWa" height="200"></canvas>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <p class="label">Peças que mais venderam (receita atribuída, direto + comercial)</p>
+      <table id="tblPecas">
+        <thead><tr><th>Peça</th><th>Canal</th><th class="num">Entregues</th><th class="num">Cliques</th>
+        <th class="num">Vendas</th><th class="num">Receita</th><th class="num">R$/1k msgs</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="nota" id="nota-crm">—</div>
+  </section>
+
+  <!-- Ads -->
+  <section>
+    <h2>Ads — Meta, Google e PMax</h2>
+    <div class="grid-3" id="ads-tiles"></div>
+    <div class="card" style="margin-top:16px">
+      <p class="label">Meta: investimento vs receita atribuída por dia</p>
+      <canvas id="chartAds" height="220"></canvas>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <p class="label">Campanhas — ROAS (receita atribuída ÷ spend)</p>
+      <table id="tblAds">
+        <thead><tr><th>Campanha</th><th>Fonte</th><th class="num">Spend</th><th class="num">CTR</th>
+        <th class="num">Vendas (dir + com)</th><th class="num">Receita</th><th class="num">ROAS</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="nota" id="nota-ads">—</div>
+  </section>
+
+  <!-- Leads -->
+  <section>
+    <h2>Leads da campanha</h2>
+    <div class="card">
+      <canvas id="chartLeads" height="160"></canvas>
+    </div>
+    <div class="nota" id="nota-leads">—</div>
+  </section>
+
+  <!-- Comercial -->
+  <section>
+    <h2>Comercial — oferta ativa nas conversas</h2>
+    <div class="card">
+      <p class="label">Conversas do Zenvia mencionando a Odisseia, por dia</p>
+      <canvas id="chartMencoes" height="180"></canvas>
+    </div>
+    <div class="nota" id="nota-comercial">—</div>
+  </section>
+
+  <!-- Recomendações -->
+  <section>
+    <h2>Como vender mais — o que os dados apontam</h2>
+    <div class="rec">
+      <ol class="clean">
+        <li><strong>Escalar o WhatsApp no CRM.</strong> Por mensagem, o WhatsApp rende <strong id="rec-wa">—</strong> — mas recebeu menos de 1% do volume do e-mail. As listas quentes já existem (reoferta de ago/2026: 75,3 mil contatos priorizados; a P1 — quem clicou na campanha e não comprou — tem taxa observada de 4,6%). Cada onda de 30–50 mil mensagens bem segmentada tem potencial de dezenas de milhares de reais, sem custo de mídia.</li>
+        <li><strong>Realocar mídia do frio para o quente.</strong> As campanhas para público quente performam em outro patamar: <strong>Membros CDL ROAS 4,7</strong>, PMax 3,9, Só vídeos 2,2 — contra 1,0–1,5 dos packs frios (Pack 5 está a 0,99: cortar). O segmento Membros CDL gastou só R$ 4,7k (0,5% do budget); há espaço óbvio de escala em remarketing/base própria antes de insistir no frio.</li>
+        <li><strong>Dar constância à oferta do Comercial.</strong> A conversão por conversa é a melhor do portfólio (~15–24%), e metade das vendas comerciais chega com clique de mídia antes — o funil já entrega gente aquecida ao vendedor. Mas a oferta veio em ondas e esvaziou depois de 01/08. Lista dedicada (começando pela P1 de clicantes) + meta por vendedor transforma os picos em pauta permanente.</li>
+        <li><strong>E-mail: menos peças, mais das que funcionam.</strong> 68 peças em 4 semanas para a mesma base, click rate médio ~0,21%. As top 5 concentram a receita com narrativas de curiosidade ("a cena que não foi para o filme de Nolan", "o perigo das sereias"). Reaproveitar os ângulos vencedores e cortar a cauda reduz fadiga (e o risco de unsubscribe) sem perder receita.</li>
+        <li><strong>Push/in-app: consertar antes de escalar.</strong> 2,6M de pushes sem clique rastreado (telemetria quebrada, problema conhecido da base) e R$ 0 de venda direta — mas 45 vendas comerciais têm push/in-app como última sessão. Vale manter como aquecedor barato, não como canal de conversão mensurável.</li>
+        <li><strong>Leads: medir antes de escalar.</strong> A captação começou só em 08/08 (2,3 mil leads, 92% Facebook) sem campanha [LEAD] dedicada. Antes de investir em captação, medir a conversão dessa primeira safra — o produto é de recompra/base quente (a recompra do CDL é 17,5× o lift de qualquer outro atributo).</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Limitações -->
+  <section>
+    <h2>Limitações</h2>
+    <div class="card">
+      <ul class="clean">
+        <li><strong>Modelos de atribuição diferentes se sobrepõem:</strong> a receita "atribuída" do Meta (pixel/janela) e a do Insider (CRM) contam parte das mesmas vendas. A âncora real é a <code>fct_transactions</code> (R$ 2,36M) — os cortes por origem usam o último clique da transação e somam 100% sem dupla contagem; as tabelas de ads/CRM são visões de cada plataforma.</li>
+        <li><strong>Taxa de abertura de e-mail</strong> conta só abertura humana (mudança de mar/2026); comparações com benchmarks antigos são inválidas.</li>
+        <li><strong>Push sem telemetria</strong> de abertura/clique — receita de push via fallback de atribuição, não clique rastreado.</li>
+        <li><strong>"Sem UTM"</strong> (~R$ 130k) inclui compras diretas no checkout e sessões que perderam parâmetros.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Fontes: masterdata.fct_transactions, datamart.dtm_analytics_revenue_insider_funnel,
+  dtm_analytics_facebook/google/pmax_ads_funnel, dtm_analytics_lead_conversion, masterdata.dim_zenvia_approaches.<br>
+  Queries canônicas em <code>queries/</code> · dados via <code>refresh.py</code> · André Abe · ago/2026.
+</footer>
+
+</div>
+
+<script>
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const C1 = css('--c1'), C2 = css('--c2'), C3 = css('--c3'), C4 = css('--c4'), C5 = css('--c5');
+const SURFACE = css('--surface'), GRID = css('--grid'), MUTED = css('--muted'),
+      INK2 = css('--ink-2'), DEEMPH = css('--deemph');
+
+const fmtInt = v => v.toLocaleString('pt-BR');
+const fmtBRL = v => 'R$ ' + (Math.abs(v) >= 1e6 ? (v/1e6).toFixed(2).replace('.', ',') + 'M'
+                    : Math.abs(v) >= 1e3 ? Math.round(v/1e3) + 'k' : Math.round(v));
+const fmtDM = iso => iso.slice(8, 10) + '/' + iso.slice(5, 7);
+
+Chart.defaults.font.family = 'system-ui, -apple-system, "Segoe UI", sans-serif';
+Chart.defaults.color = MUTED;
+Chart.defaults.borderColor = GRID;
+Chart.defaults.plugins.legend.position = 'bottom';
+Chart.defaults.plugins.legend.labels.boxWidth = 10;
+Chart.defaults.plugins.legend.labels.boxHeight = 10;
+
+// rótulo direto na ponta de barras horizontais
+const rotuloBarraH = fmt => ({
+  id: 'rotuloBarraH',
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart;
+    ctx.save();
+    ctx.font = '600 11.5px system-ui, -apple-system, "Segoe UI", sans-serif';
+    ctx.fillStyle = INK2; ctx.textBaseline = 'middle';
+    chart.getDatasetMeta(0).data.forEach((bar, i) => {
+      ctx.fillText(fmt(chart.data.datasets[0].data[i]), bar.x + 6, bar.y);
+    });
+    ctx.restore();
+  }
+});
+
+fetch('./data.json').then(r => r.json()).then(D => {
+  document.getElementById('updated').textContent = D.updated_at.replace('T', ' ');
+  document.querySelectorAll('.js-fim').forEach(el => el.textContent = fmtDM(D.config.fim));
+
+  const K = D.kpis;
+  const recDigital = K.receita - K.receita_comercial;
+  document.getElementById('kpi-receita').textContent = fmtBRL(K.receita);
+  document.getElementById('kpi-receita-s').textContent =
+    fmtBRL(recDigital) + ' digital · ' + fmtBRL(K.receita_comercial) + ' comercial';
+  document.getElementById('kpi-vendas').textContent = fmtInt(K.vendas);
+  document.getElementById('kpi-ticket').textContent = 'ticket médio R$ ' + fmtInt(K.ticket);
+  document.getElementById('kpi-spend').textContent = fmtBRL(K.spend_ads);
+  document.getElementById('kpi-roas').textContent = String(K.roas_blended).replace('.', ',') + '×';
+  document.getElementById('kpi-comercial').textContent = fmtInt(K.vendas_comercial);
+  document.getElementById('kpi-comercial-s').textContent =
+    'vendas (' + Math.round(100 * K.vendas_comercial / K.vendas) + '% do total)';
+  document.getElementById('nota-kpis').innerHTML =
+    '<strong>Leitura rápida:</strong> a campanha é digital-first — ' +
+    Math.round(100 * recDigital / K.receita) + '% da receita vem do digital, com o Meta como maior origem de último clique. ' +
+    'O retorno geral sobre a mídia (' + String(K.roas_blended).replace('.', ',') + '×) só fecha porque CRM e Comercial vendem sem custo de mídia por venda.';
+
+  // ---- funil por dia ----
+  const dias = D.funil_dia.map(r => r.dia);
+  new Chart(document.getElementById('chartFunil'), {
+    type: 'bar',
+    data: { labels: dias.map(fmtDM), datasets: [
+      { label: 'Digital', data: D.funil_dia.map(r => r.digital.vendas),
+        backgroundColor: C1, stack: 's', maxBarThickness: 16, borderColor: SURFACE, borderWidth: 1 },
+      { label: 'Comercial', data: D.funil_dia.map(r => r.comercial.vendas),
+        backgroundColor: C2, stack: 's', maxBarThickness: 16, borderColor: SURFACE, borderWidth: 1 },
+    ]},
+    options: {
+      plugins: { tooltip: { callbacks: {
+        footer: items => 'Receita: ' + fmtBRL(items.reduce((s, i) => {
+          const r = D.funil_dia[i.dataIndex];
+          return i.datasetIndex === 0 ? s + r.digital.receita : s + r.comercial.receita; }, 0)) } } },
+      scales: { y: { beginAtZero: true, stacked: true, grid: { color: GRID }, border: { display: false } },
+                x: { stacked: true, grid: { display: false }, ticks: { maxTicksLimit: 14 } } },
+    }
+  });
+
+  // ---- origem (barras horizontais, magnitude → um matiz) ----
+  const mkOrigem = (id, rows, cor) => new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: { labels: rows.map(r => r.origem), datasets: [{
+      data: rows.map(r => r.receita), backgroundColor: cor,
+      maxBarThickness: 16, borderRadius: { topRight: 4, bottomRight: 4 },
+    }]},
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: ctx =>
+          fmtBRL(ctx.parsed.x) + ' · ' + fmtInt(rows[ctx.dataIndex].vendas) + ' vendas' } } },
+      scales: { x: { beginAtZero: true, grid: { color: GRID }, border: { display: false },
+                     ticks: { callback: v => fmtBRL(v) } },
+                y: { grid: { display: false } } },
+      layout: { padding: { right: 64 } },
+    },
+    plugins: [rotuloBarraH(fmtBRL)],
+  });
+  mkOrigem('chartOrigem', D.origem_digital, C1);
+  mkOrigem('chartComOrigem', D.comercial_ultima_sessao, C2);
+
+  const comMidia = D.comercial_ultima_sessao.filter(r => r.origem.startsWith('Ads'))
+    .reduce((s, r) => s + r.vendas, 0);
+  document.getElementById('nota-origem').innerHTML =
+    '<strong>O funil é integrado:</strong> no digital, o Meta domina o último clique; no Comercial, ' +
+    '<strong>' + fmtInt(comMidia) + ' das ' + fmtInt(K.vendas_comercial) + ' vendas (' +
+    Math.round(100 * comMidia / K.vendas_comercial) + '%) chegam ao vendedor com clique em mídia paga na última sessão</strong> — ' +
+    'a mídia aquece os dois canais, e o CRM (WhatsApp, push, e-mail) responde por boa parte do restante.';
+
+  // ---- CRM tiles ----
+  const canais = [['email', 'E-mail', C1], ['whatsapp', 'WhatsApp', C3], ['app_push', 'Push', C5]];
+  const tiles = document.getElementById('crm-tiles');
+  for (const [k, nome, cor] of canais) {
+    const t = D.crm.totais[k];
+    if (!t) continue;
+    const r1k = t.entregues ? t.receita / t.entregues * 1000 : 0;
+    const div = document.createElement('div');
+    div.className = 'card tile';
+    div.innerHTML = '<div class="t-label"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:' + cor + ';margin-right:6px;vertical-align:baseline"></span>' + nome + '</div>' +
+      '<div class="t-value">' + fmtBRL(t.receita) + '</div>' +
+      '<div class="t-sub">' + fmtInt(t.entregues) + ' entregues · ' + t.pecas + ' peças · <strong>R$ ' +
+      r1k.toLocaleString('pt-BR', { maximumFractionDigits: 0 }) + '/1k msgs</strong></div>';
+    tiles.appendChild(div);
+  }
+
+  // ---- CRM séries diárias ----
+  const crmSerie = (canal) => {
+    const m = {};
+    D.crm.por_dia.filter(r => r.canal === canal).forEach(r => m[r.dia] = r);
+    return m;
+  };
+  const diasCrm = [...new Set(D.crm.por_dia.map(r => r.dia))].sort();
+  const mkCrm = (id, canal, cor) => {
+    const m = crmSerie(canal);
+    new Chart(document.getElementById(id), {
+      type: 'bar',
+      data: { labels: diasCrm.map(fmtDM), datasets: [{
+        label: 'Entregues', data: diasCrm.map(d => m[d]?.entregues ?? 0),
+        backgroundColor: cor, maxBarThickness: 14, borderRadius: { topLeft: 4, topRight: 4 },
+      }]},
+      options: {
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: { afterLabel: ctx => {
+            const r = m[diasCrm[ctx.dataIndex]];
+            return r ? fmtInt(r.clicks) + ' cliques · ' + fmtInt(r.vendas) + ' vendas · ' + fmtBRL(r.receita) : ''; } } } },
+        scales: { y: { beginAtZero: true, grid: { color: GRID }, border: { display: false },
+                       ticks: { callback: v => v >= 1e6 ? (v/1e6) + 'M' : v >= 1e3 ? (v/1e3) + 'k' : v } },
+                  x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } } },
+      }
+    });
+  };
+  mkCrm('chartCrmEmail', 'email', C1);
+  mkCrm('chartCrmWa', 'whatsapp', C3);
+
+  // ---- top peças ----
+  const tbodyP = document.querySelector('#tblPecas tbody');
+  for (const p of D.crm.top_pecas) {
+    const r1k = p.entregues ? p.receita / p.entregues * 1000 : 0;
+    const tr = document.createElement('tr');
+    if (p.canal === 'whatsapp') tr.className = 'hi';
+    tr.innerHTML = '<td>' + p.peca.slice(0, 62) + '</td><td>' + (p.canal === 'whatsapp' ? 'WhatsApp' : 'E-mail') + '</td>' +
+      '<td class="num">' + fmtInt(p.entregues) + '</td><td class="num">' + fmtInt(p.clicks) + '</td>' +
+      '<td class="num">' + fmtInt(p.vendas) + '</td><td class="num">' + fmtBRL(p.receita) + '</td>' +
+      '<td class="num">' + r1k.toLocaleString('pt-BR', { maximumFractionDigits: 0 }) + '</td>';
+    tbodyP.appendChild(tr);
+  }
+  const te = D.crm.totais.email, tw = D.crm.totais.whatsapp;
+  const razao = (tw.receita / tw.entregues) / (te.receita / te.entregues);
+  document.getElementById('rec-wa').textContent =
+    Math.round(razao) + '× mais que o e-mail (R$ ' + Math.round(tw.receita / tw.entregues * 1000) +
+    ' vs R$ ' + Math.round(te.receita / te.entregues * 1000) + ' por 1k mensagens)';
+  document.getElementById('nota-crm').innerHTML =
+    '<strong>WhatsApp rende ~' + Math.round(razao) + '× mais por mensagem que o e-mail</strong> (R$ ' +
+    Math.round(tw.receita / tw.entregues * 1000) + ' vs R$ ' + Math.round(te.receita / te.entregues * 1000) +
+    ' por 1k entregues) — e recebeu só ' + (100 * tw.entregues / te.entregues).toFixed(1) +
+    '% do volume do e-mail. As linhas destacadas na tabela são WhatsApp: aparecem no top mesmo com tiragens 10–40× menores. No e-mail, os assuntos que vendem são narrativas de curiosidade sobre a obra, não oferta direta.';
+
+  // ---- ads tiles ----
+  const ads = D.ads.por_dia;
+  const spend = ads.reduce((s, r) => s + r.spend, 0);
+  const impr = ads.reduce((s, r) => s + r.impr, 0);
+  const clicks = ads.reduce((s, r) => s + r.clicks, 0);
+  const recAds = ads.reduce((s, r) => s + r.receita, 0);
+  const vAds = ads.reduce((s, r) => s + r.vendas, 0);
+  const tilesAds = [
+    ['Spend Meta', fmtBRL(spend), 'CPM R$ ' + (spend / impr * 1000).toFixed(2).replace('.', ',') +
+      ' · CTR ' + (100 * clicks / impr).toFixed(2).replace('.', ',') + '%'],
+    ['Receita atribuída (Meta)', fmtBRL(recAds), fmtInt(vAds) + ' vendas · CPA R$ ' + fmtInt(Math.round(spend / vAds))],
+    ['ROAS Meta', (recAds / spend).toFixed(2).replace('.', ',') + '×',
+      'gate de escala do playbook: ≥ 1,5×'],
+  ];
+  const tA = document.getElementById('ads-tiles');
+  for (const [l, v, s] of tilesAds) {
+    const div = document.createElement('div');
+    div.className = 'card tile';
+    div.innerHTML = '<div class="t-label">' + l + '</div><div class="t-value">' + v +
+      '</div><div class="t-sub">' + s + '</div>';
+    tA.appendChild(div);
+  }
+
+  // ---- ads série: spend vs receita ----
+  new Chart(document.getElementById('chartAds'), {
+    type: 'line',
+    data: { labels: ads.map(r => fmtDM(r.dia)), datasets: [
+      { label: 'Receita atribuída', data: ads.map(r => r.receita), borderColor: C1,
+        backgroundColor: C1, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5,
+        pointHoverBorderColor: SURFACE, pointHoverBorderWidth: 2, tension: 0 },
+      { label: 'Spend', data: ads.map(r => r.spend), borderColor: DEEMPH,
+        backgroundColor: DEEMPH, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5,
+        pointHoverBorderColor: SURFACE, pointHoverBorderWidth: 2, tension: 0 },
+    ]},
+    options: {
+      interaction: { mode: 'index', intersect: false },
+      plugins: { tooltip: { callbacks: {
+        label: ctx => ctx.dataset.label + ': ' + fmtBRL(ctx.parsed.y) } } },
+      scales: { y: { beginAtZero: true, grid: { color: GRID }, border: { display: false },
+                     ticks: { callback: v => fmtBRL(v) } },
+                x: { grid: { display: false }, ticks: { maxTicksLimit: 14 } } },
+    }
+  });
+
+  // ---- ads tabela ----
+  const tbodyA = document.querySelector('#tblAds tbody');
+  const camps = [...D.ads.campanhas].sort((a, b) => b.spend - a.spend);
+  for (const c of camps) {
+    const roas = c.spend ? c.receita / c.spend : 0;
+    const ctr = c.impr ? 100 * c.clicks / c.impr : 0;
+    const tr = document.createElement('tr');
+    if (roas >= 2) tr.className = 'hi';
+    tr.innerHTML = '<td>' + c.campanha.replace('[LAN] [ODI] [VENDA] ', '').slice(0, 48) + '</td>' +
+      '<td>' + c.fonte + '</td><td class="num">' + fmtBRL(c.spend) + '</td>' +
+      '<td class="num">' + ctr.toFixed(2).replace('.', ',') + '%</td>' +
+      '<td class="num">' + fmtInt(c.vendas_dir) + ' + ' + fmtInt(c.vendas_com) + '</td>' +
+      '<td class="num">' + fmtBRL(c.receita) + '</td>' +
+      '<td class="num"><strong>' + roas.toFixed(2).replace('.', ',') + '×</strong></td>';
+    tbodyA.appendChild(tr);
+  }
+  document.getElementById('nota-ads').innerHTML =
+    '<strong>Quente ≫ frio.</strong> As linhas destacadas (ROAS ≥ 2) são público quente ou intenção: ' +
+    'Membros CDL, PMax e "Só vídeos" — o retargeting de membros roda a 4,7× com verba simbólica. ' +
+    'Os packs Advantage frios, que concentram 92% do spend, rodam a 1,0–1,5× (abaixo do gate de 1,5× para escalar). ' +
+    'A coluna "vendas" separa direto (pixel) e via Comercial — nos packs, ~1 em cada 4 vendas atribuídas fecha no Comercial.';
+
+  // ---- leads ----
+  const L = D.leads;
+  new Chart(document.getElementById('chartLeads'), {
+    type: 'bar',
+    data: { labels: L.por_dia.map(r => fmtDM(r.dia)), datasets: [{
+      label: 'Leads', data: L.por_dia.map(r => r.leads),
+      backgroundColor: C1, maxBarThickness: 18, borderRadius: { topLeft: 4, topRight: 4 },
+    }]},
+    options: { plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, grid: { color: GRID }, border: { display: false } },
+                x: { grid: { display: false } } } }
+  });
+  const fontes = Object.entries(L.por_fonte).slice(0, 3)
+    .map(([f, n]) => f + ' (' + fmtInt(n) + ')').join(', ');
+  document.getElementById('nota-leads').innerHTML =
+    '<strong>' + fmtInt(L.total) + ' leads, todos a partir de ' + fmtDM(L.por_dia[0]?.dia ?? '') +
+    '</strong> — a campanha rodou sem captação até aqui (100% mídia [VENDA] direto ao checkout). Fontes: ' + fontes +
+    '. Não há campanha [LEAD] no Meta; esses cadastros vêm de LP/formulário. Safra nova — medir conversão antes de escalar captação.';
+
+  // ---- menções comercial ----
+  new Chart(document.getElementById('chartMencoes'), {
+    type: 'bar',
+    data: { labels: D.mencoes_dia.map(r => fmtDM(r.dia)), datasets: [{
+      label: 'Conversas mencionando Odisseia', data: D.mencoes_dia.map(r => r.mencoes),
+      backgroundColor: C2, maxBarThickness: 14, borderRadius: { topLeft: 4, topRight: 4 },
+    }]},
+    options: { plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, grid: { color: GRID }, border: { display: false } },
+                x: { grid: { display: false }, ticks: { maxTicksLimit: 14 } } } }
+  });
+  const convPct = K.mencoes_total ? (100 * K.vendas_comercial / K.mencoes_total).toFixed(1).replace('.', ',') : '—';
+  document.getElementById('nota-comercial').innerHTML =
+    '<strong>' + fmtInt(K.mencoes_total) + ' conversas mencionaram a Odisseia no período — ' +
+    fmtInt(K.vendas_comercial) + ' vendas comerciais (~' + convPct + '% por conversa, a melhor taxa do portfólio).</strong> ' +
+    'O padrão é de ondas: picos no fim de julho (oferta ativa via carteira Mecenas) e esvaziamento em agosto. ' +
+    'Detalhe do funil por etapa e comparação com outros produtos: <a href="../comercial-abordagens/">Pulso do Comercial</a>.';
+});
+</script>
+
+</body>
+</html>

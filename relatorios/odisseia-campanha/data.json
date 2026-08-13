@@ -1,0 +1,1618 @@
+{
+  "updated_at": "2026-08-13T14:26:12",
+  "config": {
+    "spend_ini": "2026-07-01",
+    "venda_ini": "2026-07-17",
+    "fim": "2026-08-12"
+  },
+  "kpis": {
+    "vendas": 1953,
+    "receita": 2355796.0,
+    "ticket": 1206,
+    "vendas_comercial": 602,
+    "receita_comercial": 703780.0,
+    "spend_ads": 944547.0,
+    "roas_blended": 2.49,
+    "mencoes_total": 3876
+  },
+  "funil_dia": [
+    {
+      "dia": "2026-07-17",
+      "comercial": {
+        "vendas": 1,
+        "receita": 1200.0
+      },
+      "digital": {
+        "vendas": 10,
+        "receita": 12120.0
+      }
+    },
+    {
+      "dia": "2026-07-18",
+      "comercial": {
+        "vendas": 0,
+        "receita": 0.0
+      },
+      "digital": {
+        "vendas": 7,
+        "receita": 8400.0
+      }
+    },
+    {
+      "dia": "2026-07-19",
+      "comercial": {
+        "vendas": 0,
+        "receita": 0.0
+      },
+      "digital": {
+        "vendas": 7,
+        "receita": 8640.0
+      }
+    },
+    {
+      "dia": "2026-07-20",
+      "comercial": {
+        "vendas": 1,
+        "receita": 1200.0
+      },
+      "digital": {
+        "vendas": 11,
+        "receita": 13320.0
+      }
+    },
+    {
+      "dia": "2026-07-21",
+      "comercial": {
+        "vendas": 2,
+        "receita": 2400.0
+      },
+      "digital": {
+        "vendas": 33,
+        "receita": 39900.0
+      }
+    },
+    {
+      "dia": "2026-07-22",
+      "comercial": {
+        "vendas": 5,
+        "receita": 6720.0
+      },
+      "digital": {
+        "vendas": 39,
+        "receita": 46956.0
+      }
+    },
+    {
+      "dia": "2026-07-23",
+      "comercial": {
+        "vendas": 6,
+        "receita": 7200.0
+      },
+      "digital": {
+        "vendas": 61,
+        "receita": 74364.0
+      }
+    },
+    {
+      "dia": "2026-07-24",
+      "comercial": {
+        "vendas": 42,
+        "receita": 48268.0
+      },
+      "digital": {
+        "vendas": 66,
+        "receita": 83572.0
+      }
+    },
+    {
+      "dia": "2026-07-25",
+      "comercial": {
+        "vendas": 38,
+        "receita": 44454.0
+      },
+      "digital": {
+        "vendas": 66,
+        "receita": 82996.0
+      }
+    },
+    {
+      "dia": "2026-07-26",
+      "comercial": {
+        "vendas": 10,
+        "receita": 11640.0
+      },
+      "digital": {
+        "vendas": 58,
+        "receita": 72204.0
+      }
+    },
+    {
+      "dia": "2026-07-27",
+      "comercial": {
+        "vendas": 28,
+        "receita": 32664.0
+      },
+      "digital": {
+        "vendas": 22,
+        "receita": 28488.0
+      }
+    },
+    {
+      "dia": "2026-07-28",
+      "comercial": {
+        "vendas": 31,
+        "receita": 36504.0
+      },
+      "digital": {
+        "vendas": 72,
+        "receita": 95796.0
+      }
+    },
+    {
+      "dia": "2026-07-29",
+      "comercial": {
+        "vendas": 58,
+        "receita": 68868.0
+      },
+      "digital": {
+        "vendas": 70,
+        "receita": 90960.0
+      }
+    },
+    {
+      "dia": "2026-07-30",
+      "comercial": {
+        "vendas": 67,
+        "receita": 78664.0
+      },
+      "digital": {
+        "vendas": 66,
+        "receita": 87204.0
+      }
+    },
+    {
+      "dia": "2026-07-31",
+      "comercial": {
+        "vendas": 91,
+        "receita": 105558.0
+      },
+      "digital": {
+        "vendas": 50,
+        "receita": 61680.0
+      }
+    },
+    {
+      "dia": "2026-08-01",
+      "comercial": {
+        "vendas": 6,
+        "receita": 7020.0
+      },
+      "digital": {
+        "vendas": 65,
+        "receita": 82176.0
+      }
+    },
+    {
+      "dia": "2026-08-02",
+      "comercial": {
+        "vendas": 3,
+        "receita": 3876.0
+      },
+      "digital": {
+        "vendas": 72,
+        "receita": 87156.0
+      }
+    },
+    {
+      "dia": "2026-08-03",
+      "comercial": {
+        "vendas": 8,
+        "receita": 9312.0
+      },
+      "digital": {
+        "vendas": 53,
+        "receita": 67444.0
+      }
+    },
+    {
+      "dia": "2026-08-04",
+      "comercial": {
+        "vendas": 40,
+        "receita": 47574.0
+      },
+      "digital": {
+        "vendas": 31,
+        "receita": 37320.0
+      }
+    },
+    {
+      "dia": "2026-08-05",
+      "comercial": {
+        "vendas": 33,
+        "receita": 38520.0
+      },
+      "digital": {
+        "vendas": 33,
+        "receita": 39492.0
+      }
+    },
+    {
+      "dia": "2026-08-06",
+      "comercial": {
+        "vendas": 25,
+        "receita": 29020.0
+      },
+      "digital": {
+        "vendas": 42,
+        "receita": 47176.0
+      }
+    },
+    {
+      "dia": "2026-08-07",
+      "comercial": {
+        "vendas": 26,
+        "receita": 29560.0
+      },
+      "digital": {
+        "vendas": 65,
+        "receita": 79408.0
+      }
+    },
+    {
+      "dia": "2026-08-08",
+      "comercial": {
+        "vendas": 7,
+        "receita": 8032.0
+      },
+      "digital": {
+        "vendas": 98,
+        "receita": 114076.0
+      }
+    },
+    {
+      "dia": "2026-08-09",
+      "comercial": {
+        "vendas": 4,
+        "receita": 4656.0
+      },
+      "digital": {
+        "vendas": 89,
+        "receita": 103236.0
+      }
+    },
+    {
+      "dia": "2026-08-10",
+      "comercial": {
+        "vendas": 34,
+        "receita": 39163.0
+      },
+      "digital": {
+        "vendas": 51,
+        "receita": 58560.0
+      }
+    },
+    {
+      "dia": "2026-08-11",
+      "comercial": {
+        "vendas": 23,
+        "receita": 26808.0
+      },
+      "digital": {
+        "vendas": 68,
+        "receita": 76260.0
+      }
+    },
+    {
+      "dia": "2026-08-12",
+      "comercial": {
+        "vendas": 13,
+        "receita": 14899.0
+      },
+      "digital": {
+        "vendas": 46,
+        "receita": 53112.0
+      }
+    }
+  ],
+  "origem_digital": [
+    {
+      "origem": "Ads Meta",
+      "vendas": 781,
+      "receita": 954324.0
+    },
+    {
+      "origem": "CRM e-mail",
+      "vendas": 274,
+      "receita": 331604.0
+    },
+    {
+      "origem": "CRM WhatsApp",
+      "vendas": 160,
+      "receita": 196072.0
+    },
+    {
+      "origem": "Orgânico",
+      "vendas": 39,
+      "receita": 51700.0
+    },
+    {
+      "origem": "Ads Google",
+      "vendas": 40,
+      "receita": 48144.0
+    },
+    {
+      "origem": "Outros",
+      "vendas": 27,
+      "receita": 33896.0
+    },
+    {
+      "origem": "Sem UTM",
+      "vendas": 18,
+      "receita": 23340.0
+    },
+    {
+      "origem": "CRM push/in-app",
+      "vendas": 12,
+      "receita": 12936.0
+    }
+  ],
+  "comercial_ultima_sessao": [
+    {
+      "origem": "Ads Meta",
+      "vendas": 213,
+      "receita": 247860.0
+    },
+    {
+      "origem": "Sem UTM",
+      "vendas": 91,
+      "receita": 106132.0
+    },
+    {
+      "origem": "Ads Google",
+      "vendas": 84,
+      "receita": 98222.0
+    },
+    {
+      "origem": "CRM WhatsApp",
+      "vendas": 71,
+      "receita": 82589.0
+    },
+    {
+      "origem": "Outros",
+      "vendas": 48,
+      "receita": 56320.0
+    },
+    {
+      "origem": "CRM push/in-app",
+      "vendas": 45,
+      "receita": 53581.0
+    },
+    {
+      "origem": "CRM e-mail",
+      "vendas": 40,
+      "receita": 47400.0
+    },
+    {
+      "origem": "Orgânico",
+      "vendas": 10,
+      "receita": 11676.0
+    }
+  ],
+  "crm": {
+    "totais": {
+      "email": {
+        "entregues": 13612343,
+        "aberturas": 1125568,
+        "clicks": 28581,
+        "vendas": 407,
+        "receita": 557253.0,
+        "pecas": 68
+      },
+      "whatsapp": {
+        "entregues": 107874,
+        "aberturas": 53240,
+        "clicks": 5085,
+        "vendas": 79,
+        "receita": 105396.0,
+        "pecas": 18
+      },
+      "app_push": {
+        "entregues": 2575268,
+        "aberturas": 1,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0,
+        "pecas": 7
+      }
+    },
+    "por_dia": [
+      {
+        "dia": "2026-07-16",
+        "canal": "email",
+        "entregues": 112350,
+        "aberturas": 12128,
+        "clicks": 1153,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-07-17",
+        "canal": "email",
+        "entregues": 95466,
+        "aberturas": 11529,
+        "clicks": 1266,
+        "vendas": 17,
+        "receita": 21828.0
+      },
+      {
+        "dia": "2026-07-18",
+        "canal": "email",
+        "entregues": 18475,
+        "aberturas": 3956,
+        "clicks": 683,
+        "vendas": 12,
+        "receita": 13824.0
+      },
+      {
+        "dia": "2026-07-19",
+        "canal": "email",
+        "entregues": 58241,
+        "aberturas": 7003,
+        "clicks": 521,
+        "vendas": 7,
+        "receita": 8484.0
+      },
+      {
+        "dia": "2026-07-20",
+        "canal": "email",
+        "entregues": 527321,
+        "aberturas": 37211,
+        "clicks": 1414,
+        "vendas": 18,
+        "receita": 20950.0
+      },
+      {
+        "dia": "2026-07-21",
+        "canal": "email",
+        "entregues": 1487980,
+        "aberturas": 118755,
+        "clicks": 2798,
+        "vendas": 31,
+        "receita": 48719.0
+      },
+      {
+        "dia": "2026-07-22",
+        "canal": "whatsapp",
+        "entregues": 12358,
+        "aberturas": 6382,
+        "clicks": 651,
+        "vendas": 2,
+        "receita": 1416.0
+      },
+      {
+        "dia": "2026-07-22",
+        "canal": "email",
+        "entregues": 627810,
+        "aberturas": 50873,
+        "clicks": 1670,
+        "vendas": 23,
+        "receita": 35089.0
+      },
+      {
+        "dia": "2026-07-23",
+        "canal": "email",
+        "entregues": 318685,
+        "aberturas": 46433,
+        "clicks": 1372,
+        "vendas": 24,
+        "receita": 38108.0
+      },
+      {
+        "dia": "2026-07-23",
+        "canal": "whatsapp",
+        "entregues": 19150,
+        "aberturas": 10099,
+        "clicks": 512,
+        "vendas": 16,
+        "receita": 23392.0
+      },
+      {
+        "dia": "2026-07-24",
+        "canal": "email",
+        "entregues": 1254274,
+        "aberturas": 105455,
+        "clicks": 2839,
+        "vendas": 34,
+        "receita": 47345.0
+      },
+      {
+        "dia": "2026-07-24",
+        "canal": "whatsapp",
+        "entregues": 6296,
+        "aberturas": 3999,
+        "clicks": 533,
+        "vendas": 7,
+        "receita": 8100.0
+      },
+      {
+        "dia": "2026-07-25",
+        "canal": "email",
+        "entregues": 227950,
+        "aberturas": 23294,
+        "clicks": 736,
+        "vendas": 13,
+        "receita": 17992.0
+      },
+      {
+        "dia": "2026-07-25",
+        "canal": "whatsapp",
+        "entregues": 78,
+        "aberturas": 46,
+        "clicks": 8,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-07-26",
+        "canal": "email",
+        "entregues": 228334,
+        "aberturas": 22514,
+        "clicks": 1558,
+        "vendas": 21,
+        "receita": 28872.0
+      },
+      {
+        "dia": "2026-07-26",
+        "canal": "whatsapp",
+        "entregues": 31450,
+        "aberturas": 17628,
+        "clicks": 2347,
+        "vendas": 28,
+        "receita": 41084.0
+      },
+      {
+        "dia": "2026-07-27",
+        "canal": "whatsapp",
+        "entregues": 285,
+        "aberturas": 162,
+        "clicks": 81,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-07-27",
+        "canal": "email",
+        "entregues": 1092770,
+        "aberturas": 92313,
+        "clicks": 1772,
+        "vendas": 17,
+        "receita": 19031.0
+      },
+      {
+        "dia": "2026-07-28",
+        "canal": "email",
+        "entregues": 392515,
+        "aberturas": 44951,
+        "clicks": 818,
+        "vendas": 12,
+        "receita": 21290.0
+      },
+      {
+        "dia": "2026-07-28",
+        "canal": "whatsapp",
+        "entregues": 17,
+        "aberturas": 7,
+        "clicks": 1,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-07-29",
+        "canal": "email",
+        "entregues": 683136,
+        "aberturas": 45321,
+        "clicks": 1123,
+        "vendas": 23,
+        "receita": 32514.0
+      },
+      {
+        "dia": "2026-07-29",
+        "canal": "whatsapp",
+        "entregues": 14,
+        "aberturas": 4,
+        "clicks": 0,
+        "vendas": 1,
+        "receita": 1188.0
+      },
+      {
+        "dia": "2026-07-29",
+        "canal": "app_push",
+        "entregues": 433031,
+        "aberturas": 0,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-07-30",
+        "canal": "email",
+        "entregues": 1359164,
+        "aberturas": 71024,
+        "clicks": 1390,
+        "vendas": 14,
+        "receita": 22456.0
+      },
+      {
+        "dia": "2026-07-30",
+        "canal": "whatsapp",
+        "entregues": 11,
+        "aberturas": 5,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-07-31",
+        "canal": "whatsapp",
+        "entregues": 6,
+        "aberturas": 1,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-07-31",
+        "canal": "email",
+        "entregues": 891855,
+        "aberturas": 43640,
+        "clicks": 791,
+        "vendas": 20,
+        "receita": 27312.0
+      },
+      {
+        "dia": "2026-08-01",
+        "canal": "whatsapp",
+        "entregues": 2,
+        "aberturas": 0,
+        "clicks": 0,
+        "vendas": 1,
+        "receita": 1164.0
+      },
+      {
+        "dia": "2026-08-01",
+        "canal": "email",
+        "entregues": 439532,
+        "aberturas": 23752,
+        "clicks": 446,
+        "vendas": 3,
+        "receita": 3948.0
+      },
+      {
+        "dia": "2026-08-02",
+        "canal": "whatsapp",
+        "entregues": 543,
+        "aberturas": 318,
+        "clicks": 24,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-08-02",
+        "canal": "email",
+        "entregues": 1316926,
+        "aberturas": 64823,
+        "clicks": 1400,
+        "vendas": 15,
+        "receita": 16824.0
+      },
+      {
+        "dia": "2026-08-03",
+        "canal": "whatsapp",
+        "entregues": 813,
+        "aberturas": 460,
+        "clicks": 27,
+        "vendas": 1,
+        "receita": 1200.0
+      },
+      {
+        "dia": "2026-08-03",
+        "canal": "email",
+        "entregues": 888,
+        "aberturas": 78,
+        "clicks": 0,
+        "vendas": 2,
+        "receita": 2364.0
+      },
+      {
+        "dia": "2026-08-04",
+        "canal": "whatsapp",
+        "entregues": 975,
+        "aberturas": 534,
+        "clicks": 21,
+        "vendas": 3,
+        "receita": 2976.0
+      },
+      {
+        "dia": "2026-08-04",
+        "canal": "app_push",
+        "entregues": 430974,
+        "aberturas": 0,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-08-04",
+        "canal": "email",
+        "entregues": 650432,
+        "aberturas": 44654,
+        "clicks": 741,
+        "vendas": 14,
+        "receita": 17898.0
+      },
+      {
+        "dia": "2026-08-05",
+        "canal": "whatsapp",
+        "entregues": 458,
+        "aberturas": 239,
+        "clicks": 14,
+        "vendas": 3,
+        "receita": 3528.0
+      },
+      {
+        "dia": "2026-08-05",
+        "canal": "app_push",
+        "entregues": 423442,
+        "aberturas": 0,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-08-05",
+        "canal": "email",
+        "entregues": 274373,
+        "aberturas": 34963,
+        "clicks": 581,
+        "vendas": 8,
+        "receita": 7979.0
+      },
+      {
+        "dia": "2026-08-06",
+        "canal": "email",
+        "entregues": 270265,
+        "aberturas": 44079,
+        "clicks": 650,
+        "vendas": 25,
+        "receita": 40260.0
+      },
+      {
+        "dia": "2026-08-06",
+        "canal": "whatsapp",
+        "entregues": 244,
+        "aberturas": 141,
+        "clicks": 9,
+        "vendas": 1,
+        "receita": 1164.0
+      },
+      {
+        "dia": "2026-08-07",
+        "canal": "whatsapp",
+        "entregues": 524,
+        "aberturas": 269,
+        "clicks": 28,
+        "vendas": 4,
+        "receita": 5136.0
+      },
+      {
+        "dia": "2026-08-07",
+        "canal": "email",
+        "entregues": 271688,
+        "aberturas": 40733,
+        "clicks": 867,
+        "vendas": 10,
+        "receita": 13626.0
+      },
+      {
+        "dia": "2026-08-08",
+        "canal": "email",
+        "entregues": 135583,
+        "aberturas": 19620,
+        "clicks": 326,
+        "vendas": 16,
+        "receita": 18792.0
+      },
+      {
+        "dia": "2026-08-08",
+        "canal": "whatsapp",
+        "entregues": 281,
+        "aberturas": 155,
+        "clicks": 24,
+        "vendas": 2,
+        "receita": 2388.0
+      },
+      {
+        "dia": "2026-08-09",
+        "canal": "email",
+        "entregues": 135739,
+        "aberturas": 18799,
+        "clicks": 257,
+        "vendas": 6,
+        "receita": 6808.0
+      },
+      {
+        "dia": "2026-08-09",
+        "canal": "whatsapp",
+        "entregues": 435,
+        "aberturas": 223,
+        "clicks": 16,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-08-10",
+        "canal": "email",
+        "entregues": 271134,
+        "aberturas": 40550,
+        "clicks": 606,
+        "vendas": 6,
+        "receita": 8016.0
+      },
+      {
+        "dia": "2026-08-10",
+        "canal": "app_push",
+        "entregues": 429784,
+        "aberturas": 1,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-08-10",
+        "canal": "whatsapp",
+        "entregues": 506,
+        "aberturas": 225,
+        "clicks": 21,
+        "vendas": 2,
+        "receita": 2364.0
+      },
+      {
+        "dia": "2026-08-11",
+        "canal": "app_push",
+        "entregues": 427826,
+        "aberturas": 0,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-08-11",
+        "canal": "whatsapp",
+        "entregues": 1054,
+        "aberturas": 533,
+        "clicks": 58,
+        "vendas": 1,
+        "receita": 1200.0
+      },
+      {
+        "dia": "2026-08-11",
+        "canal": "email",
+        "entregues": 197916,
+        "aberturas": 24864,
+        "clicks": 375,
+        "vendas": 8,
+        "receita": 8771.0
+      },
+      {
+        "dia": "2026-08-12",
+        "canal": "whatsapp",
+        "entregues": 32374,
+        "aberturas": 11810,
+        "clicks": 710,
+        "vendas": 7,
+        "receita": 9096.0
+      },
+      {
+        "dia": "2026-08-12",
+        "canal": "app_push",
+        "entregues": 430211,
+        "aberturas": 0,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0
+      },
+      {
+        "dia": "2026-08-12",
+        "canal": "email",
+        "entregues": 271541,
+        "aberturas": 32253,
+        "clicks": 428,
+        "vendas": 8,
+        "receita": 8153.0
+      }
+    ],
+    "top_pecas": [
+      {
+        "canal": "whatsapp",
+        "peca": "WA02 - [ODI] [VEN] [ODI] Clistenes feliz - Top Score 26jul",
+        "entregues": 31614,
+        "clicks": 2352,
+        "vendas": 31,
+        "receita": 44612.0
+      },
+      {
+        "canal": "email",
+        "peca": "EM10 - [ODI] [VEN] [MEM] “Nada me deixa mais feliz que um convite para ensinar a ler Homero!”",
+        "entregues": 228650,
+        "clicks": 833,
+        "vendas": 26,
+        "receita": 37553.0
+      },
+      {
+        "canal": "email",
+        "peca": "EM13 - [ODI] [VEN] [MEM] Então, quer dizer que eu li errado?",
+        "entregues": 228335,
+        "clicks": 1558,
+        "vendas": 21,
+        "receita": 28872.0
+      },
+      {
+        "canal": "email",
+        "peca": "EM06 - [ODI] [VEN] [MEM] A cena que não foi para o filme de Nolan",
+        "entregues": 469946,
+        "clicks": 911,
+        "vendas": 14,
+        "receita": 26363.0
+      },
+      {
+        "canal": "email",
+        "peca": "EM07 - [ODI] [VEN] [MEM] O verdadeiro perigo das sereias",
+        "entregues": 160995,
+        "clicks": 752,
+        "vendas": 13,
+        "receita": 25124.0
+      },
+      {
+        "canal": "email",
+        "peca": "EM35 - [ODI] [VEN] [MEM] Pela primeira vez",
+        "entregues": 135154,
+        "clicks": 370,
+        "vendas": 12,
+        "receita": 24384.0
+      },
+      {
+        "canal": "email",
+        "peca": "EM08 - [ODI] [VEN] [MEM] O verdadeiro perigo das sereias",
+        "entregues": 469427,
+        "clicks": 1041,
+        "vendas": 17,
+        "receita": 23303.0
+      },
+      {
+        "canal": "email",
+        "peca": "EM25 - [ODI] [VEN] [MEM] Uma cena cortada que diz muito sobre o nosso tempo",
+        "entregues": 452168,
+        "clicks": 359,
+        "vendas": 15,
+        "receita": 21348.0
+      },
+      {
+        "canal": "whatsapp",
+        "peca": "WA06 - [ODI] [VEN] [MEM] Cartão Alto Reforçado - 23jul",
+        "entregues": 7415,
+        "clicks": 291,
+        "vendas": 13,
+        "receita": 19108.0
+      },
+      {
+        "canal": "email",
+        "peca": "EM07 - [ODI] [VEN] [MEM] 3.000 anos e ninguém superou esta história",
+        "entregues": 469828,
+        "clicks": 708,
+        "vendas": 14,
+        "receita": 18804.0
+      },
+      {
+        "canal": "email",
+        "peca": "EM05 - [ODI] [VEN] [MEM] Esse homem existiu?",
+        "entregues": 470029,
+        "clicks": 1059,
+        "vendas": 16,
+        "receita": 18442.0
+      },
+      {
+        "canal": "email",
+        "peca": "EM19 - [ODI] [VEN] [MEM] Você iria ao mundo dos mortos?",
+        "entregues": 229288,
+        "clicks": 266,
+        "vendas": 10,
+        "receita": 18194.0
+      }
+    ]
+  },
+  "ads": {
+    "por_dia": [
+      {
+        "dia": "2026-07-03",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0,
+        "vendas_com": 0
+      },
+      {
+        "dia": "2026-07-05",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0,
+        "vendas_com": 0
+      },
+      {
+        "dia": "2026-07-06",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 2,
+        "receita": 1668.0,
+        "vendas_com": 2
+      },
+      {
+        "dia": "2026-07-08",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0,
+        "vendas_com": 0
+      },
+      {
+        "dia": "2026-07-09",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0,
+        "vendas_com": 0
+      },
+      {
+        "dia": "2026-07-10",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0,
+        "vendas_com": 0
+      },
+      {
+        "dia": "2026-07-13",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 3,
+        "receita": 2136.0,
+        "vendas_com": 3
+      },
+      {
+        "dia": "2026-07-14",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0,
+        "vendas_com": 0
+      },
+      {
+        "dia": "2026-07-15",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 1,
+        "receita": 1188.0,
+        "vendas_com": 1
+      },
+      {
+        "dia": "2026-07-16",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 1,
+        "receita": 1164.0,
+        "vendas_com": 1
+      },
+      {
+        "dia": "2026-07-17",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 1,
+        "receita": 1188.0,
+        "vendas_com": 1
+      },
+      {
+        "dia": "2026-07-19",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 2,
+        "receita": 6140.0,
+        "vendas_com": 2
+      },
+      {
+        "dia": "2026-07-21",
+        "spend": 0.0,
+        "impr": 0,
+        "clicks": 0,
+        "vendas": 0,
+        "receita": 0.0,
+        "vendas_com": 0
+      },
+      {
+        "dia": "2026-07-22",
+        "spend": 3659.0,
+        "impr": 98313,
+        "clicks": 2433,
+        "vendas": 11,
+        "receita": 13128.0,
+        "vendas_com": 0
+      },
+      {
+        "dia": "2026-07-23",
+        "spend": 20966.0,
+        "impr": 545464,
+        "clicks": 10412,
+        "vendas": 43,
+        "receita": 52440.0,
+        "vendas_com": 10
+      },
+      {
+        "dia": "2026-07-24",
+        "spend": 36797.0,
+        "impr": 975365,
+        "clicks": 18484,
+        "vendas": 44,
+        "receita": 56490.0,
+        "vendas_com": 6
+      },
+      {
+        "dia": "2026-07-25",
+        "spend": 45716.0,
+        "impr": 1240970,
+        "clicks": 22890,
+        "vendas": 66,
+        "receita": 77213.0,
+        "vendas_com": 12
+      },
+      {
+        "dia": "2026-07-26",
+        "spend": 19110.0,
+        "impr": 543694,
+        "clicks": 9140,
+        "vendas": 38,
+        "receita": 43364.0,
+        "vendas_com": 7
+      },
+      {
+        "dia": "2026-07-27",
+        "spend": 5860.0,
+        "impr": 431696,
+        "clicks": 6654,
+        "vendas": 10,
+        "receita": 15438.0,
+        "vendas_com": 8
+      },
+      {
+        "dia": "2026-07-28",
+        "spend": 74835.0,
+        "impr": 4120938,
+        "clicks": 82455,
+        "vendas": 66,
+        "receita": 80918.0,
+        "vendas_com": 14
+      },
+      {
+        "dia": "2026-07-29",
+        "spend": 69099.0,
+        "impr": 2545813,
+        "clicks": 70096,
+        "vendas": 69,
+        "receita": 85595.0,
+        "vendas_com": 23
+      },
+      {
+        "dia": "2026-07-30",
+        "spend": 64160.0,
+        "impr": 2873606,
+        "clicks": 58122,
+        "vendas": 76,
+        "receita": 99516.0,
+        "vendas_com": 31
+      },
+      {
+        "dia": "2026-07-31",
+        "spend": 68004.0,
+        "impr": 3453571,
+        "clicks": 65023,
+        "vendas": 82,
+        "receita": 92564.0,
+        "vendas_com": 41
+      },
+      {
+        "dia": "2026-08-01",
+        "spend": 65662.0,
+        "impr": 3697020,
+        "clicks": 65994,
+        "vendas": 60,
+        "receita": 63548.0,
+        "vendas_com": 5
+      },
+      {
+        "dia": "2026-08-02",
+        "spend": 69410.0,
+        "impr": 3285730,
+        "clicks": 66444,
+        "vendas": 67,
+        "receita": 68260.0,
+        "vendas_com": 3
+      },
+      {
+        "dia": "2026-08-03",
+        "spend": 29184.0,
+        "impr": 1898173,
+        "clicks": 34098,
+        "vendas": 39,
+        "receita": 40220.0,
+        "vendas_com": 7
+      },
+      {
+        "dia": "2026-08-04",
+        "spend": 17301.0,
+        "impr": 906929,
+        "clicks": 17547,
+        "vendas": 40,
+        "receita": 40560.0,
+        "vendas_com": 12
+      },
+      {
+        "dia": "2026-08-05",
+        "spend": 30998.0,
+        "impr": 2321699,
+        "clicks": 36050,
+        "vendas": 31,
+        "receita": 28448.0,
+        "vendas_com": 18
+      },
+      {
+        "dia": "2026-08-06",
+        "spend": 21080.0,
+        "impr": 953751,
+        "clicks": 18068,
+        "vendas": 41,
+        "receita": 34432.0,
+        "vendas_com": 18
+      },
+      {
+        "dia": "2026-08-07",
+        "spend": 36436.0,
+        "impr": 1358719,
+        "clicks": 35077,
+        "vendas": 54,
+        "receita": 59065.0,
+        "vendas_com": 8
+      },
+      {
+        "dia": "2026-08-08",
+        "spend": 59677.0,
+        "impr": 1771888,
+        "clicks": 37721,
+        "vendas": 86,
+        "receita": 96974.0,
+        "vendas_com": 9
+      },
+      {
+        "dia": "2026-08-09",
+        "spend": 76482.0,
+        "impr": 2373277,
+        "clicks": 51668,
+        "vendas": 87,
+        "receita": 87841.0,
+        "vendas_com": 8
+      },
+      {
+        "dia": "2026-08-10",
+        "spend": 27439.0,
+        "impr": 957481,
+        "clicks": 21719,
+        "vendas": 44,
+        "receita": 45263.0,
+        "vendas_com": 15
+      },
+      {
+        "dia": "2026-08-11",
+        "spend": 36672.0,
+        "impr": 1174209,
+        "clicks": 22906,
+        "vendas": 55,
+        "receita": 57886.0,
+        "vendas_com": 17
+      },
+      {
+        "dia": "2026-08-12",
+        "spend": 36200.0,
+        "impr": 1169990,
+        "clicks": 24781,
+        "vendas": 35,
+        "receita": 31388.0,
+        "vendas_com": 12
+      }
+    ],
+    "campanhas": [
+      {
+        "fonte": "Meta",
+        "campanha": "[LAN] [ODI] [VENDA] [ADVANTAGE] Pack 4",
+        "spend": 251121.0,
+        "impr": 8803195,
+        "clicks": 186225,
+        "vendas_dir": 251,
+        "vendas_com": 45,
+        "vendas": 296,
+        "receita": 319089.0
+      },
+      {
+        "fonte": "Meta",
+        "campanha": "[LAN] [ODI] [VENDA] [ADVANTAGE] Pack inicial",
+        "spend": 208349.0,
+        "impr": 9466231,
+        "clicks": 150091,
+        "vendas_dir": 185,
+        "vendas_com": 76,
+        "vendas": 261,
+        "receita": 296051.0
+      },
+      {
+        "fonte": "Meta",
+        "campanha": "[LAN] [ODI] [VENDA] [ADVANTAGE] Pack 2",
+        "spend": 194747.0,
+        "impr": 10168579,
+        "clicks": 228317,
+        "vendas_dir": 170,
+        "vendas_com": 74,
+        "vendas": 244,
+        "receita": 284392.0
+      },
+      {
+        "fonte": "Meta",
+        "campanha": "[LAN] [ODI] [VENDA] [ADVANTAGE] Pack 3",
+        "spend": 161527.0,
+        "impr": 7291152,
+        "clicks": 159826,
+        "vendas_dir": 154,
+        "vendas_com": 55,
+        "vendas": 209,
+        "receita": 224581.0
+      },
+      {
+        "fonte": "Meta",
+        "campanha": "[LAN] [ODI] [VENDA] [ADVANTAGE] Pack 5",
+        "spend": 54500.0,
+        "impr": 1910903,
+        "clicks": 30326,
+        "vendas_dir": 41,
+        "vendas_com": 12,
+        "vendas": 53,
+        "receita": 54215.0
+      },
+      {
+        "fonte": "Meta",
+        "campanha": "[LAN] [ODI] [VENDA] [ADVANTAGE] Só videos",
+        "spend": 34641.0,
+        "impr": 894532,
+        "clicks": 18863,
+        "vendas_dir": 43,
+        "vendas_com": 23,
+        "vendas": 66,
+        "receita": 75169.0
+      },
+      {
+        "fonte": "PMax",
+        "campanha": "[LAN] [ODI] [VENDA] [PMAX] Julho",
+        "spend": 24451.0,
+        "impr": 854315,
+        "clicks": 22371,
+        "vendas_dir": 38,
+        "vendas_com": 51,
+        "vendas": 89,
+        "receita": 95264.0
+      },
+      {
+        "fonte": "Google",
+        "campanha": "[LAN] [ODI] [VENDA] [YT] [QUENTE] Julho",
+        "spend": 5346.0,
+        "impr": 335646,
+        "clicks": 4175,
+        "vendas_dir": 3,
+        "vendas_com": 3,
+        "vendas": 6,
+        "receita": 7812.0
+      },
+      {
+        "fonte": "Meta",
+        "campanha": "[LAN] [ODI] [VENDA] [ADVANTAGE] Pack inicial | Membros CDL",
+        "spend": 4744.0,
+        "impr": 56479,
+        "clicks": 1781,
+        "vendas_dir": 12,
+        "vendas_com": 6,
+        "vendas": 18,
+        "receita": 22104.0
+      },
+      {
+        "fonte": "Meta",
+        "campanha": "[LAN] [ODI] [VENDA] [ADVANTAGE] Pack 6",
+        "spend": 3370.0,
+        "impr": 94781,
+        "clicks": 1946,
+        "vendas_dir": 1,
+        "vendas_com": 2,
+        "vendas": 3,
+        "receita": 4284.0
+      },
+      {
+        "fonte": "Meta",
+        "campanha": "[LAN] [ODI] [VENDA] [ADVANTAGE] Só vídeos | Membros CDL",
+        "spend": 1751.0,
+        "impr": 12444,
+        "clicks": 407,
+        "vendas_dir": 3,
+        "vendas_com": 1,
+        "vendas": 4,
+        "receita": 4152.0
+      }
+    ]
+  },
+  "leads": {
+    "por_dia": [
+      {
+        "dia": "2026-08-08",
+        "leads": 286
+      },
+      {
+        "dia": "2026-08-09",
+        "leads": 540
+      },
+      {
+        "dia": "2026-08-10",
+        "leads": 356
+      },
+      {
+        "dia": "2026-08-11",
+        "leads": 568
+      },
+      {
+        "dia": "2026-08-12",
+        "leads": 503
+      }
+    ],
+    "por_fonte": {
+      "facebook": 2079,
+      "youtube": 72,
+      "crm": 37,
+      "portal": 26,
+      "organic_youtube": 23,
+      "ig_livros": 16
+    },
+    "total": 2253
+  },
+  "mencoes_dia": [
+    {
+      "dia": "2026-07-17",
+      "mencoes": 95
+    },
+    {
+      "dia": "2026-07-18",
+      "mencoes": 30
+    },
+    {
+      "dia": "2026-07-19",
+      "mencoes": 11
+    },
+    {
+      "dia": "2026-07-20",
+      "mencoes": 43
+    },
+    {
+      "dia": "2026-07-21",
+      "mencoes": 81
+    },
+    {
+      "dia": "2026-07-22",
+      "mencoes": 71
+    },
+    {
+      "dia": "2026-07-23",
+      "mencoes": 158
+    },
+    {
+      "dia": "2026-07-24",
+      "mencoes": 593
+    },
+    {
+      "dia": "2026-07-25",
+      "mencoes": 336
+    },
+    {
+      "dia": "2026-07-26",
+      "mencoes": 59
+    },
+    {
+      "dia": "2026-07-27",
+      "mencoes": 101
+    },
+    {
+      "dia": "2026-07-28",
+      "mencoes": 110
+    },
+    {
+      "dia": "2026-07-29",
+      "mencoes": 614
+    },
+    {
+      "dia": "2026-07-30",
+      "mencoes": 485
+    },
+    {
+      "dia": "2026-07-31",
+      "mencoes": 351
+    },
+    {
+      "dia": "2026-08-01",
+      "mencoes": 73
+    },
+    {
+      "dia": "2026-08-02",
+      "mencoes": 25
+    },
+    {
+      "dia": "2026-08-03",
+      "mencoes": 20
+    },
+    {
+      "dia": "2026-08-04",
+      "mencoes": 125
+    },
+    {
+      "dia": "2026-08-05",
+      "mencoes": 60
+    },
+    {
+      "dia": "2026-08-06",
+      "mencoes": 61
+    },
+    {
+      "dia": "2026-08-07",
+      "mencoes": 88
+    },
+    {
+      "dia": "2026-08-08",
+      "mencoes": 37
+    },
+    {
+      "dia": "2026-08-09",
+      "mencoes": 49
+    },
+    {
+      "dia": "2026-08-10",
+      "mencoes": 82
+    },
+    {
+      "dia": "2026-08-11",
+      "mencoes": 58
+    },
+    {
+      "dia": "2026-08-12",
+      "mencoes": 60
+    }
+  ]
+}
