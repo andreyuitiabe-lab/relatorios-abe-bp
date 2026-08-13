@@ -75,9 +75,10 @@
 
 <header>
   <p class="label">Brasil Paralelo · Análise de Lançamento</p>
-  <h1>Odisseia vs Clube do Livro — do diagnóstico à ativação do Comercial</h1>
-  <p class="sub">Comparação dos primeiros dias das duas campanhas (D1–D<span class="js-nd">6</span> alinhados: CDL a partir de 05/05, Odisseia a partir de 17/07) + teste da hipótese "o BP10 está tirando o foco".<br>
-  Atualizado: <span id="updated">—</span> · <a href="archive/2026-07-22/">snapshot do diagnóstico original (22/07)</a></p>
+  <div class="nota" style="margin-bottom:16px"><strong>📌 Snapshot de 22/07/2026</strong> (diagnóstico original, D1–D6) — preservado como histórico. A <a href="../../">versão atual do relatório</a> tem os dados e a conclusão atualizados.</div>
+  <h1>Odisseia vs Clube do Livro — por que o Comercial não está vendendo?</h1>
+  <p class="sub">Comparação dos primeiros dias das duas campanhas (D1–D6 alinhados: CDL a partir de 05/05, Odisseia a partir de 17/07) + teste da hipótese "o BP10 está tirando o foco".<br>
+  Atualizado: <span id="updated">—</span></p>
 </header>
 
 <main>
@@ -86,17 +87,16 @@
   <section>
     <h2>Resposta em uma linha</h2>
     <div class="verdict">
-      <div class="vh">Update (13/08): a Odisseia foi ativada no Comercial a partir do D8 (24/07) — o gap de vendas comerciais vs CDL caiu de 141× (D1–D6) para <span id="vh-gap">~9×</span> (D1–D<span class="js-nd">27</span>), e a mídia paga ligou. Mas a escala segue outra: o time ofereceu o CDL em ~64 mil conversas no período equivalente, contra ~4 mil da Odisseia.</div>
+      <div class="vh">A Odisseia não está "vendendo mal" — ela nunca foi lançada no Comercial. O time está com o script apontado para o Vitalício de aniversário (BP10), e a Odisseia não recebeu lista, script nem meta.</div>
     </div>
-    <p class="para" style="margin-top:12px">O diagnóstico original (22/07, D6) era: "a Odisseia não está vendendo mal — ela nunca foi lançada no Comercial" (sem lista, script ou meta; 5 vendas comerciais em 6 dias). Nas semanas seguintes o quadro mudou: as menções nas conversas do Zenvia saltaram no D8 (593 em 24/07, pico de 614 em 29/07), as vendas comerciais chegaram a 91/dia no pico (31/07) e a estrutura de campanha foi montada — leads e spend Meta saíram de zero. Este relatório agora compara os primeiros <span class="js-nd">27</span> dias completos de cada campanha.</p>
     <div class="grid-4" style="margin-top:16px">
       <div class="card" style="text-align:center">
-        <div class="label">CDL D1–D<span class="js-nd">6</span> (total)</div>
+        <div class="label">CDL D1–D6 (total)</div>
         <div class="bigstat"><div class="bs-num" id="st-cdl-vendas">—</div></div>
         <div class="bs-cap" id="st-cdl-receita">—</div>
       </div>
       <div class="card" style="text-align:center">
-        <div class="label">Odisseia D1–D<span class="js-nd">6</span> (total)</div>
+        <div class="label">Odisseia D1–D6 (total)</div>
         <div class="bigstat"><div class="bs-num a" id="st-odi-vendas">—</div></div>
         <div class="bs-cap" id="st-odi-receita">—</div>
       </div>
@@ -111,12 +111,12 @@
         <div class="bs-cap" id="st-gap-dig-det">—</div>
       </div>
     </div>
-    <div class="nota"><strong>Onde está a diferença:</strong> o digital/CRM da Odisseia roda a <span id="nota-gap-dig">—</span>× menos que o do CDL. O maior gap segue no Comercial: <span id="nota-gap">—</span> — mas ele deixou de ser ausência de ativação (diagnóstico de julho) e passou a ser <strong>escala de oferta</strong>: o time entrou no D8 e oferece a Odisseia em ~1/16 do volume de conversas que dedicou ao CDL.</div>
+    <div class="nota"><strong>Onde está a diferença:</strong> o digital/CRM da Odisseia roda a ~2,5× menos que o do CDL — diferença explicável pela ausência de mídia e aquecimento. O buraco de verdade é o Comercial: <span id="nota-gap">—</span>. É uma diferença de <strong>ativação do canal</strong>, não de apetite do público.</div>
   </section>
 
   <!-- Placar -->
   <section>
-    <h2>Placar D1–D<span class="js-nd">6</span> — vendas por dia e canal</h2>
+    <h2>Placar D1–D6 — vendas por dia e canal</h2>
     <div class="grid-2">
       <div class="card">
         <p class="label">Clube do Livro (D1 = 05/05)</p>
@@ -127,7 +127,7 @@
         <canvas id="chartOdi" height="220"></canvas>
       </div>
     </div>
-    <div class="nota">No CDL, o Comercial é a barra dominante desde o D2 (155–256 vendas/dia), e o degrau no D14 é a abertura da venda digital (18/05). Na Odisseia, a primeira semana foi só CRM (diagnóstico de julho); <strong>a partir do D8 a barra do Comercial aparece</strong> (pico de 91 vendas no D15, 31/07) — mas nunca chega perto da escala do CDL, e nas semanas seguintes perde força (~10–40/dia).</div>
+    <div class="nota">No CDL, o Comercial é a barra dominante desde o D2 (155–256 vendas/dia). Na Odisseia, a barra do Comercial é invisível na mesma escala — <strong>quem sustenta a campanha até agora é o CRM</strong> (e-mails e WhatsApp de pré-venda com tag [ODI], principalmente para compradores do CDL a R$ 1.200).</div>
   </section>
 
   <!-- Esforço -->
@@ -139,7 +139,7 @@
     </div>
     <div class="grid-3" style="margin-top:16px">
       <div class="card" style="text-align:center">
-        <div class="label">Conversas oferecendo (D1–D<span class="js-nd">6</span>)</div>
+        <div class="label">Conversas oferecendo (D1–D6)</div>
         <div class="bigstat"><div class="bs-num sm"><span id="st-menc-cdl">—</span> vs <span style="color:var(--amber)" id="st-menc-odi">—</span></div></div>
         <div class="bs-cap">CDL vs Odisseia</div>
       </div>
@@ -154,7 +154,7 @@
         <div class="bs-cap">vendas comerciais / conversas que ofereceram</div>
       </div>
     </div>
-    <div class="nota"><strong>Leitura decisiva (segue valendo):</strong> a conversão por conversa da Odisseia é <em>quase o dobro</em> da do CDL — quando o vendedor oferece, vende. O que mudou desde julho é o volume: a oferta ativa começou no D8 (24/07) e teve picos de ~600 conversas/dia (24/07, 29–31/07), mas não se sustentou — depois de 01/08 as menções voltam a 20–125/dia, enquanto o CDL rodava a 1,5–7 mil/dia no período equivalente. O gargalo continua sendo escala e constância de oferta, não conversão.</div>
+    <div class="nota"><strong>Leitura decisiva:</strong> a conversão por conversa da Odisseia <em>não é pior</em> que a do CDL — quando o vendedor oferece, vende em taxa igual ou melhor. O que falta é volume de oferta: o CDL teve o time inteiro com script desde 4 dias <em>antes</em> do D1; a Odisseia tem menções esporádicas (~2 conversas por vendedor no período).</div>
   </section>
 
   <!-- Contexto das conversas -->
@@ -185,11 +185,11 @@
     </div>
     <div class="grid-2" style="margin-top:16px">
       <div class="card">
-        <p class="label">O que é essa operação (como evoluiu)</p>
+        <p class="label">O que é essa operação</p>
         <ul class="clean">
-          <li><strong>Julho (fase 1):</strong> follow-up "concierge" reativo ao e-mail de pré-venda — a maioria das ~60 conversas da primeira semana abria com o script da "concierge literária" ("Membro Fundador da Coleção Grandes Obras do Ocidente").</li>
-          <li><strong>Depois da ativação (D8+):</strong> a oferta virou prospecção ativa e migrou de script — o "concierge" caiu para ~10% das conversas, e <strong>quase metade das menções à Odisseia acontece na etapa carteira Mecenas</strong>: o produto entrou no pitch de quem aborda a carteira de alto valor.</li>
-          <li><strong>Fila própria criada, mas quase não usada:</strong> existe uma etapa "odisseia" no Zenvia com só 14 conversas — as menções seguem espalhadas nas etapas normais: <span id="ctx-stages">—</span>.</li>
+          <li><strong>É follow-up do e-mail de pré-venda, não prospecção ativa.</strong> A maioria das conversas abre com o script da "concierge literária" ("vi que recebeu o convite para ser Membro Fundador da Coleção... reservar sua edição numerada da Odisseia"), operado por vários atendentes e bots sob a mesma persona.</li>
+          <li><strong>Pitch oficial:</strong> "Coleção Brasil Paralelo: Grandes Obras da Civilização — Volume I: Odisseia, edição numerada à mão", vendendo o conceito de <em>Fine Press</em> europeu que "não existe no Brasil".</li>
+          <li><strong>Sem fila própria:</strong> as menções aparecem espalhadas nas etapas normais (tentativa, carteira Mecenas, negociação) — ver distribuição em <span id="ctx-stages">—</span>.</li>
         </ul>
       </div>
       <div class="card">
@@ -209,11 +209,11 @@
     <h2>Hipótese BP10 — para onde o script do time aponta</h2>
     <div class="grid-2">
       <div class="card">
-        <p class="label">Menções por tema nas conversas (desde 14/07)</p>
+        <p class="label">Menções por tema nas conversas (jul)</p>
         <canvas id="chartBp10" height="240"></canvas>
       </div>
       <div class="card">
-        <p class="label">Mix de vendas do Comercial — D1–D<span class="js-nd">6</span> de cada campanha</p>
+        <p class="label">Mix de vendas do Comercial — D1–D6 de cada campanha</p>
         <table id="tblMix">
           <thead><tr><th>Produto</th><th class="num">período CDL (mai)</th><th class="num">período ODI (jul)</th><th class="num">receita jul</th></tr></thead>
           <tbody></tbody>
@@ -222,12 +222,12 @@
     </div>
     <div class="grid-3" style="margin-top:16px">
       <div class="card" style="text-align:center">
-        <div class="label">Receita total do Comercial — D1–D<span class="js-nd">6</span></div>
+        <div class="label">Receita total do Comercial — D1–D6</div>
         <div class="bigstat"><div class="bs-num sm"><span id="st-rec-mai">—</span> vs <span style="color:var(--violet)" id="st-rec-jul">—</span></div></div>
-        <div class="bs-cap">período CDL (<span class="js-cdl-range">—</span>) vs período ODI (<span class="js-odi-range">—</span>)</div>
+        <div class="bs-cap">período CDL (05–10/mai) vs período ODI (17–22/jul)</div>
       </div>
       <div class="card" style="text-align:center">
-        <div class="label">Vendas do Comercial — D1–D<span class="js-nd">6</span></div>
+        <div class="label">Vendas do Comercial — D1–D6</div>
         <div class="bigstat"><div class="bs-num sm"><span id="st-vnd-mai">—</span> vs <span style="color:var(--violet)" id="st-vnd-jul">—</span></div></div>
         <div class="bs-cap" id="st-vnd-var">—</div>
       </div>
@@ -239,7 +239,7 @@
     </div>
     <div class="grid-2" style="margin-top:16px">
       <div class="card">
-        <p class="label">Receita total do Comercial por dia — D1–D<span class="js-nd">6</span></p>
+        <p class="label">Receita total do Comercial por dia — D1–D6</p>
         <canvas id="chartReceitaDia" height="240"></canvas>
       </div>
       <div class="card">
@@ -248,10 +248,10 @@
       </div>
     </div>
     <div class="nota" id="nota-receita-total">
-      <strong>O Comercial como um todo fatura quase o mesmo nos dois períodos.</strong> Comparando os <span class="js-nd">6</span> primeiros dias de cada campanha: <span id="nota-receita-detalhe">—</span> A troca de mix (ticket puxado pelo Vitalício Aniv26) compensa a maior parte da queda de volume. A Odisseia já entrou na pauta — mas como 4º produto do mix, não como prioridade.
+      <strong>O Comercial como um todo não está vendendo menos dinheiro.</strong> Comparando os 6 primeiros dias de cada campanha: <span id="nota-receita-detalhe">—</span> A troca de mix (CDL R$ 1,2k → Vitalício Aniv26 ~R$ 2,5k) compensou a queda de volume. Ou seja: não faltou receita para o time — faltou a Odisseia entrar na pauta. <em>(Último dia da janela de julho parcial no momento da medição.)</em>
     </div>
     <div class="nota">
-      <strong>O foco do Comercial segue no Vitalício — o "BP10" do time é venda de Vitalício Aniv26.</strong> No período: <span id="nota-aniv">—</span>, e o Vitalício como um todo é o maior bloco de receita do time (R$ 4,6M, 33% das vendas). No período de lançamento do CDL o próprio CDL ocupava <span id="nota-pct-cdl">—</span> do mix do time; no período da Odisseia, ela ocupa <span id="nota-pct-odi">—</span>. E além do redirecionamento, o ritmo total do time caiu: <span id="nota-capacidade">—</span>.
+      <strong>Sim, o foco do Comercial está no BP10 — mas o BP10 no Comercial é venda de Vitalício.</strong> As ofertas da semana carregam o sufixo "Aniv26": <span id="nota-aniv">—</span>. No período de lançamento do CDL o próprio CDL ocupava <span id="nota-pct-cdl">—</span> do mix do time; no período da Odisseia, ela ocupa <span id="nota-pct-odi">—</span>. E além do redirecionamento, o ritmo total do time caiu: <span id="nota-capacidade">—</span>.
     </div>
   </section>
 
@@ -260,14 +260,14 @@
     <h2>O que mais foi diferente — desenho da campanha</h2>
     <div class="grid-3">
       <div class="card" style="text-align:center">
-        <div class="label">Leads da campanha</div>
-        <div class="bigstat"><div class="bs-num sm"><span id="st-leads-cdl">—</span> vs <span style="color:var(--amber)" id="st-leads-odi">—</span></div></div>
-        <div class="bs-cap">CDL até a abertura digital vs Odisseia acumulado (zero no lançamento; captação começou na fase 2)</div>
+        <div class="label">Leads de aquecimento</div>
+        <div class="bigstat"><div class="bs-num sm"><span id="st-leads-cdl">—</span> vs <span style="color:var(--red)" id="st-leads-odi">—</span></div></div>
+        <div class="bs-cap">CDL (até abertura digital) vs Odisseia</div>
       </div>
       <div class="card" style="text-align:center">
         <div class="label">Mídia paga (Meta)</div>
-        <div class="bigstat"><div class="bs-num sm"><span id="st-spend-cdl">—</span> vs <span style="color:var(--amber)" id="st-spend-odi">—</span></div></div>
-        <div class="bs-cap">CDL até a abertura da venda vs Odisseia acumulado (R$ 0 no lançamento; mídia ligou na fase 2)</div>
+        <div class="bigstat"><div class="bs-num sm"><span id="st-spend-cdl">—</span> vs <span style="color:var(--red)" id="st-spend-odi">—</span></div></div>
+        <div class="bs-cap">spend até a abertura da venda</div>
       </div>
       <div class="card" style="text-align:center">
         <div class="label">Preço / oferta</div>
@@ -276,22 +276,22 @@
       </div>
     </div>
     <div class="nota">
-      <strong>Contexto da régua:</strong> a pesquisa sintética (SSR, 21/07 — ver relatório <a href="../odisseia/">Odisseia SSR</a>) recomendou lançar em fases: primeiro só aos ~23,7 mil compradores do CDL a R$ 1.200 via CRM, depois abrir base + mídia. Foi o que aconteceu: a primeira semana foi a fase 1 (só CRM), e a partir da semana do D8 abriram Comercial, captação de leads e mídia Meta — a fase 2 está em curso. Com as duas campanhas em fase equivalente de estrutura, a comparação D1–D<span class="js-nd">27</span> com o CDL passa a ser régua razoável.
+      <strong>Contexto que muda a régua:</strong> a pesquisa sintética (SSR, 21/07 — ver relatório <a href="../odisseia/">Odisseia SSR</a>) recomendou lançar em fases: primeiro só aos ~23,7 mil compradores do CDL a R$ 1.200, medir a recompra, e só então abrir base + mídia. O que os dados mostram é compatível com essa fase 1 (CRM para compradores CDL, checkout dominante a R$ 1.200). <strong>Se a fase 1 é intencional, comparar com o lançamento full-force do CDL é régua errada</strong> — o problema passa a ser só a expectativa de que o Comercial estivesse vendendo.
     </div>
   </section>
 
   <!-- Recomendação -->
   <section>
-    <h2>Conclusão e recomendação (atualizada em 13/08)</h2>
+    <h2>Conclusão e recomendação</h2>
     <div class="rec">
-      <p style="font-weight:700; color:#166534; margin-bottom:10px">A ativação que o diagnóstico de julho pedia aconteceu — o problema agora é sustentar a oferta, não iniciá-la.</p>
+      <p style="font-weight:700; color:#166534; margin-bottom:10px">O gargalo não é o produto nem o vendedor — é a ativação. Decidir explicitamente a prioridade do Comercial.</p>
       <ul class="clean">
-        <li><strong>O que o update confirma:</strong> quando o time oferece, vende — a conversão por conversa da Odisseia (~15%) é quase o dobro da do CDL (~8%), e nos dias de oferta ativa (24/07, 29–31/07) as vendas comerciais chegaram a 91/dia.</li>
-        <li><strong>O que preocupa:</strong> a oferta não se sustentou. Depois de 01/08 as menções caíram de ~600 para 20–125/dia e as vendas comerciais para ~10–30/dia. Foi um sprint, não uma pauta permanente.</li>
-        <li><strong>A decisão de negócio de julho continua em aberto:</strong> o Vitalício Aniv26 segue dominando o time (33% das vendas, R$ 4,6M no período, ticket ~2× o da Odisseia). A Odisseia ocupa 8% do mix — decidir explicitamente se isso é o alvo ou se ela merece um subgrupo com lista dedicada e meta (a fila "odisseia" existe no Zenvia, mas tem só 14 conversas).</li>
-        <li><strong>Fase 2 precisa de régua própria:</strong> com R$ 917k de mídia Meta e 2.381 leads captados, a pergunta deixou de ser "por que o Comercial não vende" e passou a ser CAC/ROAS da campanha — vale medir o custo por venda da fase 2 antes de escalar o spend.</li>
-        <li><strong>Placar acumulado para calibrar expectativa:</strong> em janela equivalente (D1–D27), a Odisseia fez R$ 2,36M (1.953 vendas) contra R$ 10,65M do CDL — cerca de 22% da receita. Parte é estrutura (CDL abriu digital no D14 com lotes e order bumps), parte é priorização do time.</li>
-        <li><strong>Ritmo do time:</strong> a queda de abordagens/dia vs maio persiste na janela longa (−22%: 3,3k vs 4,2k/dia, com time do mesmo tamanho) — menor que os −50% da primeira semana, mas ainda vale a conversa com o gestor.</li>
+        <li><strong>Não é concorrência inevitável:</strong> no lançamento do CDL também havia campanhas simultâneas (DOM/ELS) e o time colocou o CDL em 39% do mix. Campanha nova vira prioridade quando recebe lista + script + meta — a Odisseia não recebeu.</li>
+        <li><strong>O BP10/Vitalício está rendendo bem</strong> (R$ 897k na semana, ticket ~R$ 2,5k vs R$ 1,2k da Odisseia) — e a receita total do time está no mesmo nível da semana de ouro do CDL. Colocar a Odisseia no Comercial agora significa canibalizar tempo de um produto de ticket 2× maior que está funcionando — a decisão é de negócio, não de execução.</li>
+        <li><strong>Caminho de menor atrito:</strong> em vez de redirecionar o time inteiro, dar a Odisseia a um subgrupo com lista dedicada — os ~79k engajados do CDL que não compraram o Clube são exatamente o público mais quente (e o preço R$ 1.200 deles já existe no checkout).</li>
+        <li><strong>Se a Odisseia deve vender agora:</strong> replicar o playbook do CDL — lista dedicada (começando pelos compradores do CDL que não abriram os e-mails), script no Zenvia e meta por vendedor. A conversão por conversa (~9%) sugere que o público responde.</li>
+        <li><strong>Se a fase 1 do SSR é a estratégia:</strong> formalizar — medir a taxa de recompra CDL→Odisseia no CRM antes de acionar o Comercial, e alinhar a expectativa de vendas da semana com essa fase.</li>
+        <li><strong>Ponto de atenção do ritmo:</strong> abordagens/dia do time caíram ~50% vs maio com o mesmo número de vendedores — vale investigar com o gestor (férias, listas menores, priorização).</li>
       </ul>
     </div>
   </section>
@@ -301,8 +301,8 @@
     <h2>Limitações</h2>
     <div class="card">
       <ul class="clean">
-        <li><strong>Janela alinhada:</strong> a comparação usa apenas dias equivalentes de campanha (D1–D<span class="js-nd">6</span>, dias completos até a data da atualização); o CDL abriu a venda digital no D14, então a janela estendida mistura fases diferentes das duas campanhas.</li>
-        <li><strong>Esforço medido por menção na transcrição:</strong> conversas por telefone/fora do Zenvia não aparecem, e a venda não é vinculada à conversa por <code>id_transaction</code> — a taxa de conversão por conversa é aproximação (vendas comerciais ÷ conversas que mencionam o produto).</li>
+        <li><strong>Amostra curta:</strong> a Odisseia tem ~6 dias de venda; a comparação usa apenas dias equivalentes (D1–D6), mas a leitura é precoce.</li>
+        <li><strong>Esforço medido por menção na transcrição:</strong> conversas por telefone/fora do Zenvia não aparecem. As 5 vendas comerciais da Odisseia não têm conversa vinculada por <code>id_transaction</code> no Zenvia — a taxa de conversão por conversa é aproximação.</li>
         <li><strong>Menções "BP10"</strong> capturadas por regex ("10 anos", "aniversário") — pode haver falsos positivos pontuais.</li>
       </ul>
     </div>
@@ -325,15 +325,6 @@ const fmtInt = v => v.toLocaleString('pt-BR');
 fetch('./data.json').then(r => r.json()).then(D => {
   document.getElementById('updated').textContent = D.updated_at.replace('T', ' ');
 
-  const ND = D.config.n_dias;
-  const addDays = (iso, n) => { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + n); return d; };
-  const fmtDM = d => String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
-  const range = d1 => fmtDM(new Date(d1 + 'T12:00:00')) + '–' + fmtDM(addDays(d1, ND - 1));
-  const cdlRange = range(D.config.cdl_d1), odiRange = range(D.config.odi_d1);
-  document.querySelectorAll('.js-nd').forEach(el => el.textContent = ND);
-  document.querySelectorAll('.js-cdl-range').forEach(el => el.textContent = cdlRange);
-  document.querySelectorAll('.js-odi-range').forEach(el => el.textContent = odiRange);
-
   const t = D.totais;
   const soma = a => a.reduce((x, y) => x + y, 0);
   const recCom = { cdl: soma(D.placar.cdl_comercial.receita), odi: soma(D.placar.odi_comercial.receita) };
@@ -353,9 +344,7 @@ fetch('./data.json').then(r => r.json()).then(D => {
   document.getElementById('st-gap-dig').textContent = gapDig + '×';
   document.getElementById('st-gap-dig-det').textContent = t.cdl.digital + ' vs ' + t.odi.digital + ' vendas';
   document.getElementById('nota-gap').innerHTML =
-    '<strong>' + fmtInt(t.cdl.comercial) + ' vendas do CDL contra ' + fmtInt(t.odi.comercial) + ' da Odisseia (' + gapCom + '×)</strong>';
-  document.getElementById('vh-gap').textContent = gapCom + '×';
-  document.getElementById('nota-gap-dig').textContent = gapDig;
+    '<strong>' + t.cdl.comercial + ' vendas do CDL contra ' + t.odi.comercial + ' da Odisseia (' + gapCom + '×)</strong>';
 
   const dias = Array.from({length: D.config.n_dias}, (_, i) => 'D' + (i+1));
   const maxY = Math.max(...D.placar.cdl_comercial.vendas.map((v, i) => v + D.placar.cdl_digital.vendas[i])) * 1.1;
@@ -458,8 +447,8 @@ fetch('./data.json').then(r => r.json()).then(D => {
     new Chart(document.getElementById('chartReceitaDia'), {
       type: 'bar',
       data: { labels: dias, datasets: [
-        { label: 'Período CDL (' + cdlRange + ')', data: tcd.mai, backgroundColor: '#3b6ef5' },
-        { label: 'Período ODI (' + odiRange + ')', data: tcd.jul, backgroundColor: '#7c5cfc' },
+        { label: 'Período CDL (05–10/mai)', data: tcd.mai, backgroundColor: '#3b6ef5' },
+        { label: 'Período ODI (17–22/jul)', data: tcd.jul, backgroundColor: '#7c5cfc' },
       ]},
       options: { plugins: { legend: { position: 'bottom' },
           tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmtBRL(ctx.parsed.y) } } },

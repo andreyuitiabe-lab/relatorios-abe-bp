@@ -17,7 +17,9 @@ from pathlib import Path
 
 CDL_D1 = "2026-05-05"
 ODI_D1 = "2026-07-17"
-N_DIAS = 6  # dias equivalentes comparados (D1–D6); ODI cresce conforme a campanha anda
+# dias equivalentes comparados (D1–Dn): cresce conforme a campanha anda,
+# usando só dias completos (até ontem)
+N_DIAS = (datetime.date.today() - datetime.date.fromisoformat(ODI_D1)).days
 OUT = Path(__file__).parent / "data.json"
 
 ODI_FILTER = "(nm_gateway_plan='livro-odisseia-edicao-colecionador' OR LOWER(nm_gateway_product) LIKE '%odis%')"
@@ -147,13 +149,13 @@ FROM v GROUP BY 1,2 ORDER BY janela, vendas DESC
 """
 
 Q_CAPACIDADE = f"""
-SELECT CASE WHEN DATE(dt_approach_start) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL 6 DAY)
+SELECT CASE WHEN DATE(dt_approach_start) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL {N_DIAS - 1} DAY)
             THEN 'mai' ELSE 'jul' END AS janela,
        COUNT(*) AS abordagens, COUNT(DISTINCT id_seller) AS vendedores,
-       ROUND(COUNT(*)/7,0) AS abordagens_dia
+       ROUND(COUNT(*)/{N_DIAS},0) AS abordagens_dia
 FROM masterdata.dim_zenvia_approaches
-WHERE DATE(dt_approach_start) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL 6 DAY)
-   OR DATE(dt_approach_start) BETWEEN '2026-07-16' AND DATE_ADD('2026-07-16', INTERVAL 6 DAY)
+WHERE DATE(dt_approach_start) BETWEEN '{CDL_D1}' AND DATE_ADD('{CDL_D1}', INTERVAL {N_DIAS - 1} DAY)
+   OR DATE(dt_approach_start) BETWEEN '{ODI_D1}' AND DATE_ADD('{ODI_D1}', INTERVAL {N_DIAS - 1} DAY)
 GROUP BY 1
 """
 
@@ -215,12 +217,12 @@ WHERE nm_status='approved' AND bl_is_renovation=FALSE AND bl_is_commercial_chann
 GROUP BY 1,2 ORDER BY 1,2
 """
 
-Q_ANIV = """
+Q_ANIV = f"""
 SELECT COUNT(*) AS vendas, ROUND(SUM(vl_payment_gross),0) AS receita
 FROM masterdata.fct_transactions
 WHERE nm_status='approved' AND bl_is_renovation=FALSE AND bl_is_commercial_channel=TRUE
   AND bl_lifetime_offer
-  AND DATE(dt_ordered_at) BETWEEN '2026-07-16' AND DATE_ADD('2026-07-16', INTERVAL 6 DAY)
+  AND DATE(dt_ordered_at) BETWEEN '{ODI_D1}' AND DATE_ADD('{ODI_D1}', INTERVAL {N_DIAS - 1} DAY)
   AND LOWER(nm_gateway_offer) LIKE '%aniv26%'
 """
 
@@ -296,7 +298,7 @@ def build() -> dict:
 
     print("  contexto das conversas ODI...", flush=True)
     import re as _re
-    convs = bq(Q_CONVERSAS_ODI, max_rows=500)
+    convs = bq(Q_CONVERSAS_ODI, max_rows=5000)
     ctx = {"total": len(convs), "vendedor_primeiro": 0, "cliente_primeiro": 0,
            "script_concierge": 0, "cita_cdl": 0, "stages": {}}
     for r in convs:

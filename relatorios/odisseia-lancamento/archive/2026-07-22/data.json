@@ -1,0 +1,407 @@
+{
+  "updated_at": "2026-07-22T20:46:07",
+  "config": {
+    "cdl_d1": "2026-05-05",
+    "odi_d1": "2026-07-17",
+    "n_dias": 6
+  },
+  "placar": {
+    "cdl_comercial": {
+      "vendas": [
+        14,
+        155,
+        216,
+        256,
+        51,
+        11
+      ],
+      "receita": [
+        16632.0,
+        184140.0,
+        256608.0,
+        304380.0,
+        60588.0,
+        13068.0
+      ]
+    },
+    "cdl_digital": {
+      "vendas": [
+        19,
+        30,
+        35,
+        35,
+        40,
+        53
+      ],
+      "receita": [
+        22572.0,
+        35640.0,
+        41580.0,
+        41580.0,
+        47520.0,
+        62964.0
+      ]
+    },
+    "odi_comercial": {
+      "vendas": [
+        1,
+        0,
+        0,
+        1,
+        2,
+        5
+      ],
+      "receita": [
+        1200.0,
+        0.0,
+        0.0,
+        1200.0,
+        2400.0,
+        6720.0
+      ]
+    },
+    "odi_digital": {
+      "vendas": [
+        10,
+        7,
+        7,
+        11,
+        33,
+        29
+      ],
+      "receita": [
+        12120.0,
+        8400.0,
+        8640.0,
+        13320.0,
+        39900.0,
+        35100.0
+      ]
+    }
+  },
+  "totais": {
+    "cdl": {
+      "vendas": 915,
+      "receita": 1087272.0,
+      "comercial": 703,
+      "digital": 212,
+      "vendedores": 29
+    },
+    "odi": {
+      "vendas": 106,
+      "receita": 129000.0,
+      "comercial": 9,
+      "digital": 97,
+      "vendedores": 8
+    }
+  },
+  "mencoes": {
+    "dias": [
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "cdl": {
+      "abordagens": [
+        1730,
+        772,
+        2735,
+        5896,
+        7966,
+        8720,
+        3756,
+        5202,
+        1658,
+        1871
+      ],
+      "mencoes": [
+        710,
+        218,
+        398,
+        3268,
+        4513,
+        5556,
+        2029,
+        2980,
+        701,
+        705
+      ],
+      "vendedores": [
+        19,
+        19,
+        19,
+        29,
+        32,
+        35,
+        32,
+        34,
+        28,
+        26
+      ]
+    },
+    "odi": {
+      "abordagens": [
+        3485,
+        2274,
+        2396,
+        5333,
+        3377,
+        855,
+        878,
+        2137,
+        3102,
+        3205
+      ],
+      "mencoes": [
+        0,
+        0,
+        0,
+        0,
+        8,
+        5,
+        0,
+        9,
+        26,
+        13
+      ],
+      "vendedores": [
+        0,
+        0,
+        0,
+        0,
+        5,
+        2,
+        0,
+        6,
+        16,
+        9
+      ]
+    }
+  },
+  "conversao": {
+    "cdl": {
+      "mencoes_d1_dn": 19752,
+      "vendas_comercial": 703,
+      "taxa_pct": 3.6
+    },
+    "odi": {
+      "mencoes_d1_dn": 61,
+      "vendas_comercial": 9,
+      "taxa_pct": 14.8
+    }
+  },
+  "mencoes_jul": [
+    {
+      "dia": "2026-07-14",
+      "abordagens": 2274,
+      "odisseia": 0,
+      "cdl": 116,
+      "bp10": 616
+    },
+    {
+      "dia": "2026-07-15",
+      "abordagens": 2396,
+      "odisseia": 0,
+      "cdl": 197,
+      "bp10": 812
+    },
+    {
+      "dia": "2026-07-16",
+      "abordagens": 5333,
+      "odisseia": 0,
+      "cdl": 1519,
+      "bp10": 3240
+    },
+    {
+      "dia": "2026-07-17",
+      "abordagens": 3377,
+      "odisseia": 8,
+      "cdl": 646,
+      "bp10": 940
+    },
+    {
+      "dia": "2026-07-18",
+      "abordagens": 855,
+      "odisseia": 5,
+      "cdl": 101,
+      "bp10": 206
+    },
+    {
+      "dia": "2026-07-19",
+      "abordagens": 878,
+      "odisseia": 0,
+      "cdl": 106,
+      "bp10": 217
+    },
+    {
+      "dia": "2026-07-20",
+      "abordagens": 2137,
+      "odisseia": 9,
+      "cdl": 156,
+      "bp10": 574
+    },
+    {
+      "dia": "2026-07-21",
+      "abordagens": 3102,
+      "odisseia": 26,
+      "cdl": 236,
+      "bp10": 1206
+    },
+    {
+      "dia": "2026-07-22",
+      "abordagens": 3205,
+      "odisseia": 13,
+      "cdl": 1444,
+      "bp10": 534
+    }
+  ],
+  "mix": [
+    {
+      "janela": "jul",
+      "produto": "Assinaturas/outros",
+      "vendas": 544,
+      "receita": 154687.0,
+      "pct": 45.9
+    },
+    {
+      "janela": "jul",
+      "produto": "Vitalício",
+      "vendas": 352,
+      "receita": 825105.0,
+      "pct": 29.7
+    },
+    {
+      "janela": "jul",
+      "produto": "Clube do Livro",
+      "vendas": 221,
+      "receita": 247055.0,
+      "pct": 18.6
+    },
+    {
+      "janela": "jul",
+      "produto": "Mecenas",
+      "vendas": 54,
+      "receita": 196768.0,
+      "pct": 4.6
+    },
+    {
+      "janela": "jul",
+      "produto": "Odisseia",
+      "vendas": 9,
+      "receita": 11520.0,
+      "pct": 0.8
+    },
+    {
+      "janela": "jul",
+      "produto": "Combos BP10",
+      "vendas": 5,
+      "receita": 1086.0,
+      "pct": 0.4
+    },
+    {
+      "janela": "mai",
+      "produto": "Assinaturas/outros",
+      "vendas": 962,
+      "receita": 242174.0,
+      "pct": 52.7
+    },
+    {
+      "janela": "mai",
+      "produto": "Clube do Livro",
+      "vendas": 703,
+      "receita": 835416.0,
+      "pct": 38.5
+    },
+    {
+      "janela": "mai",
+      "produto": "Vitalício",
+      "vendas": 136,
+      "receita": 250226.0,
+      "pct": 7.5
+    },
+    {
+      "janela": "mai",
+      "produto": "Mecenas",
+      "vendas": 23,
+      "receita": 73580.0,
+      "pct": 1.3
+    }
+  ],
+  "contexto_conversas": {
+    "total": 61,
+    "vendedor_primeiro": 45,
+    "cliente_primeiro": 16,
+    "script_concierge": 36,
+    "cita_cdl": 12,
+    "stages": {
+      "tentativa2": 18,
+      "carteiraMecenas": 17,
+      "contatoNegociacao": 13,
+      "tentativa1": 10,
+      "clubeDoLivro": 1,
+      "vitalicioBlack": 1,
+      "(sem etapa)": 1
+    }
+  },
+  "total_comercial": {
+    "mai": {
+      "vendas": 1824,
+      "receita": 1401396.0,
+      "receita_dia": 233566.0,
+      "ticket": 768.0,
+      "vendedores_com_venda": 31
+    },
+    "jul": {
+      "vendas": 1185,
+      "receita": 1436220.0,
+      "receita_dia": 239370.0,
+      "ticket": 1212.0,
+      "vendedores_com_venda": 34
+    }
+  },
+  "total_comercial_dia": {
+    "mai": [
+      181667.0,
+      310348.0,
+      351613.0,
+      438679.0,
+      83454.0,
+      35635.0
+    ],
+    "jul": [
+      394889.0,
+      98285.0,
+      17998.0,
+      225345.0,
+      307385.0,
+      392319.0
+    ]
+  },
+  "capacidade": {
+    "mai": {
+      "abordagens": 35105,
+      "vendedores": 54,
+      "abordagens_dia": 5015
+    },
+    "jul": {
+      "abordagens": 18887,
+      "vendedores": 55,
+      "abordagens_dia": 2698
+    }
+  },
+  "estrutura": {
+    "leads_cdl": 4638,
+    "leads_odi": 0,
+    "spend_cdl": 41256.0,
+    "spend_odi": 0,
+    "aniv26_vendas": 178,
+    "aniv26_receita": 476077.0
+  }
+}

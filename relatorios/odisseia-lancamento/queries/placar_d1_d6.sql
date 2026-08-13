@@ -1,5 +1,6 @@
--- Placar D1–D6 alinhado: CDL (D1=2026-05-05) vs Odisseia (D1=2026-07-17), por canal.
--- Versão parametrizada usada pelo refresh.py (Q_PLACAR).
+-- Placar D1–Dn alinhado: CDL (D1=2026-05-05) vs Odisseia (D1=2026-07-17), por canal.
+-- Versão parametrizada usada pelo refresh.py (Q_PLACAR); lá N_DIAS é dinâmico
+-- (dias completos desde o ODI D1). Snapshot abaixo: D1–D27 (13/08/2026).
 WITH vendas AS (
   SELECT 'CDL' AS campanha,
          DATE_DIFF(DATE(dt_ordered_at), DATE '2026-05-05', DAY)+1 AS dia_campanha,
@@ -22,6 +23,6 @@ WITH vendas AS (
 SELECT campanha, dia_campanha, canal,
        COUNT(*) AS vendas, ROUND(SUM(vl_payment_gross),0) AS receita
 FROM vendas
-WHERE dia_campanha BETWEEN 1 AND 6
+WHERE dia_campanha BETWEEN 1 AND 27
 GROUP BY 1,2,3
 ORDER BY dia_campanha, campanha, canal

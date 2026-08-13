@@ -1,25 +1,4 @@
-# Análise — Lançamento Odisseia vs Clube do Livro (22/jul/2026; update 13/ago/2026)
-
-## Update 13/08/2026 — janela estendida para D1–D27
-
-O `refresh.py` agora calcula a janela dinamicamente (dias completos desde o ODI D1 = 17/07), e o `index.html` lê a janela do `data.json` — a partir daqui o relatório se atualiza rodando só o refresh. Narrativa da página revisada com os números novos. O diagnóstico original como apresentado em 22/07 está preservado em [`archive/2026-07-22/`](archive/2026-07-22/) (padrão de versionamento do repo: relatório evolui in-place, snapshot vai para archive sem card no portal).
-
-**O que mudou desde o diagnóstico de 22/07:**
-
-1. **A Odisseia foi ativada no Comercial a partir do D8 (24/07)** — menções nas conversas Zenvia saltaram de ~70 para 593/dia (pico 614 em 29/07); vendas comerciais foram de 5 (D1–D6) para **602 no acumulado D1–D27** (pico 91/dia em 31/07). O gap vs CDL caiu de 141× para **8,9×** (5.363 vs 602).
-2. **A fase 1 (só-CRM) acabou**: mídia Meta ligou (**R$ 917k** de spend acumulado, era R$ 0) e a captação de leads começou (**2.381 leads** com tag ODI, era 0). O faseamento recomendado pelo SSR foi seguido: ~1 semana de CRM, depois base+mídia.
-3. **Mas a oferta não se sustentou**: depois de 01/08 as menções caem para 20–125/dia (CDL rodava a 1,5–7k/dia no período equivalente) e as vendas comerciais para ~10–30/dia. Foi um sprint, não pauta permanente.
-4. **Conversão por conversa segue melhor que a do CDL**: 15,2% vs 8,4% (vendas comerciais ÷ conversas que mencionam o produto, D1–D27).
-5. **Placar acumulado D1–D27**: CDL 9.005 vendas / R$ 10,65M vs Odisseia 1.953 / R$ 2,36M (~22% da receita). No digital o gap é 2,7×. Atenção: o CDL abriu a venda digital no D14 (18/05) com lotes e order bumps — a janela longa mistura fases.
-6. **Mix do Comercial na janela ODI**: Vitalício domina (33,1% das vendas, R$ 4,58M; Aniv26 = 669 vendas / R$ 1,6M), Odisseia é o 4º produto (8,0%, R$ 704k). Na janela CDL, o CDL era 58,9% do mix. Receita total do time: R$ 8,78M (mai) vs R$ 8,15M (jul), −7%, com ticket +35%.
-7. **Operação mudou de cara**: das 4.025 conversas com menção à Odisseia, ~48% estão na etapa `carteiraMecenas` (produto entrou no pitch da carteira high-ticket); o script "concierge" caiu para ~10%; existe uma etapa `odisseia` no Zenvia, mas com só 14 conversas. 50% das conversas ainda citam o CDL (confusão persiste).
-8. **Capacidade**: na janela longa a queda de ritmo é −22% (3,3k vs 4,2k abordagens/dia, 60 vs 63 vendedores) — menor que os −50% da primeira semana, mas persiste.
-
-**Conclusão atualizada:** a ativação que o diagnóstico pedia aconteceu (lista/abordagem ativa + mídia), confirmando a tese de que era decisão de priorização, não apetite do público. O problema agora é **constância**: a oferta comercial veio em ondas e esvaziou em agosto, enquanto o Vitalício Aniv26 segue como prioridade do time. Perguntas novas: (a) sustentar a Odisseia como pauta permanente de um subgrupo ou aceitar 8% do mix? (b) qual o CAC/ROAS da fase 2 com R$ 917k de mídia? — vale medir antes de escalar o spend.
-
----
-
-## Análise original (22/jul/2026, D1–D6)
+# Análise — Lançamento Odisseia vs Clube do Livro (22/jul/2026)
 
 ## Pergunta original
 
@@ -60,8 +39,8 @@ A Odisseia não está "vendendo mal" — **ela não foi lançada no Comercial**.
 
 | Arquivo | O que faz |
 |---|---|
-| [queries/placar_d1_d6.sql](queries/placar_d1_d6.sql) | Vendas/receita por dia de campanha e canal, D1–Dn alinhados (n dinâmico no refresh.py) |
-| [queries/mencoes_zenvia.sql](queries/mencoes_zenvia.sql) | Esforço por menção ao produto na transcrição (D-4 a Dn) |
+| [queries/placar_d1_d6.sql](queries/placar_d1_d6.sql) | Vendas/receita por dia de campanha e canal, D1–D6 alinhados |
+| [queries/mencoes_zenvia.sql](queries/mencoes_zenvia.sql) | Esforço por menção ao produto na transcrição (D-4 a D6) |
 | [queries/mencoes_jul_por_tema.sql](queries/mencoes_jul_por_tema.sql) | Menções ODI/CDL/BP10 por dia em julho |
 | [queries/mix_comercial.sql](queries/mix_comercial.sql) | Mix de vendas do Comercial: semana CDL vs semana ODI+BP10 |
 | [queries/estrutura_capacidade.sql](queries/estrutura_capacidade.sql) | Capacidade, leads de aquecimento, spend Meta, vitalícios Aniv26 |
