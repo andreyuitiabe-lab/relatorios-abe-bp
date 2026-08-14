@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quem está comprando o Enéas · Campanha ENE · Brasil Paralelo Analytics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base:        #0D0F12;
+      --bg-card:        #111318;
+      --bg-card-alt:    #1E293B;
+      --border:         #1E293B;
+      --border-subtle:  #334155;
+      --text-primary:   #F1F5F9;
+      --text-secondary: #CBD5E1;
+      --text-muted:     #64748B;
+      --text-label:     #475569;
+      --brand:          #00C896;
+      --brand-subtle:   rgba(0, 200, 150, 0.12);
+      --warning:        #F59E0B;
+      --negative:       #EF4444;
+      /* série categórica validada (dark, ΔE ok): digital / humano / lambda */
+      --c-digital: #00A37B;
+      --c-humano:  #3B82F6;
+      --c-lambda:  #D97706;
+      --font-sans: 'Inter', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans); background: var(--bg-base);
+      color: var(--text-primary); line-height: 1.6; min-height: 100vh;
+    }
+    .page { max-width: 1180px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    .report-header { border-bottom: 1px solid var(--border); padding-bottom: 1.6rem; margin-bottom: 2rem; }
+    .breadcrumb {
+      font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--brand); margin-bottom: .6rem;
+    }
+    h1 { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
+    .subtitle { color: var(--text-muted); font-size: .9rem; margin-top: .4rem; }
+
+    h2 {
+      font-size: 1.15rem; font-weight: 700; margin: 2.6rem 0 .4rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    h2 .num {
+      background: var(--brand-subtle); color: var(--brand); font-size: .72rem;
+      border-radius: 999px; padding: .1rem .55rem; font-weight: 700;
+    }
+    .section-note { color: var(--text-muted); font-size: .82rem; margin-bottom: 1rem; max-width: 72ch; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .8rem; }
+    .kpi {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+      padding: .9rem 1rem;
+    }
+    .kpi .label { font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); }
+    .kpi .value { font-size: 1.55rem; font-weight: 800; letter-spacing: -.02em; margin-top: .15rem; }
+    .kpi .hint { font-size: .72rem; color: var(--text-label); margin-top: .1rem; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.2rem; }
+    .card h3 { font-size: .85rem; font-weight: 700; margin-bottom: .2rem; }
+    .card .card-note { font-size: .74rem; color: var(--text-muted); margin-bottom: .8rem; }
+
+    /* barras horizontais */
+    .hbar-row { display: grid; grid-template-columns: 110px 1fr 74px; align-items: center; gap: .6rem; padding: .22rem 0; }
+    .hbar-row .lbl { font-size: .78rem; color: var(--text-secondary); text-align: right; }
+    .hbar-track { background: transparent; height: 18px; position: relative; }
+    .hbar-fill {
+      height: 18px; border-radius: 0 4px 4px 0; background: var(--c-digital);
+      min-width: 2px; transition: opacity .15s;
+    }
+    .hbar-row:hover .hbar-fill { opacity: .8; }
+    .hbar-row .val { font-size: .78rem; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+
+    table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    th {
+      text-align: left; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--text-muted); font-weight: 600; padding: .4rem .5rem; border-bottom: 1px solid var(--border-subtle);
+    }
+    td { padding: .42rem .5rem; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+    td:first-child { color: var(--text-primary); }
+    th.r, td.r { text-align: right; }
+    .table-scroll { overflow-x: auto; }
+
+    .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: .45rem; vertical-align: baseline; }
+
+    .legend { display: flex; gap: 1.1rem; flex-wrap: wrap; font-size: .75rem; color: var(--text-secondary); margin-bottom: .6rem; }
+
+    .callout {
+      border-left: 3px solid var(--warning); background: rgba(245, 158, 11, .07);
+      border-radius: 0 10px 10px 0; padding: .9rem 1.1rem; margin: 1rem 0; font-size: .86rem;
+      color: var(--text-secondary);
+    }
+    .callout strong { color: var(--text-primary); }
+    .callout.green { border-left-color: var(--brand); background: var(--brand-subtle); }
+
+    .quote {
+      border-left: 2px solid var(--border-subtle); padding: .5rem .9rem; margin: .6rem 0;
+      font-size: .82rem; color: var(--text-secondary); font-style: italic;
+    }
+    .quote .who { display: block; font-style: normal; font-size: .7rem; color: var(--text-muted); margin-top: .25rem; }
+
+    .flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: .8rem; }
+
+    #tooltip {
+      position: fixed; pointer-events: none; background: var(--bg-card-alt);
+      border: 1px solid var(--border-subtle); border-radius: 8px; padding: .45rem .65rem;
+      font-size: .74rem; color: var(--text-primary); z-index: 50; display: none; max-width: 240px;
+    }
+    .footer { margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 1rem; font-size: .74rem; color: var(--text-muted); }
+    svg text { font-family: var(--font-sans); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="report-header">
+      <div class="breadcrumb">Brasil Paralelo Analytics · Campanha Enéas (ENE)</div>
+      <h1>Quem está comprando o Enéas — e por onde</h1>
+      <div class="subtitle" id="subtitle">Carregando…</div>
+    </header>
+
+    <div id="conteudo"></div>
+
+    <div class="footer">
+      Fonte: <code>fct_transactions</code> (atribuição por união tracking_name ∪ utm_campaign ∪ utm_content ∪ lead_last_tracking, filtro <code>[ENE]</code>/"eneas"/<code>lan_ene_*</code>), <code>dim_user</code> (idade e gênero inferido), <code>dtm_purchasing_power</code> (decil de renda IBGE por CEP), <code>dim_zenvia_approaches</code> (conversas). Renovações excluídas.
+      Pipeline: <code>refresh.py</code> · queries em <code>queries/</code> · análise completa em <code>ANALISE.md</code>.
+    </div>
+  </div>
+  <div id="tooltip"></div>
+
+  <script>
+    const fmt = n => Number(n).toLocaleString('pt-BR');
+    const fmtR = n => 'R$ ' + Number(n).toLocaleString('pt-BR', {maximumFractionDigits: 0});
+    const pct = n => String(n).replace('.', ',') + '%';
+    const CORES = {digital: 'var(--c-digital)', humano: 'var(--c-humano)', lambda: 'var(--c-lambda)'};
+
+    function el(tag, cls, html) {
+      const e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (html !== undefined) e.innerHTML = html;
+      return e;
+    }
+
+    function hbars(rows, {color = 'var(--c-digital)', fmtVal = fmt} = {}) {
+      const wrap = el('div');
+      const max = Math.max(...rows.map(r => r.v));
+      rows.forEach(r => {
+        const row = el('div', 'hbar-row');
+        row.appendChild(el('div', 'lbl', r.k));
+        const track = el('div', 'hbar-track');
+        const fill = el('div', 'hbar-fill');
+        fill.style.width = (100 * r.v / max) + '%';
+        fill.style.background = r.color || color;
+        track.appendChild(fill);
+        row.appendChild(track);
+        row.appendChild(el('div', 'val', fmtVal(r.v)));
+        row.title = `${r.k}: ${fmtVal(r.v)}` + (r.extra ? ` · ${r.extra}` : '');
+        wrap.appendChild(row);
+      });
+      return wrap;
+    }
+
+    // barras diárias empilhadas (SVG) com tooltip
+    function dailyChart(diario) {
+      const W = 1060, H = 240, padL = 40, padB = 34, padT = 10;
+      const max = Math.max(...diario.map(d => d.digital + d.humano + d.lambda));
+      const n = diario.length;
+      const bw = Math.min(40, (W - padL - 10) / n - 4);
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      svg.style.width = '100%';
+      const y = v => padT + (H - padT - padB) * (1 - v / max);
+      // gridlines
+      [0, .5, 1].forEach(f => {
+        const gy = y(max * f);
+        svg.innerHTML += `<line x1="${padL}" x2="${W-6}" y1="${gy}" y2="${gy}" stroke="#1E293B" stroke-width="1"/>` +
+          `<text x="${padL-6}" y="${gy+4}" text-anchor="end" font-size="10" fill="#64748B">${Math.round(max*f)}</text>`;
+      });
+      const tt = document.getElementById('tooltip');
+      diario.forEach((d, i) => {
+        const x = padL + 8 + i * ((W - padL - 14) / n);
+        let base = y(0);
+        const partes = [['digital', '#00A37B'], ['humano', '#3B82F6'], ['lambda', '#D97706']];
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        partes.forEach(([k, c]) => {
+          const v = d[k];
+          if (!v) return;
+          const hpx = (H - padT - padB) * (v / max);
+          base -= hpx;
+          g.innerHTML += `<rect x="${x}" y="${base + 1}" width="${bw}" height="${Math.max(hpx - 2, 1)}" fill="${c}" rx="2"/>`;
+        });
+        const dia = d.dia.slice(5).split('-').reverse().join('/');
+        if (i % 2 === 0 || n <= 14)
+          g.innerHTML += `<text x="${x + bw/2}" y="${H-14}" text-anchor="middle" font-size="10" fill="#64748B">${dia}</text>`;
+        const hit = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        hit.setAttribute('x', x - 2); hit.setAttribute('y', padT);
+        hit.setAttribute('width', bw + 4); hit.setAttribute('height', H - padT - padB);
+        hit.setAttribute('fill', 'transparent');
+        hit.addEventListener('mousemove', ev => {
+          tt.style.display = 'block';
+          tt.style.left = (ev.clientX + 14) + 'px';
+          tt.style.top = (ev.clientY + 8) + 'px';
+          tt.innerHTML = `<strong>${dia}</strong><br>Digital: ${d.digital}<br>Comercial humano: ${d.humano}<br>Lambda (IA): ${d.lambda}`;
+        });
+        hit.addEventListener('mouseleave', () => tt.style.display = 'none');
+        g.appendChild(hit);
+        svg.appendChild(g);
+      });
+      return svg;
+    }
+
+    async function main() {
+      const D = await (await fetch('./data.json')).json();
+      const R = D.resumo;
+      document.getElementById('subtitle').textContent =
+        `Venda direta desde 28/07/2026 · dados até ${D.periodo.fim.split('-').reverse().join('/')} · ${fmt(R.qt_tx)} transações aprovadas (renovações excluídas)`;
+
+      const C = document.getElementById('conteudo');
+
+      // ── KPIs ──
+      const kpis = el('div', 'kpi-grid');
+      [
+        ['Compradores', fmt(R.compradores), `${fmt(R.qt_tx)} transações`],
+        ['Receita', fmtR(R.receita), `ticket ${fmtR(R.ticket)}/comprador`],
+        ['Novos clientes', pct(100 - R.pct_ja_cliente), 'sem compra aprovada anterior'],
+        ['Masculino', pct(R.pct_masc), 'gênero inferido (nome)'],
+        ['Idade mediana', R.idade_mediana + ' anos', `média ${String(R.idade_media).replace('.', ',')} · cobertura ${pct(R.cobertura_idade)}`],
+        ['Renda (decil IBGE)', String(R.decil_medio).replace('.', ','), `${pct(R.pct_decil7)} no decil 7+ · cobertura ${pct(R.cobertura_renda)}`],
+      ].forEach(([l, v, h]) => {
+        const k = el('div', 'kpi');
+        k.appendChild(el('div', 'label', l));
+        k.appendChild(el('div', 'value', v));
+        k.appendChild(el('div', 'hint', h));
+        kpis.appendChild(k);
+      });
+      C.appendChild(kpis);
+
+      // ── 1. Perfil ──
+      C.appendChild(el('h2', null, '<span class="num">1</span> Perfil de quem compra'));
+      C.appendChild(el('div', 'section-note',
+        'Comprador típico: homem (76%), ~45 anos, classe média-alta (decil 5–6, 40% no decil 7+), Sudeste/Sul. 70% nunca tinham comprado nada da BP.'));
+      const g1 = el('div', 'grid-2');
+
+      const cardIdade = el('div', 'card');
+      cardIdade.appendChild(el('h3', null, 'Faixa etária'));
+      const nIdade = D.faixas_etarias.reduce((s, f) => s + f.compradores, 0);
+      cardIdade.appendChild(el('div', 'card-note',
+        `⚠️ Só ${fmt(nIdade)} compradores (${pct(R.cobertura_idade)}) têm data de nascimento no cadastro — maioria é cliente novo, sem perfil na plataforma. Ler como amostra, não como censo.`));
+      cardIdade.appendChild(hbars(D.faixas_etarias.map(f => ({k: f.faixa, v: f.compradores}))));
+      const m45 = D.faixas_etarias.filter(f => ['45-54','55-64','65+'].includes(f.faixa)).reduce((s,f)=>s+f.compradores,0);
+      cardIdade.appendChild(el('div', 'card-note', `${pct(Math.round(1000*m45/nIdade)/10)} da amostra tem 45+ · ${pct(Math.round(1000*D.faixas_etarias.filter(f=>['55-64','65+'].includes(f.faixa)).reduce((s,f)=>s+f.compradores,0)/nIdade)/10)} tem 55+`));
+      g1.appendChild(cardIdade);
+
+      const cardUf = el('div', 'card');
+      cardUf.appendChild(el('h3', null, 'Estado (top 12)'));
+      cardUf.appendChild(el('div', 'card-note', 'Endereço de cadastro no gateway.'));
+      cardUf.appendChild(hbars(D.uf.map(u => ({k: u.uf, v: u.compradores}))));
+      g1.appendChild(cardUf);
+      C.appendChild(g1);
+
+      // ── 2. Por onde compram ──
+      C.appendChild(el('h2', null, '<span class="num">2</span> Por onde estão comprando'));
+      C.appendChild(el('div', 'section-note',
+        'Meta Ads domina em volume (63% dos compradores), mas o Comercial — vendedores humanos + Lambda (IA) — já responde por 42% da receita, com ticket muito maior (vitalícios e combos).'));
+
+      const cardCanais = el('div', 'card');
+      const tsc = el('div', 'table-scroll');
+      const canaisTop = D.canais.filter(c => c.compradores >= 20);
+      const outros = D.canais.filter(c => c.compradores < 20);
+      const outrosAgg = {
+        canal: 'Outros (' + outros.length + ' canais)',
+        compradores: outros.reduce((s,c)=>s+c.compradores,0),
+        receita: outros.reduce((s,c)=>s+c.receita,0),
+        pct_ja_cliente: null, idade_media: null, n_idade: 0,
+      };
+      outrosAgg.ticket = outrosAgg.compradores ? outrosAgg.receita / outrosAgg.compradores : 0;
+      const dotFor = c => c.canal.includes('Lambda') ? CORES.lambda : (c.canal.includes('Comercial') ? CORES.humano : CORES.digital);
+      let rows = canaisTop.concat(outrosAgg.compradores ? [outrosAgg] : []);
+      tsc.innerHTML = `<table><thead><tr>
+          <th>Canal</th><th class="r">Compradores</th><th class="r">Receita</th>
+          <th class="r">Ticket</th><th class="r">% já era cliente</th><th class="r">Idade média (n)</th>
+        </tr></thead><tbody>` +
+        rows.map(c => `<tr>
+          <td><span class="dot" style="background:${dotFor(c)}"></span>${c.canal}</td>
+          <td class="r">${fmt(c.compradores)}</td>
+          <td class="r">${fmtR(c.receita)}</td>
+          <td class="r">${fmtR(c.ticket)}</td>
+          <td class="r">${c.pct_ja_cliente === null ? '—' : pct(c.pct_ja_cliente)}</td>
+          <td class="r">${c.idade_media ? String(c.idade_media).replace('.', ',') + ' (' + c.n_idade + ')' : '—'}</td>
+        </tr>`).join('') + '</tbody></table>';
+      cardCanais.appendChild(tsc);
+      C.appendChild(cardCanais);
+
+      const cardDia = el('div', 'card');
+      cardDia.style.marginTop = '1rem';
+      cardDia.appendChild(el('h3', null, 'Transações por dia'));
+      const leg = el('div', 'legend');
+      leg.innerHTML = `<span><span class="dot" style="background:${CORES.digital}"></span>Digital (ads, orgânico, portal)</span>
+        <span><span class="dot" style="background:${CORES.humano}"></span>Comercial humano</span>
+        <span><span class="dot" style="background:${CORES.lambda}"></span>Lambda (IA)</span>`;
+      cardDia.appendChild(leg);
+      cardDia.appendChild(dailyChart(D.diario));
+      cardDia.appendChild(el('div', 'card-note',
+        'A campanha acelera na 2ª semana de agosto; a Lambda cresce junto (chega a 15 vendas/dia) — ela dispara sobre os leads da campanha.'));
+      C.appendChild(cardDia);
+
+      const cardProd = el('div', 'card');
+      cardProd.style.marginTop = '1rem';
+      cardProd.appendChild(el('h3', null, 'O que cada canal vende (top 4 por canal)'));
+      cardProd.appendChild(el('div', 'card-note',
+        'A Lambda não vende o produto Enéas: vende combos de El Salvador e Apoiador para os leads captados pela campanha.'));
+      const tsp = el('div', 'table-scroll');
+      tsp.innerHTML = `<table><thead><tr><th>Canal</th><th>Plano</th><th class="r">Transações</th><th class="r">Receita</th></tr></thead><tbody>` +
+        D.produtos.map(p => `<tr>
+          <td><span class="dot" style="background:${p.canal.includes('Lambda') ? CORES.lambda : p.canal.includes('Comercial') ? CORES.humano : CORES.digital}"></span>${p.canal}</td>
+          <td>${p.plano}</td><td class="r">${fmt(p.qt_tx)}</td><td class="r">${fmtR(p.receita)}</td>
+        </tr>`).join('') + '</tbody></table>';
+      cardProd.appendChild(tsp);
+      C.appendChild(cardProd);
+
+      // ── 3. Checkout / hipótese ──
+      C.appendChild(el('h2', null, '<span class="num">3</span> A hipótese do checkout: quem não consegue comprar'));
+      const st = Object.fromEntries(D.status.map(s => [s.status, s]));
+      const fluxo = Object.fromEntries(D.fluxo.map(f => [f.fluxo, f.pessoas]));
+      const fLambda = D.falha_previa.find(f => f.canal === 'Lambda') || {};
+      const fDigital = D.falha_previa.find(f => f.canal === 'Digital') || {};
+      C.appendChild(el('div', 'section-note',
+        `Além das ${fmt(st.approved?.qt_tx || 0)} transações aprovadas, houve ${fmt(st.abandoned?.qt_tx || 0)} abandonos de checkout e ${fmt(st.canceled?.qt_tx || 0)} recusas de pagamento no mesmo período.`));
+
+      const cardHip = el('div', 'callout green');
+      cardHip.innerHTML = `<strong>A hipótese se confirma nos dados: ${pct(fLambda.pct_falha)} dos compradores da Lambda tinham falhado no checkout digital antes de comprar</strong> (${fLambda.com_falha} de ${fLambda.compradores}) — contra ${pct(fDigital.pct_falha)} entre quem comprou direto no digital. A Lambda está funcionando como <strong>recuperadora de checkout</strong>: pega quem tentou e não conseguiu, e fecha a venda no WhatsApp.`;
+      C.appendChild(cardHip);
+
+      const fg = el('div', 'flow-grid');
+      [
+        ['Compraram de primeira', fluxo['comprou de primeira'], 'sem falha registrada', 'var(--brand)'],
+        ['Falharam e nunca compraram', fluxo['falhou e nunca comprou'], 'pool perdido — oportunidade de recuperação', 'var(--negative)'],
+        ['Falharam → compraram no digital', fluxo['falhou → comprou via Digital'], 'retentaram sozinhos', CORES.digital],
+        ['Falharam → compraram via Lambda', fluxo['falhou → comprou via Lambda'], 'recuperados pela IA', CORES.lambda],
+        ['Falharam → compraram via vendedor', fluxo['falhou → comprou via Comercial humano'], 'recuperados por humano', CORES.humano],
+      ].forEach(([l, v, h, c]) => {
+        const k = el('div', 'kpi');
+        k.appendChild(el('div', 'label', l));
+        const val = el('div', 'value', fmt(v || 0));
+        val.style.color = c;
+        k.appendChild(val);
+        k.appendChild(el('div', 'hint', h));
+        fg.appendChild(k);
+      });
+      C.appendChild(fg);
+
+      const g3 = el('div', 'grid-2');
+      g3.style.marginTop = '1rem';
+
+      const cardMot = el('div', 'card');
+      cardMot.appendChild(el('h3', null, 'Por que as recusas acontecem'));
+      cardMot.appendChild(el('div', 'card-note', 'Motivo da adquirente nas transações recusadas. Vários são fricção operacional (dados errados, CVV, débito em link de crédito, parcelas acima do limite do emissor) — não falta de dinheiro.'));
+      cardMot.appendChild(hbars(D.motivos_recusa.slice(0, 8).map(m => ({k: m.motivo.length > 34 ? m.motivo.slice(0, 32) + '…' : m.motivo, v: m.qt, extra: m.motivo})), {color: 'var(--negative)'}));
+      g3.appendChild(cardMot);
+
+      const cardIg = el('div', 'card');
+      cardIg.appendChild(el('h3', null, 'Idade média por desfecho'));
+      cardIg.appendChild(el('div', 'card-note', 'Quem falha no checkout é mais velho do que quem compra de primeira (amostra pequena — direção, não medida exata).'));
+      cardIg.appendChild(hbars(D.idade_grupo.map(g => ({k: g.grupo, v: g.idade_media, extra: `${g.pessoas} pessoas, ${g.n_idade} com idade`})),
+        {color: 'var(--c-lambda)', fmtVal: v => String(v).replace('.', ',') + ' anos'}));
+      const iLambdaCanal = D.canais.find(c => c.canal.includes('Lambda'));
+      if (iLambdaCanal) cardIg.appendChild(el('div', 'card-note',
+        `Idade média de quem compra via Lambda: <strong>${String(iLambdaCanal.idade_media).replace('.', ',')} anos</strong> (n=${iLambdaCanal.n_idade}) — o público mais velho da campanha.`));
+      g3.appendChild(cardIg);
+      C.appendChild(g3);
+
+      const cardConv = el('div', 'card');
+      cardConv.style.marginTop = '1rem';
+      cardConv.appendChild(el('h3', null, 'O que aparece nas conversas (Zenvia, compradores do Comercial)'));
+      cardConv.appendChild(el('div', 'card-note',
+        'Trechos anonimizados de conversas de julho–agosto com compradores atribuídos à campanha. 15 de 130 conversas do Comercial humano mencionam dificuldade explícita para concluir a compra.'));
+      D.conversas.forEach(q => {
+        const qq = el('div', 'quote', q.trecho + `<span class="who">${q.quem} · ${q.dt.split('-').reverse().join('/')}</span>`);
+        cardConv.appendChild(qq);
+      });
+      C.appendChild(cardConv);
+
+      C.appendChild(el('div', 'callout',
+        `<strong>Limitações.</strong> (1) Cobertura de idade é ${pct(R.cobertura_idade)} — a pesquisa de qualificação da ENE não pergunta idade; para medir faixa etária de verdade seria preciso incluí-la no survey. (2) As conversas da própria Lambda não estão no BigQuery: o log <code>conversation_report_bp</code> (lambdalabs-gcp) está vazio desde ~jun/2026 e o dataset não permite listagem — pedir acesso ao time da Lambda para ler as conversas da IA. (3) Gênero é inferido pelo primeiro nome (IBGE). (4) Decil de renda é do CEP (média do bairro, IBGE), não renda pessoal.`));
+    }
+    main();
+  </script>
+</body>
+</html>

@@ -1,0 +1,649 @@
+{
+  "atualizado_em": "2026-08-14",
+  "periodo": {
+    "inicio": "2026-07-28",
+    "fim": "2026-08-14"
+  },
+  "resumo": {
+    "cobertura_idade": 13.7,
+    "cobertura_renda": 78.0,
+    "compradores": 1654.0,
+    "decil_medio": 5.48,
+    "idade_media": 47.4,
+    "idade_mediana": 45.0,
+    "pct_decil7": 40.2,
+    "pct_ja_cliente": 29.8,
+    "pct_masc": 76.0,
+    "qt_tx": 1852.0,
+    "receita": 563876.0,
+    "ticket": 341.0
+  },
+  "canais": [
+    {
+      "canal": "Meta Ads",
+      "compradores": 1038,
+      "receita": 236335.0,
+      "ticket": 228.0,
+      "pct_ja_cliente": 30.1,
+      "idade_media": 48.3,
+      "n_idade": 115,
+      "decil_medio": 5.57
+    },
+    {
+      "canal": "Redes sociais (orgânico)",
+      "compradores": 242,
+      "receita": 57076.0,
+      "ticket": 236.0,
+      "pct_ja_cliente": 9.5,
+      "idade_media": 37.7,
+      "n_idade": 27,
+      "decil_medio": 5.09
+    },
+    {
+      "canal": "Comercial — humano",
+      "compradores": 133,
+      "receita": 208529.0,
+      "ticket": 1568.0,
+      "pct_ja_cliente": 59.4,
+      "idade_media": 46.4,
+      "n_idade": 44,
+      "decil_medio": 5.73
+    },
+    {
+      "canal": "Comercial — Lambda (IA)",
+      "compradores": 104,
+      "receita": 27683.0,
+      "ticket": 266.0,
+      "pct_ja_cliente": 27.9,
+      "idade_media": 57.6,
+      "n_idade": 14,
+      "decil_medio": 5.46
+    },
+    {
+      "canal": "Google PMax",
+      "compradores": 59,
+      "receita": 15245.0,
+      "ticket": 258.0,
+      "pct_ja_cliente": 32.2,
+      "idade_media": 52.4,
+      "n_idade": 11,
+      "decil_medio": 5.2
+    },
+    {
+      "canal": "Portal / site",
+      "compradores": 24,
+      "receita": 5916.0,
+      "ticket": 247.0,
+      "pct_ja_cliente": 25.0,
+      "idade_media": 44.0,
+      "n_idade": 4,
+      "decil_medio": 5.67
+    },
+    {
+      "canal": "CRM (e-mail/jornada)",
+      "compradores": 21,
+      "receita": 4620.0,
+      "ticket": 220.0,
+      "pct_ja_cliente": 47.6,
+      "idade_media": 59.2,
+      "n_idade": 5,
+      "decil_medio": 5.47
+    },
+    {
+      "canal": "Own Site",
+      "compradores": 9,
+      "receita": 1524.0,
+      "ticket": 169.0,
+      "pct_ja_cliente": 44.4,
+      "idade_media": 36.0,
+      "n_idade": 3,
+      "decil_medio": 6.0
+    },
+    {
+      "canal": "In-app",
+      "compradores": 6,
+      "receita": 1283.0,
+      "ticket": 214.0,
+      "pct_ja_cliente": 83.3,
+      "idade_media": 36.0,
+      "n_idade": 1,
+      "decil_medio": 4.6
+    },
+    {
+      "canal": "X",
+      "compradores": 4,
+      "receita": 847.0,
+      "ticket": 212.0,
+      "pct_ja_cliente": 0.0,
+      "idade_media": 0.0,
+      "n_idade": 0,
+      "decil_medio": 8.0
+    },
+    {
+      "canal": "Message Service",
+      "compradores": 4,
+      "receita": 683.0,
+      "ticket": 171.0,
+      "pct_ja_cliente": 25.0,
+      "idade_media": 0.0,
+      "n_idade": 0,
+      "decil_medio": 3.5
+    },
+    {
+      "canal": "YouTube",
+      "compradores": 4,
+      "receita": 1021.0,
+      "ticket": 255.0,
+      "pct_ja_cliente": 50.0,
+      "idade_media": 0.0,
+      "n_idade": 0,
+      "decil_medio": 3.0
+    },
+    {
+      "canal": "Adwords",
+      "compradores": 2,
+      "receita": 370.0,
+      "ticket": 185.0,
+      "pct_ja_cliente": 0.0,
+      "idade_media": 0.0,
+      "n_idade": 0,
+      "decil_medio": 6.0
+    },
+    {
+      "canal": "Adwords Remarketing",
+      "compradores": 2,
+      "receita": 608.0,
+      "ticket": 304.0,
+      "pct_ja_cliente": 100.0,
+      "idade_media": 41.0,
+      "n_idade": 1,
+      "decil_medio": 7.5
+    },
+    {
+      "canal": "Taboola",
+      "compradores": 1,
+      "receita": 1668.0,
+      "ticket": 1668.0,
+      "pct_ja_cliente": 100.0,
+      "idade_media": 57.0,
+      "n_idade": 1,
+      "decil_medio": 0.0
+    },
+    {
+      "canal": "Other",
+      "compradores": 1,
+      "receita": 468.0,
+      "ticket": 468.0,
+      "pct_ja_cliente": 0.0,
+      "idade_media": 0.0,
+      "n_idade": 0,
+      "decil_medio": 1.0
+    }
+  ],
+  "faixas_etarias": [
+    {
+      "faixa": "14-24",
+      "compradores": 7
+    },
+    {
+      "faixa": "25-34",
+      "compradores": 31
+    },
+    {
+      "faixa": "35-44",
+      "compradores": 73
+    },
+    {
+      "faixa": "45-54",
+      "compradores": 47
+    },
+    {
+      "faixa": "55-64",
+      "compradores": 35
+    },
+    {
+      "faixa": "65+",
+      "compradores": 33
+    }
+  ],
+  "uf": [
+    {
+      "uf": "SP",
+      "compradores": 462
+    },
+    {
+      "uf": "RJ",
+      "compradores": 168
+    },
+    {
+      "uf": "MG",
+      "compradores": 157
+    },
+    {
+      "uf": "RS",
+      "compradores": 133
+    },
+    {
+      "uf": "SC",
+      "compradores": 113
+    },
+    {
+      "uf": "PR",
+      "compradores": 100
+    },
+    {
+      "uf": "BA",
+      "compradores": 62
+    },
+    {
+      "uf": "PE",
+      "compradores": 58
+    },
+    {
+      "uf": "GO",
+      "compradores": 49
+    },
+    {
+      "uf": "ES",
+      "compradores": 42
+    },
+    {
+      "uf": "DF",
+      "compradores": 40
+    },
+    {
+      "uf": "CE",
+      "compradores": 35
+    }
+  ],
+  "produtos": [
+    {
+      "canal": "Comercial — Lambda (IA)",
+      "plano": "Bp Essencial Combo El Salvador V3",
+      "qt_tx": 34,
+      "receita": 8119.0
+    },
+    {
+      "canal": "Comercial — Lambda (IA)",
+      "plano": "Bp Economico Combo El Salvador",
+      "qt_tx": 19,
+      "receita": 2485.0
+    },
+    {
+      "canal": "Comercial — Lambda (IA)",
+      "plano": "Apoiador",
+      "qt_tx": 16,
+      "receita": 1920.0
+    },
+    {
+      "canal": "Comercial — Lambda (IA)",
+      "plano": "Básico",
+      "qt_tx": 15,
+      "receita": 3084.0
+    },
+    {
+      "canal": "Comercial — humano",
+      "plano": "Básico",
+      "qt_tx": 26,
+      "receita": 5045.0
+    },
+    {
+      "canal": "Comercial — humano",
+      "plano": "Intermediário",
+      "qt_tx": 25,
+      "receita": 6900.0
+    },
+    {
+      "canal": "Comercial — humano",
+      "plano": "Premium GBB Vitalício",
+      "qt_tx": 19,
+      "receita": 31542.0
+    },
+    {
+      "canal": "Comercial — humano",
+      "plano": "Livro Odisseia Edicao Colecionador",
+      "qt_tx": 11,
+      "receita": 12804.0
+    },
+    {
+      "canal": "Meta Ads",
+      "plano": "Básico",
+      "qt_tx": 499,
+      "receita": 91643.0
+    },
+    {
+      "canal": "Meta Ads",
+      "plano": "Apoiador Combo Eneas",
+      "qt_tx": 300,
+      "receita": 39240.0
+    },
+    {
+      "canal": "Meta Ads",
+      "plano": "Premium GBB",
+      "qt_tx": 105,
+      "receita": 42512.0
+    },
+    {
+      "canal": "Meta Ads",
+      "plano": "Extensao Assinatura Supporter",
+      "qt_tx": 94,
+      "receita": 12295.0
+    },
+    {
+      "canal": "Redes sociais (orgânico)",
+      "plano": "Básico",
+      "qt_tx": 171,
+      "receita": 30898.0
+    },
+    {
+      "canal": "Redes sociais (orgânico)",
+      "plano": "Apoiador Combo Eneas",
+      "qt_tx": 31,
+      "receita": 4055.0
+    },
+    {
+      "canal": "Redes sociais (orgânico)",
+      "plano": "Premium GBB",
+      "qt_tx": 29,
+      "receita": 11888.0
+    },
+    {
+      "canal": "Redes sociais (orgânico)",
+      "plano": "Extensao Assinatura Good",
+      "qt_tx": 10,
+      "receita": 2388.0
+    }
+  ],
+  "diario": [
+    {
+      "dia": "2026-07-28",
+      "digital": 18,
+      "humano": 1,
+      "lambda": 0
+    },
+    {
+      "dia": "2026-07-29",
+      "digital": 28,
+      "humano": 1,
+      "lambda": 2
+    },
+    {
+      "dia": "2026-07-30",
+      "digital": 49,
+      "humano": 5,
+      "lambda": 3
+    },
+    {
+      "dia": "2026-07-31",
+      "digital": 31,
+      "humano": 10,
+      "lambda": 4
+    },
+    {
+      "dia": "2026-08-01",
+      "digital": 68,
+      "humano": 0,
+      "lambda": 3
+    },
+    {
+      "dia": "2026-08-02",
+      "digital": 58,
+      "humano": 0,
+      "lambda": 3
+    },
+    {
+      "dia": "2026-08-03",
+      "digital": 27,
+      "humano": 1,
+      "lambda": 1
+    },
+    {
+      "dia": "2026-08-04",
+      "digital": 25,
+      "humano": 6,
+      "lambda": 3
+    },
+    {
+      "dia": "2026-08-05",
+      "digital": 43,
+      "humano": 8,
+      "lambda": 3
+    },
+    {
+      "dia": "2026-08-06",
+      "digital": 86,
+      "humano": 9,
+      "lambda": 5
+    },
+    {
+      "dia": "2026-08-07",
+      "digital": 124,
+      "humano": 14,
+      "lambda": 6
+    },
+    {
+      "dia": "2026-08-08",
+      "digital": 231,
+      "humano": 3,
+      "lambda": 11
+    },
+    {
+      "dia": "2026-08-09",
+      "digital": 197,
+      "humano": 5,
+      "lambda": 15
+    },
+    {
+      "dia": "2026-08-10",
+      "digital": 108,
+      "humano": 13,
+      "lambda": 12
+    },
+    {
+      "dia": "2026-08-11",
+      "digital": 100,
+      "humano": 16,
+      "lambda": 4
+    },
+    {
+      "dia": "2026-08-12",
+      "digital": 152,
+      "humano": 14,
+      "lambda": 13
+    },
+    {
+      "dia": "2026-08-13",
+      "digital": 174,
+      "humano": 28,
+      "lambda": 15
+    },
+    {
+      "dia": "2026-08-14",
+      "digital": 88,
+      "humano": 5,
+      "lambda": 3
+    }
+  ],
+  "status": [
+    {
+      "status": "approved",
+      "qt_tx": 1852,
+      "pessoas": 1654
+    },
+    {
+      "status": "abandoned",
+      "qt_tx": 1007,
+      "pessoas": 946
+    },
+    {
+      "status": "canceled",
+      "qt_tx": 460,
+      "pessoas": 344
+    },
+    {
+      "status": "refunded",
+      "qt_tx": 87,
+      "pessoas": 83
+    },
+    {
+      "status": "expired",
+      "qt_tx": 20,
+      "pessoas": 18
+    },
+    {
+      "status": "waiting_payment",
+      "qt_tx": 16,
+      "pessoas": 16
+    },
+    {
+      "status": "billet_printed",
+      "qt_tx": 3,
+      "pessoas": 3
+    },
+    {
+      "status": "partially_refunded",
+      "qt_tx": 2,
+      "pessoas": 2
+    },
+    {
+      "status": "dispute",
+      "qt_tx": 1,
+      "pessoas": 1
+    }
+  ],
+  "fluxo": [
+    {
+      "fluxo": "comprou de primeira",
+      "pessoas": 1421
+    },
+    {
+      "fluxo": "falhou e nunca comprou",
+      "pessoas": 964
+    },
+    {
+      "fluxo": "falhou → comprou via Digital",
+      "pessoas": 180
+    },
+    {
+      "fluxo": "falhou → comprou via Lambda",
+      "pessoas": 50
+    },
+    {
+      "fluxo": "falhou → comprou via Comercial humano",
+      "pessoas": 29
+    },
+    {
+      "fluxo": "comprou antes, falhou depois",
+      "pessoas": 21
+    }
+  ],
+  "falha_previa": [
+    {
+      "canal": "Digital",
+      "compradores": 1417,
+      "com_falha": 195,
+      "pct_falha": 13.8
+    },
+    {
+      "canal": "Comercial humano",
+      "compradores": 133,
+      "com_falha": 4,
+      "pct_falha": 3.0
+    },
+    {
+      "canal": "Lambda",
+      "compradores": 104,
+      "com_falha": 43,
+      "pct_falha": 41.3
+    }
+  ],
+  "motivos_recusa": [
+    {
+      "motivo": "Não autorizada",
+      "qt": 111
+    },
+    {
+      "motivo": "Contate a central do seu cartão",
+      "qt": 90
+    },
+    {
+      "motivo": "Verifique os dados do cartão",
+      "qt": 46
+    },
+    {
+      "motivo": "Transação inválida",
+      "qt": 40
+    },
+    {
+      "motivo": "Estabelecimento entrar em contato com adquirente",
+      "qt": 34
+    },
+    {
+      "motivo": "Transação não permitida para o cartão - não tente novamente",
+      "qt": 33
+    },
+    {
+      "motivo": "Tente novamente mais tarde",
+      "qt": 25
+    },
+    {
+      "motivo": "Código de segurança inválido",
+      "qt": 15
+    },
+    {
+      "motivo": "Transação não suportada pelo emissor",
+      "qt": 15
+    },
+    {
+      "motivo": "Utilize função débito",
+      "qt": 12
+    }
+  ],
+  "idade_grupo": [
+    {
+      "grupo": "comprou de primeira",
+      "pessoas": 1421,
+      "n_idade": 191,
+      "idade_media": 47.0
+    },
+    {
+      "grupo": "falhou e nunca comprou",
+      "pessoas": 964,
+      "n_idade": 73,
+      "idade_media": 52.2
+    },
+    {
+      "grupo": "falhou e comprou depois",
+      "pessoas": 280,
+      "n_idade": 43,
+      "idade_media": 48.6
+    }
+  ],
+  "conversas": [
+    {
+      "dt": "2026-08-10",
+      "quem": "compradora via Comercial humano",
+      "trecho": "Vendedor: “Conseguiu realizar o pagamento?” — Cliente: “Não consegui ainda… é que não estou achando meu cartão.” (compra concluída no dia seguinte, com o vendedor acompanhando)"
+    },
+    {
+      "dt": "2026-07-31",
+      "quem": "comprador via Comercial humano",
+      "trecho": "Cliente: “Não consigo abrir a página.” Vendedor reenvia o link, cliente conclui e pede o acesso em seguida."
+    },
+    {
+      "dt": "2026-08-06",
+      "quem": "cliente em atendimento",
+      "trecho": "“Acabei me confundindo e não havia terminado o cadastro, estou tentando aqui agora e não estou conseguindo.”"
+    },
+    {
+      "dt": "2026-08-04",
+      "quem": "comprador (migração de plano)",
+      "trecho": "“Não consigo, o plano novo de R$ 23 ainda não registrou, vou deixar pra tentar amanhã.” — fricção entre pagamento e liberação de acesso."
+    },
+    {
+      "dt": "2026-08-04",
+      "quem": "vendedor (orientação padrão)",
+      "trecho": "“Nubank, Santander e Amex não aceitam em 18x — se for, faça em 12x para não perder.” — parcelamento alto recusado pelo emissor é fricção conhecida do próprio time."
+    }
+  ]
+}
