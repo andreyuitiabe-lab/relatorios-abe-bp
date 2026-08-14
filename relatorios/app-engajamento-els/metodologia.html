@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Metodologia · Funil da jornada de Ads do App</title>
+<meta name="description" content="Metodologia do relatorio de campanhas [APP]: pipeline das tres fontes, cadeia de chaves e reconciliacao teto/piso.">
+<style>*{box-sizing:border-box}html,body{margin:0;padding:0}</style>
+</head>
+<body>
+
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #f1f3f0;
+    --surface: #fbfcfa;
+    --ink: #161b18;
+    --ink-2: #4c534d;
+    --ink-3: #838b84;
+    --line: #dbe0da;
+    --track: #e6eae4;
+    --flow: #1f5e59;
+    --flow-soft: #dceae7;
+    --gap: #a8442a;
+    --gap-soft: #f6e6de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --paper: #101211;
+      --surface: #181b19;
+      --ink: #eef2ee;
+      --ink-2: #b3bab4;
+      --ink-3: #838b84;
+      --line: #2c312d;
+      --track: #222623;
+      --flow: #57ada5;
+      --flow-soft: #1b2d2b;
+      --gap: #e2947a;
+      --gap-soft: #2c1f18;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --paper: #101211;
+    --surface: #181b19;
+    --ink: #eef2ee;
+    --ink-2: #b3bab4;
+    --ink-3: #838b84;
+    --line: #2c312d;
+    --track: #222623;
+    --flow: #57ada5;
+    --flow-soft: #1b2d2b;
+    --gap: #e2947a;
+    --gap-soft: #2c1f18;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font: 15px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 44px 22px 80px;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px; }
+
+  .mono, .eyebrow, h3, code, th, .kicker {
+    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  .eyebrow {
+    font-size: 10.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-3); margin: 0 0 10px;
+  }
+  h1 { font-size: 28px; line-height: 1.18; letter-spacing: -.02em; margin: 0 0 10px; text-wrap: balance; font-weight: 650; }
+  .lede { color: var(--ink-2); max-width: 66ch; margin: 0; }
+
+  section { display: flex; flex-direction: column; gap: 14px; }
+  h2 {
+    font-size: 17px; margin: 0; letter-spacing: -.01em; font-weight: 650;
+    padding-bottom: 10px; border-bottom: 1px solid var(--line);
+  }
+  h2 .kicker { font-size: 11px; color: var(--flow); letter-spacing: .1em; margin-right: 10px; font-weight: 600; }
+  p { margin: 0; }
+
+  figure { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .figscroll {
+    overflow-x: auto; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 12px; padding: 16px;
+  }
+  figcaption { font-size: 13px; color: var(--ink-2); max-width: 74ch; }
+  figcaption b { color: var(--ink); font-weight: 600; }
+
+  svg.diagram { display: block; width: 100%; height: auto; color: var(--ink); }
+  svg.d1 { min-width: 880px; }
+  svg.d2 { min-width: 620px; }
+  svg.d3 { min-width: 560px; }
+  .n { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+  .nf { fill: var(--flow-soft); stroke: var(--flow); stroke-width: 1.5; }
+  .ng { fill: none; stroke: var(--gap); stroke-width: 1.2; stroke-dasharray: 4 3; }
+  .t { fill: var(--ink); font-size: 11px; font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 600; }
+  .ts { fill: var(--ink-2); font-size: 10px; font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .tn { fill: var(--ink-3); font-size: 9.5px; font-family: ui-sans-serif, system-ui, sans-serif; }
+  .tv { fill: var(--flow); font-size: 14px; font-weight: 700; font-family: ui-sans-serif, system-ui, sans-serif; }
+  .tg { fill: var(--gap); font-size: 10px; font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 600; }
+  .tgs { fill: var(--ink-2); font-size: 9.5px; font-family: ui-sans-serif, system-ui, sans-serif; }
+  .hd { fill: var(--ink-3); font-size: 9.5px; letter-spacing: .11em; font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 600; }
+  .a { stroke: currentColor; stroke-width: 1.4; fill: none; }
+  .ag { stroke: var(--gap); stroke-width: 1.2; fill: none; stroke-dasharray: 4 3; }
+  .al { fill: var(--ink-2); font-size: 9.5px; font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .arh { fill: currentColor; }
+  .bar-teto { fill: var(--track); stroke: var(--ink-3); stroke-width: 1; }
+  .bar-piso { fill: var(--flow); }
+
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid; grid-template-columns: 42px 1fr; gap: 0 16px;
+    padding: 16px 0; border-bottom: 1px solid var(--line);
+  }
+  .step:first-child { border-top: 1px solid var(--line); }
+  .step .num {
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; font-weight: 700;
+    color: var(--flow); padding-top: 2px;
+  }
+  .step h4 { margin: 0 0 4px; font-size: 14.5px; font-weight: 650; }
+  .step p { font-size: 13.5px; color: var(--ink-2); max-width: 74ch; }
+  .step code {
+    font-size: 12px; background: var(--track); color: var(--ink); border-radius: 4px; padding: 1px 5px;
+  }
+  details { margin-top: 10px; }
+  details summary {
+    cursor: pointer; font-size: 12px; font-family: ui-monospace, Menlo, Consolas, monospace;
+    color: var(--flow); font-weight: 600; width: fit-content;
+  }
+  details summary:focus-visible { outline: 2px solid var(--flow); outline-offset: 3px; border-radius: 3px; }
+  pre {
+    margin: 10px 0 0; overflow-x: auto; background: var(--track); border-radius: 8px;
+    padding: 12px 14px; font-size: 12px; line-height: 1.5;
+    font-family: ui-monospace, Menlo, Consolas, monospace; color: var(--ink);
+  }
+
+  .flags { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  .flag {
+    background: var(--gap-soft); border: 1px solid var(--gap); border-radius: 10px;
+    padding: 14px 16px; font-size: 13px; color: var(--ink-2);
+  }
+  .flag .lbl {
+    display: block; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 10.5px;
+    font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gap); margin-bottom: 6px;
+  }
+  .flag b { color: var(--ink); }
+
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); font-weight: 600; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td code { font-size: 12px; font-family: ui-monospace, Menlo, Consolas, monospace; color: var(--ink); }
+  .foot { font-size: 12px; color: var(--ink-3); }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Metodologia reconstruída · campanhas [APP] · 18/06–13/08/2026</p>
+    <h1>Como o funil de Ads do App foi medido — e onde a medição vaza</h1>
+    <p class="lede">Três fontes que não se falam (Firebase, Guru, planilha de mídia) amarradas por duas chaves de identidade. Os diagramas mostram o caminho que um install percorre até virar ROAS, a cadeia de chaves que sustenta esse caminho, e por que 3.374 e 7.092 são o mesmo fato medido de dois jeitos.</p>
+  </header>
+
+  <section>
+    <h2><span class="kicker">fig. 1</span>O pipeline inteiro</h2>
+    <figure>
+      <div class="figscroll">
+        <svg class="diagram d1" viewBox="0 0 1120 560" role="img" aria-label="Pipeline: eventos do Firebase filtrados por campanha com token APP produzem 3.374 devices atribuídos; as etapas do funil são medidas por device; a ponte para id_user liga o device à conta; as vendas aprovadas no Guru entram pela assinatura; o investimento vem da planilha; juntos produzem CPI, custo por conta e ROAS.">
+          <defs>
+            <marker id="arh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path class="arh" d="M 0 0 L 10 5 L 0 10 z" />
+            </marker>
+          </defs>
+
+          <text class="hd" x="24" y="22">1 · FONTE</text>
+          <text class="hd" x="294" y="22">2 · ATRIBUIÇÃO</text>
+          <text class="hd" x="574" y="22">3 · MEDIÇÃO POR DEVICE</text>
+          <text class="hd" x="874" y="22">5 · MÉTRICA</text>
+          <text class="hd" x="874" y="300">4 · RECEITA</text>
+
+          <rect class="n" x="24" y="40" width="180" height="80" rx="7" />
+          <text class="t" x="40" y="62">Firebase / GA4</text>
+          <text class="ts" x="40" y="80">stg_firebase__</text>
+          <text class="ts" x="40" y="94">bp_platform_events</text>
+          <text class="tn" x="40" y="110">3,26 bi eventos · particionada</text>
+
+          <rect class="nf" x="294" y="40" width="190" height="110" rx="7" />
+          <text class="t" x="310" y="62">Atribuição first-touch</text>
+          <text class="ts" x="310" y="80">nm_event = 'first_open'</text>
+          <text class="ts" x="310" y="94">traffic_source ~ '[APP]'</text>
+          <text class="tv" x="310" y="116">3.374 devices</text>
+          <text class="tn" x="310" y="134">5 campanhas · Google Ads</text>
+
+          <rect class="n" x="574" y="40" width="210" height="110" rx="7" />
+          <text class="t" x="590" y="62">Etapas por device</text>
+          <text class="ts" x="590" y="80">welcome → signup_email</text>
+          <text class="ts" x="590" y="94">→ signup_password</text>
+          <text class="ts" x="590" y="112">media_reproduction</text>
+          <text class="ts" x="590" y="126">paywall_viewed · volta D+1</text>
+
+          <rect class="n" x="574" y="182" width="210" height="84" rx="7" />
+          <text class="t" x="590" y="204">Ponte device → conta</text>
+          <text class="ts" x="590" y="222">1º evento com id_user</text>
+          <text class="tn" x="590" y="240">1.660 entraram na conta</text>
+          <text class="tn" x="590" y="254">993 delas são novas</text>
+
+          <rect class="n" x="24" y="318" width="180" height="84" rx="7" />
+          <text class="t" x="40" y="340">Guru</text>
+          <text class="ts" x="40" y="358">fct_transactions</text>
+          <text class="ts" x="40" y="372">dim_subscriptions</text>
+          <text class="tn" x="40" y="390">vendas aprovadas</text>
+
+          <rect class="n" x="874" y="308" width="180" height="104" rx="7" />
+          <text class="t" x="890" y="330">Receita pós-install</text>
+          <text class="ts" x="890" y="348">nm_status='approved'</text>
+          <text class="ts" x="890" y="362">dt_ordered_at ≥ install</text>
+          <text class="tv" x="890" y="384">R$ 19.054</text>
+          <text class="tn" x="890" y="400">65 compradores · venda nova</text>
+
+          <rect class="n" x="24" y="452" width="180" height="72" rx="7" />
+          <text class="t" x="40" y="474">Planilha Adveronix</text>
+          <text class="ts" x="40" y="492">aba Google Ads · [APP]</text>
+          <text class="tn" x="40" y="510">fora do warehouse</text>
+
+          <rect class="nf" x="874" y="40" width="180" height="210" rx="7" />
+          <text class="t" x="890" y="64">Métricas derivadas</text>
+          <text class="tn" x="890" y="90">CPI</text>
+          <text class="tv" x="890" y="110">R$ 4,78</text>
+          <text class="tn" x="890" y="136">custo por conta</text>
+          <text class="tv" x="890" y="156">R$ 16,25</text>
+          <text class="tn" x="890" y="182">ROAS</text>
+          <text class="tv" x="890" y="202">1,18</text>
+          <text class="tn" x="890" y="228">receita ÷ investimento,</text>
+          <text class="tn" x="890" y="242">sem LTV nem recorrência</text>
+
+          <line class="a" x1="204" y1="80" x2="288" y2="80" marker-end="url(#arh)" />
+          <text class="al" x="246" y="72" text-anchor="middle">eventos do app</text>
+
+          <line class="a" x1="484" y1="95" x2="568" y2="95" marker-end="url(#arh)" />
+          <text class="al" x="526" y="87" text-anchor="middle">id_pseudo_user</text>
+
+          <line class="a" x1="679" y1="150" x2="679" y2="176" marker-end="url(#arh)" />
+          <text class="al" x="689" y="170">mesmo device</text>
+
+          <polyline class="a" points="784,224 824,224 824,340 868,340" marker-end="url(#arh)" />
+          <text class="al" x="832" y="286">id_user</text>
+
+          <line class="a" x1="204" y1="360" x2="868" y2="360" marker-end="url(#arh)" />
+          <text class="al" x="536" y="352" text-anchor="middle">id_subscription → id_transaction</text>
+
+          <line class="a" x1="784" y1="95" x2="868" y2="95" marker-end="url(#arh)" />
+          <text class="al" x="826" y="87" text-anchor="middle">993 contas</text>
+
+          <line class="a" x1="964" y1="308" x2="964" y2="256" marker-end="url(#arh)" />
+          <text class="al" x="974" y="284">receita</text>
+
+          <polyline class="a" points="204,488 1082,488 1082,145 1060,145" marker-end="url(#arh)" />
+          <text class="al" x="620" y="480" text-anchor="middle">investimento R$ 16.139 (mesma janela, dia a dia)</text>
+        </svg>
+      </div>
+      <figcaption><b>A receita só chega às métricas porque a ponte device→conta existe.</b> Sem o passo 3 de baixo, o Firebase e o Guru ficariam em universos separados e a campanha não teria ROAS — só CPI. O investimento entra por fora do warehouse, o que obriga as duas janelas a serem idênticas dia a dia.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2><span class="kicker">fig. 2</span>A cadeia de chaves — e os três vazamentos</h2>
+    <figure>
+      <div class="figscroll">
+        <svg class="diagram d2" viewBox="0 0 700 452" role="img" aria-label="Cadeia de chaves: id_pseudo_user leva a id_user, que leva a id_subscription, que leva a id_transaction. Três vazamentos: as telas medidas não cobrem todos os fluxos de cadastro; 671 devices já tinham conta antes do install; id_subscription é nulo em vitalício e compra avulsa.">
+          <defs>
+            <marker id="arh2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path class="arh" d="M 0 0 L 10 5 L 0 10 z" />
+            </marker>
+          </defs>
+
+          <rect class="n" x="20" y="20" width="240" height="66" rx="7" />
+          <text class="t" x="36" y="44">id_pseudo_user</text>
+          <text class="tn" x="36" y="62">device do Firebase</text>
+          <text class="tn" x="36" y="76">3.374 atribuídos</text>
+
+          <rect class="n" x="20" y="138" width="240" height="66" rx="7" />
+          <text class="t" x="36" y="162">id_user</text>
+          <text class="tn" x="36" y="180">conta na plataforma</text>
+          <text class="tn" x="36" y="194">1.660 entraram · 993 novas</text>
+
+          <rect class="n" x="20" y="256" width="240" height="66" rx="7" />
+          <text class="t" x="36" y="280">id_subscription</text>
+          <text class="tn" x="36" y="298">dim_subscriptions</text>
+          <text class="tn" x="36" y="312">assinatura da conta</text>
+
+          <rect class="n" x="20" y="364" width="240" height="66" rx="7" />
+          <text class="t" x="36" y="388">id_transaction</text>
+          <text class="tn" x="36" y="406">fct_transactions · approved</text>
+          <text class="tn" x="36" y="420">65 compras · R$ 19.054</text>
+
+          <line class="a" x1="140" y1="86" x2="140" y2="132" marker-end="url(#arh2)" />
+          <text class="al" x="152" y="104">primeiro evento com id_user</text>
+          <text class="al" x="152" y="118">— login OU cadastro novo</text>
+
+          <line class="a" x1="140" y1="204" x2="140" y2="250" marker-end="url(#arh2)" />
+          <text class="al" x="152" y="228">dim_subscriptions.id_user</text>
+
+          <line class="a" x1="140" y1="322" x2="140" y2="358" marker-end="url(#arh2)" />
+          <text class="al" x="152" y="340">dt_ordered_at ≥ dia do install</text>
+
+          <line class="ag" x1="260" y1="53" x2="316" y2="53" />
+          <rect class="ng" x="320" y="22" width="360" height="62" rx="7" />
+          <text class="tg" x="334" y="42">funil incompleto</text>
+          <text class="tgs" x="334" y="58">o trio welcome→signup_email→signup_password não cobre</text>
+          <text class="tgs" x="334" y="72">ios_signup, signup, signup_form nem signup_complete</text>
+
+          <line class="ag" x1="260" y1="171" x2="316" y2="171" />
+          <rect class="ng" x="320" y="140" width="360" height="62" rx="7" />
+          <text class="tg" x="334" y="160">≥ 671 não eram novos</text>
+          <text class="tgs" x="334" y="176">entraram logando em conta que já existia — parte da</text>
+          <text class="tgs" x="334" y="190">receita da janela aconteceria sem a campanha</text>
+
+          <line class="ag" x1="260" y1="289" x2="316" y2="289" />
+          <rect class="ng" x="320" y="258" width="360" height="62" rx="7" />
+          <text class="tg" x="334" y="278">id_subscription é NULL</text>
+          <text class="tgs" x="334" y="294">em vitalício e compra avulsa — essas vendas não</text>
+          <text class="tgs" x="334" y="308">aparecem; fechar por id_gateway_customer cobre mais</text>
+        </svg>
+      </div>
+      <figcaption><b>Cada elo da corrente é uma decisão, não um dado.</b> Os dois primeiros vazamentos empurram o ROAS para cima (contam gente que já era usuária), o terceiro empurra para baixo (perde venda sem assinatura). Não se cancelam — precisam ser medidos separados.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2><span class="kicker">fig. 3</span>Por que 3.374 e 7.092 são o mesmo fato</h2>
+    <figure>
+      <div class="figscroll">
+        <svg class="diagram d3" viewBox="0 0 700 152" role="img" aria-label="O Google Ads reporta 7.092 conversões; o Firebase atribui 3.374 instalações. A diferença é conversão modelada e view-through do lado do Google mais subcontagem de iOS por ATT do lado do Firebase.">
+          <text class="ts" x="104" y="44" text-anchor="end">Google Ads</text>
+          <rect class="bar-teto" x="112" y="26" width="560" height="26" rx="3" />
+          <text class="ts" x="662" y="44" text-anchor="end">7.092 conversões · teto</text>
+
+          <text class="ts" x="104" y="90" text-anchor="end">Firebase</text>
+          <rect class="bar-piso" x="112" y="72" width="266" height="26" rx="3" />
+          <text class="ts" x="388" y="90">3.374 instalações atribuídas · piso</text>
+
+          <rect class="ng" x="378" y="26" width="294" height="72" rx="5" />
+          <text class="tg" x="525" y="122" text-anchor="middle">conversão modelada e view-through (Google)</text>
+          <text class="tg" x="525" y="138" text-anchor="middle">+ subcontagem de iOS por ATT (Firebase)</text>
+        </svg>
+      </div>
+      <figcaption><b>Declarar os dois como teto e piso é o que sustenta o número.</b> Escolher um deles e ignorar o outro faria o relatório brigar com o painel do Google Ads e perder a discussão — a faixa entre eles é a resposta honesta.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>As etapas, na ordem em que precisam rodar</h2>
+    <div class="steps">
+
+      <div class="step">
+        <div class="num">00</div>
+        <div>
+          <h4>Fechar o recorte antes de abrir o BigQuery</h4>
+          <p>Pergunta verificável: quanto custou e quanto retornou cada campanha [APP], e onde a jornada install→compra vaza. Janela 18/06 (primeira campanha [APP]) a 13/08 (dia da execução). Grão de contagem: <code>id_pseudo_user</code> distinto por etapa — nunca evento.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">01</div>
+        <div>
+          <h4>Definir o universo atribuído</h4>
+          <p>O filtro é o token <code>[APP]</code> no nome da campanha, não <code>medium='cpc'</code> — é o que separa campanha de download de campanha de venda. Daí saem os 3.374 devices e as 5 campanhas.</p>
+          <details>
+            <summary>SQL</summary>
+<pre>SELECT id_pseudo_user,
+       ANY_VALUE(nm_traffic_source_name)      AS campanha,
+       ANY_VALUE(nm_device_operating_system)  AS os,
+       MIN(DATE(dt_created_at))               AS dt_install
+FROM `bp-datawarehouse.staging.stg_firebase__bp_platform_events`
+WHERE dt_created_at BETWEEN '2026-06-18' AND '2026-08-13'
+  AND nm_event = 'first_open'
+  AND REGEXP_CONTAINS(nm_traffic_source_name, r'\[APP\]')
+GROUP BY 1</pre>
+          </details>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">02</div>
+        <div>
+          <h4>Medir cada etapa como um EXISTS sobre o mesmo device</h4>
+          <p>Duas famílias, medidas igual e lidas diferente: o funil de cadastro é sequencial; “depois da entrada” são etapas independentes, que por isso podem superar a etapa acima. O parâmetro que carrega a tela é <code>view</code> — não <code>screen_name</code>.</p>
+          <table>
+            <thead><tr><th>Etapa</th><th>Sinal no evento</th></tr></thead>
+            <tbody>
+              <tr><td>Abriu · e-mail · conta criada</td><td><code>screen_viewed</code> + <code>view</code> ∈ (welcome, signup_email, signup_password)</td></tr>
+              <tr><td>Entrou na conta</td><td>qualquer evento com <code>id_user IS NOT NULL</code></td></tr>
+              <tr><td>Consumiu conteúdo</td><td><code>media_reproduction</code></td></tr>
+              <tr><td>Viu paywall</td><td><code>paywall_viewed</code></td></tr>
+              <tr><td>Voltou</td><td>evento em <code>DATE(dt_created_at) &gt; dt_install</code></td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:10px">Todo percentual sobre o topo da própria campanha, nunca sobre a etapa anterior.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">03</div>
+        <div>
+          <h4>Construir a ponte device → conta</h4>
+          <p>É o passo que torna a receita possível. O resíduo aritmético <code>entrou − conta criada</code> dá os ≥ 671 que já eram usuários — “≥” porque é piso, não medição direta.</p>
+          <details>
+            <summary>SQL</summary>
+<pre>SELECT id_pseudo_user, MIN(id_user) AS id_user
+FROM `bp-datawarehouse.staging.stg_firebase__bp_platform_events`
+WHERE dt_created_at BETWEEN '2026-06-18' AND '2026-08-13'
+  AND id_user IS NOT NULL
+GROUP BY 1</pre>
+          </details>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">04</div>
+        <div>
+          <h4>Ligar a receita</h4>
+          <p><code>id_user</code> → <code>dim_subscriptions</code> → <code>fct_transactions</code> por <code>id_subscription</code>, com <code>nm_status='approved'</code> e <code>dt_ordered_at</code> a partir do dia do install. Reportar venda nova vs renovação (<code>bl_is_renovation</code>) — foi isso que sustentou “as 65 são venda nova”.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">05</div>
+        <div>
+          <h4>Trazer o custo de fora do warehouse</h4>
+          <p>O warehouse não tem spend de campanha de app; vem da planilha Adveronix filtrada por <code>[APP]</code>. A janela da planilha tem que bater dia a dia com a do BigQuery — se não bater, CPI e ROAS deixam de ser comparáveis entre campanhas.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">06</div>
+        <div>
+          <h4>Derivar e apresentar</h4>
+          <p>CPI = spend ÷ installs atribuídos · custo/conta = spend ÷ contas · ROAS = receita ÷ spend. Série diária empilhada por SO para separar as ondas. As duas campanhas de volume irrelevante (60 e 2 installs) saem dos cards mas ficam na tabela — despriorizadas, não sumidas.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">07</div>
+        <div>
+          <h4>Reconciliar com a fonte externa</h4>
+          <p>Confrontar 3.374 com os 7.092 do Google e explicar o mecanismo dos dois lados (fig. 3). Essa é a etapa que dá credibilidade ao resto — sem ela o documento é contestável pelo primeiro print do painel do Google Ads.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>O que eu revisaria antes de repetir</h2>
+    <div class="flags">
+      <div class="flag">
+        <span class="lbl">funil subconta</span>
+        Só em agosto, <b>ios_signup</b> (2.550 devices), <b>signup</b> (5.385), <b>email_check_signup</b> (4.261) e <b>signup_form</b> (2.005) ficaram fora do trio medido. Âncora mais defensável para “conta criada”: <b>dim_user.dt_created_at</b>, que prova que a conta existe.
+      </div>
+      <div class="flag">
+        <span class="lbl">receita incompleta</span>
+        Fechar pela assinatura perde vitalício e compra avulsa (<b>id_subscription IS NULL</b>). Fechar por <b>id_gateway_customer</b> cobre mais.
+      </div>
+      <div class="flag">
+        <span class="lbl">o roas é um teto</span>
+        Com ≥ 671 devices que já eram usuários, parte da receita da janela não é da campanha. Vale nomear as duas direções juntas: teto por isso, piso por não ter LTV.
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Metodologia reconstruída a partir do relatório publicado em 13/08/2026 · fontes: <span class="mono">staging.stg_firebase__bp_platform_events</span>, <span class="mono">masterdata.fct_transactions</span>, <span class="mono">masterdata.dim_subscriptions</span>, planilha Adveronix · nomes de tela e parâmetro <span class="mono">view</span> reconferidos no BigQuery em 14/08/2026.</p>
+
+</div>
+
+</body>
+</html>
