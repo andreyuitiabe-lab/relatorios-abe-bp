@@ -38,6 +38,7 @@ PARCEIROS_NOME = {
 DOMINIOS_EDITORIAIS = {
     "vatican.va", "google.com", "substack.com", "uol.com.br", "cnnbrasil.com.br",
     "reuters.com", "globo.com", "sympla.com.br", "overton.digital", "docs.google.com",
+    "terra.com.br",
 }
 
 
