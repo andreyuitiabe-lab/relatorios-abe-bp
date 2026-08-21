@@ -141,7 +141,13 @@
 let D = null;
 
 const fmt = n => n.toLocaleString('pt-BR');
-const pct = (a,b) => b ? (100*a/b).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%' : '—';
+// CTR de anunciante fica na casa dos 0,0x% — com 1 decimal vira "0%" e some
+const pct = (a,b) => {
+  if (!b) return '—';
+  const v = 100*a/b;
+  const casas = v >= 10 ? 1 : v >= 1 ? 1 : v >= 0.01 ? 2 : 3;
+  return v.toLocaleString('pt-BR',{minimumFractionDigits:casas, maximumFractionDigits:casas})+'%';
+};
 
 function setView(v){
   document.body.dataset.view = v;
@@ -169,9 +175,12 @@ function render(){
 
   document.getElementById('ctx-title').textContent = parceiro ? 'Edições com anúncio veiculado' : 'Todas as edições';
   document.getElementById('ctx-badge').textContent = parceiro ? parceiro.nome : '';
+  document.getElementById('ctx-period').textContent = parceiro
+    ? `${edicoes.length} ${edicoes.length===1?'inserção':'inserções'} · ${edicoes[0]?.ed} a ${edicoes[edicoes.length-1]?.ed} · atualizado ${dataAtualizacao()}`
+    : `${fmtData(D.periodo.inicio)} – ${fmtData(D.periodo.fim)} · ${D.edicoes.length} edições · atualizado ${dataAtualizacao()}`;
 
   const kpis = [
-    {l:'Enviados', v:fmt(env), s:edicoes.length+' edições'},
+    {l:'Enviados', v:fmt(env), s:edicoes.length+(parceiro?' inserções':' edições')},
     {l:'Entregues', v:fmt(ent), s:'<strong>'+pct(ent,env)+'</strong> de entrega'},
     {l:'Aberturas (padrão mercado)', v:fmt(abrT), s:'<strong>'+pct(abrT,ent)+'</strong> · inclui Apple MPP'},
     {l:'Aberturas humanas', v:fmt(abr), s:'<strong>'+pct(abr,ent)+'</strong> · pessoas reais'},
@@ -233,13 +242,18 @@ function desenhaChart(eds, parceiro){
     ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
     ctx.fillText(Math.round(max*g/4).toLocaleString('pt-BR'), padL-6, y+4);
   }
+  // com muitas edições, rotular só de N em N para os textos não colidirem
+  const passoLabel = Math.ceil(eds.length / 18);
   eds.forEach((e,i)=>{
     const h = (H-padT-padB)*e.cli/max;
     const x = padL + i*iw + iw*0.18, bw = iw*0.64;
     ctx.fillStyle = parceiro ? '#A67C2E' : '#0F5C46';
     ctx.fillRect(x, H-padB-h, bw, h);
-    ctx.fillStyle='#6B7770'; ctx.textAlign='center';
-    ctx.fillText(e.ed, x+bw/2, H-padB+16);
+    ctx.textAlign='center';
+    if(i % passoLabel === 0 || eds.length <= 18){
+      ctx.fillStyle='#6B7770';
+      ctx.fillText(e.ed, x+bw/2, H-padB+16);
+    }
     if(eds.length<=8){ ctx.fillStyle='#14201C'; ctx.fillText(e.cli.toLocaleString('pt-BR'), x+bw/2, H-padB-h-6); }
   });
   const media = eds.reduce((a,e)=>a+e.cli,0)/eds.length;
@@ -253,14 +267,16 @@ function fmtData(iso){
   return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
 }
 
+function dataAtualizacao(){
+  return new Date(D.updated_at).toLocaleDateString('pt-BR');
+}
+
 fetch('./data.json').then(r=>r.json()).then(data=>{
   D = data;
   const sel = document.getElementById('sel-parceiro');
   sel.innerHTML = Object.entries(D.parceiros)
     .map(([dom,p])=>`<option value="${dom}">${p.nome}</option>`).join('')
     || '<option value="">— sem anunciantes no período —</option>';
-  const per = D.periodo.inicio ? `${fmtData(D.periodo.inicio)} – ${fmtData(D.periodo.fim)} · ${D.edicoes.length} edições` : '';
-  document.getElementById('ctx-period').textContent = `${per} · atualizado ${new Date(D.updated_at).toLocaleDateString('pt-BR')}`;
   render();
 });
 </script>

@@ -1,5 +1,7 @@
--- Funil do Resumo BP por edição (janela móvel de 30 dias)
+-- Funil do Resumo BP por edição (janela móvel de 120 dias)
 -- Fonte: staging.stg_insider__events, campanhas [RBP]
+-- Janela de 120 dias (não 30) para que o parceiro veja TODAS as inserções dele:
+--   anunciante repete a cada ~1 mês, e com 30 dias só a última aparecia.
 -- "Enviados" ≈ delivered + blocked + dropped + bounce (Insider não expõe evento 'sent';
 --   fica ~1% acima do "Sent" da UI do Insider)
 -- Aberturas: total (padrão mercado, inclui Apple MPP) e humana (bl_human_open = 1)
@@ -11,7 +13,7 @@ WITH rbp AS (
         bl_human_open,
         DATE(dt_event_created_at) AS dt
     FROM `bp-datawarehouse.staging.stg_insider__events`
-    WHERE dt_bp_imported_at >= DATETIME(DATE_SUB(CURRENT_DATE(), INTERVAL 40 DAY))
+    WHERE dt_bp_imported_at >= DATETIME(DATE_SUB(CURRENT_DATE(), INTERVAL 130 DAY))
         AND REGEXP_CONTAINS(nm_campaign, r'\[RBP\]')
 ),
 
@@ -22,7 +24,7 @@ edicoes AS (
     FROM rbp
     GROUP BY 1
     HAVING
-        dt_envio >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+        dt_envio >= DATE_SUB(CURRENT_DATE(), INTERVAL 120 DAY)
         AND COUNTIF(nm_event = 'email_delivered') > 50000
 )
 

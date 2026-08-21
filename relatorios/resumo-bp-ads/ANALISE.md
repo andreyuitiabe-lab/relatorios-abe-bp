@@ -18,7 +18,11 @@ parceiro enxerga só os cliques dos links dele.
 - **"Enviados"** ≈ delivered + blocked + dropped + bounce (Insider não expõe evento `sent`; ~1% acima do "Sent" da UI).
 - **Duas taxas de abertura:** padrão mercado (~46%, inclui Apple MPP — comparável a benchmarks)
   e humana (`bl_human_open = 1`, ~10% — pessoas reais). O funil usa a humana; KPIs e tabela mostram ambas.
-- **Janela:** móvel de 30 dias (edições com >50k entregues, para excluir testes/reenvios parciais).
+- **Janela:** móvel de **120 dias** (edições com >50k entregues, para excluir testes/reenvios parciais).
+  Era 30 dias e estava errado para o caso de uso: anunciante repete a cada ~1 mês, então o parceiro
+  via só a última inserção. Com 120 dias, cobre desde 23/04 (relançamento visual do Resumo BP) — 66 edições.
+- **Execução das queries:** cliente Python + ADC (`google.cloud.bigquery`), igual ao `~/bin/bqq`.
+  Não usar o `bq` CLI no `refresh.py`: o token dele expira e o refresh quebra sem forma de reautenticar.
 
 ## Achados principais
 
@@ -29,9 +33,34 @@ parceiro enxerga só os cliques dos links dele.
   identificador, mas recomenda-se padronizar `utm_source=resumo_bp&utm_campaign=<parceiro>&utm_content=<edição>`
   para o parceiro medir no analytics dele e para distinguir 2 anúncios do mesmo parceiro na mesma edição.
 
+### Inserções por anunciante (ago/2026)
+
+| Anunciante | Inserções | Detalhe (pessoas / cliques) |
+|---|---|---|
+| Sendflow | 3 | 02/07 (73 / 145), 03/07 (28 / 41), 28/07 (36 / 56) |
+| Vimansca | 2 | 14/07 (69 / 145), 17/08 (90 / 111) |
+
+Vimansca cresceu em alcance da 1ª para a 2ª inserção (69 → 90 pessoas) apesar de menos cliques totais —
+na 1ª houve mais cliques repetidos. Sendflow caiu a cada inserção.
+
+### ⚠️ Gotchas de leitura
+
+- **A taxa de abertura humana oscila muito por período** — 7,6% (mai) → 23% (jun–jul) → 9,4% (semana de 27/07)
+  → 23,5% (ago), medido sobre eventos `email_open`. `bl_human_open` está sempre populado (nunca NULL),
+  então não é falha de dados: é mudança de composição/classificação MPP. **Não comparar taxa de abertura
+  humana entre inserções distantes** sem olhar o período — cliques não sofrem esse efeito e são a métrica
+  confiável para comparar veiculações.
+- **CTR de anunciante fica na casa de 0,0x%** — o formato da página usa 2–3 decimais abaixo de 1%,
+  senão o número vira "0%" para o parceiro.
+- **O rótulo de edição é `DD/MM`** e serve de chave no match parceiro→edição no `index.html`.
+  Seguro na janela de 120 dias; se algum dia a janela passar de 365 dias, colide e precisa virar data ISO.
+
 ## Pendências / próximos passos
 
 - Validar dash com Nicolas/Elias (mensagem na thread do #performance-e-bi).
+- Avaliar se a janela de 120 dias basta a longo prazo: quando o BP Ads tiver mais de 4 meses de
+  histórico, o parceiro volta a perder inserções antigas. Alternativa é materializar uma tabela
+  de histórico de edições em vez de reler a `stg_insider__events` a cada refresh.
 - Decidir entrega da visão restrita por parceiro (página por parceiro com link não-listado vs Looker com ACL).
 - Propor padrão de UTM para links de anunciante com quem monta as edições.
 - Se aprovado, agendar refresh recorrente (launchd, padrão zenvia-custos).

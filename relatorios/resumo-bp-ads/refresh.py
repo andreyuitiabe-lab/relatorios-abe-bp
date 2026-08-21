@@ -42,18 +42,16 @@ DOMINIOS_EDITORIAIS = {
 }
 
 
-def bq(sql: str, max_rows: int = 5000) -> list[dict]:
-    # query via stdin — se passada como argv, um SQL começando com comentário "--"
-    # é interpretado como flag pelo bq CLI
-    r = subprocess.run(
-        ["bq", "query", "--nouse_legacy_sql", "--format=json",
-         "--project_id=bp-datawarehouse", f"--max_rows={max_rows}"],
-        input=sql, capture_output=True, text=True
-    )
-    if r.returncode != 0:
-        raise RuntimeError(f"stdout: {r.stdout.strip()}\nstderr: {r.stderr.strip()}")
-    out = r.stdout.strip()
-    return json.loads(out) if out else []
+def bq(sql: str) -> list[dict]:
+    """Cliente Python + ADC (mesmo caminho do ~/bin/bqq).
+
+    Não usar o `bq` CLI aqui: o token dele expira e o refresh quebra em execução
+    não-interativa, sem forma de reautenticar.
+    """
+    from google.cloud import bigquery
+
+    client = bigquery.Client(project="bp-datawarehouse")
+    return [dict(row) for row in client.query(sql).result()]
 
 
 def ii(v) -> int:
@@ -69,8 +67,11 @@ def build() -> dict:
     print("  cliques por domínio...", flush=True)
     dominios = bq((HERE / "queries" / "cliques_dominio.sql").read_text())
 
-    def ed_label(dt: str) -> str:
-        d = datetime.date.fromisoformat(dt)
+    def as_date(dt) -> datetime.date:
+        return dt if isinstance(dt, datetime.date) else datetime.date.fromisoformat(str(dt))
+
+    def ed_label(dt) -> str:
+        d = as_date(dt)
         return f"{d.day:02d}/{d.month:02d}"
 
     edicoes = [{
@@ -103,7 +104,10 @@ def build() -> dict:
 
     return {
         "updated_at": datetime.datetime.now().isoformat(timespec="seconds"),
-        "periodo": {"inicio": funil[0]["dt_envio"], "fim": funil[-1]["dt_envio"]} if funil else {},
+        "periodo": {
+            "inicio": as_date(funil[0]["dt_envio"]).isoformat(),
+            "fim": as_date(funil[-1]["dt_envio"]).isoformat(),
+        } if funil else {},
         "edicoes": edicoes,
         "parceiros": parceiros,
         "destinos": sorted(

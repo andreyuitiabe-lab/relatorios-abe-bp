@@ -9,7 +9,7 @@ WITH rbp AS (
         nm_email_url,
         DATE(dt_event_created_at) AS dt
     FROM `bp-datawarehouse.staging.stg_insider__events`
-    WHERE dt_bp_imported_at >= DATETIME(DATE_SUB(CURRENT_DATE(), INTERVAL 40 DAY))
+    WHERE dt_bp_imported_at >= DATETIME(DATE_SUB(CURRENT_DATE(), INTERVAL 130 DAY))
         AND REGEXP_CONTAINS(nm_campaign, r'\[RBP\]')
 ),
 
@@ -20,7 +20,7 @@ edicoes AS (
     FROM rbp
     GROUP BY 1
     HAVING
-        dt_envio >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+        dt_envio >= DATE_SUB(CURRENT_DATE(), INTERVAL 120 DAY)
         AND COUNTIF(nm_event = 'email_delivered') > 50000
 )
 
