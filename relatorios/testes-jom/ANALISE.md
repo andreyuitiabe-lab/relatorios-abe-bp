@@ -35,18 +35,29 @@ Hipótese testável: *dentro da mesma tag e no mesmo período, existe braço com
 
 **1. A comparação ingênua de qualidade entre braços está errada — e inverte o ranking.**
 O IQL usa a pesquisa; braço que pergunta menos tem lead classificado em faixa baixa *por ausência
-de sinal*. O form nativo tem 14,2% de cobertura de pesquisa vs 53–58% dos demais:
+de sinal*. O form nativo tem 16,2% de cobertura de pesquisa vs 54–58% dos demais:
 
-| Braço (leitura de 23/08) | CPL | % A+/A obs. | % A+/A comp. | Retorno obs. | **Retorno comp.** |
-|---|---|---|---|---|---|
-| Form nativo Meta | **R$ 1,74** | 16,4% | 47,4% | 4,13× | **5,93×** |
-| [ADVANTAGE] Junho (encerrada) | R$ 2,89 | 31,0% | 44,8% | 3,10× | 3,63× |
-| [ADVANTAGE] Agosto | R$ 3,72 | 29,2% | 42,3% | 2,20× | 2,58× |
-| [ADVANTAGE] Agosto \| ROAS 3 ⚠️ 2 dias | R$ 3,43 | 21,9% | 32,3% | 1,78× | 1,95× |
-| [ADVANTAGE] Agosto \| Exclusão ⚠️ 2 dias | R$ 4,65 | 19,4% | 30,6% | 1,38× | 1,49× |
+| Braço (leitura de 23/08 23:55) | CPL | Cob. pesquisa | % A+/A obs. | % A+/A comp. | Retorno obs. | **Retorno comp.** | Receita obs. | Vendas |
+|---|---|---|---|---|---|---|---|---|
+| Form nativo Meta | **R$ 1,74** | 16,2% | 14,3% | 46,6% | 4,13× | **5,93×** | R$ 239 | 1 |
+| [ADVANTAGE] Junho (encerrada) | R$ 2,89 | 54,4% | 31,4% | 45,1% | 3,10× | 3,63× | R$ 4.541 | 22 |
+| [ADVANTAGE] Agosto | R$ 3,72 | 58,3% | 27,6% | 40,6% | 2,20× | 2,58× | R$ 4.866 | 30 |
+| [ADVANTAGE] Agosto \| ROAS 3 ⚠️ 2 dias | R$ 3,43 | 61,9% | 15,2% | 23,1% | 1,78× | 1,95× | R$ 0 | 0 |
+| [ADVANTAGE] Agosto \| Exclusão ⚠️ 2 dias | R$ 4,65 | 53,7% | 17,9% | 27,8% | 1,38× | 1,49× | R$ 0 | 0 |
 
-Entre respondentes, os três braços têm **a mesma qualidade** (42–45% de A+/A). O que os separa é
-o CPL. Na leitura observada o form nativo é 3º; na comparável, é 1º com folga.
+Entre respondentes, os braços ficam em **41–47% de A+/A** — mesma ordem de grandeza, com o form
+nativo no topo (46,6%) sobre uma base pequena (~208 respondentes). O que os separa é o CPL. Na
+leitura observada o form nativo é 3º; na comparável, é 1º com folga.
+
+⚠️ **O ranking do form nativo é projeção, não resultado.** Ele tem **1 venda e R$ 239 de receita
+observada contra R$ 2.237 de gasto** (ROAS realizado 0,11×) em 7 dias. Junho e Agosto carregam 22 e
+30 vendas. O retorno esperado é a métrica de decisão *antes* da receita madura chegar — mas quem
+compara os braços precisa ver que só um deles ainda não produziu venda material.
+
+> **Fonte canônica das colunas de qualidade é o `data.json`.** Uma revisão de 24/08 encontrou esta
+> tabela e a prosa defasadas em relação ao dado gerado (diziam 14,2% de cobertura, "42–45%" de A+/A
+> e percentuais obs. mais altos). Corrigido pelo `data.json` de 23/08 23:55. Ao atualizar, rodar o
+> `refresh.py` e reler estes números aqui.
 
 **1b. A taxa de resposta é sinal REAL — mas "recusou" ≠ "não foi perguntado" (medido 24/ago).**
 Em receita observada (não circular; não-membros, EVG/BP10 maduras, D+30): **quem responde vale

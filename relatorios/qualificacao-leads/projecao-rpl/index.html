@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Validação da projeção de RPL por campanha</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f7f8fa; --card: #ffffff; --ink: #10171f; --ink-2: #4a5560; --muted: #8a939c;
+    --border: #e3e6ea; --border-soft: rgba(0,0,0,0.06); --primary: #1c5cab;
+    --f1: #104281; --f2: #1c5cab; --f3: #2a78d6; --f4: #5598e7; --f5: #86b6ef;
+    --good-bg: rgba(16,185,129,0.22); --good-fg: #047857;
+    --good2-bg: rgba(16,185,129,0.10);
+    --warn-bg: rgba(245,158,11,0.18); --warn-fg: #b45309;
+    --bad-bg: rgba(239,68,68,0.14); --bad-fg: #b91c1c;
+    --grid: #ececec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --bg: #121212; --card: #1c1c1c; --ink: #fafafa; --ink-2: #c3c2b7; --muted: #a3a3a3;
+      --border: #333333; --border-soft: rgba(255,255,255,0.08); --primary: #5598e7;
+      --f1: #184f95; --f2: #2a78d6; --f3: #5598e7; --f4: #86b6ef; --f5: #b7d3f6;
+      --good-bg: rgba(16,185,129,0.20); --good-fg: #6ee7b7;
+      --good2-bg: rgba(16,185,129,0.10);
+      --warn-bg: rgba(245,158,11,0.16); --warn-fg: #fcd34d;
+      --bad-bg: rgba(239,68,68,0.16); --bad-fg: #fca5a5;
+      --grid: #2b2b2b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 18px 72px; display: flex; flex-direction: column; gap: 20px; }
+  header h1 { margin: 0; font-size: 26px; letter-spacing: -0.015em; }
+  header p { margin: 6px 0 0; color: var(--ink-2); font-size: 14.5px; max-width: 78ch; }
+  header .meta { margin-top: 8px; font-size: 12.5px; color: var(--muted); }
+  .crumb { font-size: 12.5px; color: var(--muted); margin-bottom: 10px; }
+  .crumb a { color: var(--primary); text-decoration: none; }
+  .crumb a:hover { text-decoration: underline; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; }
+  .card > h2 { margin: 0; padding: 16px 18px 0; font-size: 15.5px; }
+  .card > .hint { margin: 4px 0 0; padding: 0 18px; font-size: 12.5px; color: var(--muted); max-width: 90ch; }
+  .card > .body { padding: 16px 18px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); gap: 12px; }
+  .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+  .kpi .lbl { font-size: 10.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+  .kpi .val { font-size: 24px; font-weight: 700; margin-top: 3px; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+  .kpi .sub { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+  .alert { border-left: 4px solid var(--primary); background: rgba(28,92,171,0.08); border-radius: 10px; padding: 14px 18px; }
+  .alert.warn { border-left-color: var(--warn-fg); background: var(--warn-bg); }
+  .alert b { display: block; margin-bottom: 4px; }
+  .alert p { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+  .formula { font-variant-numeric: tabular-nums; background: rgba(128,128,128,0.10); border-radius: 8px;
+             padding: 10px 13px; font-size: 14px; display: inline-block; margin: 2px 0 10px; }
+  .tbl { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 13.5px; }
+  th, td { padding: 9px 11px; text-align: right; border-bottom: 1px solid var(--border-soft); white-space: nowrap; }
+  th { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 700; }
+  th:first-child, td:first-child { text-align: left; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: rgba(128,128,128,0.06); }
+  tr.hl { background: var(--good2-bg); }
+  tr.hl td:first-child { font-weight: 700; }
+  td.name { font-weight: 600; }
+  td.wrap-cell { white-space: normal; text-align: left; color: var(--ink-2); font-size: 12.5px; max-width: 42ch; }
+  .heat-g { background: var(--good-bg); color: var(--good-fg); font-weight: 700; }
+  .heat-g2 { background: var(--good2-bg); }
+  .heat-w { background: var(--warn-bg); color: var(--warn-fg); }
+  .heat-b { background: var(--bad-bg); color: var(--bad-fg); }
+  .flag { font-size: 11px; color: var(--warn-fg); }
+  svg { max-width: 100%; height: auto; display: block; }
+  svg text { font: 11px -apple-system, sans-serif; fill: var(--muted); font-variant-numeric: tabular-nums; }
+  .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 900px) { .charts { grid-template-columns: 1fr; } }
+  .chart-scroll { overflow-x: auto; }
+  .legend { display: flex; flex-wrap: wrap; gap: 13px; margin-bottom: 10px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-2); }
+  .legend i { width: 10px; height: 10px; border-radius: 3px; }
+  .lim { display: grid; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); gap: 12px; }
+  .lim div { border: 1px dashed var(--border); border-radius: 11px; padding: 13px 15px; }
+  .lim b { display: block; font-size: 13.5px; margin-bottom: 3px; }
+  .lim p { margin: 0; font-size: 12.5px; color: var(--ink-2); }
+  .sev { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 999px;
+         text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .sev.alta { background: var(--bad-bg); color: var(--bad-fg); }
+  .sev.media { background: var(--warn-bg); color: var(--warn-fg); }
+  .sev.baixa { background: rgba(128,128,128,0.14); color: var(--muted); }
+  .pill { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+          text-transform: uppercase; letter-spacing: 0.04em; }
+  .pill.corrigido { background: var(--good-bg); color: var(--good-fg); }
+  .pill.aberto { background: var(--warn-bg); color: var(--warn-fg); }
+  .pill.bloq { background: var(--bad-bg); color: var(--bad-fg); }
+  .pill.imp { background: rgba(128,128,128,0.14); color: var(--muted); }
+  .gc { display: grid; gap: 9px; }
+  .gc div { display: grid; grid-template-columns: 1fr; gap: 2px; border-left: 3px solid var(--primary);
+            padding: 8px 0 8px 12px; }
+  .gc code { font-size: 12.5px; font-weight: 700; color: var(--ink); }
+  .gc span { font-size: 12.5px; color: var(--ink-2); }
+  footer { color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); padding-top: 14px; line-height: 1.7; }
+  footer a { color: var(--primary); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="crumb"><a href="../../">Relatórios</a> › <a href="../">Qualificação de Leads</a> › <a href="../iql/">IQL</a> › Projeção de RPL</p>
+    <h1>Validação da projeção de RPL por campanha</h1>
+    <p>O valor que o IQL manda para o Meta como conversão é o <b>RPL esperado do lead</b> — e o nível
+       desse valor vem de uma projeção: <b>o RPL observado numa janela precoce, multiplicado por um
+       fator, estima o RPL maduro da campanha</b>. Esta página mostra se essa conta funciona, com
+       que erro, e onde ela falha.</p>
+    <p class="meta" id="meta"></p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="card">
+    <h2>A conta que está sendo validada</h2>
+    <p class="hint">Multiplicativa, de propósito: o multiplicador é derivado offline por evento de safra
+       (config-como-dado versionado), nunca por rotina — por isso esta página é um retrato da calibração
+       vigente, não um painel vivo.</p>
+    <div class="body">
+      <div class="formula">RPL(D+240) &nbsp;≈&nbsp; RPL(janela observada) &nbsp;×&nbsp; <b>k</b></div>
+      <p style="margin:0;font-size:13.5px;color:var(--ink-2);max-width:88ch">
+        O alvo é o RPL na <b>idade fixa de 240 dias</b> do lead — janela comparável entre eras e a mesma
+        âncora de maturidade do IQL. A escada escolhe a janela mais profunda que <b>≥70% dos leads já
+        completaram</b> (e ≥1.000 leads): <code>rpl_d240 → rpl_d90 → rpl_d30 → rpl_d7 → ev_iql</code>.
+        O RPL de cada janela é calculado <b>só nos leads que completaram aquela idade</b> — sem isso,
+        campanha em captação subestimaria a própria janela.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>1. O melhor preditor é o próprio RPL precoce</h2>
+    <p class="hint">Correlação de Spearman com o RPL em D+240, nas 44 tags elegíveis. As métricas indiretas
+       perdem todas — são componentes do RPL e, isoladas, jogam informação fora.</p>
+    <div class="body"><div class="chart-scroll"><svg id="c-pred" role="img" aria-label="Barras da correlação de Spearman de cada preditor com o RPL maduro"></svg></div>
+      <p style="margin:12px 0 0;font-size:12.5px;color:var(--muted);max-width:88ch">
+        Resultados negativos que evitaram caminhos ruins: regressão com D+7 + conversão + confirmação
+        <b>não melhora</b> sobre o RPL sozinho (28,9% vs 27,4% de erro); ajustar o multiplicador pela
+        intensidade de venda direta foi <b>refutado</b> (Spearman −0,04); D+14 não adiciona nada sobre D+7.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2. Multiplicadores vigentes e o erro de cada janela</h2>
+    <p class="hint">O erro das janelas encadeadas é o erro <b>composto</b> dos dois trechos, somado em
+       quadratura — a v0 do config reportava só o primeiro trecho, e a revisão de modelo corrigiu isso.</p>
+    <div class="body"><div class="tbl"><table id="t-mult"></table></div>
+      <div class="alert warn" style="margin-top:14px">
+        <b>A faixa lo–hi é o IQR dos multiplicadores, não um intervalo de confiança de 95%</b>
+        <p>Ela cobre cerca de metade dos casos. Para leitura executiva é "faixa típica", não "pior caso".
+           Bandas p10–p90 entram na v2, quando houver mais campanhas no regime novo.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3. A quebra de regime que tornou a conta confiável</h2>
+    <p class="hint">Quando a tabela de vendas entrou na página de confirmação (set/2025), a esteira precoce
+       padronizou entre campanhas e o multiplicador do primeiro trecho ficou quase determinístico.</p>
+    <div class="body"><div class="tbl"><table id="t-regime"></table></div></div>
+  </div>
+
+  <div class="card">
+    <h2>4. Leave-one-out: prevendo cada campanha "às cegas"</h2>
+    <p class="hint">Para cada campanha, ela é removida do conjunto, o multiplicador mediano é recalculado com
+       as restantes, e ela é projetada. Elimina a circularidade de a campanha ajudar a prever a si mesma —
+       o mesmo problema que derrubou o eRPL por adset na revisão adversarial de jul/2026.</p>
+    <div class="body">
+      <div class="legend">
+        <span><i style="background:var(--f4)"></i>Projetado via D+7</span>
+        <span><i style="background:var(--f2)"></i>Projetado via D+30</span>
+        <span><i style="background:var(--ink-2)"></i>Real (D+90)</span>
+      </div>
+      <div class="chart-scroll"><svg id="c-loo" role="img" aria-label="Barras comparando projetado via D+7 e D+30 contra o real de cada campanha"></svg></div>
+      <div class="chart-scroll" style="margin-top:18px"><svg id="c-erro" role="img" aria-label="Erro percentual por campanha nas projeções via D+7 e D+30, com banda de mais ou menos 5 por cento"></svg></div>
+      <div class="tbl" style="margin-top:16px"><table id="t-loo"></table></div>
+      <p style="margin:12px 0 0;font-size:13px;color:var(--ink-2)">
+        Em D+30, <b>5 de 7 campanhas ficam dentro de ±5%</b>. As duas exceções são explicáveis e ambas
+        têm guarda-corpo: <b>HID</b> (+21%) tem só 25k leads — cai no <code>bl_small_sample</code>;
+        <b>BMA</b> (+15%) fica dentro da faixa típica do multiplicador.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>5. Out-of-window: o teste mais honesto disponível</h2>
+    <p class="hint">Projeção feita via D+30 e comparada com o realizado acumulado meses depois — sem que o
+       dado do futuro tenha participado da estimativa.</p>
+    <div class="body"><div class="tbl"><table id="t-oow"></table></div></div>
+  </div>
+
+  <div class="card">
+    <h2>6. Base ampla: onde a conta erra feio, e por quê</h2>
+    <p class="hint">44 tags, multiplicador 3,2, alvo D+240. Erro leave-one-out mediano de 19% (p75 31%).
+       Esta é a distribuição do regime <b>antigo</b> — é justamente a heterogeneidade que o regime novo eliminou.</p>
+    <div class="body">
+      <div class="charts">
+        <div><div class="chart-scroll"><svg id="c-dist" role="img" aria-label="Distribuição do número de tags por faixa de erro"></svg></div></div>
+        <div><div class="tbl"><table id="t-estouros"></table></div></div>
+      </div>
+      <p style="margin:14px 0 0;font-size:13px;color:var(--ink-2)">
+        <b>Os 4 estouros não são aleatórios — são formatos atípicos.</b> Dois são vendas imediatas massivas
+        (o RPL em D+30 já era praticamente o final, então multiplicar por 3 estoura) e dois são tags longas
+        ou reusadas. Pior caso depois de set/2025: <b>+21%</b>.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>7. Guarda-corpos: o que impede o erro conhecido de virar dinheiro errado</h2>
+    <p class="hint">Cada falha encontrada na validação virou uma regra explícita no modelo. Quando qualquer
+       uma dispara, o valor ancorado não é enviado — vai o EV puro da faixa ou evento binário.</p>
+    <div class="body"><div class="gc" id="gc"></div></div>
+  </div>
+
+  <div class="card">
+    <h2>8. Cobertura em produção</h2>
+    <p class="hint">Qual degrau da escada cada campanha usa hoje. O fallback teórico (EV do IQL, o degrau de
+       maior erro) cobre menos de 1% dos leads — praticamente todo mundo cai em estimador observado.</p>
+    <div class="body">
+      <div class="chart-scroll"><svg id="c-cob" role="img" aria-label="Barras da distribuição de leads por estimador da escada"></svg></div>
+      <div class="tbl" style="margin-top:14px"><table id="t-cob"></table></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>9. Validação do fallback (EV de tabela por faixa)</h2>
+    <p class="hint">O degrau <code>ev_iql</code> usa os EVs de referência do IQL. Validados contra o realizado
+       em D+240 nas 10 tags maduras.</p>
+    <div class="body" id="fb"></div>
+  </div>
+
+  <div class="card">
+    <h2>10. Revisão adversarial independente</h2>
+    <p class="hint" id="rev-quem"></p>
+    <div class="body">
+      <div class="alert" id="rev-repl"></div>
+      <div class="tbl" style="margin-top:14px"><table id="t-rev"></table></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>11. Limitações, em ordem de importância</h2>
+    <p class="hint">O que ainda não está provado. Nenhuma delas invalida o uso atual, mas todas mudam o quanto
+       se pode confiar num número específico.</p>
+    <div class="body"><div class="lim" id="lim"></div></div>
+  </div>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const SVG = 'http://www.w3.org/2000/svg';
+const el = (t, a) => { const e = document.createElementNS(SVG, t); for (const k in a) e.setAttribute(k, a[k]); return e; };
+const txt = (s, a) => { const e = el('text', a); e.textContent = s; return e; };
+const BRL = v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const PC = v => (v > 0 ? '+' : '') + v.toLocaleString('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + '%';
+const NUM = (v, d = 2) => v.toLocaleString('pt-BR', {minimumFractionDigits: d, maximumFractionDigits: d});
+const MIL = v => v >= 1e6 ? NUM(v / 1e6, 2) + 'M' : Math.round(v / 1e3) + 'k';
+
+fetch('./data.json').then(r => r.json()).then(d => {
+  document.getElementById('meta').textContent =
+    'Calibração vigente · retrato de ' + d.gerado_em + ' · dim_rpl_projector v1';
+
+  document.getElementById('kpis').innerHTML = d.kpis.map(k =>
+    `<div class="kpi"><div class="lbl">${k.lbl}</div><div class="val">${k.val}</div><div class="sub">${k.sub}</div></div>`
+  ).join('');
+
+  /* 1 — preditores */
+  {
+    const rows = d.preditores, W = 620, rh = 30, m = {l: 216, r: 54, t: 8, b: 8};
+    const H = m.t + rows.length * rh + m.b;
+    const svg = document.getElementById('c-pred');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const iw = W - m.l - m.r, x = v => m.l + v * iw;
+    [0, 0.25, 0.5, 0.75, 1].forEach(g => {
+      svg.appendChild(el('line', {x1: x(g), x2: x(g), y1: m.t, y2: m.t + rows.length * rh,
+        stroke: 'var(--grid)', 'stroke-dasharray': g ? '3 3' : ''}));
+    });
+    rows.forEach((p, i) => {
+      const y = m.t + i * rh;
+      svg.appendChild(txt(p.nome, {x: m.l - 9, y: y + rh / 2 + 4, 'text-anchor': 'end',
+        fill: i < 3 ? 'var(--ink)' : 'var(--muted)'}));
+      svg.appendChild(el('rect', {x: m.l, y: y + 6, width: Math.max(1, p.rho * iw), height: rh - 14, rx: 3,
+        fill: i === 0 ? 'var(--f1)' : i < 3 ? 'var(--f2)' : 'var(--f5)'}));
+      svg.appendChild(txt(NUM(p.rho, 2) + (p.nota ? ' *' : ''), {x: x(p.rho) + 7, y: y + rh / 2 + 4, fill: 'var(--ink-2)'}));
+    });
+    svg.appendChild(txt('* faixa — ver nota', {x: m.l, y: H - 0.5, fill: 'var(--muted)'}));
+  }
+
+  /* 2 — multiplicadores */
+  document.getElementById('t-mult').innerHTML =
+    '<thead><tr><th>Janela</th><th>Multiplicador → D+240</th><th>Faixa típica (IQR)</th><th>Erro estimado</th><th>Observação</th></tr></thead><tbody>' +
+    d.multiplicadores.map(m => {
+      const cls = m.erro <= 5 ? 'heat-g' : m.erro <= 15 ? 'heat-g2' : m.erro <= 23 ? 'heat-w' : 'heat-b';
+      return `<tr class="${m.destaque ? 'hl' : ''}"><td class="name">${m.janela}</td>` +
+        `<td><b>${NUM(m.k, 2)}×</b></td>` +
+        `<td>${m.lo ? NUM(m.lo, 2) + '–' + NUM(m.hi, 2) : '—'}</td>` +
+        `<td class="${cls}">${m.erro}%</td>` +
+        `<td class="wrap-cell">${m.obs || ''}</td></tr>`;
+    }).join('') + '</tbody>';
+
+  /* 3 — regime */
+  {
+    const a = d.regime.antigo, n = d.regime.novo;
+    document.getElementById('t-regime').innerHTML =
+      '<thead><tr><th>Trecho D+30 → D+90</th><th>Regime antigo</th><th>Regime novo (set/2025+)</th></tr></thead><tbody>' +
+      `<tr><td class="name">Campanhas na amostra</td><td>${a.n} tags</td><td><b>${n.n} tags</b></td></tr>` +
+      `<tr><td class="name">Multiplicador mediano</td><td>${NUM(a.mediana, 2)}</td><td><b>${NUM(n.mediana, 2)}</b></td></tr>` +
+      `<tr><td class="name">Faixa (IQR)</td><td>${a.iqr}</td><td><b>${n.iqr}</b></td></tr>` +
+      `<tr><td class="name">Coeficiente de variação</td><td>—</td><td class="heat-g"><b>${NUM(n.cv, 2)}</b></td></tr>` +
+      `<tr><td class="name">Erro leave-one-out mediano</td><td>—</td><td class="heat-g"><b>${NUM(n.erro_loo, 1)}%</b> <span class="flag">(p75 ${NUM(n.erro_p75, 1)}%)</span></td></tr>` +
+      '</tbody>';
+  }
+
+  /* 4 — LOO: projetado vs real */
+  {
+    const rows = d.loo_regime_novo, W = 760, m = {l: 44, r: 12, t: 12, b: 30};
+    const H = 250, ih = H - m.t - m.b, iw = W - m.l - m.r;
+    const max = Math.max(...rows.flatMap(r => [r.proj_d7, r.proj_d30, r.real])) * 1.12;
+    const svg = document.getElementById('c-loo');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const y = v => m.t + ih - (v / max) * ih;
+    [0, 4, 8, 12].forEach(g => {
+      svg.appendChild(el('line', {x1: m.l, x2: W - m.r, y1: y(g), y2: y(g), stroke: 'var(--grid)', 'stroke-dasharray': g ? '3 3' : ''}));
+      svg.appendChild(txt(g, {x: m.l - 7, y: y(g) + 4, 'text-anchor': 'end'}));
+    });
+    const gw = iw / rows.length, bw = Math.min(20, gw / 4.2);
+    rows.forEach((r, i) => {
+      const cx = m.l + gw * (i + 0.5);
+      [[r.proj_d7, 'var(--f4)', -1], [r.proj_d30, 'var(--f2)', 0], [r.real, 'var(--ink-2)', 1]].forEach(([v, c, off]) => {
+        svg.appendChild(el('rect', {x: cx + off * (bw + 3) - bw / 2, y: y(v), width: bw, height: m.t + ih - y(v), rx: 2, fill: c}));
+      });
+      svg.appendChild(txt(r.tag, {x: cx, y: H - 12, 'text-anchor': 'middle', fill: 'var(--ink-2)'}));
+    });
+    svg.appendChild(el('line', {x1: m.l, x2: W - m.r, y1: m.t + ih, y2: m.t + ih, stroke: 'var(--border)'}));
+    svg.appendChild(txt('RPL (R$)', {x: m.l - 7, y: m.t - 2, 'text-anchor': 'end'}));
+  }
+
+  /* 4b — erro por campanha */
+  {
+    const rows = d.loo_regime_novo, W = 760, m = {l: 44, r: 12, t: 16, b: 30};
+    const H = 216, ih = H - m.t - m.b, iw = W - m.l - m.r;
+    const lim = 40, svg = document.getElementById('c-erro');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const y = v => m.t + ih / 2 - (v / lim) * (ih / 2);
+    svg.appendChild(el('rect', {x: m.l, y: y(5), width: iw, height: y(-5) - y(5), fill: 'var(--good-bg)'}));
+    svg.appendChild(txt('faixa ±5%', {x: W - m.r - 4, y: y(5) - 4, 'text-anchor': 'end', fill: 'var(--good-fg)'}));
+    [-40, -20, 0, 20, 40].forEach(g => {
+      svg.appendChild(el('line', {x1: m.l, x2: W - m.r, y1: y(g), y2: y(g),
+        stroke: g === 0 ? 'var(--border)' : 'var(--grid)', 'stroke-dasharray': g === 0 ? '' : '3 3'}));
+      svg.appendChild(txt(g + '%', {x: m.l - 7, y: y(g) + 4, 'text-anchor': 'end'}));
+    });
+    const gw = iw / rows.length, bw = Math.min(22, gw / 3.2);
+    rows.forEach((r, i) => {
+      const cx = m.l + gw * (i + 0.5);
+      [[r.erro_d7, 'var(--f4)', -1], [r.erro_d30, 'var(--f2)', 1]].forEach(([v, c, off]) => {
+        const h = Math.abs(y(v) - y(0));
+        svg.appendChild(el('rect', {x: cx + off * (bw / 2 + 2) - bw / 2, y: Math.min(y(v), y(0)),
+          width: bw, height: Math.max(1.5, h), rx: 2, fill: c}));
+      });
+      svg.appendChild(txt(r.tag, {x: cx, y: H - 11, 'text-anchor': 'middle', fill: 'var(--ink-2)'}));
+    });
+  }
+
+  /* 4c — tabela LOO */
+  document.getElementById('t-loo').innerHTML =
+    '<thead><tr><th>Campanha</th><th>Proj. via D+7</th><th>Proj. via D+30</th><th>Real (D+90)</th><th>Erro D+7</th><th>Erro D+30</th></tr></thead><tbody>' +
+    d.loo_regime_novo.map(r => {
+      const c = v => Math.abs(v) <= 5 ? 'heat-g' : Math.abs(v) <= 25 ? 'heat-w' : 'heat-b';
+      return `<tr><td class="name">${r.tag}${r.flag ? ` <span class="flag">${r.flag}</span>` : ''}</td>` +
+        `<td>${BRL(r.proj_d7)}</td><td>${BRL(r.proj_d30)}</td><td><b>${BRL(r.real)}</b></td>` +
+        `<td class="${c(r.erro_d7)}">${PC(r.erro_d7)}</td><td class="${c(r.erro_d30)}">${PC(r.erro_d30)}</td></tr>`;
+    }).join('') + '</tbody>';
+
+  /* 5 — out of window */
+  document.getElementById('t-oow').innerHTML =
+    '<thead><tr><th>Campanha</th><th>Projetado (D+30 × 2,98)</th><th>Realizado</th><th>Idade do lead</th><th>Erro</th></tr></thead><tbody>' +
+    d.out_of_window.map(r =>
+      `<tr><td class="name">${r.tag}</td><td>${BRL(r.projetado)}</td><td><b>${BRL(r.realizado)}</b></td>` +
+      `<td>${r.idade}</td><td class="heat-g">${PC(r.erro)}</td></tr>`
+    ).join('') + '</tbody>';
+
+  /* 6 — distribuição */
+  {
+    const rows = d.dist_erro_base_ampla, W = 420, m = {l: 84, r: 40, t: 8, b: 26}, rh = 34;
+    const H = m.t + rows.length * rh + m.b;
+    const svg = document.getElementById('c-dist');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const iw = W - m.l - m.r, max = Math.max(...rows.map(r => r.tags));
+    const cor = ['var(--good-fg)', 'var(--f3)', 'var(--warn-fg)', 'var(--bad-fg)'];
+    rows.forEach((r, i) => {
+      const y = m.t + i * rh;
+      svg.appendChild(txt(r.faixa, {x: m.l - 9, y: y + rh / 2 + 4, 'text-anchor': 'end', fill: 'var(--ink)'}));
+      svg.appendChild(el('rect', {x: m.l, y: y + 7, width: Math.max(2, r.tags / max * iw), height: rh - 16, rx: 3, fill: cor[i]}));
+      svg.appendChild(txt(r.tags + ' tags', {x: m.l + r.tags / max * iw + 7, y: y + rh / 2 + 4, fill: 'var(--ink-2)'}));
+    });
+    svg.appendChild(txt('44 tags · erro leave-one-out contra o RPL em D+240', {x: m.l - 9, y: H - 6, fill: 'var(--muted)', 'text-anchor': 'start'}));
+  }
+  document.getElementById('t-estouros').innerHTML =
+    '<thead><tr><th>Estouro</th><th>Erro</th><th>Por quê</th></tr></thead><tbody>' +
+    d.estouros.map(r =>
+      `<tr><td class="name">${r.tag}</td><td class="heat-b">${PC(r.erro)}</td><td class="wrap-cell">${r.motivo}</td></tr>`
+    ).join('') + '</tbody>';
+
+  /* 7 — guarda-corpos */
+  document.getElementById('gc').innerHTML = d.guarda_corpos.map(g =>
+    `<div><code>${g.nome}</code><span><b>Dispara quando:</b> ${g.regra} &nbsp;·&nbsp; <b>Efeito:</b> ${g.efeito} &nbsp;·&nbsp; <b>Caso real:</b> ${g.caso}</span></div>`
+  ).join('');
+
+  /* 8 — cobertura */
+  {
+    const rows = d.cobertura, W = 760, m = {l: 150, r: 56, t: 8, b: 8}, rh = 32;
+    const H = m.t + rows.length * rh + m.b;
+    const svg = document.getElementById('c-cob');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const iw = W - m.l - m.r, max = Math.max(...rows.map(r => r.pc));
+    rows.forEach((r, i) => {
+      const y = m.t + i * rh, last = i === rows.length - 1;
+      svg.appendChild(txt(r.estimador, {x: m.l - 9, y: y + rh / 2 + 4, 'text-anchor': 'end',
+        fill: last ? 'var(--warn-fg)' : 'var(--ink)'}));
+      svg.appendChild(el('rect', {x: m.l, y: y + 6, width: Math.max(2, r.pc / max * iw), height: rh - 14, rx: 3,
+        fill: last ? 'var(--warn-fg)' : ['var(--f1)', 'var(--f2)', 'var(--f3)', 'var(--f4)'][i]}));
+      svg.appendChild(txt(NUM(r.pc, 1) + '%', {x: m.l + r.pc / max * iw + 7, y: y + rh / 2 + 4, fill: 'var(--ink-2)'}));
+    });
+  }
+  document.getElementById('t-cob').innerHTML =
+    '<thead><tr><th>Estimador da escada</th><th>Tags</th><th>Leads</th><th>% dos leads</th></tr></thead><tbody>' +
+    d.cobertura.map((r, i) => {
+      const last = i === d.cobertura.length - 1;
+      return `<tr><td class="name">${r.estimador}</td><td>${r.tags}</td><td>${MIL(r.leads)}</td>` +
+        `<td class="${last ? 'heat-w' : 'heat-g2'}">${NUM(r.pc, 1)}%</td></tr>`;
+    }).join('') + '</tbody>';
+
+  /* 9 — fallback */
+  {
+    const f = d.fallback;
+    document.getElementById('fb').innerHTML =
+      `<div class="kpis" style="margin-bottom:14px">
+         <div class="kpi"><div class="lbl">Faixa B — realizado</div><div class="val">${BRL(f.faixa_b.realizado)}</div>
+           <div class="sub">contra ${BRL(f.faixa_b.tabela)} de tabela · <b>${f.faixa_b.erro}%</b></div></div>
+         <div class="kpi"><div class="lbl">Volume validado</div><div class="val">${MIL(f.faixa_b.leads)}</div>
+           <div class="sub">leads não-membros — o grosso do volume</div></div>
+         <div class="kpi"><div class="lbl">Faixa A+ — realizado</div><div class="val">${BRL(f.faixa_a_mais.realizado)}</div>
+           <div class="sub">${f.faixa_a_mais.razao}× a tabela — erro do lado seguro</div></div>
+       </div>
+       <p style="margin:0 0 12px;font-size:13.5px;color:var(--ink-2);max-width:88ch">
+         <b>A faixa que carrega o volume valida bem</b> (−15%). A A+ parece muito acima, mas é esperado:
+         a faixa é dominada pela base conhecida, e a tabela é ancorada em não-membro <b>de propósito</b> —
+         errar para baixo aqui evita empurrar a Meta a caçar quem já é membro (o CRM entrega isso de graça).
+         Abrindo por status, o realizado replica de forma independente os clusters da análise anterior
+         (${f.clusters_d31}):</p>
+       <div class="tbl"><table><thead><tr><th>Status do lead</th><th>Valor esperado realizado</th></tr></thead><tbody>` +
+      f.por_status.map(s => `<tr><td class="name">${s.status}</td><td><b>${BRL(s.ev)}</b></td></tr>`).join('') +
+      `</tbody></table></div>
+       <p style="margin:12px 0 0;font-size:12.5px;color:var(--muted)">
+         As faixas A, C e D só existem quando há pesquisa dentro do funil — ficam validáveis no 1º refit.</p>`;
+  }
+
+  /* 10 — revisão */
+  document.getElementById('rev-quem').textContent = d.revisao.quem;
+  document.getElementById('rev-repl').innerHTML =
+    '<b>O revisor replicou o modelo do zero</b><p>' + d.revisao.replicacao + '</p>';
+  document.getElementById('t-rev').innerHTML =
+    '<thead><tr><th>Achado</th><th>Severidade</th><th>O que era</th><th>Status</th><th>Correção</th></tr></thead><tbody>' +
+    d.revisao.achados.map(a =>
+      `<tr><td class="name">${a.id}</td>` +
+      `<td><span class="pill ${a.sev === 'Bloqueante' ? 'bloq' : 'imp'}">${a.sev}</span></td>` +
+      `<td class="wrap-cell">${a.o_que}</td>` +
+      `<td><span class="pill ${a.destino}">${a.destino === 'corrigido' ? 'Corrigido' : 'Follow-up'}</span></td>` +
+      `<td class="wrap-cell">${a.fix}</td></tr>`
+    ).join('') + '</tbody>';
+
+  /* 11 — limitações */
+  document.getElementById('lim').innerHTML = d.limitacoes.map(l =>
+    `<div><span class="sev ${l.sev}">${l.sev === 'alta' ? 'Limita mais' : l.sev === 'media' ? 'Atenção' : 'Menor'}</span>` +
+    `<b>${l.t}</b><p>${l.d}</p></div>`
+  ).join('');
+
+  document.getElementById('foot').innerHTML =
+    d.fonte + '<br>Metodologia completa: <a href="../PROJECAO-RPL.md">PROJECAO-RPL.md</a> · ' +
+    'Modelo do IQL: <a href="../iql/">relatório IQL</a> · ' +
+    'Decisões numeradas: <a href="../METODOLOGIA-IQL.md">METODOLOGIA-IQL.md</a> (D52–D57)';
+}).catch(e => {
+  document.getElementById('meta').textContent = 'Falha ao carregar data.json: ' + e.message;
+});
+</script>
+</body>
+</html>

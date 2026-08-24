@@ -1,0 +1,401 @@
+{
+  "gerado_em": "24/08/2026",
+  "fonte": "Calibração offline do dim_rpl_projector (config-como-dado v1, cd_version). Números conferidos contra PROJECAO-RPL.md rev.5 e a revisão de Model QA de 06/08/2026.",
+  "kpis": [
+    {
+      "lbl": "Erro LOO mediano",
+      "val": "2,7%",
+      "sub": "trecho D+30→D+90, regime novo (7 tags)"
+    },
+    {
+      "lbl": "Dentro de ±5%",
+      "val": "5 de 7",
+      "sub": "projeção via D+30, regime novo"
+    },
+    {
+      "lbl": "Cobertura observada",
+      "val": "99,2%",
+      "sub": "dos 2,9M leads escorados"
+    },
+    {
+      "lbl": "Erro out-of-window",
+      "val": "+3,3% / +5,1%",
+      "sub": "HID e DBI, projeção completa"
+    },
+    {
+      "lbl": "Erro LOO base ampla",
+      "val": "19%",
+      "sub": "44 tags, alvo D+240 (p75 31%)"
+    }
+  ],
+  "preditores": [
+    {
+      "nome": "RPL em D+90",
+      "rho": 0.91
+    },
+    {
+      "nome": "RPL em D+30",
+      "rho": 0.84,
+      "nota": "0,87 na era 2024+"
+    },
+    {
+      "nome": "RPL em D+7",
+      "rho": 0.74
+    },
+    {
+      "nome": "Conversão até D+30",
+      "rho": 0.69
+    },
+    {
+      "nome": "% compra na confirmação",
+      "rho": 0.38,
+      "nota": "faixa 0,22–0,38"
+    },
+    {
+      "nome": "Ticket precoce / tempo até compra",
+      "rho": 0.35,
+      "nota": "faixa 0,20–0,35"
+    }
+  ],
+  "multiplicadores": [
+    {
+      "janela": "D+240 (madura)",
+      "k": 1.0,
+      "lo": null,
+      "hi": null,
+      "erro": 5,
+      "obs": "âncora — nada a projetar"
+    },
+    {
+      "janela": "D+90",
+      "k": 1.69,
+      "lo": 1.51,
+      "hi": 1.93,
+      "erro": 15,
+      "obs": ""
+    },
+    {
+      "janela": "D+30",
+      "k": 2.98,
+      "lo": 2.46,
+      "hi": 3.44,
+      "erro": 15,
+      "obs": "= 1,76 × 1,69 · erro = √(2,7² + 15²)",
+      "destaque": true
+    },
+    {
+      "janela": "D+7",
+      "k": 5.6,
+      "lo": 4.4,
+      "hi": 7.02,
+      "erro": 23,
+      "obs": "= 3,31 × 1,69 · só utilizável no regime novo"
+    },
+    {
+      "janela": "dia 0 (EV IQL)",
+      "k": 1.0,
+      "lo": 0.65,
+      "hi": 1.35,
+      "erro": 35,
+      "obs": "fallback sobre o EV — dispara a trava de envio"
+    }
+  ],
+  "regime": {
+    "antigo": {
+      "mediana": 1.79,
+      "iqr": "1,60–2,06",
+      "cv": null,
+      "erro_loo": null,
+      "n": 44
+    },
+    "novo": {
+      "mediana": 1.76,
+      "iqr": "1,63–1,78",
+      "cv": 0.08,
+      "erro_loo": 2.7,
+      "erro_p75": 9.7,
+      "n": 7
+    }
+  },
+  "loo_regime_novo": [
+    {
+      "tag": "GOD",
+      "proj_d7": 10.62,
+      "proj_d30": 12.59,
+      "real": 12.94,
+      "erro_d7": -17.9,
+      "erro_d30": -2.7
+    },
+    {
+      "tag": "HID",
+      "proj_d7": 10.39,
+      "proj_d30": 11.55,
+      "real": 9.55,
+      "erro_d7": 8.9,
+      "erro_d30": 21.0,
+      "flag": "amostra pequena (25k leads)"
+    },
+    {
+      "tag": "NTL25",
+      "proj_d7": 7.96,
+      "proj_d30": 6.24,
+      "real": 6.53,
+      "erro_d7": 21.9,
+      "erro_d30": -4.4
+    },
+    {
+      "tag": "BMA",
+      "proj_d7": 12.53,
+      "proj_d30": 10.79,
+      "real": 9.38,
+      "erro_d7": 33.6,
+      "erro_d30": 15.0
+    },
+    {
+      "tag": "DBI",
+      "proj_d7": 6.0,
+      "proj_d30": 8.59,
+      "real": 8.41,
+      "erro_d7": -28.7,
+      "erro_d30": 2.2
+    },
+    {
+      "tag": "DOM",
+      "proj_d7": 4.51,
+      "proj_d30": 4.75,
+      "real": 4.78,
+      "erro_d7": -5.6,
+      "erro_d30": -0.6
+    },
+    {
+      "tag": "ABC",
+      "proj_d7": 5.65,
+      "proj_d30": 5.7,
+      "real": 5.79,
+      "erro_d7": -2.5,
+      "erro_d30": -1.6
+    }
+  ],
+  "out_of_window": [
+    {
+      "tag": "HID",
+      "projetado": 19.5,
+      "realizado": 18.87,
+      "idade": "168d",
+      "erro": 3.3
+    },
+    {
+      "tag": "DBI",
+      "projetado": 14.51,
+      "realizado": 13.8,
+      "idade": "155d",
+      "erro": 5.1
+    }
+  ],
+  "dist_erro_base_ampla": [
+    {
+      "faixa": "≤ ±10%",
+      "tags": 13
+    },
+    {
+      "faixa": "±10–25%",
+      "tags": 15
+    },
+    {
+      "faixa": "±25–50%",
+      "tags": 12
+    },
+    {
+      "faixa": "> 50%",
+      "tags": 4
+    }
+  ],
+  "estouros": [
+    {
+      "tag": "BF22",
+      "erro": 139,
+      "motivo": "venda imediata massiva — o RPL(D+30) já era quase o final"
+    },
+    {
+      "tag": "DIR",
+      "erro": 93,
+      "motivo": "venda imediata massiva"
+    },
+    {
+      "tag": "ODD",
+      "erro": 64,
+      "motivo": "tag longa / reusada"
+    },
+    {
+      "tag": "PAP",
+      "erro": 52,
+      "motivo": "tag longa / reusada"
+    }
+  ],
+  "cobertura": [
+    {
+      "estimador": "rpl_d240 (madura)",
+      "tags": 22,
+      "leads": 1130000,
+      "pc": 38.5
+    },
+    {
+      "estimador": "rpl_d90",
+      "tags": 19,
+      "leads": 1300000,
+      "pc": 44.4
+    },
+    {
+      "estimador": "rpl_d30",
+      "tags": 5,
+      "leads": 284000,
+      "pc": 9.7
+    },
+    {
+      "estimador": "rpl_d7",
+      "tags": 4,
+      "leads": 190000,
+      "pc": 6.5
+    },
+    {
+      "estimador": "ev_iql (fallback)",
+      "tags": 62,
+      "leads": 25000,
+      "pc": 0.8
+    }
+  ],
+  "fallback": {
+    "faixa_b": {
+      "realizado": 8.12,
+      "tabela": 9.53,
+      "erro": -15,
+      "leads": 869000,
+      "nota": "não-membros, o grosso do volume — valida bem"
+    },
+    "faixa_a_mais": {
+      "realizado": 114.0,
+      "razao": 5.5,
+      "nota": "faixa dominada pela base conhecida; a tabela é NM-ancorada de propósito (erro do lado seguro)"
+    },
+    "por_status": [
+      {
+        "status": "Vitalício",
+        "ev": 481.56
+      },
+      {
+        "status": "Membro",
+        "ev": 131.2
+      },
+      {
+        "status": "Ex-membro",
+        "ev": 45.8
+      }
+    ],
+    "clusters_d31": "516 / 130 / 45 — replicados de forma independente"
+  },
+  "limitacoes": [
+    {
+      "t": "n = 7 no regime novo",
+      "d": "O leave-one-out é a proteção mínima. EVG e BP10 são os próximos testes out-of-sample reais, conforme maturam.",
+      "sev": "alta"
+    },
+    {
+      "t": "O trecho D+90→D+240 vem do regime antigo",
+      "d": "Nenhuma tag do regime novo tem 240 dias ainda. É o maior componente do erro composto das janelas precoces. GOD fecha 240d ~set/2026 → recalibrar (v2).",
+      "sev": "alta"
+    },
+    {
+      "t": "Drift de coorte em tags sempre-ativas",
+      "d": "O estimador d240/d90 usa todas as coortes históricas da tag. Se o mix de leads mudou, a projeção olha para trás. v2: janela móvel de coortes.",
+      "sev": "media"
+    },
+    {
+      "t": "A faixa é IQR, não IC 95%",
+      "d": "Cobre ~50% dos casos — é \"faixa típica\", não \"pior caso\". Bandas p10–p90 entram na v2.",
+      "sev": "media"
+    },
+    {
+      "t": "Fallback EV pode superestimar campanha fraca",
+      "d": "Caso ENE: EV R$ 9,01 contra D+7 apontando ~R$ 4. Mitigado pela trava (erro 35 → binário) e pela escada assumir o observado assim que 70% dos leads completam 7 dias.",
+      "sev": "media"
+    },
+    {
+      "t": "Régua de receita ampla",
+      "d": "Transações de qualquer produto/canal atribuídas ao lead (inclui ~4% de renovações). Consistente entre preditor e outcome, mas não é \"receita do produto da campanha\".",
+      "sev": "baixa"
+    },
+    {
+      "t": "CDL é outlier conhecido",
+      "d": "Produto físico de ticket alto foge do multiplicador padrão.",
+      "sev": "baixa"
+    }
+  ],
+  "revisao": {
+    "quem": "Model QA independente, 06/08/2026 — aprovada com condições, condições aplicadas",
+    "replicacao": "O revisor replicou o estimador de DOM do zero a partir dos upstreams de produção: RPL D+90 = 4,78, idêntico. Escada, cobertura e multiplicadores confirmados.",
+    "achados": [
+      {
+        "id": "B1",
+        "sev": "Bloqueante",
+        "o_que": "LP de 1,6k leads com fator 77,9× e trava aberta — o CAPI mandaria R$ 1.462/lead. O rótulo de erro foi derivado em tags ≥15k leads e não vale fora desse domínio.",
+        "destino": "corrigido",
+        "fix": "bl_small_sample fecha a trava (erro capado em 35) + gate explícito. Verificado: LP-PRE-CDL inelegível, CAPI = EV puro."
+      },
+      {
+        "id": "B2",
+        "sev": "Bloqueante",
+        "o_que": "fbclid vazio ≠ NULL: a cobertura real no canal Anúncios é ~71%, não ~88% — a fonte grava string vazia.",
+        "destino": "corrigido",
+        "fix": "NULLIF(TRIM(...), '') no dtm + documentação corrigida."
+      },
+      {
+        "id": "I1",
+        "sev": "Importante",
+        "o_que": "Guarda-corpo de venda imediata inavaliável na fase D+7 — o caso BF22 passaria batido.",
+        "destino": "corrigido",
+        "fix": "Flag ex-ante: dim_rpl_date_anchored_tags declara campanhas de data (BF/BNO/BPD) na criação; para elas D+7 nunca ancora. Detecção nos dados foi testada e refutada (razão D+1/D+7 invertida)."
+      },
+      {
+        "id": "I2",
+        "sev": "Importante",
+        "o_que": "days_to_purchase misturava BRT com UTC: 8.425 transações com idade negativa, R$ 1,66M.",
+        "destino": "corrigido",
+        "fix": "Corrigido no dtm; negativos zerados. Produção verificada: 0 negativos em 1M de transações."
+      },
+      {
+        "id": "I3",
+        "sev": "Importante",
+        "o_que": "A deduplicação fixa o fbclid do primeiro cadastro, e a janela útil no matching da Meta é ~7 dias.",
+        "destino": "aberto",
+        "fix": "Follow-up: avaliar expor o fbclid do último cadastro."
+      },
+      {
+        "id": "I4",
+        "sev": "Importante",
+        "o_que": "O estimate é full-refresh sem histórico, então o monitor contínuo não é implementável a partir dele.",
+        "destino": "aberto",
+        "fix": "Follow-up: snapshot por dt_reference ou monitor no marketing-bp."
+      }
+    ]
+  },
+  "guarda_corpos": [
+    {
+      "nome": "bl_atypical_immediate_sale",
+      "regra": "RPL D+7 ≥ 80% do D+30",
+      "efeito": "erro capado em 35 → manda binário",
+      "caso": "BF22"
+    },
+    {
+      "nome": "bl_small_sample",
+      "regra": "< 15k leads completos",
+      "efeito": "fecha a trava de valor ancorado",
+      "caso": "HID / LP-PRE-CDL"
+    },
+    {
+      "nome": "dim_rpl_date_anchored_tags",
+      "regra": "tag de campanha de data declarada na criação",
+      "efeito": "D+7 nunca ancora — exige D+30",
+      "caso": "BF / BNO / BPD"
+    }
+  ]
+}
