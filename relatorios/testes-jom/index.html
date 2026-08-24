@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testes de campanha — JOM</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f7f8fa; --card: #ffffff; --ink: #10171f; --ink-2: #4a5560; --muted: #8a939c;
+    --border: #e3e6ea; --border-soft: rgba(0,0,0,0.06); --primary: #1c5cab;
+    --f1: #104281; --f2: #1c5cab; --f3: #2a78d6; --f4: #5598e7; --f5: #86b6ef;
+    --good-bg: rgba(16,185,129,0.22); --good-fg: #047857;
+    --good2-bg: rgba(16,185,129,0.10);
+    --warn-bg: rgba(245,158,11,0.18); --warn-fg: #b45309;
+    --bad-bg: rgba(239,68,68,0.14); --bad-fg: #b91c1c;
+    --grid: #ececec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --bg: #121212; --card: #1c1c1c; --ink: #fafafa; --ink-2: #c3c2b7; --muted: #a3a3a3;
+      --border: #333333; --border-soft: rgba(255,255,255,0.08); --primary: #5598e7;
+      --f1: #184f95; --f2: #2a78d6; --f3: #5598e7; --f4: #86b6ef; --f5: #b7d3f6;
+      --good-bg: rgba(16,185,129,0.20); --good-fg: #6ee7b7;
+      --good2-bg: rgba(16,185,129,0.10);
+      --warn-bg: rgba(245,158,11,0.16); --warn-fg: #fcd34d;
+      --bad-bg: rgba(239,68,68,0.16); --bad-fg: #fca5a5;
+      --grid: #2b2b2b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 18px 72px; display: flex; flex-direction: column; gap: 20px; }
+  header h1 { margin: 0; font-size: 26px; letter-spacing: -0.015em; }
+  header p { margin: 6px 0 0; color: var(--ink-2); font-size: 14.5px; max-width: 74ch; }
+  header .meta { margin-top: 8px; font-size: 12.5px; color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; }
+  .card > h2 { margin: 0; padding: 16px 18px 0; font-size: 15.5px; }
+  .card > .hint { margin: 4px 0 0; padding: 0 18px; font-size: 12.5px; color: var(--muted); }
+  .card > .body { padding: 16px 18px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 12px; }
+  .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+  .kpi .lbl { font-size: 10.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+  .kpi .val { font-size: 25px; font-weight: 700; margin-top: 3px; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+  .kpi .sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .alert { border-left: 4px solid var(--warn-fg); background: var(--warn-bg); border-radius: 10px; padding: 14px 18px; }
+  .alert b { display: block; margin-bottom: 4px; }
+  .alert p { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+  .tbl { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 13.5px; }
+  th, td { padding: 9px 11px; text-align: right; border-bottom: 1px solid var(--border-soft); white-space: nowrap; }
+  th { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 700; }
+  th:first-child, td:first-child { text-align: left; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: rgba(128,128,128,0.06); }
+  .arm { font-weight: 600; }
+  .arm small { display: block; font-weight: 400; color: var(--muted); font-size: 11.5px; }
+  .heat-g { background: var(--good-bg); color: var(--good-fg); font-weight: 700; }
+  .heat-g2 { background: var(--good2-bg); }
+  .heat-w { background: var(--warn-bg); color: var(--warn-fg); }
+  .heat-b { background: var(--bad-bg); color: var(--bad-fg); }
+  .mix { display: flex; height: 11px; border-radius: 3px; overflow: hidden; gap: 2px; min-width: 130px; }
+  .mix i { display: block; height: 100%; }
+  .legend { display: flex; flex-wrap: wrap; gap: 13px; margin-bottom: 10px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-2); }
+  .legend i { width: 10px; height: 10px; border-radius: 3px; }
+  svg { max-width: 100%; height: auto; display: block; }
+  svg text { font: 11px -apple-system, sans-serif; fill: var(--muted); font-variant-numeric: tabular-nums; }
+  .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 900px) { .charts { grid-template-columns: 1fr; } }
+  .chart-scroll { overflow-x: auto; }
+  .planned { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .plan { border: 1px dashed var(--border); border-radius: 11px; padding: 13px 15px; }
+  .plan b { display: block; font-size: 13.5px; }
+  .plan span { font-size: 12.5px; color: var(--muted); }
+  .status { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .status.ativo { background: var(--good-bg); color: var(--good-fg); }
+  .status.espera { background: rgba(128,128,128,0.14); color: var(--muted); }
+  .status.aprend { background: var(--warn-bg); color: var(--warn-fg); }
+  ul.regua { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 7px; font-size: 13.5px; color: var(--ink-2); }
+  ul.regua b { color: var(--ink); }
+  footer { color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); padding-top: 14px; }
+  #tip { position: fixed; display: none; z-index: 9; pointer-events: none; background: var(--card);
+         border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 12px;
+         box-shadow: 0 4px 16px rgba(0,0,0,0.16); color: var(--ink-2); }
+  #tip b { color: var(--ink); }
+  #tip .r { display: flex; justify-content: space-between; gap: 14px; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Testes de campanha — JOM</h1>
+    <p>Comparação dos braços de teste por <b>custo</b>, <b>qualidade do lead</b> e <b>retorno esperado</b>.
+       Cada braço é uma estratégia de campanha diferente rodando na mesma tag.</p>
+    <p class="meta" id="meta"></p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="alert">
+    <b>Duas leituras do retorno — e por que nenhuma sozinha responde</b>
+    <p><b>Responder a pesquisa é sinal real, não só medição:</b> em receita observada (não-membros,
+       EVG/BP10 maduras) quem responde vale <b>2,3–2,8× mais</b> e converte 3,5–5,5× mais. Ignorar a
+       taxa de resposta seria errado.<br>
+       Mas <b>"recusou" ≠ "não foi perguntado"</b>. Onde a pesquisa é oferecida a todos, quem não
+       responde recusou — e a penalidade é legítima (é o <b>retorno observado</b>). Onde a campanha
+       não pergunta (form nativo), o modelo trata ausência como recusa e <i>subestima</i>; o
+       <b>retorno teto</b> assume o extremo oposto (todos valeriam como respondentes) e
+       <i>superestima</i>. <b>O valor real fica entre os dois</b> — quanto mais perto do teto, mais
+       intencional é o público. Resolver de vez = colocar as perguntas dentro do form.</p>
+  </div>
+
+  <div class="card">
+    <h2>Braços de teste</h2>
+    <p class="hint" id="hint-tabela"></p>
+    <div class="body tbl"><table id="tbl">
+      <thead><tr>
+        <th>Braço</th><th>Leads</th><th>Investido</th><th>CPL</th>
+        <th style="text-align:left">Mix de faixas</th>
+        <th>Pesquisa</th><th>% A+/A obs.</th><th>% A+/A resp.</th>
+        <th>RPL resp.</th><th>Retorno obs. <small>(piso)</small></th><th>Retorno teto</th><th>Vendas</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </div>
+
+  <div class="charts">
+    <div class="card">
+      <h2>Mix de faixas por braço</h2>
+      <p class="hint">Distribuição da nota IQL dentro de cada braço (inclui o efeito da cobertura de pesquisa).</p>
+      <div class="body">
+        <div class="legend" id="legend"></div>
+        <div class="chart-scroll"><svg id="chart-mix" role="img" aria-label="Barras empilhadas do mix de faixas por braço"></svg></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Retorno esperado por dia</h2>
+      <p class="hint" id="hint-serie">Linha tracejada = meta de retorno. Form nativo fica fora (ingestão em lote).</p>
+      <div class="body"><div class="chart-scroll"><svg id="chart-serie" role="img" aria-label="Linha do retorno esperado diário por braço"></svg></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Braços planejados</h2>
+    <p class="hint">Entram no relatório automaticamente quando começarem a gastar — o relatório lê as campanhas Meta da tag.</p>
+    <div class="body planned" id="planned"></div>
+  </div>
+
+  <div class="card">
+    <h2>Régua de decisão</h2>
+    <div class="body">
+      <ul class="regua">
+        <li><b>Métrica primária:</b> retorno esperado — meta oficial <b id="meta-ret"></b>. Compare braços de <i>mesma cobertura de pesquisa</i> pelo retorno observado; entre coberturas diferentes, compare a <i>faixa</i> (piso–teto) e prefira quem ganha nos dois extremos.</li>
+        <li><b>Só vale a partir da 3ª semana:</b> as duas primeiras semanas de um braço novo são aprendizado do algoritmo — no teste do Lead Survey o CPL inflou 18–70% e convergiu depois. Braços em aprendizado aparecem marcados na tabela.</li>
+        <li><b>Diagnóstico, não decisão:</b> % A+/A, score e mix explicam <i>por que</i> um braço ganhou; não decidem sozinhos.</li>
+        <li><b>Confirmação:</b> receita observada por braço (últimas colunas) — leitura real, mas lenta: só firma quando as coortes maturam.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer id="rodape"></footer>
+</div>
+<div id="tip" role="status"></div>
+
+<script>
+const FMT = new Intl.NumberFormat('pt-BR');
+const BRL = v => 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const PCT = v => v.toLocaleString('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + '%';
+const MULT = v => v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '×';
+const tip = document.getElementById('tip');
+const showTip = (html, ev) => {
+  tip.innerHTML = html; tip.style.display = 'block';
+  const r = tip.getBoundingClientRect(), pad = 14;
+  let x = ev.clientX + pad, y = ev.clientY + pad;
+  if (x + r.width > innerWidth - 8) x = ev.clientX - r.width - pad;
+  if (y + r.height > innerHeight - 8) y = ev.clientY - r.height - pad;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+};
+const hideTip = () => { tip.style.display = 'none'; };
+const SVG = 'http://www.w3.org/2000/svg';
+const el = (t, a) => { const e = document.createElementNS(SVG, t); for (const k in a) e.setAttribute(k, a[k]); return e; };
+
+fetch('./data.json').then(r => r.json()).then(d => {
+  const faixaVar = i => `var(--f${i + 1})`;
+  const META = d.meta_retorno;
+
+  document.getElementById('meta').textContent =
+    `Atualizado em ${d.gerado_em} · ${FMT.format(d.kpis.leads)} leads · ${d.kpis.bracos_pagos} braços com investimento`;
+  document.getElementById('meta-ret').textContent = MULT(META);
+
+  // ── KPIs ──
+  const k = d.kpis;
+  const kpis = [
+    ['Leads no teste', FMT.format(k.leads), `${d.bracos.length} braços mapeados`],
+    ['Investido', 'R$ ' + FMT.format(Math.round(k.spend)), 'Meta Ads, fase [LEAD]'],
+    ['CPL médio', BRL(k.cpl), 'braços com investimento'],
+    ['Retorno esperado', MULT(k.retorno_esp), `meta ${MULT(META)} · leitura observada`],
+    ['Receita observada', 'R$ ' + FMT.format(Math.round(k.receita_obs)), `${k.vendas} vendas até agora`],
+  ];
+  document.getElementById('kpis').innerHTML = kpis.map(([l, v, s]) =>
+    `<div class="kpi"><div class="lbl">${l}</div><div class="val">${v}</div><div class="sub">${s}</div></div>`).join('');
+
+  // ── tabela ──
+  const heat = v => v == null ? '' : (v >= 2 * META ? 'heat-g' : v >= META ? 'heat-g2' : v >= 1 ? 'heat-w' : 'heat-b');
+  const tb = document.querySelector('#tbl tbody');
+  d.bracos.forEach(b => {
+    const mix = d.mix[b.arm] || [];
+    const mixHtml = '<div class="mix">' + mix.map((p, i) =>
+      `<i style="width:${p}%;background:${faixaVar(i)}"></i>`).join('') + '</div>';
+    let tag = '';
+    if (!b.pago) tag = '<span class="status espera">sem mídia</span>';
+    else if (b.dias != null && b.dias < d.dias_aprendizado) tag = '<span class="status aprend">aprendizado</span>';
+    else tag = '<span class="status ativo">regime estável</span>';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="arm">${b.arm}${b.dias != null ? ` <small>${b.dias} dias · ${tag}</small>` : ` <small>${tag}</small>`}</span></td>
+      <td>${FMT.format(b.leads)}</td>
+      <td>${b.spend != null ? 'R$ ' + FMT.format(Math.round(b.spend)) : '—'}</td>
+      <td>${b.cpl != null ? BRL(b.cpl) : '—'}</td>
+      <td>${mixHtml}</td>
+      <td>${PCT(b.pc_survey)}</td>
+      <td>${PCT(b.pc_qual)}</td>
+      <td><b>${b.pc_qual_resp != null ? PCT(b.pc_qual_resp) : '—'}</b></td>
+      <td>${b.ev_resp != null ? BRL(b.ev_resp) : '—'}</td>
+      <td class="${heat(b.retorno_esp)}">${b.retorno_esp != null ? MULT(b.retorno_esp) : '—'}</td>
+      <td class="${heat(b.retorno_ajust)}"><b>${b.retorno_ajust != null ? MULT(b.retorno_ajust) : '—'}</b></td>
+      <td>${b.vendas} <small style="color:var(--muted)">${b.receita_obs ? '· R$ ' + FMT.format(Math.round(b.receita_obs)) : ''}</small></td>`;
+    tr.addEventListener('mousemove', e => showTip(
+      `<b>${b.arm}</b>` +
+      d.faixas.map((f, i) => `<div class="r"><span>${f}</span><span>${PCT(mix[i] || 0)}</span></div>`).join('') +
+      `<div class="r" style="margin-top:5px"><span>Respondentes</span><span>${FMT.format(b.qt_resp)} (${PCT(b.pc_survey)})</span></div>` +
+      `<div class="r"><span>Score entre resp.</span><span>${b.score_resp != null ? b.score_resp : '—'}</span></div>` +
+      (b.retorno_esp != null && b.retorno_ajust != null
+        ? `<div class="r"><span>Retorno real está entre</span><span><b>${MULT(b.retorno_esp)}–${MULT(b.retorno_ajust)}</b></span></div>` : ''), e));
+    tr.addEventListener('mouseleave', hideTip);
+    tb.appendChild(tr);
+  });
+  document.getElementById('hint-tabela').textContent =
+    'Retorno observado = piso (trata quem não foi perguntado como quem recusou). Retorno teto = ' +
+    'se todos valessem como os respondentes. O valor real fica entre os dois — a distância encolhe ' +
+    'quando a cobertura de pesquisa do braço sobe. ' +
+    `Heatmap: verde ≥ ${MULT(2 * META)} · verde claro ≥ meta ${MULT(META)} · âmbar 1×–meta · vermelho < 1×.`;
+
+  // ── legenda das faixas ──
+  document.getElementById('legend').innerHTML = d.faixas.map((f, i) =>
+    `<span><i style="background:${faixaVar(i)}"></i>${f}</span>`).join('');
+
+  // ── gráfico: mix por braço (barras horizontais empilhadas) ──
+  (() => {
+    const arms = d.bracos.map(b => b.arm);
+    const W = 520, rowH = 44, m = {t: 6, r: 12, b: 6, l: 150};
+    const H = m.t + arms.length * rowH + m.b;
+    const svg = document.getElementById('chart-mix');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const iw = W - m.l - m.r;
+    arms.forEach((arm, i) => {
+      const y = m.t + i * rowH + 10, mix = d.mix[arm] || [];
+      const t = el('text', {x: m.l - 10, y: y + 15, 'text-anchor': 'end'});
+      t.textContent = arm.length > 22 ? arm.slice(0, 21) + '…' : arm;
+      t.setAttribute('fill', 'var(--ink-2)');
+      svg.appendChild(t);
+      let x = m.l;
+      mix.forEach((p, j) => {
+        const w = Math.max(iw * p / 100 - 1.5, 0);
+        const g = el('g', {cursor: 'pointer'});
+        g.appendChild(el('rect', {x, y, width: w, height: 22, fill: faixaVar(j), rx: 2}));
+        g.addEventListener('mousemove', e => showTip(`<b>${arm}</b><div class="r"><span>Faixa ${d.faixas[j]}</span><span>${PCT(p)}</span></div>`, e));
+        g.addEventListener('mouseleave', hideTip);
+        svg.appendChild(g);
+        x += iw * p / 100 + 1.5;
+      });
+    });
+  })();
+
+  // ── gráfico: retorno esperado por dia ──
+  (() => {
+    const svg = document.getElementById('chart-serie');
+    const W = 520, H = 250, m = {t: 14, r: 14, b: 28, l: 40};
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const dias = [...new Set(d.serie.map(s => s.dt))];
+    const arms = [...new Set(d.serie.map(s => s.arm))];
+    const vals = d.serie.map(s => s.retorno_esp).filter(v => v != null);
+    if (!vals.length) return;
+    const hi = Math.max(...vals, META) * 1.12;
+    const px = i => m.l + (dias.length > 1 ? (i / (dias.length - 1)) * iw : iw / 2);
+    const py = v => m.t + ih - (v / hi) * ih;
+    [1, 2, 3, 4, 5].filter(v => v <= hi).forEach(v => {
+      svg.appendChild(el('line', {x1: m.l, x2: W - m.r, y1: py(v), y2: py(v), stroke: 'var(--grid)', 'stroke-dasharray': '3 3'}));
+      const t = el('text', {x: m.l - 6, y: py(v) + 3, 'text-anchor': 'end'}); t.textContent = v + '×'; svg.appendChild(t);
+    });
+    svg.appendChild(el('line', {x1: m.l, x2: W - m.r, y1: py(META), y2: py(META), stroke: 'var(--muted)', 'stroke-dasharray': '5 4', 'stroke-width': 1.3}));
+    const mt = el('text', {x: W - m.r, y: py(META) - 5, 'text-anchor': 'end'}); mt.textContent = 'meta ' + MULT(META); svg.appendChild(mt);
+    const cores = ['var(--f1)', 'var(--f3)', 'var(--f5)'];
+    arms.forEach((arm, ai) => {
+      const pts = dias.map((dia, i) => {
+        const p = d.serie.find(s => s.dt === dia && s.arm === arm);
+        return p && p.retorno_esp != null ? [i, p.retorno_esp, p] : null;
+      }).filter(Boolean);
+      if (pts.length < 2) return;
+      const path = pts.map(([i, v], k) => (k ? 'L' : 'M') + px(i).toFixed(1) + ' ' + py(v).toFixed(1)).join(' ');
+      svg.appendChild(el('path', {d: path, fill: 'none', stroke: cores[ai % cores.length], 'stroke-width': 2}));
+      pts.forEach(([i, v, p]) => {
+        const c = el('circle', {cx: px(i), cy: py(v), r: 3.5, fill: cores[ai % cores.length], cursor: 'pointer'});
+        c.addEventListener('mousemove', e => showTip(
+          `<b>${p.dt} · ${arm}</b><div class="r"><span>Retorno</span><span><b>${MULT(v)}</b></span></div>` +
+          `<div class="r"><span>Leads</span><span>${FMT.format(p.leads)}</span></div>` +
+          `<div class="r"><span>CPL</span><span>${p.cpl != null ? BRL(p.cpl) : '—'}</span></div>` +
+          `<div class="r"><span>% A+/A</span><span>${PCT(p.pc_qual)}</span></div>`, e));
+        c.addEventListener('mouseleave', hideTip);
+        svg.appendChild(c);
+      });
+    });
+    dias.forEach((dia, i) => {
+      if (i % Math.ceil(dias.length / 7) !== 0) return;
+      const t = el('text', {x: px(i), y: H - 8, 'text-anchor': 'middle'}); t.textContent = dia; svg.appendChild(t);
+    });
+    svg.appendChild(el('line', {x1: m.l, x2: W - m.r, y1: m.t + ih, y2: m.t + ih, stroke: 'var(--border)'}));
+    document.getElementById('hint-serie').innerHTML =
+      `Linha tracejada = meta ${MULT(META)}. ` + arms.map((a, i) =>
+        `<span style="color:${cores[i % cores.length]};font-weight:700">■</span> ${a}`).join(' · ') +
+      '. Form nativo fica fora (ingestão em lote — a data de cadastro é a hora do import).';
+  })();
+
+  // ── braços planejados ──
+  document.getElementById('planned').innerHTML = [
+    ['Otimizado por IQL (valor)', 'Meta recebe o valor em R$ de cada lead e otimiza por valor de conversão. Depende da ponte CAPI entrar no ar.'],
+    ['Otimizado por lead qualificado', 'Evento só para leads A+/A — otimização por conversão, não por valor. Mesma dependência da ponte.'],
+    ['Evento de pesquisa respondida', 'Já validado em EVG/BP10: +9–10pp de taxa de resposta com custo por respondente igual ou menor.'],
+  ].map(([t, s]) => `<div class="plan"><b>${t}</b><span>${s}</span></div>`).join('');
+
+  document.getElementById('rodape').innerHTML =
+    `Fonte: <code>fct_lead_iql</code> + <code>dtm_analytics_lead_conversion</code> + <code>dtm_analytics_facebook_ads_funnel</code> (produção). ` +
+    `Atualizar com <code>python3 refresh.py</code>. Metodologia da nota e do RPL projetado: METODOLOGIA-IQL.md e PROJECAO-RPL.md. ` +
+    `Só agregados — sem pesos do scorecard e sem dados pessoais.`;
+});
+</script>
+</body>
+</html>
