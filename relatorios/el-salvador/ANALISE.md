@@ -34,11 +34,20 @@ Entender o funil completo da campanha ELS: quantos viewers, leads e compradores;
 
 ---
 
+## Atualização jul/2026 — perfil refeito com atribuição completa
+
+Reprocessado sobre `bp-staging.dbt_abe.tb_aqv_compradores` (35.143 compradores, união tracking∪UTM) e viewers até o fim da campanha (154.533). Resultados e tabelas completas na wiki (`els-analise.md`, seção "Perfil refeito com atribuição completa"):
+
+- Achado central se sustenta: perfil comprador ≈ viewer (decil 5,47 vs 5,44; 38,3% decil7+ em ambos)
+- **"71% nunca assistiram" corrigido**: 65,5% dos compradores assistiram, mas 96% DEPOIS da compra — o doc é produto pós-compra, não driver de conversão (explica remarketing "Viu o Doc" com zero vendas)
+- Upsell da base é segmento premium: decil 6,41, 71% cartão premium, R$937/comprador
+- 78% dos viewers passam de 60min de watch time
+
 ## Pendências / próximos passos
 
-- [ ] Análise do papel dos leads na fase de aquecimento vs venda (qual semana converte mais?)
+- [x] Papel dos leads aquecimento vs venda → `relatorios/aquecimento-vendas/ANALISE.md`
 - [ ] Comparar perfil dos compradores ELS por criativo (como feito em HID/GOD)
-- [ ] Entender os 582 viewers que compraram: upgrade de plano ou novo produto?
+- [x] Viewers que compraram → 96% assistem pós-compra (queries/viewers_x_compra_temporal.sql)
 - [ ] Análise temporal de conversão de leads semana a semana
 
 ---
@@ -50,6 +59,8 @@ Entender o funil completo da campanha ELS: quantos viewers, leads e compradores;
 | [queries/funil_viewers_leads_compradores.sql](queries/funil_viewers_leads_compradores.sql) | Perfil socioeconômico dos 3 grupos do funil |
 | [queries/compradores_historico_anterior.sql](queries/compradores_historico_anterior.sql) | % compradores novos vs clientes existentes |
 | [queries/vendas_por_canal_produto.sql](queries/vendas_por_canal_produto.sql) | Receita por canal e plano |
+| [queries/perfil_atribuicao_completa.sql](queries/perfil_atribuicao_completa.sql) | Perfil viewers × compradores por caminho (atribuição completa, jul/2026) |
+| [queries/viewers_x_compra_temporal.sql](queries/viewers_x_compra_temporal.sql) | Overlap viewer×comprador com ordem temporal + conversão por watch time |
 
 ## Wiki atualizada
 

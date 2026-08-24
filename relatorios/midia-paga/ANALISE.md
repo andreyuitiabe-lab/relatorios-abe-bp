@@ -255,19 +255,15 @@ Documento as ressalvas que apareceram consistentemente:
 - **Contexto fora da wiki:** backtest LAN validou Abordagem C (CPA_3d/baseline); sinais de funil descartados; segmentação LAN×PPT×LEAD é o eixo certo; teto mCAC R$180 (ver memória `project_mmm_bidding_pipeline`)
 - **Dívida de estrutura:** ao concluir o projeto, consolidar os 10 HTMLs soltos em `index.html` + `data.json` (padrão template)
 
-## Continuação em nova sessão
+## Continuação em nova sessão — ATUALIZADO 23/jul/2026
 
-Um prompt pronto para próxima conversa está preparado. Contém:
-- Persona (analista sênior, engenheiro de dados antes de modelador)
-- Contexto completo do problema
-- Decisões já tomadas (não revisitar)
-- O que não funcionou (não repetir)
-- Objetivo específico (modelo bayesiano com prior do MMM)
-- Caminhos dos arquivos
+Plano final aprovado e validado. Ler nesta ordem:
+1. [PROPOSTA.md](PROPOSTA.md) — plano de execução (guardrail + pooling; camada bayesiana DESCARTADA)
+2. [VALIDACOES.md](VALIDACOES.md) — 5 hipóteses testadas antes de implementar, com números
+3. [REFERENCIAS.md](REFERENCIAS.md) — bibliografia comentada (8 teses)
 
-Ver seção "Prompt de continuação" no final da conversa origem, ou colar novo prompt
-com contexto atualizado incluindo:
-- Backtest LAN validou Abordagem C
-- Sinais funil descartados (correlação fraca)
-- Segmentação LAN vs PPT vs LEAD é o eixo certo
-- Aguarda decisão sobre camada bayesiana + Thompson sampling
+**Refinamento importante do §9 acima:** Abordagem C só discrimina em LAN **pós-pico**
+(ramp: ordem invertida — nenhum sinal discrimina; ver VALIDACOES.md H4).
+
+Prompt de execução: [PROMPT_EXECUCAO.md](PROMPT_EXECUCAO.md).
+Teste out-of-sample (4 campanhas + stop-loss): [validacao_modelos.html](validacao_modelos.html) + seção em [VALIDACOES.md](VALIDACOES.md).

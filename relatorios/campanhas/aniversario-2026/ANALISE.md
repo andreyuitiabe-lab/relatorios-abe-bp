@@ -97,3 +97,34 @@ Quem está comprando na BP10, por produto: membros novos, ex-membros ou ativos? 
 ## Pendências
 - Reportar ao dono do dashboard de campanhas o falso positivo da regra "Caminhos: 10" (casa com tier `[10r]`).
 - Campanha em aberto — números crescem; re-rodar no fechamento.
+
+---
+
+# Análise 3: Validação de bônus — reembolsos por upgrade (18 ago/2026)
+
+## Pergunta original
+A lista de compradores das ofertas com bônus (enviada aos parceiros) exclui vendas reembolsadas — mas reembolso causado por **upgrade** não pode tirar o bônus: a pessoa fechou dentro do prazo (algumas ondas de bônus terminaram em 17/08). Quais vendas reembolsadas devem voltar para a lista?
+
+## Decisões de abordagem
+- **Ofertas/janelas/bônus**: planilha "Ofertas + Bônus Aniv26" (`1hbYANEwbHFvhmyFGjkQBe075BinM5C6njvzkakDYp8M`, gid=0), 90 ofertas, extraída em 18/08. O `Oferta na Guru` (UUID) casa direto com `fct_transactions.id_offer`; a mesma oferta aparece em várias ondas com janelas e bônus diferentes → o join usa `id_offer` + `dt_ordered_at BETWEEN início AND fim`.
+- **Critério de upgrade**: não confiar só no `tx_refund_reason` do `financial.fct_charges` (texto livre, inconsistente). O critério é **existir compra aprovada posterior da mesma pessoa** — mesma conta OU mesmo email/CPF/telefone via `dim_contact` (multi-conta). O motivo do reembolso vem junto como evidência de apoio.
+- Inclui `partially_refunded` (reembolso solicitado) além de `refunded`.
+
+## Achados principais (run 18/08/2026)
+- **132 vendas reembolsadas** de ofertas com bônus dentro das janelas.
+- **94 têm compra aprovada posterior (92 pessoas) → mantêm o bônus.** Motivos: upgrade (32), duplicated subscription (30), intencional (15), nova venda/Nova venda/nova compra (15).
+- **38 sem compra posterior** → reembolso real, sem direito (31 "intencional").
+- ⚠️ `bl_tem_upgrade` = "tem compra aprovada posterior" — inclui casos em que a nova compra é mais barata. A coluna `nm_tipo_troca` classifica: **upgrade (54) / mesmo plano (22) / troca equivalente (4) / downgrade (14)**. Os 14 downgrades (ex: Vitalício → assinatura Básico) merecem decisão humana se o bônus for atrelado ao tier. `lk_guru` traz o link do contato na Guru para conferência.
+
+## Queries
+
+| Query | O quê |
+|---|---|
+| [12_bonus_reembolso_upgrade.sql](queries/12_bonus_reembolso_upgrade.sql) | Vendas reembolsadas das ofertas com bônus + flag de upgrade (compra aprovada posterior da mesma pessoa) + contato/motivo/detalhe do upgrade |
+
+## Pendências
+- **Re-rodar antes de fechar a lista dos parceiros**: upgrades da semana de 18–22/08 ainda vão gerar reembolsos novos de compras feitas até 17/08.
+- Output tem PII (nome/email/CPF/telefone) → entregar fora do repo, nunca commitar.
+
+## Wiki atualizada
+- `wiki-bp/pages/bq-regras.md` — valores observados de `tx_refund_reason` e padrão de validação reembolso-por-upgrade
