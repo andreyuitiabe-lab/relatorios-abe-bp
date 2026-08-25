@@ -1,194 +1,194 @@
 {
-  "updated_at": "2026-07-07T15:06:30",
+  "updated_at": "2026-08-25T10:10:50",
   "totais": {
-    "compradores": 23491,
-    "receita_total": 29938079,
+    "compradores": 24753,
+    "receita_total": 31543590,
     "ticket_medio": 1274,
     "periodo_inicio": "2026-05-05",
-    "periodo_fim": "2026-07-07"
+    "periodo_fim": "2026-08-24"
   },
   "status": [
     {
       "label": "Membro Ativo",
-      "qt": 8504,
-      "pct": 36.2
+      "qt": 9028,
+      "pct": 36.5
     },
     {
       "label": "Vitalício",
-      "qt": 7159,
+      "qt": 7539,
       "pct": 30.5
     },
     {
       "label": "Nunca foi Membro",
-      "qt": 4192,
-      "pct": 17.8
+      "qt": 4369,
+      "pct": 17.7
     },
     {
       "label": "Ex-Membro",
-      "qt": 3636,
-      "pct": 15.5
+      "qt": 3817,
+      "pct": 15.4
     }
   ],
   "antiguidade": [
     {
       "label": "CDL como 1ª compra",
-      "qt": 4192,
-      "pct": 17.8,
+      "qt": 4369,
+      "pct": 17.7,
       "media_dias": 20
     },
     {
       "label": "< 6 meses",
-      "qt": 1013,
+      "qt": 1071,
       "pct": 4.3,
-      "media_dias": 58
+      "media_dias": 59
     },
     {
       "label": "6–12 meses",
-      "qt": 920,
-      "pct": 3.9,
-      "media_dias": 264
+      "qt": 987,
+      "pct": 4.0,
+      "media_dias": 265
     },
     {
       "label": "1–2 anos",
-      "qt": 2769,
+      "qt": 2918,
       "pct": 11.8,
-      "media_dias": 550
+      "media_dias": 551
     },
     {
       "label": "2–4 anos",
-      "qt": 5372,
+      "qt": 5673,
       "pct": 22.9,
-      "media_dias": 1210
+      "media_dias": 1209
     },
     {
       "label": "Mais de 4 anos",
-      "qt": 9225,
+      "qt": 9735,
       "pct": 39.3,
-      "media_dias": 2030
+      "media_dias": 2029
     }
   ],
   "produtos_antes": [
     {
       "plano": "Básico",
-      "compradores": 9809,
-      "pct": 41.8
+      "compradores": 10380,
+      "pct": 41.9
     },
     {
       "plano": "Premium GBB",
-      "compradores": 7685,
-      "pct": 32.7
+      "compradores": 8114,
+      "pct": 32.8
     },
     {
       "plano": "Patriota",
-      "compradores": 5401,
-      "pct": 23.0
+      "compradores": 5674,
+      "pct": 22.9
     },
     {
       "plano": "Núcleo",
-      "compradores": 4272,
-      "pct": 18.2
+      "compradores": 4467,
+      "pct": 18.0
     },
     {
       "plano": "Acesso Total",
-      "compradores": 3908,
+      "compradores": 4103,
       "pct": 16.6
     },
     {
       "plano": "Apoiador",
-      "compradores": 3431,
+      "compradores": 3625,
       "pct": 14.6
     },
     {
       "plano": "Premium GBB Vitalício",
-      "compradores": 3399,
-      "pct": 14.5
+      "compradores": 3550,
+      "pct": 14.3
     },
     {
       "plano": "Black Vitalício",
-      "compradores": 2726,
+      "compradores": 2874,
       "pct": 11.6
     },
     {
       "plano": "Básico Vitalício",
-      "compradores": 2059,
+      "compradores": 2177,
       "pct": 8.8
     },
     {
       "plano": "Teller",
-      "compradores": 2033,
-      "pct": 8.7
+      "compradores": 2132,
+      "pct": 8.6
     },
     {
       "plano": "Mecenas",
-      "compradores": 1493,
-      "pct": 6.4
+      "compradores": 1537,
+      "pct": 6.2
     },
     {
       "plano": "Intermediário",
-      "compradores": 1249,
+      "compradores": 1322,
       "pct": 5.3
     },
     {
       "plano": "Travessia",
-      "compradores": 1143,
-      "pct": 4.9
+      "compradores": 1183,
+      "pct": 4.8
     },
     {
       "plano": "Sociedade Do Livro",
-      "compradores": 861,
+      "compradores": 908,
       "pct": 3.7
     },
     {
       "plano": "Funil Bitcoin",
-      "compradores": 468,
+      "compradores": 484,
       "pct": 2.0
     },
     {
       "plano": "Black",
-      "compradores": 447,
+      "compradores": 469,
       "pct": 1.9
     },
     {
       "plano": "Clube Da Musica",
-      "compradores": 343,
+      "compradores": 365,
       "pct": 1.5
     },
     {
       "plano": "Escola Da Familia",
-      "compradores": 342,
+      "compradores": 362,
       "pct": 1.5
     },
     {
       "plano": "Ciencia Politica",
-      "compradores": 258,
+      "compradores": 265,
       "pct": 1.1
     },
     {
       "plano": "Funil Geopolitica",
-      "compradores": 231,
+      "compradores": 241,
       "pct": 1.0
     }
   ],
   "canal": [
     {
-      "canal": "Digital",
-      "qt": 12003,
-      "pct": 51.1,
-      "ticket_medio": 1300,
-      "receita": 15609468
+      "canal": "Comercial",
+      "qt": 12682,
+      "pct": 51.2,
+      "ticket_medio": 1248,
+      "receita": 15824240
     },
     {
-      "canal": "Comercial",
-      "qt": 11488,
-      "pct": 48.9,
-      "ticket_medio": 1247,
-      "receita": 14328611
+      "canal": "Digital",
+      "qt": 12071,
+      "pct": 48.8,
+      "ticket_medio": 1302,
+      "receita": 15719350
     }
   ],
   "consumo": {
-    "gasto_medio": 3111,
-    "mediana_gasto": 1214,
+    "gasto_medio": 3072,
+    "mediana_gasto": 1199,
     "media_planos": 2.8,
-    "com_historico": 19104
+    "com_historico": 20191
   }
 }

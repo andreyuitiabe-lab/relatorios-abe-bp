@@ -12,14 +12,13 @@ from pathlib import Path
 OUT = Path(__file__).parent / "data.json"
 
 def bq(sql: str, max_rows: int = 5000) -> list[dict]:
-    r = subprocess.run(
-        ["bq", "query", "--nouse_legacy_sql", "--format=json", f"--max_rows={max_rows}", sql],
-        capture_output=True, text=True
-    )
-    if r.returncode != 0:
-        raise RuntimeError(r.stderr.strip())
-    out = r.stdout.strip()
-    return json.loads(out) if out else []
+    """Roda via cliente Python + ADC (mesmo transporte do `bqq`).
+
+    O `bq` CLI expira ~diariamente e falha em sessao nao-interativa.
+    """
+    from google.cloud import bigquery
+    rows = bigquery.Client(project="bp-datawarehouse").query(sql).result(max_results=max_rows)
+    return [{k: (v.isoformat() if hasattr(v, "isoformat") else v) for k, v in dict(r).items()} for r in rows]
 
 def fi(v) -> float:
     try: return float(v) if v not in (None, "", "null") else 0.0
@@ -70,6 +69,9 @@ CDL_BASE = """
       ON dpi.nm_identifier = c.nm_email
       AND dpi.nm_identifier_type = 'email'
     WHERE s.nm_type = 'paid'
+      -- produtos físicos geram assinatura `paid` fantasma (CDL, Odisseia):
+      -- sem excluir, comprar um livro contaria como membership
+      AND s.nm_gateway_plan NOT IN ('clube-do-livro','livro-odisseia-edicao-colecionador','livro-odisseia','odisseia-curso-avulso')
       AND dpi.id_person IN (SELECT id_person FROM cdl_compradores)
   ),
   vitalicio_fct AS (
@@ -82,6 +84,8 @@ CDL_BASE = """
     JOIN cdl_compradores cdl USING (id_person)
     WHERE t.bl_lifetime_offer = TRUE
       AND t.nm_status = 'approved'
+      -- combo Odisseia+Travessia vem com bl_lifetime_offer=TRUE sem ser vitalício
+      AND t.nm_gateway_plan NOT IN ('clube-do-livro','livro-odisseia-edicao-colecionador','livro-odisseia','odisseia-curso-avulso')
       AND DATE(t.dt_ordered_at) < DATE(cdl.dt_compra_cdl)
   )
 """

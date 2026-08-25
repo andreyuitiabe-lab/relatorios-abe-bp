@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfil de Compra — Clube do Livro</title>
+  <title>Perfil de Compra — Odisseia</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     :root {
@@ -40,6 +40,7 @@
     .bigstat .bs-num { font-size: 36px; font-weight: 800; color: var(--blue); line-height: 1; }
     .bigstat .bs-num.v { color: var(--violet); }
     .bigstat .bs-num.g { color: var(--green); }
+    .bigstat .bs-num.a { color: var(--amber); }
     .bigstat .bs-cap { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
     table  { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -67,6 +68,11 @@
     .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; justify-content: center; }
     .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
     .legend-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+    .venn      { width: 100%; height: auto; display: block; }
+    .venn-t    { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .venn-num  { font-size: 15px; font-weight: 800; }
+    .venn-cap  { font-size: 10px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
   </style>
 </head>
 <body>
@@ -74,9 +80,9 @@
 
 <header>
   <p class="label">Brasil Paralelo · Análise de Produto</p>
-  <h1>Perfil de Compra — Clube do Livro</h1>
+  <h1>Perfil de Compra — Odisseia</h1>
   <p class="sub" id="headerSub">Carregando...</p>
-  <p class="sub">Mesma metodologia aplicada ao segundo livro: <a href="../odisseia-perfil/" style="color:var(--blue)">Perfil de Compra — Odisseia</a>.</p>
+  <p class="sub">Mesma metodologia do relatório <a href="../clube-do-livro/" style="color:var(--blue)">Perfil de Compra — Clube do Livro</a>: status no momento da compra, resolvido por <code>id_person</code>.</p>
 </header>
 
 <main>
@@ -103,12 +109,47 @@
     </div>
   </section>
 
-  <!-- 2. Status de membro -->
+  <!-- 2. Interseção CDL x Odisseia -->
+  <section>
+    <h2>Interseção — Clube do Livro × Odisseia</h2>
+    <p class="sub" style="margin-bottom:16px">Uma pessoa (<code>id_person</code>) pode estar nas duas bases. O tamanho dos círculos é proporcional ao número de compradores.</p>
+    <div class="grid-2">
+      <div class="card">
+        <svg class="venn" id="venn" viewBox="0 0 460 300" role="img" aria-label="Diagrama de interseção entre compradores do Clube do Livro e da Odisseia"></svg>
+      </div>
+      <div class="card">
+        <table>
+          <thead><tr><th>Grupo</th><th class="num">Pessoas</th><th class="num">%</th><th class="num">Receita em livros</th></tr></thead>
+          <tbody id="tabelaVenn"></tbody>
+        </table>
+        <div class="nota" id="notaVenn"></div>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:16px">
+      <div class="card" style="text-align:center">
+        <div class="label">Recompra CDL → Odisseia</div>
+        <div class="bigstat"><div class="bs-num a" id="statRecompra">—</div></div>
+        <div class="bs-cap" id="capRecompra">—</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Da Odisseia que veio do CDL</div>
+        <div class="bigstat"><div class="bs-num v" id="statVeioCdl">—</div></div>
+        <div class="bs-cap" id="capVeioCdl">—</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="label">Ticket de quem comprou os dois</div>
+        <div class="bigstat"><div class="bs-num g" id="statTicketDois">—</div></div>
+        <div class="bs-cap">somando CDL + Odisseia por pessoa</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Status de membro -->
   <section>
     <h2>Status no momento da compra</h2>
     <div class="grid-2">
       <div class="card" style="text-align:center">
-        <p class="label">Quem eram antes de comprar o CDL</p>
+        <p class="label">Quem eram antes de comprar a Odisseia</p>
         <canvas id="chartStatus" height="260"></canvas>
         <div class="legend" id="legendStatus"></div>
       </div>
@@ -122,23 +163,23 @@
     </div>
   </section>
 
-  <!-- 3. Antiguidade -->
+  <!-- 4. Antiguidade -->
   <section>
     <h2>Há quanto tempo são clientes da BP</h2>
-    <p class="sub" style="margin-bottom:16px">Medido da primeira compra na BP até a data do CDL</p>
+    <p class="sub" style="margin-bottom:16px">Medido da primeira compra na BP até a data da compra da Odisseia</p>
     <div class="card">
       <canvas id="chartAntig" height="200"></canvas>
     </div>
     <div class="nota" id="notaAntig"></div>
   </section>
 
-  <!-- 4. Consumo histórico -->
+  <!-- 5. Consumo histórico -->
   <section>
     <h2>Perfil de consumo histórico</h2>
-    <p class="sub" style="margin-bottom:16px">Compras na BP <em>antes</em> do CDL — entre os <span id="comHistorico">—</span> com histórico anterior</p>
+    <p class="sub" style="margin-bottom:16px">Compras na BP <em>antes</em> da Odisseia — entre os <span id="comHistorico">—</span> com histórico anterior</p>
     <div class="grid-3">
       <div class="card" style="text-align:center">
-        <div class="label">Gasto médio antes do CDL</div>
+        <div class="label">Gasto médio antes da Odisseia</div>
         <div class="bigstat"><div class="bs-num" id="statGastoMedio">—</div></div>
         <div class="bs-cap" style="text-align:center;margin-top:8px">todos os produtos anteriores</div>
       </div>
@@ -155,33 +196,35 @@
     </div>
   </section>
 
-  <!-- 5. Produtos anteriores -->
+  <!-- 6. Produtos anteriores -->
   <section>
-    <h2>Produtos que tinham antes do CDL</h2>
-    <p class="sub" style="margin-bottom:16px">% da base CDL que já havia comprado cada produto (não exclusivo — uma pessoa pode aparecer em vários)</p>
+    <h2>Produtos que tinham antes da Odisseia</h2>
+    <p class="sub" style="margin-bottom:16px">% da base Odisseia que já havia comprado cada produto (não exclusivo — uma pessoa pode aparecer em vários)</p>
     <div class="card">
       <canvas id="chartProdutos" height="320"></canvas>
     </div>
     <div class="nota" id="notaProdutos"></div>
   </section>
 
-  <!-- 6. Canal -->
+  <!-- 7. Canal e tipo -->
   <section>
-    <h2>Canal de venda</h2>
+    <h2>Canal de venda e tipo de produto</h2>
     <div class="grid-2">
       <div class="card">
         <p class="label">% de compradores por canal</p>
         <canvas id="chartCanal" height="160"></canvas>
-      </div>
-      <div class="card">
-        <table>
-          <thead><tr><th>Canal</th><th class="num">Compradores</th><th class="num">Ticket médio</th><th class="num">Receita</th></tr></thead>
+        <table style="margin-top:16px">
+          <thead><tr><th>Canal</th><th class="num">Compradores</th><th class="num">Ticket</th><th class="num">Receita</th></tr></thead>
           <tbody id="tabelaCanal"></tbody>
         </table>
-        <div class="nota" style="margin-top:16px">
-          Divisão próxima de 50/50 — diferente de certificações e vitalícios onde o Comercial domina.
-          O CDL converteu bem pelo digital e o ticket digital é levemente maior (planos Biblioteca/Acervo).
-        </div>
+      </div>
+      <div class="card">
+        <p class="label">Livro físico × só digital</p>
+        <table>
+          <thead><tr><th>Tipo</th><th class="num">Compradores</th><th class="num">%</th><th class="num">Ticket</th></tr></thead>
+          <tbody id="tabelaTipo"></tbody>
+        </table>
+        <div class="nota" id="notaTipo"></div>
       </div>
     </div>
   </section>
@@ -190,7 +233,7 @@
 
 <footer>
   Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
-  Fontes: masterdata.fct_transactions · masterdata.dim_subscriptions · masterdata.dim_user · masterdata.dim_contact
+  Fontes: masterdata.fct_transactions · masterdata.dim_subscriptions · masterdata.dim_contact · masterdata.dim_person_identity
 </footer>
 
 </div>
@@ -217,7 +260,7 @@ function fmtBRL(v){
 }
 function fmtNum(v){return v.toLocaleString('pt-BR');}
 function fmtPct(v){return v.toFixed(1).replace('.', ',')+'%';}
-const pick = (arr,label) => arr.find(x=>(x.label||x.canal||x.plano)===label);
+const pick = (arr,label,key) => { const r = arr.find(x=>(x.label||x.canal)===label); return r ? (key?r[key]:r) : null; };
 
 const labelsH = fmt => ({
   id:'vlH',
@@ -249,6 +292,34 @@ const labelsV = {
   }
 };
 
+// Venn proporcional: raio ~ sqrt(n) para que a ÁREA represente o volume
+function drawVenn(D){
+  const g   = D.interseccao.grupos;
+  const soCdl = pick(g,'Só Clube do Livro','qt'), soOdi = pick(g,'Só Odisseia','qt'), dois = pick(g,'Comprou os dois','qt');
+  const totCdl = soCdl + dois, totOdi = soOdi + dois;
+
+  const RMAX = 105, rCdl = RMAX, rOdi = RMAX * Math.sqrt(totOdi/totCdl);
+  // sobreposição proporcional à fatia comum do círculo menor (visual, não exata)
+  const overlap = (dois/totOdi) * rOdi * 1.6;
+  const cx1 = 175, cx2 = cx1 + rCdl + rOdi - overlap, cy = 150;
+
+  const svg = document.getElementById('venn');
+  svg.setAttribute('viewBox', `0 0 ${Math.max(460, cx2+rOdi+20)} 300`);
+  svg.innerHTML = `
+    <circle cx="${cx1}" cy="${cy}" r="${rCdl}" fill="${BLUE}"   fill-opacity=".22" stroke="${BLUE}"   stroke-width="2"/>
+    <circle cx="${cx2}" cy="${cy}" r="${rOdi}" fill="${VIOLET}" fill-opacity=".22" stroke="${VIOLET}" stroke-width="2"/>
+    <g class="venn-t" text-anchor="middle">
+      <text x="${cx1 - rCdl*0.42}" y="${cy-4}"  class="venn-num" fill="#1d4ed8">${fmtNum(soCdl)}</text>
+      <text x="${cx1 - rCdl*0.42}" y="${cy+13}" class="venn-cap" fill="#64748b">só CDL</text>
+      <text x="${cx2 + rOdi*0.45}" y="${cy-4}"  class="venn-num" fill="#5b21b6">${fmtNum(soOdi)}</text>
+      <text x="${cx2 + rOdi*0.45}" y="${cy+13}" class="venn-cap" fill="#64748b">só Odisseia</text>
+      <text x="${(cx1+rCdl+cx2-rOdi)/2}" y="${cy-4}"  class="venn-num" fill="#0f172a">${fmtNum(dois)}</text>
+      <text x="${(cx1+rCdl+cx2-rOdi)/2}" y="${cy+13}" class="venn-cap" fill="#475569">os dois</text>
+      <text x="${cx1}" y="${cy-rCdl-12}" class="venn-cap" fill="#1d4ed8">Clube do Livro · ${fmtNum(totCdl)}</text>
+      <text x="${cx2}" y="${cy+rOdi+22}" class="venn-cap" fill="#5b21b6">Odisseia · ${fmtNum(totOdi)}</text>
+    </g>`;
+}
+
 function initCharts(D){
   document.getElementById('lastUpdate').textContent =
     'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
@@ -264,7 +335,27 @@ function initCharts(D){
   const ms = s => new Date(s+'T12:00:00').toLocaleDateString('pt-BR',{month:'short',year:'numeric'});
   document.getElementById('statPeriodo').textContent = ms(D.totais.periodo_inicio)+' – '+ms(D.totais.periodo_fim);
 
-  // status donut
+  // ── interseção ──
+  drawVenn(D);
+  const g = D.interseccao.grupos;
+  const dois = pick(g,'Comprou os dois'), soOdi = pick(g,'Só Odisseia'), soCdl = pick(g,'Só Clube do Livro');
+  const totalPessoas = g.reduce((s,r)=>s+r.qt,0);
+  document.getElementById('tabelaVenn').innerHTML = g.map(r=>
+    `<tr><td><strong>${r.label}</strong></td><td class="num">${fmtNum(r.qt)}</td><td class="num">${fmtPct(r.pct)}</td><td class="num">${fmtBRL(r.receita)}</td></tr>`
+  ).join('') + `<tr><td><strong>Total de pessoas</strong></td><td class="num"><strong>${fmtNum(totalPessoas)}</strong></td><td class="num">100%</td><td class="num"><strong>${fmtBRL(g.reduce((s,r)=>s+r.receita,0))}</strong></td></tr>`;
+
+  const R = D.recompra_cdl;
+  document.getElementById('notaVenn').innerHTML =
+    `<strong>${fmtNum(dois.qt)} pessoas compraram os dois livros</strong> — ${fmtPct(R.taxa_recompra)} da base do Clube do Livro (${fmtNum(R.base_cdl)}) e ${fmtPct(dois.qt*100/(dois.qt+soOdi.qt))} de todos os compradores da Odisseia. ` +
+    `Elas gastam <strong>${fmtBRL(dois.ticket_medio)}</strong> em livros por pessoa, contra ${fmtBRL(soCdl.ticket_medio)} de quem só comprou o CDL.`;
+
+  document.getElementById('statRecompra').textContent = fmtPct(R.taxa_recompra);
+  document.getElementById('capRecompra').textContent  = `${fmtNum(R.veio_do_cdl)} de ${fmtNum(R.base_cdl)} compradores do CDL`;
+  document.getElementById('statVeioCdl').textContent  = fmtPct(dois.qt*100/(dois.qt+soOdi.qt));
+  document.getElementById('capVeioCdl').textContent   = `${fmtNum(dois.qt)} de ${fmtNum(dois.qt+soOdi.qt)} compradores da Odisseia`;
+  document.getElementById('statTicketDois').textContent = fmtBRL(dois.ticket_medio);
+
+  // ── status donut ──
   new Chart(document.getElementById('chartStatus'),{
     type:'doughnut',
     data:{labels:D.status.map(r=>r.label),datasets:[{
@@ -283,19 +374,18 @@ function initCharts(D){
   ).join('');
 
   const vit = pick(D.status,'Vitalício'), nunca = pick(D.status,'Nunca foi Membro'), ex = pick(D.status,'Ex-Membro');
+  const jaEramClientes = 100 - nunca.pct;
   document.getElementById('notaStatus').innerHTML =
-    `<strong>${fmtPct(100-nunca.pct)} já eram clientes da BP</strong> no momento da compra.<br><br>` +
-    `<strong>Vitalício (${fmtPct(vit.pct)}):</strong> ${fmtNum(vit.qt)} compradores já tinham o produto máximo da plataforma. ` +
-    `O CDL é o produto que captura esse público sem "próximo passo" na assinatura.<br><br>` +
-    `<strong>Nunca foi Membro (${fmtPct(nunca.pct)}) + Ex-Membro (${fmtPct(ex.pct)}):</strong> ` +
-    `${fmtNum(nunca.qt)} entraram pelo CDL e boa parte assinou no mesmo dia via cross-sell. Os ${fmtNum(ex.qt)} ex-membros são base que voltou.`;
+    `<strong>${fmtPct(jaEramClientes)} já eram clientes da BP</strong> no momento da compra.<br><br>` +
+    `<strong>Vitalícios são ${fmtPct(vit.pct)} (${fmtNum(vit.qt)})</strong> — a maior fatia. Quem já pagou pelo acesso máximo é quem mais compra objeto físico de coleção: não há próximo passo na assinatura, e o livro vira o upgrade possível.<br><br>` +
+    `<strong>Nunca foi Membro: ${fmtPct(nunca.pct)} (${fmtNum(nunca.qt)})</strong> · <strong>Ex-Membro: ${fmtPct(ex.pct)} (${fmtNum(ex.qt)})</strong> — a captação de público novo por um livro de R$ 1.200+ é pequena.`;
 
-  // antiguidade bar-H
+  // ── antiguidade ──
   new Chart(document.getElementById('chartAntig'),{
     type:'bar',
     data:{labels:D.antiguidade.map(r=>r.label),datasets:[{
       data:D.antiguidade.map(r=>r.pct),
-      backgroundColor:[GREY,GREY,GREY,BLUE,BLUE,BLUE],
+      backgroundColor:D.antiguidade.map(r=>r.media_dias>=730?BLUE:GREY),
       borderRadius:6, barThickness:26
     }]},
     options:{indexAxis:'y',
@@ -304,25 +394,26 @@ function initCharts(D){
       scales:{x:{display:false,max:Math.max(...D.antiguidade.map(r=>r.pct))*1.25},y:{grid:{display:false}}}},
     plugins:[labelsH(v=>fmtPct(v))]
   });
-
   const antigos = D.antiguidade.filter(r=>r.media_dias>=730).reduce((s,r)=>s+r.pct,0);
-  const primeira = pick(D.antiguidade,'CDL como 1ª compra');
+  const primeira = D.antiguidade.find(r=>r.media_dias===0);
   document.getElementById('notaAntig').innerHTML =
-    `<strong>${fmtPct(antigos)} têm 2+ anos de BP</strong> — o CDL vendeu principalmente para a base mais fiel e antiga. ` +
-    (primeira ? `Os ${fmtPct(primeira.pct)} de "1ª compra" (${fmtNum(primeira.qt)}) são clientes novos que entraram pelo CDL, a maioria convertida para assinante no mesmo checkout.` : '');
+    `<strong>${fmtPct(antigos)} têm 2+ anos de BP</strong> — a Odisseia vendeu para a base consolidada. ` +
+    (primeira ? `Só ${fmtPct(primeira.pct)} (${fmtNum(primeira.qt)}) entraram na BP pela Odisseia.` : '');
 
-  // consumo
+  // ── consumo ──
   document.getElementById('comHistorico').textContent   = fmtNum(D.consumo.com_historico);
   document.getElementById('statGastoMedio').textContent = fmtBRL(D.consumo.gasto_medio);
   document.getElementById('statMediana').textContent    = fmtBRL(D.consumo.mediana_gasto);
   document.getElementById('statPlanos').textContent     = D.consumo.media_planos.toFixed(1).replace('.',',');
 
-  // produtos bar-H (top 12)
+  // ── produtos ──
   const top = D.produtos_antes.slice(0,12);
   new Chart(document.getElementById('chartProdutos'),{
     type:'bar',
     data:{labels:top.map(r=>r.plano),datasets:[{
-      data:top.map(r=>r.pct),backgroundColor:BLUE,borderRadius:6,barThickness:20
+      data:top.map(r=>r.pct),
+      backgroundColor:top.map(r=>/clube do livro/i.test(r.plano)?VIOLET:BLUE),
+      borderRadius:6,barThickness:20
     }]},
     options:{indexAxis:'y',
       plugins:{legend:{display:false},
@@ -330,13 +421,12 @@ function initCharts(D){
       scales:{x:{display:false,max:Math.max(...top.map(r=>r.pct))*1.3},y:{grid:{display:false}}}},
     plugins:[labelsH(v=>fmtPct(v))]
   });
+  const cdlAntes = D.produtos_antes.find(r=>/^clube do livro$/i.test(r.plano));
+  document.getElementById('notaProdutos').innerHTML = cdlAntes
+    ? `<strong>O Clube do Livro é o produto anterior mais comum (${fmtPct(cdlAntes.pct)}, ${fmtNum(cdlAntes.compradores)} pessoas)</strong> — mais frequente que qualquer plano de assinatura. Quem comprou um livro caro é quem compra o próximo.`
+    : '';
 
-  const basico = pick(D.produtos_antes,'Básico'), gbb = pick(D.produtos_antes,'Premium GBB'), soc = pick(D.produtos_antes,'Sociedade Do Livro');
-  document.getElementById('notaProdutos').innerHTML =
-    (basico && gbb ? `<strong>GBB domina:</strong> Básico (${fmtPct(basico.pct)}) + Premium GBB (${fmtPct(gbb.pct)}) — o CDL penetrou bem na camada mid-tier da assinatura, não só no topo. ` : '') +
-    (soc ? `<strong>Sociedade do Livro (${fmtPct(soc.pct)} = ${fmtNum(soc.compradores)} pessoas)</strong> já tinham um produto de clube similar — alta propensão esperada.` : '');
-
-  // canal
+  // ── canal ──
   new Chart(document.getElementById('chartCanal'),{
     type:'bar',
     data:{labels:D.canal.map(r=>r.canal),datasets:[{
@@ -351,6 +441,15 @@ function initCharts(D){
   document.getElementById('tabelaCanal').innerHTML = D.canal.map(r=>
     `<tr><td><strong>${r.canal}</strong></td><td class="num">${fmtNum(r.qt)}</td><td class="num">${fmtBRL(r.ticket_medio)}</td><td class="num">${fmtBRL(r.receita)}</td></tr>`
   ).join('');
+
+  // ── tipo ──
+  document.getElementById('tabelaTipo').innerHTML = D.tipo.map(r=>
+    `<tr><td><strong>${r.label}</strong></td><td class="num">${fmtNum(r.qt)}</td><td class="num">${fmtPct(r.pct)}</td><td class="num">${fmtBRL(r.ticket_medio)}</td></tr>`
+  ).join('');
+  const fis = pick(D.tipo,'Livro físico'), dig = pick(D.tipo,'Só digital (curso/ebook)');
+  document.getElementById('notaTipo').innerHTML = fis && dig
+    ? `<strong>${fmtPct(fis.pct)} levam o livro impresso.</strong> O pacote só-digital (Curso da Obra / ebook) é ${fmtPct(dig.pct)} dos compradores a ${fmtBRL(dig.ticket_medio)} — existe demanda por uma versão barata, mas ela não é o produto.`
+    : '';
 }
 
 fetch('./data.json')

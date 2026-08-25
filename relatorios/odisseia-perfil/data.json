@@ -1,0 +1,254 @@
+{
+  "updated_at": "2026-08-25T10:09:34",
+  "totais": {
+    "compradores": 2829,
+    "receita_total": 3446948,
+    "ticket_medio": 1218,
+    "periodo_inicio": "2026-07-17",
+    "periodo_fim": "2026-08-25"
+  },
+  "status": [
+    {
+      "label": "Vitalício",
+      "qt": 1307,
+      "pct": 46.2
+    },
+    {
+      "label": "Membro Ativo",
+      "qt": 889,
+      "pct": 31.4
+    },
+    {
+      "label": "Nunca foi Membro",
+      "qt": 367,
+      "pct": 13.0
+    },
+    {
+      "label": "Ex-Membro",
+      "qt": 266,
+      "pct": 9.4
+    }
+  ],
+  "antiguidade": [
+    {
+      "label": "Odisseia como 1ª compra",
+      "qt": 290,
+      "pct": 10.3,
+      "media_dias": 0
+    },
+    {
+      "label": "< 6 meses",
+      "qt": 278,
+      "pct": 9.8,
+      "media_dias": 54
+    },
+    {
+      "label": "6–12 meses",
+      "qt": 88,
+      "pct": 3.1,
+      "media_dias": 286
+    },
+    {
+      "label": "1–2 anos",
+      "qt": 270,
+      "pct": 9.5,
+      "media_dias": 588
+    },
+    {
+      "label": "2–4 anos",
+      "qt": 582,
+      "pct": 20.6,
+      "media_dias": 1229
+    },
+    {
+      "label": "Mais de 4 anos",
+      "qt": 1321,
+      "pct": 46.7,
+      "media_dias": 2106
+    }
+  ],
+  "produtos_antes": [
+    {
+      "plano": "Clube Do Livro",
+      "compradores": 1521,
+      "pct": 53.8
+    },
+    {
+      "plano": "Básico",
+      "compradores": 1120,
+      "pct": 39.6
+    },
+    {
+      "plano": "Premium GBB",
+      "compradores": 1036,
+      "pct": 36.6
+    },
+    {
+      "plano": "Núcleo",
+      "compradores": 681,
+      "pct": 24.1
+    },
+    {
+      "plano": "Patriota",
+      "compradores": 667,
+      "pct": 23.6
+    },
+    {
+      "plano": "Black Vitalício",
+      "compradores": 666,
+      "pct": 23.5
+    },
+    {
+      "plano": "Acesso Total",
+      "compradores": 663,
+      "pct": 23.4
+    },
+    {
+      "plano": "Premium GBB Vitalício",
+      "compradores": 649,
+      "pct": 22.9
+    },
+    {
+      "plano": "Ebooks Audiolivros Clube Do Livro",
+      "compradores": 412,
+      "pct": 14.6
+    },
+    {
+      "plano": "Mecenas",
+      "compradores": 377,
+      "pct": 13.3
+    },
+    {
+      "plano": "Apoiador",
+      "compradores": 363,
+      "pct": 12.8
+    },
+    {
+      "plano": "Teller",
+      "compradores": 348,
+      "pct": 12.3
+    },
+    {
+      "plano": "Básico Vitalício",
+      "compradores": 284,
+      "pct": 10.0
+    },
+    {
+      "plano": "Travessia",
+      "compradores": 257,
+      "pct": 9.1
+    },
+    {
+      "plano": "Intermediário",
+      "compradores": 162,
+      "pct": 5.7
+    },
+    {
+      "plano": "Sociedade Do Livro",
+      "compradores": 157,
+      "pct": 5.5
+    },
+    {
+      "plano": "Black",
+      "compradores": 106,
+      "pct": 3.7
+    },
+    {
+      "plano": "Clube Da Musica",
+      "compradores": 89,
+      "pct": 3.1
+    },
+    {
+      "plano": "Escola Da Familia",
+      "compradores": 60,
+      "pct": 2.1
+    },
+    {
+      "plano": "Ciencia Politica",
+      "compradores": 59,
+      "pct": 2.1
+    }
+  ],
+  "canal": [
+    {
+      "canal": "Digital",
+      "qt": 2042,
+      "pct": 72.2,
+      "ticket_medio": 1234,
+      "receita": 2519207
+    },
+    {
+      "canal": "Comercial",
+      "qt": 787,
+      "pct": 27.8,
+      "ticket_medio": 1179,
+      "receita": 927741
+    }
+  ],
+  "consumo": {
+    "gasto_medio": 6170,
+    "mediana_gasto": 3177,
+    "media_planos": 3.9,
+    "com_historico": 2517
+  },
+  "tipo": [
+    {
+      "label": "Livro físico",
+      "qt": 2633,
+      "pct": 93.1,
+      "ticket_medio": 1272,
+      "receita": 3349242
+    },
+    {
+      "label": "Só digital (curso/ebook)",
+      "qt": 196,
+      "pct": 6.9,
+      "ticket_medio": 498,
+      "receita": 97705
+    }
+  ],
+  "interseccao": {
+    "grupos": [
+      {
+        "label": "Só Clube do Livro",
+        "qt": 23170,
+        "pct": 89.1,
+        "receita": 29720289,
+        "ticket_medio": 1283
+      },
+      {
+        "label": "Comprou os dois",
+        "qt": 1583,
+        "pct": 6.1,
+        "receita": 3983959,
+        "ticket_medio": 2517
+      },
+      {
+        "label": "Só Odisseia",
+        "qt": 1246,
+        "pct": 4.8,
+        "receita": 1502556,
+        "ticket_medio": 1206
+      }
+    ]
+  },
+  "recompra_cdl": {
+    "grupos": [
+      {
+        "label": "Comprou o CDL antes",
+        "qt": 1569,
+        "pct": 55.5,
+        "ticket_medio": 1229
+      },
+      {
+        "label": "Não comprou o CDL",
+        "qt": 1260,
+        "pct": 44.5,
+        "ticket_medio": 1205
+      }
+    ],
+    "base_cdl": 24753,
+    "veio_do_cdl": 1569,
+    "taxa_recompra": 6.34
+  }
+}
