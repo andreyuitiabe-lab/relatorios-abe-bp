@@ -20,7 +20,7 @@ parceiro enxerga só os cliques dos links dele.
   e humana (`bl_human_open = 1`, ~10% — pessoas reais). O funil usa a humana; KPIs e tabela mostram ambas.
 - **Janela:** móvel de **120 dias** (edições com >50k entregues, para excluir testes/reenvios parciais).
   Era 30 dias e estava errado para o caso de uso: anunciante repete a cada ~1 mês, então o parceiro
-  via só a última inserção. Com 120 dias, cobre desde 23/04 (relançamento visual do Resumo BP) — 66 edições.
+  via só a última inserção. Com 120 dias, cobre desde o relançamento visual do Resumo BP (23/04) — ~67 edições.
 - **Execução das queries:** cliente Python + ADC (`google.cloud.bigquery`), igual ao `~/bin/bqq`.
   Não usar o `bq` CLI no `refresh.py`: o token dele expira e o refresh quebra sem forma de reautenticar.
 
@@ -28,20 +28,41 @@ parceiro enxerga só os cliques dos links dele.
 
 - ~390k enviados/edição diária, ~96% de entrega, ~37k aberturas humanas (~10%), 300–3.000 clicadores únicos.
 - Cliques concentram em notícias BP (~74% no período inicial analisado); anunciantes ainda são <1% dos cliques.
-- Anunciantes já veiculados: Sendflow (`sndflw.com`, 02–03/jul, 178 cliques) e Vimansca (`vimansca.com.br`, 14/07, 141 cliques / 67 pessoas).
+- Anunciantes já veiculados: Sendflow, Vimansca e Lídio Carraro — detalhe por inserção na tabela abaixo.
 - ⚠️ **Links de anunciante saem sem UTM** (ex.: `vimansca.com.br/` puro). Domínio funciona como
   identificador, mas recomenda-se padronizar `utm_source=resumo_bp&utm_campaign=<parceiro>&utm_content=<edição>`
   para o parceiro medir no analytics dele e para distinguir 2 anúncios do mesmo parceiro na mesma edição.
 
-### Inserções por anunciante (ago/2026)
+### Inserções por anunciante (25/ago/2026)
 
 | Anunciante | Inserções | Detalhe (pessoas / cliques) |
 |---|---|---|
 | Sendflow | 3 | 02/07 (73 / 145), 03/07 (28 / 41), 28/07 (36 / 56) |
-| Vimansca | 2 | 14/07 (69 / 145), 17/08 (90 / 111) |
+| Vimansca | 2 | 14/07 (69 / 145), 17/08 (92 / 113) |
+| Lídio Carraro | 1 | 21/08 (134 / 152) |
 
-Vimansca cresceu em alcance da 1ª para a 2ª inserção (69 → 90 pessoas) apesar de menos cliques totais —
+Lídio Carraro é a maior inserção única até agora em alcance (134 pessoas).
+Vimansca cresceu em alcance da 1ª para a 2ª inserção (69 → 92 pessoas) apesar de menos cliques totais —
 na 1ª houve mais cliques repetidos. Sendflow caiu a cada inserção.
+
+### Detecção automática: o que o código faz sozinho
+
+A classificação é **fail-open**: todo domínio clicado que não estiver nas listas de BP / social /
+editorial é tratado como anunciante. Consequências:
+
+| Situação | Automático? |
+|---|---|
+| Nova inserção de anunciante já conhecido | ✅ Sim — aparece no próximo refresh |
+| Anunciante **novo** (domínio nunca visto) | ✅ Sim — entra no dropdown e na tabela de destinos sozinho |
+| Nome de marca do anunciante novo | ❌ Não — sai como domínio cru (`lidiocarraro.com`) até ser adicionado em `PARCEIROS_NOME` |
+| Novo domínio **editorial** (link de notícia externa) | ❌ Não — entra como se fosse anunciante; precisa ir para `DOMINIOS_EDITORIAIS` |
+| Inserção com ≤ 3 cliques numa edição | ❌ Não — cortada pelo `HAVING qt_cliques > 3` em `cliques_dominio.sql` |
+| Link de parceiro encurtado por domínio BP (`sitebp.la`, `go.bp.app`) | ❌ Não — contaria como tráfego BP |
+| Inserção com mais de 120 dias | ❌ Não — fora da janela |
+
+Verificado em 25/ago: nenhum anunciante está sendo escondido pelo corte de 3 cliques, e todos os
+links dos encurtadores BP são de campanha própria (freemium, compartilhe, EVG) — nenhum de parceiro.
+**Manutenção mínima por anunciante novo: uma linha em `PARCEIROS_NOME`.**
 
 ### ⚠️ Gotchas de leitura
 

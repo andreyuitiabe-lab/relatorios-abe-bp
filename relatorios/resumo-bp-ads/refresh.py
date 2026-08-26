@@ -33,6 +33,7 @@ DOMINIOS_SOCIAL = {
 PARCEIROS_NOME = {
     "sndflw.com": "Sendflow",
     "vimansca.com.br": "Vimansca",
+    "lidiocarraro.com": "Lídio Carraro",
 }
 # Domínios externos que são fonte editorial (link de notícia), não anúncio
 DOMINIOS_EDITORIAIS = {
