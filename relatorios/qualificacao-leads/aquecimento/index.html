@@ -1,0 +1,721 @@
+<meta charset="utf-8">
+<title>Aquecimento · Qualidade (IQL) — Eneias · mockup marketing-bp</title>
+<style>
+  :root {
+    color-scheme: light;
+    --background: #ffffff;
+    --card: #ffffff;
+    --fg: #121212;
+    --muted: #f6f6f6;
+    --muted-40: rgba(0,0,0,0.035);
+    --muted-fg: #737373;
+    --border: #e5e5e5;
+    --border-soft: rgba(0,0,0,0.06);
+    --primary: #007bff;
+    --primary-soft: rgba(0,123,255,0.08);
+    --pill: #121212;
+    --pill-fg: #ffffff;
+    /* faixas A+ → D — rampa ordinal validada (modo claro) */
+    --f1: #104281; --f2: #1c5cab; --f3: #2a78d6; --f4: #5598e7; --f5: #86b6ef;
+    /* heat 4 degraus (padrão cplHeatColor do app) */
+    --heat-good-bg: rgba(16,185,129,0.25); --heat-good-fg: #047857;
+    --heat-good2-bg: rgba(16,185,129,0.12);
+    --heat-warn-bg: rgba(245,158,11,0.20); --heat-warn-fg: #b45309;
+    --heat-bad-bg: rgba(239,68,68,0.15); --heat-bad-fg: #b91c1c;
+    --emerald: #059669;
+    --grid: #ececec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --background: #121212;
+      --card: #1c1c1c;
+      --fg: #fafafa;
+      --muted: #262626;
+      --muted-40: rgba(255,255,255,0.05);
+      --muted-fg: #a3a3a3;
+      --border: #333333;
+      --border-soft: rgba(255,255,255,0.08);
+      --primary: #3395ff;
+      --primary-soft: rgba(51,149,255,0.12);
+      --pill: #fafafa;
+      --pill-fg: #121212;
+      --f1: #184f95; --f2: #2a78d6; --f3: #5598e7; --f4: #86b6ef; --f5: #b7d3f6;
+      --heat-good-bg: rgba(16,185,129,0.22); --heat-good-fg: #6ee7b7;
+      --heat-good2-bg: rgba(16,185,129,0.12);
+      --heat-warn-bg: rgba(245,158,11,0.18); --heat-warn-fg: #fcd34d;
+      --heat-bad-bg: rgba(239,68,68,0.18); --heat-bad-fg: #fca5a5;
+      --emerald: #34d399;
+      --grid: #2b2b2b;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --background: #121212; --card: #1c1c1c; --fg: #fafafa;
+    --muted: #262626; --muted-40: rgba(255,255,255,0.05); --muted-fg: #a3a3a3;
+    --border: #333333; --border-soft: rgba(255,255,255,0.08);
+    --primary: #3395ff; --primary-soft: rgba(51,149,255,0.12);
+    --pill: #fafafa; --pill-fg: #121212;
+    --f1: #184f95; --f2: #2a78d6; --f3: #5598e7; --f4: #86b6ef; --f5: #b7d3f6;
+    --heat-good-bg: rgba(16,185,129,0.22); --heat-good-fg: #6ee7b7;
+    --heat-good2-bg: rgba(16,185,129,0.12);
+    --heat-warn-bg: rgba(245,158,11,0.18); --heat-warn-fg: #fcd34d;
+    --heat-bad-bg: rgba(239,68,68,0.18); --heat-bad-fg: #fca5a5;
+    --emerald: #34d399; --grid: #2b2b2b;
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --background: #ffffff; --card: #ffffff; --fg: #121212;
+    --muted: #f6f6f6; --muted-40: rgba(0,0,0,0.035); --muted-fg: #737373;
+    --border: #e5e5e5; --border-soft: rgba(0,0,0,0.06);
+    --primary: #007bff; --primary-soft: rgba(0,123,255,0.08);
+    --pill: #121212; --pill-fg: #ffffff;
+    --f1: #104281; --f2: #1c5cab; --f3: #2a78d6; --f4: #5598e7; --f5: #86b6ef;
+    --heat-good-bg: rgba(16,185,129,0.25); --heat-good-fg: #047857;
+    --heat-good2-bg: rgba(16,185,129,0.12);
+    --heat-warn-bg: rgba(245,158,11,0.20); --heat-warn-fg: #b45309;
+    --heat-bad-bg: rgba(239,68,68,0.15); --heat-bad-fg: #b91c1c;
+    --emerald: #059669; --grid: #ececec;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--background); color: var(--fg);
+    font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  }
+  button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 6px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; display: flex; flex-direction: column; gap: 24px; }
+
+  /* ===== header do dashboard de campanha ===== */
+  .page-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+  .page-head h1 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
+  .page-head .sub { margin: 4px 0 0; font-size: 13px; color: var(--muted-fg); }
+  .icon-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 10px; color: var(--muted-fg);
+  }
+  .icon-btn:hover { background: var(--muted); color: var(--fg); }
+
+  /* ===== barra de abas (AnimatedTabsList) ===== */
+  .tabs {
+    display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap;
+    background: var(--muted-40); border: 1px solid var(--border);
+    border-radius: 999px; padding: 8px 14px; width: fit-content; max-width: 100%;
+  }
+  .tab {
+    padding: 7px 13px; border-radius: 999px; font-size: 13.5px;
+    color: var(--muted-fg); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .tab:hover { color: var(--fg); }
+  .tab.active { background: var(--pill); color: var(--pill-fg); font-weight: 600; }
+  .tab .chev { font-size: 10px; opacity: 0.7; }
+  .tab svg { width: 15px; height: 15px; flex: none; }
+
+  /* ===== toolbar da aba ===== */
+  .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .toolbar .lbl { font-size: 12px; color: var(--muted-fg); }
+  .ctl {
+    display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    font-size: 13px; color: var(--fg);
+  }
+  .ctl:hover { background: var(--muted); }
+  .ctl.ghost { border-color: transparent; background: transparent; color: var(--muted-fg); }
+  .ctl.ghost:hover { background: var(--muted); color: var(--fg); }
+  .spacer { flex: 1; }
+
+  /* ===== cards ===== */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; }
+  .card-head { padding: 16px 16px 0; display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .card-head h2 { margin: 0; font-size: 15px; font-weight: 600; }
+  .card-head .hint { font-size: 11.5px; color: var(--muted-fg); }
+  .card-body { padding: 16px; }
+  .card-body.tight { padding: 8px 0 0; }
+
+  /* ===== hero: decisão ===== */
+  .hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 0; background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  @media (max-width: 880px) { .hero { grid-template-columns: 1fr; } }
+  .hero-main { padding: 22px 24px 20px; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+  .hero-main .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-fg); }
+  .hero-line { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .hero-num { font-size: clamp(40px, 6vw, 54px); font-weight: 700; line-height: 1; letter-spacing: -0.02em; color: var(--emerald); font-variant-numeric: tabular-nums; }
+  .hero-read { font-size: 13.5px; color: var(--muted-fg); max-width: 34ch; }
+  .hero-read b { color: var(--fg); font-weight: 600; }
+
+  /* régua do retorno */
+  .regua { display: flex; flex-direction: column; gap: 6px; }
+  .regua-track { position: relative; height: 22px; border-radius: 7px; background: var(--muted); overflow: visible; }
+  .regua-fill { position: absolute; inset: 0 auto 0 0; border-radius: 7px 0 0 7px; background: color-mix(in oklab, var(--emerald) 28%, var(--card)); width: 0; }
+  .regua-cost { position: absolute; inset: 0 auto 0 0; border-radius: 7px 0 0 7px; background: var(--fg); width: 0; }
+  .regua-tick { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--muted-fg); }
+  .regua-tick.meta { background: var(--heat-warn-fg); }
+  .regua-labels { position: relative; height: 30px; font-size: 11px; color: var(--muted-fg); }
+  .regua-labels span { position: absolute; top: 2px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .regua-labels b { color: var(--fg); }
+  @media (prefers-reduced-motion: no-preference) {
+    .regua-fill, .regua-cost, .bench-bar i, .mix i, .share-bar i { transition: width 700ms cubic-bezier(.2,.7,.2,1); }
+  }
+
+  /* mini-grade de KPIs no hero */
+  .hero-side { border-left: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 880px) { .hero-side { border-left: none; border-top: 1px solid var(--border); } }
+  .kpi { padding: 14px 18px; border-bottom: 1px solid var(--border-soft); }
+  .kpi:nth-child(odd) { border-right: 1px solid var(--border-soft); }
+  .kpi:nth-last-child(-n+2) { border-bottom: none; }
+  .kpi .label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted-fg); }
+  .kpi .value { font-size: 19px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .kpi .subtext { font-size: 11.5px; color: var(--muted-fg); margin-top: 1px; }
+
+  /* tira de faixas */
+  .bands-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 10px 14px; border: 1px dashed var(--border); border-radius: 12px; font-size: 12px; color: var(--muted-fg); }
+  .bands-strip .bs-title { font-weight: 600; color: var(--fg); font-size: 12px; }
+  .bands-strip span.b { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+  .bands-strip i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .bands-strip b { color: var(--fg); font-weight: 600; }
+
+  .share-bar { display: inline-block; width: 90px; height: 6px; border-radius: 3px; background: var(--muted); overflow: hidden; vertical-align: 2px; margin-left: 8px; }
+  .share-bar i { display: block; height: 100%; background: var(--primary); width: 0; }
+
+
+  /* legenda + svg */
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; padding: 0 16px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted-fg); }
+  .legend i { width: 10px; height: 10px; border-radius: 3px; }
+  .chart-scroll { overflow-x: auto; padding: 8px 8px 12px; }
+  svg text { font: 11px -apple-system, "Inter", sans-serif; fill: var(--muted-fg); font-variant-numeric: tabular-nums; }
+  .charts-2col { display: grid; grid-template-columns: 3fr 2fr; gap: 12px; }
+  @media (max-width: 880px) { .charts-2col { grid-template-columns: 1fr; } }
+
+  /* tooltip */
+  #tip {
+    position: fixed; pointer-events: none; z-index: 10; display: none;
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18); padding: 7px 10px; font-size: 12px; color: var(--muted-fg);
+  }
+  #tip b { color: var(--fg); }
+  #tip .row { display: flex; justify-content: space-between; gap: 16px; font-variant-numeric: tabular-nums; }
+  #tip .row i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; margin-right: 5px; }
+
+  /* tabelas */
+  .tbl-scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 13px; }
+  th, td { text-align: right; padding: 8px 12px; border-bottom: 1px solid var(--border-soft); white-space: nowrap; }
+  th {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--muted-fg); background: var(--muted-40); height: 20px;
+  }
+  th:first-child, td:first-child { text-align: left; }
+  tbody tr:hover { background: var(--muted-40); }
+  tbody tr:last-child td { border-bottom: none; }
+  .mix { display: flex; height: 10px; border-radius: 3px; overflow: hidden; gap: 2px; min-width: 120px; }
+  .mix i { display: block; height: 100%; }
+  td.heat-g { background: var(--heat-good-bg); color: var(--heat-good-fg); font-weight: 600; }
+  td.heat-g2 { background: var(--heat-good2-bg); }
+  td.heat-w { background: var(--heat-warn-bg); color: var(--heat-warn-fg); }
+  td.heat-b { background: var(--heat-bad-bg); color: var(--heat-bad-fg); }
+
+  /* badges (shadcn) */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px; border-radius: 999px;
+    padding: 2px 10px; font-size: 11px; font-weight: 600; border: 1px solid transparent;
+  }
+  .badge.secondary { background: var(--muted); color: var(--fg); font-weight: 400; font-size: 11px; }
+  .badge.conv { background: rgba(0,123,255,0.15); color: var(--primary); border-color: rgba(0,123,255,0.30); font-family: ui-monospace, monospace; font-size: 10.5px; }
+  .badge.share { background: transparent; border-color: var(--border); color: var(--muted-fg); font-weight: 500; }
+  .attr-chips { display: flex; flex-wrap: wrap; gap: 4px; max-width: 420px; white-space: normal; }
+
+  /* benchmark bars */
+  .bench { display: flex; flex-direction: column; gap: 8px; }
+  .bench-row { display: grid; grid-template-columns: 64px 1fr 120px; align-items: center; gap: 10px; font-size: 12.5px; }
+  .bench-row .tag { font-weight: 600; }
+  .bench-row.current .tag { color: var(--primary); }
+  .bench-bar { height: 12px; border-radius: 3px; background: var(--muted); overflow: hidden; }
+  .bench-bar i { display: block; height: 100%; background: var(--f4); border-radius: 3px 0 0 3px; }
+  .bench-row.current .bench-bar i { background: var(--primary); }
+  .bench-row .val { color: var(--muted-fg); font-variant-numeric: tabular-nums; text-align: right; }
+  .bench-row .val b { color: var(--fg); }
+
+  .note { font-size: 12px; color: var(--muted-fg); padding: 0 16px 14px; margin: 0; }
+  .badge-mock {
+    display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-fg);
+    border: 1px dashed var(--border); vertical-align: 4px; margin-left: 8px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .tab.active { transition: background 250ms ease; }
+  }
+</style>
+<style>
+  .camp-nav { display:flex; gap:6px; flex-wrap:wrap; }
+  .camp-nav button { border:1px solid var(--border); background:var(--card); color:var(--fg); border-radius:999px; padding:6px 14px; font-weight:600; cursor:pointer; }
+  .camp-nav button.active { background:var(--pill); color:var(--pill-fg); border-color:var(--pill); }
+  .muted { color:var(--muted-fg); }
+  .bench-row { grid-template-columns: 64px 1fr minmax(320px, auto); }
+  @media (max-width: 700px) { .bench-row { grid-template-columns: 48px 1fr; } .bench-row .val { grid-column: 1 / -1; text-align:left; } }
+  .warn-chip { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; background:var(--heat-warn-bg); color:var(--heat-warn-fg); }
+  .empty { padding:24px; text-align:center; color:var(--muted-fg); }
+  .kpi .value.small { font-size:20px; }
+  .rng { font-size:12px; color:var(--muted-fg); }
+  #tip { position:fixed; display:none; z-index:50; background:var(--card); color:var(--fg); border:1px solid var(--border); border-radius:8px; padding:8px 10px; font-size:12px; box-shadow:0 6px 24px rgba(0,0,0,.12); pointer-events:none; max-width:280px; }
+  #tip .row { display:flex; justify-content:space-between; gap:12px; }
+  #tip i { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:-1px; }
+  svg text { font-size:11px; fill:var(--muted-fg); }
+</style>
+
+<div class="wrap">
+
+  <div class="page-head">
+    <div>
+      <h1 id="h-nome">Aquecimento · Qualidade <span class="badge-mock" id="h-gerado"></span></h1>
+      <p class="sub" id="h-sub"></p>
+    </div>
+    <nav class="camp-nav" id="camp-nav" aria-label="Campanhas"></nav>
+  </div>
+
+  <!-- ===== hero ===== -->
+  <div class="hero">
+    <div class="hero-main">
+      <div>
+        <div class="eyebrow">Retorno esperado da captação</div>
+        <div class="hero-line">
+          <span class="hero-num" id="hero-num">—</span>
+          <span class="hero-read" id="hero-read"></span>
+        </div>
+      </div>
+      <div class="regua" role="img" id="regua" aria-label="Régua do retorno">
+        <div class="regua-track">
+          <div class="regua-fill" data-w="100%"></div>
+          <div class="regua-cost" id="regua-cost"></div>
+          <div class="regua-tick meta" id="regua-tick"></div>
+        </div>
+        <div class="regua-labels">
+          <span style="left:0" id="regua-l1"></span>
+          <span id="regua-l2"></span>
+          <span style="right:0" id="regua-l3"></span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-side" id="kpis"></div>
+  </div>
+
+  <div class="bands-strip" id="bands-strip"></div>
+
+  <!-- ===== gráficos ===== -->
+  <div class="charts-2col">
+    <div class="card">
+      <div class="card-head">
+        <h2>Leads por dia e faixa</h2>
+        <span class="hint">cadastros diários, empilhados por faixa de qualidade</span>
+      </div>
+      <div class="card-body tight">
+        <div class="legend" id="legend-stack"></div>
+        <div class="chart-scroll"><svg id="chart-stack" width="640" height="250" role="img" aria-label="Barras empilhadas de leads por dia e faixa de qualidade"></svg></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <h2>Retorno esperado por dia</h2>
+        <span class="hint" id="hint-line">RPL esperado do dia ÷ CPL do dia (dias com ≥20 leads e ≥R$ 100 de spend) · pontilhado = meta · ▲ = fora da escala</span>
+      </div>
+      <div class="card-body tight">
+        <div class="chart-scroll"><svg id="chart-line" width="430" height="250" role="img" aria-label="Linha do retorno esperado diário"></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== realizado × esperado ===== -->
+  <div class="card">
+    <div class="card-head">
+      <h2>Vendas: realizado × esperado até o momento</h2>
+      <span class="badge" id="pace-badge"></span>
+    </div>
+    <div class="card-body tight">
+      <div class="legend">
+        <span><i style="background:var(--emerald)"></i>Realizado (acumulado)</span>
+        <span><i style="background:var(--primary)"></i>Esperado até o dia (curva de coortes)</span>
+        <span class="muted">faixa clara = min–máx entre campanhas de referência</span>
+      </div>
+      <div class="chart-scroll"><svg id="chart-pace" width="1080" height="250" role="img" aria-label="Receita acumulada realizada versus esperada"></svg></div>
+    </div>
+    <p class="note" id="pace-note"></p>
+  </div>
+
+  <!-- ===== anúncios ===== -->
+  <div class="card">
+    <div class="card-head">
+      <h2 id="ads-title">Qualidade por anúncio — top em gasto (Meta)</h2>
+      <span class="hint">detalhe de criativo (Hook, Hold, CTR) na aba Aquecimento · Ads do marketing-bp</span>
+    </div>
+    <div class="tbl-scroll">
+      <table id="tbl-ads">
+        <thead>
+          <tr>
+            <th scope="col">Anúncio</th>
+            <th scope="col">Gasto</th>
+            <th scope="col">Leads</th>
+            <th scope="col">CPL</th>
+            <th scope="col" style="text-align:left">Mix de faixas</th>
+            <th scope="col">% A+/A</th>
+            <th scope="col">Pesquisa</th>
+            <th scope="col">RPL esperado</th>
+            <th scope="col">Retorno</th>
+            <th scope="col">Vendas</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="note" id="ads-note"></p>
+  </div>
+
+  <!-- ===== personas ===== -->
+  <div class="card">
+    <div class="card-head">
+      <h2>✦ Personas dos leads qualificados</h2>
+      <span class="hint" id="pers-hint"></span>
+    </div>
+    <div class="tbl-scroll">
+      <table id="tbl-personas">
+        <thead>
+          <tr>
+            <th scope="col">Persona</th>
+            <th scope="col" style="text-align:left">Atributos do perfil</th>
+            <th scope="col">% dos A+/A</th>
+            <th scope="col">Leads</th>
+            <th scope="col">Conversão</th>
+            <th scope="col">Como falar com ele</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="note">Perfis descrevem quem os anúncios atuais alcançam (viés de seleção). Conversão observada, cohort maturando — membros/ex compram no evento, não na pré-venda.</p>
+  </div>
+
+  <!-- ===== benchmark ===== -->
+  <div class="card">
+    <div class="card-head">
+      <h2>Esta campanha vs outras</h2>
+      <span class="hint">retorno projetado (RPL do projetor ÷ CPL blendado) — cada campanha na janela que já completou</span>
+    </div>
+    <div class="card-body">
+      <div class="bench" id="bench"></div>
+      <p class="note" style="padding:10px 0 0">CPL blendado = todo lead da tag ÷ spend [LEAD] Meta+Google+PMax. Campanhas sem pesquisa no funil têm faixa estimada só pelo histórico (A+/A subestimado). Comparação indicativa: o valor por faixa é ancorado em campanhas maduras; tags sempre-ativas (spend por mais de 75 dias) ficam de fora.</p>
+    </div>
+  </div>
+
+  <p class="note" style="padding:0" id="foot"></p>
+</div>
+
+<div id="tip" role="status"></div>
+
+<script>
+(async function () {
+  const D = await (await fetch('./data.json')).json();
+  const BANDS = [
+    { key: 'A+', v: '--f1', nome: 'topo' }, { key: 'A', v: '--f2', nome: 'qualificado' }, { key: 'B', v: '--f3', nome: 'potencial' },
+    { key: 'C', v: '--f4', nome: 'frio' }, { key: 'D', v: '--f5', nome: 'fundo' },
+  ];
+  const META = D.meta_retorno;
+  const fmt = (n) => Math.round(n).toLocaleString('pt-BR');
+  const cur = (n, d = 2) => n == null ? '—' : 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const curK = (n) => n == null ? '—' : n >= 1e6 ? 'R$ ' + (n / 1e6).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + ' mi'
+    : n >= 1e3 ? 'R$ ' + (n / 1e3).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' mil' : cur(n, 0);
+  const pct = (n, d = 1) => n == null ? '—' : n.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d }) + '%';
+  const x = (n, d = 2) => n == null ? '—' : n.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d }) + '×';
+  const dmy = (iso) => iso ? iso.slice(8, 10) + '/' + iso.slice(5, 7) : '—';
+  const heatCls = (ret) => ret == null ? '' : ret >= 2 ? 'heat-g' : ret >= META ? 'heat-g2' : ret >= 1 ? 'heat-w' : 'heat-b';
+  const tip = document.getElementById('tip');
+  function showTip(html, ev) {
+    tip.innerHTML = html; tip.style.display = 'block';
+    const pad = 14; let px = ev.clientX + pad, py = ev.clientY + pad;
+    const r = tip.getBoundingClientRect();
+    if (px + r.width > innerWidth - 8) px = ev.clientX - r.width - pad;
+    if (py + r.height > innerHeight - 8) py = ev.clientY - r.height - pad;
+    tip.style.left = px + 'px'; tip.style.top = py + 'px';
+  }
+  const hideTip = () => { tip.style.display = 'none'; };
+  const ns = 'http://www.w3.org/2000/svg';
+  const el = (tag, attrs, text) => { const e = document.createElementNS(ns, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; };
+  const clear = (n) => { while (n.firstChild) n.removeChild(n.firstChild); };
+
+  const PERSONAS = {
+    descobridor: { nome: 'O Descobridor Recente', attrs: ['status: não membro', 'conhece a BP há: 6 meses a 3 anos'], fala: 'Aprofundar a relação — conteúdo do documentário e da casa' },
+    veterano: { nome: 'O Veterano não convertido', attrs: ['status: não membro', 'conhece a BP há: mais de 3 anos'], fala: 'Quebra de objeção — ele já conhece, algo o segura há anos' },
+    base_reimpactada: { nome: 'A Base reimpactada', attrs: ['status: membro ativo, vitalício ou ex-membro'], fala: 'Membro: engajar no lançamento · Ex: oferta de recuperação' },
+    recem_chegado: { nome: 'O Recém-chegado', attrs: ['status: não membro', 'conhece a BP há: menos de 6 meses'], fala: 'Apresentar a casa — ele chegou pelo tema, não pela marca' },
+    sem_pesquisa: { nome: 'Qualificado sem pesquisa', attrs: ['status: não membro', 'pesquisa: não respondeu'], fala: 'Qualificou pelo histórico de cadastro — tratar como Descobridor' },
+  };
+
+  // ---- estado ----
+  const params = new URLSearchParams(location.search);
+  let tag = params.get('tag') || (localStorage.getItem('aq_tag') || D.campanhas[0].tag);
+  if (!D.campanhas.some((c) => c.tag === tag)) tag = D.campanhas[0].tag;
+
+  function renderNav() {
+    const nav = document.getElementById('camp-nav'); nav.innerHTML = '';
+    D.campanhas.forEach((c) => {
+      const b = document.createElement('button');
+      b.textContent = c.nome + ' · ' + c.tag;
+      b.className = c.tag === tag ? 'active' : '';
+      b.onclick = () => { tag = c.tag; try { localStorage.setItem('aq_tag', tag); } catch (e) {} history.replaceState(null, '', '?tag=' + tag); render(); };
+      nav.appendChild(b);
+    });
+  }
+
+  function render() {
+    renderNav();
+    const C = D.campanhas.find((c) => c.tag === tag);
+    const R = C.resumo;
+    document.getElementById('h-nome').firstChild.textContent = C.nome + ' — Aquecimento · Qualidade ';
+    document.getElementById('h-gerado').textContent = 'dados de ' + D.gerado_em;
+    const aq = C.aquecimento;
+    document.getElementById('h-sub').textContent =
+      `Aquecimento: ${dmy(aq[0])} → ${aq[1] ? dmy(aq[1]) : 'em aberto'} · ` +
+      (C.venda ? `venda desde ${dmy(C.venda)}` : 'venda não abriu') + (C.nota ? ' · ' + C.nota : '');
+
+    // hero
+    const ret = R.retorno_esperado;
+    document.getElementById('hero-num').textContent = x(ret);
+    document.getElementById('hero-read').innerHTML = ret == null
+      ? `sem spend [LEAD] atribuído à tag — retorno não calculável`
+      : `cada <b>R$ 1</b> investido volta como <b>${cur(ret)}</b> de receita projetada · meta ${x(META, 1)} — o modelo projeta <b>${cur(R.rpl_projetado)}</b> por lead (faixa ${cur(R.rpl_lo)}–${cur(R.rpl_hi)})` +
+        (R.retorno_teto && R.pc_survey < 90 ? ` · <span class="muted">teto comparável (todos como respondentes): ${x(R.retorno_teto)}</span>` : '');
+    if (R.rpl_projetado && R.vl_cpl) {
+      const w = Math.min(100, 100 * R.vl_cpl / R.rpl_projetado);
+      document.getElementById('regua-cost').dataset.w = w.toFixed(1) + '%';
+      document.getElementById('regua-cost').style.width = w.toFixed(1) + '%';
+      document.getElementById('regua-tick').style.left = (100 / META).toFixed(1) + '%';
+      document.getElementById('regua-l1').innerHTML = `<b>${cur(R.vl_cpl)}</b> custo/lead`;
+      const l2 = document.getElementById('regua-l2');
+      l2.innerHTML = `CPL máx (meta ${x(META, 1)}) · <b>${cur(R.cpl_max)}</b>`; l2.style.left = (100 / META).toFixed(1) + '%'; l2.style.transform = 'translateX(-100%)'; l2.style.paddingRight = '8px';
+      document.getElementById('regua-l3').innerHTML = `<b>${cur(R.rpl_projetado)}</b> projetado/lead`;
+      document.getElementById('regua').setAttribute('aria-label', `Régua: CPL ${cur(R.vl_cpl)}, CPL máximo ${cur(R.cpl_max)}, RPL projetado ${cur(R.rpl_projetado)}`);
+    }
+
+    // kpis
+    const anc = R.bl_ancorado ? `modelo, janela ${(R.estimador || '').replace('rpl_d', 'D+')} · erro ±${Math.round(R.pc_erro || 0)}%` : `EV de tabela (campanha ainda sem âncora) · erro ±${Math.round(R.pc_erro || 0)}%`;
+    const kpis = [
+      ['Investimento', curK(R.vl_spend), `[LEAD] Meta + Google + PMax${R.dt_spend_fim ? ' · até ' + dmy(R.dt_spend_fim) : ''}`],
+      ['CPL real', cur(R.vl_cpl), 'investimento ÷ leads'],
+      ['Leads no período', fmt(R.qt_leads), 'todos com score IQL'],
+      ['Qualidade (A+/A)', pct(R.pc_qual), `${fmt(R.qt_qual)} leads · entre respondentes ${pct(R.pc_qual_resp)}`],
+      ['Cobertura da pesquisa', pct(R.pc_survey), `${fmt(R.qt_resp)} responderam no cadastro`],
+      ['RPL projetado', cur(R.rpl_projetado), anc],
+      ['Valor projetado total', curK(R.vl_projetado_total), `${fmt(R.qt_leads)} leads × RPL projetado`],
+      ['Vendido até agora', curK(R.vl_receita_obs), `${fmt(R.qt_vendas)} vendas · ROAS realizado ${x(R.roas_realizado)}`],
+      ['CPL máximo', cur(R.cpl_max), `RPL projetado ÷ meta ${x(META, 1)} · teto p/ escalar`],
+    ];
+    document.getElementById('kpis').innerHTML = kpis.map(([l, v, s]) =>
+      `<div class="kpi"><div class="label">${l}</div><div class="value">${v}</div><div class="subtext">${s}</div></div>`).join('');
+
+    // faixas
+    document.getElementById('bands-strip').innerHTML = '<span class="bs-title">Faixas:</span>' +
+      D.faixas.map((f, i) => `<span class="b"><i style="background:var(${BANDS[i].v})"></i><b>${f.faixa}</b> ${BANDS[i].nome} · ${cur(f.ev)}</span>`).join('') +
+      '<span>— valor = receita média esperada por lead da faixa (tabela NM-ancorada; nesta campanha × fator ' + (R.bl_ancorado ? 'do projetor' : '1,0') + ')</span>';
+
+    renderStack(C); renderLine(C); renderPace(C); renderAds(C); renderPersonas(C); renderBench(C);
+
+    document.getElementById('foot').innerHTML =
+      `Página viva lendo os modelos IQL em produção (<code>cbo_lead_conversion_iql</code>, <code>cbo_campaign_rpl_estimate</code>), atualizada por <code>refresh.py</code>. ` +
+      `Protótipo da sub-aba <b>Qualidade</b> do grupo Aquecimento no marketing-bp. Governança: pesos individuais não circulam — a página mostra faixa, valor esperado e retorno.`;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.querySelectorAll('[data-w]').forEach((n) => { n.style.width = n.dataset.w; });
+    }));
+  }
+
+  // ---- barras empilhadas ----
+  function renderStack(C) {
+    const svg = document.getElementById('chart-stack'); clear(svg);
+    const S = C.serie; if (!S.length) return;
+    const W = 640, H = 250, m = { t: 10, r: 8, b: 26, l: 40 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const maxT = Math.max(...S.map((r) => r.qt_leads)) * 1.08 || 1;
+    const bw = iw / S.length;
+    const step = maxT > 4000 ? 1000 : maxT > 1500 ? 500 : maxT > 400 ? 100 : 50;
+    for (let v = 0; v <= maxT; v += step) {
+      const y = m.t + ih - (v / maxT) * ih;
+      svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: y, y2: y, stroke: 'var(--grid)', 'stroke-dasharray': '3 3' }));
+      svg.appendChild(el('text', { x: m.l - 6, y: y + 3, 'text-anchor': 'end' }, v >= 1000 ? (v / 1000).toLocaleString('pt-BR') + 'k' : v));
+    }
+    const every = Math.ceil(S.length / 14);
+    S.forEach((r, i) => {
+      let yC = m.t + ih;
+      const xx = m.l + i * bw + bw * 0.15, barW = Math.max(bw * 0.7, 1);
+      if (i % every === 0) svg.appendChild(el('text', { x: m.l + i * bw + bw / 2, y: H - 8, 'text-anchor': 'middle' }, dmy(r.dt)));
+      const g = el('g', { cursor: 'pointer' });
+      [...BANDS].reverse().forEach((b) => {
+        const v = r.mix[b.key]; if (!v) return;
+        const h = Math.max((v / maxT) * ih - 1, 0.8);
+        yC -= h + 1;
+        g.appendChild(el('rect', { x: xx, y: yC, width: barW, height: h, fill: `var(${b.v})`, rx: 1 }));
+      });
+      g.addEventListener('mousemove', (ev) => showTip(`<b>${dmy(r.dt)}</b><div class="row"><span>Total</span><span><b>${fmt(r.qt_leads)}</b></span></div>` +
+        BANDS.map((b) => `<div class="row"><span><i style="background:var(${b.v})"></i>${b.key}</span><span>${fmt(r.mix[b.key])}</span></div>`).join('') +
+        `<div class="row"><span>Pesquisa</span><span>${pct(r.pc_survey)}</span></div>`, ev));
+      g.addEventListener('mouseleave', hideTip);
+      svg.appendChild(g);
+    });
+    document.getElementById('legend-stack').innerHTML = BANDS.map((b) => `<span><i style="background:var(${b.v})"></i>${b.key}</span>`).join('');
+  }
+
+  // ---- linha do retorno ----
+  function renderLine(C) {
+    const svg = document.getElementById('chart-line'); clear(svg);
+    const S = C.serie;
+    const raw = S.map((r, i) => (r.vl_retorno_esp == null || r.qt_leads < 20 || (r.vl_spend || 0) < 100 ? null : [i, r.vl_retorno_esp])).filter(Boolean);
+    const sorted = raw.map((p) => p[1]).sort((a, b) => a - b);
+    const p95 = sorted.length ? sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * 0.95))] : META;
+    const cap = Math.max(META * 1.4, p95) * 1.15;
+    const pts = raw.map(([i, v]) => [i, Math.min(v, cap), v > cap]);
+    const W = 430, H = 250, m = { t: 12, r: 12, b: 26, l: 38 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    if (!pts.length) { svg.appendChild(el('text', { x: W / 2, y: H / 2, 'text-anchor': 'middle' }, 'sem spend diário atribuído')); return; }
+    const hi = cap;
+    const px = (i) => m.l + (i / Math.max(S.length - 1, 1)) * iw;
+    const py = (v) => m.t + ih - (v / hi) * ih;
+    const rawStep = hi / 6, mag = Math.pow(10, Math.floor(Math.log10(rawStep)));
+    const step = [1, 2, 5, 10].map((k) => k * mag).find((k) => k >= rawStep) || mag * 10;
+    for (let v = step; v < hi; v += step) {
+      svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: py(v), y2: py(v), stroke: 'var(--grid)', 'stroke-dasharray': '3 3' }));
+      svg.appendChild(el('text', { x: m.l - 6, y: py(v) + 3, 'text-anchor': 'end' }, v + '×'));
+    }
+    svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: py(META), y2: py(META), stroke: 'var(--heat-warn-fg)', 'stroke-dasharray': '5 4', 'stroke-width': 1.5 }));
+    svg.appendChild(el('text', { x: W - m.r, y: py(META) - 5, 'text-anchor': 'end', fill: 'var(--heat-warn-fg)' }, 'meta ' + x(META, 1)));
+    svg.appendChild(el('path', { d: pts.map(([i, v], k) => (k ? 'L' : 'M') + px(i).toFixed(1) + ' ' + py(v).toFixed(1)).join(' '), fill: 'none', stroke: 'var(--primary)', 'stroke-width': 2 }));
+    pts.forEach(([i, v, clipped]) => svg.appendChild(clipped
+      ? el('text', { x: px(i), y: py(v) + 4, 'text-anchor': 'middle', fill: 'var(--primary)' }, '▲')
+      : el('circle', { cx: px(i), cy: py(v), r: 2.5, fill: 'var(--primary)' })));
+    const [li, lv, lc] = pts[pts.length - 1];
+    const lbl = el('text', { x: px(li) - 7, y: py(lv) - 10, 'text-anchor': 'end', 'font-weight': 700 }, x(S[li].vl_retorno_esp) + (lc ? ' (fora da escala)' : '')); lbl.setAttribute('fill', 'var(--fg)'); svg.appendChild(lbl);
+    const every = Math.ceil(S.length / 7);
+    S.forEach((r, i) => { if (i % every === 0) svg.appendChild(el('text', { x: px(i), y: H - 8, 'text-anchor': 'middle' }, dmy(r.dt))); });
+    const hover = el('rect', { x: m.l, y: m.t, width: iw, height: ih, fill: 'transparent' });
+    hover.addEventListener('mousemove', (ev) => {
+      const rect = svg.getBoundingClientRect();
+      const i = Math.max(0, Math.min(S.length - 1, Math.round(((ev.clientX - rect.left) - m.l) / iw * (S.length - 1))));
+      const r = S[i];
+      showTip(`<b>${dmy(r.dt)}</b><div class="row"><span>Retorno esperado</span><span><b>${r.vl_retorno_esp == null ? '— (sem spend)' : x(r.vl_retorno_esp)}</b></span></div>` +
+        `<div class="row"><span>CPL do dia</span><span>${cur(r.vl_cpl)}</span></div><div class="row"><span>RPL esperado</span><span>${cur(r.vl_ev_capi)}</span></div>` +
+        `<div class="row"><span>Leads / A+/A</span><span>${fmt(r.qt_leads)} / ${pct(r.pc_qual)}</span></div>`, ev);
+    });
+    hover.addEventListener('mouseleave', hideTip);
+    svg.appendChild(hover);
+  }
+
+  // ---- pacing ----
+  function renderPace(C) {
+    const svg = document.getElementById('chart-pace'); clear(svg);
+    const P = C.pacing; const R = C.resumo;
+    const W = 1080, H = 250, m = { t: 14, r: 130, b: 26, l: 56 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const last = P[P.length - 1];
+    const maxY = Math.max(last.esperado_hi || 0, last.realizado || 0) * 1.08 || 1;
+    const px = (i) => m.l + (i / Math.max(P.length - 1, 1)) * iw;
+    const py = (v) => m.t + ih - (v / maxY) * ih;
+    const step = maxY > 200000 ? 50000 : maxY > 50000 ? 10000 : maxY > 20000 ? 5000 : 1000;
+    for (let v = step; v < maxY; v += step) {
+      svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: py(v), y2: py(v), stroke: 'var(--grid)', 'stroke-dasharray': '3 3' }));
+      svg.appendChild(el('text', { x: m.l - 6, y: py(v) + 3, 'text-anchor': 'end' }, curK(v)));
+    }
+    const band = P.map((p, i) => (i ? 'L' : 'M') + px(i).toFixed(1) + ' ' + py(p.esperado_hi).toFixed(1)).join(' ') +
+      ' ' + [...P].reverse().map((p, k) => 'L' + px(P.length - 1 - k).toFixed(1) + ' ' + py(p.esperado_lo).toFixed(1)).join(' ') + ' Z';
+    svg.appendChild(el('path', { d: band, fill: 'var(--primary-soft)', stroke: 'none' }));
+    const path = (key, color, dash) => svg.appendChild(el('path', { d: P.map((p, i) => (i ? 'L' : 'M') + px(i).toFixed(1) + ' ' + py(p[key]).toFixed(1)).join(' '), fill: 'none', stroke: color, 'stroke-width': 2, 'stroke-dasharray': dash || 'none' }));
+    path('esperado', 'var(--primary)', '6 4'); path('realizado', 'var(--emerald)');
+    const endLbl = (v, txt, color) => { const t = el('text', { x: W - m.r + 6, y: py(v) + 4, 'font-weight': 700 }, txt); t.setAttribute('fill', color); svg.appendChild(t); };
+    endLbl(last.esperado, curK(last.esperado) + ' esperado', 'var(--primary)');
+    endLbl(last.realizado, curK(last.realizado) + ' realizado', 'var(--emerald)');
+    const every = Math.ceil(P.length / 14);
+    P.forEach((p, i) => { if (i % every === 0) svg.appendChild(el('text', { x: px(i), y: H - 8, 'text-anchor': 'middle' }, dmy(p.dt))); });
+    const hover = el('rect', { x: m.l, y: m.t, width: iw, height: ih, fill: 'transparent' });
+    hover.addEventListener('mousemove', (ev) => {
+      const rect = svg.getBoundingClientRect();
+      const i = Math.max(0, Math.min(P.length - 1, Math.round(((ev.clientX - rect.left) - m.l) / iw * (P.length - 1))));
+      const p = P[i]; const pc = p.esperado > 0 ? Math.round(100 * p.realizado / p.esperado) : null;
+      showTip(`<b>${dmy(p.dt)}</b><div class="row"><span><i style="background:var(--emerald)"></i>Realizado</span><span><b>${curK(p.realizado)}</b></span></div>` +
+        `<div class="row"><span><i style="background:var(--primary)"></i>Esperado</span><span>${curK(p.esperado)} <span class="rng">(${curK(p.esperado_lo)}–${curK(p.esperado_hi)})</span></span></div>` +
+        (pc != null ? `<div class="row"><span>Pacing</span><span><b>${pc}%</b></span></div>` : ''), ev);
+    });
+    hover.addEventListener('mouseleave', hideTip);
+    svg.appendChild(hover);
+    const pc = last.esperado > 0 ? Math.round(100 * last.realizado / last.esperado) : null;
+    const badge = document.getElementById('pace-badge');
+    if (pc == null) { badge.textContent = ''; }
+    else {
+      badge.textContent = pc + '% do esperado';
+      const cls = last.realizado >= last.esperado_lo ? (last.realizado >= last.esperado ? 'good' : 'warn') : 'bad';
+      badge.style.background = `var(--heat-${cls}-bg)`; badge.style.color = `var(--heat-${cls}-fg)`;
+    }
+    document.getElementById('pace-note').innerHTML =
+      `Esperado = cada coorte diária de leads × curva de receita acumulada por idade do lead (mediana de ${D.curva_referencia.tags.replaceAll(',', ', ')}, só compras antes da abertura de venda; faixa = min–máx entre elas; horizonte ${D.curva_referencia.horizonte_dias} dias). ` +
+      `Realizado = receita bruta last-click dos leads da campanha, por data da compra. Abaixo da faixa com qualidade boa → a conversa é sobre a <b>oferta</b> (LP / obrigado / CRM), não sobre a mídia; parte da qualidade fica travada até a abertura (membros/ex compram no evento).`;
+  }
+
+  // ---- anúncios ----
+  function renderAds(C) {
+    const tb = document.querySelector('#tbl-ads tbody'); tb.innerHTML = '';
+    document.getElementById('ads-title').textContent = `Qualidade por anúncio — top ${C.ads.length} em gasto (Meta, de ${C.qt_ads_total})`;
+    if (!C.ads.length) { tb.innerHTML = '<tr><td colspan="10" class="empty">sem anúncios Meta com spend e leads atribuídos</td></tr>'; return; }
+    C.ads.forEach((a) => {
+      const tr = document.createElement('tr');
+      const mixHtml = '<div class="mix">' + BANDS.map((b) => `<i style="width:${a.mix_pct[b.key]}%;background:var(${b.v})"></i>`).join('') + '</div>';
+      const conf = a.bl_amostra_ok ? '' : ` <span class="warn-chip" title="menos de ${D.n_min_criativo} leads — leitura indicativa">n&lt;${D.n_min_criativo}</span>`;
+      tr.innerHTML = `
+        <td>${a.nome}${conf}<div class="muted" style="font-size:11px">${a.adset || ''}</div></td>
+        <td>${cur(a.vl_spend, 0)}</td>
+        <td>${fmt(a.qt_leads)}</td>
+        <td>${cur(a.vl_cpl)}</td>
+        <td>${mixHtml}</td>
+        <td>${pct(a.pc_qual)}</td>
+        <td>${pct(a.pc_survey, 0)}</td>
+        <td>${cur(a.vl_ev_capi)}</td>
+        <td class="${a.bl_amostra_ok ? heatCls(a.vl_retorno_esp) : ''}"><b>${x(a.vl_retorno_esp)}</b></td>
+        <td>${a.qt_compradores ? `${a.qt_compradores} · ${curK(a.vl_receita_obs)}` : '—'}</td>`;
+      tr.addEventListener('mousemove', (ev) => showTip(`<b>${a.nome}</b>` + BANDS.map((b) => `<div class="row"><span><i style="background:var(${b.v})"></i>${b.key}</span><span>${pct(a.mix_pct[b.key])}</span></div>`).join(''), ev));
+      tr.addEventListener('mouseleave', hideTip);
+      tb.appendChild(tr);
+    });
+    document.getElementById('ads-note').innerHTML =
+      `Retorno = RPL esperado do anúncio (mix de faixas × valor por faixa × fator da campanha) ÷ CPL. Heatmap contra a meta ${x(META, 1)}: verde escuro ≥ 2× · verde claro ≥ ${x(META, 1)} · âmbar 1–${x(META, 1)} · vermelho &lt; 1× (capta no prejuízo). ` +
+      `Lead barato com mix fraco pode se pagar — é o retorno que decide, não a faixa. Anúncios com n&lt;${D.n_min_criativo} não recebem cor (D16). ⚠️ Anúncios com cobertura de pesquisa muito diferente da campanha têm A+/A não comparável (ausência de sinal ≠ lead pior).`;
+  }
+
+  // ---- personas ----
+  function renderPersonas(C) {
+    const tb = document.querySelector('#tbl-personas tbody'); tb.innerHTML = '';
+    const R = C.resumo;
+    document.getElementById('pers-hint').textContent = `composição dos ${fmt(R.qt_qual)} A+/A · ${fmt(R.qt_vendas)} vendas realizadas (${curK(R.vl_receita_obs)})`;
+    C.personas.forEach((p) => {
+      const meta = PERSONAS[p.persona] || { nome: p.persona, attrs: [], fala: '' };
+      const conv = p.qt_compradores < 5 ? `<span class="badge conv" title="menos de 5 vendas — % omitido">○ ${p.qt_compradores} vendas</span>` : `<span class="badge conv">${pct(p.pc_conv, 2)}</span> <span class="muted">${p.qt_compradores} vendas</span>`;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><b>${meta.nome}</b></td>
+        <td class="attr-chips-cell"><span class="attr-chips">${meta.attrs.map((a) => `<span class="badge secondary">${a}</span>`).join('')}</span></td>
+        <td><span class="badge share">${pct(p.pc_qual)}</span><span class="share-bar"><i data-w="${Math.round(p.pc_qual)}%" style="width:${Math.round(p.pc_qual)}%"></i></span></td>
+        <td>${fmt(p.qt_leads)}</td>
+        <td>${conv}</td>
+        <td style="white-space:normal;max-width:220px">${meta.fala}</td>`;
+      tb.appendChild(tr);
+    });
+  }
+
+  // ---- benchmark ----
+  function renderBench(C) {
+    const box = document.getElementById('bench'); box.innerHTML = '';
+    const rows = D.benchmark.filter((b) => b.retorno_proj != null).sort((a, b) => b.retorno_proj - a.retorno_proj);
+    const max = rows[0] ? rows[0].retorno_proj : 1;
+    rows.forEach((b) => {
+      const div = document.createElement('div');
+      div.className = 'bench-row' + (b.tag === C.tag ? ' current' : '');
+      div.innerHTML = `<span class="tag">${b.tag}</span><span class="bench-bar"><i style="width:${(100 * b.retorno_proj / max).toFixed(1)}%"></i></span>` +
+        `<span class="val"><b>${x(b.retorno_proj)}</b> · CPL ${cur(b.vl_cpl)} · proj ${cur(b.rpl_projetado)} · A+/A ${pct(b.pc_qual)}${b.pc_survey < 5 ? ' ⚠︎ sem pesquisa' : ''}${b.estimador === 'ev_iql' ? ' · sem âncora' : ''}</span>`;
+      box.appendChild(div);
+    });
+  }
+
+  render();
+})();
+</script>
