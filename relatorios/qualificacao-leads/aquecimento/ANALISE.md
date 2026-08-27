@@ -46,7 +46,7 @@ CPQL > CPL e fechar o loop com a plataforma (value-based bidding = CAPI com valo
 ## Pendências / próximos passos
 
 1. **Passo 2 — camada Vigiar** (ver plano). Banda de controle XmR sobre `serie[].vl_retorno_esp` e `pacing[]`; bloco de inputs com alvo; leitura piso–teto por anúncio; seção "cadência" (mídia diário / gestão segunda-feira / analytics no fechamento).
-2. Publicar no portal (card em `relatorios/index.html`, seção do IQL) — aguardando ok do André para commit (regra: nunca commitar sem perguntar).
+2. ~~Publicar no portal~~ ✅ 26/08 (card na seção IQL); atualizado 27/08 com 5 campanhas.
 3. Spend da ENE parou em 06/08 nas planilhas Adveronix — confirmar com a mídia se a campanha foi pausada ou se é lacuna de dado.
 4. JOM: PMax `[LAN] [JOM] [LEAD] [PMAX] Junho` clonada com URL da ENE (meta-insider-ads.md) — parte do spend JOM gerou leads ENE; CPL JOM levemente superestimado e ENE subestimado. Não corrigido aqui.
 5. Quando validado → marketing-bp (fix da regex `__(\d+)$` na `fetch-leads-attribution` junto).
