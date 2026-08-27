@@ -76,6 +76,48 @@ links dos encurtadores BP são de campanha própria (freemium, compartilhe, EVG)
 - **O rótulo de edição é `DD/MM`** e serve de chave no match parceiro→edição no `index.html`.
   Seguro na janela de 120 dias; se algum dia a janela passar de 365 dias, colide e precisa virar data ISO.
 
+## Próxima fase: migrar para o marketing-bp
+
+**Fonte muda para o mart `datamart.cbo_insider_email_analytics_daily`** (descoberto 25/ago), que já tem
+tudo pronto e resolve o refresh manual:
+
+- `qt_sent` (o "Sent" real do Insider — 385.512 na edição de 14/07, contra 390.048 da minha aproximação
+  `delivered+blocked+dropped+bounce`), `qt_delivered`, `qt_unique_open`, `qt_unique_machine_open`, `qt_unique_click`
+- **`arr_link_activity`** — array com URL + cliques + cliques únicos por link: é a segmentação por parceiro
+  pronta, idêntica ao "Link Click Activity" da UI do Insider (Vimansca 14/07: 141 cliques / 67 pessoas ✓)
+- **443 edições desde fev/2024** → mata a limitação da janela de 120 dias
+- Atualizado pelo dbt → sem `refresh.py`, sem `data.json`, sem launchd
+
+Padrão do marketing-bp: edge function (`requireAuth` + `_shared/bigquery.ts`) → hook → componente → rota.
+⚠️ Edge function **não sobe no push** — deploy manual pela Lovable.
+
+### Cadastro de anunciantes (desenho definido 25/ago — a validar com Elias)
+
+A classificação *fail-open* de hoje não sobrevive ao histórico completo: no mart inteiro aparecem
+`revistaoeste.com`, `gazetadopovo.com.br`, `cnnbrasil`, `senado.leg.br`, `vatican.va` — todos **fontes
+das matérias** do Resumo BP, que virariam anunciantes falsos. Precisa de lista explícita.
+
+Testado e **refutado**: usar a forma do link (raiz vs caminho) para separar anúncio de fonte. Vimansca usa
+`vimansca.com.br/` (raiz), mas Sendflow usa `sndflw.com/i/T7HR...` e Lídio Carraro
+`loja.lidiocarraro.com/raridades/...` — iguais a link de matéria. **Não há sinal estrutural; tem que ser humano.**
+
+Desenho: **cadastro por empresa, não por inserção** — registrar um domínio pega todas as inserções dele,
+passadas e futuras. Mais uma **fila de pendências**: domínio não classificado não entra como anunciante,
+fica esperando triagem (o oposto de hoje, onde entra sozinho e errado — foi assim que `terra.com.br` virou
+falso anunciante). Volume medido: **1 a 4 domínios novos por mês**, em geral 2.
+
+Três tipos, não dois — `substack.com/@telleroficial` e `docs.google.com/forms` são **conteúdo da própria BP**,
+nem anúncio nem fonte externa.
+
+Tabela: `dominio` (PK), `tipo` (`anunciante`/`fonte_externa`/`conteudo_bp`), `nm_empresa`, `caminho_prefixo`
+(opcional, para domínio compartilhado tipo Sympla), `bl_ativo`, auditoria. Nome da empresa é campo próprio
+porque uma marca pode ter mais de um domínio.
+
+Mockup navegável com dados reais: artifact `99bbc54b`.
+
+⚠️ Regra de processo, não de software: **link de anunciante não pode ser embrulhado no encurtador BP**
+(`sitebp.la`, `go.bp.app`) — o clique viraria tráfego BP e o anunciante sumiria. Conferido em 25/ago: ok hoje.
+
 ## Pendências / próximos passos
 
 - Validar dash com Nicolas/Elias (mensagem na thread do #performance-e-bi).
