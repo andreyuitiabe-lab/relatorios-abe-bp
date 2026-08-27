@@ -35,9 +35,18 @@ FAIXAS = ["A+", "A", "B", "C", "D"]
 # Campanhas acompanhadas. dt_inicio protege tags reusadas (JOM existe desde out/2025).
 # Períodos: wiki-brasil-paralelo/pages/campanhas-calendario.md.
 CAMPANHAS = [
-    {"tag": "ENE", "nome": "Enéas", "dt_inicio": "2026-07-27",
+    {"tag": "ENE", "nome": "Enéas", "dt_inicio": "2026-07-27", "tipo": "aberto",
      "aquecimento": ["2026-07-27", "2026-08-23"], "venda": "2026-07-28",
      "nota": "Venda direta desde 28/07 — campanha [VENDA] roda junto com a captação."},
+    {"tag": "EVG", "nome": "Brasil Evangélico", "dt_inicio": "2026-05-21",
+     "aquecimento": ["2026-05-21", "2026-07-07"], "venda": "2026-07-08",
+     "nota": "Primeira campanha com pesquisa in-funnel (cobertura ~69%)."},
+    {"tag": "BP10", "nome": "BP 10 Anos", "dt_inicio": "2026-06-11",
+     "aquecimento": ["2026-06-11", "2026-07-15"], "venda": "2026-07-16",
+     "nota": "Oferta com combos/vitalício — receita concentrada em high-ticket; abertura dentro da janela infla o RPL vs projeção."},
+    {"tag": "ELB26", "nome": "Entre Lobos 2026", "dt_inicio": "2026-07-14",
+     "aquecimento": ["2026-07-14", "2026-07-31"], "venda": None,
+     "nota": "Captação encerrada ~31/07; venda não abriu (produção no ar desde 29/07)."},
     {"tag": "JOM", "nome": "John Money", "dt_inicio": "2026-07-25",
      "aquecimento": ["2026-07-25", None], "venda": None,
      "nota": "Tag reusada desde out/2025 — leads e spend contados a partir de 25/07. "
@@ -175,9 +184,19 @@ def main():
 
         dt_fim = max([r["dt"] for r in serie] + [hoje.isoformat()])
         pace = pacing(serie, real_raw, curva, ini, dt_fim)
+        # a curva esperada é PRÉ-ABERTURA: depois que a venda abre, o realizado descola
+        # por desenho. O veredito do pacing é lido no último dia antes da abertura.
+        # lançamento "aberto" (venda direta desde o dia 1) não tem corte: a curva vale inteira.
+        venda = None if c.get("tipo") == "aberto" else c["venda"]
+        corte = [x for x in pace if not venda or x["dt"] < venda]
+        pace_ref = corte[-1] if corte else pace[-1]
+        pacing_info = {"dt_corte": pace_ref["dt"], "na_abertura": bool(venda and venda <= dt_fim),
+                       "esperado": pace_ref["esperado"], "esperado_lo": pace_ref["esperado_lo"],
+                       "esperado_hi": pace_ref["esperado_hi"], "realizado": pace_ref["realizado"]}
 
         campanhas.append({
             **{k: c[k] for k in ("tag", "nome", "dt_inicio", "aquecimento", "venda", "nota")},
+            "tipo": c.get("tipo", "fechado"),
             "resumo": {
                 "qt_leads": leads, "vl_spend": spend, "vl_cpl": cpl,
                 "dt_spend_ini": res["dt_spend_ini"] or None, "dt_spend_fim": res["dt_spend_fim"] or None,
@@ -201,6 +220,7 @@ def main():
             "ads": ads[:TOP_ADS],
             "qt_ads_total": len(ads),
             "pacing": pace,
+            "pacing_ref": pacing_info,
             "personas": [{"persona": p["persona"], "qt_leads": integer(p["qt_leads"]),
                           "pc_qual": num(p["pc_qual"]), "qt_compradores": integer(p["qt_compradores"]),
                           "pc_conv": num(p["pc_conv"]), "vl_receita": num(p["vl_receita"], 0)}

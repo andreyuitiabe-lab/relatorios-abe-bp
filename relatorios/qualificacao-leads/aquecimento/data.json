@@ -1,5 +1,5 @@
 {
- "gerado_em": "26/08/2026 17:03",
+ "gerado_em": "27/08/2026 19:13",
  "meta_retorno": 1.5,
  "n_min_criativo": 50,
  "faixas": [
@@ -50,50 +50,50 @@
    2.271,
    2.3029,
    2.3752,
-   2.4082,
-   2.471,
-   2.506,
-   2.5225,
-   2.603,
-   2.6587,
-   2.6897,
-   2.7514,
-   2.8142,
-   2.8339,
-   2.8873,
-   2.928,
-   2.9472,
-   2.9576,
-   2.9868,
-   3.0042,
-   3.0042,
-   3.0123,
-   3.028,
-   3.028,
-   3.0323,
-   3.0478,
-   3.0478,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503,
-   3.0503
+   2.4064,
+   2.4692,
+   2.5042,
+   2.5206,
+   2.6012,
+   2.6569,
+   2.6879,
+   2.7478,
+   2.8105,
+   2.8303,
+   2.8837,
+   2.926,
+   2.9474,
+   2.9701,
+   3.0126,
+   3.0465,
+   3.0542,
+   3.0622,
+   3.0779,
+   3.0994,
+   3.1038,
+   3.1193,
+   3.1193,
+   3.1239,
+   3.1239,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503,
+   3.1503
   ]
  },
  "campanhas": [
@@ -107,35 +107,36 @@
    ],
    "venda": "2026-07-28",
    "nota": "Venda direta desde 28/07 — campanha [VENDA] roda junto com a captação.",
+   "tipo": "aberto",
    "resumo": {
-    "qt_leads": 15432,
-    "vl_spend": 18377.85000000003,
+    "qt_leads": 15436,
+    "vl_spend": 18377.85,
     "vl_cpl": 1.19,
     "dt_spend_ini": "2026-07-28",
     "dt_spend_fim": "2026-08-06",
     "pc_qual": 31.8,
     "qt_qual": 4910,
     "vl_score": -10.2,
-    "vl_ev_capi": 11.98,
+    "vl_ev_capi": 8.96,
     "pc_survey": 57.3,
     "qt_resp": 8845,
     "pc_qual_resp": 47.9,
-    "vl_ev_capi_resp": 14.59,
-    "vl_receita_obs": 47983.0,
-    "qt_vendas": 227,
-    "qt_compradores": 193,
-    "roas_realizado": 2.61,
-    "rpl_projetado": 11.98,
-    "rpl_lo": 9.41,
-    "rpl_hi": 15.01,
+    "vl_ev_capi_resp": 10.91,
+    "vl_receita_obs": 51802.0,
+    "qt_vendas": 232,
+    "qt_compradores": 198,
+    "roas_realizado": 2.82,
+    "rpl_projetado": 12.06,
+    "rpl_lo": 9.48,
+    "rpl_hi": 15.12,
     "estimador": "rpl_d7",
-    "pc_erro": 23.0,
-    "bl_ancorado": true,
-    "retorno_esperado": 10.07,
-    "retorno_teto": 12.26,
-    "cpl_max": 7.99,
-    "vl_projetado_total": 184875.36,
-    "dt_referencia": "2026-08-26"
+    "pc_erro": 35.0,
+    "bl_ancorado": false,
+    "retorno_esperado": 10.13,
+    "retorno_teto": 9.17,
+    "cpl_max": 8.04,
+    "vl_projetado_total": 186158.16,
+    "dt_referencia": "2026-08-27"
    },
    "serie": [
     {
@@ -152,7 +153,7 @@
      "pc_survey": 0.0,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 11.75,
+     "vl_ev_capi": 8.79,
      "vl_retorno_esp": null
     },
     {
@@ -169,8 +170,8 @@
      "pc_survey": 49.24,
      "vl_spend": 1483.63,
      "vl_cpl": 1.19,
-     "vl_ev_capi": 10.53,
-     "vl_retorno_esp": 8.88
+     "vl_ev_capi": 7.87,
+     "vl_retorno_esp": 6.64
     },
     {
      "dt": "2026-07-29",
@@ -186,8 +187,8 @@
      "pc_survey": 53.82,
      "vl_spend": 2760.69,
      "vl_cpl": 1.39,
-     "vl_ev_capi": 10.67,
-     "vl_retorno_esp": 7.68
+     "vl_ev_capi": 7.98,
+     "vl_retorno_esp": 5.75
     },
     {
      "dt": "2026-07-30",
@@ -203,8 +204,8 @@
      "pc_survey": 57.66,
      "vl_spend": 2437.38,
      "vl_cpl": 1.51,
-     "vl_ev_capi": 10.78,
-     "vl_retorno_esp": 7.16
+     "vl_ev_capi": 8.06,
+     "vl_retorno_esp": 5.35
     },
     {
      "dt": "2026-07-31",
@@ -220,8 +221,8 @@
      "pc_survey": 62.88,
      "vl_spend": 2840.24,
      "vl_cpl": 1.41,
-     "vl_ev_capi": 11.42,
-     "vl_retorno_esp": 8.1
+     "vl_ev_capi": 8.54,
+     "vl_retorno_esp": 6.06
     },
     {
      "dt": "2026-08-01",
@@ -237,8 +238,8 @@
      "pc_survey": 62.88,
      "vl_spend": 2808.57,
      "vl_cpl": 1.37,
-     "vl_ev_capi": 11.81,
-     "vl_retorno_esp": 8.62
+     "vl_ev_capi": 8.83,
+     "vl_retorno_esp": 6.45
     },
     {
      "dt": "2026-08-02",
@@ -254,8 +255,8 @@
      "pc_survey": 64.67,
      "vl_spend": 2053.62,
      "vl_cpl": 1.28,
-     "vl_ev_capi": 11.9,
-     "vl_retorno_esp": 9.3
+     "vl_ev_capi": 8.9,
+     "vl_retorno_esp": 6.96
     },
     {
      "dt": "2026-08-03",
@@ -271,8 +272,8 @@
      "pc_survey": 62.46,
      "vl_spend": 572.53,
      "vl_cpl": 0.96,
-     "vl_ev_capi": 12.95,
-     "vl_retorno_esp": 13.44
+     "vl_ev_capi": 9.69,
+     "vl_retorno_esp": 10.05
     },
     {
      "dt": "2026-08-04",
@@ -288,8 +289,8 @@
      "pc_survey": 66.09,
      "vl_spend": 728.15,
      "vl_cpl": 1.05,
-     "vl_ev_capi": 13.46,
-     "vl_retorno_esp": 12.86
+     "vl_ev_capi": 10.06,
+     "vl_retorno_esp": 9.62
     },
     {
      "dt": "2026-08-05",
@@ -305,8 +306,8 @@
      "pc_survey": 62.38,
      "vl_spend": 2014.87,
      "vl_cpl": 1.52,
-     "vl_ev_capi": 12.07,
-     "vl_retorno_esp": 7.96
+     "vl_ev_capi": 9.03,
+     "vl_retorno_esp": 5.95
     },
     {
      "dt": "2026-08-06",
@@ -322,8 +323,8 @@
      "pc_survey": 53.38,
      "vl_spend": 678.17,
      "vl_cpl": 1.02,
-     "vl_ev_capi": 13.3,
-     "vl_retorno_esp": 13.04
+     "vl_ev_capi": 9.95,
+     "vl_retorno_esp": 9.75
     },
     {
      "dt": "2026-08-07",
@@ -339,7 +340,7 @@
      "pc_survey": 27.75,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 14.13,
+     "vl_ev_capi": 10.56,
      "vl_retorno_esp": null
     },
     {
@@ -356,7 +357,7 @@
      "pc_survey": 53.54,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 17.56,
+     "vl_ev_capi": 13.13,
      "vl_retorno_esp": null
     },
     {
@@ -373,7 +374,7 @@
      "pc_survey": 64.04,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 18.9,
+     "vl_ev_capi": 14.14,
      "vl_retorno_esp": null
     },
     {
@@ -390,7 +391,7 @@
      "pc_survey": 64.41,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 19.48,
+     "vl_ev_capi": 14.57,
      "vl_retorno_esp": null
     },
     {
@@ -407,7 +408,7 @@
      "pc_survey": 34.21,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 13.94,
+     "vl_ev_capi": 10.42,
      "vl_retorno_esp": null
     },
     {
@@ -424,7 +425,7 @@
      "pc_survey": 42.98,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 17.2,
+     "vl_ev_capi": 12.86,
      "vl_retorno_esp": null
     },
     {
@@ -441,7 +442,7 @@
      "pc_survey": 49.15,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 17.16,
+     "vl_ev_capi": 12.83,
      "vl_retorno_esp": null
     },
     {
@@ -458,7 +459,7 @@
      "pc_survey": 50.0,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 17.53,
+     "vl_ev_capi": 13.11,
      "vl_retorno_esp": null
     },
     {
@@ -475,7 +476,7 @@
      "pc_survey": 44.3,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 16.42,
+     "vl_ev_capi": 12.28,
      "vl_retorno_esp": null
     },
     {
@@ -492,7 +493,7 @@
      "pc_survey": 66.67,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 18.59,
+     "vl_ev_capi": 13.9,
      "vl_retorno_esp": null
     },
     {
@@ -509,7 +510,7 @@
      "pc_survey": 54.37,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 16.63,
+     "vl_ev_capi": 12.44,
      "vl_retorno_esp": null
     },
     {
@@ -526,7 +527,7 @@
      "pc_survey": 30.77,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 14.32,
+     "vl_ev_capi": 10.71,
      "vl_retorno_esp": null
     },
     {
@@ -543,7 +544,7 @@
      "pc_survey": 27.67,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 13.93,
+     "vl_ev_capi": 10.42,
      "vl_retorno_esp": null
     },
     {
@@ -560,7 +561,7 @@
      "pc_survey": 5.66,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 8.98,
+     "vl_ev_capi": 6.71,
      "vl_retorno_esp": null
     },
     {
@@ -577,7 +578,7 @@
      "pc_survey": 12.5,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 9.68,
+     "vl_ev_capi": 7.24,
      "vl_retorno_esp": null
     },
     {
@@ -594,7 +595,7 @@
      "pc_survey": 2.56,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 11.23,
+     "vl_ev_capi": 8.4,
      "vl_retorno_esp": null
     },
     {
@@ -611,7 +612,7 @@
      "pc_survey": 3.7,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 9.81,
+     "vl_ev_capi": 7.34,
      "vl_retorno_esp": null
     },
     {
@@ -628,7 +629,7 @@
      "pc_survey": 0.0,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 13.52,
+     "vl_ev_capi": 10.11,
      "vl_retorno_esp": null
     },
     {
@@ -645,7 +646,7 @@
      "pc_survey": 9.09,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 7.2,
+     "vl_ev_capi": 5.39,
      "vl_retorno_esp": null
     },
     {
@@ -655,14 +656,31 @@
       "A+": 0,
       "A": 0,
       "B": 0,
-      "C": 2,
+      "C": 4,
       "D": 0
      },
      "pc_qual": 0.0,
      "pc_survey": 0.0,
      "vl_spend": null,
      "vl_cpl": null,
-     "vl_ev_capi": 6.42,
+     "vl_ev_capi": 4.8,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-27",
+     "qt_leads": 4,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 0,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": null,
      "vl_retorno_esp": null
     }
    ],
@@ -683,11 +701,11 @@
      },
      "pc_qual": 25.49,
      "vl_score": -14.9,
-     "vl_ev_capi": 10.71,
+     "vl_ev_capi": 8.01,
      "pc_survey": 59.5,
-     "vl_retorno_esp": 8.03,
-     "qt_compradores": 54,
-     "vl_receita_obs": 10863.0,
+     "vl_retorno_esp": 6.0,
+     "qt_compradores": 56,
+     "vl_receita_obs": 11149.0,
      "bl_amostra_ok": true
     },
     {
@@ -706,9 +724,9 @@
      },
      "pc_qual": 34.63,
      "vl_score": -9.5,
-     "vl_ev_capi": 12.33,
+     "vl_ev_capi": 9.22,
      "pc_survey": 62.6,
-     "vl_retorno_esp": 9.86,
+     "vl_retorno_esp": 7.38,
      "qt_compradores": 21,
      "vl_receita_obs": 4148.0,
      "bl_amostra_ok": true
@@ -729,9 +747,9 @@
      },
      "pc_qual": 30.27,
      "vl_score": -12.1,
-     "vl_ev_capi": 11.19,
+     "vl_ev_capi": 8.37,
      "pc_survey": 53.9,
-     "vl_retorno_esp": 7.72,
+     "vl_retorno_esp": 5.77,
      "qt_compradores": 5,
      "vl_receita_obs": 1013.0,
      "bl_amostra_ok": true
@@ -752,9 +770,9 @@
      },
      "pc_qual": 41.15,
      "vl_score": -5.3,
-     "vl_ev_capi": 13.74,
+     "vl_ev_capi": 10.27,
      "pc_survey": 65.5,
-     "vl_retorno_esp": 10.45,
+     "vl_retorno_esp": 7.82,
      "qt_compradores": 2,
      "vl_receita_obs": 311.0,
      "bl_amostra_ok": true
@@ -775,9 +793,9 @@
      },
      "pc_qual": 18.4,
      "vl_score": -18.9,
-     "vl_ev_capi": 9.55,
+     "vl_ev_capi": 7.14,
      "pc_survey": 59.9,
-     "vl_retorno_esp": 3.55,
+     "vl_retorno_esp": 2.66,
      "qt_compradores": 2,
      "vl_receita_obs": 407.0,
      "bl_amostra_ok": true
@@ -798,9 +816,9 @@
      },
      "pc_qual": 37.25,
      "vl_score": -8.8,
-     "vl_ev_capi": 12.75,
+     "vl_ev_capi": 9.54,
      "pc_survey": 63.0,
-     "vl_retorno_esp": 8.19,
+     "vl_retorno_esp": 6.12,
      "qt_compradores": 4,
      "vl_receita_obs": 517.0,
      "bl_amostra_ok": true
@@ -821,9 +839,9 @@
      },
      "pc_qual": 35.07,
      "vl_score": -8.0,
-     "vl_ev_capi": 12.98,
+     "vl_ev_capi": 9.71,
      "pc_survey": 61.1,
-     "vl_retorno_esp": 8.53,
+     "vl_retorno_esp": 6.38,
      "qt_compradores": 3,
      "vl_receita_obs": 779.0,
      "bl_amostra_ok": true
@@ -844,9 +862,9 @@
      },
      "pc_qual": 25.64,
      "vl_score": -12.7,
-     "vl_ev_capi": 11.21,
+     "vl_ev_capi": 8.39,
      "pc_survey": 52.6,
-     "vl_retorno_esp": 7.88,
+     "vl_retorno_esp": 5.89,
      "qt_compradores": 0,
      "vl_receita_obs": 0.0,
      "bl_amostra_ok": true
@@ -867,9 +885,9 @@
      },
      "pc_qual": 34.04,
      "vl_score": -9.6,
-     "vl_ev_capi": 11.58,
+     "vl_ev_capi": 8.66,
      "pc_survey": 55.3,
-     "vl_retorno_esp": 6.27,
+     "vl_retorno_esp": 4.69,
      "qt_compradores": 0,
      "vl_receita_obs": 0.0,
      "bl_amostra_ok": false
@@ -890,9 +908,9 @@
      },
      "pc_qual": 23.33,
      "vl_score": -16.8,
-     "vl_ev_capi": 10.33,
+     "vl_ev_capi": 7.73,
      "pc_survey": 63.3,
-     "vl_retorno_esp": 4.06,
+     "vl_retorno_esp": 3.04,
      "qt_compradores": 0,
      "vl_receita_obs": 0.0,
      "bl_amostra_ok": false
@@ -913,9 +931,9 @@
      },
      "pc_qual": 25.0,
      "vl_score": -14.4,
-     "vl_ev_capi": 11.53,
+     "vl_ev_capi": 8.62,
      "pc_survey": 70.5,
-     "vl_retorno_esp": 7.64,
+     "vl_retorno_esp": 5.71,
      "qt_compradores": 0,
      "vl_receita_obs": 0.0,
      "bl_amostra_ok": false
@@ -936,9 +954,9 @@
      },
      "pc_qual": 51.72,
      "vl_score": 3.6,
-     "vl_ev_capi": 15.91,
+     "vl_ev_capi": 11.9,
      "pc_survey": 55.2,
-     "vl_retorno_esp": 6.96,
+     "vl_retorno_esp": 5.2,
      "qt_compradores": 0,
      "vl_receita_obs": 0.0,
      "bl_amostra_ok": false
@@ -1027,143 +1045,158 @@
      "dt": "2026-08-07",
      "esperado": 23286.75,
      "esperado_lo": 17647.18,
-     "esperado_hi": 46060.84,
+     "esperado_hi": 46060.82,
      "realizado": 10787.56
     },
     {
      "dt": "2026-08-08",
      "esperado": 24534.32,
      "esperado_lo": 18617.92,
-     "esperado_hi": 48904.48,
+     "esperado_hi": 48896.2,
      "realizado": 12591.16
     },
     {
      "dt": "2026-08-09",
      "esperado": 25746.47,
      "esperado_lo": 19493.65,
-     "esperado_hi": 51519.03,
+     "esperado_hi": 51497.62,
      "realizado": 14597.56
     },
     {
      "dt": "2026-08-10",
      "esperado": 26928.27,
      "esperado_lo": 20286.35,
-     "esperado_hi": 53875.52,
+     "esperado_hi": 53843.43,
      "realizado": 17155.96
     },
     {
      "dt": "2026-08-11",
      "esperado": 28125.91,
      "esperado_lo": 21102.86,
-     "esperado_hi": 56341.32,
+     "esperado_hi": 56295.91,
      "realizado": 19263.16
     },
     {
      "dt": "2026-08-12",
      "esperado": 29270.55,
      "esperado_lo": 21898.54,
-     "esperado_hi": 58879.25,
+     "esperado_hi": 58811.17,
      "realizado": 20917.96
     },
     {
      "dt": "2026-08-13",
-     "esperado": 30323.89,
+     "esperado": 30323.88,
      "esperado_lo": 22609.98,
-     "esperado_hi": 61138.16,
+     "esperado_hi": 61044.85,
      "realizado": 22720.36
     },
     {
      "dt": "2026-08-14",
-     "esperado": 31393.57,
+     "esperado": 31391.31,
      "esperado_lo": 23311.02,
-     "esperado_hi": 62969.04,
+     "esperado_hi": 62859.93,
      "realizado": 24829.96
     },
     {
      "dt": "2026-08-15",
-     "esperado": 32421.63,
+     "esperado": 32415.79,
      "esperado_lo": 24001.03,
-     "esperado_hi": 64715.92,
+     "esperado_hi": 64587.54,
      "realizado": 28717.48
     },
     {
      "dt": "2026-08-16",
-     "esperado": 33360.27,
+     "esperado": 33351.52,
      "esperado_lo": 24664.44,
-     "esperado_hi": 66173.96,
+     "esperado_hi": 66021.68,
      "realizado": 30234.28
     },
     {
      "dt": "2026-08-17",
-     "esperado": 34249.52,
+     "esperado": 34237.02,
      "esperado_lo": 25281.99,
-     "esperado_hi": 67340.41,
+     "esperado_hi": 67171.82,
      "realizado": 31329.88
     },
     {
      "dt": "2026-08-18",
-     "esperado": 35271.84,
+     "esperado": 35255.57,
      "esperado_lo": 25935.81,
-     "esperado_hi": 68540.06,
+     "esperado_hi": 68365.76,
      "realizado": 34429.48
     },
     {
      "dt": "2026-08-19",
-     "esperado": 36328.85,
+     "esperado": 36309.73,
      "esperado_lo": 26635.36,
-     "esperado_hi": 69797.49,
+     "esperado_hi": 69617.49,
      "realizado": 39077.08
     },
     {
      "dt": "2026-08-20",
-     "esperado": 37186.95,
+     "esperado": 37166.72,
      "esperado_lo": 27239.56,
-     "esperado_hi": 70750.6,
+     "esperado_hi": 70560.29,
      "realizado": 41031.88
     },
     {
      "dt": "2026-08-21",
-     "esperado": 38025.94,
+     "esperado": 38002.19,
      "esperado_lo": 27793.65,
-     "esperado_hi": 71505.71,
+     "esperado_hi": 71309.96,
      "realizado": 43085.08
     },
     {
      "dt": "2026-08-22",
-     "esperado": 38908.01,
+     "esperado": 38878.22,
      "esperado_lo": 28344.55,
-     "esperado_hi": 72190.74,
+     "esperado_hi": 71992.99,
      "realizado": 43739.08
     },
     {
      "dt": "2026-08-23",
-     "esperado": 39765.75,
+     "esperado": 39731.87,
      "esperado_lo": 28895.31,
-     "esperado_hi": 72774.79,
+     "esperado_hi": 72575.78,
      "realizado": 45686.68
     },
     {
      "dt": "2026-08-24",
-     "esperado": 40524.09,
+     "esperado": 40486.28,
      "esperado_lo": 29422.73,
-     "esperado_hi": 73255.57,
+     "esperado_hi": 73055.51,
      "realizado": 47697.88
     },
     {
      "dt": "2026-08-25",
-     "esperado": 41275.15,
+     "esperado": 41235.38,
      "esperado_lo": 29972.96,
-     "esperado_hi": 73724.09,
+     "esperado_hi": 73523.11,
      "realizado": 47983.48
     },
     {
      "dt": "2026-08-26",
-     "esperado": 42017.83,
+     "esperado": 41981.05,
      "esperado_lo": 30512.61,
-     "esperado_hi": 74151.81,
-     "realizado": 47983.48
+     "esperado_hi": 73949.57,
+     "realizado": 48114.28
+    },
+    {
+     "dt": "2026-08-27",
+     "esperado": 42654.26,
+     "esperado_lo": 31039.75,
+     "esperado_hi": 74316.56,
+     "realizado": 51801.88
     }
    ],
+   "pacing_ref": {
+    "dt_corte": "2026-08-27",
+    "na_abertura": false,
+    "esperado": 42654.26,
+    "esperado_lo": 31039.75,
+    "esperado_hi": 74316.56,
+    "realizado": 51801.88
+   },
    "personas": [
     {
      "persona": "descobridor",
@@ -1177,9 +1210,9 @@
      "persona": "base_reimpactada",
      "qt_leads": 1715,
      "pc_qual": 34.9,
-     "qt_compradores": 80,
-     "pc_conv": 4.66,
-     "vl_receita": 24372.0
+     "qt_compradores": 84,
+     "pc_conv": 4.9,
+     "vl_receita": 27952.0
     },
     {
      "persona": "veterano",
@@ -1200,6 +1233,5567 @@
    ]
   },
   {
+   "tag": "EVG",
+   "nome": "Brasil Evangélico",
+   "dt_inicio": "2026-05-21",
+   "aquecimento": [
+    "2026-05-21",
+    "2026-07-07"
+   ],
+   "venda": "2026-07-08",
+   "nota": "Primeira campanha com pesquisa in-funnel (cobertura ~69%).",
+   "tipo": "fechado",
+   "resumo": {
+    "qt_leads": 176838,
+    "vl_spend": 615024.3199999982,
+    "vl_cpl": 3.48,
+    "dt_spend_ini": "2026-05-23",
+    "dt_spend_fim": "2026-07-08",
+    "pc_qual": 25.7,
+    "qt_qual": 45376,
+    "vl_score": -10.1,
+    "vl_ev_capi": 17.8,
+    "pc_survey": 69.4,
+    "qt_resp": 122662,
+    "pc_qual_resp": 32.0,
+    "vl_ev_capi_resp": 20.16,
+    "vl_receita_obs": 1369869.0,
+    "qt_vendas": 4737,
+    "qt_compradores": 3902,
+    "roas_realizado": 2.23,
+    "rpl_projetado": 17.8,
+    "rpl_lo": 14.69,
+    "rpl_hi": 20.54,
+    "estimador": "rpl_d30",
+    "pc_erro": 15.0,
+    "bl_ancorado": true,
+    "retorno_esperado": 5.11,
+    "retorno_teto": 5.79,
+    "cpl_max": 11.87,
+    "vl_projetado_total": 3147716.4,
+    "dt_referencia": "2026-08-27"
+   },
+   "serie": [
+    {
+     "dt": "2026-05-21",
+     "qt_leads": 3,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 2,
+      "D": 0
+     },
+     "pc_qual": 33.33,
+     "pc_survey": 33.33,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 19.58,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-05-22",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 9.29,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-05-23",
+     "qt_leads": 567,
+     "mix": {
+      "A+": 123,
+      "A": 31,
+      "B": 77,
+      "C": 334,
+      "D": 2
+     },
+     "pc_qual": 27.16,
+     "pc_survey": 26.63,
+     "vl_spend": 1144.07,
+     "vl_cpl": 2.02,
+     "vl_ev_capi": 17.9,
+     "vl_retorno_esp": 8.87
+    },
+    {
+     "dt": "2026-05-24",
+     "qt_leads": 2336,
+     "mix": {
+      "A+": 289,
+      "A": 143,
+      "B": 253,
+      "C": 1631,
+      "D": 20
+     },
+     "pc_qual": 18.49,
+     "pc_survey": 21.1,
+     "vl_spend": 2663.27,
+     "vl_cpl": 1.14,
+     "vl_ev_capi": 14.83,
+     "vl_retorno_esp": 13.0
+    },
+    {
+     "dt": "2026-05-25",
+     "qt_leads": 1465,
+     "mix": {
+      "A+": 201,
+      "A": 91,
+      "B": 155,
+      "C": 1011,
+      "D": 7
+     },
+     "pc_qual": 19.93,
+     "pc_survey": 20.75,
+     "vl_spend": 1703.11,
+     "vl_cpl": 1.16,
+     "vl_ev_capi": 15.25,
+     "vl_retorno_esp": 13.12
+    },
+    {
+     "dt": "2026-05-26",
+     "qt_leads": 948,
+     "mix": {
+      "A+": 208,
+      "A": 50,
+      "B": 102,
+      "C": 585,
+      "D": 3
+     },
+     "pc_qual": 27.22,
+     "pc_survey": 22.57,
+     "vl_spend": 1401.95,
+     "vl_cpl": 1.48,
+     "vl_ev_capi": 17.69,
+     "vl_retorno_esp": 11.96
+    },
+    {
+     "dt": "2026-05-27",
+     "qt_leads": 1730,
+     "mix": {
+      "A+": 259,
+      "A": 108,
+      "B": 390,
+      "C": 966,
+      "D": 7
+     },
+     "pc_qual": 21.21,
+     "pc_survey": 34.97,
+     "vl_spend": 3098.51,
+     "vl_cpl": 1.79,
+     "vl_ev_capi": 16.74,
+     "vl_retorno_esp": 9.34
+    },
+    {
+     "dt": "2026-05-28",
+     "qt_leads": 1662,
+     "mix": {
+      "A+": 244,
+      "A": 110,
+      "B": 532,
+      "C": 762,
+      "D": 14
+     },
+     "pc_qual": 21.3,
+     "pc_survey": 47.41,
+     "vl_spend": 3346.15,
+     "vl_cpl": 2.01,
+     "vl_ev_capi": 17.54,
+     "vl_retorno_esp": 8.71
+    },
+    {
+     "dt": "2026-05-29",
+     "qt_leads": 1595,
+     "mix": {
+      "A+": 249,
+      "A": 123,
+      "B": 500,
+      "C": 707,
+      "D": 16
+     },
+     "pc_qual": 23.32,
+     "pc_survey": 50.09,
+     "vl_spend": 3411.42,
+     "vl_cpl": 2.14,
+     "vl_ev_capi": 17.9,
+     "vl_retorno_esp": 8.37
+    },
+    {
+     "dt": "2026-05-30",
+     "qt_leads": 1657,
+     "mix": {
+      "A+": 249,
+      "A": 117,
+      "B": 525,
+      "C": 733,
+      "D": 33
+     },
+     "pc_qual": 22.09,
+     "pc_survey": 50.81,
+     "vl_spend": 3905.37,
+     "vl_cpl": 2.36,
+     "vl_ev_capi": 17.62,
+     "vl_retorno_esp": 7.48
+    },
+    {
+     "dt": "2026-05-31",
+     "qt_leads": 2729,
+     "mix": {
+      "A+": 349,
+      "A": 206,
+      "B": 904,
+      "C": 1225,
+      "D": 45
+     },
+     "pc_qual": 20.34,
+     "pc_survey": 51.26,
+     "vl_spend": 6418.52,
+     "vl_cpl": 2.35,
+     "vl_ev_capi": 17.14,
+     "vl_retorno_esp": 7.29
+    },
+    {
+     "dt": "2026-06-01",
+     "qt_leads": 2334,
+     "mix": {
+      "A+": 398,
+      "A": 178,
+      "B": 774,
+      "C": 961,
+      "D": 23
+     },
+     "pc_qual": 24.68,
+     "pc_survey": 52.7,
+     "vl_spend": 5896.98,
+     "vl_cpl": 2.53,
+     "vl_ev_capi": 18.5,
+     "vl_retorno_esp": 7.32
+    },
+    {
+     "dt": "2026-06-02",
+     "qt_leads": 1970,
+     "mix": {
+      "A+": 391,
+      "A": 145,
+      "B": 639,
+      "C": 775,
+      "D": 20
+     },
+     "pc_qual": 27.21,
+     "pc_survey": 53.05,
+     "vl_spend": 5084.3,
+     "vl_cpl": 2.58,
+     "vl_ev_capi": 19.26,
+     "vl_retorno_esp": 7.46
+    },
+    {
+     "dt": "2026-06-03",
+     "qt_leads": 1842,
+     "mix": {
+      "A+": 356,
+      "A": 145,
+      "B": 570,
+      "C": 739,
+      "D": 32
+     },
+     "pc_qual": 27.2,
+     "pc_survey": 52.12,
+     "vl_spend": 4849.49,
+     "vl_cpl": 2.63,
+     "vl_ev_capi": 18.99,
+     "vl_retorno_esp": 7.21
+    },
+    {
+     "dt": "2026-06-04",
+     "qt_leads": 2201,
+     "mix": {
+      "A+": 332,
+      "A": 142,
+      "B": 621,
+      "C": 1083,
+      "D": 23
+     },
+     "pc_qual": 21.54,
+     "pc_survey": 51.34,
+     "vl_spend": 5313.1,
+     "vl_cpl": 2.41,
+     "vl_ev_capi": 17.29,
+     "vl_retorno_esp": 7.16
+    },
+    {
+     "dt": "2026-06-05",
+     "qt_leads": 1941,
+     "mix": {
+      "A+": 273,
+      "A": 135,
+      "B": 657,
+      "C": 835,
+      "D": 41
+     },
+     "pc_qual": 21.02,
+     "pc_survey": 58.32,
+     "vl_spend": 4773.93,
+     "vl_cpl": 2.46,
+     "vl_ev_capi": 17.5,
+     "vl_retorno_esp": 7.12
+    },
+    {
+     "dt": "2026-06-06",
+     "qt_leads": 1799,
+     "mix": {
+      "A+": 298,
+      "A": 195,
+      "B": 797,
+      "C": 463,
+      "D": 46
+     },
+     "pc_qual": 27.4,
+     "pc_survey": 73.82,
+     "vl_spend": 4872.08,
+     "vl_cpl": 2.71,
+     "vl_ev_capi": 19.7,
+     "vl_retorno_esp": 7.27
+    },
+    {
+     "dt": "2026-06-07",
+     "qt_leads": 2483,
+     "mix": {
+      "A+": 350,
+      "A": 269,
+      "B": 1094,
+      "C": 678,
+      "D": 92
+     },
+     "pc_qual": 24.93,
+     "pc_survey": 72.77,
+     "vl_spend": 6023.13,
+     "vl_cpl": 2.43,
+     "vl_ev_capi": 18.86,
+     "vl_retorno_esp": 7.78
+    },
+    {
+     "dt": "2026-06-08",
+     "qt_leads": 1176,
+     "mix": {
+      "A+": 153,
+      "A": 143,
+      "B": 491,
+      "C": 352,
+      "D": 37
+     },
+     "pc_qual": 25.17,
+     "pc_survey": 70.83,
+     "vl_spend": 5433.87,
+     "vl_cpl": 4.62,
+     "vl_ev_capi": 18.51,
+     "vl_retorno_esp": 4.01
+    },
+    {
+     "dt": "2026-06-09",
+     "qt_leads": 1722,
+     "mix": {
+      "A+": 260,
+      "A": 180,
+      "B": 763,
+      "C": 465,
+      "D": 54
+     },
+     "pc_qual": 25.55,
+     "pc_survey": 73.69,
+     "vl_spend": 4428.13,
+     "vl_cpl": 2.57,
+     "vl_ev_capi": 19.17,
+     "vl_retorno_esp": 7.46
+    },
+    {
+     "dt": "2026-06-10",
+     "qt_leads": 2376,
+     "mix": {
+      "A+": 344,
+      "A": 150,
+      "B": 656,
+      "C": 1174,
+      "D": 52
+     },
+     "pc_qual": 20.79,
+     "pc_survey": 46.04,
+     "vl_spend": 6445.38,
+     "vl_cpl": 2.71,
+     "vl_ev_capi": 16.98,
+     "vl_retorno_esp": 6.26
+    },
+    {
+     "dt": "2026-06-11",
+     "qt_leads": 2254,
+     "mix": {
+      "A+": 293,
+      "A": 148,
+      "B": 451,
+      "C": 1323,
+      "D": 39
+     },
+     "pc_qual": 19.57,
+     "pc_survey": 35.18,
+     "vl_spend": 7187.86,
+     "vl_cpl": 3.19,
+     "vl_ev_capi": 15.88,
+     "vl_retorno_esp": 4.98
+    },
+    {
+     "dt": "2026-06-12",
+     "qt_leads": 1557,
+     "mix": {
+      "A+": 208,
+      "A": 139,
+      "B": 633,
+      "C": 510,
+      "D": 67
+     },
+     "pc_qual": 22.29,
+     "pc_survey": 68.34,
+     "vl_spend": 5384.67,
+     "vl_cpl": 3.46,
+     "vl_ev_capi": 18.06,
+     "vl_retorno_esp": 5.22
+    },
+    {
+     "dt": "2026-06-13",
+     "qt_leads": 106,
+     "mix": {
+      "A+": 27,
+      "A": 5,
+      "B": 44,
+      "C": 27,
+      "D": 3
+     },
+     "pc_qual": 30.19,
+     "pc_survey": 75.47,
+     "vl_spend": 7104.3,
+     "vl_cpl": 67.02,
+     "vl_ev_capi": 21.41,
+     "vl_retorno_esp": 0.32
+    },
+    {
+     "dt": "2026-06-14",
+     "qt_leads": 5252,
+     "mix": {
+      "A+": 883,
+      "A": 557,
+      "B": 2019,
+      "C": 1544,
+      "D": 249
+     },
+     "pc_qual": 27.42,
+     "pc_survey": 67.4,
+     "vl_spend": 7342.77,
+     "vl_cpl": 1.4,
+     "vl_ev_capi": 19.11,
+     "vl_retorno_esp": 13.67
+    },
+    {
+     "dt": "2026-06-15",
+     "qt_leads": 2393,
+     "mix": {
+      "A+": 357,
+      "A": 278,
+      "B": 924,
+      "C": 709,
+      "D": 125
+     },
+     "pc_qual": 26.54,
+     "pc_survey": 67.7,
+     "vl_spend": 6950.39,
+     "vl_cpl": 2.9,
+     "vl_ev_capi": 18.65,
+     "vl_retorno_esp": 6.42
+    },
+    {
+     "dt": "2026-06-16",
+     "qt_leads": 3404,
+     "mix": {
+      "A+": 501,
+      "A": 343,
+      "B": 1392,
+      "C": 994,
+      "D": 174
+     },
+     "pc_qual": 24.79,
+     "pc_survey": 68.6,
+     "vl_spend": 11579.42,
+     "vl_cpl": 3.4,
+     "vl_ev_capi": 18.61,
+     "vl_retorno_esp": 5.47
+    },
+    {
+     "dt": "2026-06-17",
+     "qt_leads": 4805,
+     "mix": {
+      "A+": 570,
+      "A": 520,
+      "B": 1942,
+      "C": 1497,
+      "D": 276
+     },
+     "pc_qual": 22.68,
+     "pc_survey": 66.97,
+     "vl_spend": 16586.14,
+     "vl_cpl": 3.45,
+     "vl_ev_capi": 17.75,
+     "vl_retorno_esp": 5.14
+    },
+    {
+     "dt": "2026-06-18",
+     "qt_leads": 4671,
+     "mix": {
+      "A+": 554,
+      "A": 493,
+      "B": 1822,
+      "C": 1528,
+      "D": 274
+     },
+     "pc_qual": 22.41,
+     "pc_survey": 64.12,
+     "vl_spend": 15558.32,
+     "vl_cpl": 3.33,
+     "vl_ev_capi": 17.58,
+     "vl_retorno_esp": 5.28
+    },
+    {
+     "dt": "2026-06-19",
+     "qt_leads": 4235,
+     "mix": {
+      "A+": 521,
+      "A": 490,
+      "B": 1686,
+      "C": 1269,
+      "D": 269
+     },
+     "pc_qual": 23.87,
+     "pc_survey": 67.6,
+     "vl_spend": 15880.63,
+     "vl_cpl": 3.75,
+     "vl_ev_capi": 17.89,
+     "vl_retorno_esp": 4.77
+    },
+    {
+     "dt": "2026-06-20",
+     "qt_leads": 4901,
+     "mix": {
+      "A+": 679,
+      "A": 601,
+      "B": 2089,
+      "C": 1222,
+      "D": 310
+     },
+     "pc_qual": 26.12,
+     "pc_survey": 72.64,
+     "vl_spend": 15343.59,
+     "vl_cpl": 3.13,
+     "vl_ev_capi": 18.72,
+     "vl_retorno_esp": 5.98
+    },
+    {
+     "dt": "2026-06-21",
+     "qt_leads": 7038,
+     "mix": {
+      "A+": 996,
+      "A": 881,
+      "B": 2993,
+      "C": 1711,
+      "D": 457
+     },
+     "pc_qual": 26.67,
+     "pc_survey": 73.15,
+     "vl_spend": 20587.47,
+     "vl_cpl": 2.93,
+     "vl_ev_capi": 18.82,
+     "vl_retorno_esp": 6.43
+    },
+    {
+     "dt": "2026-06-22",
+     "qt_leads": 5909,
+     "mix": {
+      "A+": 819,
+      "A": 789,
+      "B": 2358,
+      "C": 1543,
+      "D": 400
+     },
+     "pc_qual": 27.21,
+     "pc_survey": 73.07,
+     "vl_spend": 18097.73,
+     "vl_cpl": 3.06,
+     "vl_ev_capi": 18.59,
+     "vl_retorno_esp": 6.07
+    },
+    {
+     "dt": "2026-06-23",
+     "qt_leads": 4811,
+     "mix": {
+      "A+": 766,
+      "A": 903,
+      "B": 1415,
+      "C": 1347,
+      "D": 380
+     },
+     "pc_qual": 34.69,
+     "pc_survey": 74.08,
+     "vl_spend": 14823.71,
+     "vl_cpl": 3.08,
+     "vl_ev_capi": 18.89,
+     "vl_retorno_esp": 6.13
+    },
+    {
+     "dt": "2026-06-24",
+     "qt_leads": 4611,
+     "mix": {
+      "A+": 662,
+      "A": 859,
+      "B": 1414,
+      "C": 1315,
+      "D": 361
+     },
+     "pc_qual": 32.99,
+     "pc_survey": 73.58,
+     "vl_spend": 16286.31,
+     "vl_cpl": 3.53,
+     "vl_ev_capi": 18.5,
+     "vl_retorno_esp": 5.24
+    },
+    {
+     "dt": "2026-06-25",
+     "qt_leads": 4533,
+     "mix": {
+      "A+": 578,
+      "A": 778,
+      "B": 1357,
+      "C": 1429,
+      "D": 391
+     },
+     "pc_qual": 29.91,
+     "pc_survey": 71.61,
+     "vl_spend": 16092.68,
+     "vl_cpl": 3.55,
+     "vl_ev_capi": 17.72,
+     "vl_retorno_esp": 4.99
+    },
+    {
+     "dt": "2026-06-26",
+     "qt_leads": 4728,
+     "mix": {
+      "A+": 514,
+      "A": 743,
+      "B": 1569,
+      "C": 1418,
+      "D": 484
+     },
+     "pc_qual": 26.59,
+     "pc_survey": 74.96,
+     "vl_spend": 18214.82,
+     "vl_cpl": 3.85,
+     "vl_ev_capi": 17.19,
+     "vl_retorno_esp": 4.46
+    },
+    {
+     "dt": "2026-06-27",
+     "qt_leads": 6111,
+     "mix": {
+      "A+": 687,
+      "A": 959,
+      "B": 2401,
+      "C": 1433,
+      "D": 631
+     },
+     "pc_qual": 26.94,
+     "pc_survey": 81.77,
+     "vl_spend": 19240.07,
+     "vl_cpl": 3.15,
+     "vl_ev_capi": 17.85,
+     "vl_retorno_esp": 5.67
+    },
+    {
+     "dt": "2026-06-28",
+     "qt_leads": 5795,
+     "mix": {
+      "A+": 590,
+      "A": 934,
+      "B": 2140,
+      "C": 1477,
+      "D": 654
+     },
+     "pc_qual": 26.3,
+     "pc_survey": 80.62,
+     "vl_spend": 20327.34,
+     "vl_cpl": 3.51,
+     "vl_ev_capi": 17.32,
+     "vl_retorno_esp": 4.94
+    },
+    {
+     "dt": "2026-06-29",
+     "qt_leads": 3434,
+     "mix": {
+      "A+": 405,
+      "A": 514,
+      "B": 1300,
+      "C": 835,
+      "D": 380
+     },
+     "pc_qual": 26.76,
+     "pc_survey": 78.97,
+     "vl_spend": 14908.58,
+     "vl_cpl": 4.34,
+     "vl_ev_capi": 17.77,
+     "vl_retorno_esp": 4.09
+    },
+    {
+     "dt": "2026-06-30",
+     "qt_leads": 5694,
+     "mix": {
+      "A+": 545,
+      "A": 861,
+      "B": 2214,
+      "C": 1434,
+      "D": 640
+     },
+     "pc_qual": 24.69,
+     "pc_survey": 80.84,
+     "vl_spend": 23218.71,
+     "vl_cpl": 4.08,
+     "vl_ev_capi": 17.19,
+     "vl_retorno_esp": 4.21
+    },
+    {
+     "dt": "2026-07-01",
+     "qt_leads": 5525,
+     "mix": {
+      "A+": 721,
+      "A": 844,
+      "B": 2013,
+      "C": 1355,
+      "D": 592
+     },
+     "pc_qual": 28.33,
+     "pc_survey": 79.95,
+     "vl_spend": 25065.89,
+     "vl_cpl": 4.54,
+     "vl_ev_capi": 18.08,
+     "vl_retorno_esp": 3.99
+    },
+    {
+     "dt": "2026-07-02",
+     "qt_leads": 5263,
+     "mix": {
+      "A+": 627,
+      "A": 789,
+      "B": 2007,
+      "C": 1286,
+      "D": 554
+     },
+     "pc_qual": 26.9,
+     "pc_survey": 79.95,
+     "vl_spend": 22828.08,
+     "vl_cpl": 4.34,
+     "vl_ev_capi": 17.86,
+     "vl_retorno_esp": 4.12
+    },
+    {
+     "dt": "2026-07-03",
+     "qt_leads": 6510,
+     "mix": {
+      "A+": 822,
+      "A": 897,
+      "B": 2364,
+      "C": 1722,
+      "D": 705
+     },
+     "pc_qual": 26.41,
+     "pc_survey": 77.96,
+     "vl_spend": 34136.0,
+     "vl_cpl": 5.24,
+     "vl_ev_capi": 17.75,
+     "vl_retorno_esp": 3.38
+    },
+    {
+     "dt": "2026-07-04",
+     "qt_leads": 6956,
+     "mix": {
+      "A+": 798,
+      "A": 998,
+      "B": 2568,
+      "C": 1820,
+      "D": 772
+     },
+     "pc_qual": 25.82,
+     "pc_survey": 79.27,
+     "vl_spend": 29259.25,
+     "vl_cpl": 4.21,
+     "vl_ev_capi": 17.5,
+     "vl_retorno_esp": 4.16
+    },
+    {
+     "dt": "2026-07-05",
+     "qt_leads": 9241,
+     "mix": {
+      "A+": 1035,
+      "A": 1328,
+      "B": 3428,
+      "C": 2361,
+      "D": 1089
+     },
+     "pc_qual": 25.57,
+     "pc_survey": 79.95,
+     "vl_spend": 42420.57,
+     "vl_cpl": 4.59,
+     "vl_ev_capi": 17.41,
+     "vl_retorno_esp": 3.79
+    },
+    {
+     "dt": "2026-07-06",
+     "qt_leads": 8181,
+     "mix": {
+      "A+": 856,
+      "A": 1186,
+      "B": 3042,
+      "C": 2209,
+      "D": 888
+     },
+     "pc_qual": 24.96,
+     "pc_survey": 78.68,
+     "vl_spend": 35894.24,
+     "vl_cpl": 4.39,
+     "vl_ev_capi": 17.25,
+     "vl_retorno_esp": 3.93
+    },
+    {
+     "dt": "2026-07-07",
+     "qt_leads": 8960,
+     "mix": {
+      "A+": 978,
+      "A": 1330,
+      "B": 3306,
+      "C": 2366,
+      "D": 980
+     },
+     "pc_qual": 25.76,
+     "pc_survey": 78.38,
+     "vl_spend": 39927.52,
+     "vl_cpl": 4.46,
+     "vl_ev_capi": 17.4,
+     "vl_retorno_esp": 3.9
+    },
+    {
+     "dt": "2026-07-08",
+     "qt_leads": 4235,
+     "mix": {
+      "A+": 515,
+      "A": 544,
+      "B": 1383,
+      "C": 1393,
+      "D": 400
+     },
+     "pc_qual": 25.01,
+     "pc_survey": 68.05,
+     "vl_spend": 14564.5,
+     "vl_cpl": 3.44,
+     "vl_ev_capi": 17.21,
+     "vl_retorno_esp": 5.0
+    },
+    {
+     "dt": "2026-07-09",
+     "qt_leads": 264,
+     "mix": {
+      "A+": 35,
+      "A": 11,
+      "B": 7,
+      "C": 208,
+      "D": 3
+     },
+     "pc_qual": 17.42,
+     "pc_survey": 4.55,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 14.09,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-10",
+     "qt_leads": 116,
+     "mix": {
+      "A+": 10,
+      "A": 8,
+      "B": 2,
+      "C": 96,
+      "D": 0
+     },
+     "pc_qual": 15.52,
+     "pc_survey": 5.17,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 12.97,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-11",
+     "qt_leads": 121,
+     "mix": {
+      "A+": 14,
+      "A": 5,
+      "B": 1,
+      "C": 100,
+      "D": 1
+     },
+     "pc_qual": 15.7,
+     "pc_survey": 1.65,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 13.42,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-12",
+     "qt_leads": 123,
+     "mix": {
+      "A+": 10,
+      "A": 5,
+      "B": 1,
+      "C": 107,
+      "D": 0
+     },
+     "pc_qual": 12.2,
+     "pc_survey": 0.81,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 12.38,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-13",
+     "qt_leads": 70,
+     "mix": {
+      "A+": 7,
+      "A": 1,
+      "B": 1,
+      "C": 61,
+      "D": 0
+     },
+     "pc_qual": 11.43,
+     "pc_survey": 2.86,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 12.69,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-14",
+     "qt_leads": 159,
+     "mix": {
+      "A+": 21,
+      "A": 7,
+      "B": 0,
+      "C": 131,
+      "D": 0
+     },
+     "pc_qual": 17.61,
+     "pc_survey": 1.26,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 13.92,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-15",
+     "qt_leads": 107,
+     "mix": {
+      "A+": 10,
+      "A": 0,
+      "B": 0,
+      "C": 97,
+      "D": 0
+     },
+     "pc_qual": 9.35,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 12.17,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-16",
+     "qt_leads": 47,
+     "mix": {
+      "A+": 3,
+      "A": 0,
+      "B": 2,
+      "C": 42,
+      "D": 0
+     },
+     "pc_qual": 6.38,
+     "pc_survey": 4.26,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 11.65,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-17",
+     "qt_leads": 30,
+     "mix": {
+      "A+": 4,
+      "A": 1,
+      "B": 0,
+      "C": 25,
+      "D": 0
+     },
+     "pc_qual": 16.67,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 13.82,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-18",
+     "qt_leads": 29,
+     "mix": {
+      "A+": 1,
+      "A": 1,
+      "B": 0,
+      "C": 27,
+      "D": 0
+     },
+     "pc_qual": 6.9,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 10.78,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-19",
+     "qt_leads": 21,
+     "mix": {
+      "A+": 1,
+      "A": 1,
+      "B": 0,
+      "C": 19,
+      "D": 0
+     },
+     "pc_qual": 9.52,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 11.35,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-20",
+     "qt_leads": 22,
+     "mix": {
+      "A+": 5,
+      "A": 0,
+      "B": 0,
+      "C": 17,
+      "D": 0
+     },
+     "pc_qual": 22.73,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 16.3,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-21",
+     "qt_leads": 13,
+     "mix": {
+      "A+": 1,
+      "A": 2,
+      "B": 0,
+      "C": 10,
+      "D": 0
+     },
+     "pc_qual": 23.08,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 13.59,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-22",
+     "qt_leads": 6,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 5,
+      "D": 0
+     },
+     "pc_qual": 16.67,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 14.43,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-23",
+     "qt_leads": 8,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 7,
+      "D": 0
+     },
+     "pc_qual": 12.5,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 13.15,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-24",
+     "qt_leads": 11,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 11,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 9.29,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-25",
+     "qt_leads": 9,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 8,
+      "D": 0
+     },
+     "pc_qual": 11.11,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 12.72,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-26",
+     "qt_leads": 5,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 5,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 9.29,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-27",
+     "qt_leads": 3,
+     "mix": {
+      "A+": 0,
+      "A": 1,
+      "B": 0,
+      "C": 2,
+      "D": 0
+     },
+     "pc_qual": 33.33,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 13.45,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-28",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 2,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 9.29,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-29",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 0,
+      "A": 1,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 50.0,
+     "pc_survey": 50.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 15.54,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-30",
+     "qt_leads": 11,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 11,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 9.29,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-31",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 50.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 24.72,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-02",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 1,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 50.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 13.87,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-03",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 9.29,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-04",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 2,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 9.29,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-16",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 9.29,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-17",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 9.29,
+     "vl_retorno_esp": null
+    }
+   ],
+   "ads": [
+    {
+     "id": "120247597777350239",
+     "nome": "AD127 — VVS love me",
+     "adset": "[ADVANTAGE] Aberto | Pack 6",
+     "vl_spend": 65269.36,
+     "qt_leads": 19330,
+     "vl_cpl": 3.38,
+     "mix_pct": {
+      "A+": 17.81,
+      "A": 17.25,
+      "B": 36.34,
+      "C": 21.16,
+      "D": 7.44
+     },
+     "pc_qual": 35.06,
+     "vl_score": -5.2,
+     "vl_ev_capi": 19.93,
+     "pc_survey": 80.2,
+     "vl_retorno_esp": 5.9,
+     "qt_compradores": 493,
+     "vl_receita_obs": 134661.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120246940991590239",
+     "nome": "AD16 — VVS podcast historia brasil longo",
+     "adset": "[ADVANTAGE] Aberto | Pack 1 | Adapt",
+     "vl_spend": 30699.98,
+     "qt_leads": 9040,
+     "vl_cpl": 3.4,
+     "mix_pct": {
+      "A+": 8.05,
+      "A": 10.42,
+      "B": 41.53,
+      "C": 30.27,
+      "D": 9.73
+     },
+     "pc_qual": 18.47,
+     "vl_score": -13.2,
+     "vl_ev_capi": 16.44,
+     "pc_survey": 73.1,
+     "vl_retorno_esp": 4.84,
+     "qt_compradores": 124,
+     "vl_receita_obs": 29250.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120245830190410239",
+     "nome": "AD03 — VVS 1990 curto",
+     "adset": "[ADVANTAGE] Aberto | Pack 1 | Adapt",
+     "vl_spend": 24724.66,
+     "qt_leads": 9489,
+     "vl_cpl": 2.61,
+     "mix_pct": {
+      "A+": 18.14,
+      "A": 8.8,
+      "B": 32.95,
+      "C": 38.25,
+      "D": 1.85
+     },
+     "pc_qual": 26.94,
+     "vl_score": -8.0,
+     "vl_ev_capi": 18.92,
+     "pc_survey": 57.3,
+     "vl_retorno_esp": 7.26,
+     "qt_compradores": 244,
+     "vl_receita_obs": 81017.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120247598121800239",
+     "nome": "AD127 — VVS love me",
+     "adset": "[ADVANTAGE] Aberto | Pack 6",
+     "vl_spend": 23961.84,
+     "qt_leads": 6752,
+     "vl_cpl": 3.55,
+     "mix_pct": {
+      "A+": 5.6,
+      "A": 14.44,
+      "B": 36.72,
+      "C": 29.72,
+      "D": 13.52
+     },
+     "pc_qual": 20.04,
+     "vl_score": -15.4,
+     "vl_ev_capi": 15.57,
+     "pc_survey": 75.7,
+     "vl_retorno_esp": 4.39,
+     "qt_compradores": 90,
+     "vl_receita_obs": 23161.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120245960163780239",
+     "nome": "AD28 — VVS uma historia",
+     "adset": "[ADVANTAGE] Aberto | Pack 2",
+     "vl_spend": 21634.43,
+     "qt_leads": 6814,
+     "vl_cpl": 3.17,
+     "mix_pct": {
+      "A+": 9.58,
+      "A": 7.56,
+      "B": 42.22,
+      "C": 35.75,
+      "D": 4.89
+     },
+     "pc_qual": 17.14,
+     "vl_score": -12.8,
+     "vl_ev_capi": 16.84,
+     "pc_survey": 66.3,
+     "vl_retorno_esp": 5.3,
+     "qt_compradores": 120,
+     "vl_receita_obs": 28604.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120247598123010239",
+     "nome": "AD128 — VVS dois suecos",
+     "adset": "[ADVANTAGE] Aberto | Pack 6",
+     "vl_spend": 21244.51,
+     "qt_leads": 6590,
+     "vl_cpl": 3.22,
+     "mix_pct": {
+      "A+": 10.39,
+      "A": 15.43,
+      "B": 41.76,
+      "C": 25.52,
+      "D": 6.89
+     },
+     "pc_qual": 25.83,
+     "vl_score": -10.2,
+     "vl_ev_capi": 17.94,
+     "pc_survey": 76.6,
+     "vl_retorno_esp": 5.56,
+     "qt_compradores": 116,
+     "vl_receita_obs": 27483.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120248429057870239",
+     "nome": "AD186 — Card atenção",
+     "adset": "[ADVANTAGE] Aberto | Pack 10",
+     "vl_spend": 19237.03,
+     "qt_leads": 4599,
+     "vl_cpl": 4.18,
+     "mix_pct": {
+      "A+": 8.76,
+      "A": 13.02,
+      "B": 39.81,
+      "C": 26.81,
+      "D": 11.59
+     },
+     "pc_qual": 21.79,
+     "vl_score": -12.4,
+     "vl_ev_capi": 16.75,
+     "pc_survey": 80.0,
+     "vl_retorno_esp": 4.0,
+     "qt_compradores": 92,
+     "vl_receita_obs": 17310.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120248544983040239",
+     "nome": "AD195 — VVS a folha",
+     "adset": "[ADVANTAGE] Aberto | Pack 11",
+     "vl_spend": 17617.2,
+     "qt_leads": 4187,
+     "vl_cpl": 4.21,
+     "mix_pct": {
+      "A+": 12.59,
+      "A": 18.29,
+      "B": 39.81,
+      "C": 21.33,
+      "D": 7.98
+     },
+     "pc_qual": 30.88,
+     "vl_score": -7.9,
+     "vl_ev_capi": 18.75,
+     "pc_survey": 83.6,
+     "vl_retorno_esp": 4.46,
+     "qt_compradores": 85,
+     "vl_receita_obs": 25972.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120247636030530239",
+     "nome": "AD127 — VVS love me",
+     "adset": "[ADVANTAGE] Aberto | Pack 6",
+     "vl_spend": 15251.5,
+     "qt_leads": 3584,
+     "vl_cpl": 4.26,
+     "mix_pct": {
+      "A+": 9.65,
+      "A": 15.57,
+      "B": 40.65,
+      "C": 22.01,
+      "D": 12.11
+     },
+     "pc_qual": 25.22,
+     "vl_score": -11.0,
+     "vl_ev_capi": 17.39,
+     "pc_survey": 84.3,
+     "vl_retorno_esp": 4.09,
+     "qt_compradores": 59,
+     "vl_receita_obs": 13244.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120246329618040239",
+     "nome": "AD45 — VVS linha do tempo",
+     "adset": "[ADVANTAGE] Aberto | Pack 3",
+     "vl_spend": 11675.03,
+     "qt_leads": 3132,
+     "vl_cpl": 3.73,
+     "mix_pct": {
+      "A+": 9.93,
+      "A": 10.09,
+      "B": 39.18,
+      "C": 33.94,
+      "D": 6.86
+     },
+     "pc_qual": 20.02,
+     "vl_score": -12.2,
+     "vl_ev_capi": 16.89,
+     "pc_survey": 69.2,
+     "vl_retorno_esp": 4.53,
+     "qt_compradores": 59,
+     "vl_receita_obs": 16905.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120248547241100239",
+     "nome": "AD196 — VVS o monge",
+     "adset": "[ADVANTAGE] Aberto | Pack 11",
+     "vl_spend": 10167.71,
+     "qt_leads": 2472,
+     "vl_cpl": 4.11,
+     "mix_pct": {
+      "A+": 19.5,
+      "A": 14.16,
+      "B": 35.03,
+      "C": 23.34,
+      "D": 7.97
+     },
+     "pc_qual": 33.66,
+     "vl_score": -4.6,
+     "vl_ev_capi": 19.93,
+     "pc_survey": 78.8,
+     "vl_retorno_esp": 4.84,
+     "qt_compradores": 76,
+     "vl_receita_obs": 25373.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120246421355740239",
+     "nome": "AD54 — VVS 40 anos",
+     "adset": "[ADVANTAGE] Aberto | Pack 3",
+     "vl_spend": 9999.64,
+     "qt_leads": 3654,
+     "vl_cpl": 2.74,
+     "mix_pct": {
+      "A+": 15.19,
+      "A": 13.93,
+      "B": 41.57,
+      "C": 27.2,
+      "D": 2.11
+     },
+     "pc_qual": 29.12,
+     "vl_score": -7.1,
+     "vl_ev_capi": 19.43,
+     "pc_survey": 72.1,
+     "vl_retorno_esp": 7.1,
+     "qt_compradores": 71,
+     "vl_receita_obs": 19614.0,
+     "bl_amostra_ok": true
+    }
+   ],
+   "qt_ads_total": 471,
+   "pacing": [
+    {
+     "dt": "2026-05-21",
+     "esperado": 2.71,
+     "esperado_lo": 2.13,
+     "esperado_hi": 6.54,
+     "realizado": 0.0
+    },
+    {
+     "dt": "2026-05-22",
+     "esperado": 4.25,
+     "esperado_lo": 3.32,
+     "esperado_hi": 9.72,
+     "realizado": 0.0
+    },
+    {
+     "dt": "2026-05-23",
+     "esperado": 516.49,
+     "esperado_lo": 407.2,
+     "esperado_hi": 1246.34,
+     "realizado": 130.8
+    },
+    {
+     "dt": "2026-05-24",
+     "esperado": 2746.57,
+     "esperado_lo": 2160.06,
+     "esperado_hi": 6527.12,
+     "realizado": 2903.0
+    },
+    {
+     "dt": "2026-05-25",
+     "esperado": 4661.69,
+     "esperado_lo": 3631.59,
+     "esperado_hi": 10585.14,
+     "realizado": 5535.8
+    },
+    {
+     "dt": "2026-05-26",
+     "esperado": 6260.78,
+     "esperado_lo": 4820.23,
+     "esperado_hi": 13568.74,
+     "realizado": 6690.2
+    },
+    {
+     "dt": "2026-05-27",
+     "esperado": 8576.15,
+     "esperado_lo": 6586.3,
+     "esperado_hi": 18245.47,
+     "realizado": 10182.2
+    },
+    {
+     "dt": "2026-05-28",
+     "esperado": 11142.56,
+     "esperado_lo": 8471.74,
+     "esperado_hi": 23112.22,
+     "realizado": 12803.0
+    },
+    {
+     "dt": "2026-05-29",
+     "esperado": 13802.4,
+     "esperado_lo": 10452.2,
+     "esperado_hi": 27998.89,
+     "realizado": 22016.6
+    },
+    {
+     "dt": "2026-05-30",
+     "esperado": 16553.37,
+     "esperado_lo": 12583.11,
+     "esperado_hi": 33437.75,
+     "realizado": 24500.53
+    },
+    {
+     "dt": "2026-05-31",
+     "esperado": 20455.74,
+     "esperado_lo": 15561.96,
+     "esperado_hi": 41627.18,
+     "realizado": 28646.53
+    },
+    {
+     "dt": "2026-06-01",
+     "esperado": 24324.23,
+     "esperado_lo": 18521.03,
+     "esperado_hi": 49621.25,
+     "realizado": 35832.13
+    },
+    {
+     "dt": "2026-06-02",
+     "esperado": 28079.29,
+     "esperado_lo": 21364.55,
+     "esperado_hi": 57001.44,
+     "realizado": 40223.38
+    },
+    {
+     "dt": "2026-06-03",
+     "esperado": 31849.78,
+     "esperado_lo": 24199.66,
+     "esperado_hi": 64428.54,
+     "realizado": 49349.35
+    },
+    {
+     "dt": "2026-06-04",
+     "esperado": 36014.96,
+     "esperado_lo": 27334.17,
+     "esperado_hi": 72943.21,
+     "realizado": 59124.55
+    },
+    {
+     "dt": "2026-06-05",
+     "esperado": 40179.12,
+     "esperado_lo": 30400.91,
+     "esperado_hi": 80948.02,
+     "realizado": 71194.05
+    },
+    {
+     "dt": "2026-06-06",
+     "esperado": 44347.62,
+     "esperado_lo": 33438.52,
+     "esperado_hi": 89066.3,
+     "realizado": 76993.77
+    },
+    {
+     "dt": "2026-06-07",
+     "esperado": 49176.04,
+     "esperado_lo": 37074.29,
+     "esperado_hi": 99004.52,
+     "realizado": 95015.49
+    },
+    {
+     "dt": "2026-06-08",
+     "esperado": 52993.5,
+     "esperado_lo": 39915.83,
+     "esperado_hi": 106652.4,
+     "realizado": 118755.09
+    },
+    {
+     "dt": "2026-06-09",
+     "esperado": 57285.77,
+     "esperado_lo": 43054.45,
+     "esperado_hi": 114970.67,
+     "realizado": 124920.71
+    },
+    {
+     "dt": "2026-06-10",
+     "esperado": 62221.4,
+     "esperado_lo": 46731.47,
+     "esperado_hi": 124836.41,
+     "realizado": 132489.21
+    },
+    {
+     "dt": "2026-06-11",
+     "esperado": 67309.07,
+     "esperado_lo": 50467.51,
+     "esperado_hi": 134886.63,
+     "realizado": 150055.55
+    },
+    {
+     "dt": "2026-06-12",
+     "esperado": 71850.65,
+     "esperado_lo": 53800.56,
+     "esperado_hi": 143327.85,
+     "realizado": 160620.35
+    },
+    {
+     "dt": "2026-06-13",
+     "esperado": 75030.27,
+     "esperado_lo": 56035.13,
+     "esperado_hi": 148574.55,
+     "realizado": 166135.55
+    },
+    {
+     "dt": "2026-06-14",
+     "esperado": 82761.72,
+     "esperado_lo": 61748.85,
+     "esperado_hi": 164547.1,
+     "realizado": 179589.95
+    },
+    {
+     "dt": "2026-06-15",
+     "esperado": 88726.48,
+     "esperado_lo": 66154.87,
+     "esperado_hi": 175876.28,
+     "realizado": 203471.15
+    },
+    {
+     "dt": "2026-06-16",
+     "esperado": 95656.39,
+     "esperado_lo": 71245.37,
+     "esperado_hi": 188792.05,
+     "realizado": 219644.75
+    },
+    {
+     "dt": "2026-06-17",
+     "esperado": 104030.71,
+     "esperado_lo": 77537.15,
+     "esperado_hi": 205340.3,
+     "realizado": 246853.52
+    },
+    {
+     "dt": "2026-06-18",
+     "esperado": 113083.48,
+     "esperado_lo": 84120.81,
+     "esperado_hi": 222288.64,
+     "realizado": 270713.12
+    },
+    {
+     "dt": "2026-06-19",
+     "esperado": 122089.68,
+     "esperado_lo": 90709.47,
+     "esperado_hi": 238100.67,
+     "realizado": 283764.32
+    },
+    {
+     "dt": "2026-06-20",
+     "esperado": 131823.56,
+     "esperado_lo": 97991.65,
+     "esperado_hi": 256097.27,
+     "realizado": 301073.66
+    },
+    {
+     "dt": "2026-06-21",
+     "esperado": 144152.56,
+     "esperado_lo": 107152.5,
+     "esperado_hi": 279172.56,
+     "realizado": 327335.64
+    },
+    {
+     "dt": "2026-06-22",
+     "esperado": 156012.28,
+     "esperado_lo": 116027.11,
+     "esperado_hi": 301429.09,
+     "realizado": 349791.24
+    },
+    {
+     "dt": "2026-06-23",
+     "esperado": 167361.31,
+     "esperado_lo": 124422.94,
+     "esperado_hi": 321154.63,
+     "realizado": 371972.01
+    },
+    {
+     "dt": "2026-06-24",
+     "esperado": 178753.09,
+     "esperado_lo": 132815.0,
+     "esperado_hi": 341283.5,
+     "realizado": 390874.51
+    },
+    {
+     "dt": "2026-06-25",
+     "esperado": 190155.12,
+     "esperado_lo": 141277.21,
+     "esperado_hi": 361914.55,
+     "realizado": 412076.49
+    },
+    {
+     "dt": "2026-06-26",
+     "esperado": 201863.33,
+     "esperado_lo": 149986.48,
+     "esperado_hi": 382544.77,
+     "realizado": 441937.29
+    },
+    {
+     "dt": "2026-06-27",
+     "esperado": 215026.77,
+     "esperado_lo": 159759.42,
+     "esperado_hi": 407285.99,
+     "realizado": 473227.55
+    },
+    {
+     "dt": "2026-06-28",
+     "esperado": 228532.25,
+     "esperado_lo": 169858.66,
+     "esperado_hi": 432139.63,
+     "realizado": 500652.25
+    },
+    {
+     "dt": "2026-06-29",
+     "esperado": 239970.31,
+     "esperado_lo": 178388.94,
+     "esperado_hi": 452957.47,
+     "realizado": 532365.87
+    },
+    {
+     "dt": "2026-06-30",
+     "esperado": 253444.33,
+     "esperado_lo": 188423.71,
+     "esperado_hi": 477595.06,
+     "realizado": 583075.23
+    },
+    {
+     "dt": "2026-07-01",
+     "esperado": 267200.77,
+     "esperado_lo": 198589.32,
+     "esperado_hi": 502777.85,
+     "realizado": 605707.33
+    },
+    {
+     "dt": "2026-07-02",
+     "esperado": 281129.89,
+     "esperado_lo": 208849.73,
+     "esperado_hi": 527683.65,
+     "realizado": 635677.18
+    },
+    {
+     "dt": "2026-07-03",
+     "esperado": 296071.16,
+     "esperado_lo": 220055.77,
+     "esperado_hi": 555129.49,
+     "realizado": 661651.38
+    },
+    {
+     "dt": "2026-07-04",
+     "esperado": 311888.53,
+     "esperado_lo": 231844.27,
+     "esperado_hi": 584286.02,
+     "realizado": 692406.5
+    },
+    {
+     "dt": "2026-07-05",
+     "esperado": 330564.91,
+     "esperado_lo": 245631.52,
+     "esperado_hi": 618961.27,
+     "realizado": 725090.8
+    },
+    {
+     "dt": "2026-07-06",
+     "esperado": 348850.4,
+     "esperado_lo": 259370.69,
+     "esperado_hi": 652432.23,
+     "realizado": 758145.26
+    },
+    {
+     "dt": "2026-07-07",
+     "esperado": 368342.01,
+     "esperado_lo": 273943.48,
+     "esperado_hi": 687574.37,
+     "realizado": 796367.75
+    },
+    {
+     "dt": "2026-07-08",
+     "esperado": 384237.17,
+     "esperado_lo": 285520.19,
+     "esperado_hi": 713412.6,
+     "realizado": 837889.43
+    },
+    {
+     "dt": "2026-07-09",
+     "esperado": 396217.11,
+     "esperado_lo": 293951.08,
+     "esperado_hi": 729218.3,
+     "realizado": 851794.83
+    },
+    {
+     "dt": "2026-07-10",
+     "esperado": 406785.32,
+     "esperado_lo": 301477.48,
+     "esperado_hi": 743335.48,
+     "realizado": 864311.03
+    },
+    {
+     "dt": "2026-07-11",
+     "esperado": 416668.37,
+     "esperado_lo": 308585.89,
+     "esperado_hi": 757598.94,
+     "realizado": 874657.79
+    },
+    {
+     "dt": "2026-07-12",
+     "esperado": 426045.16,
+     "esperado_lo": 315449.28,
+     "esperado_hi": 771322.14,
+     "realizado": 887575.25
+    },
+    {
+     "dt": "2026-07-13",
+     "esperado": 434548.84,
+     "esperado_lo": 321769.34,
+     "esperado_hi": 784872.14,
+     "realizado": 904675.51
+    },
+    {
+     "dt": "2026-07-14",
+     "esperado": 442778.45,
+     "esperado_lo": 327863.25,
+     "esperado_hi": 797701.25,
+     "realizado": 912092.61
+    },
+    {
+     "dt": "2026-07-15",
+     "esperado": 450787.42,
+     "esperado_lo": 333586.82,
+     "esperado_hi": 809655.99,
+     "realizado": 924881.09
+    },
+    {
+     "dt": "2026-07-16",
+     "esperado": 458579.13,
+     "esperado_lo": 339052.4,
+     "esperado_hi": 819760.88,
+     "realizado": 934297.05
+    },
+    {
+     "dt": "2026-07-17",
+     "esperado": 465972.65,
+     "esperado_lo": 344172.85,
+     "esperado_hi": 828275.12,
+     "realizado": 941601.89
+    },
+    {
+     "dt": "2026-07-18",
+     "esperado": 473121.61,
+     "esperado_lo": 349039.15,
+     "esperado_hi": 836082.34,
+     "realizado": 949391.95
+    },
+    {
+     "dt": "2026-07-19",
+     "esperado": 480081.94,
+     "esperado_lo": 353765.48,
+     "esperado_hi": 842295.63,
+     "realizado": 956454.91
+    },
+    {
+     "dt": "2026-07-20",
+     "esperado": 486412.04,
+     "esperado_lo": 358325.61,
+     "esperado_hi": 847923.56,
+     "realizado": 979182.25
+    },
+    {
+     "dt": "2026-07-21",
+     "esperado": 492347.95,
+     "esperado_lo": 362775.82,
+     "esperado_hi": 852665.61,
+     "realizado": 987272.79
+    },
+    {
+     "dt": "2026-07-22",
+     "esperado": 497899.18,
+     "esperado_lo": 366944.33,
+     "esperado_hi": 856446.47,
+     "realizado": 1052546.45
+    },
+    {
+     "dt": "2026-07-23",
+     "esperado": 503062.0,
+     "esperado_lo": 370882.12,
+     "esperado_hi": 858774.53,
+     "realizado": 1061071.25
+    },
+    {
+     "dt": "2026-07-24",
+     "esperado": 507880.41,
+     "esperado_lo": 374554.67,
+     "esperado_hi": 860419.69,
+     "realizado": 1075343.51
+    },
+    {
+     "dt": "2026-07-25",
+     "esperado": 512455.97,
+     "esperado_lo": 378134.77,
+     "esperado_hi": 862032.37,
+     "realizado": 1089994.31
+    },
+    {
+     "dt": "2026-07-26",
+     "esperado": 516915.01,
+     "esperado_lo": 381538.03,
+     "esperado_hi": 863666.21,
+     "realizado": 1098813.11
+    },
+    {
+     "dt": "2026-07-27",
+     "esperado": 521066.21,
+     "esperado_lo": 384851.22,
+     "esperado_hi": 865327.7,
+     "realizado": 1105671.21
+    },
+    {
+     "dt": "2026-07-28",
+     "esperado": 525254.24,
+     "esperado_lo": 388111.06,
+     "esperado_hi": 866957.71,
+     "realizado": 1115010.99
+    },
+    {
+     "dt": "2026-07-29",
+     "esperado": 529221.66,
+     "esperado_lo": 391225.28,
+     "esperado_hi": 868348.26,
+     "realizado": 1121293.19
+    },
+    {
+     "dt": "2026-07-30",
+     "esperado": 532695.41,
+     "esperado_lo": 394197.43,
+     "esperado_hi": 869440.72,
+     "realizado": 1131613.95
+    },
+    {
+     "dt": "2026-07-31",
+     "esperado": 535872.45,
+     "esperado_lo": 396964.93,
+     "esperado_hi": 870312.04,
+     "realizado": 1158633.97
+    },
+    {
+     "dt": "2026-08-01",
+     "esperado": 538901.29,
+     "esperado_lo": 399605.31,
+     "esperado_hi": 870801.16,
+     "realizado": 1167171.08
+    },
+    {
+     "dt": "2026-08-02",
+     "esperado": 541537.51,
+     "esperado_lo": 402091.12,
+     "esperado_hi": 871099.9,
+     "realizado": 1174534.28
+    },
+    {
+     "dt": "2026-08-03",
+     "esperado": 543862.65,
+     "esperado_lo": 404374.59,
+     "esperado_hi": 871381.65,
+     "realizado": 1177277.48
+    },
+    {
+     "dt": "2026-08-04",
+     "esperado": 545941.76,
+     "esperado_lo": 406446.48,
+     "esperado_hi": 871733.89,
+     "realizado": 1185193.98
+    },
+    {
+     "dt": "2026-08-05",
+     "esperado": 547739.03,
+     "esperado_lo": 408197.66,
+     "esperado_hi": 872041.42,
+     "realizado": 1191979.88
+    },
+    {
+     "dt": "2026-08-06",
+     "esperado": 549282.95,
+     "esperado_lo": 409723.59,
+     "esperado_hi": 872366.76,
+     "realizado": 1198342.5
+    },
+    {
+     "dt": "2026-08-07",
+     "esperado": 550692.58,
+     "esperado_lo": 411063.08,
+     "esperado_hi": 872533.86,
+     "realizado": 1206231.56
+    },
+    {
+     "dt": "2026-08-08",
+     "esperado": 551897.83,
+     "esperado_lo": 412286.28,
+     "esperado_hi": 872560.57,
+     "realizado": 1209981.56
+    },
+    {
+     "dt": "2026-08-09",
+     "esperado": 552807.17,
+     "esperado_lo": 413411.66,
+     "esperado_hi": 872577.13,
+     "realizado": 1218225.66
+    },
+    {
+     "dt": "2026-08-10",
+     "esperado": 553531.21,
+     "esperado_lo": 414508.48,
+     "esperado_hi": 872591.32,
+     "realizado": 1220696.46
+    },
+    {
+     "dt": "2026-08-11",
+     "esperado": 554243.43,
+     "esperado_lo": 415517.48,
+     "esperado_hi": 872602.27,
+     "realizado": 1232827.26
+    },
+    {
+     "dt": "2026-08-12",
+     "esperado": 554890.68,
+     "esperado_lo": 416445.22,
+     "esperado_hi": 872610.86,
+     "realizado": 1239598.86
+    },
+    {
+     "dt": "2026-08-13",
+     "esperado": 555348.61,
+     "esperado_lo": 417189.93,
+     "esperado_hi": 872621.26,
+     "realizado": 1247326.96
+    },
+    {
+     "dt": "2026-08-14",
+     "esperado": 555750.99,
+     "esperado_lo": 417699.73,
+     "esperado_hi": 872629.87,
+     "realizado": 1258461.76
+    },
+    {
+     "dt": "2026-08-15",
+     "esperado": 556063.75,
+     "esperado_lo": 418063.28,
+     "esperado_hi": 872634.14,
+     "realizado": 1270410.78
+    },
+    {
+     "dt": "2026-08-16",
+     "esperado": 556373.24,
+     "esperado_lo": 418332.96,
+     "esperado_hi": 872639.14,
+     "realizado": 1281890.0
+    },
+    {
+     "dt": "2026-08-17",
+     "esperado": 556626.84,
+     "esperado_lo": 418535.52,
+     "esperado_hi": 872644.77,
+     "realizado": 1300912.4
+    },
+    {
+     "dt": "2026-08-18",
+     "esperado": 556879.42,
+     "esperado_lo": 418681.6,
+     "esperado_hi": 872647.34,
+     "realizado": 1309202.1
+    },
+    {
+     "dt": "2026-08-19",
+     "esperado": 557005.17,
+     "esperado_lo": 418803.23,
+     "esperado_hi": 872649.45,
+     "realizado": 1318382.76
+    },
+    {
+     "dt": "2026-08-20",
+     "esperado": 557023.29,
+     "esperado_lo": 418879.02,
+     "esperado_hi": 872651.07,
+     "realizado": 1322775.96
+    },
+    {
+     "dt": "2026-08-21",
+     "esperado": 557035.97,
+     "esperado_lo": 418915.63,
+     "esperado_hi": 872652.09,
+     "realizado": 1326259.56
+    },
+    {
+     "dt": "2026-08-22",
+     "esperado": 557045.66,
+     "esperado_lo": 418933.29,
+     "esperado_hi": 872653.12,
+     "realizado": 1330616.76
+    },
+    {
+     "dt": "2026-08-23",
+     "esperado": 557054.36,
+     "esperado_lo": 418942.81,
+     "esperado_hi": 872654.7,
+     "realizado": 1339527.96
+    },
+    {
+     "dt": "2026-08-24",
+     "esperado": 557060.73,
+     "esperado_lo": 418950.41,
+     "esperado_hi": 872655.75,
+     "realizado": 1345892.12
+    },
+    {
+     "dt": "2026-08-25",
+     "esperado": 557068.34,
+     "esperado_lo": 418956.24,
+     "esperado_hi": 872656.51,
+     "realizado": 1352784.82
+    },
+    {
+     "dt": "2026-08-26",
+     "esperado": 557074.01,
+     "esperado_lo": 418961.47,
+     "esperado_hi": 872657.13,
+     "realizado": 1361072.02
+    },
+    {
+     "dt": "2026-08-27",
+     "esperado": 557077.54,
+     "esperado_lo": 418965.69,
+     "esperado_hi": 872657.7,
+     "realizado": 1369869.22
+    }
+   ],
+   "pacing_ref": {
+    "dt_corte": "2026-07-07",
+    "na_abertura": true,
+    "esperado": 368342.01,
+    "esperado_lo": 273943.48,
+    "esperado_hi": 687574.37,
+    "realizado": 796367.75
+   },
+   "personas": [
+    {
+     "persona": "base_reimpactada",
+     "qt_leads": 22243,
+     "pc_qual": 49.0,
+     "qt_compradores": 1567,
+     "pc_conv": 7.04,
+     "vl_receita": 787514.0
+    },
+    {
+     "persona": "sem_pesquisa",
+     "qt_leads": 9138,
+     "pc_qual": 20.1,
+     "qt_compradores": 318,
+     "pc_conv": 3.48,
+     "vl_receita": 89664.0
+    },
+    {
+     "persona": "descobridor",
+     "qt_leads": 8793,
+     "pc_qual": 19.4,
+     "qt_compradores": 269,
+     "pc_conv": 3.06,
+     "vl_receita": 62261.0
+    },
+    {
+     "persona": "veterano",
+     "qt_leads": 5093,
+     "pc_qual": 11.2,
+     "qt_compradores": 150,
+     "pc_conv": 2.95,
+     "vl_receita": 39517.0
+    },
+    {
+     "persona": "recem_chegado",
+     "qt_leads": 109,
+     "pc_qual": 0.2,
+     "qt_compradores": 2,
+     "pc_conv": 1.83,
+     "vl_receita": 652.0
+    }
+   ]
+  },
+  {
+   "tag": "BP10",
+   "nome": "BP 10 Anos",
+   "dt_inicio": "2026-06-11",
+   "aquecimento": [
+    "2026-06-11",
+    "2026-07-15"
+   ],
+   "venda": "2026-07-16",
+   "nota": "Oferta com combos/vitalício — receita concentrada em high-ticket; abertura dentro da janela infla o RPL vs projeção.",
+   "tipo": "fechado",
+   "resumo": {
+    "qt_leads": 78242,
+    "vl_spend": 304622.2499999985,
+    "vl_cpl": 3.89,
+    "dt_spend_ini": "2026-06-13",
+    "dt_spend_fim": "2026-07-16",
+    "pc_qual": 31.6,
+    "qt_qual": 24760,
+    "vl_score": -11.1,
+    "vl_ev_capi": 26.66,
+    "pc_survey": 70.9,
+    "qt_resp": 55460,
+    "pc_qual_resp": 41.2,
+    "vl_ev_capi_resp": 29.74,
+    "vl_receita_obs": 1006815.0,
+    "qt_vendas": 1834,
+    "qt_compradores": 1569,
+    "roas_realizado": 3.31,
+    "rpl_projetado": 26.66,
+    "rpl_lo": 22.01,
+    "rpl_hi": 30.77,
+    "estimador": "rpl_d30",
+    "pc_erro": 15.0,
+    "bl_ancorado": true,
+    "retorno_esperado": 6.85,
+    "retorno_teto": 7.65,
+    "cpl_max": 17.77,
+    "vl_projetado_total": 2085931.72,
+    "dt_referencia": "2026-08-27"
+   },
+   "serie": [
+    {
+     "dt": "2026-06-11",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 0,
+      "D": 0
+     },
+     "pc_qual": 100.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 65.54,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-06-12",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 50.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 40.36,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-06-13",
+     "qt_leads": 16,
+     "mix": {
+      "A+": 7,
+      "A": 0,
+      "B": 0,
+      "C": 9,
+      "D": 0
+     },
+     "pc_qual": 43.75,
+     "pc_survey": 18.75,
+     "vl_spend": 60.33,
+     "vl_cpl": 3.77,
+     "vl_ev_capi": 37.21,
+     "vl_retorno_esp": 9.87
+    },
+    {
+     "dt": "2026-06-14",
+     "qt_leads": 41,
+     "mix": {
+      "A+": 17,
+      "A": 7,
+      "B": 0,
+      "C": 17,
+      "D": 0
+     },
+     "pc_qual": 58.54,
+     "pc_survey": 36.59,
+     "vl_spend": 139.69,
+     "vl_cpl": 3.41,
+     "vl_ev_capi": 39.53,
+     "vl_retorno_esp": 11.6
+    },
+    {
+     "dt": "2026-06-15",
+     "qt_leads": 318,
+     "mix": {
+      "A+": 249,
+      "A": 23,
+      "B": 4,
+      "C": 41,
+      "D": 1
+     },
+     "pc_qual": 85.53,
+     "pc_survey": 69.81,
+     "vl_spend": 106.67,
+     "vl_cpl": 0.34,
+     "vl_ev_capi": 56.25,
+     "vl_retorno_esp": 167.69
+    },
+    {
+     "dt": "2026-06-16",
+     "qt_leads": 368,
+     "mix": {
+      "A+": 176,
+      "A": 62,
+      "B": 62,
+      "C": 59,
+      "D": 9
+     },
+     "pc_qual": 64.67,
+     "pc_survey": 82.07,
+     "vl_spend": 1457.36,
+     "vl_cpl": 3.96,
+     "vl_ev_capi": 45.03,
+     "vl_retorno_esp": 11.37
+    },
+    {
+     "dt": "2026-06-17",
+     "qt_leads": 684,
+     "mix": {
+      "A+": 216,
+      "A": 117,
+      "B": 135,
+      "C": 172,
+      "D": 44
+     },
+     "pc_qual": 48.68,
+     "pc_survey": 76.02,
+     "vl_spend": 4131.11,
+     "vl_cpl": 6.04,
+     "vl_ev_capi": 37.04,
+     "vl_retorno_esp": 6.13
+    },
+    {
+     "dt": "2026-06-18",
+     "qt_leads": 875,
+     "mix": {
+      "A+": 241,
+      "A": 151,
+      "B": 161,
+      "C": 263,
+      "D": 59
+     },
+     "pc_qual": 44.8,
+     "pc_survey": 69.14,
+     "vl_spend": 4473.63,
+     "vl_cpl": 5.11,
+     "vl_ev_capi": 34.81,
+     "vl_retorno_esp": 6.81
+    },
+    {
+     "dt": "2026-06-19",
+     "qt_leads": 1215,
+     "mix": {
+      "A+": 568,
+      "A": 230,
+      "B": 134,
+      "C": 251,
+      "D": 32
+     },
+     "pc_qual": 65.68,
+     "pc_survey": 74.9,
+     "vl_spend": 4006.59,
+     "vl_cpl": 3.3,
+     "vl_ev_capi": 44.03,
+     "vl_retorno_esp": 13.35
+    },
+    {
+     "dt": "2026-06-20",
+     "qt_leads": 1195,
+     "mix": {
+      "A+": 499,
+      "A": 266,
+      "B": 80,
+      "C": 300,
+      "D": 50
+     },
+     "pc_qual": 64.02,
+     "pc_survey": 72.13,
+     "vl_spend": 4220.55,
+     "vl_cpl": 3.53,
+     "vl_ev_capi": 41.43,
+     "vl_retorno_esp": 11.73
+    },
+    {
+     "dt": "2026-06-21",
+     "qt_leads": 1419,
+     "mix": {
+      "A+": 524,
+      "A": 347,
+      "B": 104,
+      "C": 376,
+      "D": 68
+     },
+     "pc_qual": 61.38,
+     "pc_survey": 72.09,
+     "vl_spend": 5197.32,
+     "vl_cpl": 3.66,
+     "vl_ev_capi": 39.5,
+     "vl_retorno_esp": 10.78
+    },
+    {
+     "dt": "2026-06-22",
+     "qt_leads": 1611,
+     "mix": {
+      "A+": 583,
+      "A": 355,
+      "B": 124,
+      "C": 442,
+      "D": 107
+     },
+     "pc_qual": 58.22,
+     "pc_survey": 72.07,
+     "vl_spend": 5573.46,
+     "vl_cpl": 3.46,
+     "vl_ev_capi": 38.55,
+     "vl_retorno_esp": 11.14
+    },
+    {
+     "dt": "2026-06-23",
+     "qt_leads": 1460,
+     "mix": {
+      "A+": 512,
+      "A": 268,
+      "B": 119,
+      "C": 436,
+      "D": 125
+     },
+     "pc_qual": 53.42,
+     "pc_survey": 70.68,
+     "vl_spend": 5482.67,
+     "vl_cpl": 3.76,
+     "vl_ev_capi": 37.16,
+     "vl_retorno_esp": 9.9
+    },
+    {
+     "dt": "2026-06-24",
+     "qt_leads": 1315,
+     "mix": {
+      "A+": 408,
+      "A": 239,
+      "B": 116,
+      "C": 422,
+      "D": 130
+     },
+     "pc_qual": 49.2,
+     "pc_survey": 71.1,
+     "vl_spend": 5614.6,
+     "vl_cpl": 4.27,
+     "vl_ev_capi": 35.09,
+     "vl_retorno_esp": 8.22
+    },
+    {
+     "dt": "2026-06-25",
+     "qt_leads": 1231,
+     "mix": {
+      "A+": 348,
+      "A": 213,
+      "B": 113,
+      "C": 415,
+      "D": 142
+     },
+     "pc_qual": 45.57,
+     "pc_survey": 69.78,
+     "vl_spend": 5546.93,
+     "vl_cpl": 4.51,
+     "vl_ev_capi": 33.46,
+     "vl_retorno_esp": 7.43
+    },
+    {
+     "dt": "2026-06-26",
+     "qt_leads": 1325,
+     "mix": {
+      "A+": 299,
+      "A": 278,
+      "B": 155,
+      "C": 423,
+      "D": 170
+     },
+     "pc_qual": 43.55,
+     "pc_survey": 72.15,
+     "vl_spend": 7834.34,
+     "vl_cpl": 5.91,
+     "vl_ev_capi": 31.62,
+     "vl_retorno_esp": 5.35
+    },
+    {
+     "dt": "2026-06-27",
+     "qt_leads": 1681,
+     "mix": {
+      "A+": 325,
+      "A": 364,
+      "B": 232,
+      "C": 542,
+      "D": 218
+     },
+     "pc_qual": 40.99,
+     "pc_survey": 75.61,
+     "vl_spend": 8844.5,
+     "vl_cpl": 5.26,
+     "vl_ev_capi": 30.43,
+     "vl_retorno_esp": 5.78
+    },
+    {
+     "dt": "2026-06-28",
+     "qt_leads": 2231,
+     "mix": {
+      "A+": 524,
+      "A": 474,
+      "B": 273,
+      "C": 697,
+      "D": 263
+     },
+     "pc_qual": 44.73,
+     "pc_survey": 75.62,
+     "vl_spend": 8753.17,
+     "vl_cpl": 3.92,
+     "vl_ev_capi": 32.29,
+     "vl_retorno_esp": 8.23
+    },
+    {
+     "dt": "2026-06-29",
+     "qt_leads": 2016,
+     "mix": {
+      "A+": 421,
+      "A": 392,
+      "B": 246,
+      "C": 670,
+      "D": 287
+     },
+     "pc_qual": 40.33,
+     "pc_survey": 75.35,
+     "vl_spend": 7001.14,
+     "vl_cpl": 3.47,
+     "vl_ev_capi": 30.43,
+     "vl_retorno_esp": 8.76
+    },
+    {
+     "dt": "2026-06-30",
+     "qt_leads": 2898,
+     "mix": {
+      "A+": 404,
+      "A": 647,
+      "B": 391,
+      "C": 1029,
+      "D": 427
+     },
+     "pc_qual": 36.27,
+     "pc_survey": 75.6,
+     "vl_spend": 11039.89,
+     "vl_cpl": 3.81,
+     "vl_ev_capi": 27.67,
+     "vl_retorno_esp": 7.26
+    },
+    {
+     "dt": "2026-07-01",
+     "qt_leads": 3266,
+     "mix": {
+      "A+": 481,
+      "A": 641,
+      "B": 420,
+      "C": 1203,
+      "D": 521
+     },
+     "pc_qual": 34.35,
+     "pc_survey": 74.16,
+     "vl_spend": 11864.34,
+     "vl_cpl": 3.63,
+     "vl_ev_capi": 27.34,
+     "vl_retorno_esp": 7.53
+    },
+    {
+     "dt": "2026-07-02",
+     "qt_leads": 2129,
+     "mix": {
+      "A+": 320,
+      "A": 418,
+      "B": 283,
+      "C": 768,
+      "D": 340
+     },
+     "pc_qual": 34.66,
+     "pc_survey": 75.06,
+     "vl_spend": 7811.8,
+     "vl_cpl": 3.67,
+     "vl_ev_capi": 27.55,
+     "vl_retorno_esp": 7.51
+    },
+    {
+     "dt": "2026-07-03",
+     "qt_leads": 2239,
+     "mix": {
+      "A+": 393,
+      "A": 461,
+      "B": 338,
+      "C": 833,
+      "D": 214
+     },
+     "pc_qual": 38.14,
+     "pc_survey": 74.72,
+     "vl_spend": 9795.95,
+     "vl_cpl": 4.38,
+     "vl_ev_capi": 29.76,
+     "vl_retorno_esp": 6.8
+    },
+    {
+     "dt": "2026-07-04",
+     "qt_leads": 1756,
+     "mix": {
+      "A+": 383,
+      "A": 406,
+      "B": 204,
+      "C": 615,
+      "D": 148
+     },
+     "pc_qual": 44.93,
+     "pc_survey": 76.25,
+     "vl_spend": 8109.27,
+     "vl_cpl": 4.62,
+     "vl_ev_capi": 31.98,
+     "vl_retorno_esp": 6.93
+    },
+    {
+     "dt": "2026-07-05",
+     "qt_leads": 1616,
+     "mix": {
+      "A+": 358,
+      "A": 380,
+      "B": 207,
+      "C": 520,
+      "D": 151
+     },
+     "pc_qual": 45.67,
+     "pc_survey": 77.85,
+     "vl_spend": 7827.31,
+     "vl_cpl": 4.84,
+     "vl_ev_capi": 32.35,
+     "vl_retorno_esp": 6.68
+    },
+    {
+     "dt": "2026-07-06",
+     "qt_leads": 2598,
+     "mix": {
+      "A+": 423,
+      "A": 465,
+      "B": 367,
+      "C": 1065,
+      "D": 278
+     },
+     "pc_qual": 34.18,
+     "pc_survey": 71.75,
+     "vl_spend": 9585.3,
+     "vl_cpl": 3.69,
+     "vl_ev_capi": 28.34,
+     "vl_retorno_esp": 7.68
+    },
+    {
+     "dt": "2026-07-07",
+     "qt_leads": 3121,
+     "mix": {
+      "A+": 529,
+      "A": 569,
+      "B": 366,
+      "C": 1111,
+      "D": 546
+     },
+     "pc_qual": 35.18,
+     "pc_survey": 75.04,
+     "vl_spend": 12265.39,
+     "vl_cpl": 3.93,
+     "vl_ev_capi": 27.89,
+     "vl_retorno_esp": 7.1
+    },
+    {
+     "dt": "2026-07-08",
+     "qt_leads": 3043,
+     "mix": {
+      "A+": 405,
+      "A": 527,
+      "B": 366,
+      "C": 1071,
+      "D": 674
+     },
+     "pc_qual": 30.63,
+     "pc_survey": 76.01,
+     "vl_spend": 13080.53,
+     "vl_cpl": 4.3,
+     "vl_ev_capi": 25.57,
+     "vl_retorno_esp": 5.95
+    },
+    {
+     "dt": "2026-07-09",
+     "qt_leads": 3995,
+     "mix": {
+      "A+": 441,
+      "A": 619,
+      "B": 432,
+      "C": 1537,
+      "D": 966
+     },
+     "pc_qual": 26.53,
+     "pc_survey": 71.06,
+     "vl_spend": 15680.4,
+     "vl_cpl": 3.93,
+     "vl_ev_capi": 23.72,
+     "vl_retorno_esp": 6.04
+    },
+    {
+     "dt": "2026-07-10",
+     "qt_leads": 3806,
+     "mix": {
+      "A+": 448,
+      "A": 529,
+      "B": 391,
+      "C": 1502,
+      "D": 936
+     },
+     "pc_qual": 25.67,
+     "pc_survey": 69.23,
+     "vl_spend": 15503.99,
+     "vl_cpl": 4.07,
+     "vl_ev_capi": 23.66,
+     "vl_retorno_esp": 5.81
+    },
+    {
+     "dt": "2026-07-11",
+     "qt_leads": 4518,
+     "mix": {
+      "A+": 397,
+      "A": 478,
+      "B": 405,
+      "C": 1937,
+      "D": 1301
+     },
+     "pc_qual": 19.37,
+     "pc_survey": 66.29,
+     "vl_spend": 18266.5,
+     "vl_cpl": 4.04,
+     "vl_ev_capi": 20.97,
+     "vl_retorno_esp": 5.19
+    },
+    {
+     "dt": "2026-07-12",
+     "qt_leads": 5479,
+     "mix": {
+      "A+": 827,
+      "A": 621,
+      "B": 453,
+      "C": 2083,
+      "D": 1495
+     },
+     "pc_qual": 26.43,
+     "pc_survey": 70.56,
+     "vl_spend": 19461.03,
+     "vl_cpl": 3.55,
+     "vl_ev_capi": 24.31,
+     "vl_retorno_esp": 6.84
+    },
+    {
+     "dt": "2026-07-13",
+     "qt_leads": 4599,
+     "mix": {
+      "A+": 327,
+      "A": 438,
+      "B": 424,
+      "C": 1973,
+      "D": 1437
+     },
+     "pc_qual": 16.63,
+     "pc_survey": 67.6,
+     "vl_spend": 16219.48,
+     "vl_cpl": 3.53,
+     "vl_ev_capi": 19.77,
+     "vl_retorno_esp": 5.61
+    },
+    {
+     "dt": "2026-07-14",
+     "qt_leads": 6466,
+     "mix": {
+      "A+": 533,
+      "A": 415,
+      "B": 498,
+      "C": 2921,
+      "D": 2099
+     },
+     "pc_qual": 14.66,
+     "pc_survey": 65.47,
+     "vl_spend": 23529.76,
+     "vl_cpl": 3.64,
+     "vl_ev_capi": 19.39,
+     "vl_retorno_esp": 5.33
+    },
+    {
+     "dt": "2026-07-15",
+     "qt_leads": 6819,
+     "mix": {
+      "A+": 281,
+      "A": 336,
+      "B": 551,
+      "C": 3275,
+      "D": 2376
+     },
+     "pc_qual": 9.05,
+     "pc_survey": 63.65,
+     "vl_spend": 23370.54,
+     "vl_cpl": 3.43,
+     "vl_ev_capi": 16.89,
+     "vl_retorno_esp": 4.93
+    },
+    {
+     "dt": "2026-07-16",
+     "qt_leads": 832,
+     "mix": {
+      "A+": 66,
+      "A": 80,
+      "B": 71,
+      "C": 350,
+      "D": 265
+     },
+     "pc_qual": 17.55,
+     "pc_survey": 67.43,
+     "vl_spend": 2766.71,
+     "vl_cpl": 3.33,
+     "vl_ev_capi": 20.06,
+     "vl_retorno_esp": 6.03
+    },
+    {
+     "dt": "2026-07-17",
+     "qt_leads": 18,
+     "mix": {
+      "A+": 4,
+      "A": 0,
+      "B": 0,
+      "C": 14,
+      "D": 0
+     },
+     "pc_qual": 22.22,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 26.36,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-18",
+     "qt_leads": 6,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 5,
+      "D": 0
+     },
+     "pc_qual": 16.67,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 23.56,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-19",
+     "qt_leads": 11,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 10,
+      "D": 0
+     },
+     "pc_qual": 9.09,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 19.75,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-20",
+     "qt_leads": 4,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 4,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 15.17,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-21",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 2,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 15.17,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-22",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 15.17,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-23",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 0,
+      "D": 0
+     },
+     "pc_qual": 100.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 65.54,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-24",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 2,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 15.17,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-25",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 2,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 15.17,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-26",
+     "qt_leads": 3,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 2,
+      "D": 0
+     },
+     "pc_qual": 33.33,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 31.96,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-27",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 2,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 15.17,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-28",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 0,
+      "A": 1,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 50.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 25.36,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-29",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 15.17,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-31",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 15.17,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-16",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 15.17,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-25",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 15.17,
+     "vl_retorno_esp": null
+    }
+   ],
+   "ads": [
+    {
+     "id": "120248515469810023",
+     "nome": "AD41 — VVS janela em direção a fiesp",
+     "adset": "[ADVANTAGE] Aberto | Pack 2",
+     "vl_spend": 28104.08,
+     "qt_leads": 7336,
+     "vl_cpl": 3.83,
+     "mix_pct": {
+      "A+": 33.12,
+      "A": 26.17,
+      "B": 10.54,
+      "C": 25.22,
+      "D": 4.95
+     },
+     "pc_qual": 59.3,
+     "vl_score": 6.8,
+     "vl_ev_capi": 38.4,
+     "pc_survey": 75.4,
+     "vl_retorno_esp": 10.02,
+     "qt_compradores": 290,
+     "vl_receita_obs": 161054.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249203878350023",
+     "nome": "AD95 — Card type",
+     "adset": "[ADVANTAGE] Aberto | Pack 5 | Novo Horario",
+     "vl_spend": 15495.62,
+     "qt_leads": 3762,
+     "vl_cpl": 4.12,
+     "mix_pct": {
+      "A+": 26.74,
+      "A": 26.5,
+      "B": 12.44,
+      "C": 26.77,
+      "D": 7.55
+     },
+     "pc_qual": 53.24,
+     "vl_score": 1.9,
+     "vl_ev_capi": 35.34,
+     "pc_survey": 79.4,
+     "vl_retorno_esp": 8.58,
+     "qt_compradores": 117,
+     "vl_receita_obs": 45817.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120248326440200023",
+     "nome": "AD15 — Card presente white",
+     "adset": "[ADVANTAGE] Aberto",
+     "vl_spend": 15019.11,
+     "qt_leads": 2692,
+     "vl_cpl": 5.58,
+     "mix_pct": {
+      "A+": 12.78,
+      "A": 14.67,
+      "B": 13.89,
+      "C": 41.12,
+      "D": 17.53
+     },
+     "pc_qual": 27.45,
+     "vl_score": -13.3,
+     "vl_ev_capi": 25.38,
+     "pc_survey": 67.4,
+     "vl_retorno_esp": 4.55,
+     "qt_compradores": 32,
+     "vl_receita_obs": 17077.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120248538916720023",
+     "nome": "AD50 — VVS segredo daymon",
+     "adset": "[ADVANTAGE] Aberto | Pack 3",
+     "vl_spend": 10652.6,
+     "qt_leads": 2537,
+     "vl_cpl": 4.2,
+     "mix_pct": {
+      "A+": 36.15,
+      "A": 28.7,
+      "B": 9.97,
+      "C": 22.47,
+      "D": 2.72
+     },
+     "pc_qual": 64.84,
+     "vl_score": 10.0,
+     "vl_ev_capi": 40.52,
+     "pc_survey": 76.8,
+     "vl_retorno_esp": 9.65,
+     "qt_compradores": 74,
+     "vl_receita_obs": 33026.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249203903060023",
+     "nome": "AD98 — Card envelope",
+     "adset": "[ADVANTAGE] Aberto | Pack 5 | Novo Horario",
+     "vl_spend": 9450.99,
+     "qt_leads": 2008,
+     "vl_cpl": 4.71,
+     "mix_pct": {
+      "A+": 13.6,
+      "A": 22.21,
+      "B": 13.5,
+      "C": 36.95,
+      "D": 13.75
+     },
+     "pc_qual": 35.81,
+     "vl_score": -10.3,
+     "vl_ev_capi": 27.55,
+     "pc_survey": 75.6,
+     "vl_retorno_esp": 5.85,
+     "qt_compradores": 33,
+     "vl_receita_obs": 12131.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249003734680023",
+     "nome": "AD95 — Card type",
+     "adset": "[ADVANTAGE] Aberto | Pack 5 | Novo Horario",
+     "vl_spend": 8916.01,
+     "qt_leads": 989,
+     "vl_cpl": 9.02,
+     "mix_pct": {
+      "A+": 20.73,
+      "A": 31.24,
+      "B": 14.86,
+      "C": 23.96,
+      "D": 9.2
+     },
+     "pc_qual": 51.97,
+     "vl_score": -0.9,
+     "vl_ev_capi": 33.52,
+     "pc_survey": 82.7,
+     "vl_retorno_esp": 3.72,
+     "qt_compradores": 30,
+     "vl_receita_obs": 7857.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249204186540023",
+     "nome": "AD95 — Card type",
+     "adset": "[ADVANTAGE] Aberto | Pack 5 | Novo Horario",
+     "vl_spend": 7857.37,
+     "qt_leads": 1753,
+     "vl_cpl": 4.48,
+     "mix_pct": {
+      "A+": 32.97,
+      "A": 29.21,
+      "B": 10.84,
+      "C": 20.19,
+      "D": 6.79
+     },
+     "pc_qual": 62.18,
+     "vl_score": 7.7,
+     "vl_ev_capi": 38.85,
+     "pc_survey": 85.5,
+     "vl_retorno_esp": 8.67,
+     "qt_compradores": 65,
+     "vl_receita_obs": 38719.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249352708700023",
+     "nome": "AD144 — Card lettering",
+     "adset": "[ADVANTAGE] Aberto | Pack 7",
+     "vl_spend": 7836.67,
+     "qt_leads": 1799,
+     "vl_cpl": 4.36,
+     "mix_pct": {
+      "A+": 18.29,
+      "A": 37.85,
+      "B": 17.23,
+      "C": 19.07,
+      "D": 7.56
+     },
+     "pc_qual": 56.14,
+     "vl_score": -0.4,
+     "vl_ev_capi": 34.12,
+     "pc_survey": 88.5,
+     "vl_retorno_esp": 7.83,
+     "qt_compradores": 37,
+     "vl_receita_obs": 7668.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120248635953110023",
+     "nome": "AD60 — Card torcida",
+     "adset": "[ADVANTAGE] Aberto | Pack 3",
+     "vl_spend": 5206.56,
+     "qt_leads": 1150,
+     "vl_cpl": 4.53,
+     "mix_pct": {
+      "A+": 24.87,
+      "A": 30.87,
+      "B": 10.78,
+      "C": 27.91,
+      "D": 5.57
+     },
+     "pc_qual": 55.74,
+     "vl_score": 2.1,
+     "vl_ev_capi": 35.19,
+     "pc_survey": 75.6,
+     "vl_retorno_esp": 7.77,
+     "qt_compradores": 28,
+     "vl_receita_obs": 12251.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249204228800023",
+     "nome": "AD95 — Card type",
+     "adset": "[ADVANTAGE] Aberto | Pack 5 | Novo Horario",
+     "vl_spend": 5026.72,
+     "qt_leads": 1020,
+     "vl_cpl": 4.93,
+     "mix_pct": {
+      "A+": 6.67,
+      "A": 18.82,
+      "B": 13.14,
+      "C": 44.02,
+      "D": 17.35
+     },
+     "pc_qual": 25.49,
+     "vl_score": -17.0,
+     "vl_ev_capi": 23.05,
+     "pc_survey": 74.3,
+     "vl_retorno_esp": 4.68,
+     "qt_compradores": 10,
+     "vl_receita_obs": 4009.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249656896610023",
+     "nome": "AD95 — Card type",
+     "adset": "[ADVANTAGE] Aberto | Pack 5 | Novo Horario",
+     "vl_spend": 4667.9,
+     "qt_leads": 695,
+     "vl_cpl": 6.72,
+     "mix_pct": {
+      "A+": 35.54,
+      "A": 32.23,
+      "B": 13.09,
+      "C": 12.95,
+      "D": 6.19
+     },
+     "pc_qual": 67.77,
+     "vl_score": 9.8,
+     "vl_ev_capi": 41.14,
+     "pc_survey": 86.9,
+     "vl_retorno_esp": 6.13,
+     "qt_compradores": 38,
+     "vl_receita_obs": 13772.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249349382030023",
+     "nome": "AD137 — VVS pablo marçal influ",
+     "adset": "[ADVANTAGE] Aberto | Pack 7",
+     "vl_spend": 4163.72,
+     "qt_leads": 890,
+     "vl_cpl": 4.68,
+     "mix_pct": {
+      "A+": 21.35,
+      "A": 29.55,
+      "B": 12.92,
+      "C": 29.33,
+      "D": 6.85
+     },
+     "pc_qual": 50.9,
+     "vl_score": -1.5,
+     "vl_ev_capi": 33.37,
+     "pc_survey": 79.3,
+     "vl_retorno_esp": 7.13,
+     "qt_compradores": 30,
+     "vl_receita_obs": 10439.0,
+     "bl_amostra_ok": true
+    }
+   ],
+   "qt_ads_total": 307,
+   "pacing": [
+    {
+     "dt": "2026-06-11",
+     "esperado": 0.9,
+     "esperado_lo": 0.71,
+     "esperado_hi": 2.18,
+     "realizado": 0.0
+    },
+    {
+     "dt": "2026-06-12",
+     "esperado": 2.92,
+     "esperado_lo": 2.29,
+     "esperado_hi": 6.87,
+     "realizado": 0.0
+    },
+    {
+     "dt": "2026-06-13",
+     "esperado": 17.95,
+     "esperado_lo": 14.1,
+     "esperado_hi": 42.56,
+     "realizado": 477.6
+    },
+    {
+     "dt": "2026-06-14",
+     "esperado": 58.8,
+     "esperado_lo": 46.1,
+     "esperado_hi": 137.68,
+     "realizado": 477.6
+    },
+    {
+     "dt": "2026-06-15",
+     "esperado": 357.41,
+     "esperado_lo": 280.73,
+     "esperado_hi": 847.27,
+     "realizado": 1785.6
+    },
+    {
+     "dt": "2026-06-16",
+     "esperado": 766.4,
+     "esperado_lo": 598.93,
+     "esperado_hi": 1763.82,
+     "realizado": 9363.6
+    },
+    {
+     "dt": "2026-06-17",
+     "esperado": 1519.89,
+     "esperado_lo": 1180.7,
+     "esperado_hi": 3433.45,
+     "realizado": 11089.2
+    },
+    {
+     "dt": "2026-06-18",
+     "esperado": 2554.95,
+     "esperado_lo": 1980.27,
+     "esperado_hi": 5671.56,
+     "realizado": 20789.16
+    },
+    {
+     "dt": "2026-06-19",
+     "esperado": 4036.32,
+     "esperado_lo": 3110.31,
+     "esperado_hi": 8809.47,
+     "realizado": 25097.16
+    },
+    {
+     "dt": "2026-06-20",
+     "esperado": 5674.82,
+     "esperado_lo": 4354.31,
+     "esperado_hi": 12120.79,
+     "realizado": 27491.16
+    },
+    {
+     "dt": "2026-06-21",
+     "esperado": 7653.45,
+     "esperado_lo": 5852.91,
+     "esperado_hi": 16099.6,
+     "realizado": 32479.56
+    },
+    {
+     "dt": "2026-06-22",
+     "esperado": 9975.52,
+     "esperado_lo": 7611.64,
+     "esperado_hi": 20736.06,
+     "realizado": 40456.32
+    },
+    {
+     "dt": "2026-06-23",
+     "esperado": 12342.9,
+     "esperado_lo": 9395.51,
+     "esperado_hi": 25352.45,
+     "realizado": 47842.32
+    },
+    {
+     "dt": "2026-06-24",
+     "esperado": 14697.87,
+     "esperado_lo": 11168.11,
+     "esperado_hi": 29844.59,
+     "realizado": 61967.72
+    },
+    {
+     "dt": "2026-06-25",
+     "esperado": 17051.76,
+     "esperado_lo": 12945.31,
+     "esperado_hi": 34396.67,
+     "realizado": 80209.28
+    },
+    {
+     "dt": "2026-06-26",
+     "esperado": 19566.82,
+     "esperado_lo": 14842.08,
+     "esperado_hi": 39352.16,
+     "realizado": 100308.48
+    },
+    {
+     "dt": "2026-06-27",
+     "esperado": 22489.63,
+     "esperado_lo": 17064.56,
+     "esperado_hi": 45327.92,
+     "realizado": 112207.68
+    },
+    {
+     "dt": "2026-06-28",
+     "esperado": 26072.49,
+     "esperado_lo": 19794.76,
+     "esperado_hi": 52869.5,
+     "realizado": 123242.88
+    },
+    {
+     "dt": "2026-06-29",
+     "esperado": 29726.63,
+     "esperado_lo": 22556.24,
+     "esperado_hi": 60397.86,
+     "realizado": 151266.84
+    },
+    {
+     "dt": "2026-06-30",
+     "esperado": 34334.21,
+     "esperado_lo": 26041.03,
+     "esperado_hi": 70110.49,
+     "realizado": 235399.56
+    },
+    {
+     "dt": "2026-07-01",
+     "esperado": 39646.94,
+     "esperado_lo": 30038.09,
+     "esperado_hi": 81071.15,
+     "realizado": 251016.48
+    },
+    {
+     "dt": "2026-07-02",
+     "esperado": 44324.54,
+     "esperado_lo": 33468.6,
+     "esperado_hi": 90040.46,
+     "realizado": 255043.68
+    },
+    {
+     "dt": "2026-07-03",
+     "esperado": 49132.9,
+     "esperado_lo": 37019.1,
+     "esperado_hi": 99193.78,
+     "realizado": 265604.28
+    },
+    {
+     "dt": "2026-07-04",
+     "esperado": 53612.12,
+     "esperado_lo": 40303.13,
+     "esperado_hi": 107560.03,
+     "realizado": 270724.68
+    },
+    {
+     "dt": "2026-07-05",
+     "esperado": 58037.33,
+     "esperado_lo": 43505.46,
+     "esperado_hi": 115633.57,
+     "realizado": 275516.38
+    },
+    {
+     "dt": "2026-07-06",
+     "esperado": 63269.29,
+     "esperado_lo": 47438.65,
+     "esperado_hi": 126008.8,
+     "realizado": 293214.34
+    },
+    {
+     "dt": "2026-07-07",
+     "esperado": 69216.92,
+     "esperado_lo": 51924.33,
+     "esperado_hi": 138085.13,
+     "realizado": 301116.08
+    },
+    {
+     "dt": "2026-07-08",
+     "esperado": 75406.05,
+     "esperado_lo": 56551.44,
+     "esperado_hi": 150462.75,
+     "realizado": 313299.68
+    },
+    {
+     "dt": "2026-07-09",
+     "esperado": 82634.04,
+     "esperado_lo": 61993.56,
+     "esperado_hi": 165131.31,
+     "realizado": 325458.14
+    },
+    {
+     "dt": "2026-07-10",
+     "esperado": 90244.22,
+     "esperado_lo": 67590.05,
+     "esperado_hi": 179781.69,
+     "realizado": 332552.54
+    },
+    {
+     "dt": "2026-07-11",
+     "esperado": 98830.74,
+     "esperado_lo": 73900.0,
+     "esperado_hi": 196354.12,
+     "realizado": 337916.54
+    },
+    {
+     "dt": "2026-07-12",
+     "esperado": 108666.45,
+     "esperado_lo": 81221.32,
+     "esperado_hi": 215432.52,
+     "realizado": 346325.7
+    },
+    {
+     "dt": "2026-07-13",
+     "esperado": 118374.07,
+     "esperado_lo": 88307.12,
+     "esperado_hi": 233408.82,
+     "realizado": 361533.3
+    },
+    {
+     "dt": "2026-07-14",
+     "esperado": 130026.08,
+     "esperado_lo": 96949.63,
+     "esperado_hi": 255760.38,
+     "realizado": 371340.97
+    },
+    {
+     "dt": "2026-07-15",
+     "esperado": 142570.09,
+     "esperado_lo": 106376.39,
+     "esperado_hi": 279949.5,
+     "realizado": 386105.77
+    },
+    {
+     "dt": "2026-07-16",
+     "esperado": 150453.03,
+     "esperado_lo": 111977.38,
+     "esperado_hi": 291917.12,
+     "realizado": 430954.63
+    },
+    {
+     "dt": "2026-07-17",
+     "esperado": 156712.17,
+     "esperado_lo": 116453.02,
+     "esperado_hi": 300729.31,
+     "realizado": 449013.55
+    },
+    {
+     "dt": "2026-07-18",
+     "esperado": 162313.55,
+     "esperado_lo": 120488.21,
+     "esperado_hi": 309074.08,
+     "realizado": 452193.55
+    },
+    {
+     "dt": "2026-07-19",
+     "esperado": 167791.75,
+     "esperado_lo": 124265.2,
+     "esperado_hi": 317217.46,
+     "realizado": 458901.65
+    },
+    {
+     "dt": "2026-07-20",
+     "esperado": 172602.51,
+     "esperado_lo": 127874.46,
+     "esperado_hi": 325347.46,
+     "realizado": 468714.05
+    },
+    {
+     "dt": "2026-07-21",
+     "esperado": 177125.6,
+     "esperado_lo": 131251.38,
+     "esperado_hi": 333739.98,
+     "realizado": 483373.25
+    },
+    {
+     "dt": "2026-07-22",
+     "esperado": 181634.31,
+     "esperado_lo": 134399.19,
+     "esperado_hi": 341947.33,
+     "realizado": 541654.85
+    },
+    {
+     "dt": "2026-07-23",
+     "esperado": 185855.68,
+     "esperado_lo": 137414.02,
+     "esperado_hi": 349097.43,
+     "realizado": 572411.01
+    },
+    {
+     "dt": "2026-07-24",
+     "esperado": 190144.52,
+     "esperado_lo": 140280.14,
+     "esperado_hi": 355071.87,
+     "realizado": 596990.73
+    },
+    {
+     "dt": "2026-07-25",
+     "esperado": 194327.45,
+     "esperado_lo": 143064.22,
+     "esperado_hi": 360629.92,
+     "realizado": 607505.13
+    },
+    {
+     "dt": "2026-07-26",
+     "esperado": 198102.66,
+     "esperado_lo": 145708.49,
+     "esperado_hi": 365067.94,
+     "realizado": 616355.13
+    },
+    {
+     "dt": "2026-07-27",
+     "esperado": 201872.48,
+     "esperado_lo": 148172.86,
+     "esperado_hi": 368662.64,
+     "realizado": 627713.13
+    },
+    {
+     "dt": "2026-07-28",
+     "esperado": 205530.08,
+     "esperado_lo": 150680.48,
+     "esperado_hi": 371921.72,
+     "realizado": 651944.19
+    },
+    {
+     "dt": "2026-07-29",
+     "esperado": 208716.82,
+     "esperado_lo": 153171.63,
+     "esperado_hi": 374662.09,
+     "realizado": 668026.59
+    },
+    {
+     "dt": "2026-07-30",
+     "esperado": 211696.62,
+     "esperado_lo": 155398.47,
+     "esperado_hi": 376956.24,
+     "realizado": 686644.59
+    },
+    {
+     "dt": "2026-07-31",
+     "esperado": 214628.08,
+     "esperado_lo": 157512.74,
+     "esperado_hi": 378043.6,
+     "realizado": 740241.39
+    },
+    {
+     "dt": "2026-08-01",
+     "esperado": 217337.99,
+     "esperado_lo": 159453.25,
+     "esperado_hi": 378960.72,
+     "realizado": 744033.85
+    },
+    {
+     "dt": "2026-08-02",
+     "esperado": 220076.57,
+     "esperado_lo": 161375.89,
+     "esperado_hi": 379972.22,
+     "realizado": 751789.45
+    },
+    {
+     "dt": "2026-08-03",
+     "esperado": 222553.87,
+     "esperado_lo": 163277.4,
+     "esperado_hi": 380890.3,
+     "realizado": 757155.85
+    },
+    {
+     "dt": "2026-08-04",
+     "esperado": 224982.65,
+     "esperado_lo": 165111.54,
+     "esperado_hi": 381876.47,
+     "realizado": 766821.85
+    },
+    {
+     "dt": "2026-08-05",
+     "esperado": 227566.42,
+     "esperado_lo": 166953.5,
+     "esperado_hi": 382927.53,
+     "realizado": 782636.65
+    },
+    {
+     "dt": "2026-08-06",
+     "esperado": 229817.39,
+     "esperado_lo": 168841.03,
+     "esperado_hi": 383689.6,
+     "realizado": 799711.27
+    },
+    {
+     "dt": "2026-08-07",
+     "esperado": 231852.12,
+     "esperado_lo": 170557.92,
+     "esperado_hi": 384352.89,
+     "realizado": 817623.07
+    },
+    {
+     "dt": "2026-08-08",
+     "esperado": 233898.99,
+     "esperado_lo": 172215.2,
+     "esperado_hi": 384907.97,
+     "realizado": 824610.67
+    },
+    {
+     "dt": "2026-08-09",
+     "esperado": 235663.71,
+     "esperado_lo": 173788.07,
+     "esperado_hi": 385107.42,
+     "realizado": 835432.37
+    },
+    {
+     "dt": "2026-08-10",
+     "esperado": 237145.45,
+     "esperado_lo": 175172.68,
+     "esperado_hi": 385275.29,
+     "realizado": 847007.39
+    },
+    {
+     "dt": "2026-08-11",
+     "esperado": 238627.02,
+     "esperado_lo": 176543.05,
+     "esperado_hi": 385462.65,
+     "realizado": 868896.05
+    },
+    {
+     "dt": "2026-08-12",
+     "esperado": 239900.2,
+     "esperado_lo": 177800.61,
+     "esperado_hi": 385618.66,
+     "realizado": 874408.91
+    },
+    {
+     "dt": "2026-08-13",
+     "esperado": 240923.79,
+     "esperado_lo": 178806.97,
+     "esperado_hi": 385836.75,
+     "realizado": 888980.33
+    },
+    {
+     "dt": "2026-08-14",
+     "esperado": 241881.78,
+     "esperado_lo": 179739.41,
+     "esperado_hi": 386066.35,
+     "realizado": 895958.99
+    },
+    {
+     "dt": "2026-08-15",
+     "esperado": 242766.83,
+     "esperado_lo": 180577.52,
+     "esperado_hi": 386094.83,
+     "realizado": 898985.39
+    },
+    {
+     "dt": "2026-08-16",
+     "esperado": 243441.71,
+     "esperado_lo": 181332.4,
+     "esperado_hi": 386097.99,
+     "realizado": 913694.75
+    },
+    {
+     "dt": "2026-08-17",
+     "esperado": 243927.93,
+     "esperado_lo": 182042.38,
+     "esperado_hi": 386098.91,
+     "realizado": 936785.51
+    },
+    {
+     "dt": "2026-08-18",
+     "esperado": 244386.4,
+     "esperado_lo": 182717.67,
+     "esperado_hi": 386099.8,
+     "realizado": 946463.87
+    },
+    {
+     "dt": "2026-08-19",
+     "esperado": 244843.91,
+     "esperado_lo": 183358.61,
+     "esperado_hi": 386100.39,
+     "realizado": 953817.67
+    },
+    {
+     "dt": "2026-08-20",
+     "esperado": 245231.14,
+     "esperado_lo": 183975.44,
+     "esperado_hi": 386100.79,
+     "realizado": 957524.47
+    },
+    {
+     "dt": "2026-08-21",
+     "esperado": 245506.33,
+     "esperado_lo": 184413.84,
+     "esperado_hi": 386101.09,
+     "realizado": 961203.67
+    },
+    {
+     "dt": "2026-08-22",
+     "esperado": 245757.47,
+     "esperado_lo": 184701.56,
+     "esperado_hi": 386101.42,
+     "realizado": 964208.44
+    },
+    {
+     "dt": "2026-08-23",
+     "esperado": 245945.81,
+     "esperado_lo": 184918.33,
+     "esperado_hi": 386101.73,
+     "realizado": 970053.64
+    },
+    {
+     "dt": "2026-08-24",
+     "esperado": 246099.76,
+     "esperado_lo": 185074.71,
+     "esperado_hi": 386102.12,
+     "realizado": 977646.04
+    },
+    {
+     "dt": "2026-08-25",
+     "esperado": 246276.01,
+     "esperado_lo": 185177.12,
+     "esperado_hi": 386104.53,
+     "realizado": 986484.04
+    },
+    {
+     "dt": "2026-08-26",
+     "esperado": 246457.03,
+     "esperado_lo": 185261.89,
+     "esperado_hi": 386105.14,
+     "realizado": 993204.04
+    },
+    {
+     "dt": "2026-08-27",
+     "esperado": 246479.67,
+     "esperado_lo": 185331.21,
+     "esperado_hi": 386105.55,
+     "realizado": 1006814.54
+    }
+   ],
+   "pacing_ref": {
+    "dt_corte": "2026-07-15",
+    "na_abertura": true,
+    "esperado": 142570.09,
+    "esperado_lo": 106376.39,
+    "esperado_hi": 279949.5,
+    "realizado": 386105.77
+   },
+   "personas": [
+    {
+     "persona": "base_reimpactada",
+     "qt_leads": 11968,
+     "pc_qual": 48.3,
+     "qt_compradores": 1075,
+     "pc_conv": 8.98,
+     "vl_receita": 866988.0
+    },
+    {
+     "persona": "descobridor",
+     "qt_leads": 7772,
+     "pc_qual": 31.4,
+     "qt_compradores": 171,
+     "pc_conv": 2.2,
+     "vl_receita": 42249.0
+    },
+    {
+     "persona": "veterano",
+     "qt_leads": 4722,
+     "pc_qual": 19.1,
+     "qt_compradores": 105,
+     "pc_conv": 2.22,
+     "vl_receita": 37876.0
+    },
+    {
+     "persona": "recem_chegado",
+     "qt_leads": 180,
+     "pc_qual": 0.7,
+     "qt_compradores": 2,
+     "pc_conv": 1.11,
+     "vl_receita": 608.0
+    },
+    {
+     "persona": "sem_pesquisa",
+     "qt_leads": 118,
+     "pc_qual": 0.5,
+     "qt_compradores": 0,
+     "pc_conv": 0.0,
+     "vl_receita": 0.0
+    }
+   ]
+  },
+  {
+   "tag": "ELB26",
+   "nome": "Entre Lobos 2026",
+   "dt_inicio": "2026-07-14",
+   "aquecimento": [
+    "2026-07-14",
+    "2026-07-31"
+   ],
+   "venda": null,
+   "nota": "Captação encerrada ~31/07; venda não abriu (produção no ar desde 29/07).",
+   "tipo": "fechado",
+   "resumo": {
+    "qt_leads": 71974,
+    "vl_spend": 157184.91,
+    "vl_cpl": 2.18,
+    "dt_spend_ini": "2026-07-15",
+    "dt_spend_fim": "2026-07-30",
+    "pc_qual": 21.7,
+    "qt_qual": 15594,
+    "vl_score": -17.8,
+    "vl_ev_capi": 8.2,
+    "pc_survey": 50.0,
+    "qt_resp": 35982,
+    "pc_qual_resp": 34.1,
+    "vl_ev_capi_resp": 9.42,
+    "vl_receita_obs": 226736.0,
+    "qt_vendas": 872,
+    "qt_compradores": 798,
+    "roas_realizado": 1.44,
+    "rpl_projetado": 8.2,
+    "rpl_lo": 6.77,
+    "rpl_hi": 9.47,
+    "estimador": "rpl_d30",
+    "pc_erro": 15.0,
+    "bl_ancorado": true,
+    "retorno_esperado": 3.76,
+    "retorno_teto": 4.32,
+    "cpl_max": 5.47,
+    "vl_projetado_total": 590186.8,
+    "dt_referencia": "2026-08-27"
+   },
+   "serie": [
+    {
+     "dt": "2026-07-14",
+     "qt_leads": 4,
+     "mix": {
+      "A+": 0,
+      "A": 2,
+      "B": 0,
+      "C": 2,
+      "D": 0
+     },
+     "pc_qual": 50.0,
+     "pc_survey": 75.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 9.15,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-07-15",
+     "qt_leads": 1184,
+     "mix": {
+      "A+": 229,
+      "A": 153,
+      "B": 114,
+      "C": 560,
+      "D": 128
+     },
+     "pc_qual": 32.26,
+     "pc_survey": 52.7,
+     "vl_spend": 2894.89,
+     "vl_cpl": 2.45,
+     "vl_ev_capi": 10.17,
+     "vl_retorno_esp": 4.16
+    },
+    {
+     "dt": "2026-07-16",
+     "qt_leads": 1928,
+     "mix": {
+      "A+": 252,
+      "A": 290,
+      "B": 192,
+      "C": 958,
+      "D": 236
+     },
+     "pc_qual": 28.11,
+     "pc_survey": 55.03,
+     "vl_spend": 2929.98,
+     "vl_cpl": 1.52,
+     "vl_ev_capi": 9.17,
+     "vl_retorno_esp": 6.03
+    },
+    {
+     "dt": "2026-07-17",
+     "qt_leads": 1385,
+     "mix": {
+      "A+": 181,
+      "A": 247,
+      "B": 134,
+      "C": 672,
+      "D": 151
+     },
+     "pc_qual": 30.9,
+     "pc_survey": 54.58,
+     "vl_spend": 1734.49,
+     "vl_cpl": 1.25,
+     "vl_ev_capi": 9.39,
+     "vl_retorno_esp": 7.5
+    },
+    {
+     "dt": "2026-07-18",
+     "qt_leads": 1522,
+     "mix": {
+      "A+": 168,
+      "A": 246,
+      "B": 161,
+      "C": 784,
+      "D": 163
+     },
+     "pc_qual": 27.2,
+     "pc_survey": 54.53,
+     "vl_spend": 2672.37,
+     "vl_cpl": 1.76,
+     "vl_ev_capi": 8.95,
+     "vl_retorno_esp": 5.1
+    },
+    {
+     "dt": "2026-07-19",
+     "qt_leads": 1970,
+     "mix": {
+      "A+": 172,
+      "A": 286,
+      "B": 172,
+      "C": 1094,
+      "D": 246
+     },
+     "pc_qual": 23.25,
+     "pc_survey": 51.93,
+     "vl_spend": 3283.49,
+     "vl_cpl": 1.67,
+     "vl_ev_capi": 8.27,
+     "vl_retorno_esp": 4.96
+    },
+    {
+     "dt": "2026-07-20",
+     "qt_leads": 2204,
+     "mix": {
+      "A+": 208,
+      "A": 244,
+      "B": 191,
+      "C": 1249,
+      "D": 312
+     },
+     "pc_qual": 20.51,
+     "pc_survey": 49.91,
+     "vl_spend": 3698.94,
+     "vl_cpl": 1.68,
+     "vl_ev_capi": 8.09,
+     "vl_retorno_esp": 4.82
+    },
+    {
+     "dt": "2026-07-21",
+     "qt_leads": 3897,
+     "mix": {
+      "A+": 368,
+      "A": 434,
+      "B": 345,
+      "C": 2137,
+      "D": 613
+     },
+     "pc_qual": 20.58,
+     "pc_survey": 52.22,
+     "vl_spend": 6309.03,
+     "vl_cpl": 1.62,
+     "vl_ev_capi": 8.07,
+     "vl_retorno_esp": 4.98
+    },
+    {
+     "dt": "2026-07-22",
+     "qt_leads": 5548,
+     "mix": {
+      "A+": 476,
+      "A": 649,
+      "B": 437,
+      "C": 3086,
+      "D": 900
+     },
+     "pc_qual": 20.28,
+     "pc_survey": 50.92,
+     "vl_spend": 10148.87,
+     "vl_cpl": 1.83,
+     "vl_ev_capi": 7.89,
+     "vl_retorno_esp": 4.31
+    },
+    {
+     "dt": "2026-07-23",
+     "qt_leads": 5230,
+     "mix": {
+      "A+": 524,
+      "A": 627,
+      "B": 366,
+      "C": 2957,
+      "D": 756
+     },
+     "pc_qual": 22.01,
+     "pc_survey": 48.37,
+     "vl_spend": 9490.04,
+     "vl_cpl": 1.81,
+     "vl_ev_capi": 8.17,
+     "vl_retorno_esp": 4.5
+    },
+    {
+     "dt": "2026-07-24",
+     "qt_leads": 4099,
+     "mix": {
+      "A+": 398,
+      "A": 427,
+      "B": 304,
+      "C": 2394,
+      "D": 576
+     },
+     "pc_qual": 20.13,
+     "pc_survey": 45.21,
+     "vl_spend": 7022.83,
+     "vl_cpl": 1.71,
+     "vl_ev_capi": 8.03,
+     "vl_retorno_esp": 4.69
+    },
+    {
+     "dt": "2026-07-25",
+     "qt_leads": 5396,
+     "mix": {
+      "A+": 570,
+      "A": 544,
+      "B": 431,
+      "C": 3029,
+      "D": 822
+     },
+     "pc_qual": 20.64,
+     "pc_survey": 49.93,
+     "vl_spend": 11763.05,
+     "vl_cpl": 2.18,
+     "vl_ev_capi": 8.16,
+     "vl_retorno_esp": 3.74
+    },
+    {
+     "dt": "2026-07-26",
+     "qt_leads": 5107,
+     "mix": {
+      "A+": 511,
+      "A": 584,
+      "B": 367,
+      "C": 2911,
+      "D": 734
+     },
+     "pc_qual": 21.44,
+     "pc_survey": 48.85,
+     "vl_spend": 9782.34,
+     "vl_cpl": 1.92,
+     "vl_ev_capi": 8.14,
+     "vl_retorno_esp": 4.25
+    },
+    {
+     "dt": "2026-07-27",
+     "qt_leads": 4974,
+     "mix": {
+      "A+": 472,
+      "A": 477,
+      "B": 347,
+      "C": 2878,
+      "D": 800
+     },
+     "pc_qual": 19.08,
+     "pc_survey": 48.37,
+     "vl_spend": 15071.16,
+     "vl_cpl": 3.03,
+     "vl_ev_capi": 7.85,
+     "vl_retorno_esp": 2.59
+    },
+    {
+     "dt": "2026-07-28",
+     "qt_leads": 10934,
+     "mix": {
+      "A+": 1087,
+      "A": 1165,
+      "B": 828,
+      "C": 6149,
+      "D": 1705
+     },
+     "pc_qual": 20.6,
+     "pc_survey": 50.49,
+     "vl_spend": 29025.71,
+     "vl_cpl": 2.65,
+     "vl_ev_capi": 8.06,
+     "vl_retorno_esp": 3.04
+    },
+    {
+     "dt": "2026-07-29",
+     "qt_leads": 10950,
+     "mix": {
+      "A+": 1062,
+      "A": 1241,
+      "B": 851,
+      "C": 6086,
+      "D": 1710
+     },
+     "pc_qual": 21.03,
+     "pc_survey": 51.38,
+     "vl_spend": 29461.66,
+     "vl_cpl": 2.69,
+     "vl_ev_capi": 8.07,
+     "vl_retorno_esp": 3.0
+    },
+    {
+     "dt": "2026-07-30",
+     "qt_leads": 5096,
+     "mix": {
+      "A+": 579,
+      "A": 650,
+      "B": 416,
+      "C": 2751,
+      "D": 700
+     },
+     "pc_qual": 24.12,
+     "pc_survey": 51.02,
+     "vl_spend": 11896.06,
+     "vl_cpl": 2.33,
+     "vl_ev_capi": 8.55,
+     "vl_retorno_esp": 3.66
+    },
+    {
+     "dt": "2026-07-31",
+     "qt_leads": 149,
+     "mix": {
+      "A+": 8,
+      "A": 7,
+      "B": 0,
+      "C": 134,
+      "D": 0
+     },
+     "pc_qual": 10.07,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 6.79,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-01",
+     "qt_leads": 33,
+     "mix": {
+      "A+": 4,
+      "A": 3,
+      "B": 0,
+      "C": 26,
+      "D": 0
+     },
+     "pc_qual": 21.21,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 8.34,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-02",
+     "qt_leads": 108,
+     "mix": {
+      "A+": 9,
+      "A": 3,
+      "B": 0,
+      "C": 96,
+      "D": 0
+     },
+     "pc_qual": 11.11,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 7.19,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-03",
+     "qt_leads": 65,
+     "mix": {
+      "A+": 5,
+      "A": 3,
+      "B": 0,
+      "C": 57,
+      "D": 0
+     },
+     "pc_qual": 12.31,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 7.21,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-04",
+     "qt_leads": 43,
+     "mix": {
+      "A+": 5,
+      "A": 3,
+      "B": 0,
+      "C": 35,
+      "D": 0
+     },
+     "pc_qual": 18.6,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 8.1,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-05",
+     "qt_leads": 19,
+     "mix": {
+      "A+": 3,
+      "A": 1,
+      "B": 0,
+      "C": 15,
+      "D": 0
+     },
+     "pc_qual": 21.05,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 8.73,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-06",
+     "qt_leads": 29,
+     "mix": {
+      "A+": 6,
+      "A": 1,
+      "B": 0,
+      "C": 22,
+      "D": 0
+     },
+     "pc_qual": 24.14,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 9.49,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-07",
+     "qt_leads": 19,
+     "mix": {
+      "A+": 1,
+      "A": 2,
+      "B": 0,
+      "C": 16,
+      "D": 0
+     },
+     "pc_qual": 15.79,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 7.2,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-08",
+     "qt_leads": 13,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 13,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 5.47,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-09",
+     "qt_leads": 14,
+     "mix": {
+      "A+": 1,
+      "A": 1,
+      "B": 0,
+      "C": 12,
+      "D": 0
+     },
+     "pc_qual": 14.29,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 7.29,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-10",
+     "qt_leads": 22,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 21,
+      "D": 0
+     },
+     "pc_qual": 4.55,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 6.3,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-11",
+     "qt_leads": 12,
+     "mix": {
+      "A+": 3,
+      "A": 0,
+      "B": 0,
+      "C": 9,
+      "D": 0
+     },
+     "pc_qual": 25.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 10.01,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-12",
+     "qt_leads": 3,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 3,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 5.47,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-13",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 2,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 5.47,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-14",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 5.47,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-15",
+     "qt_leads": 3,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 3,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 5.47,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-16",
+     "qt_leads": 3,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 3,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 5.47,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-17",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 1,
+      "A": 0,
+      "B": 0,
+      "C": 0,
+      "D": 0
+     },
+     "pc_qual": 100.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 23.65,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-19",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 5.47,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-20",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 5.47,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-21",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 5.47,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-22",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 5.47,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-24",
+     "qt_leads": 2,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 2,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 5.47,
+     "vl_retorno_esp": null
+    },
+    {
+     "dt": "2026-08-25",
+     "qt_leads": 1,
+     "mix": {
+      "A+": 0,
+      "A": 0,
+      "B": 0,
+      "C": 1,
+      "D": 0
+     },
+     "pc_qual": 0.0,
+     "pc_survey": 0.0,
+     "vl_spend": null,
+     "vl_cpl": null,
+     "vl_ev_capi": 5.47,
+     "vl_retorno_esp": null
+    }
+   ],
+   "ads": [
+    {
+     "id": "120249173190990239",
+     "nome": "AD46 — VVS alta letalidade",
+     "adset": "[ADVANTAGE] Aberto | Pack 3",
+     "vl_spend": 12665.74,
+     "qt_leads": 5362,
+     "vl_cpl": 2.36,
+     "mix_pct": {
+      "A+": 2.39,
+      "A": 7.33,
+      "B": 7.52,
+      "C": 64.25,
+      "D": 18.52
+     },
+     "pc_qual": 9.72,
+     "vl_score": -25.1,
+     "vl_ev_capi": 6.36,
+     "pc_survey": 49.4,
+     "vl_retorno_esp": 2.69,
+     "qt_compradores": 27,
+     "vl_receita_obs": 7291.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249016851760239",
+     "nome": "AD32 — VVS cabo pires passa a senha",
+     "adset": "[ADVANTAGE] Aberto | Pack 3",
+     "vl_spend": 12428.97,
+     "qt_leads": 6276,
+     "vl_cpl": 1.98,
+     "mix_pct": {
+      "A+": 4.8,
+      "A": 7.86,
+      "B": 7.55,
+      "C": 57.74,
+      "D": 22.05
+     },
+     "pc_qual": 12.65,
+     "vl_score": -23.7,
+     "vl_ev_capi": 6.74,
+     "pc_survey": 52.2,
+     "vl_retorno_esp": 3.41,
+     "qt_compradores": 42,
+     "vl_receita_obs": 7501.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249066771600239",
+     "nome": "AD46 — VVS alta letalidade",
+     "adset": "[ADVANTAGE] Aberto | Pack 3",
+     "vl_spend": 11629.89,
+     "qt_leads": 5286,
+     "vl_cpl": 2.2,
+     "mix_pct": {
+      "A+": 5.33,
+      "A": 10.08,
+      "B": 8.78,
+      "C": 58.7,
+      "D": 17.1
+     },
+     "pc_qual": 15.42,
+     "vl_score": -21.4,
+     "vl_ev_capi": 7.2,
+     "pc_survey": 51.1,
+     "vl_retorno_esp": 3.27,
+     "qt_compradores": 40,
+     "vl_receita_obs": 11209.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249173191290239",
+     "nome": "AD32 — VVS cabo pires passa a senha",
+     "adset": "[ADVANTAGE] Aberto | Pack 3",
+     "vl_spend": 11479.93,
+     "qt_leads": 5037,
+     "vl_cpl": 2.28,
+     "mix_pct": {
+      "A+": 1.09,
+      "A": 3.18,
+      "B": 5.52,
+      "C": 61.98,
+      "D": 28.23
+     },
+     "pc_qual": 4.27,
+     "vl_score": -29.2,
+     "vl_ev_capi": 5.45,
+     "pc_survey": 49.6,
+     "vl_retorno_esp": 2.39,
+     "qt_compradores": 10,
+     "vl_receita_obs": 1567.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249014970520239",
+     "nome": "AD08 — VVS cta | v2",
+     "adset": "[ADVANTAGE] Aberto | Pack 1",
+     "vl_spend": 10491.52,
+     "qt_leads": 4807,
+     "vl_cpl": 2.18,
+     "mix_pct": {
+      "A+": 10.42,
+      "A": 10.46,
+      "B": 7.99,
+      "C": 59.21,
+      "D": 11.92
+     },
+     "pc_qual": 20.89,
+     "vl_score": -17.5,
+     "vl_ev_capi": 8.25,
+     "pc_survey": 46.5,
+     "vl_retorno_esp": 3.78,
+     "qt_compradores": 53,
+     "vl_receita_obs": 15707.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249031678240239",
+     "nome": "AD08 — VVS cta | v2",
+     "adset": "[ADVANTAGE] Lista toda base | Pack 1",
+     "vl_spend": 9298.45,
+     "qt_leads": 3428,
+     "vl_cpl": 2.71,
+     "mix_pct": {
+      "A+": 30.05,
+      "A": 16.51,
+      "B": 7.09,
+      "C": 41.98,
+      "D": 4.38
+     },
+     "pc_qual": 46.56,
+     "vl_score": -1.4,
+     "vl_ev_capi": 12.41,
+     "pc_survey": 50.8,
+     "vl_retorno_esp": 4.58,
+     "qt_compradores": 106,
+     "vl_receita_obs": 32385.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249066771640239",
+     "nome": "AD46 — VVS alta letalidade",
+     "adset": "[ADVANTAGE] Lista toda base | Pack 3",
+     "vl_spend": 8687.51,
+     "qt_leads": 3248,
+     "vl_cpl": 2.67,
+     "mix_pct": {
+      "A+": 20.17,
+      "A": 21.15,
+      "B": 9.54,
+      "C": 42.73,
+      "D": 6.4
+     },
+     "pc_qual": 41.32,
+     "vl_score": -6.5,
+     "vl_ev_capi": 11.04,
+     "pc_survey": 57.0,
+     "vl_retorno_esp": 4.13,
+     "qt_compradores": 69,
+     "vl_receita_obs": 19655.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249031678460239",
+     "nome": "AD32 — VVS cabo pires passa a senha",
+     "adset": "[ADVANTAGE] Lista toda base | Pack 3",
+     "vl_spend": 8095.32,
+     "qt_leads": 3376,
+     "vl_cpl": 2.4,
+     "mix_pct": {
+      "A+": 21.68,
+      "A": 19.34,
+      "B": 9.42,
+      "C": 42.68,
+      "D": 6.87
+     },
+     "pc_qual": 41.02,
+     "vl_score": -6.4,
+     "vl_ev_capi": 11.16,
+     "pc_survey": 54.4,
+     "vl_retorno_esp": 4.65,
+     "qt_compradores": 62,
+     "vl_receita_obs": 13961.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249173190920239",
+     "nome": "AD08 — VVS cta | v2",
+     "adset": "[ADVANTAGE] Aberto | Pack 1",
+     "vl_spend": 5029.46,
+     "qt_leads": 2006,
+     "vl_cpl": 2.51,
+     "mix_pct": {
+      "A+": 4.54,
+      "A": 7.68,
+      "B": 7.98,
+      "C": 65.0,
+      "D": 14.81
+     },
+     "pc_qual": 12.21,
+     "vl_score": -22.7,
+     "vl_ev_capi": 6.9,
+     "pc_survey": 44.8,
+     "vl_retorno_esp": 2.75,
+     "qt_compradores": 13,
+     "vl_receita_obs": 2165.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249173972320239",
+     "nome": "AD32 — VVS cabo pires passa a senha",
+     "adset": "[ADVANTAGE] Aberto | Pack 3",
+     "vl_spend": 3780.78,
+     "qt_leads": 1194,
+     "vl_cpl": 3.17,
+     "mix_pct": {
+      "A+": 8.96,
+      "A": 14.15,
+      "B": 11.06,
+      "C": 43.05,
+      "D": 22.78
+     },
+     "pc_qual": 23.12,
+     "vl_score": -19.0,
+     "vl_ev_capi": 8.13,
+     "pc_survey": 66.5,
+     "vl_retorno_esp": 2.57,
+     "qt_compradores": 16,
+     "vl_receita_obs": 5062.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249066708140239",
+     "nome": "AD46 — VVS alta letalidade",
+     "adset": "[ADVANTAGE] Aberto | Pack 3",
+     "vl_spend": 3131.38,
+     "qt_leads": 1725,
+     "vl_cpl": 1.82,
+     "mix_pct": {
+      "A+": 7.3,
+      "A": 15.77,
+      "B": 12.41,
+      "C": 50.72,
+      "D": 13.8
+     },
+     "pc_qual": 23.07,
+     "vl_score": -17.9,
+     "vl_ev_capi": 8.26,
+     "pc_survey": 61.7,
+     "vl_retorno_esp": 4.55,
+     "qt_compradores": 22,
+     "vl_receita_obs": 5995.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120249275486180239",
+     "nome": "AD90 — VVS corte inteligencia nao pega 40 | v1",
+     "adset": "[ADVANTAGE] Aberto | Pack 5",
+     "vl_spend": 2445.01,
+     "qt_leads": 1018,
+     "vl_cpl": 2.4,
+     "mix_pct": {
+      "A+": 2.36,
+      "A": 4.52,
+      "B": 6.88,
+      "C": 66.5,
+      "D": 19.74
+     },
+     "pc_qual": 6.88,
+     "vl_score": -26.0,
+     "vl_ev_capi": 6.08,
+     "pc_survey": 46.8,
+     "vl_retorno_esp": 2.53,
+     "qt_compradores": 3,
+     "vl_receita_obs": 386.0,
+     "bl_amostra_ok": true
+    }
+   ],
+   "qt_ads_total": 236,
+   "pacing": [
+    {
+     "dt": "2026-07-14",
+     "esperado": 3.61,
+     "esperado_lo": 2.85,
+     "esperado_hi": 8.72,
+     "realizado": 0.0
+    },
+    {
+     "dt": "2026-07-15",
+     "esperado": 1072.67,
+     "esperado_lo": 845.9,
+     "esperado_hi": 2590.7,
+     "realizado": 1002.0
+    },
+    {
+     "dt": "2026-07-16",
+     "esperado": 3067.67,
+     "esperado_lo": 2406.92,
+     "esperado_hi": 7187.61,
+     "realizado": 2706.0
+    },
+    {
+     "dt": "2026-07-17",
+     "esperado": 4920.5,
+     "esperado_lo": 3817.77,
+     "esperado_hi": 11030.13,
+     "realizado": 4338.0
+    },
+    {
+     "dt": "2026-07-18",
+     "esperado": 7018.13,
+     "esperado_lo": 5413.95,
+     "esperado_hi": 15253.14,
+     "realizado": 5577.6
+    },
+    {
+     "dt": "2026-07-19",
+     "esperado": 9708.1,
+     "esperado_lo": 7442.85,
+     "esperado_hi": 20658.72,
+     "realizado": 6578.4
+    },
+    {
+     "dt": "2026-07-20",
+     "esperado": 12905.85,
+     "esperado_lo": 9822.67,
+     "esperado_hi": 26857.54,
+     "realizado": 9383.46
+    },
+    {
+     "dt": "2026-07-21",
+     "esperado": 17834.8,
+     "esperado_lo": 13606.88,
+     "esperado_hi": 37136.77,
+     "realizado": 12544.26
+    },
+    {
+     "dt": "2026-07-22",
+     "esperado": 24807.07,
+     "esperado_lo": 18989.32,
+     "esperado_hi": 52050.9,
+     "realizado": 18904.92
+    },
+    {
+     "dt": "2026-07-23",
+     "esperado": 32306.48,
+     "esperado_lo": 24706.85,
+     "esperado_hi": 67543.5,
+     "realizado": 28236.12
+    },
+    {
+     "dt": "2026-07-24",
+     "esperado": 39312.14,
+     "esperado_lo": 30007.77,
+     "esperado_hi": 81256.72,
+     "realizado": 35918.88
+    },
+    {
+     "dt": "2026-07-25",
+     "esperado": 47801.84,
+     "esperado_lo": 36412.91,
+     "esperado_hi": 98118.24,
+     "realizado": 41172.0
+    },
+    {
+     "dt": "2026-07-26",
+     "esperado": 56656.64,
+     "esperado_lo": 43043.7,
+     "esperado_hi": 115392.26,
+     "realizado": 47188.7
+    },
+    {
+     "dt": "2026-07-27",
+     "esperado": 65776.05,
+     "esperado_lo": 49885.62,
+     "esperado_hi": 133040.88,
+     "realizado": 53023.0
+    },
+    {
+     "dt": "2026-07-28",
+     "esperado": 80569.97,
+     "esperado_lo": 61220.38,
+     "esperado_hi": 164540.45,
+     "realizado": 73763.8
+    },
+    {
+     "dt": "2026-07-29",
+     "esperado": 97057.31,
+     "esperado_lo": 73768.36,
+     "esperado_hi": 199173.11,
+     "realizado": 93890.86
+    },
+    {
+     "dt": "2026-07-30",
+     "esperado": 109501.43,
+     "esperado_lo": 83008.79,
+     "esperado_hi": 222732.23,
+     "realizado": 110281.66
+    },
+    {
+     "dt": "2026-07-31",
+     "esperado": 117134.92,
+     "esperado_lo": 88534.31,
+     "esperado_hi": 234958.18,
+     "realizado": 122855.92
+    },
+    {
+     "dt": "2026-08-01",
+     "esperado": 123904.09,
+     "esperado_lo": 93229.35,
+     "esperado_hi": 245665.79,
+     "realizado": 129097.36
+    },
+    {
+     "dt": "2026-08-02",
+     "esperado": 130220.94,
+     "esperado_lo": 97610.01,
+     "esperado_hi": 256016.57,
+     "realizado": 133991.98
+    },
+    {
+     "dt": "2026-08-03",
+     "esperado": 135843.54,
+     "esperado_lo": 101717.16,
+     "esperado_hi": 266367.58,
+     "realizado": 135818.38
+    },
+    {
+     "dt": "2026-08-04",
+     "esperado": 140971.47,
+     "esperado_lo": 105559.1,
+     "esperado_hi": 277292.8,
+     "realizado": 141994.78
+    },
+    {
+     "dt": "2026-08-05",
+     "esperado": 145680.87,
+     "esperado_lo": 109088.69,
+     "esperado_hi": 288844.66,
+     "realizado": 146119.18
+    },
+    {
+     "dt": "2026-08-06",
+     "esperado": 150314.49,
+     "esperado_lo": 112406.6,
+     "esperado_hi": 299103.09,
+     "realizado": 152872.78
+    },
+    {
+     "dt": "2026-08-07",
+     "esperado": 154998.67,
+     "esperado_lo": 115548.94,
+     "esperado_hi": 307930.98,
+     "realizado": 153572.28
+    },
+    {
+     "dt": "2026-08-08",
+     "esperado": 159542.39,
+     "esperado_lo": 118542.27,
+     "esperado_hi": 315766.15,
+     "realizado": 156385.74
+    },
+    {
+     "dt": "2026-08-09",
+     "esperado": 163886.65,
+     "esperado_lo": 121294.8,
+     "esperado_hi": 322347.49,
+     "realizado": 161872.02
+    },
+    {
+     "dt": "2026-08-10",
+     "esperado": 168243.98,
+     "esperado_lo": 123829.51,
+     "esperado_hi": 327674.74,
+     "realizado": 166165.62
+    },
+    {
+     "dt": "2026-08-11",
+     "esperado": 172533.35,
+     "esperado_lo": 126439.88,
+     "esperado_hi": 332356.13,
+     "realizado": 169406.82
+    },
+    {
+     "dt": "2026-08-12",
+     "esperado": 176449.63,
+     "esperado_lo": 129138.11,
+     "esperado_hi": 337225.74,
+     "realizado": 171593.22
+    },
+    {
+     "dt": "2026-08-13",
+     "esperado": 180077.33,
+     "esperado_lo": 131769.96,
+     "esperado_hi": 340904.6,
+     "realizado": 173635.62
+    },
+    {
+     "dt": "2026-08-14",
+     "esperado": 183407.33,
+     "esperado_lo": 134111.51,
+     "esperado_hi": 343056.84,
+     "realizado": 176216.28
+    },
+    {
+     "dt": "2026-08-15",
+     "esperado": 186839.39,
+     "esperado_lo": 136347.63,
+     "esperado_hi": 344386.38,
+     "realizado": 178125.48
+    },
+    {
+     "dt": "2026-08-16",
+     "esperado": 190157.74,
+     "esperado_lo": 138553.9,
+     "esperado_hi": 345633.61,
+     "realizado": 186367.08
+    },
+    {
+     "dt": "2026-08-17",
+     "esperado": 193118.51,
+     "esperado_lo": 140705.74,
+     "esperado_hi": 346796.08,
+     "realizado": 187153.08
+    },
+    {
+     "dt": "2026-08-18",
+     "esperado": 196200.08,
+     "esperado_lo": 142795.97,
+     "esperado_hi": 348193.98,
+     "realizado": 190691.88
+    },
+    {
+     "dt": "2026-08-19",
+     "esperado": 199510.9,
+     "esperado_lo": 144992.13,
+     "esperado_hi": 349632.39,
+     "realizado": 195176.28
+    },
+    {
+     "dt": "2026-08-20",
+     "esperado": 202508.73,
+     "esperado_lo": 147210.55,
+     "esperado_hi": 350901.57,
+     "realizado": 201015.48
+    },
+    {
+     "dt": "2026-08-21",
+     "esperado": 205267.69,
+     "esperado_lo": 149355.55,
+     "esperado_hi": 352140.59,
+     "realizado": 206055.48
+    },
+    {
+     "dt": "2026-08-22",
+     "esperado": 208082.09,
+     "esperado_lo": 151476.56,
+     "esperado_hi": 353095.24,
+     "realizado": 207542.18
+    },
+    {
+     "dt": "2026-08-23",
+     "esperado": 210565.28,
+     "esperado_lo": 153454.96,
+     "esperado_hi": 353576.83,
+     "realizado": 213005.78
+    },
+    {
+     "dt": "2026-08-24",
+     "esperado": 212695.97,
+     "esperado_lo": 155328.44,
+     "esperado_hi": 353815.69,
+     "realizado": 213770.18
+    },
+    {
+     "dt": "2026-08-25",
+     "esperado": 214699.29,
+     "esperado_lo": 157229.69,
+     "esperado_hi": 354016.33,
+     "realizado": 218130.98
+    },
+    {
+     "dt": "2026-08-26",
+     "esperado": 216527.32,
+     "esperado_lo": 159012.05,
+     "esperado_hi": 354199.96,
+     "realizado": 223203.35
+    },
+    {
+     "dt": "2026-08-27",
+     "esperado": 218023.54,
+     "esperado_lo": 160569.48,
+     "esperado_hi": 354577.95,
+     "realizado": 226736.15
+    }
+   ],
+   "pacing_ref": {
+    "dt_corte": "2026-08-27",
+    "na_abertura": false,
+    "esperado": 218023.54,
+    "esperado_lo": 160569.48,
+    "esperado_hi": 354577.95,
+    "realizado": 226736.15
+   },
+   "personas": [
+    {
+     "persona": "base_reimpactada",
+     "qt_leads": 6860,
+     "pc_qual": 44.0,
+     "qt_compradores": 372,
+     "pc_conv": 5.42,
+     "vl_receita": 126579.0
+    },
+    {
+     "persona": "descobridor",
+     "qt_leads": 5218,
+     "pc_qual": 33.5,
+     "qt_compradores": 90,
+     "pc_conv": 1.72,
+     "vl_receita": 18722.0
+    },
+    {
+     "persona": "veterano",
+     "qt_leads": 3138,
+     "pc_qual": 20.1,
+     "qt_compradores": 67,
+     "pc_conv": 2.14,
+     "vl_receita": 16580.0
+    },
+    {
+     "persona": "recem_chegado",
+     "qt_leads": 378,
+     "pc_qual": 2.4,
+     "qt_compradores": 11,
+     "pc_conv": 2.91,
+     "vl_receita": 2702.0
+    }
+   ]
+  },
+  {
    "tag": "JOM",
    "nome": "John Money",
    "dt_inicio": "2026-07-25",
@@ -1209,35 +6803,36 @@
    ],
    "venda": null,
    "nota": "Tag reusada desde out/2025 — leads e spend contados a partir de 25/07. Braços de teste (form nativo etc.) no relatório testes-jom.",
+   "tipo": "fechado",
    "resumo": {
-    "qt_leads": 10826,
-    "vl_spend": 38543.15000000003,
-    "vl_cpl": 3.56,
+    "qt_leads": 11658,
+    "vl_spend": 40467.51000000004,
+    "vl_cpl": 3.47,
     "dt_spend_ini": "2026-07-25",
-    "dt_spend_fim": "2026-08-26",
-    "pc_qual": 29.1,
-    "qt_qual": 3146,
-    "vl_score": -11.6,
-    "vl_ev_capi": 8.58,
-    "pc_survey": 58.9,
-    "qt_resp": 6375,
-    "pc_qual_resp": 41.4,
-    "vl_ev_capi_resp": 9.97,
-    "vl_receita_obs": 14701.0,
-    "qt_vendas": 86,
-    "qt_compradores": 83,
-    "roas_realizado": 0.38,
-    "rpl_projetado": 8.45,
-    "rpl_lo": 5.49,
-    "rpl_hi": 11.4,
+    "dt_spend_fim": "2026-08-27",
+    "pc_qual": 28.3,
+    "qt_qual": 3302,
+    "vl_score": -11.8,
+    "vl_ev_capi": 8.54,
+    "pc_survey": 59.1,
+    "qt_resp": 6891,
+    "pc_qual_resp": 40.4,
+    "vl_ev_capi_resp": 9.93,
+    "vl_receita_obs": 14962.0,
+    "qt_vendas": 88,
+    "qt_compradores": 85,
+    "roas_realizado": 0.37,
+    "rpl_projetado": 8.42,
+    "rpl_lo": 5.47,
+    "rpl_hi": 11.37,
     "estimador": "ev_iql",
     "pc_erro": 35.0,
     "bl_ancorado": false,
-    "retorno_esperado": 2.37,
-    "retorno_teto": 2.8,
-    "cpl_max": 5.63,
-    "vl_projetado_total": 91479.7,
-    "dt_referencia": "2026-08-26"
+    "retorno_esperado": 2.43,
+    "retorno_teto": 2.86,
+    "cpl_max": 5.61,
+    "vl_projetado_total": 98160.36,
+    "dt_referencia": "2026-08-27"
    },
    "serie": [
     {
@@ -1246,16 +6841,16 @@
      "mix": {
       "A+": 51,
       "A": 5,
-      "B": 3,
-      "C": 83,
+      "B": 5,
+      "C": 81,
       "D": 2
      },
      "pc_qual": 38.89,
-     "pc_survey": 18.06,
+     "pc_survey": 18.75,
      "vl_spend": 308.72,
      "vl_cpl": 2.14,
-     "vl_ev_capi": 10.74,
-     "vl_retorno_esp": 5.01
+     "vl_ev_capi": 10.8,
+     "vl_retorno_esp": 5.04
     },
     {
      "dt": "2026-07-26",
@@ -1268,7 +6863,7 @@
       "D": 2
      },
      "pc_qual": 29.06,
-     "pc_survey": 14.53,
+     "pc_survey": 15.38,
      "vl_spend": 286.2,
      "vl_cpl": 2.45,
      "vl_ev_capi": 8.78,
@@ -1330,17 +6925,17 @@
      "qt_leads": 266,
      "mix": {
       "A+": 29,
-      "A": 41,
+      "A": 42,
       "B": 38,
-      "C": 111,
+      "C": 110,
       "D": 47
      },
-     "pc_qual": 26.32,
-     "pc_survey": 58.65,
+     "pc_qual": 26.69,
+     "pc_survey": 59.02,
      "vl_spend": 686.47,
      "vl_cpl": 2.58,
-     "vl_ev_capi": 7.8,
-     "vl_retorno_esp": 3.02
+     "vl_ev_capi": 7.82,
+     "vl_retorno_esp": 3.03
     },
     {
      "dt": "2026-07-31",
@@ -1381,17 +6976,17 @@
      "qt_leads": 219,
      "mix": {
       "A+": 31,
-      "A": 36,
+      "A": 37,
       "B": 38,
-      "C": 91,
+      "C": 90,
       "D": 23
      },
-     "pc_qual": 30.59,
+     "pc_qual": 31.05,
      "pc_survey": 59.82,
      "vl_spend": 860.82,
      "vl_cpl": 3.93,
-     "vl_ev_capi": 8.69,
-     "vl_retorno_esp": 2.21
+     "vl_ev_capi": 8.72,
+     "vl_retorno_esp": 2.22
     },
     {
      "dt": "2026-08-03",
@@ -1404,7 +6999,7 @@
       "D": 17
      },
      "pc_qual": 40.2,
-     "pc_survey": 54.27,
+     "pc_survey": 55.28,
      "vl_spend": 774.08,
      "vl_cpl": 3.89,
      "vl_ev_capi": 10.17,
@@ -1414,18 +7009,18 @@
      "dt": "2026-08-04",
      "qt_leads": 162,
      "mix": {
-      "A+": 42,
+      "A+": 43,
       "A": 24,
-      "B": 30,
-      "C": 50,
+      "B": 31,
+      "C": 48,
       "D": 16
      },
-     "pc_qual": 40.74,
-     "pc_survey": 65.43,
+     "pc_qual": 41.36,
+     "pc_survey": 66.05,
      "vl_spend": 650.55,
      "vl_cpl": 4.02,
-     "vl_ev_capi": 10.53,
-     "vl_retorno_esp": 2.62
+     "vl_ev_capi": 10.66,
+     "vl_retorno_esp": 2.65
     },
     {
      "dt": "2026-08-05",
@@ -1438,7 +7033,7 @@
       "D": 28
      },
      "pc_qual": 33.16,
-     "pc_survey": 63.27,
+     "pc_survey": 63.78,
      "vl_spend": 769.23,
      "vl_cpl": 3.92,
      "vl_ev_capi": 9.22,
@@ -1519,32 +7114,32 @@
       "A+": 72,
       "A": 42,
       "B": 57,
-      "C": 82,
-      "D": 36
+      "C": 81,
+      "D": 37
      },
      "pc_qual": 39.45,
      "pc_survey": 69.2,
      "vl_spend": 1126.05,
      "vl_cpl": 3.9,
-     "vl_ev_capi": 10.35,
-     "vl_retorno_esp": 2.66
+     "vl_ev_capi": 10.34,
+     "vl_retorno_esp": 2.65
     },
     {
      "dt": "2026-08-11",
      "qt_leads": 319,
      "mix": {
       "A+": 61,
-      "A": 52,
+      "A": 53,
       "B": 52,
-      "C": 118,
+      "C": 117,
       "D": 36
      },
-     "pc_qual": 35.42,
-     "pc_survey": 61.76,
+     "pc_qual": 35.74,
+     "pc_survey": 62.7,
      "vl_spend": 1190.27,
      "vl_cpl": 3.73,
-     "vl_ev_capi": 9.41,
-     "vl_retorno_esp": 2.52
+     "vl_ev_capi": 9.43,
+     "vl_retorno_esp": 2.53
     },
     {
      "dt": "2026-08-12",
@@ -1625,7 +7220,7 @@
       "D": 59
      },
      "pc_qual": 23.67,
-     "pc_survey": 54.67,
+     "pc_survey": 55.0,
      "vl_spend": 1327.38,
      "vl_cpl": 4.42,
      "vl_ev_capi": 7.76,
@@ -1659,7 +7254,7 @@
       "D": 56
      },
      "pc_qual": 19.45,
-     "pc_survey": 56.66,
+     "pc_survey": 57.0,
      "vl_spend": 1201.54,
      "vl_cpl": 4.1,
      "vl_ev_capi": 7.34,
@@ -1676,8 +7271,8 @@
       "D": 97
      },
      "pc_qual": 31.04,
-     "pc_survey": 61.88,
-     "vl_spend": 1598.18,
+     "pc_survey": 62.5,
+     "vl_spend": 1598.17,
      "vl_cpl": 3.33,
      "vl_ev_capi": 8.44,
      "vl_retorno_esp": 2.53
@@ -1693,7 +7288,7 @@
       "D": 95
      },
      "pc_qual": 36.59,
-     "pc_survey": 63.76,
+     "pc_survey": 63.94,
      "vl_spend": 1697.07,
      "vl_cpl": 2.96,
      "vl_ev_capi": 9.6,
@@ -1710,7 +7305,7 @@
       "D": 98
      },
      "pc_qual": 31.66,
-     "pc_survey": 61.25,
+     "pc_survey": 61.42,
      "vl_spend": 1781.11,
      "vl_cpl": 3.08,
      "vl_ev_capi": 8.57,
@@ -1722,15 +7317,15 @@
      "mix": {
       "A+": 93,
       "A": 92,
-      "B": 69,
-      "C": 257,
+      "B": 70,
+      "C": 256,
       "D": 135
      },
      "pc_qual": 28.64,
-     "pc_survey": 63.16,
+     "pc_survey": 63.31,
      "vl_spend": 2116.67,
      "vl_cpl": 3.28,
-     "vl_ev_capi": 8.03,
+     "vl_ev_capi": 8.04,
      "vl_retorno_esp": 2.45
     },
     {
@@ -1738,33 +7333,33 @@
      "qt_leads": 963,
      "mix": {
       "A+": 125,
-      "A": 91,
-      "B": 129,
-      "C": 424,
+      "A": 92,
+      "B": 130,
+      "C": 422,
       "D": 194
      },
-     "pc_qual": 22.43,
-     "pc_survey": 59.29,
-     "vl_spend": 2908.63,
+     "pc_qual": 22.53,
+     "pc_survey": 59.5,
+     "vl_spend": 2908.61,
      "vl_cpl": 3.02,
-     "vl_ev_capi": 7.64,
+     "vl_ev_capi": 7.65,
      "vl_retorno_esp": 2.53
     },
     {
      "dt": "2026-08-24",
      "qt_leads": 911,
      "mix": {
-      "A+": 103,
+      "A+": 104,
       "A": 114,
-      "B": 102,
-      "C": 390,
+      "B": 103,
+      "C": 388,
       "D": 202
      },
-     "pc_qual": 23.82,
-     "pc_survey": 60.15,
-     "vl_spend": 2930.87,
+     "pc_qual": 23.93,
+     "pc_survey": 60.59,
+     "vl_spend": 2931.25,
      "vl_cpl": 3.22,
-     "vl_ev_capi": 7.42,
+     "vl_ev_capi": 7.44,
      "vl_retorno_esp": 2.31
     },
     {
@@ -1772,34 +7367,51 @@
      "qt_leads": 700,
      "mix": {
       "A+": 86,
-      "A": 56,
-      "B": 92,
-      "C": 297,
-      "D": 169
+      "A": 57,
+      "B": 91,
+      "C": 296,
+      "D": 170
      },
-     "pc_qual": 20.29,
-     "pc_survey": 58.57,
-     "vl_spend": 2614.44,
-     "vl_cpl": 3.73,
+     "pc_qual": 20.43,
+     "pc_survey": 59.14,
+     "vl_spend": 2623.33,
+     "vl_cpl": 3.75,
      "vl_ev_capi": 7.33,
      "vl_retorno_esp": 1.96
     },
     {
      "dt": "2026-08-26",
-     "qt_leads": 386,
+     "qt_leads": 584,
      "mix": {
-      "A+": 13,
-      "A": 9,
-      "B": 12,
-      "C": 42,
-      "D": 22
+      "A+": 71,
+      "A": 71,
+      "B": 74,
+      "C": 250,
+      "D": 118
      },
-     "pc_qual": 5.7,
-     "pc_survey": 61.4,
-     "vl_spend": 26.73,
-     "vl_cpl": 0.07,
-     "vl_ev_capi": 7.56,
-     "vl_retorno_esp": 109.21
+     "pc_qual": 24.32,
+     "pc_survey": 60.62,
+     "vl_spend": 1910.76,
+     "vl_cpl": 3.27,
+     "vl_ev_capi": 7.65,
+     "vl_retorno_esp": 2.34
+    },
+    {
+     "dt": "2026-08-27",
+     "qt_leads": 634,
+     "mix": {
+      "A+": 15,
+      "A": 14,
+      "B": 8,
+      "C": 40,
+      "D": 20
+     },
+     "pc_qual": 4.57,
+     "pc_survey": 58.52,
+     "vl_spend": 31.09,
+     "vl_cpl": 0.05,
+     "vl_ev_capi": 8.11,
+     "vl_retorno_esp": 165.29
     }
    ],
    "ads": [
@@ -1807,23 +7419,23 @@
      "id": "120252302810610652",
      "nome": "AD12 — VVS corte nine borges | v2",
      "adset": "[ADVANTAGE] - Aberto | Pack 2",
-     "vl_spend": 8299.02,
-     "qt_leads": 2772,
-     "vl_cpl": 2.99,
+     "vl_spend": 8564.14,
+     "qt_leads": 2934,
+     "vl_cpl": 2.92,
      "mix_pct": {
-      "A+": 10.03,
-      "A": 9.96,
-      "B": 11.51,
-      "C": 45.24,
-      "D": 21.46
+      "A+": 9.88,
+      "A": 10.02,
+      "B": 11.25,
+      "C": 44.14,
+      "D": 20.96
      },
-     "pc_qual": 19.99,
-     "vl_score": -18.5,
-     "vl_ev_capi": 7.13,
-     "pc_survey": 55.6,
-     "vl_retorno_esp": 2.38,
-     "qt_compradores": 15,
-     "vl_receita_obs": 2345.0,
+     "pc_qual": 19.9,
+     "vl_score": -18.3,
+     "vl_ev_capi": 7.15,
+     "pc_survey": 55.9,
+     "vl_retorno_esp": 2.45,
+     "qt_compradores": 17,
+     "vl_receita_obs": 2606.0,
      "bl_amostra_ok": true
     },
     {
@@ -1835,15 +7447,15 @@
      "vl_cpl": 2.89,
      "mix_pct": {
       "A+": 18.15,
-      "A": 12.46,
-      "B": 13.73,
-      "C": 41.59,
-      "D": 14.06
+      "A": 12.54,
+      "B": 13.77,
+      "C": 41.45,
+      "D": 14.09
      },
-     "pc_qual": 30.62,
+     "pc_qual": 30.69,
      "vl_score": -10.1,
      "vl_ev_capi": 8.82,
-     "pc_survey": 55.9,
+     "pc_survey": 56.1,
      "vl_retorno_esp": 3.05,
      "qt_compradores": 21,
      "vl_receita_obs": 4519.0,
@@ -1873,6 +7485,52 @@
      "bl_amostra_ok": true
     },
     {
+     "id": "120252305072850652",
+     "nome": "AD29 — VVS primerio filme v7",
+     "adset": "[ADVANTAGE] - Aberto | Pack 3",
+     "vl_spend": 1237.78,
+     "qt_leads": 408,
+     "vl_cpl": 3.03,
+     "mix_pct": {
+      "A+": 8.58,
+      "A": 11.52,
+      "B": 12.75,
+      "C": 34.56,
+      "D": 19.36
+     },
+     "pc_qual": 20.1,
+     "vl_score": -17.0,
+     "vl_ev_capi": 7.41,
+     "pc_survey": 62.0,
+     "vl_retorno_esp": 2.44,
+     "qt_compradores": 2,
+     "vl_receita_obs": 262.0,
+     "bl_amostra_ok": true
+    },
+    {
+     "id": "120252534665600652",
+     "nome": "AD12 — VVS corte nine borges | v2",
+     "adset": "[ADVANTAGE] - Aberto | Pack 2",
+     "vl_spend": 1177.28,
+     "qt_leads": 403,
+     "vl_cpl": 2.92,
+     "mix_pct": {
+      "A+": 3.97,
+      "A": 5.96,
+      "B": 8.19,
+      "C": 47.89,
+      "D": 28.29
+     },
+     "pc_qual": 9.93,
+     "vl_score": -25.5,
+     "vl_ev_capi": 5.59,
+     "pc_survey": 53.3,
+     "vl_retorno_esp": 1.91,
+     "qt_compradores": 1,
+     "vl_receita_obs": 131.0,
+     "bl_amostra_ok": true
+    },
+    {
      "id": "120251751148560652",
      "nome": "AD08 — VVS caseiro danni | v3 adapt",
      "adset": "[ADVANTAGE] - Aberto | Pack 1",
@@ -1882,84 +7540,38 @@
      "mix_pct": {
       "A+": 25.32,
       "A": 12.53,
-      "B": 13.55,
-      "C": 41.43,
+      "B": 14.07,
+      "C": 40.92,
       "D": 7.16
      },
      "pc_qual": 37.85,
-     "vl_score": -4.9,
-     "vl_ev_capi": 10.12,
-     "pc_survey": 51.9,
-     "vl_retorno_esp": 3.79,
+     "vl_score": -4.8,
+     "vl_ev_capi": 10.14,
+     "pc_survey": 52.9,
+     "vl_retorno_esp": 3.8,
      "qt_compradores": 3,
      "vl_receita_obs": 392.0,
-     "bl_amostra_ok": true
-    },
-    {
-     "id": "120252534665600652",
-     "nome": "AD12 — VVS corte nine borges | v2",
-     "adset": "[ADVANTAGE] - Aberto | Pack 2",
-     "vl_spend": 991.09,
-     "qt_leads": 360,
-     "vl_cpl": 2.75,
-     "mix_pct": {
-      "A+": 3.33,
-      "A": 4.17,
-      "B": 8.06,
-      "C": 47.78,
-      "D": 28.61
-     },
-     "pc_qual": 7.5,
-     "vl_score": -26.8,
-     "vl_ev_capi": 5.36,
-     "pc_survey": 53.3,
-     "vl_retorno_esp": 1.95,
-     "qt_compradores": 1,
-     "vl_receita_obs": 131.0,
-     "bl_amostra_ok": true
-    },
-    {
-     "id": "120252305072850652",
-     "nome": "AD29 — VVS primerio filme v7",
-     "adset": "[ADVANTAGE] - Aberto | Pack 3",
-     "vl_spend": 919.82,
-     "qt_leads": 316,
-     "vl_cpl": 2.91,
-     "mix_pct": {
-      "A+": 10.13,
-      "A": 10.76,
-      "B": 12.34,
-      "C": 30.06,
-      "D": 18.35
-     },
-     "pc_qual": 20.89,
-     "vl_score": -15.2,
-     "vl_ev_capi": 7.82,
-     "pc_survey": 63.9,
-     "vl_retorno_esp": 2.69,
-     "qt_compradores": 2,
-     "vl_receita_obs": 262.0,
      "bl_amostra_ok": true
     },
     {
      "id": "120252534600060652",
      "nome": "AD12 — VVS corte nine borges | v2",
      "adset": "[ADVANTAGE] - Aberto | Pack 2",
-     "vl_spend": 909.69,
-     "qt_leads": 291,
-     "vl_cpl": 3.13,
+     "vl_spend": 1019.09,
+     "qt_leads": 341,
+     "vl_cpl": 2.99,
      "mix_pct": {
-      "A+": 3.78,
-      "A": 5.15,
-      "B": 9.28,
-      "C": 50.86,
-      "D": 24.05
+      "A+": 3.52,
+      "A": 4.99,
+      "B": 10.26,
+      "C": 47.8,
+      "D": 23.17
      },
-     "pc_qual": 8.93,
-     "vl_score": -24.8,
-     "vl_ev_capi": 5.67,
+     "pc_qual": 8.5,
+     "vl_score": -24.7,
+     "vl_ev_capi": 5.72,
      "pc_survey": 54.0,
-     "vl_retorno_esp": 1.81,
+     "vl_retorno_esp": 1.91,
      "qt_compradores": 0,
      "vl_receita_obs": 0.0,
      "bl_amostra_ok": true
@@ -1970,7 +7582,7 @@
      "adset": "[ADVANTAGE] - Aberto | Pack 1",
      "vl_spend": 889.64,
      "qt_leads": 184,
-     "vl_cpl": 4.83,
+     "vl_cpl": 4.84,
      "mix_pct": {
       "A+": 16.85,
       "A": 7.61,
@@ -2014,21 +7626,21 @@
      "id": "120252506518250652",
      "nome": "AD66 — VVS ref leviticus v2",
      "adset": "[ADVANTAGE] - Aberto | Pack 5",
-     "vl_spend": 721.9,
-     "qt_leads": 150,
-     "vl_cpl": 4.81,
+     "vl_spend": 769.76,
+     "qt_leads": 166,
+     "vl_cpl": 4.64,
      "mix_pct": {
-      "A+": 16.67,
-      "A": 14.0,
-      "B": 12.0,
-      "C": 35.33,
-      "D": 18.67
+      "A+": 15.66,
+      "A": 13.86,
+      "B": 12.65,
+      "C": 34.34,
+      "D": 18.07
      },
-     "pc_qual": 30.67,
-     "vl_score": -12.1,
-     "vl_ev_capi": 8.62,
-     "pc_survey": 62.0,
-     "vl_retorno_esp": 1.79,
+     "pc_qual": 29.52,
+     "vl_score": -12.5,
+     "vl_ev_capi": 8.57,
+     "pc_survey": 62.7,
+     "vl_retorno_esp": 1.85,
      "qt_compradores": 0,
      "vl_receita_obs": 0.0,
      "bl_amostra_ok": true
@@ -2037,9 +7649,9 @@
      "id": "120252321859040652",
      "nome": "AD29 — VVS primerio filme v4",
      "adset": "[ADVANTAGE] - Aberto | Pack 3",
-     "vl_spend": 607.14,
+     "vl_spend": 611.06,
      "qt_leads": 160,
-     "vl_cpl": 3.79,
+     "vl_cpl": 3.82,
      "mix_pct": {
       "A+": 6.88,
       "A": 10.0,
@@ -2051,36 +7663,36 @@
      "vl_score": -19.1,
      "vl_ev_capi": 7.02,
      "pc_survey": 58.8,
-     "vl_retorno_esp": 1.85,
+     "vl_retorno_esp": 1.84,
      "qt_compradores": 0,
      "vl_receita_obs": 0.0,
      "bl_amostra_ok": true
     },
     {
-     "id": "120252303890600652",
-     "nome": "AD20 — VVS chloe speech voiceover | v1",
+     "id": "120252304516090652",
+     "nome": "AD23 — Card retrato jovem recortes",
      "adset": "[ADVANTAGE] - Aberto | Pack 2",
-     "vl_spend": 514.32,
-     "qt_leads": 91,
-     "vl_cpl": 5.65,
+     "vl_spend": 593.89,
+     "qt_leads": 224,
+     "vl_cpl": 2.65,
      "mix_pct": {
-      "A+": 18.68,
-      "A": 23.08,
-      "B": 7.69,
-      "C": 39.56,
-      "D": 9.89
+      "A+": 12.5,
+      "A": 7.59,
+      "B": 12.5,
+      "C": 33.04,
+      "D": 13.39
      },
-     "pc_qual": 41.76,
-     "vl_score": -7.5,
-     "vl_ev_capi": 9.45,
-     "pc_survey": 63.7,
-     "vl_retorno_esp": 1.67,
+     "pc_qual": 20.09,
+     "vl_score": -13.2,
+     "vl_ev_capi": 8.29,
+     "pc_survey": 55.4,
+     "vl_retorno_esp": 3.13,
      "qt_compradores": 0,
      "vl_receita_obs": 0.0,
      "bl_amostra_ok": true
     }
    ],
-   "qt_ads_total": 150,
+   "qt_ads_total": 156,
    "pacing": [
     {
      "dt": "2026-07-25",
@@ -2163,185 +7775,200 @@
      "dt": "2026-08-05",
      "esperado": 3436.39,
      "esperado_lo": 2608.48,
-     "esperado_hi": 6914.96,
+     "esperado_hi": 6914.01,
      "realizado": 1020.0
     },
     {
      "dt": "2026-08-06",
      "esperado": 3813.84,
      "esperado_lo": 2890.73,
-     "esperado_hi": 7653.08,
+     "esperado_hi": 7651.36,
      "realizado": 1020.0
     },
     {
      "dt": "2026-08-07",
      "esperado": 4205.82,
      "esperado_lo": 3179.92,
-     "esperado_hi": 8447.43,
+     "esperado_hi": 8445.3,
      "realizado": 1020.0
     },
     {
      "dt": "2026-08-08",
      "esperado": 4636.05,
      "esperado_lo": 3504.51,
-     "esperado_hi": 9340.09,
+     "esperado_hi": 9336.32,
      "realizado": 1020.0
     },
     {
      "dt": "2026-08-09",
      "esperado": 5210.85,
      "esperado_lo": 3939.71,
-     "esperado_hi": 10584.25,
+     "esperado_hi": 10578.23,
      "realizado": 1510.8
     },
     {
      "dt": "2026-08-10",
      "esperado": 5780.07,
      "esperado_lo": 4360.35,
-     "esperado_hi": 11751.61,
+     "esperado_hi": 11742.96,
      "realizado": 1821.6
     },
     {
      "dt": "2026-08-11",
-     "esperado": 6401.0,
+     "esperado": 6400.74,
      "esperado_lo": 4819.2,
-     "esperado_hi": 12975.67,
+     "esperado_hi": 12965.43,
      "realizado": 3844.8
     },
     {
      "dt": "2026-08-12",
-     "esperado": 7030.72,
+     "esperado": 7030.25,
      "esperado_lo": 5283.55,
-     "esperado_hi": 14232.8,
+     "esperado_hi": 14219.12,
      "realizado": 3844.8
     },
     {
      "dt": "2026-08-13",
-     "esperado": 7579.41,
+     "esperado": 7578.83,
      "esperado_lo": 5678.85,
-     "esperado_hi": 15210.2,
+     "esperado_hi": 15193.7,
      "realizado": 4614.66
     },
     {
      "dt": "2026-08-14",
-     "esperado": 8149.37,
+     "esperado": 8148.33,
      "esperado_lo": 6095.39,
-     "esperado_hi": 16263.73,
+     "esperado_hi": 16243.97,
      "realizado": 5212.26
     },
     {
      "dt": "2026-08-15",
-     "esperado": 8719.06,
+     "esperado": 8717.69,
      "esperado_lo": 6508.4,
-     "esperado_hi": 17287.15,
+     "esperado_hi": 17265.03,
      "realizado": 5451.06
     },
     {
      "dt": "2026-08-16",
-     "esperado": 9374.56,
+     "esperado": 9372.72,
      "esperado_lo": 6990.34,
-     "esperado_hi": 18540.86,
+     "esperado_hi": 18515.63,
      "realizado": 6118.26
     },
     {
      "dt": "2026-08-17",
-     "esperado": 10089.05,
+     "esperado": 10086.88,
      "esperado_lo": 7531.94,
-     "esperado_hi": 19951.45,
+     "esperado_hi": 19923.51,
      "realizado": 6525.06
     },
     {
      "dt": "2026-08-18",
-     "esperado": 10793.0,
+     "esperado": 10790.13,
      "esperado_lo": 8046.63,
-     "esperado_hi": 21279.38,
+     "esperado_hi": 21248.83,
      "realizado": 7241.46
     },
     {
      "dt": "2026-08-19",
-     "esperado": 11685.82,
+     "esperado": 11682.32,
      "esperado_lo": 8708.47,
-     "esperado_hi": 23014.81,
+     "esperado_hi": 22981.72,
      "realizado": 7788.66
     },
     {
      "dt": "2026-08-20",
-     "esperado": 12709.71,
+     "esperado": 12705.75,
      "esperado_lo": 9473.03,
-     "esperado_hi": 25034.42,
+     "esperado_hi": 24997.59,
      "realizado": 9277.89
     },
     {
      "dt": "2026-08-21",
-     "esperado": 13819.44,
+     "esperado": 13814.74,
      "esperado_lo": 10285.81,
-     "esperado_hi": 27105.91,
+     "esperado_hi": 27065.94,
      "realizado": 9659.49
     },
     {
      "dt": "2026-08-22",
-     "esperado": 15039.67,
+     "esperado": 15034.51,
      "esperado_lo": 11187.14,
-     "esperado_hi": 29397.73,
+     "esperado_hi": 29354.41,
      "realizado": 10648.29
     },
     {
      "dt": "2026-08-23",
-     "esperado": 16604.32,
+     "esperado": 16598.89,
      "esperado_lo": 12357.99,
-     "esperado_hi": 32453.79,
+     "esperado_hi": 32406.94,
      "realizado": 12436.29
     },
     {
      "dt": "2026-08-24",
-     "esperado": 18246.18,
+     "esperado": 18242.25,
      "esperado_lo": 13579.38,
-     "esperado_hi": 35572.26,
+     "esperado_hi": 35521.67,
      "realizado": 13654.29
     },
     {
      "dt": "2026-08-25",
-     "esperado": 19772.2,
+     "esperado": 19771.34,
      "esperado_lo": 14715.16,
-     "esperado_hi": 38318.19,
+     "esperado_hi": 38263.97,
      "realizado": 14177.49
     },
     {
      "dt": "2026-08-26",
-     "esperado": 21036.0,
-     "esperado_lo": 15644.89,
-     "esperado_hi": 40399.31,
-     "realizado": 14700.69
+     "esperado": 21218.26,
+     "esperado_lo": 15785.77,
+     "esperado_hi": 40772.98,
+     "realizado": 14831.49
+    },
+    {
+     "dt": "2026-08-27",
+     "esperado": 22719.85,
+     "esperado_lo": 16897.42,
+     "esperado_hi": 43449.54,
+     "realizado": 14962.29
     }
    ],
+   "pacing_ref": {
+    "dt_corte": "2026-08-27",
+    "na_abertura": false,
+    "esperado": 22719.85,
+    "esperado_lo": 16897.42,
+    "esperado_hi": 43449.54,
+    "realizado": 14962.29
+   },
    "personas": [
     {
      "persona": "base_reimpactada",
-     "qt_leads": 1427,
-     "pc_qual": 45.4,
-     "qt_compradores": 49,
-     "pc_conv": 3.43,
-     "vl_receita": 9260.0
+     "qt_leads": 1483,
+     "pc_qual": 44.9,
+     "qt_compradores": 50,
+     "pc_conv": 3.37,
+     "vl_receita": 9391.0
     },
     {
      "persona": "descobridor",
-     "qt_leads": 1104,
-     "pc_qual": 35.1,
-     "qt_compradores": 12,
-     "pc_conv": 1.09,
-     "vl_receita": 1769.0
+     "qt_leads": 1163,
+     "pc_qual": 35.2,
+     "qt_compradores": 14,
+     "pc_conv": 1.2,
+     "vl_receita": 2031.0
     },
     {
      "persona": "veterano",
-     "qt_leads": 576,
-     "pc_qual": 18.3,
+     "qt_leads": 616,
+     "pc_qual": 18.7,
      "qt_compradores": 3,
-     "pc_conv": 0.52,
+     "pc_conv": 0.49,
      "vl_receita": 392.0
     },
     {
      "persona": "recem_chegado",
-     "qt_leads": 39,
+     "qt_leads": 40,
      "pc_qual": 1.2,
      "qt_compradores": 0,
      "pc_conv": 0.0,
@@ -2358,9 +7985,9 @@
    "pc_survey": 0.0,
    "vl_spend": 122228.0,
    "vl_cpl": 2.47,
-   "estimador": "rpl_d30",
-   "rpl_projetado": 69.76,
-   "retorno_proj": 28.26,
+   "estimador": "rpl_d90",
+   "rpl_projetado": 69.74,
+   "retorno_proj": 28.25,
    "dias_spend": 23
   },
   {
@@ -2377,14 +8004,14 @@
   },
   {
    "tag": "ENE",
-   "qt_leads": 15432,
+   "qt_leads": 15436,
    "pc_qual": 31.8,
    "pc_survey": 57.3,
    "vl_spend": 18378.0,
    "vl_cpl": 1.19,
    "estimador": "rpl_d7",
-   "rpl_projetado": 11.98,
-   "retorno_proj": 10.06,
+   "rpl_projetado": 12.06,
+   "retorno_proj": 10.13,
    "dias_spend": 9
   },
   {
@@ -2401,14 +8028,14 @@
   },
   {
    "tag": "ELS",
-   "qt_leads": 219047,
+   "qt_leads": 219052,
    "pc_qual": 7.8,
    "pc_survey": 0.0,
    "vl_spend": 219246.0,
    "vl_cpl": 1.0,
    "estimador": "rpl_d90",
-   "rpl_projetado": 8.2,
-   "retorno_proj": 8.19,
+   "rpl_projetado": 8.19,
+   "retorno_proj": 8.18,
    "dias_spend": 34
   },
   {
@@ -2431,7 +8058,7 @@
    "vl_spend": 304622.0,
    "vl_cpl": 3.89,
    "estimador": "rpl_d30",
-   "rpl_projetado": 26.67,
+   "rpl_projetado": 26.66,
    "retorno_proj": 6.85,
    "dias_spend": 33
   },
@@ -2460,6 +8087,18 @@
    "dias_spend": 6
   },
   {
+   "tag": "ABC",
+   "qt_leads": 93082,
+   "pc_qual": 9.2,
+   "pc_survey": 0.0,
+   "vl_spend": 178284.0,
+   "vl_cpl": 1.92,
+   "estimador": "rpl_d90",
+   "rpl_projetado": 9.8,
+   "retorno_proj": 5.12,
+   "dias_spend": 19
+  },
+  {
    "tag": "EVG",
    "qt_leads": 176838,
    "pc_qual": 25.7,
@@ -2472,30 +8111,6 @@
    "dias_spend": 46
   },
   {
-   "tag": "ABC",
-   "qt_leads": 93079,
-   "pc_qual": 9.2,
-   "pc_survey": 0.0,
-   "vl_spend": 178284.0,
-   "vl_cpl": 1.92,
-   "estimador": "rpl_d90",
-   "rpl_projetado": 9.8,
-   "retorno_proj": 5.12,
-   "dias_spend": 19
-  },
-  {
-   "tag": "ELB26",
-   "qt_leads": 71974,
-   "pc_qual": 21.7,
-   "pc_survey": 50.0,
-   "vl_spend": 157185.0,
-   "vl_cpl": 2.18,
-   "estimador": "rpl_d7",
-   "rpl_projetado": 9.92,
-   "retorno_proj": 4.54,
-   "dias_spend": 15
-  },
-  {
    "tag": "PAP",
    "qt_leads": 97137,
    "pc_qual": 10.9,
@@ -2506,6 +8121,18 @@
    "rpl_projetado": 16.12,
    "retorno_proj": 4.46,
    "dias_spend": 12
+  },
+  {
+   "tag": "ELB26",
+   "qt_leads": 71974,
+   "pc_qual": 21.7,
+   "pc_survey": 50.0,
+   "vl_spend": 157185.0,
+   "vl_cpl": 2.18,
+   "estimador": "rpl_d30",
+   "rpl_projetado": 8.2,
+   "retorno_proj": 3.75,
+   "dias_spend": 15
   },
   {
    "tag": "DOM",
@@ -2527,7 +8154,7 @@
    "vl_spend": 470699.0,
    "vl_cpl": 6.49,
    "estimador": "rpl_d240",
-   "rpl_projetado": 21.22,
+   "rpl_projetado": 21.18,
    "retorno_proj": 3.27,
    "dias_spend": 15
   },
@@ -2545,15 +8172,15 @@
   },
   {
    "tag": "JOM",
-   "qt_leads": 12629,
-   "pc_qual": 27.7,
-   "pc_survey": 50.6,
-   "vl_spend": 38543.0,
-   "vl_cpl": 3.05,
+   "qt_leads": 13461,
+   "pc_qual": 27.1,
+   "pc_survey": 51.3,
+   "vl_spend": 40468.0,
+   "vl_cpl": 3.01,
    "estimador": "ev_iql",
-   "rpl_projetado": 8.45,
-   "retorno_proj": 2.77,
-   "dias_spend": 32
+   "rpl_projetado": 8.42,
+   "retorno_proj": 2.8,
+   "dias_spend": 33
   },
   {
    "tag": "DBI",

@@ -1,6 +1,6 @@
 # Aquecimento · Qualidade — acompanhamento da captação por campanha (IQL + RPL)
 
-**Data:** 26/08/2026 · **Status:** passo 1 de 3 entregue (camada "Decidir" viva) · **Pai:** [../ANALISE.md](../ANALISE.md) (IQL) · mockup aprovado: artifact `a3fd60ec`
+**Data:** 26–27/08/2026 · **Status:** passo 1 de 3 entregue (5 campanhas) (camada "Decidir" viva) · **Pai:** [../ANALISE.md](../ANALISE.md) (IQL) · mockup aprovado: artifact `a3fd60ec`
 
 ## Pergunta original
 
@@ -30,6 +30,7 @@ CPQL > CPL e fechar o loop com a plataforma (value-based bidding = CAPI com valo
 - **Retorno por dia e por anúncio** usa `vl_capi_event_value` (EV da faixa × fator da campanha, D54) — o mesmo valor que vai para a Meta, então a página e o Gerenciador falam o mesmo número.
 - **Spend blendado** = todo `[LEAD]` Meta + Google + PMax cuja sigla (2º colchete) = tag (mesma regra da `vw_cpl_lead_campanha`), a partir do `dt_inicio` da campanha. Leads = todos da tag desde `dt_inicio` (tags reusadas: JOM desde 25/07).
 - **Pacing por coortes**: esperado(t) = Σ coortes diárias × curva de receita acumulada por idade do lead. Curva = **mediana entre EVG, BP10, DOM, ELB26**, só compras **antes da abertura de venda** (ELB26 nunca abriu → todas), horizonte 60 dias; faixa = min–máx entre as 4. ⚠️ Difere do mockup de 04/08 (que dava ENE em 36% do esperado): com esta curva documentada e reproduzível a ENE está em **114%** em 26/08. A curva do mockup não estava documentada — esta é a canônica a partir de agora.
+- **Campanhas na página (27/08):** ENE, EVG, BP10, ELB26, JOM — todas as que tiveram pesquisa in-funnel. Config `CAMPANHAS` ganhou `tipo` (aberto/fechado): em lançamento **fechado** a curva esperada do pacing só vale até a abertura da venda — o veredito (`pacing_ref`) é lido no último dia do aquecimento e o gráfico marca a abertura; em **aberto** (ENE, venda direta) a curva vale inteira. Pré-abertura: EVG 216% e BP10 271% do esperado (pré-venda forte), ELB26 104%, JOM 66%, ENE 121%.
 - **Leitura comparável** (iql.md): o hero mostra o "teto comparável" (EV dos respondentes aplicado a todos) ao lado do retorno observado quando a cobertura de pesquisa < 90%. Falta aplicar por anúncio (passo 2).
 - **Personas** dos A+/A por cascata: base reimpactada (status ≠ NM) → veterano (mais_3a) → descobridor (6m_a_3a) → recém-chegado (≤6m) → sem pesquisa. Conversão com <5 vendas não mostra % (D18).
 - **Benchmark** exclui tags com spend por >75 dias (sempre-ativas/LP: TLR12 com CPL R$ 0,19 etc. não são comparáveis).

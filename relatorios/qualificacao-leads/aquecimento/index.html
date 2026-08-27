@@ -439,6 +439,7 @@
   const ns = 'http://www.w3.org/2000/svg';
   const el = (tag, attrs, text) => { const e = document.createElementNS(ns, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; };
   const clear = (n) => { while (n.firstChild) n.removeChild(n.firstChild); };
+  const niceStep = (raw) => { const p = Math.pow(10, Math.floor(Math.log10(raw))); const f = raw / p; return (f < 1.5 ? 1 : f < 3.5 ? 2 : f < 7.5 ? 5 : 10) * p; };
 
   const PERSONAS = {
     descobridor: { nome: 'O Descobridor Recente', attrs: ['status: não membro', 'conhece a BP há: 6 meses a 3 anos'], fala: 'Aprofundar a relação — conteúdo do documentário e da casa' },
@@ -533,7 +534,7 @@
     const iw = W - m.l - m.r, ih = H - m.t - m.b;
     const maxT = Math.max(...S.map((r) => r.qt_leads)) * 1.08 || 1;
     const bw = iw / S.length;
-    const step = maxT > 4000 ? 1000 : maxT > 1500 ? 500 : maxT > 400 ? 100 : 50;
+    const step = niceStep(maxT / 6);
     for (let v = 0; v <= maxT; v += step) {
       const y = m.t + ih - (v / maxT) * ih;
       svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: y, y2: y, stroke: 'var(--grid)', 'stroke-dasharray': '3 3' }));
@@ -614,7 +615,7 @@
     const maxY = Math.max(last.esperado_hi || 0, last.realizado || 0) * 1.08 || 1;
     const px = (i) => m.l + (i / Math.max(P.length - 1, 1)) * iw;
     const py = (v) => m.t + ih - (v / maxY) * ih;
-    const step = maxY > 200000 ? 50000 : maxY > 50000 ? 10000 : maxY > 20000 ? 5000 : 1000;
+    const step = niceStep(maxY / 6);
     for (let v = step; v < maxY; v += step) {
       svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: py(v), y2: py(v), stroke: 'var(--grid)', 'stroke-dasharray': '3 3' }));
       svg.appendChild(el('text', { x: m.l - 6, y: py(v) + 3, 'text-anchor': 'end' }, curK(v)));
@@ -640,17 +641,25 @@
     });
     hover.addEventListener('mouseleave', hideTip);
     svg.appendChild(hover);
-    const pc = last.esperado > 0 ? Math.round(100 * last.realizado / last.esperado) : null;
+    if (C.venda && C.tipo !== 'aberto') {
+      const iv = P.findIndex((p) => p.dt >= C.venda);
+      if (iv > 0) {
+        svg.appendChild(el('line', { x1: px(iv), x2: px(iv), y1: m.t, y2: m.t + ih, stroke: 'var(--heat-warn-fg)', 'stroke-dasharray': '4 3' }));
+        const t = el('text', { x: px(iv) + 4, y: m.t + 10, fill: 'var(--heat-warn-fg)' }, 'abertura ' + dmy(C.venda)); svg.appendChild(t);
+      }
+    }
+    const ref = C.pacing_ref || last;
+    const pc = ref.esperado > 0 ? Math.round(100 * ref.realizado / ref.esperado) : null;
     const badge = document.getElementById('pace-badge');
     if (pc == null) { badge.textContent = ''; }
     else {
-      badge.textContent = pc + '% do esperado';
-      const cls = last.realizado >= last.esperado_lo ? (last.realizado >= last.esperado ? 'good' : 'warn') : 'bad';
+      badge.textContent = pc + '% do esperado' + (ref.na_abertura ? ' na abertura (' + dmy(ref.dt_corte) + ')' : '');
+      const cls = ref.realizado >= ref.esperado_lo ? (ref.realizado >= ref.esperado ? 'good' : 'warn') : 'bad';
       badge.style.background = `var(--heat-${cls}-bg)`; badge.style.color = `var(--heat-${cls}-fg)`;
     }
     document.getElementById('pace-note').innerHTML =
       `Esperado = cada coorte diária de leads × curva de receita acumulada por idade do lead (mediana de ${D.curva_referencia.tags.replaceAll(',', ', ')}, só compras antes da abertura de venda; faixa = min–máx entre elas; horizonte ${D.curva_referencia.horizonte_dias} dias). ` +
-      `Realizado = receita bruta last-click dos leads da campanha, por data da compra. Abaixo da faixa com qualidade boa → a conversa é sobre a <b>oferta</b> (LP / obrigado / CRM), não sobre a mídia; parte da qualidade fica travada até a abertura (membros/ex compram no evento).`;
+      `Realizado = receita bruta last-click dos leads da campanha, por data da compra. <b>A curva esperada só vale até a abertura da venda</b> — depois dela o realizado descola por desenho (a venda concentra o valor), e o veredito é lido no último dia do aquecimento. Abaixo da faixa com qualidade boa → a conversa é sobre a <b>oferta</b> (LP / obrigado / CRM), não sobre a mídia; parte da qualidade fica travada até a abertura (membros/ex compram no evento).`;
   }
 
   // ---- anúncios ----
