@@ -506,6 +506,7 @@
       ['RPL projetado', cur(R.rpl_projetado), anc],
       ['Valor projetado total', curK(R.vl_projetado_total), `${fmt(R.qt_leads)} leads × RPL projetado`],
       ['Vendido até agora', curK(R.vl_receita_obs), `${fmt(R.qt_vendas)} vendas · ROAS realizado ${x(R.roas_realizado)}`],
+      ['RPL realizado', cur(R.qt_leads ? R.vl_receita_obs / R.qt_leads : null), `vendido ÷ leads · ${R.rpl_projetado ? Math.round(100 * R.vl_receita_obs / R.qt_leads / R.rpl_projetado) + '% do projetado' : 'sem projeção'}${C.tipo !== 'aberto' && !C.venda ? ' · venda não abriu' : ''}`],
       ['CPL máximo', cur(R.cpl_max), `RPL projetado ÷ meta ${x(META, 1)} · teto p/ escalar`],
     ];
     document.getElementById('kpis').innerHTML = kpis.map(([l, v, s]) =>
