@@ -360,6 +360,7 @@
             <th scope="col">Pesquisa</th>
             <th scope="col">RPL esperado</th>
             <th scope="col">Retorno</th>
+            <th scope="col">RPL realizado</th>
             <th scope="col">Vendas</th>
           </tr>
         </thead>
@@ -667,7 +668,7 @@
   function renderAds(C) {
     const tb = document.querySelector('#tbl-ads tbody'); tb.innerHTML = '';
     document.getElementById('ads-title').textContent = `Qualidade por anúncio — top ${C.ads.length} em gasto (Meta, de ${C.qt_ads_total})`;
-    if (!C.ads.length) { tb.innerHTML = '<tr><td colspan="10" class="empty">sem anúncios Meta com spend e leads atribuídos</td></tr>'; return; }
+    if (!C.ads.length) { tb.innerHTML = '<tr><td colspan="11" class="empty">sem anúncios Meta com spend e leads atribuídos</td></tr>'; return; }
     C.ads.forEach((a) => {
       const tr = document.createElement('tr');
       const mixHtml = '<div class="mix">' + BANDS.map((b) => `<i style="width:${a.mix_pct[b.key]}%;background:var(${b.v})"></i>`).join('') + '</div>';
@@ -682,6 +683,7 @@
         <td>${pct(a.pc_survey, 0)}</td>
         <td>${cur(a.vl_ev_capi)}</td>
         <td class="${a.bl_amostra_ok ? heatCls(a.vl_retorno_esp) : ''}"><b>${x(a.vl_retorno_esp)}</b></td>
+        <td>${a.qt_compradores >= 5 ? `${cur(a.vl_receita_obs / a.qt_leads)} <span class="muted">· ${x(a.vl_receita_obs / a.vl_spend)}</span>` : `<span class="muted">○ ${a.qt_compradores} vendas</span>`}</td>
         <td>${a.qt_compradores ? `${a.qt_compradores} · ${curK(a.vl_receita_obs)}` : '—'}</td>`;
       tr.addEventListener('mousemove', (ev) => showTip(`<b>${a.nome}</b>` + BANDS.map((b) => `<div class="row"><span><i style="background:var(${b.v})"></i>${b.key}</span><span>${pct(a.mix_pct[b.key])}</span></div>`).join(''), ev));
       tr.addEventListener('mouseleave', hideTip);
@@ -689,7 +691,7 @@
     });
     document.getElementById('ads-note').innerHTML =
       `Retorno = RPL esperado do anúncio (mix de faixas × valor por faixa × fator da campanha) ÷ CPL. Heatmap contra a meta ${x(META, 1)}: verde escuro ≥ 2× · verde claro ≥ ${x(META, 1)} · âmbar 1–${x(META, 1)} · vermelho &lt; 1× (capta no prejuízo). ` +
-      `Lead barato com mix fraco pode se pagar — é o retorno que decide, não a faixa. Anúncios com n&lt;${D.n_min_criativo} não recebem cor (D16). ⚠️ Anúncios com cobertura de pesquisa muito diferente da campanha têm A+/A não comparável (ausência de sinal ≠ lead pior).`;
+      `Lead barato com mix fraco pode se pagar — é o retorno que decide, não a faixa. Anúncios com n&lt;${D.n_min_criativo} não recebem cor (D16). <b>RPL realizado</b> = vendido ÷ leads do anúncio (e ROAS realizado = vendido ÷ gasto), last-click, cohort maturando — só com ≥5 vendas. ⚠️ Anúncios com cobertura de pesquisa muito diferente da campanha têm A+/A não comparável (ausência de sinal ≠ lead pior).`;
   }
 
   // ---- personas ----
