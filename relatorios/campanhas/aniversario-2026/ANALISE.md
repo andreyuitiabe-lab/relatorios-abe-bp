@@ -128,3 +128,36 @@ A lista de compradores das ofertas com bônus (enviada aos parceiros) exclui ven
 
 ## Wiki atualizada
 - `wiki-bp/pages/bq-regras.md` — valores observados de `tx_refund_reason` e padrão de validação reembolso-por-upgrade
+
+---
+
+# Análise 4: Lista COMPRA NEGADA + ABANDONO de Vitalícios BP10 (02 set/2026)
+
+## Pergunta original
+Pedido do Comercial (Slack, prazo 13h): lista de compra negada e abandono de carrinho de **Vitalícios da campanha BP 10 Anos**, com coluna de plano e valor tentado. Exclusões pedidas: (1) quem pediu para sair das comunicações, (2) contatos abertos com o Comercial, (3) tentativas via link de vendedor, (4) membros CEC/Mecenas/Retiro/Fundador Big Picture/Clube do Livro, (5) carteira Comercial.
+
+## Decisões de abordagem
+- **Atribuição BP10**: checkout `%bp-10-anos%` OU UTM `[BP10]`/`lan_bp10%`, desde 11/06/2026 (início do aquecimento — cobre a pré-venda `lan_bp10_pre_venda`).
+- **Vitalício**: `LOWER(nm_gateway_product) LIKE '%vital%'` — todos os produtos vitalícios do checkout BP10 contêm "Vitalício" no nome; evita a contaminação do combo Odisseia+Travessia (`bl_lifetime_offer=TRUE` sem ser vitalício) e separa dos planos anuais vendidos no mesmo checkout.
+- **Tipos**: `canceled` = COMPRA NEGADA (168) · `abandoned` = ABANDONO DE CARRINHO (346) · `expired`/`billet_printed` = PIX/BOLETO GERADO E NÃO PAGO (128, rótulo próprio para o Comercial filtrar). `waiting_payment` fora (ainda pode pagar sozinho).
+- **Link de vendedor** (exclusão 3): pessoa excluída inteira se qualquer tentativa BP10 tem `bl_is_commercial_channel`, `nm_salesman` ou produto `Comercial -%`.
+- **Contato aberto** (exclusão 2): `dim_zenvia_contacts` não-archived + `TRIM(nm_group)='Comercial'` (definição validada em ago/26, não a CTE followUp) + Pipedrive `OPEN`.
+- **Carteira** (exclusão 5): `nm_stage='carteiraMecenas'` não-archived (definição padrão da wiki).
+- **Blacklist** (exclusão 1): snapshot `tb_blacklist_crm_snapshot` de 26/08 — validado contra o Drive (planilha modificada 25/08, snapshot posterior → em dia).
+- **Por zelo (implícito)**: excluído quem **já tem vitalício aprovado** — 1.334 contas do universo concluíram a compra depois da recusa/abandono.
+- 1 linha por pessoa (dedup triple-key), priorizando negada > pix/boleto > abandono, depois a mais recente; `qt_tentativas` mostra reincidência.
+
+## Achados principais (run 02/09/2026)
+- **642 pessoas** na lista final: 346 abandono (R$ 496k tentados), 168 negada (R$ 240k), 128 pix/boleto não pago (R$ 193k) — **R$ 930k em tentativas recuperáveis**.
+- Funil: 3.776 contas com tentativa → −602 via link de vendedor → 3.171 elegíveis → exclusões (com sobreposição): **Zenvia aberto com Comercial 2.169 (68%!)**, já tem vitalício 1.334 (42%), carteira 789, CDL 98, Pipedrive 46, Mecenas 32, CEC/Retiro/Fundador 2, blacklist 0.
+- Leitura: a maior parte dos carrinhos BP10 **já está sendo trabalhada pelo Comercial** — a lista entrega justamente o resíduo que ninguém está cobrindo.
+- Planos tentados: Premium GBB Vitalício 316 · Básico Vitalício 170 · Originais Vitalício (label Apoiador) 156.
+
+## Queries
+
+| Query | O quê |
+|---|---|
+| [13_lista_negada_abandono_vitalicio.sql](queries/13_lista_negada_abandono_vitalicio.sql) | Lista completa com todas as exclusões — 1 linha/pessoa, plano+valor+parcelas+motivo da recusa |
+
+## Pendências
+- Output tem PII → CSV/XLSX entregues fora do repo (scratchpad da sessão). Se pedirem refresh, re-rodar a query 13 (tentativas de hoje entram; quem comprar depois sai sozinho pela exclusão de vitalício aprovado).

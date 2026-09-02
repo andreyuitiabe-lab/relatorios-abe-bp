@@ -98,14 +98,59 @@ de mídia em qualidade) — e é volume que não custa CPL.
 **5. Todos os braços seguem acima da meta de 1,5×** (o pior, Exclusão, está em 1,49× no 2º dia) —
 a captação da JOM se paga em qualquer estratégia. A decisão é de otimização, não de continuidade.
 
+**6. Visão LP × Form nativo por mercado — o sinal de receita observada contradiz o de qualidade
+esperada.** Agora é a **2ª aba do relatório principal** ([index.html](index.html), artifact
+`78e9d296`), no template do briefing (BR e EUA). A página standalone
+[lp-vs-form.html](lp-vs-form.html) (preview `78d08587`) segue como legado — mesma fonte
+(`lp-vs-form.json`), mesmo render.
+
+**Janela comparável (revisão 25/ago):** o form nativo só começou em **20/08** (verificado nos leads;
+antes eu havia anotado "17/08" — errado). Comparar a janela cheia (12–23) enviesava a favor da LP,
+cujos leads tinham até 8 dias a mais para abrir e-mail e converter. A query agora **recorta LP e
+form ao mesmo período por mercado** (do 1º lead do form até 23/08 = **20–23/08**), inclusive a mídia
+BR (BigQuery) e a mídia EUA (CSV, recortado pela mesma `dt_corte`).
+
+| Métrica (BR, 20–23/08) | LP | Form nativo | Leitura |
+|---|---|---|---|
+| CPL | R$ 2,73 | **R$ 1,44** | form −47% |
+| CPM | R$ 35,89 | **R$ 29,21** | form −19% |
+| Leads | 2.761 | 1.425 | |
+| Abertura de e-mail | **10,1%** | 8,4% | LP engaja mais (gap ↓) |
+| Clique no e-mail | **1,1%** | 0,6% | LP ~2× |
+| Vendas na janela | **15** | 1 | |
+| **Retorno por lead** | **R$ 0,82** | R$ 0,17 | **LP ~5×** |
+
+Casada a janela, o gap de abertura de e-mail encolhe (era 9,4 vs 7,2 na janela cheia; agora 10,1 vs
+8,4) — **parte da diferença era idade de coorte, como suspeitávamos** — mas a LP segue à frente em
+engajamento e converte muito mais na janela. O form nativo entrega lead mais barato e (entre
+respondentes) com nota equivalente, porém **converte bem menos** e engaja menos no e-mail.
+**Hipótese consistente com o achado 1b:** menos atrito no cadastro = menos filtro de
+intencionalidade. O IQL não captura isso porque a maior parte desses leads não responde a pesquisa.
+
+**EUA (mídia da planilha do time, em dólar, 20–23/08):** LP **CPL US$ 0,60** (155 leads), form
+**CPL US$ 0,51** (184 leads) — form ~15% mais barato. **Zero vendas nos dois** — sem base para
+conclusão de receita. E-mail nos EUA: LP abre 9,4% / clica 0,7% vs form 9,6% / 0,6% — praticamente
+empatados na janela casada.
+
+⚠️ **CTR não é comparável entre os formatos** (BR: LP 8,24% vs form 0,27%): no form nativo o usuário
+não sai do Instagram/Facebook, então "outbound click" mede coisas diferentes.
+
 ## Pendências / próximos passos
 
 - **Braço otimizado por IQL depende da ponte CAPI** (decidido: priorizar). Sequência: MR do A1
   (dataset dedicado) → token no Business Manager → ponte em dry-run → teste → ligar. O braço entra
   no relatório sozinho quando a campanha começar a gastar.
 - **Levar as perguntas de qualificação para o form nativo** (a Meta suporta perguntas customizadas):
-  hoje o form nativo ganha em custo mas é cego em qualidade — com pesquisa, seria o melhor braço em
-  todas as leituras. É a maior alavanca imediata da JOM.
+  resolveria o intervalo piso–teto E testaria a hipótese da intencionalidade — se com pesquisa o
+  form nativo mantiver a nota alta mas seguir convertendo 10× menos, o problema é o público, não a
+  medição. Maior alavanca imediata da JOM.
+- **Mídia dos EUA fora do warehouse** (conta `[BIG]`, 0 linhas no BQ). Solução atual: `midia_eua.csv`
+  na pasta do relatório, exportado da planilha **"[NOVO] Meta Ads - Big Picture"** (Drive) — o
+  `refresh.py` lê e mescla. **Atualizar o CSV quando a planilha mudar** (as métricas de BQ atualizam
+  sozinhas, essa não). Solução definitiva: trazer a conta dos EUA para o pipeline do Meta, na mesma
+  esteira da conta BR — aí o CSV pode ser aposentado.
+- **Taxa de conversão da etapa** (LP visita→lead / form abertura→envio) não existe no BQ: LP exige
+  GA4 (domínios distintos por mercado), form exige métricas de formulário do Meta.
 - Reler quando o form nativo passar de 14 dias (~31/08) e quando houver vendas nele.
 - Reler os braços ROAS 3 e Exclusão em ~04/09 (saem do aprendizado).
 - Se o time criar braços com nomenclatura fora do padrão `[LAN] [JOM] [LEAD] …`, o rótulo do braço
@@ -118,6 +163,7 @@ a captação da JOM se paga em qualquer estratégia. A decisão é de otimizaç�
 | [queries/resumo_bracos.sql](queries/resumo_bracos.sql) | Resumo por braço: leads, spend, CPL, qualidade obs./comp., retorno obs./comp., receita |
 | [queries/serie_diaria.sql](queries/serie_diaria.sql) | Série diária por braço (exclui form nativo — ingestão em lote) |
 | [queries/mix_faixas.sql](queries/mix_faixas.sql) | Mix de faixas IQL por braço |
+| [queries/lp_vs_form_mercado.sql](queries/lp_vs_form_mercado.sql) | Matriz LP × form × mercado (mídia, leads, e-mail, receita) — alimenta o `lp-vs-form.html` |
 
 Atualizar o relatório: `python3 refresh.py` — usa o **`bqq`** (`~/meu_projeto/BigQuery/bqq`), o
 cliente padrão do projeto: ADC renova sozinha, enquanto a credencial do `bq` CLI expira quase todo

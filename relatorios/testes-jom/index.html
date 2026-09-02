@@ -89,16 +89,62 @@
          box-shadow: 0 4px 16px rgba(0,0,0,0.16); color: var(--ink-2); }
   #tip b { color: var(--ink); }
   #tip .r { display: flex; justify-content: space-between; gap: 14px; font-variant-numeric: tabular-nums; }
+
+  /* abas */
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); }
+  .tab { appearance: none; background: none; border: none; padding: 10px 16px; font: inherit;
+         font-size: 14px; font-weight: 600; color: var(--muted); cursor: pointer;
+         border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tab:hover { color: var(--ink-2); }
+  .tab.active { color: var(--ink); border-bottom-color: var(--primary); }
+  .panel { display: flex; flex-direction: column; gap: 20px; }
+  .panel[hidden] { display: none; }
+
+  /* LP × form nativo por mercado */
+  :root { --lp: #1c5cab; --form: #0a7a4b; --soft: rgba(0,0,0,0.05);
+          --gap-bg: repeating-linear-gradient(45deg, rgba(138,147,156,.10) 0 6px, transparent 6px 12px); }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) { --lp: #5598e7; --form: #34d399; --soft: rgba(255,255,255,.07); }
+  }
+  .card.mkt { overflow: hidden; }
+  .card > h2.mkt { display: flex; align-items: center; gap: 9px; }
+  .card.mkt > .hint { padding-bottom: 12px; }
+  .flag { font-size: 11px; font-weight: 700; letter-spacing: .05em; padding: 2px 9px; border-radius: 999px;
+          background: var(--soft); color: var(--ink-2); text-transform: uppercase; }
+  table.lf { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+  table.lf th, table.lf td { padding: 10px 16px; border-bottom: 1px solid var(--soft); font-size: 14px;
+                             text-align: right; white-space: normal; }
+  table.lf thead th { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); background: var(--soft); }
+  table.lf thead th:first-child { text-align: left; }
+  table.lf td.m { text-align: left; color: var(--ink-2); }
+  table.lf td.m b { color: var(--ink); font-weight: 600; display: block; }
+  table.lf td.m span { font-size: 12px; color: var(--muted); }
+  table.lf td.v { text-align: right; font-weight: 600; }
+  table.lf tbody tr:last-child td { border-bottom: none; }
+  .col-lp { color: var(--lp); }
+  .col-form { color: var(--form); }
+  .win { background: var(--good-bg); color: var(--good-fg); }
+  .lose { background: var(--bad-bg); color: var(--bad-fg); }
+  .gap { background-image: var(--gap-bg); color: var(--muted); font-weight: 400; font-size: 12.5px; cursor: help; }
+  .sep td { background: var(--soft); font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+            color: var(--muted); font-weight: 700; padding: 7px 16px; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1>Testes de campanha — JOM</h1>
-    <p>Comparação dos braços de teste por <b>custo</b>, <b>qualidade do lead</b> e <b>retorno esperado</b>.
-       Cada braço é uma estratégia de campanha diferente rodando na mesma tag.</p>
-    <p class="meta" id="meta"></p>
+    <p>Campanha JOM (Um Menino Chamado Brenda). Duas leituras: os <b>braços de teste</b> por qualidade do
+       lead e retorno esperado, e a comparação <b>LP × formulário nativo</b> por mercado.</p>
   </header>
+
+  <nav class="tabs" role="tablist" aria-label="Visões do relatório">
+    <button class="tab active" data-tab="bracos" role="tab" aria-selected="true">Braços de teste</button>
+    <button class="tab" data-tab="lpform" role="tab" aria-selected="false">LP × Form por mercado</button>
+  </nav>
+
+  <section id="tab-bracos" class="panel" role="tabpanel">
+  <p class="meta" id="meta"></p>
 
   <div class="kpis" id="kpis"></div>
 
@@ -164,6 +210,23 @@
   </div>
 
   <footer id="rodape"></footer>
+  </section>
+
+  <section id="tab-lpform" class="panel" role="tabpanel" hidden>
+    <p class="meta" id="lf-meta"></p>
+    <div class="alert" style="border-left-color:var(--primary);background:rgba(28,92,171,0.08)">
+      <b>LP × formulário nativo Meta, por mercado</b>
+      <p>Mesmo template do briefing, preenchido para <b>BR</b> e <b>EUA</b> na <b>janela comparável</b> — do 1º
+         lead do form nativo (20/08) até 23/08, aplicada igualmente aos dois formatos. O form começou depois da
+         LP; comparar a janela cheia (12–23) enviesaria a favor da LP, cujos leads teriam mais tempo para abrir
+         e-mail e converter. Compara captar o lead por <b>landing page</b> contra o <b>formulário nativo</b> do
+         Instagram/Facebook. Verde = melhor entre os dois formatos na mesma linha. BR em real; EUA em dólar —
+         comparar LP × form <i>dentro</i> de cada mercado, nunca valores entre mercados.</p>
+    </div>
+    <div id="lf-tabelas"></div>
+    <div class="alert" id="lf-lacunas"></div>
+    <footer id="lf-rodape"></footer>
+  </section>
 </div>
 <div id="tip" role="status"></div>
 
@@ -185,7 +248,21 @@ const hideTip = () => { tip.style.display = 'none'; };
 const SVG = 'http://www.w3.org/2000/svg';
 const el = (t, a) => { const e = document.createElementNS(SVG, t); for (const k in a) e.setAttribute(k, a[k]); return e; };
 
-fetch('./data.json').then(r => r.json()).then(d => {
+// Dados inline (preview/artifact) têm prioridade; em produção cai no fetch do JSON servido.
+const loadJSON = (id, path) => {
+  const node = document.getElementById(id);
+  if (node) { try { return Promise.resolve(JSON.parse(node.textContent)); } catch (e) {} }
+  return fetch(path).then(r => r.json());
+};
+
+// abas
+document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(b => { const on = b === btn; b.classList.toggle('active', on); b.setAttribute('aria-selected', on); });
+  document.querySelectorAll('.panel').forEach(p => { p.hidden = p.id !== 'tab-' + btn.dataset.tab; });
+  hideTip();
+}));
+
+loadJSON('data-inline', './data.json').then(d => {
   const faixaVar = i => `var(--f${i + 1})`;
   const META = d.meta_retorno;
 
@@ -338,6 +415,100 @@ fetch('./data.json').then(r => r.json()).then(d => {
     `Fonte: <code>fct_lead_iql</code> + <code>dtm_analytics_lead_conversion</code> + <code>dtm_analytics_facebook_ads_funnel</code> (produção). ` +
     `Atualizar com <code>python3 refresh.py</code>. Metodologia da nota e do RPL projetado: METODOLOGIA-IQL.md e PROJECAO-RPL.md. ` +
     `Só agregados — sem pesos do scorecard e sem dados pessoais.`;
+});
+
+// ── aba 2: LP × Form nativo por mercado (template do briefing) ──
+loadJSON('lpform-inline', './lp-vs-form.json').then(d => {
+  let MOEDA = 'R$ ';
+  const money = (v, dc = 2) => v == null ? null : MOEDA + v.toLocaleString('pt-BR', {minimumFractionDigits: dc, maximumFractionDigits: dc});
+  const pctv = v => v == null ? null : v.toLocaleString('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 2}) + '%';
+  const intv = v => v == null ? null : FMT.format(Math.round(v));
+
+  document.getElementById('lf-meta').textContent =
+    `Janela comparável: ${d.janela.ini} a ${d.janela.fim} (LP e form no mesmo período) · dados de ${d.gerado_em}`;
+
+  // linhas na ordem do briefing; cmp: 'menor'/'maior' = qual é melhor
+  const LINHAS = [
+    {g: 'Mídia'},
+    {k: 'spend', t: 'Valor gasto', f: v => money(v, 0)},
+    {k: 'impressoes', t: 'Impressões', f: intv},
+    {k: 'cpm', t: 'CPM', f: money, cmp: 'menor'},
+    {k: 'ctr', t: 'CTR', f: pctv, nota: 'ctr_form'},
+    {g: 'Leads'},
+    {k: 'leads', t: 'Leads', sub: 'base do Insider', f: intv, cmp: 'maior'},
+    {k: 'cpl', t: 'CPL', f: money, cmp: 'menor'},
+    {k: '_conv', t: 'Taxa de conversão da etapa', sub: 'LP: visita → lead / Form: abertura → envio'},
+    {g: 'E-mail'},
+    {k: 'email_abertura', t: 'Taxa de abertura de e-mail', sub: 'sobre entregues, abertura humana', f: pctv, cmp: 'maior'},
+    {k: 'email_clique', t: 'Taxa de clique no e-mail', sub: 'sobre entregues', f: pctv, cmp: 'maior'},
+    {g: 'Resultado'},
+    {k: 'vendas', t: 'Vendas na janela', f: intv, cmp: 'maior'},
+    {k: 'retorno_lead', t: 'Retorno por lead', sub: 'receita atribuída na janela ÷ leads', f: money, cmp: 'maior'},
+  ];
+
+  const cont = document.getElementById('lf-tabelas');
+  ['BR', 'EUA'].forEach(mercado => {
+    const lp = d.celulas.find(c => c.mercado === mercado && c.tipo === 'LP');
+    const fm = d.celulas.find(c => c.mercado === mercado && c.tipo === 'Form nativo Meta');
+    if (!lp && !fm) return;
+
+    MOEDA = (lp && lp.moeda === 'USD') || (fm && fm.moeda === 'USD') ? 'US$ ' : 'R$ ';
+    const diasNota = (lp && lp.dias_midia && fm && fm.dias_midia && lp.dias_midia !== fm.dias_midia)
+      ? `⚠️ Períodos de mídia diferentes na janela: LP ${lp.dias_midia} dias, form ${fm.dias_midia} dias — comparar taxas (CPM, CPL), não totais.`
+      : '';
+
+    const linhas = LINHAS.map(L => {
+      if (L.g) return `<tr class="sep"><td colspan="3">${L.g}</td></tr>`;
+      const va = lp ? lp[L.k] : null, vb = fm ? fm[L.k] : null;
+      const cel = (v, outro) => {
+        if (L.k === '_conv') return `<td class="v gap" title="${d.lacunas.conversao_etapa}">não medido ⓘ</td>`;
+        if (v == null) return `<td class="v gap" title="${d.lacunas.midia_eua}">sem dado ⓘ</td>`;
+        let cls = '';
+        if (L.cmp && outro != null) {
+          const melhor = L.cmp === 'menor' ? v < outro : v > outro;
+          const pior = L.cmp === 'menor' ? v > outro : v < outro;
+          cls = melhor ? ' win' : (pior ? ' lose' : '');
+        }
+        const nota = L.nota ? ` <span title="${d.lacunas[L.nota]}" style="cursor:help">ⓘ</span>` : '';
+        return `<td class="v${cls}">${L.f(v)}${nota}</td>`;
+      };
+      return `<tr>
+        <td class="m"><b>${L.t}</b>${L.sub ? `<span>${L.sub}</span>` : ''}</td>
+        ${cel(va, vb)}${cel(vb, va)}
+      </tr>`;
+    }).join('');
+
+    cont.insertAdjacentHTML('beforeend', `
+      <div class="card mkt" style="margin-bottom:16px">
+        <h2 class="mkt">${mercado === 'BR' ? 'Brasil' : 'Estados Unidos'} <span class="flag">${mercado}</span></h2>
+        <p class="hint"><b>Período: ${(lp && lp.periodo) || (fm && fm.periodo) || '—'}.</b> ${mercado === 'BR'
+          ? 'Mídia da conta BR (BigQuery), valores em real. Verde = melhor entre os dois formatos na mesma linha.'
+          : 'Leads, e-mail e receita: BigQuery. Mídia: planilha <i>[NOVO] Meta Ads - Big Picture</i> (a conta dos EUA não é exportada para o warehouse) — <b>valores em dólar</b>.'}
+          ${diasNota ? `<br>${diasNota}` : ''}</p>
+        <table class="lf">
+          <thead><tr>
+            <th>Métrica</th>
+            <th class="col-lp">LP</th>
+            <th class="col-form">Form nativo Meta</th>
+          </tr></thead>
+          <tbody>${linhas}</tbody>
+        </table>
+      </div>`);
+  });
+
+  document.getElementById('lf-lacunas').innerHTML = `
+    <b>Ressalvas de leitura</b>
+    <p><b>Moedas diferentes:</b> BR em real (conta BR, via BigQuery) e EUA em dólar (conta Big Picture, via
+       planilha). Não somar nem comparar valores absolutos entre mercados — comparar LP × form <i>dentro</i>
+       de cada mercado.</p>
+    <p><b>Mídia dos EUA:</b> ${d.lacunas.midia_eua}</p>
+    <p><b>Taxa de conversão da etapa (não preenchida):</b> ${d.lacunas.conversao_etapa}</p>
+    <p><b>CTR do form nativo:</b> ${d.lacunas.ctr_form}</p>`;
+
+  document.getElementById('lf-rodape').innerHTML =
+    'Fontes: <code>fct_lead_iql</code>, <code>dtm_analytics_lead_conversion</code>, ' +
+    '<code>dtm_analytics_facebook_ads_funnel</code>, <code>stg_insider__events</code> + planilha ' +
+    'Big Picture (mídia EUA). Atualizar com <code>python3 refresh.py</code>.';
 });
 </script>
 </body>

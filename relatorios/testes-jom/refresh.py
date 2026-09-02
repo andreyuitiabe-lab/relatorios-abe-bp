@@ -33,6 +33,9 @@ BQQ = Path.home() / "meu_projeto" / "BigQuery" / "bqq"
 
 ORD_FAIXA = ["A+", "A", "B", "C", "D"]
 
+# janela do briefing (usada na visão LP x form por mercado)
+JANELA_INI, JANELA_FIM = "2026-08-12", "2026-08-23"
+
 
 def bq(sql_file):
     """Roda um .sql pelo bqq e devolve list[dict] (via CSV completo)."""
@@ -60,6 +63,8 @@ def main():
     serie = bq(QUERIES / "serie_diaria.sql")
     print("mix de faixas...", flush=True)
     mix_raw = bq(QUERIES / "mix_faixas.sql")
+    print("LP x form por mercado...", flush=True)
+    lpform = bq(QUERIES / "lp_vs_form_mercado.sql")
 
     # ── braços: normaliza tipos e deriva o que a página precisa ────────────────
     bracos = []
@@ -138,6 +143,96 @@ def main():
     }
 
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=1))
+
+    # ── segunda visão: LP x form nativo por mercado (formato do briefing) ──────
+    def n_or_none(v):
+        f = num(v, None) if v not in (None, "", "NaN") else None
+        return f
+    # Mídia dos EUA: a conta [BIG] não está no BQ — vem de midia_eua.csv, exportado da
+    # planilha "[NOVO] Meta Ads - Big Picture" do time de tráfego. Valores em USD.
+    # Atualizar: reexportar a planilha em CSV e regravar o arquivo (ver ANALISE.md).
+    # Corte por mercado (início da janela comparável) vem da própria query: a data do 1º lead
+    # do form nativo. A mídia dos EUA (CSV) é recortada pelo corte do EUA para casar com a LP.
+    corte = {r["nm_mercado"]: r["dt_corte"] for r in lpform if r.get("dt_corte")}
+    corte_eua = corte.get("EUA", JANELA_INI)
+
+    eua = {}
+    csv_eua = BASE / "midia_eua.csv"
+    if csv_eua.exists():
+        with open(csv_eua, newline="") as fh:
+            for row in csv.DictReader(fh):
+                if not (corte_eua <= row["dt"] <= JANELA_FIM):
+                    continue
+                acc = eua.setdefault(row["nm_tipo"], {"spend": 0.0, "impr": 0.0, "cliques": 0.0, "dias": set()})
+                acc["spend"] += num(row["vl_spend_usd"])
+                acc["impr"] += num(row["qt_impressoes"])
+                acc["cliques"] += num(row["qt_cliques"])
+                acc["dias"].add(row["dt"])
+
+    celulas = [{
+        "mercado": r["nm_mercado"],
+        "tipo": r["nm_tipo"],
+        "dt_corte": r.get("dt_corte"),
+        "leads": int(num(r["qt_leads"])),
+        "spend": n_or_none(r.get("vl_spend")),
+        "impressoes": n_or_none(r.get("qt_impressoes")),
+        "cpm": n_or_none(r.get("vl_cpm")),
+        "ctr": n_or_none(r.get("pc_ctr")),
+        "cpl": n_or_none(r.get("vl_cpl")),
+        "email_entregue": int(num(r.get("qt_email_entregue"))),
+        "email_abertura": n_or_none(r.get("pc_email_abertura")),
+        "email_clique": n_or_none(r.get("pc_email_clique")),
+        "receita": num(r.get("vl_receita")),
+        "vendas": int(num(r.get("qt_vendas"))),
+        "retorno_lead": num(r.get("vl_retorno_por_lead")),
+    } for r in lpform]
+
+    for c in celulas:  # preenche EUA com a planilha (moeda USD, sinalizada na página)
+        if c["mercado"] != "EUA" or c["spend"] is not None:
+            continue
+        a = eua.get(c["tipo"])
+        if not a or not a["impr"]:
+            continue
+        c["spend"] = round(a["spend"], 2)
+        c["impressoes"] = a["impr"]
+        c["cpm"] = round(1000 * a["spend"] / a["impr"], 2)
+        c["ctr"] = round(100 * a["cliques"] / a["impr"], 2)
+        c["cpl"] = round(a["spend"] / c["leads"], 2) if c["leads"] else None
+        c["moeda"] = "USD"
+        c["dias_midia"] = len(a["dias"])
+        c["fonte_midia"] = "planilha [NOVO] Meta Ads - Big Picture"
+
+    # janela comparável: rótulo por mercado (corte → fim) e a janela geral do relatório
+    def ddmm(iso):
+        return f"{iso[8:10]}/{iso[5:7]}" if iso else None
+    for c in celulas:
+        c["periodo"] = f"{ddmm(c.get('dt_corte'))} a {ddmm(JANELA_FIM)}" if c.get("dt_corte") else None
+    cortes = sorted(c["dt_corte"] for c in celulas if c.get("dt_corte"))
+    janela_ini = f"{ddmm(cortes[0])}/2026" if cortes else "12/08/2026"
+
+    (BASE / "lp-vs-form.json").write_text(json.dumps({
+        "gerado_em": data["gerado_em"],
+        "janela": {"ini": janela_ini, "fim": "23/08/2026",
+                   "nota": "Janela comparável: recortada ao período em que LP e form nativo rodaram "
+                           "juntos em cada mercado (do 1º lead do form até 23/08). O form começou em "
+                           "20/08 — incluir 12–19/08 enviesaria a favor da LP (leads mais velhos têm "
+                           "mais tempo para abrir e-mail e converter)."},
+        "celulas": celulas,
+        # lacunas conhecidas, exibidas na página em vez de célula vazia sem explicação
+        "lacunas": {
+            "midia_eua": "A conta de anúncios dos EUA ([BIG] / Big Picture Originals) não está no "
+                         "BigQuery — verificado: 0 linhas. Gasto, impressões, CPM e CTR dos EUA vêm "
+                         "de midia_eua.csv, exportado da planilha do time, e estão em DÓLAR. "
+                         "Atualizar o CSV quando a planilha mudar.",
+            "conversao_etapa": "LP (visita→lead) exige GA4 — domínios distintos por mercado "
+                               "(form.brasilparalelo.com.br e bigpictureoriginals.com). Form "
+                               "(abertura→envio) exige as métricas de formulário do Meta, que não "
+                               "são exportadas para o BQ.",
+            "ctr_form": "No form nativo o usuário não sai do Instagram/Facebook, então 'outbound "
+                        "click' não mede a mesma coisa que na LP — os CTRs não são comparáveis.",
+        },
+    }, ensure_ascii=False, indent=1))
+    print(f"✓ lp-vs-form.json — {len(celulas)} células (mercado x tipo)", flush=True)
     print(f"✓ {OUT} — {len(bracos)} braços, {total_leads} leads, "
           f"R$ {total_spend:,.0f} de investimento", flush=True)
 
