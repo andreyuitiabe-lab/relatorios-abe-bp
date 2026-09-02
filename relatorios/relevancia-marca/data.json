@@ -1,0 +1,108 @@
+{
+  "updated_at": "2026-08-25",
+  "periodo": "21–25 ago 2026 · 6 rodadas",
+  "readout": [
+    { "k": "Janela diária", "v": "385 dias" },
+    { "k": "Janela mensal", "v": "59 meses" },
+    { "k": "Indicadores testados", "v": "11" },
+    { "k": "Sabatinas", "v": "9" },
+    { "k": "Saltos de budget", "v": "1.069" }
+  ],
+  "sabatinas_facts": [
+    { "k": "Membro engaj. leve", "v": "1,65×", "tone": "pos", "n": "converte mais em 14 dias (p=0,0008)" },
+    { "k": "Membro engaj. médio", "v": "1,44×", "tone": "pos", "n": "(p=0,002); receita/pessoa 1,5–2,2×" },
+    { "k": "Membro heavy user", "v": "nulo", "tone": "nil", "n": "0,87× — já está no teto" },
+    { "k": "Freemium", "v": "0,28–0,83×", "tone": "nil", "n": "nulo ou negativo, ns" }
+  ],
+  "canais": {
+    "scatter": [
+      { "label": "YouTube orgânico", "tx": 24.7, "cac_beneficio": 11.9, "tipo": "pos", "anchor": "end", "dy": 5,
+        "tip_t": "YouTube orgânico", "tip_v": "Transações +24,7% · CAC −11,9% · spend pareou (+0,4% ns)",
+        "aria": "YouTube orgânico: transações +24,7%, CAC −11,9%, spend pareado" },
+      { "label": "Busca orgânica", "tx": 21.9, "cac_beneficio": 9.2, "tipo": "pos", "anchor": "end", "dy": 5,
+        "tip_t": "Busca orgânica", "tip_v": "Transações +21,9% · CAC −9,2% · spend pareou (−3,0% ns)",
+        "aria": "Busca orgânica: transações +21,9%, CAC −9,2%, spend pareado" },
+      { "label": "Referral", "tx": 19.8, "cac_beneficio": 0.1, "tipo": "nil", "anchor": "end", "dy": -9,
+        "tip_t": "Referral", "tip_v": "Transações +19,8% · CAC −0,1% (ns) · spend não pareou (+4,8%)",
+        "aria": "Referral: transações +19,8%, CAC sem efeito" },
+      { "label": "Tráfego direto", "tx": 9.3, "cac_beneficio": -2.9, "tipo": "nil", "anchor": "end", "dy": 5,
+        "tip_t": "Tráfego direto", "tip_v": "Transações +9,3% · CAC +2,9% (ns) · spend não pareou (+4,4%)",
+        "aria": "Tráfego direto: transações +9,3%, CAC sem efeito" },
+      { "label": "Social orgânico", "tx": 2.1, "cac_beneficio": -12.9, "tipo": "neg", "anchor": "start", "dy": 5,
+        "tip_t": "Social orgânico", "tip_v": "Transações +2,1% (ns) · CAC +12,9% · spend NÃO pareou (+16,8%)",
+        "aria": "Social orgânico: transações sem efeito, CAC +12,9% pior, spend não pareou +16,8%" }
+    ],
+    "tabela": [
+      { "canal": "YouTube orgânico", "row": "lead",
+        "tx": { "v": "+24,7%", "c": "pos" }, "cac": { "v": "−11,9%", "c": "pos" }, "conv": { "v": "+28,8%", "c": "pos" },
+        "elast_tx": "0,222", "elast_cac": { "v": "−0,128", "c": "pos" }, "pareou": { "v": "sim · +0,4% ns", "c": "ok" } },
+      { "canal": "Busca orgânica", "row": "lead",
+        "tx": { "v": "+21,9%", "c": "pos" }, "cac": { "v": "−9,2%", "c": "pos" }, "conv": { "v": "+8,1%", "c": "" },
+        "elast_tx": "0,267", "elast_cac": { "v": "−0,130", "c": "pos" }, "pareou": { "v": "sim · −3,0% ns", "c": "ok" } },
+      { "canal": "Referral", "row": "",
+        "tx": { "v": "+19,8%", "c": "" }, "cac": { "v": "−0,1% ns", "c": "nil" }, "conv": { "v": "ns", "c": "nil" },
+        "elast_tx": "0,130", "elast_cac": { "v": "−0,001", "c": "nil" }, "pareou": { "v": "não · +4,8%", "c": "" } },
+      { "canal": "Tráfego direto", "row": "",
+        "tx": { "v": "+9,3%", "c": "" }, "cac": { "v": "+2,9% ns", "c": "nil" }, "conv": { "v": "−11,7%", "c": "neg" },
+        "elast_tx": "0,113", "elast_cac": { "v": "+0,036", "c": "nil" }, "pareou": { "v": "não · +4,4%", "c": "" } },
+      { "canal": "Social orgânico", "row": "warn",
+        "tx": { "v": "+2,1% ns", "c": "nil" }, "cac": { "v": "+12,9%", "c": "neg" }, "conv": { "v": "−20,6%", "c": "neg" },
+        "elast_tx": "0,035", "elast_cac": { "v": "+0,206", "c": "neg" }, "pareou": { "v": "não · +16,8%", "c": "bad" } }
+    ]
+  },
+  "mcac": [
+    { "recorte": "YouTube orgânico (proxy GA4) · [VENDA] up", "n": "328", "baixa": "R$ 204", "alta": "R$ 184", "delta": { "v": "−10,0%", "c": "pos" }, "p": "0,028" },
+    { "recorte": "YouTube orgânico (proxy) · [LEAD] up", "n": "55", "baixa": "R$ 417", "alta": "R$ 640", "delta": { "v": "+53,5%", "c": "neg" }, "p": "0,115" },
+    { "recorte": "Share of Search · todos os saltos up", "n": "383", "baixa": "R$ 207", "alta": "R$ 205", "delta": { "v": "−0,9%", "c": "nil" }, "p": "0,44" },
+    { "recorte": "Share of Search · [VENDA] up", "n": "328", "baixa": "R$ 196", "alta": "R$ 194", "delta": { "v": "−1,4%", "c": "nil" }, "p": "0,49" }
+  ],
+  "fontes": [
+    { "ind": "YouTube orgânico", "fonte": "GA4", "row": "lead", "rho_spend": { "v": "0,162", "c": "" }, "vendas": { "v": "+0,265*", "c": "pos" }, "cac": { "v": "−0,143*", "c": "pos" }, "veredito": { "v": "★ volume + eficiência", "c": "" } },
+    { "ind": "Busca orgânica", "fonte": "GA4", "row": "lead", "rho_spend": { "v": "−0,188", "c": "" }, "vendas": { "v": "+0,184*", "c": "pos" }, "cac": { "v": "−0,197*", "c": "pos" }, "veredito": { "v": "★ volume + eficiência", "c": "" } },
+    { "ind": "Wikipedia — verbete BP", "fonte": "API Wikimedia", "row": "lead", "rho_spend": { "v": "0,315", "c": "" }, "vendas": { "v": "+0,243*", "c": "pos" }, "cac": { "v": "−0,208*", "c": "pos" }, "veredito": { "v": "★ volume + eficiência", "c": "" } },
+    { "ind": "Tráfego direto", "fonte": "GA4", "row": "", "rho_spend": { "v": "0,371", "c": "" }, "vendas": { "v": "+0,163*", "c": "" }, "cac": { "v": "−0,118*", "c": "" }, "veredito": { "v": "★ (meio confundido)", "c": "" } },
+    { "ind": "Contatos novos Zenvia", "fonte": "dim_zenvia_contacts", "row": "", "rho_spend": { "v": "0,060", "c": "" }, "vendas": { "v": "+0,327*", "c": "" }, "cac": { "v": "−0,083", "c": "nil" }, "veredito": { "v": "só volume", "c": "" } },
+    { "ind": "Referral", "fonte": "GA4", "row": "", "rho_spend": { "v": "−0,071", "c": "" }, "vendas": { "v": "+0,211*", "c": "" }, "cac": { "v": "−0,070", "c": "nil" }, "veredito": { "v": "só volume", "c": "" } },
+    { "ind": "Cliques busca de marca", "fonte": "Google Ads [KW]", "row": "", "rho_spend": { "v": "0,518", "c": "" }, "vendas": { "v": "+0,239*", "c": "" }, "cac": { "v": "−0,090", "c": "nil" }, "veredito": { "v": "só volume", "c": "" } },
+    { "ind": "Leads orgânicos", "fonte": "lead_conversion", "row": "", "rho_spend": { "v": "−0,025", "c": "" }, "vendas": { "v": "+0,112*", "c": "" }, "cac": { "v": "+0,014", "c": "nil" }, "veredito": { "v": "só volume", "c": "" } },
+    { "ind": "Impressões busca de marca", "fonte": "Google Ads [KW]", "row": "", "rho_spend": { "v": "0,384", "c": "" }, "vendas": { "v": "+0,041", "c": "nil" }, "cac": { "v": "+0,058", "c": "nil" }, "veredito": { "v": "sem sinal", "c": "" } },
+    { "ind": "Social orgânico", "fonte": "GA4", "row": "warn", "rho_spend": { "v": "0,861", "c": "neg" }, "vendas": { "v": "+0,013", "c": "nil" }, "cac": { "v": "−0,137*", "c": "" }, "veredito": { "v": "mede orçamento", "c": "bad" } }
+  ],
+  "sos_facts": [
+    { "k": "SoS mídias · 5 anos", "v": "7,6%", "tone": "", "n": "JP, Oeste, Gazeta, Antagonista" },
+    { "k": "SoS mídias · últimas 4 sem", "v": "12,2%", "tone": "neg", "n": "recorde — ver \"fatia vs bolo\"" },
+    { "k": "SoS streamings", "v": "0,74%", "tone": "", "n": "Netflix, Prime, Globoplay, Disney+" },
+    { "k": "SoS todos", "v": "0,66%", "tone": "", "n": "mídias + streamings" }
+  ],
+  "lead_bars": [
+    { "label": "bruta", "v": 0.52, "txt": "+0,52", "sig": true, "op": 1,
+      "tip_t": "Sem controle", "tip_v": "ρ = +0,52 · p < 0,001", "aria": "Bruta: +0,52" },
+    { "label": "− spend do mês do SoS", "v": 0.46, "txt": "+0,46", "sig": true, "op": 0.7,
+      "tip_t": "− spend(t)", "tip_v": "ρ parcial = +0,46 · p < 0,01", "aria": "Controlando spend do mês do SoS: +0,46" },
+    { "label": "− spend do mês do SoS e do mês alvo", "v": 0.18, "txt": "+0,18 ns", "sig": false, "op": 1,
+      "tip_t": "− spend(t) e spend(t+1)", "tip_v": "ρ parcial = +0,18 · ns", "aria": "Controlando também spend do mês alvo: +0,18, não significativo" }
+  ],
+  "bolo_bars": [
+    { "title": "Busca BP", "hist": 0.61, "rec": 0.47, "delta": "−24%", "dir": "neg",
+      "tip_t": "Busca BP", "tip_v": "histórico 0,61 → últimas 4 sem 0,47 · −24%",
+      "aria": "Busca BP: histórico 0,61, recente 0,47, menos 24%" },
+    { "title": "Bolo (categoria mídias)", "hist": 9.41, "rec": 3.84, "delta": "−59%", "dir": "neg",
+      "tip_t": "Bolo · categoria mídias", "tip_v": "histórico 9,41 → últimas 4 sem 3,84 · −59% (JP −62%, Antagonista −71%)",
+      "aria": "Bolo mídias: histórico 9,41, recente 3,84, menos 59%" },
+    { "title": "SoS mídias", "hist": 7.56, "rec": 12.18, "delta": "+61%", "dir": "pos",
+      "tip_t": "SoS mídias", "tip_v": "histórico 7,6% → últimas 4 sem 12,2% · +61%",
+      "aria": "SoS mídias: histórico 7,6%, recente 12,2%, mais 61%" }
+  ],
+  "plano": [
+    { "fase": "1 · Share of Search", "oque": "Denominador de categoria, backtest",
+      "status": "<span class=\"ok\">✓ feita</span> — coincidente forte, sem lead, fatia vs bolo documentado" },
+    { "fase": "2 · Fontes primárias", "oque": "Search Console (volume real de busca), YouTube Analytics (views do canal), GA4 newUsers",
+      "status": "<span class=\"bad\">pedidos de acesso</span> — SC ao time de tech/SEO; Visualizador no YouTube Studio ao time de conteúdo" },
+    { "fase": "3 · Métrica operacional", "oque": "Termômetro no dash de mídia + relatório no portal",
+      "status": "<span class=\"bad\">decisão</span> — entra no marketing-bp?" },
+    { "fase": "4 · Geo lift", "oque": "Único desenho que sai do direcional para o causal",
+      "status": "condicionada a sponsor; spend regional não existe no datamart" },
+    { "fase": "5 · MMM com marca", "oque": "Unobserved Components: marca no baseline + na eficiência da ativação",
+      "status": "2026Q4 — separa \"marca eleva baseline\" de \"marca faz a gente gastar mais\"" }
+  ]
+}

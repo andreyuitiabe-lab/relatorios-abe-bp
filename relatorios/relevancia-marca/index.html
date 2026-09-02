@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relevância de marca × vendas — medição</title>
+<style>
+  :root {
+    color-scheme: light;
+    --ground:        #F1F3F5;
+    --surface:       #FBFCFD;
+    --surface-sunk:  #E7EAEE;
+    --ink:           #14181D;
+    --ink-2:         #414B56;
+    --ink-3:         #6B7681;
+    --rule:          #C9D0D8;
+    --rule-soft:     #DDE2E8;
+    --pos:           #2a78d6;
+    --neg:           #e34948;
+    --nil:           #6B7681;
+    --pos-wash:      rgba(42,120,214,.10);
+    --neg-wash:      rgba(227,73,72,.10);
+    --serif: Charter, "Bitstream Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --ground: #14181D; --surface: #1B2027; --surface-sunk: #10141A;
+      --ink: #E8EBEE; --ink-2: #B3BBC4; --ink-3: #808B96;
+      --rule: #333C46; --rule-soft: #262E37;
+      --pos: #3987e5; --neg: #e66767; --nil: #808B96;
+      --pos-wash: rgba(57,135,229,.14); --neg-wash: rgba(230,103,103,.14);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif); font-size: 17px; line-height: 1.62; -webkit-font-smoothing: antialiased; }
+  .page { max-width: 60rem; margin: 0 auto; padding: 0 1.5rem 6rem; }
+
+  .masthead { border-bottom: 1px solid var(--ink); padding: 3.5rem 0 1.1rem; margin-bottom: 2.5rem; }
+  .eyebrow { font-family: var(--mono); font-size: .69rem; letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 1.4rem; }
+  h1 { font-size: clamp(1.9rem, 4.4vw, 2.9rem); line-height: 1.1; font-weight: 600; letter-spacing: -.018em; text-wrap: balance; margin: 0 0 .7rem; }
+  .standfirst { font-size: 1.16rem; line-height: 1.5; color: var(--ink-2); max-width: 48ch; margin: 0 0 2rem; text-wrap: pretty; }
+  .readout { display: flex; flex-wrap: wrap; gap: 0 2.2rem; font-family: var(--mono); font-size: .72rem; letter-spacing: .04em; color: var(--ink-3); }
+  .readout div { display: flex; gap: .5ch; }
+  .readout b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .col { max-width: 40rem; }
+  h2 { font-size: 1.42rem; line-height: 1.22; font-weight: 600; letter-spacing: -.012em; text-wrap: balance; margin: 3.6rem 0 .3rem; }
+  h2 + .kicker { font-family: var(--mono); font-size: .69rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 1.1rem; }
+  h3 { font-size: 1.06rem; font-weight: 600; margin: 2.2rem 0 .35rem; letter-spacing: -.005em; }
+  p { margin: 0 0 1.05rem; max-width: 40rem; text-wrap: pretty; }
+  strong { font-weight: 600; }
+  a { color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: .93em; }
+
+  .verdicts { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin: 0 0 1rem; }
+  .verdict { padding: 1.4rem 1.6rem 1.5rem; border-left: 1px solid var(--rule-soft); }
+  .verdict:first-child { border-left: 0; padding-left: 0; }
+  .verdict .q { font-family: var(--mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); display: block; margin-bottom: .6rem; }
+  .verdict p { font-size: .97rem; line-height: 1.5; margin: 0; color: var(--ink-2); }
+  .verdict p b { color: var(--ink); font-weight: 600; }
+
+  figure { margin: 2.6rem 0 2.8rem; padding: 1.5rem 1.5rem 1.2rem; background: var(--surface); border: 1px solid var(--rule-soft); }
+  figcaption { font-size: .87rem; line-height: 1.5; color: var(--ink-2); margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--rule-soft); max-width: 52ch; }
+  .fig-title { font-size: 1rem; font-weight: 600; margin: 0 0 .15rem; }
+  .fig-sub { font-family: var(--mono); font-size: .69rem; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 1.2rem; }
+  .plot-wrap { overflow-x: auto; }
+  svg { display: block; max-width: 100%; height: auto; }
+  svg text { font-family: var(--mono); fill: var(--ink-2); }
+  .ax { font-size: 11px; fill: var(--ink-3); }
+  .axtitle { font-size: 11px; fill: var(--ink-3); letter-spacing: .07em; }
+  .ptlabel { font-size: 12.5px; fill: var(--ink); font-family: var(--serif); }
+  .gridline { stroke: var(--rule-soft); stroke-width: 1; }
+  .zeroline { stroke: var(--rule); stroke-width: 1.5; }
+  .dot { cursor: pointer; }
+  .dot circle { transition: r .12s ease; }
+  @media (prefers-reduced-motion: reduce) { .dot circle { transition: none; } }
+  .legend { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; font-family: var(--mono); font-size: .7rem; letter-spacing: .03em; color: var(--ink-2); margin-top: 1rem; }
+  .legend span { display: flex; align-items: center; gap: .5ch; }
+  .swatch { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .swatch.hollow { background: transparent; border: 2px solid var(--ink-3); }
+
+  .tablewrap { overflow-x: auto; margin: 1.4rem 0 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .87rem; min-width: 40rem; }
+  caption { text-align: left; color: var(--ink-3); margin-bottom: .7rem; font-family: var(--mono); font-size: .69rem; letter-spacing: .09em; text-transform: uppercase; line-height: 1.5; }
+  th, td { padding: .55rem .7rem; text-align: right; border-bottom: 1px solid var(--rule-soft); }
+  thead th { font-family: var(--mono); font-size: .66rem; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; border-bottom: 1px solid var(--rule); vertical-align: bottom; }
+  th:first-child, td:first-child { text-align: left; }
+  tbody td { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  tbody td:first-child { font-family: var(--serif); font-size: 1rem; }
+  tbody tr:last-child td { border-bottom: 0; }
+  .lead-row td { background: var(--pos-wash); }
+  .warn-row td { background: var(--neg-wash); }
+  .v-pos { color: var(--pos); font-weight: 600; }
+  .v-neg { color: var(--neg); font-weight: 600; }
+  .v-nil { color: var(--ink-3); }
+  .ok { color: var(--pos); } .bad { color: var(--neg); }
+  td.txt { text-align: left; font-family: var(--serif); }
+
+  .method { border-left: 2px solid var(--rule); padding-left: 1.5rem; margin: 1.6rem 0 2rem; max-width: 40rem; }
+  .method p:last-child { margin-bottom: 0; }
+  .formula { font-family: var(--mono); font-size: .8rem; line-height: 1.7; background: var(--surface-sunk); padding: .9rem 1.1rem; margin: 1.2rem 0; overflow-x: auto; color: var(--ink-2); }
+
+  .flag { border: 1px solid var(--rule); border-left: 3px solid var(--neg); padding: 1.1rem 1.3rem; margin: 1.8rem 0; max-width: 40rem; background: var(--surface); }
+  .flag .lbl { font-family: var(--mono); font-size: .66rem; letter-spacing: .11em; text-transform: uppercase; color: var(--neg); display: block; margin-bottom: .45rem; }
+  .flag p { margin: 0; font-size: .95rem; line-height: 1.55; }
+  .flag.neutral { border-left-color: var(--nil); } .flag.neutral .lbl { color: var(--ink-3); }
+  .flag.good { border-left-color: var(--pos); } .flag.good .lbl { color: var(--pos); }
+
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule-soft); margin: 1.8rem 0 2.2rem; }
+  .fact { background: var(--surface); padding: 1.05rem 1.1rem 1.1rem; }
+  .fact .k { font-family: var(--mono); font-size: .64rem; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3); display: block; margin-bottom: .5rem; line-height: 1.4; }
+  .fact .v { font-family: var(--mono); font-size: 1.32rem; font-variant-numeric: tabular-nums; font-weight: 600; letter-spacing: -.02em; display: block; }
+  .fact .n { font-size: .8rem; color: var(--ink-3); line-height: 1.4; display: block; margin-top: .3rem; font-family: var(--serif); }
+
+  .toc { font-family: var(--mono); font-size: .74rem; letter-spacing: .02em; line-height: 1.9; color: var(--ink-2); columns: 2; column-gap: 2.5rem; margin: 0 0 1rem; }
+  .toc a { text-decoration: none; color: var(--ink-2); }
+  .toc a:hover { text-decoration: underline; }
+  .toc .n { color: var(--ink-3); margin-right: .6ch; }
+
+  /* ---------- como é feita a conta ---------- */
+  .conta { border: 1px solid var(--rule-soft); background: var(--surface); margin: 1rem 0 1.6rem; max-width: 40rem; }
+  .conta summary { cursor: pointer; list-style: none; padding: .7rem 1rem; font-family: var(--mono); font-size: .66rem; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-3); display: flex; align-items: center; gap: .8ch; }
+  .conta summary::-webkit-details-marker { display: none; }
+  .conta summary::before { content: "▸"; font-size: .8rem; transition: transform .12s ease; }
+  .conta[open] summary::before { transform: rotate(90deg); }
+  @media (prefers-reduced-motion: reduce) { .conta summary::before { transition: none; } }
+  .conta summary:focus-visible { outline: 2px solid var(--pos); outline-offset: -2px; }
+  .conta .body { padding: 0 1rem 1rem; border-top: 1px solid var(--rule-soft); }
+  .conta .f { font-family: var(--mono); font-size: .76rem; line-height: 1.75; background: var(--surface-sunk); padding: .75rem .9rem; margin: .9rem 0 .6rem; overflow-x: auto; color: var(--ink); white-space: pre; }
+  .conta ol, .conta ul { margin: .5rem 0 .4rem; padding-left: 1.2rem; font-size: .88rem; line-height: 1.55; color: var(--ink-2); }
+  .conta li { margin: .25rem 0; }
+  .conta li b { color: var(--ink); font-weight: 600; }
+  .conta .src { font-family: var(--mono); font-size: .68rem; color: var(--ink-3); margin: .6rem 0 0; letter-spacing: .02em; line-height: 1.6; }
+
+  /* ---------- abas ---------- */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--rule); margin: 0 0 2.4rem; }
+  .tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: .7rem 1.1rem .75rem; font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); cursor: pointer; }
+  .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .tab:hover { color: var(--ink); }
+  .tab:focus-visible { outline: 2px solid var(--pos); outline-offset: -2px; }
+  [role="tabpanel"][hidden] { display: none; }
+
+  /* ---------- revisão ---------- */
+  .rev-verdict { border: 1px solid var(--ink); padding: 1.3rem 1.5rem; margin: 0 0 2.4rem; max-width: 40rem; background: var(--surface); }
+  .rev-verdict .lbl { font-family: var(--mono); font-size: .66rem; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-3); display: block; margin-bottom: .6rem; }
+  .rev-verdict p { margin: 0; font-size: 1.05rem; line-height: 1.55; }
+  .status-ok { color: var(--pos); font-weight: 600; } .status-no { color: var(--neg); font-weight: 600; } .status-mid { color: var(--ink-3); font-weight: 600; }
+
+  footer { margin-top: 4.5rem; padding-top: 1.3rem; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: .69rem; letter-spacing: .04em; color: var(--ink-3); line-height: 1.8; }
+
+  #tip { position: fixed; pointer-events: none; opacity: 0; transform: translate(-50%, -115%); background: var(--ink); color: var(--ground); padding: .5rem .7rem; font-family: var(--mono); font-size: .7rem; line-height: 1.6; white-space: nowrap; z-index: 20; transition: opacity .1s ease; }
+  #tip b { font-weight: 600; }
+  @media (prefers-reduced-motion: reduce) { #tip { transition: none; } }
+  :where(a, .dot):focus-visible { outline: 2px solid var(--pos); outline-offset: 3px; }
+
+  @media (max-width: 680px) {
+    body { font-size: 16px; }
+    .verdict { border-left: 0; border-top: 1px solid var(--rule-soft); padding-left: 0; padding-right: 0; }
+    .verdict:first-child { border-top: 0; }
+    figure { padding: 1.1rem .9rem 1rem; margin-left: -.4rem; margin-right: -.4rem; }
+    .toc { columns: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Brasil Paralelo · Análise interna · <span id="periodo">21–25 ago 2026</span></p>
+    <h1>Relevância de marca e vendas: o que mede, o que engana, o que fazer</h1>
+    <p class="standfirst">Seis rodadas para responder se a nossa relevância pública move volume e eficiência de vendas. Move — de forma seletiva, coincidente, e por caminhos diferentes dos que a intuição sugeria. E dois dos indicadores mais óbvios enganam.</p>
+    <div class="readout" id="readout"></div>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Abas do documento">
+    <button class="tab" role="tab" id="tab-relatorio" aria-selected="true" aria-controls="aba-relatorio">Relatório</button>
+    <button class="tab" role="tab" id="tab-revisao" aria-selected="false" aria-controls="aba-revisao" tabindex="-1">Resposta ao pedido</button>
+  </div>
+
+  <div id="aba-relatorio" role="tabpanel" aria-labelledby="tab-relatorio">
+  <section class="verdicts">
+    <div class="verdict">
+      <span class="q">Sabatinas geraram lift?</span>
+      <p><b>Não no agregado.</b> A receita da semana veio de mídia (spend +55–81%). No indivíduo, há efeito real — mas de <b>ativação da base morna</b> (1,4–1,65×), nulo em freemium.</p>
+    </div>
+    <div class="verdict">
+      <span class="q">Relevância anda com vendas?</span>
+      <p><b>Sim, e é coincidente.</b> YouTube e busca orgânica: mesmo spend, +22–25% de transações, CAC 9–12% menor. Nenhum indicador antecede vendas.</p>
+    </div>
+    <div class="verdict">
+      <span class="q">Share of Search resolve?</span>
+      <p><b>Como termômetro, sim; como previsão, não.</b> O lead aparente era o nosso próprio spend. E a fatia recorde de agosto é o <b>bolo encolhendo</b>, não a BP crescendo.</p>
+    </div>
+  </section>
+
+  <div class="col">
+    <nav class="toc" aria-label="Sumário">
+      <a href="#metodo"><span class="n">01</span>Método</a>
+      <a href="#sabatinas"><span class="n">02</span>Sabatinas</a>
+      <a href="#canais"><span class="n">03</span>Canais orgânicos</a>
+      <a href="#mcac"><span class="n">04</span>Custo marginal</a>
+      <a href="#fontes"><span class="n">05</span>Inventário de fontes</a>
+      <a href="#sos"><span class="n">06</span>Share of Search</a>
+      <a href="#bolo"><span class="n">07</span>Fatia vs bolo</a>
+      <a href="#usar"><span class="n">08</span>O que usar</a>
+      <a href="#plano"><span class="n">09</span>Plano</a>
+    </nav>
+
+    <h2 id="metodo">Por que o teste tem esta forma</h2>
+    <p class="kicker">01 · Método</p>
+    <details class="conta" open>
+      <summary>Como é feita a conta — pareamento por spend</summary>
+      <div class="body">
+<ol>
+  <li><b>Estratos.</b> Cada dia recebe um rótulo: quintil de <span class="num">spend_total</span> (5 faixas) × tipo de dia (útil / fim de semana) × fase de campanha (venda aberta ou não). Na prática, 16 estratos com dados suficientes.</li>
+  <li><b>Alta vs baixa, dentro do estrato.</b> Para o canal em teste, calcula-se a <em>mediana local</em> de sessões no estrato. Dias acima = grupo alta; dias iguais ou abaixo = grupo baixa. Exige ≥ 4 dias em cada grupo.</li>
+  <li><b>Efeito por estrato.</b> razão = média(alvo | alta) ÷ média(alvo | baixa). O efeito global é a média das razões ponderada pelo número de dias do estrato.</li>
+  <li><b>Incerteza.</b> 2.000 reamostragens com reposição dentro de cada estrato; IC95 = percentis 2,5 e 97,5 da razão global; p bicaudal = 2 × min(P(razão ≤ 1), P(razão ≥ 1)).</li>
+  <li><b>Checagem.</b> A mesma conta é aplicada ao próprio <span class="num">spend_total</span> como alvo. Se alta e baixa diferem em spend, o pareamento falhou e o "efeito" é mídia.</li>
+</ol>
+<div class="f">estrato  = quintil(spend) × fim_de_semana × em_venda
+alta_e   = dias com sessões_canal &gt; mediana(sessões_canal | estrato e)
+efeito   = Σ_e n_e · [ ȳ(alta_e) / ȳ(baixa_e) ]  /  Σ_e n_e
+IC95     = percentis 2,5 / 97,5 de 2.000 bootstraps por estrato</div>
+<p class="src">Fontes: GA4 sessions por sessionDefaultChannelGroup · fct_transactions (approved, não-renovação) · spend = Meta + Google + PMax (dtm_analytics_*_funnel) · tb_campaign_period · script teste_pareado_spend.py</p>
+</div>
+    </details>
+
+    <p>O confundidor que domina qualquer leitura ingênua é o orçamento de mídia. Dias de atenção alta tendem a ser dias de campanha grande, então correlacionar "atenção" com "vendas" mede sobretudo quanto gastamos. E com dois eventos (as sabatinas), nada de magnitude realista é detectável — o resultado clássico de Lewis &amp; Rao para retorno de publicidade.</p>
+    <div class="formula">dias de audiência ALTA  vs  dias de audiência BAIXA<br>&nbsp;&nbsp;├─ dentro do mesmo quintil de spend<br>&nbsp;&nbsp;├─ dentro do mesmo tipo de dia (útil / fim de semana)<br>&nbsp;&nbsp;└─ dentro da mesma fase de campanha<br>→ bootstrap de 2.000 reamostragens · checagem: o spend precisa ficar igual entre os grupos</div>
+    <div class="method">
+      <p>Quando o spend fica igual, a diferença não é dinheiro. Quando não fica, o "efeito" é a mídia — e é exatamente o que acontece com um dos canais. Onde havia dado individual (as sabatinas estão na plataforma), o desenho migrou para pessoa-dia com placebo de conteúdo, o que tem muito mais poder.</p>
+      <p>A lição de método mais cara veio no fim: <strong>controlar o spend do mês do indicador não basta quando o indicador antecede o próprio spend</strong>. Foi isso que desfez o "lead" do Share of Search.</p>
+    </div>
+
+    <h2 id="sabatinas">As sabatinas</h2>
+    <p class="kicker">02 · Renan Santos 14/08 · Pablo Marçal 17/08 · 9 sabatinas na plataforma</p>
+    <details class="conta" open>
+      <summary>Como é feita a conta — sabatinas (agregado e individual)</summary>
+      <div class="body">
+<ul>
+  <li><b>Agregado — estudo de evento.</b> Para cada série <span class="num">y</span>, ajusta-se por mínimos quadrados <span class="num">log1p(y) ~ dia-da-semana + mês + log1p(spend) + em_venda + em_aquecimento + tendência</span>, treinando só fora das janelas de evento (D−1..D+7). Lift = média do resíduo em D0..D+2. Significância por <em>placebo</em>: a mesma média em todas as janelas de 3 dias fora dos eventos; reporta-se o percentil do lift observado nessa distribuição. IRO = média dos z-scores dos resíduos de direct, busca orgânica, vídeo orgânico, leads orgânicos e receita orgânica.</li>
+  <li><b>Individual — pessoa-dia.</b> Unidade = pessoa (e-mail) × dia com ≥ 5 min assistidos em <span class="num">obt_kafka__view_sessions</span>. Tratado = assistiu a playlist <em>BP nas Eleições</em> naquele dia; comparadores = top-8 playlists por audiência ("conteúdo popular") e o restante ("outro").</li>
+  <li><b>Estratos.</b> status (freemium vs membro) × dias ativos nos 30 dias <em>anteriores</em> (1–2 leve · 3–8 médio · 9+ heavy). Excluem-se pessoa-dias com qualquer compra nos 60 dias anteriores (quem acabou de comprar não recompra) e o estrato "sem atividade prévia" (causalidade reversa: quem compra hoje assiste hoje).</li>
+  <li><b>Desfecho.</b> ≥ 1 compra aprovada e não-renovação em D+1..D+14 (join por e-mail via <span class="num">dim_contact</span>). D+0 fica fora. Lift = taxa(tratado) ÷ taxa(comparador); p pelo teste exato de Fisher; RPP = receita em 14 dias ÷ pessoa-dias.</li>
+  <li><b>IAC-14.</b> Mesma máquina, por playlist: membros de engajamento leve/médio sem compra em 60d; RPP-14 da playlist ÷ mediana do catálogo (playlists com ≥ 500 pessoa-dias). Sabatina R$ 30,75 ÷ R$ 15,54 = 1,98×.</li>
+</ul>
+<div class="f">lift_estrato = P(compra D+1..D+14 | viu sabatina) / P(compra D+1..D+14 | viu comparador)
+IAC-14       = RPP14(playlist) / mediana_catálogo(RPP14)      com RPP14 = Σ receita_D+1..D+14 / pessoa-dias</div>
+<p class="src">Fontes: obt_kafka__view_sessions (vl_watch_time_seconds ≥ 300) · fct_transactions · dim_contact · queries 12–15 · scripts event_study.py, detectar_picos.py</p>
+</div>
+    </details>
+
+    <p>A hipótese levantada era que relevância baixa a resistência na adesão. No agregado ela não se sustenta: nenhuma série cruzou o percentil 95 do placebo, e o índice de atenção orgânica nas datas ficou em <span class="num">0,19</span> e <span class="num">0,45</span> contra <span class="num">1,0–1,8</span> nos picos reais do ano. A receita alta veio de spend <span class="num">+55–81%</span> na campanha de aniversário; dentro de cada campanha, o ROAS <strong>caiu em 6 de 8</strong> ao escalar — saturação normal, o oposto de resistência menor.</p>
+    <p>No nível individual, com placebo de playlist, estratificação por engajamento prévio e controle de compra recente, o efeito existe — e é o inverso do proposto:</p>
+    <div class="facts" id="facts-sabatinas"></div>
+    <p>Relevância pública <strong>ativa a base morna, não reduz resistência de aquisição</strong>. Distribuir sabatina como topo de funil para não-membro não é sustentado. Os viewers de sabatina tinham taxa de compra prévia <em>menor</em> que os comparadores (<span class="num">14,8%</span> vs <span class="num">22,2%</span>) — não é seleção.</p>
+    <div class="flag neutral">
+      <span class="lbl">Ressalva em aberto</span>
+      <p><em>BP Entrevista</em> — formato irmão, sem pauta eleitoral — pontua <span class="num">2,70×</span> no índice de ativação, acima do <span class="num">1,98×</span> da sabatina. O motor pode ser o <strong>formato entrevista</strong>, não a relevância eleitoral.</p>
+    </div>
+  </div>
+
+  <div class="col">
+    <h2 id="canais">Qual canal orgânico anda com as vendas</h2>
+    <p class="kicker">03 · 385 dias · cada canal testado contra ele mesmo</p>
+    <details class="conta" open>
+      <summary>Como é feita a conta — canais orgânicos, elasticidade e métricas de eficiência</summary>
+      <div class="body">
+<ul>
+  <li><b>Efeito por canal</b> = pareamento por spend da seção 01, um teste independente por canal, sempre o canal contra ele mesmo (nunca canal contra canal — as escalas diferem em duas ordens de grandeza).</li>
+  <li><b>Dose.</b> razão média de sessões entre os grupos alta e baixa, ponderada por estrato (YouTube 2,7× · social 1,8×).</li>
+  <li><b>Elasticidade.</b> ln(efeito) ÷ ln(dose) — efeito por variação proporcional de audiência; é a única régua comparável entre canais.</li>
+  <li><b>Métricas de eficiência.</b> CAC de ads = spend_total ÷ transações atribuídas a ads (<span class="num">nm_pptc_tracking_publisher</span> ∈ {Facebook Ads, Adwords}). ROAS = receita_total ÷ spend_total. Conversão por sessão = 1.000 × transações digitais ÷ sessões GA4 totais. Ticket = receita ÷ transações.</li>
+</ul>
+<div class="f">elasticidade_tx  = ln( tx_alta / tx_baixa ) / ln( sessões_alta / sessões_baixa )
+CAC_ads          = spend_total / tx_ads
+conv_1k          = 1000 · tx_digital / sessions_total</div>
+<p class="src">Fontes: ga4_sessions_canal.csv (385 dias) · serie_vendas.csv (query 02) · spend.csv (query 03) · script teste_pareado_spend.py</p>
+</div>
+    </details>
+
+    <p>Os cinco canais nunca são comparados entre si em nível — as escalas diferem em duas ordens de grandeza (social orgânico é <span class="num">69×</span> o YouTube). Cada linha compara dias de audiência alta contra baixa <em>do mesmo canal</em>, dentro do mesmo estrato.</p>
+  </div>
+
+  <figure>
+    <p class="fig-title">Onde cada canal orgânico cai</p>
+    <p class="fig-sub">Volume × eficiência · spend pareado</p>
+    <div class="plot-wrap" id="fig-canais"></div>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--pos)"></i> CAC melhora (p&lt;0,01)</span>
+      <span><i class="swatch hollow"></i> sem efeito de eficiência</span>
+      <span><i class="swatch" style="background:var(--neg)"></i> CAC piora (p&lt;0,01)</span>
+    </div>
+    <figcaption>Social orgânico é o único ponto no quadrante inferior — e o único cujo spend não pareou (+16,8%): sua aparente receita extra é orçamento. É clique de link na bio, que sobe com a campanha.</figcaption>
+  </figure>
+
+  <div class="tablewrap">
+    <table>
+      <caption>Resultado completo · dias de audiência alta vs baixa, pareado por spend × dia × fase · elasticidade = ln efeito ÷ ln dose</caption>
+      <thead><tr><th scope="col">Canal orgânico</th><th scope="col">Transações</th><th scope="col">CAC de ads</th><th scope="col">Conv/1k sessões</th><th scope="col">Elast. tx</th><th scope="col">Elast. CAC</th><th scope="col">Spend pareou?</th></tr></thead>
+      <tbody id="tbl-canais"></tbody>
+    </table>
+  </div>
+
+  <div class="col">
+    <p style="margin-top:1.2rem">Normalizado pela dose, <strong>YouTube e busca orgânica empatam</strong> (elasticidade de CAC −0,128 vs −0,130). A vantagem do YouTube é ser termômetro: canal pequeno e volátil, move-se mais cedo. Busca orgânica traz ticket 11% menor — mais gente, de compra menor.</p>
+    <div class="flag">
+      <span class="lbl">Consequência prática</span>
+      <p>Engajamento e alcance de rede social não servem como termômetro comercial de marca. A correlação com spend é <span class="num">0,861</span>: é uma medida de orçamento com outro nome.</p>
+    </div>
+
+    <h2 id="mcac">Custo marginal: a próxima venda fica mais barata?</h2>
+    <p class="kicker">04 · 1.069 saltos de budget · contrafactual de campanhas estáveis do mesmo dia</p>
+    <details class="conta" open>
+      <summary>Como é feita a conta — mCAC por saltos naturais de budget</summary>
+      <div class="body">
+<ol>
+  <li><b>Evento.</b> Para cada campanha Meta e dia t: pré = média de spend e vendas em t−3..t−1; pós = média em t..t+2. É salto se |spend_pós ÷ spend_pré − 1| ≥ 25% e a base pré é estável (coeficiente de variação ≤ 0,35).</li>
+  <li><b>Contrafactual.</b> Campanhas do mesmo dia com |Δspend| ≤ 10% (≥ 5 delas) formam o controle; ratio_ctrl = mediana de (vendas_pós ÷ vendas_pré) entre elas — absorve o choque de demanda comum do dia.</li>
+  <li><b>Vendas esperadas e ajuste.</b> vendas_esp = vendas_pré × ratio_ctrl; Δvendas_adj = vendas_pós − vendas_esp.</li>
+  <li><b>mCAC.</b> Δspend do bloco de 3 dias ÷ Δvendas_adj do bloco, só quando spend e vendas se movem no mesmo sentido e |Δvendas| &gt; 0,5; filtro 0 &lt; mCAC &lt; R$ 5.000. Validado contra o pooling oficial da wiki (PPT-up R$ 195 vs R$ 188).</li>
+  <li><b>Cruzamento com relevância.</b> Cada salto recebe a audiência relativa do dia (sessões ÷ mediana móvel de 8 semanas do mesmo dia-da-semana) ou o z do SoS da semana. Saltos são divididos pela mediana em alta/baixa; comparam-se as medianas de mCAC (Mann-Whitney) e a razão de médias por bootstrap.</li>
+</ol>
+<div class="f">ratio_ctrl(t)  = mediana_{c ∈ estáveis(t)} [ vendas_pós_c / vendas_pré_c ]
+Δvendas_adj    = vendas_pós − vendas_pré · ratio_ctrl(t)
+mCAC           = 3 · (spend_pós − spend_pré)  /  3 · Δvendas_adj</div>
+<p class="src">Fontes: dtm_analytics_facebook_ads_funnel por campanha-dia (query 17; 1.036 campanhas, R$ 42M) · script mcac_vs_audiencia.py · método: midia-paga/VALIDACOES.md, Hartmann–Nair–Narayanan 2011</p>
+</div>
+    </details>
+
+    <p>CAC médio não é custo marginal. Para o custo da venda <em>adicional</em>, cada <span class="num">|Δspend| ≥ 25%</span> sobre base estável é um evento, e o contrafactual são as campanhas estáveis do mesmo dia — método já validado no estudo de mídia paga. Bate com a referência em 3 de 4 segmentos (PPT-up <span class="num">R$ 195</span> vs <span class="num">R$ 188</span>).</p>
+    <div class="tablewrap">
+      <table>
+        <caption>mCAC dos saltos em dias/semanas de relevância alta vs baixa</caption>
+        <thead><tr><th scope="col">Indicador · recorte</th><th scope="col">n</th><th scope="col">mCAC baixa</th><th scope="col">mCAC alta</th><th scope="col">Δ</th><th scope="col">p</th></tr></thead>
+        <tbody id="tbl-mcac"></tbody>
+      </table>
+    </div>
+    <p style="margin-top:1.2rem">O sinal em campanhas de venda com o proxy de YouTube vai na direção esperada, mas o IC atravessa zero (<span class="num">[−36%, +22%]</span>). Com o Share of Search, nada. E campanhas de captação <em>invertem</em> — hipótese, n=55. <strong>Não há base para uma regra de bidding.</strong> A audiência real do YouTube (views do canal) não existe no warehouse; a integração está pronta e bloqueada por permissão.</p>
+
+    <h2 id="fontes">O que mais mede relevância por dia</h2>
+    <p class="kicker">05 · 11 candidatos · critério: série + independência de spend + sinal</p>
+    <details class="conta" open>
+      <summary>Como é feita a conta — inventário de indicadores</summary>
+      <div class="body">
+<ul>
+  <li><b>ρ com spend</b> = Spearman bruto entre o indicador e <span class="num">spend_total</span> diário. |ρ| &lt; 0,30 = independente · 0,30–0,55 = meio confundido · &gt; 0,55 = mede orçamento.</li>
+  <li><b>Resíduo do indicador e dos alvos</b> = <span class="num">log1p(x) ~ dia-da-semana + mês + log1p(spend) + em_venda + em_aquecimento + tendência</span> (mesma especificação para todos).</li>
+  <li><b>ρ→vendas</b> = Spearman(resíduo indicador, resíduo transações). <b>ρ→CAC</b> = Spearman(resíduo indicador, resíduo CAC de ads); negativo é bom.</li>
+  <li><b>Veredito.</b> ★ volume + eficiência quando ambos são significativos (p &lt; 0,05) nos sinais certos; "só volume" quando apenas vendas; "sem sinal" quando nenhum; "mede orçamento" quando |ρ spend| &gt; 0,55, independentemente do resto.</li>
+</ul>
+<p class="src">Fontes novas: Wikipedia via wikimedia.org/api/rest_v1 (pt.wikipedia, artigo Brasil Paralelo, agent=user) · Google Ads campanhas [KW] Institucional (query 18) · dim_zenvia_contacts (query 19) · script avaliar_fontes.py</p>
+</div>
+    </details>
+
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <caption>Indicadores diários · ρ com spend (|ρ|&lt;0,30 = independente) · ρ com resíduo de vendas e CAC, controlado por mídia e calendário</caption>
+      <thead><tr><th scope="col">Indicador</th><th scope="col">Fonte</th><th scope="col">ρ c/ spend</th><th scope="col">ρ→vendas</th><th scope="col">ρ→CAC</th><th scope="col">Veredito</th></tr></thead>
+      <tbody id="tbl-fontes"></tbody>
+    </table>
+  </div>
+
+  <div class="col">
+    <div class="flag good">
+      <span class="lbl">Descoberta</span>
+      <p><strong>Wikipedia.</strong> O verbete da BP tem série diária pela API pública da Wikimedia — grátis, sem autenticação. Ninguém compra tráfego para a Wikipedia, então é estruturalmente imune ao confundidor de mídia. Segundo melhor sinal de eficiência da lista. Volume baixo (mediana 96 views/dia): ler em média móvel de 7 dias. O pico de 04/06/2026 aparece simultaneamente no Trends e na Wikipedia.</p>
+    </div>
+    <p>Impressões de busca de marca no Google Ads não servem: impressão depende de lance e budget, não do volume de busca. O campo que resolveria isso — <em>impression share</em> — não existe no datamart. O caminho é o Search Console. Zenvia e leads orgânicos medem demanda, não eficiência.</p>
+
+    <h2 id="sos">Share of Search: a métrica de mercado</h2>
+    <p class="kicker">06 · 260 semanas · 3 denominadores · backtest de 59 meses</p>
+    <details class="conta" open>
+      <summary>Como é feita a conta — Share of Search — coleta, escala e backtest</summary>
+      <div class="body">
+<ol>
+  <li><b>Coleta.</b> pytrends, geo BR, 01/09/2021–20/08/2026 (5 anos → semanal). Três payloads: P1 = [brasil paralelo + 4 mídias]; P2 = [brasil paralelo, globoplay]; P3 = [netflix, prime video, globoplay, disney plus]. O Trends normaliza cada payload a 0–100 pelo seu máximo — por isso a BP não pode ir no mesmo payload que a Netflix.</li>
+  <li><b>Escala comum (encadeamento).</b> fator = média(globoplay em P3) ÷ média(globoplay em P2); BP_escala = BP_P2 × fator. Depois fator_mídias = média(BP_escala) ÷ média(BP_P1); mídias_escala = mídias_P1 × fator_mídias. Tudo passa a estar na escala de P3.</li>
+  <li><b>Share.</b> SoS_x = 100 × BP ÷ (BP + Σ categoria x), por semana; mensal = média das semanas.</li>
+  <li><b>Destendenciamento.</b> z = (x − média móvel 12 meses) ÷ desvio-padrão 12 meses (mínimo 6 meses). Alternativa testada: Δlog mês a mês.</li>
+  <li><b>Backtest.</b> Spearman entre z(SoS_t) e z(alvo_{t+lead}), lead 0–6; subperíodos 2021-23 e 2024-26.</li>
+  <li><b>Controle de spend (o passo decisivo).</b> Correlação parcial: regride-se z(SoS_t) e z(alvo_{t+1}) em z(spend_t) — e depois também em z(spend_{t+1}) — e correlaciona-se os resíduos. Spend mensal = soma da planilha histórica Meta (2022-06→2026-06; subreporta até −32%, usada como piso).</li>
+</ol>
+<div class="f">SoS_todos = 100 · BP / ( BP + Σ mídias + Σ streamings )
+z_t       = ( x_t − MM12_t ) / DP12_t
+ρ_parcial = Spearman( resid[z(SoS_t) ~ z(spend_t), z(spend_t+1)],  resid[z(tx_t+1) ~ z(spend_t), z(spend_t+1)] )</div>
+<p class="src">Fontes: Google Trends via pytrends · receita_mensal.csv (query 20, 59 meses) · planilha histórica de spend Meta · scripts share_of_search.py, sos_backtest.py, sos_controle_spend.py, sos_vs_resultado.py</p>
+</div>
+    </details>
+
+    <p>É o padrão consolidado (IPA/Binet 2020; Hankins: ~83% do market share em 30 casos, lead de 6–12 meses). Exige um denominador de categoria. Construímos três, com âncora encadeada BP↔Globoplay↔Netflix para o Trends não zerar a BP contra os grandes:</p>
+    <div class="facts" id="facts-sos"></div>
+    <p>O backtest inicial passou com folga: SoS(t) × transações(t+1) = <span class="num">+0,55</span>, estável nos dois subperíodos, sobrevivendo ao controle do spend do mês do SoS. Parecia o primeiro indicador com <strong>lead</strong>. Não era.</p>
+  </div>
+
+  <figure>
+    <p class="fig-title">O lead que desapareceu</p>
+    <p class="fig-sub">SoS-todos(t) × transações(t+1) · Spearman · z vs média móvel 12m · n=42</p>
+    <div class="plot-wrap" id="fig-lead"></div>
+    <figcaption>O SoS antecede o nosso próprio spend (+0,62 em t+1, +0,55 em t+2, +0,42 em t+3): depois de um bom momento de marca, a empresa escala mídia, as vendas sobem junto — e o ROAS cai nos três meses seguintes (−0,45, −0,43, −0,34). O "lead" era isso.</figcaption>
+  </figure>
+
+  <div class="col">
+    <p>O que sobrevive é o <strong>contemporâneo</strong>: SoS(t) × transações(t) controlado por spend = <span class="num">+0,58</span>, com 5 anos de história — o melhor indicador coincidente do programa. Eficiência: nada em nenhuma frequência com spend real (CAC semanal ns, mCAC ns). Ticket médio cai quando o SoS sobe (<span class="num">−0,59</span>).</p>
+    <div class="flag neutral">
+      <span class="lbl">Leitura útil para mídia</span>
+      <p>Historicamente, depois de um SoS alto, escalamos e o ROAS caiu por três meses. Vale checar se a escala que se segue a um bom momento está sendo calibrada pelo mCAC ou pelo entusiasmo.</p>
+    </div>
+
+    <h2 id="bolo">Fatia vs bolo</h2>
+    <p class="kicker">07 · a crítica clássica ao share, confirmada nos dados</p>
+    <details class="conta" open>
+      <summary>Como é feita a conta — fatia vs bolo</summary>
+      <div class="body">
+<ul>
+  <li><b>Identidade.</b> Na escala encadeada, busca_BP = SoS × bolo, com bolo = BP + Σ categoria. Em logs: log(BP) = log(SoS) + log(bolo).</li>
+  <li><b>Decomposição de variância.</b> Sobre variações mês a mês: contribuição da fatia = cov(Δlog SoS, Δlog BP) ÷ var(Δlog BP); idem para o bolo. As duas somam 1. Também se reporta corr(Δlog SoS, Δlog bolo).</li>
+  <li><b>Episódio recente.</b> Média das últimas 4 semanas ÷ média de todas as semanas anteriores, para BP, bolo, SoS e cada concorrente.</li>
+  <li><b>Qual componente move vendas.</b> z vs MM12 de cada componente (fatia, bolo, fatia×bolo) × z de transações, receita, CAC e ticket, contemporâneo, com correlação parcial controlando z(spend_t).</li>
+</ul>
+<div class="f">log(BP_t) = log(SoS_t) + log(bolo_t)
+contrib_fatia = cov(Δlog SoS, Δlog BP) / var(Δlog BP)  = 72% (mídias)
+contrib_bolo  = cov(Δlog bolo, Δlog BP) / var(Δlog BP) = 28% (mídias)</div>
+<p class="src">Fontes: share_of_search.csv · receita_mensal.csv · planilha de spend · script sos_decomposicao_bolo.py. Ressalva: Trends é índice relativo — o bolo em volume absoluto exige Keyword Planner ou Search Console.</p>
+</div>
+    </details>
+
+    <p>Um share pode crescer porque a categoria encolheu. O SoS-mídias recorde de agosto é exatamente isso:</p>
+  </div>
+
+  <figure>
+    <p class="fig-title">A fatia recorde é o bolo encolhendo</p>
+    <p class="fig-sub">Índice Trends (escala encadeada) · histórico 5 anos vs últimas 4 semanas</p>
+    <div class="plot-wrap" id="fig-bolo"></div>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--nil);opacity:.45"></i> histórico 5 anos</span>
+      <span><i class="swatch" style="background:var(--neg)"></i> últimas 4 semanas (queda)</span>
+      <span><i class="swatch" style="background:var(--pos)"></i> últimas 4 semanas (alta)</span>
+    </div>
+    <figcaption>A BP caiu 24%; a categoria caiu 59% (Jovem Pan −62%, O Antagonista −71%, Oeste −54%, Gazeta −52%). A fatia sobe porque os outros caíram mais. Lido sozinho, o 12,2% seria uma boa notícia falsa.</figcaption>
+  </figure>
+
+  <div class="col">
+    <p>Decompondo a variação da busca da BP em mídias: <span class="num">72%</span> vem da fatia e <span class="num">28%</span> do bolo, com correlação <strong>negativa</strong> entre os dois (<span class="num">−0,33</span>) — quando a categoria cai, nossa fatia sobe mecanicamente.</p>
+    <p>E, ainda assim, <strong>é a fatia que anda com vendas, não o bolo</strong> (contemporâneo, controlado por spend): SoS-todos × transações <span class="num">+0,58</span>; bolo × transações <span class="num">−0,28</span>, não significativo. O share carrega o sinal. Mas o nível do share não pode ser lido sozinho.</p>
+    <div class="flag">
+      <span class="lbl">Regra de reporte</span>
+      <p>Um relatório de Share of Search tem três linhas obrigatórias: <strong>fatia, bolo e fatia×bolo</strong>. Hoje elas dizem coisas opostas — fatia recorde, bolo e BP em queda — e é exatamente esse desencontro que importa. O Trends é índice relativo; volume absoluto de buscas exige Keyword Planner ou Search Console.</p>
+    </div>
+
+    <h2 id="usar">O que usar daqui para frente</h2>
+    <p class="kicker">08 · e o que não usar</p>
+    <details class="conta" open>
+      <summary>Como é feita a conta — definições operacionais das métricas</summary>
+      <div class="body">
+<ul>
+  <li><b>Termômetro diário</b> (YouTube orgânico, busca orgânica, Wikipedia): desvio do dia contra a média móvel de 28 dias, lido dentro da faixa de spend corrente — nunca em nível absoluto. Wikipedia em média móvel de 7 dias por volume baixo.</li>
+  <li><b>SoS mensal</b>: três linhas obrigatórias — fatia (SoS), bolo (índice da categoria) e fatia×bolo (busca BP) — cada uma em z vs MM12. Leitura de regime, não previsão.</li>
+  <li><b>IAC-14</b>: RPP-14 da playlist ÷ mediana do catálogo, recalculado mensalmente com a janela móvel dos últimos 6 meses; só membros de engajamento leve/médio sem compra em 60 dias.</li>
+</ul>
+<div class="f">termômetro_t = ( x_t − MM28_t ) / DP28_t          (por indicador, sem combinar — não há fator único)
+SoS_report   = { z(SoS), z(bolo), z(BP) }           (as três, sempre juntas)</div>
+</div>
+    </details>
+
+    <h3>Usar</h3>
+    <p><strong>Share of Search mensal</strong> como termômetro coincidente de regime, sempre com as três linhas (fatia, bolo, fatia×bolo), z vs média móvel de 12 meses. Não como previsão.</p>
+    <p><strong>YouTube orgânico + busca orgânica + Wikipedia</strong> como painel diário de relevância — três fontes independentes entre si, cada uma lida contra a própria média móvel de 28 dias. Quando estão no topo, o mesmo orçamento entrega ~25% mais transações com CAC ~10% menor.</p>
+    <p><strong>IAC-14 por playlist</strong> para decidir que conteúdo pautar para a base morna: receita por pessoa-dia nos 14 dias seguintes ao consumo ÷ mediana do catálogo. Sabatina 1,98×, BP Entrevista 2,70×.</p>
+    <h3>Não usar</h3>
+    <p>Engajamento ou alcance de rede social como prova de relevância comercial. Impressões de busca de marca do Google Ads. Qualquer share sem o bolo ao lado. Qualquer destes indicadores como previsão de vendas — todos são coincidentes.</p>
+
+    <h2 id="plano">Plano</h2>
+    <p class="kicker">09 · cinco fases · decisões marcadas</p>
+    <details class="conta" open>
+      <summary>Como é feita a conta — critérios de sucesso e de corte do plano</summary>
+      <div class="body">
+<ul>
+  <li><b>Fase 1</b> — passa se ρ(SoS_t, vendas_{t+lead}) ≥ 0,4 em algum lead 0–6 meses, estável nos subperíodos <em>e</em> após controlar spend_t e spend_{t+lead}. Resultado: passa só no lead 0 (coincidente).</li>
+  <li><b>Fase 2</b> — cada fonte nova passa pelo mesmo crivo da seção 05 (ρ com spend, ρ→vendas, ρ→CAC) antes de entrar no painel.</li>
+  <li><b>Fase 4</b> — gate de viabilidade: existe spend por região? Só então desenho GeoLift com holdout de 2–4 UFs por 4–6 semanas e efeito medido em vendas orgânicas e CAC.</li>
+  <li><b>Fase 5</b> — UCM decompõe vendas em baseline (lento) + incremental (mídia); a métrica de marca entra como regressor do <em>baseline</em> e da <em>eficiência</em>, nunca direto na equação de vendas.</li>
+</ul>
+</div>
+    </details>
+
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <caption>Programa de medição de relevância</caption>
+      <thead><tr><th scope="col">Fase</th><th scope="col">O quê</th><th scope="col">Status / bloqueio</th></tr></thead>
+      <tbody id="tbl-plano"></tbody>
+    </table>
+  </div>
+
+  <footer>
+    Fontes: GA4 (property 378996649) · BigQuery <span class="num">fct_transactions</span>, <span class="num">obt_kafka__view_sessions</span>, funis Meta/Google/PMax, Zenvia · Google Trends BR · API Wikimedia · planilha histórica de spend Meta (2022–2026, subreporta até −32%, usada como piso).<br>
+    Métodos: pareamento estratificado com bootstrap 2.000; placebo sobre janelas de 3 dias; Fisher exato no teste individual; saltos de budget |Δ|≥25% com contrafactual de campanhas estáveis; correlação parcial em z vs MM12.<br>
+    Referências: Binet &amp; Field · Binet/Hankins (IPA, share of search) · Choi &amp; Varian 2012 · Moat, Curme &amp; Preis 2013 · Blake, Nosko &amp; Tadelis 2015 · Lewis &amp; Rao 2015 · Gordon, Moakler &amp; Zettelmeyer 2023 · Brodersen et al. 2015 · Cain/Marketscience (brand em MMM).<br>
+    Limites: spend Meta no BQ só desde 01/08/2025; audiência real do YouTube ainda não disponível; Trends é índice relativo.<br>
+    Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span>
+  </footer>
+  </div>
+
+  <div id="aba-revisao" role="tabpanel" aria-labelledby="tab-revisao" hidden>
+    <div class="col">
+      <p class="eyebrow">O pedido · 21 ago 2026</p>
+      <blockquote style="margin:0 0 2rem;padding:0 0 0 1.2rem;border-left:2px solid var(--rule);font-size:1.05rem;line-height:1.55;color:var(--ink-2);max-width:40rem">
+        "Quero medir e entender o quanto a nossa relevância no meio público gera um lift nas nossas vendas. Um ponto que levantaram é que talvez a relevância de marca baixa a resistência na adesão. Como a gente consegue fazer essa análise? Às vezes sai uma métrica interessante de se acompanhar."
+      </blockquote>
+
+      <div class="rev-verdict">
+        <span class="lbl">Resposta em uma frase</span>
+        <p>A relevância pública <strong>anda junto</strong> com dias melhores de venda — mesmo orçamento, mais transações e aquisição mais barata — mas <strong>não antecede</strong> vendas e <strong>não é possível dizer quanto ela causa</strong> com os dados que temos. A hipótese da resistência menor está <strong>correlacionalmente sustentada</strong>: a mesma visita, inclusive a paga, converte melhor em dias de relevância alta, e isso sobrevive a spend, tráfego e semana. Não apareceu como efeito das sabatinas, e a causalidade segue em aberto.</p>
+      </div>
+
+      <h2>1. Quanto a relevância gera de lift?</h2>
+      <p class="kicker">a pergunta central</p>
+      <p><strong>Não dá para dizer quanto — e isso não é falha de esforço, é limite do dado.</strong> Tudo o que temos é observacional: relevância e vendas são medidas no mesmo mundo, movidas pelas mesmas campanhas. Dá para dizer que andam juntas e o quanto andam juntas; não dá para dizer quanto uma causa a outra.</p>
+      <p>O número mais próximo do que você pediu: em dias com muitas <strong>sessões no nosso site vindas do YouTube</strong> (GA4 "Organic Video" — cliques do YouTube para o nosso domínio sem marcação paga; mediana 767/dia; <em>não</em> são views do canal), <strong>com o mesmo orçamento de mídia</strong>, temos <span class="num">+24,7%</span> de transações <strong>no total</strong> (todos os canais: Comercial +14,6%, ads +17,5%, orgânico +43%, CRM +50%) e CAC <strong>de ads</strong> (spend ÷ transações atribuídas a Facebook/Google) <span class="num">11,9%</span> menor (IC95 −16% a −6%); por transação total, o mesmo real de mídia rende <span class="num">15,8%</span> mais. Na busca orgânica (GA4 "Organic Search" — cliques em resultado não pago do Google), <span class="num">+21,9%</span> e <span class="num">−9,2%</span>. É a melhor estimativa de associação que o estudo produz — e é isso que ela é: associação, com o orçamento pareado, não efeito.</p>
+      <p>O único jeito de obter o número causal é um <strong>geo lift</strong>: variar mídia por região durante 4–6 semanas e medir vendas e CAC nas praças de controle. Exige spend por região (não existe no datamart hoje) e um sponsor, porque custa receita no trimestre. Está como Fase 4 do plano.</p>
+
+      <h2>2. A relevância baixa a resistência na adesão?</h2>
+      <p class="kicker">a hipótese do time</p>
+      <p>Três respostas, porque a pergunta tem três leituras:</p>
+      <ul style="max-width:40rem;line-height:1.6;color:var(--ink-2)">
+        <li><strong>Para as sabatinas, não.</strong> A receita alta de 14–19/08 veio de spend <span class="num">+55–81%</span>; dentro de cada campanha o ROAS caiu em 6 de 8 ao escalar. Nenhuma série de atenção ou venda saiu do ruído.</li>
+        <li><strong>No dia a dia, a correlação existe e é robusta.</strong> Em dias com muitas sessões vindas do YouTube, com orçamento e tráfego iguais, a mesma visita converte melhor: <span class="num">+28,8%</span> por sessão digital e <span class="num">+12,7%</span> por sessão <em>paga</em> — a audiência que veio de anúncio, não de interesse prévio. Sobrevive a efeito fixo de semana (β +0,192, t 7,8): não é "semana de lançamento bom". É resistência menor por definição; o que falta é causalidade — um evento do dia pode mover as duas coisas ao mesmo tempo.</li>
+        <li><strong>Onde há desenho quase-causal, o efeito é outro.</strong> Quem assiste uma sabatina compra <span class="num">1,44–1,65×</span> mais nos 14 dias seguintes — <em>se já é membro morno</em>. Em freemium, nada. Relevância <strong>ativa a base</strong>; não reduz a resistência de quem está fora.</li>
+      </ul>
+      <h3>Não é volume de tráfego — é conversão</h3>
+      <p>Nos dias de relevância alta, <strong>o tráfego total do site não muda</strong> (+2,4%, ns): o orgânico sobe 26% mas é só um quarto das sessões. O que muda é a conversão — <span class="num">+28,8%</span> por sessão digital e <span class="num">+12,7%</span> por sessão <em>paga</em>. A mesma visita converte melhor, inclusive a que a mídia trouxe; por isso o CAC cai sem precisar de mais gente na porta. Boa parte do nosso tráfego orgânico é membro entrando para assistir, não prospect — mais orgânico não é mais prospecção. A implicação é a inversa da intuição: dia de relevância alta não é dia de comprar menos tráfego, é dia em que o real de mídia rende mais.</p>
+      <div class="flag neutral">
+        <span class="lbl">Ressalva</span>
+        <p>Spend foi controlado em toda análise, mas sobra um confundidor que spend não captura: um <em>lançamento bom</em> gera atenção orgânica e vendas ao mesmo tempo. É por isso que a associação diária não vira efeito.</p>
+      </div>
+
+      <h2>3. Como fazer essa análise?</h2>
+      <p class="kicker">o método, em três peças</p>
+      <p><strong>Pareamento por orçamento</strong> para o dia a dia: comparar dias de atenção alta e baixa só dentro do mesmo nível de spend, tipo de dia e fase de campanha — e checar que o spend ficou igual. Foi esse teste que mostrou que "social orgânico" é orçamento disfarçado (spend não pareia: <span class="num">+16,8%</span>).</p>
+      <p><strong>Pessoa-dia com placebo</strong> quando há dado individual: quem assistiu X versus quem assistiu conteúdo igualmente popular, no mesmo dia, mesmo engajamento prévio, sem compra recente, desfecho em D+1 a D+14. É o desenho mais forte do estudo.</p>
+      <p><strong>Controle do orçamento futuro</strong> quando o indicador é mensal: o Share of Search parecia antecipar vendas em um mês (<span class="num">+0,55</span>); controlando o spend do mês seguinte, cai para <span class="num">+0,18</span>. Antecipava a nossa própria decisão de escalar. Sem esse controle, a conclusão sairia errada.</p>
+      <p>Tudo está reproduzível na aba Relatório, com a conta de cada seção.</p>
+
+      <h2>4. Que métrica acompanhar?</h2>
+      <p class="kicker">todas coincidentes — termômetro, não previsão</p>
+      <ul style="max-width:40rem;line-height:1.6;color:var(--ink-2)">
+        <li><strong>Share of Search mensal, em três linhas</strong>: fatia (SoS), bolo (categoria) e fatia×bolo (busca BP). Nunca a fatia sozinha — o recorde de agosto (<span class="num">12,2%</span>) é o bolo encolhendo <span class="num">59%</span>, não a BP crescendo.</li>
+        <li><strong>Painel diário</strong>: YouTube orgânico, busca orgânica e Wikipedia, cada um contra a própria média móvel. São independentes entre si — não há um "índice de relevância" único, e combinar piora.</li>
+        <li><strong>IAC-14 por conteúdo</strong>: receita por pessoa-dia nos 14 dias após o consumo. Diz que conteúdo pautar para a base morna. Sabatina <span class="num">1,98×</span>; BP Entrevista <span class="num">2,70×</span>.</li>
+      </ul>
+      <p>E uma leitura que não estava no pedido mas saiu dele: <strong>depois de um bom momento de marca, historicamente escalamos e o ROAS caiu por três meses.</strong> Para o time de mídia, a pergunta útil não é "a relevância baixa o CAC?", e sim "estamos escalando pelo mCAC ou pelo entusiasmo?".</p>
+
+      <h2>O que não use</h2>
+      <p class="kicker">para não repetir o erro</p>
+      <p>Engajamento ou alcance de rede social como prova de relevância comercial. Impressões de busca de marca do Google Ads. Qualquer share sem o bolo ao lado. Qualquer destes indicadores como previsão de vendas.</p>
+
+      <h2>Próximo passo</h2>
+      <p class="kicker">para ter o número que o pedido queria</p>
+      <p>Dois pedidos de acesso destravam a medição de relevância pública de verdade — <strong>Search Console</strong> (volume real de busca pela marca) e <strong>YouTube Studio</strong> (views do canal). E o geo lift é a única via para o "quanto". O resto está no plano.</p>
+    </div>
+  </div>
+</div>
+
+<div id="tip" role="status" aria-live="polite"></div>
+
+<script>
+/* ── abas ── */
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  function activate(tab, push) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.setAttribute('tabindex', on ? '0' : '-1');
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (push) { try { history.replaceState(null, '', '#' + tab.getAttribute('aria-controls').replace('aba-', '')); } catch (e) {} }
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { activate(t, true); });
+    t.addEventListener('keydown', function (e) {
+      var j = e.key === 'ArrowRight' ? (i + 1) % tabs.length : e.key === 'ArrowLeft' ? (i - 1 + tabs.length) % tabs.length : -1;
+      if (j >= 0) { e.preventDefault(); tabs[j].focus(); activate(tabs[j], true); }
+    });
+  });
+  var h = (location.hash || '').replace('#', '');
+  var start = tabs.filter(function (t) { return t.getAttribute('aria-controls') === 'aba-' + h; })[0];
+  if (start) activate(start, false);
+})();
+
+/* ── render a partir do data.json ── */
+function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function cls(c) { return c ? ' class="v-' + c + '"' : ''; }
+
+function renderFacts(el, items) {
+  el.innerHTML = items.map(function (f) {
+    var color = f.tone === 'pos' ? 'var(--pos)' : f.tone === 'neg' ? 'var(--neg)' : f.tone === 'nil' ? 'var(--ink-3)' : 'var(--ink)';
+    return '<div class="fact"><span class="k">' + esc(f.k) + '</span><span class="v" style="color:' + color + '">' + esc(f.v) + '</span><span class="n">' + esc(f.n) + '</span></div>';
+  }).join('');
+}
+
+function renderPage(D) {
+  document.getElementById('periodo').textContent = D.periodo;
+  document.getElementById('lastUpdate').textContent = 'Dados de ' + D.updated_at;
+
+  /* readout */
+  document.getElementById('readout').innerHTML = D.readout.map(function (r) {
+    return '<div>' + esc(r.k) + ' <b>' + esc(r.v) + '</b></div>';
+  }).join('');
+
+  /* facts */
+  renderFacts(document.getElementById('facts-sabatinas'), D.sabatinas_facts);
+  renderFacts(document.getElementById('facts-sos'), D.sos_facts);
+
+  /* tabela canais */
+  document.getElementById('tbl-canais').innerHTML = D.canais.tabela.map(function (r) {
+    var rowc = r.row ? ' class="' + r.row + '-row"' : '';
+    return '<tr' + rowc + '><td>' + esc(r.canal) + '</td>' +
+      '<td' + cls(r.tx.c) + '>' + esc(r.tx.v) + '</td>' +
+      '<td' + cls(r.cac.c) + '>' + esc(r.cac.v) + '</td>' +
+      '<td' + cls(r.conv.c) + '>' + esc(r.conv.v) + '</td>' +
+      '<td>' + esc(r.elast_tx) + '</td>' +
+      '<td' + cls(r.elast_cac.c) + '>' + esc(r.elast_cac.v) + '</td>' +
+      '<td' + (r.pareou.c ? ' class="' + r.pareou.c + '"' : '') + '>' + esc(r.pareou.v) + '</td></tr>';
+  }).join('');
+
+  /* tabela mCAC */
+  document.getElementById('tbl-mcac').innerHTML = D.mcac.map(function (r) {
+    return '<tr><td>' + esc(r.recorte) + '</td><td>' + esc(r.n) + '</td><td>' + esc(r.baixa) + '</td><td>' + esc(r.alta) + '</td>' +
+      '<td' + cls(r.delta.c) + '>' + esc(r.delta.v) + '</td><td>' + esc(r.p) + '</td></tr>';
+  }).join('');
+
+  /* tabela fontes */
+  document.getElementById('tbl-fontes').innerHTML = D.fontes.map(function (r) {
+    var rowc = r.row ? ' class="' + r.row + '-row"' : '';
+    return '<tr' + rowc + '><td>' + esc(r.ind) + '</td><td>' + esc(r.fonte) + '</td>' +
+      '<td' + cls(r.rho_spend.c) + '>' + esc(r.rho_spend.v) + '</td>' +
+      '<td' + cls(r.vendas.c) + '>' + esc(r.vendas.v) + '</td>' +
+      '<td' + cls(r.cac.c) + '>' + esc(r.cac.v) + '</td>' +
+      '<td' + (r.veredito.c ? ' class="' + r.veredito.c + '"' : '') + '>' + esc(r.veredito.v) + '</td></tr>';
+  }).join('');
+
+  /* tabela plano (status contém spans confiáveis do data.json) */
+  document.getElementById('tbl-plano').innerHTML = D.plano.map(function (r) {
+    return '<tr><td>' + esc(r.fase) + '</td><td class="txt">' + esc(r.oque) + '</td><td class="txt">' + r.status + '</td></tr>';
+  }).join('');
+
+  /* ── figura 1: dispersão dos canais ── */
+  /* escalas: x = 111 + tx · (628−111)/25 ; y = 190 − benefício_CAC · (190−30)/16 */
+  (function () {
+    var X0 = 111, XS = (628 - 111) / 25, Y0 = 190, YS = (190 - 30) / 16;
+    var dots = D.canais.scatter.map(function (p) {
+      var cx = Math.round(X0 + p.tx * XS), cy = Math.round(Y0 - p.cac_beneficio * YS);
+      var circle = p.tipo === 'pos' ? '<circle cx="' + cx + '" cy="' + cy + '" r="9" fill="var(--pos)" stroke="var(--surface)" stroke-width="2"></circle>'
+        : p.tipo === 'neg' ? '<circle cx="' + cx + '" cy="' + cy + '" r="9" fill="var(--surface)" stroke="var(--neg)" stroke-width="3" stroke-dasharray="3.5 2.6"></circle>'
+        : '<circle cx="' + cx + '" cy="' + cy + '" r="8" fill="var(--surface)" stroke="var(--nil)" stroke-width="2.5"></circle>';
+      var lx = p.anchor === 'end' ? cx - 16 : cx + 16;
+      var label = '<text class="ptlabel" x="' + lx + '" y="' + (cy + p.dy) + '"' + (p.anchor === 'end' ? ' text-anchor="end"' : '') + '>' + esc(p.label) + '</text>';
+      return '<g class="dot" tabindex="0" role="img" aria-label="' + esc(p.aria) + '" data-t="' + esc(p.tip_t) + '" data-v="' + esc(p.tip_v) + '">' + circle + label + '</g>';
+    }).join('');
+    document.getElementById('fig-canais').innerHTML =
+      '<svg viewBox="0 0 720 400" role="img" aria-label="Dispersão dos cinco canais. YouTube orgânico e busca orgânica no quadrante superior direito: mais transações e CAC menor. Referral e direto no meio sem efeito de eficiência. Social orgânico no canto inferior esquerdo: sem ganho de volume e CAC pior.">' +
+      '<rect x="111" y="30" width="579" height="160" fill="var(--pos-wash)"></rect>' +
+      '<rect x="111" y="190" width="579" height="160" fill="var(--neg-wash)"></rect>' +
+      '<g class="gridline"><line x1="70" y1="30" x2="690" y2="30"></line><line x1="70" y1="110" x2="690" y2="110"></line>' +
+      '<line x1="70" y1="270" x2="690" y2="270"></line><line x1="70" y1="350" x2="690" y2="350"></line>' +
+      '<line x1="215" y1="30" x2="215" y2="350"></line><line x1="318" y1="30" x2="318" y2="350"></line>' +
+      '<line x1="421" y1="30" x2="421" y2="350"></line><line x1="525" y1="30" x2="525" y2="350"></line><line x1="628" y1="30" x2="628" y2="350"></line></g>' +
+      '<line class="zeroline" x1="70" y1="190" x2="690" y2="190"></line>' +
+      '<line class="zeroline" x1="111" y1="30" x2="111" y2="350"></line>' +
+      '<g class="ax" text-anchor="end"><text x="60" y="34">+16%</text><text x="60" y="114">+8%</text><text x="60" y="194">0</text><text x="60" y="274">−8%</text><text x="60" y="354">−16%</text></g>' +
+      '<g class="ax" text-anchor="middle"><text x="111" y="370">0</text><text x="215" y="370">+5%</text><text x="318" y="370">+10%</text><text x="421" y="370">+15%</text><text x="525" y="370">+20%</text><text x="628" y="370">+25%</text></g>' +
+      '<text class="axtitle" x="380" y="392" text-anchor="middle">TRANSAÇÕES POR DIA →</text>' +
+      '<text class="axtitle" x="18" y="190" text-anchor="middle" transform="rotate(-90 18 190)">↑ CAC MAIS BARATO</text>' +
+      '<text class="ax" x="682" y="48" text-anchor="end" opacity=".75">mais vendas, mais barato</text>' +
+      '<text class="ax" x="682" y="340" text-anchor="end" opacity=".75">mais vendas, mais caro</text>' +
+      dots + '</svg>';
+  })();
+
+  /* ── figura 2: o lead que desapareceu ── */
+  (function () {
+    var X0 = 200, XS = 800; /* +0,20 → 160px */
+    var bars = D.lead_bars.map(function (b, i) {
+      var y = 30 + i * 54, w = Math.round(b.v * XS);
+      var fill = b.sig ? 'var(--pos)' : 'var(--nil)';
+      var op = b.op < 1 ? ' opacity="' + b.op + '"' : '';
+      var vcolor = b.sig ? 'var(--ink)' : 'var(--ink-3)';
+      return '<g class="dot" tabindex="0" role="img" aria-label="' + esc(b.aria) + '" data-t="' + esc(b.tip_t) + '" data-v="' + esc(b.tip_v) + '">' +
+        '<rect x="' + X0 + '" y="' + y + '" width="' + w + '" height="34" fill="' + fill + '"' + op + '></rect>' +
+        '<text class="ptlabel" x="' + (X0 - 10) + '" y="' + (y + 22) + '" text-anchor="end">' + esc(b.label) + '</text>' +
+        '<text x="' + (X0 + w + 10) + '" y="' + (y + 22) + '" font-size="12" fill="' + vcolor + '" font-weight="600">' + esc(b.txt) + '</text></g>';
+    }).join('');
+    document.getElementById('fig-lead').innerHTML =
+      '<svg viewBox="0 0 720 230" role="img" aria-label="Três barras. Correlação bruta 0,52; controlando spend do mês do SoS, 0,46; controlando também o spend do mês alvo, 0,18, não significativo. O lead desaparece.">' +
+      '<g class="gridline"><line x1="200" y1="20" x2="200" y2="190"></line><line x1="360" y1="20" x2="360" y2="190"></line><line x1="520" y1="20" x2="520" y2="190"></line><line x1="680" y1="20" x2="680" y2="190"></line></g>' +
+      '<line class="zeroline" x1="200" y1="14" x2="200" y2="196"></line>' +
+      '<g class="ax" text-anchor="middle"><text x="200" y="212">0</text><text x="360" y="212">+0,20</text><text x="520" y="212">+0,40</text><text x="680" y="212">+0,60</text></g>' +
+      bars + '</svg>';
+  })();
+
+  /* ── figura 3: fatia vs bolo ── */
+  (function () {
+    var GX = [110, 320, 530], BASE = 260, H = 200;
+    var groups = D.bolo_bars.map(function (g, i) {
+      var mx = Math.max(g.hist, g.rec), x = GX[i];
+      var h1 = Math.round(H * g.hist / mx), h2 = Math.round(H * g.rec / mx);
+      var fill = g.dir === 'pos' ? 'var(--pos)' : 'var(--neg)';
+      return '<g class="dot" tabindex="0" role="img" aria-label="' + esc(g.aria) + '" data-t="' + esc(g.tip_t) + '" data-v="' + esc(g.tip_v) + '">' +
+        '<rect x="' + x + '" y="' + (BASE - h1) + '" width="36" height="' + h1 + '" fill="var(--nil)" opacity=".45"></rect>' +
+        '<rect x="' + (x + 44) + '" y="' + (BASE - h2) + '" width="36" height="' + h2 + '" fill="' + fill + '"></rect>' +
+        '<text class="ax" x="' + (x + 18) + '" y="275" text-anchor="middle">hist.</text>' +
+        '<text class="ax" x="' + (x + 62) + '" y="275" text-anchor="middle">4 sem</text>' +
+        '<text x="' + (x + 40) + '" y="292" text-anchor="middle" font-size="12" fill="' + fill + '" font-weight="600">' + esc(g.delta) + '</text></g>';
+    }).join('');
+    var titles = D.bolo_bars.map(function (g, i) {
+      return '<text x="' + (GX[i] + 40) + '" y="30" fill="var(--ink)" font-weight="600">' + esc(g.title) + '</text>';
+    }).join('');
+    document.getElementById('fig-bolo').innerHTML =
+      '<svg viewBox="0 0 720 300" role="img" aria-label="Três pares de barras. Busca da BP: 0,61 histórico para 0,47 recente, queda de 24%. Bolo da categoria mídias: 9,41 para 3,84, queda de 59%. Share of search mídias: 7,6% para 12,2%, alta de 61%. A fatia sobe porque o bolo cai mais que a BP.">' +
+      '<g class="ax" text-anchor="middle" font-size="11">' + titles + '</g>' +
+      groups +
+      '<line class="zeroline" x1="90" y1="260" x2="640" y2="260"></line></svg>';
+  })();
+
+  /* ── tooltips (depois do render) ── */
+  var tip = document.getElementById('tip');
+  function show(el, x, y) { tip.innerHTML = '<b>' + esc(el.dataset.t) + '</b><br>' + esc(el.dataset.v); tip.style.left = x + 'px'; tip.style.top = y + 'px'; tip.style.opacity = '1'; }
+  function hide() { tip.style.opacity = '0'; }
+  document.querySelectorAll('.dot').forEach(function (g) {
+    g.addEventListener('mouseenter', function () { var r = g.getBoundingClientRect(); show(g, r.left + r.width / 2, r.top); var c = g.querySelector('circle'); if (c) { c.dataset.r = c.getAttribute('r'); c.setAttribute('r', String(Number(c.dataset.r) + 3)); } });
+    g.addEventListener('mousemove', function (e) { tip.style.left = e.clientX + 'px'; tip.style.top = (e.clientY - 8) + 'px'; });
+    g.addEventListener('mouseleave', function () { hide(); var c = g.querySelector('circle'); if (c && c.dataset.r) { c.setAttribute('r', c.dataset.r); } });
+    g.addEventListener('focus', function () { var r = g.getBoundingClientRect(); show(g, r.left + r.width / 2, r.top); });
+    g.addEventListener('blur', hide);
+  });
+}
+
+/* carregar data.json — NUNCA colocar dados direto no HTML */
+fetch('./data.json')
+  .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(renderPage)
+  .catch(function (err) {
+    console.error('Falha ao carregar data.json:', err);
+    document.querySelector('.page').insertAdjacentHTML('afterbegin',
+      '<div style="background:var(--neg-wash);border:1px solid var(--neg);padding:16px;margin:24px 0;font-size:14px">⚠ Erro ao carregar dados: ' + esc(err.message) + '. Para visualização local, usar <code>python -m http.server</code> na pasta do relatório.</div>');
+  });
+</script>
+</body>
+</html>
