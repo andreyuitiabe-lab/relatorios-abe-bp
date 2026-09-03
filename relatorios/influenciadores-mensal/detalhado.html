@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Influenciadores Agosto — versão detalhada</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --ground:   #f6f7f4;
+  --surface:  #fdfdfc;
+  --surface-2:#f1f3ee;
+  --ink:      #121614;
+  --ink-2:    #4c534e;
+  --muted:    #878d87;
+  --rule:     #e0e3dd;
+  --rule-soft:#eceee8;
+  --accent:   #1c5049;
+  --accent-wash: #e7efec;
+  --s1:  #2a78d6;
+  --s2:  #eb6834;
+  --s3:  #1baf7a;
+  --good:     #0ca30c;
+  --good-ink: #076707;
+  --warning:  #fab219;
+  --warn-ink: #7a5300;
+  --critical: #d03b3b;
+  --crit-ink: #a32626;
+  --good-wash:#e7f4e7;
+  --warn-wash:#fdf4e0;
+  --crit-wash:#fbeaea;
+  --shadow:   0 1px 2px rgba(18,22,20,.05), 0 8px 24px -16px rgba(18,22,20,.22);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground:   #0e100f;
+    --surface:  #171a18;
+    --surface-2:#1e2220;
+    --ink:      #f2f4f0;
+    --ink-2:    #b6bcb5;
+    --muted:    #8b918a;
+    --rule:     #272b28;
+    --rule-soft:#20241f;
+    --accent:   #7cc9b7;
+    --accent-wash: #16302c;
+    --s1:  #3987e5;
+    --s2:  #d95926;
+    --s3:  #199e70;
+    --good:     #0ca30c;
+    --good-ink: #4dc44d;
+    --warning:  #fab219;
+    --warn-ink: #e0a52a;
+    --critical: #e06a6a;
+    --crit-ink: #ef8a8a;
+    --good-wash:#142614;
+    --warn-wash:#2a2415;
+    --crit-wash:#2c1818;
+    --shadow:   0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground:   #0e100f;
+  --surface:  #171a18;
+  --surface-2:#1e2220;
+  --ink:      #f2f4f0;
+  --ink-2:    #b6bcb5;
+  --muted:    #8b918a;
+  --rule:     #272b28;
+  --rule-soft:#20241f;
+  --accent:   #7cc9b7;
+  --accent-wash: #16302c;
+  --s1:  #3987e5;
+  --s2:  #d95926;
+  --s3:  #199e70;
+  --good:     #0ca30c;
+  --good-ink: #4dc44d;
+  --warning:  #fab219;
+  --warn-ink: #e0a52a;
+  --critical: #e06a6a;
+  --crit-ink: #ef8a8a;
+  --good-wash:#142614;
+  --warn-wash:#2a2415;
+  --crit-wash:#2c1818;
+  --shadow:   0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px 96px; }
+
+/* ── tipografia ───────────────────────────────────────────── */
+h1, h2, h3 { font-family: Newsreader, Georgia, serif; font-weight: 500; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(34px, 5vw, 52px); line-height: 1.05; letter-spacing: -.015em; }
+h2 { font-size: 26px; line-height: 1.15; letter-spacing: -.01em; }
+h3 { font-size: 18px; line-height: 1.25; }
+p { margin: 0; max-width: 68ch; }
+.eyebrow {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px; font-weight: 500; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--accent);
+}
+.mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+.dim { color: var(--ink-2); }
+.tiny { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); }
+
+/* ── header ───────────────────────────────────────────────── */
+header { padding: 64px 0 40px; border-bottom: 1px solid var(--rule); }
+.head-grid { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-end; justify-content: space-between; }
+.head-meta { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--ink-2); }
+.head-meta .mono { color: var(--ink); font-size: 13px; }
+header h1 { margin: 14px 0 12px; }
+header .lede { font-size: 17px; color: var(--ink-2); max-width: 60ch; }
+
+/* ── seções ───────────────────────────────────────────────── */
+section { padding-top: 60px; }
+.sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+.sec-head .num {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12px; color: var(--muted); font-weight: 500;
+}
+.sec-sub { margin-top: 10px; margin-bottom: 26px; color: var(--ink-2); }
+
+/* ── resumo em linguagem simples ──────────────────────────── */
+.plain { margin-top: 36px; background: var(--surface); border: 1px solid var(--rule); border-radius: 3px; padding: 26px 28px; box-shadow: var(--shadow); }
+.plain h3 { margin-bottom: 16px; }
+.plain ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 15px; }
+.plain li { display: flex; gap: 14px; align-items: flex-start; font-size: 16px; line-height: 1.5; }
+.plain li .bullet { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-top: 9px; }
+.plain strong { font-weight: 600; }
+
+/* ── stat tiles ───────────────────────────────────────────── */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; margin-top: 36px; }
+.tile { background: var(--surface); padding: 20px 22px 18px; display: flex; flex-direction: column; gap: 5px; }
+.tile .lbl { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.tile .val { font-size: 30px; line-height: 1.05; font-weight: 600; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.tile .val small { font-size: 16px; font-weight: 500; color: var(--ink-2); margin-right: 2px; }
+.tile .note { font-size: 12.5px; color: var(--ink-2); }
+
+/* ── callout ──────────────────────────────────────────────── */
+.callout {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: var(--warn-wash); border: 1px solid var(--rule);
+  border-left: 3px solid var(--warning);
+  padding: 18px 20px; border-radius: 3px; margin-top: 28px;
+}
+.callout .mark { flex: none; width: 20px; height: 20px; margin-top: 2px; }
+.callout p { font-size: 14.5px; }
+.callout p + p { margin-top: 10px; }
+.callout strong { font-weight: 600; }
+
+/* ── cards / painéis ──────────────────────────────────────── */
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 3px; padding: 24px; box-shadow: var(--shadow); }
+.panel + .panel { margin-top: 18px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+
+/* ── régua de leitura ─────────────────────────────────────── */
+.ruler { background: var(--surface-2); border: 1px solid var(--rule); border-radius: 3px; padding: 18px 20px; margin-bottom: 18px; }
+.ruler h3 { font-size: 16px; margin-bottom: 12px; }
+.ruler-rows { display: flex; flex-direction: column; gap: 9px; }
+.ruler-row { display: flex; gap: 12px; align-items: baseline; font-size: 14px; }
+.ruler-row .k { flex: none; width: 152px; }
+.ruler-row .t { color: var(--ink-2); }
+
+/* ── pills de status ──────────────────────────────────────── */
+.pill {
+  display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
+  font-size: 11.5px; font-weight: 600; line-height: 1;
+  padding: 4px 8px 4px 6px; border-radius: 100px; border: 1px solid transparent;
+}
+.pill .ic { font-size: 10px; line-height: 1; }
+.pill.ok   { background: var(--good-wash); color: var(--good-ink); border-color: var(--good); }
+.pill.mid  { background: var(--warn-wash); color: var(--warn-ink); border-color: var(--warning); }
+.pill.bad  { background: var(--crit-wash); color: var(--crit-ink); border-color: var(--critical); }
+.pill.none { background: var(--surface-2); color: var(--ink-2); border-color: var(--rule); }
+
+/* ── tabelas ──────────────────────────────────────────────── */
+.tbl-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--rule-soft); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+thead th {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10.5px; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--rule);
+  padding-bottom: 8px;
+}
+tbody td { font-variant-numeric: tabular-nums; }
+tbody tr:last-child td { border-bottom: none; }
+tfoot td { border-top: 1px solid var(--rule); border-bottom: none; font-weight: 600; padding-top: 11px; }
+.sub-head td {
+  background: var(--surface-2); font-size: 11px; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--ink-2); font-weight: 600;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+.swatch { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 8px; vertical-align: baseline; }
+.src { font-size: 12px; color: var(--muted); }
+.zero { color: var(--muted); }
+
+/* ── charts ───────────────────────────────────────────────── */
+.chart-head { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+.chart-title { font-size: 15px; font-weight: 600; }
+.how-to-read {
+  font-size: 13.5px; color: var(--ink-2); background: var(--surface-2);
+  border-left: 2px solid var(--accent); padding: 9px 14px; border-radius: 2px;
+  margin-bottom: 16px;
+}
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+svg { display: block; width: 100%; height: auto; overflow: visible; }
+svg text { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+.tip {
+  position: fixed; pointer-events: none; opacity: 0; transition: opacity .1s;
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 3px;
+  box-shadow: var(--shadow); padding: 10px 13px; font-size: 12.5px; z-index: 50;
+  color: var(--ink); max-width: 290px;
+}
+.tip .t-name { font-weight: 600; margin-bottom: 5px; }
+.tip .t-row { display: flex; justify-content: space-between; gap: 18px; font-variant-numeric: tabular-nums; }
+.tip .t-row span:first-child { color: var(--ink-2); }
+.tip .t-verdict { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--rule-soft); font-size: 12px; }
+.hit { cursor: default; }
+.hit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── destaques ────────────────────────────────────────────── */
+.hl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.hl {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 3px;
+  padding: 20px 22px; display: flex; flex-direction: column; gap: 10px;
+}
+.hl .fig { font-size: 27px; font-weight: 600; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.05; }
+.hl p { font-size: 14px; color: var(--ink-2); }
+.hl .who { font-weight: 600; color: var(--ink); }
+.hl .action { font-size: 13.5px; color: var(--ink); background: var(--accent-wash); padding: 9px 12px; border-radius: 2px; margin-top: auto; }
+.hl .action b { color: var(--accent); font-weight: 600; }
+.hl.wide { grid-column: 1 / -1; }
+
+/* ── listas ───────────────────────────────────────────────── */
+.rules { display: flex; flex-direction: column; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.rules li { display: grid; grid-template-columns: 176px 1fr; gap: 18px; align-items: start; padding-bottom: 16px; border-bottom: 1px solid var(--rule-soft); }
+.rules li:last-child { border-bottom: none; padding-bottom: 0; }
+.rules .k { font-size: 14px; font-weight: 600; color: var(--ink); padding-top: 1px; }
+.rules .v { font-size: 14px; color: var(--ink-2); }
+.rules .v strong { color: var(--ink); font-weight: 600; }
+@media (max-width: 620px) { .rules li { grid-template-columns: 1fr; gap: 4px; } }
+
+.ask { display: flex; flex-direction: column; gap: 16px; margin: 0; padding: 0; list-style: none; counter-reset: ask; }
+.ask li { display: flex; gap: 14px; align-items: flex-start; }
+.ask li::before {
+  counter-increment: ask; content: counter(ask);
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; font-weight: 600;
+  flex: none; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--accent-wash); color: var(--accent);
+  display: grid; place-items: center; margin-top: 2px;
+}
+.ask .v { font-size: 15px; }
+.ask .v small { display: block; font-size: 13.5px; color: var(--ink-2); margin-top: 3px; }
+
+/* ── glossário ────────────────────────────────────────────── */
+.gloss { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px 32px; }
+.gloss div { padding-bottom: 13px; border-bottom: 1px solid var(--rule-soft); }
+.gloss dt { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.gloss dd { margin: 0; font-size: 13.5px; color: var(--ink-2); line-height: 1.5; }
+
+footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="head-grid">
+    <div>
+      <div class="eyebrow">Resultado do mês &middot; 1 a 31 de agosto de 2026</div>
+      <h1>Influenciadores<br>em agosto</h1>
+      <p class="lede">Quanto gastamos, quanto voltou e o que fazer diferente em setembro.</p>
+    </div>
+    <div class="head-meta">
+      <div><span class="mono">Brasil Paralelo</span> &middot; Marketing</div>
+      <div>Pedido de Bárbara Olivieri</div>
+      <div>Apurado em <span class="mono">03/set/2026</span></div>
+    </div>
+  </div>
+
+  <div class="tiles">
+    <div class="tile">
+      <div class="lbl">Gasto do canal</div>
+      <div class="val"><small>R$</small>155.631</div>
+      <div class="note">R$ 143.631 de anúncio + R$ 12.000 de cachê. É 2% de toda a mídia da empresa no mês.</div>
+    </div>
+    <div class="tile">
+      <div class="lbl">Cada R$ 1 gasto virou</div>
+      <div class="val"><small>R$</small>1,23</div>
+      <div class="note">Contando só a venda das peças que rodaram em agosto. No caixa do mês entrou R$ 1,54, mas parte veio de peça paga em junho e julho.</div>
+    </div>
+    <div class="tile">
+      <div class="lbl">Venda do canal</div>
+      <div class="val"><small>R$</small>275.603</div>
+      <div class="note">862 vendas por três caminhos. 87% vieram de anúncio com peça de influenciador.</div>
+    </div>
+    <div class="tile">
+      <div class="lbl">Comparado com a casa</div>
+      <div class="val" style="font-size:24px">R$ 1,33 <span style="color:var(--ink-2);font-weight:400">x</span> R$ 1,40</div>
+      <div class="note">Mesma régua dos dois lados. O canal fica um pouco abaixo da média da empresa.</div>
+    </div>
+  </div>
+
+  <div class="plain">
+    <h3>O mês em três pontos</h3>
+    <ol>
+      <li><span class="bullet"></span><span><strong>O canal se pagou, mas com folga menor do que o caixa mostra.</strong> Gastamos R$ 155.631 em anúncio e cachê, e as peças trouxeram R$ 239.785. Só que R$ 49 mil disso veio de peça que não rodou em agosto — foi paga em junho e julho e continuou vendendo. Descontando, <strong>cada R$ 1 investido em agosto virou R$ 1,23</strong>. Na mesma régua da empresa inteira, o canal fica em R$ 1,33 contra R$ 1,40 da média da casa: um pouco abaixo, não acima.</span></li>
+      <li><span class="bullet"></span><span><strong>Um quinto da venda é atrasada, e 39% dela precisou de um vendedor para fechar.</strong> A venda atrasada é 20,5% no canal contra 3,8% na média da empresa — cinco vezes mais, porque as peças de influenciador são pausadas cedo e continuam vendendo. E boa parte da receita só entrou porque alguém do comercial fechou; essa venda paga comissão, que não está em nenhum número deste relatório.</span></li>
+      <li><span class="bullet"></span><span><strong>Não somos nós que escolhemos onde a verba entra — por isso a conversa é sobre cachê e peça, não sobre verba.</strong> De 164 peças no ar em agosto, o algoritmo da Meta deu dinheiro relevante para 22 e deixou 82 com menos de R$ 1. Ele escalou justamente quem rendeu abaixo de R$ 1,00 e quase não usou quem mais entregou peça. Nossa alavanca é o que negociamos: cachê, contrato e quantidade e qualidade de peça.</span></li>
+    </ol>
+  </div>
+</header>
+
+<section id="como-ler">
+  <div class="sec-head"><span class="num">01</span><h2>Como ler este relatório</h2></div>
+  <p class="sec-sub">Três regras. Elas mudam o significado de quase todo número daqui para baixo.</p>
+
+  <div class="panel">
+    <ul class="rules">
+      <li>
+        <span class="k">1. "Gasto" aqui é anúncio mais cachê</span>
+        <span class="v">Quando falamos <strong>R$ 155.631</strong>, isso é R$ 143.631 de dinheiro colocado em anúncio na Meta mais R$ 12.000 de cachê pago a cinco influenciadores. Sempre que comparamos com a média da empresa, usamos só o dinheiro de anúncio dos dois lados — a empresa não paga cachê nas outras campanhas, e comparar coisas diferentes já produziu conclusão errada aqui antes.</span>
+      </li>
+      <li>
+        <span class="k">2. Venda atrasada: peça paga em junho que vende em agosto</span>
+        <span class="v">Uma peça pode ser pausada e continuar gerando venda por semanas. Em agosto, <strong>R$ 49.054</strong> vieram de peça que não teve nenhum real de anúncio no mês. É dinheiro real, entrou no caixa, mas não foi agosto que pagou por ele. Por isso mostramos sempre dois números: o que entrou no caixa e o que as peças de agosto de fato produziram.</span>
+      </li>
+      <li>
+        <span class="k">3. Quem distribui a verba é o algoritmo</span>
+        <span class="v">Subimos todas as peças e <strong>o algoritmo da Meta decide quanto vai para cada uma</strong>. Consequência prática: quando um influenciador aparece com retorno baixo, muitas vezes é porque recebeu muito dinheiro, não porque a peça é ruim — escalar encarece cada venda. E significa que "colocar mais verba no Fulano" não é uma recomendação que este time consegue executar.</span>
+      </li>
+    </ul>
+
+    <h3 style="margin:26px 0 14px">As palavras que aparecem aqui</h3>
+    <dl class="gloss">
+      <div><dt>Mídia / anúncio</dt><dd>Dinheiro colocado em anúncio nas plataformas. É diferente do cachê.</dd></div>
+      <div><dt>Peça (ou criativo)</dt><dd>O vídeo do influenciador que vai para o anúncio.</dd></div>
+      <div><dt>Peça escalada</dt><dd>Peça que o algoritmo escolheu e em que colocou dinheiro de verdade — aqui, R$ 500 ou mais no mês.</dd></div>
+      <div><dt>Cachê</dt><dd>O que pagamos ao influenciador pelo trabalho dele.</dd></div>
+      <div><dt>Venda atrasada</dt><dd>Venda que entra depois de a peça já ter sido pausada.</dd></div>
+      <div><dt>Lead</dt><dd>Pessoa que deixou o contato com a gente, mas ainda não comprou.</dd></div>
+      <div><dt>Venda fechada pelo comercial</dt><dd>A pessoa veio pelo anúncio mas não comprou sozinha no site — quem converteu foi o time de vendas. Em agosto foram R$ 93.690 em 137 vendas: R$ 73.472 pelo time sem oportunidade registrada no CRM, R$ 10.246 de recuperação de pagamento (pix ou boleto vencido, carrinho, compra negada), R$ 9.624 de oportunidade de venda e R$ 348 de chat.</dd></div>
+      <div><dt>Cada R$ 1 virou</dt><dd>Quanto de venda cada real gasto devolveu. Em relatórios de mídia aparece como <strong>ROAS</strong>.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="gastamos">
+  <div class="sec-head"><span class="num">02</span><h2>Quanto gastamos</h2></div>
+  <p class="sec-sub">R$ 155.631 para vender, mais R$ 5.151 de ação de marca que não entra na conta de venda.</p>
+
+  <div class="panel">
+    <p>O canal consumiu <strong>R$ 143.631</strong> de anúncio em agosto. Para dar escala: a empresa inteira colocou R$ 7,62 milhões em anúncio na Meta no mês, então influenciadores são <strong>2% de toda a mídia da casa</strong>. Somando os R$ 12.000 de cachê pagos por peça de venda, o gasto do canal para vender foi de <strong>R$ 155.631</strong>.</p>
+    <div class="tbl-scroll" style="margin-top:20px">
+      <table>
+        <thead><tr><th>Cachê por influenciador</th><th>Valor</th></tr></thead>
+        <tbody>
+          <tr><td>Alam Carrion</td><td class="mono">R$ 5.000</td></tr>
+          <tr><td>Fran Otto</td><td class="mono">R$ 2.000</td></tr>
+          <tr><td>Josué Aragão</td><td class="mono">R$ 2.000</td></tr>
+          <tr><td>Arthur Schreiber</td><td class="mono">R$ 1.500</td></tr>
+          <tr><td>Mayara Ranni</td><td class="mono">R$ 1.500</td></tr>
+        </tbody>
+        <tfoot><tr><td>Total</td><td class="mono">R$ 12.000</td></tr></tfoot>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-bottom:6px">A ponte com a planilha de vocês</h3>
+    <p class="tiny" style="margin-bottom:16px">Da planilha de controle de custo até o número usado aqui, linha a linha.</p>
+    <div class="tbl-scroll">
+      <table>
+        <tbody>
+          <tr><td>Soma das 10 linhas da planilha</td><td class="mono">R$ 52.431,10</td></tr>
+          <tr><td class="dim">(−) Evento excluído a pedido</td><td class="mono dim">− R$ 35.280,00</td></tr>
+          <tr><td class="dim">(−) Ação de marca (Première John Money)</td><td class="mono dim">− R$ 5.151,10</td></tr>
+          <tr><td><strong>(=) Cachê ligado a peça de venda</strong></td><td class="mono"><strong>R$ 12.000,00</strong></td></tr>
+          <tr><td>(+) Dinheiro de anúncio na Meta com peça de influ</td><td class="mono">+ R$ 143.631,00</td></tr>
+        </tbody>
+        <tfoot><tr><td>(=) Gasto do canal para vender</td><td class="mono">R$ 155.631,00</td></tr></tfoot>
+      </table>
+    </div>
+    <div class="callout" style="margin-top:20px">
+      <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="var(--warning)" stroke-width="1.5"/><path d="M10 5.75v5" stroke="var(--warning)" stroke-width="1.75" stroke-linecap="round"/><circle cx="10" cy="14" r="1" fill="var(--warning)"/></svg>
+      <p>A planilha declara total de <strong>R$ 46.931,10</strong>, mas as 10 linhas somam <strong>R$ 52.431,10</strong> — há <strong>R$ 5.500 de diferença</strong> entre a soma e o total escrito. Usamos a soma das linhas, que é a que dá para conferir uma a uma. Está na lista da seção 09.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-bottom:6px">Ação de marca — fora da conta de venda</h3>
+    <p class="tiny" style="margin-bottom:16px">R$ 5.151 foram para a Première do John Money. Conferimos um por um: nenhum dos três tinha anúncio de venda rodando em agosto, então não há venda para atribuir a esse dinheiro.</p>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th>Gasto</th><th>Valor</th><th>Vendeu em agosto?</th></tr></thead>
+        <tbody>
+          <tr><td>Bernardo Kuster <span class="src">passagem, presença</span></td><td class="mono">R$ 2.901</td><td class="src">só anúncio de captação de lead, sem venda</td></tr>
+          <tr><td>Ricardo Ventura <span class="src">conteúdo</span></td><td class="mono">R$ 1.000</td><td class="src">nenhum anúncio no mês</td></tr>
+          <tr><td>Gustavo Trevisan <span class="src">conteúdo</span></td><td class="mono">R$ 1.000</td><td class="src">R$ 239, de peça antiga do Clube do Livro</td></tr>
+          <tr><td>Press kit amostra</td><td class="mono">R$ 250</td><td class="src">—</td></tr>
+        </tbody>
+        <tfoot><tr><td>Total</td><td class="mono">R$ 5.151</td><td></td></tr></tfoot>
+      </table>
+    </div>
+    <p class="tiny" style="margin-top:14px">Se alguém quiser a conta com a ação de marca dentro: o gasto vai para <strong style="color:var(--ink)">R$ 160.782</strong> e cada R$ 1 vira <strong style="color:var(--ink)">R$ 1,49</strong> — a leitura do mês não muda.</p>
+  </div>
+</section>
+
+<section id="voltou">
+  <div class="sec-head"><span class="num">03</span><h2>Quanto voltou</h2></div>
+  <p class="sec-sub">R$ 275.603 em 862 vendas, por três caminhos bem desiguais.</p>
+
+  <div class="panel">
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th>Caminho da venda</th><th>Receita</th><th>Vendas</th><th>Peso</th></tr></thead>
+        <tbody>
+          <tr><td><span class="swatch" style="background:var(--s1)"></span>Viu um anúncio com peça de influenciador e comprou</td><td class="mono">R$ 239.785</td><td class="mono">804</td><td class="mono">87%</td></tr>
+          <tr><td><span class="swatch" style="background:var(--s2)"></span>Deixou o contato numa página de parceria e fechou depois com o comercial</td><td class="mono">R$ 34.044</td><td class="mono">54</td><td class="mono">12%</td></tr>
+          <tr><td><span class="swatch" style="background:var(--s3)"></span>Usou o link ou o cupom do próprio influenciador</td><td class="mono">R$ 1.774</td><td class="mono">4</td><td class="mono">1%</td></tr>
+        </tbody>
+        <tfoot><tr><td>Total</td><td class="mono">R$ 275.603</td><td class="mono">862</td><td class="mono">100%</td></tr></tfoot>
+      </table>
+    </div>
+    <p class="tiny" style="margin-top:16px">Não há sobreposição entre os três caminhos — nenhuma venda foi contada duas vezes, e isso foi checado venda a venda.</p>
+    <p class="tiny" style="margin-top:12px"><strong style="color:var(--ink)">Atenção para não dividir errado.</strong> O gasto de R$ 155.631 é só do primeiro caminho — anúncio e cachê. Os outros dois não têm mídia associada: são lead antigo e link próprio, que chegam sem custo novo. Toda conta de retorno neste relatório usa <strong style="color:var(--ink)">R$ 239.785 contra R$ 155.631</strong>.</p>
+    <p class="tiny" style="margin-top:12px">Duas leituras aqui. O canal hoje é essencialmente um <strong style="color:var(--ink)">fornecedor de peça para anúncio</strong> — a cara do influenciador dentro da mídia da empresa. E link ou cupom próprio, com R$ 1.774 e 4 vendas no mês inteiro, é um caminho praticamente extinto: não vale montar operação nem cobrar meta em cima disso.</p>
+  </div>
+</section>
+
+<section id="cascata">
+  <div class="sec-head"><span class="num">04</span><h2>O que esse dinheiro realmente pagou</h2></div>
+  <p class="sec-sub">Três degraus. O primeiro é o caixa do mês; o terceiro é o que sobra quando se tira tudo que agosto não pagou.</p>
+
+  <div class="panel">
+    <p>Os R$ 239.785 que vieram de anúncio não são todos da mesma natureza. Parte foi gerada por peça que já não estava rodando, e parte só entrou porque um vendedor ligou e fechou. Contra o gasto de R$ 155.631, o número cai a cada corte:</p>
+    <div id="chart-cascata" style="margin-top:22px"></div>
+    <p class="how-to-read" style="margin-top:18px"><strong>Como ler.</strong> De cima para baixo. O primeiro degrau é verdade de caixa: esse dinheiro entrou. O segundo é a pergunta que interessa para decidir setembro — o que o dinheiro de agosto produziu, sem carona do que foi pago antes. O terceiro é o cenário mais duro: se ninguém do comercial tivesse ligado, o canal não teria se pagado no mês.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="panel">
+      <h3 style="margin-bottom:10px">A venda atrasada é característica do canal, não acaso</h3>
+      <p class="tiny">Os R$ 49.054 são <strong style="color:var(--ink)">20,5%</strong> de tudo que o canal vendeu por anúncio. Na média da empresa inteira, esse fenômeno é <strong style="color:var(--ink)">3,8%</strong> — influenciadores carregam cinco vezes mais.</p>
+      <p class="tiny" style="margin-top:10px">Duas explicações, as duas reais: as peças de influenciador costumam ser pausadas cedo e continuam vendendo; e junho foi o maior mês do ano no canal, com R$ 703 mil de anúncio — a cauda daquele mês ainda estava chegando em agosto.</p>
+      <p class="tiny" style="margin-top:10px">Não é erro de medição, é como o canal funciona. Só precisa estar visível toda vez que compararmos meses.</p>
+    </div>
+    <div class="panel">
+      <h3 style="margin-bottom:10px">39% da venda dependeu de alguém ligar</h3>
+      <p class="tiny">Somando dentro e fora da venda atrasada, <strong style="color:var(--ink)">39% de toda a receita do canal por anúncio</strong> só existiu porque um vendedor fechou — e <strong style="color:var(--ink)">84% da venda atrasada</strong> especificamente foi fechada pelo comercial.</p>
+      <p class="tiny" style="margin-top:10px">Essa venda paga comissão, e a comissão <strong style="color:var(--ink)">não está</strong> em nenhum número deste relatório. Então o retorno real do canal é um pouco pior do que os R$ 1,23 mostram.</p>
+      <p class="tiny" style="margin-top:10px">Varia muito por pessoa: Pedro Alaer 71%, Fran Otto 63%, Arthur Schreiber 56% — contra Diego Del Rio 9%. Pedir esse custo ao comercial é pendência aberta.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-bottom:10px">Na mesma régua da empresa</h3>
+    <p>No caixa do mês, o canal parece acima da casa: cada R$ 1 de anúncio virou <strong>R$ 1,67</strong> em influenciadores contra <strong>R$ 1,46</strong> na média da empresa. Mas essa comparação está torta, porque o número de influenciadores inclui a venda atrasada e o da empresa quase não tem.</p>
+    <p style="margin-top:12px">Colocando os dois lados na mesma régua — só dinheiro de anúncio, só peça que rodou no mês — dá <strong>R$ 1,33 em influenciadores contra R$ 1,40 da empresa</strong>. O canal fica ligeiramente abaixo da média, não acima. <strong>A vantagem aparente vinha inteira da venda atrasada.</strong></p>
+  </div>
+</section>
+
+<section id="quem">
+  <div class="sec-head"><span class="num">05</span><h2>Quem vendeu o quê</h2></div>
+  <p class="sec-sub">Dez influenciadores receberam anúncio em agosto. Outros oito venderam sem um real de mídia no mês.</p>
+
+  <div class="ruler">
+    <h3>Antes de comparar pessoas</h3>
+    <p class="tiny">Comparar pessoas aqui é traiçoeiro. <strong style="color:var(--ink)">Quem recebeu muito dinheiro tende a mostrar retorno menor</strong>, porque escalar encarece cada venda — e não foi o time que decidiu quem receberia mais. Use a coluna <strong style="color:var(--ink)">"só peças que rodaram"</strong> para comparar, não a de caixa: é a que tira a carona da venda antiga.</p>
+    <div class="ruler-rows" style="margin-top:14px">
+      <div class="ruler-row"><span class="k"><span class="pill ok"><span class="ic">▲</span>acima da média</span></span><span class="t">Cada R$ 1 voltou como R$ 1,46 ou mais.</span></div>
+      <div class="ruler-row"><span class="k"><span class="pill mid"><span class="ic">●</span>se pagou</span></span><span class="t">Voltou entre R$ 1,00 e R$ 1,46.</span></div>
+      <div class="ruler-row"><span class="k"><span class="pill bad"><span class="ic">▼</span>não se pagou</span></span><span class="t">Voltou menos de R$ 1,00 — a venda não cobriu o que gastamos.</span></div>
+      <div class="ruler-row"><span class="k"><span class="pill none"><span class="ic">○</span>sem gasto no mês</span></span><span class="t">Vendeu sem anúncio nem cachê: é venda atrasada pura.</span></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="chart-head">
+      <div class="chart-title">Quanto gastamos e quanto voltou, por influenciador</div>
+      <div class="legend">
+        <span><i style="background:var(--s1)"></i>Gastamos (anúncio + cachê)</span>
+        <span><i style="background:var(--s2)"></i>Voltou em vendas</span>
+      </div>
+    </div>
+    <p class="how-to-read"><strong>Leitura rápida:</strong> a barra de cima é o que gastamos, a de baixo é o que voltou. Quando a laranja é mais comprida, aquele influ trouxe mais do que custou. O número ao lado é o retorno de caixa; passe o mouse para ver também o retorno só das peças que rodaram.</p>
+    <div id="chart-influs"></div>
+  </div>
+
+  <div class="panel">
+    <div class="chart-head"><div class="chart-title">A mesma coisa em tabela</div></div>
+    <div class="tbl-scroll">
+      <table id="tbl-influs">
+        <thead><tr><th>Influenciador</th><th>Gasto total</th><th>Voltou</th><th>Venda atrasada</th><th>Fechada por vendedor</th><th>Cada R$ 1 (caixa)</th><th>Só peças que rodaram</th><th>Situação</th><th>Peças</th><th>Escaladas</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <h3 style="margin:24px 0 10px">As três leituras que importam</h3>
+    <p class="tiny"><strong style="color:var(--ink)">Primeiro, a distância entre as duas colunas de retorno.</strong> Fran Otto sai de R$ 2,67 para R$ 1,47 e Arthur Schreiber de R$ 2,15 para R$ 0,78 — nos dois casos, boa parte do resultado veio de peça antiga, não do que foi pago em agosto. Já Murillo Capellozzi e Diego Del Rio têm o mesmo número nas duas colunas: o resultado deles é de agosto, inteiro.</p>
+    <p class="tiny" style="margin-top:10px"><strong style="color:var(--ink)">Segundo, a coluna de vendedor.</strong> Pedro Alaer (71%), Fran Otto (63%) e Arthur Schreiber (56%) vendem majoritariamente com o comercial fechando. Não invalida o resultado, mas quer dizer que o custo verdadeiro dessas vendas é maior do que a tabela mostra, porque falta a comissão.</p>
+    <p class="tiny" style="margin-top:10px"><strong style="color:var(--ink)">Terceiro, peças entregues contra peças escaladas.</strong> Fran Otto entregou 28 peças e o algoritmo usou 1. Arthur Schreiber entregou 27 e o algoritmo usou 3. Josué Aragão entregou 13, teve 4 usadas e recebeu R$ 25,2 mil de verba — doze vezes o cachê que pagamos a ele. Volume de entrega não está virando volume de investimento, e isso não passa por nós.</p>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-bottom:10px">Venderam sem gasto no mês</h3>
+    <p class="tiny">Oito influenciadores geraram venda em agosto sem um real de anúncio — venda atrasada pura, cauda de peça antiga: <strong style="color:var(--ink)">Tamie Tominaga R$ 7.589</strong>, Math do Colo de Deus R$ 4.517, Leomar Segundo R$ 3.282, Stefano Tony R$ 2.026, Caprine R$ 1.403, Ticaracaticast R$ 1.368, Nine Borges R$ 1.319 e Gustavo Duarte R$ 1.188. Somados, mais de <strong style="color:var(--ink)">R$ 22 mil</strong> que entraram sem custo em agosto — e que também não devem ser lidos como mérito de agosto.</p>
+  </div>
+</section>
+
+<section id="pecas">
+  <div class="sec-head"><span class="num">06</span><h2>As peças</h2></div>
+  <p class="sec-sub">164 peças no ar. O algoritmo usou 22 de verdade.</p>
+
+  <div class="panel">
+    <div class="chart-head"><div class="chart-title">Peças entregues x peças que o algoritmo escalou</div></div>
+    <p class="how-to-read">Metade das peças que produzimos praticamente não foi ao ar. Isso não é desperdício no sentido comum — o algoritmo precisa de opções para testar —, mas é o dado que mostra o limite da nossa influência: <strong>entregamos 164 opções e a decisão de usar 22 não foi nossa.</strong></p>
+    <div id="chart-vol"></div>
+    <p class="tiny" style="margin-top:12px">Só influenciadores com 3 peças ou mais. A barra clara é o total de peças no ar; a parte cheia é quanto delas o algoritmo escalou.</p>
+  </div>
+
+  <div class="panel">
+    <div class="chart-head"><div class="chart-title">Os anúncios que mais venderam em agosto</div></div>
+    <div class="tbl-scroll">
+      <table id="tbl-ads">
+        <thead><tr><th>Anúncio</th><th>Anúncio pago</th><th>Receita</th><th>Cada R$ 1</th><th>Situação</th><th>Vendas</th><th>Dias no ar</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="tiny" style="margin-top:14px">Duas linhas não têm retorno porque não tiveram gasto em agosto: a peça <strong style="color:var(--ink)">"últimas horas" da Fran Otto foi paga em julho</strong> (R$ 8.490) e vendeu R$ 10.224 em agosto; a da Tamie Tominaga é a mesma história. São exemplos concretos de venda atrasada — bom dinheiro, mês errado.</p>
+    <p class="tiny" style="margin-top:10px">O melhor retorno do mês foi <strong style="color:var(--ink)">Diego Del Rio 02, com R$ 2,22 por real</strong> — mas em cima de apenas R$ 1.878 de verba. É o padrão que se repete: peça pequena rende mais por real, peça escalada rende menos. Alam Carrion vitalício ficou 31 dias no ar com R$ 20 mil e devolveu R$ 0,99, com só 20 vendas — o produto vitalício tem ticket alto e volume baixo, então uma venda a mais ou a menos mexe muito nesse número.</p>
+  </div>
+
+  <div class="panel">
+    <div class="chart-head"><div class="chart-title">Por campanha</div></div>
+    <div class="tbl-scroll">
+      <table id="tbl-camp">
+        <thead><tr><th>Campanha</th><th>Anúncio pago</th><th>Receita</th><th>Cada R$ 1</th><th>Situação</th><th>Vendas</th><th>Valor médio da venda</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="tiny" style="margin-top:12px">El Salvador levou metade do dinheiro do canal e devolveu bem. Enéas quase empatou (R$ 28,7 mil investidos, R$ 29,2 mil de venda). Clube do Livro aparece com R$ 25,5 mil de venda e zero de investimento: é 100% venda atrasada, cauda de campanha anterior.</p>
+  </div>
+</section>
+
+<section id="ano">
+  <div class="sec-head"><span class="num">07</span><h2>O canal ao longo de 2026</h2></div>
+  <p class="sec-sub">Oito meses. O canal fica acima da média da casa em quatro deles — e sempre nos meses de verba pequena.</p>
+
+  <div class="two-col">
+    <div class="panel">
+      <div class="chart-head"><div class="chart-title">Dinheiro de anúncio em influs, mês a mês</div></div>
+      <div id="chart-spend"></div>
+      <p class="tiny" style="margin-top:12px">Junho foi o pico do ano — R$ 703 mil, puxado por El Salvador e Domingo sem Deus. Agosto é o dobro de julho, mas ainda um quinto de junho.</p>
+    </div>
+    <div class="panel">
+      <div class="chart-head">
+        <div class="chart-title">Influs rendem mais ou menos que a média?</div>
+        <div class="legend">
+          <span><i style="background:var(--s1)"></i>Influenciadores</span>
+          <span><i style="background:var(--s2)"></i>Média da empresa</span>
+        </div>
+      </div>
+      <div id="chart-roas"></div>
+      <p class="tiny" style="margin-top:12px">Visão caixa dos dois lados, incluindo venda atrasada.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <p><strong>Compare a altura da barra com a linha do retorno.</strong> Os três meses de maior verba — abril, maio e junho — são exatamente os três em que o canal ficou abaixo da média da empresa. Os meses de retorno alto (janeiro R$ 3,94, março R$ 3,21, julho R$ 3,39) são meses de verba pequena. Não medimos a venda atrasada desses meses, mas é provável que ela pese muito ali, como pesou em agosto: pouco gasto embaixo de uma cauda que vem de trás.</p>
+    <p style="margin-top:12px">A leitura honesta é: <strong>o canal rende muito bem em pequena escala e perde vantagem quando cresce.</strong> Isso não é defeito de influenciador — é o comportamento normal de qualquer canal quando se aumenta a verba. Mas serve de alerta contra a conclusão fácil de que "influenciador rende mais que a média": rende, enquanto for pequeno.</p>
+  </div>
+</section>
+
+<section id="destaques">
+  <div class="sec-head"><span class="num">08</span><h2>Destaques e o que fazer</h2></div>
+  <p class="sec-sub">Cinco pontos para a reunião. Nenhuma ação aqui envolve mudar quanto de verba vai para quem — isso não está na nossa mão.</p>
+
+  <div class="hl-grid">
+    <div class="hl wide">
+      <span class="pill ok"><span class="ic">▲</span>funcionou</span>
+      <div class="fig">Murillo Capellozzi e Diego Del Rio: R$ 1,55 por real, sem cachê</div>
+      <p>Juntos receberam <strong>R$ 69.685</strong> de anúncio e devolveram <strong>R$ 107.780</strong>. O que os separa do resto: o retorno deles é <strong>idêntico nos dois cortes</strong> — R$ 1,55 no caixa e R$ 1,55 só com peça que rodou. Não tem carona de venda antiga. E foram os dois mais escalados em proporção às peças entregues: Murillo teve 4 de 5 peças usadas, Diego 3 de 4.</p>
+      <div class="action"><b>O que fazer:</b> garantir peça nova dos dois para a próxima campanha, com prioridade de agenda. E entrar em qualquer conversa de cachê sabendo que o retorno atual deles foi medido <b>sem cachê nenhum</b> — se passar a existir, o número muda.</div>
+    </div>
+    <div class="hl">
+      <span class="pill mid"><span class="ic">●</span>atenção</span>
+      <div class="fig">55 peças, 4 usadas</div>
+      <p><span class="who">Fran Otto</span> e <span class="who">Arthur Schreiber</span> entregaram 55 peças em agosto e o algoritmo escalou 4. No caixa parecem os melhores do mês (R$ 2,67 e R$ 2,15), mas na régua do que rodou caem para <strong>R$ 1,47 e R$ 0,78</strong> — o número bonito vem de peça antiga vendendo. Estamos pagando R$ 2.000 e R$ 1.500 de cachê por um volume que quase não entra em circulação.</p>
+      <div class="action"><b>O que fazer:</b> duas conversas. Com a mídia, checar se essas peças estão nas campanhas certas — 55 entregues e 4 usadas pode ser sinal de formato errado, não de qualidade. Com os dois, revisar o cachê por peça no próximo contrato: faz mais sentido pagar por menos peças e melhores do que por volume que não é usado.</div>
+    </div>
+    <div class="hl">
+      <span class="pill bad"><span class="ic">▼</span>não se pagou</span>
+      <div class="fig">R$ 0,79 e R$ 0,89</div>
+      <p>Os dois maiores cachês do mês ficaram abaixo de R$ 1,00. <span class="who">Alam Carrion</span> custou R$ 5.000 de cachê mais R$ 20.044 de anúncio e devolveu R$ 0,79 na régua do que rodou. <span class="who">Josué Aragão</span> custou R$ 2.000 de cachê e recebeu R$ 25.223 de anúncio — <strong>doze vezes o cachê</strong> — e devolveu R$ 0,89. O algoritmo apostou alto em quem não pagou a conta.</p>
+      <div class="action"><b>O que fazer:</b> não dá para reduzir a verba deles, então a alavanca é contratual. Na renovação, renegociar valor e exigir peça nova em vez de reaproveitamento — a peça vitalício do Alam ficou 31 dias no ar e fez só 20 vendas. Se a próxima rodada repetir abaixo de R$ 1,00, aí é caso de rever a parceria.</div>
+    </div>
+    <div class="hl">
+      <span class="pill mid"><span class="ic">●</span>estrutural</span>
+      <div class="fig">20,5% e 39%</div>
+      <p>Um quinto da venda é atrasada e 39% precisa de vendedor. Não é problema a resolver, é <strong>característica do canal a incorporar</strong>: venda atrasada de 20,5% contra 3,8% na média da casa; e boa parte da receita só entra porque alguém do comercial fecha — venda que paga comissão, e cuja comissão não está em nenhum número aqui.</p>
+      <div class="action"><b>O que fazer:</b> passar a comparar meses sempre pela régua "só peça que rodou", nunca pelo caixa — é o que evita comemorar um mês que foi na verdade cauda do anterior. E pedir ao comercial o custo de comissão das vendas do canal, para entrar na próxima edição.</div>
+    </div>
+    <div class="hl">
+      <span class="pill none"><span class="ic">○</span>falta informação</span>
+      <div class="fig">R$ 84 mil sem cachê registrado</div>
+      <p>Cinco influenciadores — <span class="who">Murillo Capellozzi, Diego Del Rio, BR Explora, Pedro Alaer e Julliene Salviano</span> — concentraram R$ 84.031 de anúncio e não têm nenhum cachê na planilha. Se alguma dessas pessoas recebeu algo não lançado, o retorno delas neste relatório está melhor que a realidade — <strong>inclusive o do primeiro destaque</strong>.</p>
+      <div class="action"><b>O que fazer:</b> confirmar antes da próxima edição se os cinco foram permuta, contrato anual, banco de peças ou pagamento não lançado. É a única pendência que pode mudar uma conclusão deste relatório.</div>
+    </div>
+  </div>
+</section>
+
+<section id="pendencias">
+  <div class="sec-head"><span class="num">09</span><h2>O que ainda precisa ser confirmado</h2></div>
+  <p class="sec-sub">Quatro pontos abertos. Nenhum muda o resultado geral do mês; um deles pode mudar a leitura de influenciadores específicos.</p>
+
+  <div class="panel">
+    <ul class="ask">
+      <li><span class="v">A planilha de custo não fecha consigo mesma.<small>As 10 linhas somam R$ 52.431,10, mas o total declarado é R$ 46.931,10 — R$ 5.500 de diferença. Usamos a soma das linhas. <strong>Quem resolve:</strong> gestoras do canal.</small></span></li>
+      <li><span class="v">Cinco influenciadores com R$ 84.031 de anúncio não têm cachê registrado.<small>Murillo Capellozzi, Diego Del Rio, BR Explora, Pedro Alaer e Julliene Salviano. Se receberam algo não lançado, o retorno deles está superestimado. <strong>Quem resolve:</strong> gestoras do canal.</small></span></li>
+      <li><span class="v">O valor de anúncio não inclui o acréscimo de 12,15% que algumas planilhas da casa aplicam.<small>Com o acréscimo, o gasto iria para R$ 173,1 mil e cada R$ 1 viraria R$ 1,39. Mas a média da empresa cai junto, para R$ 1,30 — a comparação relativa não muda. É decisão de padronização, não de resultado. <strong>Quem resolve:</strong> marketing e financeiro.</small></span></li>
+      <li><span class="v">A identificação de "anúncio de influenciador" depende do nome do anúncio.<small>Só entram anúncios cujo nome contém o nome do influ ou a marcação "influ". A nomenclatura não é padronizada, então algum anúncio pode ter escapado. O número de venda daqui é <strong>piso, não teto</strong>. <strong>Quem resolve:</strong> padronização com a equipe de mídia.</small></span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="metodo">
+  <div class="sec-head"><span class="num">10</span><h2>Como o número foi montado</h2></div>
+  <p class="sec-sub">Para quem quiser abrir a caixa.</p>
+
+  <div class="panel">
+    <p><strong>De onde vem cada número.</strong> O dinheiro de anúncio vem do que foi efetivamente gasto na Meta, filtrando os anúncios que carregam nome de influenciador ou a marcação "influ". O cachê vem da planilha de controle de custo das gestoras, linha a linha. A receita vem da base de vendas da empresa, reconstruída venda a venda e ligada ao anúncio pelo modelo de atribuição da casa.</p>
+    <h3 style="margin:24px 0 12px">O que já foi conferido</h3>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th>Verificação</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td>Alguma venda foi contada em mais de um anúncio?</td><td><span class="pill ok"><span class="ic">✓</span>não — cada venda em 1 anúncio só</span></td></tr>
+          <tr><td>Entrou renovação de assinatura?</td><td><span class="pill ok"><span class="ic">✓</span>não — é tudo venda nova</span></td></tr>
+          <tr><td>A receita bate quando recalculada venda a venda?</td><td><span class="pill ok"><span class="ic">✓</span>sim — R$ 239.784,65</span></td></tr>
+          <tr><td>Os três caminhos de venda se sobrepõem?</td><td><span class="pill ok"><span class="ic">✓</span>não — zero sobreposição</span></td></tr>
+          <tr><td>Algum anúncio entrou por engano?</td><td><span class="pill ok"><span class="ic">✓</span>nenhum falso positivo</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tiny" style="margin-top:16px"><strong style="color:var(--ink)">O que não é verificável, por natureza.</strong> Dizer qual venda pertence a qual anúncio é uma decisão do modelo de atribuição da empresa, o mesmo usado por todas as áreas. Ele é uma aproximação, não uma certeza — e vale igual para influenciadores e para o resto da casa. Por isso todas as comparações deste relatório usam o mesmo critério dos dois lados.</p>
+  </div>
+</section>
+
+<footer>
+  <span>Versão detalhada · <a href="./" style="color:var(--accent)">voltar ao resumo</a> · dúvidas com André Abe</span>
+  <span>Brasil Paralelo · Marketing</span>
+</footer>
+
+</div>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+
+<script>
+(async function () {
+const D = await (await fetch('./data.json')).json();
+
+const BRL = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+const BRLk = v => v >= 1000 ? 'R$ ' + (v/1000).toFixed(v >= 10000 ? 0 : 1).replace('.', ',') + ' mil' : 'R$ ' + Math.round(v);
+const NUM = v => v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const RET = v => 'R$ ' + NUM(v);
+const MEDIA = 1.46;
+
+/* classificação usada em toda a página — a régua está explicada na seção 03 */
+function verdict(custo, r) {
+  if (!custo || custo < 100) return {cls: 'none', ic: '○', txt: 'sem gasto no mês'};
+  const x = r / custo;
+  if (x >= MEDIA) return {cls: 'ok',  ic: '▲', txt: 'acima da média'};
+  if (x >= 1)     return {cls: 'mid', ic: '●', txt: 'se pagou'};
+  return {cls: 'bad', ic: '▼', txt: 'não se pagou'};
+}
+const pill = v => `<span class="pill ${v.cls}"><span class="ic">${v.ic}</span>${v.txt}</span>`;
+
+/* s = anúncio · f = cachê · ra = receita das peças que rodaram · rc = venda atrasada
+   (peça sem gasto no mês) · v = vendas · ads = peças no ar · rodou = peças com R$ 500+ */
+const INFLUS = D.influs;
+INFLUS.forEach(d => { d.r = d.ra + d.rc; });
+
+/* melhores anúncios — dias no ar contados por dia COM veiculação (impressões > 0) */
+const ADS_TOP = D.ads_top;
+
+const MESES = D.serie_2026;
+
+const CAMPS = D.campanhas;
+
+/* ── tooltip ─────────────────────────────────────────────── */
+const tip = document.getElementById('tip');
+function showTip(e, html) {
+  tip.innerHTML = html;
+  tip.style.opacity = '1';
+  const r = tip.getBoundingClientRect();
+  let x = e.clientX + 14, y = e.clientY - r.height - 10;
+  if (x + r.width > window.innerWidth - 8) x = e.clientX - r.width - 14;
+  if (y < 8) y = e.clientY + 18;
+  tip.style.left = x + 'px';
+  tip.style.top = y + 'px';
+}
+function hideTip() { tip.style.opacity = '0'; }
+
+function bindTip(el, html) {
+  el.classList.add('hit');
+  el.setAttribute('tabindex', '0');
+  el.addEventListener('mousemove', e => showTip(e, html));
+  el.addEventListener('mouseleave', hideTip);
+  el.addEventListener('focus', () => {
+    const b = el.getBoundingClientRect();
+    showTip({clientX: b.left + b.width / 2, clientY: b.top}, html);
+  });
+  el.addEventListener('blur', hideTip);
+}
+
+
+/* guarda de consistência: o texto narrativo é escrito à mão a cada fechamento.
+   Se o data.json mudar e o texto não for revisto, isto avisa no console. */
+(function () {
+  const som = (a, k) => a.reduce((t, d) => t + (d[k] || 0), 0);
+  const checa = [
+    ['anúncio',  Math.round(som(D.influs, 's')),               D.gasto.midia],
+    ['cachê',    Math.round(som(D.influs, 'f')),               D.gasto.cache],
+    ['receita',  Math.round(som(D.influs, 'ra') + som(D.influs, 'rc')), D.receita.anuncio_total],
+    ['peças',    som(D.influs, 'ads'),                          D.pecas.no_ar],
+    ['escaladas',som(D.influs, 'rodou'),                        D.pecas.escaladas]
+  ];
+  checa.forEach(([nome, calc, decl]) => {
+    if (Math.abs(calc - decl) > 2) console.warn(`[influs] ${nome}: soma ${calc} x declarado ${decl}`);
+  });
+})();
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs) {
+  const n = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  return n;
+}
+
+/* ── 1. barras: gasto (anúncio + cachê) x retorno ────────── */
+(function () {
+  const data = INFLUS.filter(d => d.s > 0 || d.f > 0 || d.r > 0);
+  const rowH = 36, padL = 152, padR = 116, padT = 4, padB = 28;
+  const W = 900, H = padT + data.length * rowH + padB;
+  const max = Math.max(...data.map(d => Math.max(d.s + d.f, d.r)));
+  const x = v => padL + (v / max) * (W - padL - padR);
+
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Gasto com anúncio e cachê comparado à venda gerada, por influenciador, em agosto de 2026'});
+
+  [0, max / 2, max].forEach(t => {
+    svg.appendChild(el('line', {x1: x(t), x2: x(t), y1: padT, y2: H - padB,
+      stroke: 'var(--rule)', 'stroke-width': 1}));
+    const tx = el('text', {x: x(t), y: H - padB + 17, 'text-anchor': t === 0 ? 'start' : 'middle',
+      fill: 'var(--muted)', 'font-size': 11});
+    tx.textContent = t === 0 ? '0' : BRLk(t);
+    svg.appendChild(tx);
+  });
+
+  data.forEach((d, i) => {
+    const y = padT + i * rowH;
+    const bh = 11, gap = 2;
+    const custo = d.s + d.f;
+    const vd = verdict(custo, d.r);
+
+    const lbl = el('text', {x: padL - 12, y: y + rowH / 2 + (d.f > 0 ? -4 : 1), 'text-anchor': 'end',
+      fill: 'var(--ink)', 'font-size': 12, 'dominant-baseline': 'middle'});
+    lbl.textContent = d.n;
+    svg.appendChild(lbl);
+
+    const ret = custo >= 100 ? (d.r / custo) : null;
+    const html = `<div class="t-name">${d.n}</div>
+      <div class="t-row"><span>Anúncio</span><span>${d.s >= 1 ? BRL(d.s) : '—'}</span></div>
+      <div class="t-row"><span>Cachê</span><span>${d.f ? BRL(d.f) : '—'}</span></div>
+      <div class="t-row"><span>Gasto total</span><span>${custo >= 1 ? BRL(custo) : '—'}</span></div>
+      <div class="t-row"><span>Voltou</span><span>${BRL(d.r)}</span></div>
+      <div class="t-row"><span>&nbsp;&nbsp;de peça que rodou</span><span>${BRL(d.ra)}</span></div>
+      <div class="t-row"><span>&nbsp;&nbsp;venda atrasada</span><span>${BRL(d.rc)}</span></div>
+      <div class="t-row"><span>Cada R$ 1 virou</span><span>${ret === null ? '—' : RET(ret)}</span></div>
+      <div class="t-row"><span>Só peças que rodaram</span><span>${custo >= 100 ? RET(d.ra / custo) : '—'}</span></div>
+      <div class="t-row"><span>Fechada pelo Comercial</span><span>${d.r ? Math.round(d.rcom / d.r * 100) + '%' : '—'}</span></div>
+      <div class="t-row"><span>Vendas</span><span>${d.v}</span></div>
+      <div class="t-row"><span>Peças no ar</span><span>${d.ads}</span></div>
+      <div class="t-row"><span>Que o algoritmo escalou</span><span>${d.rodou}</span></div>
+      <div class="t-verdict">${pill(vd)}</div>`;
+
+    const g = el('g', {});
+    g.appendChild(el('rect', {x: 0, y: y, width: W, height: rowH, fill: 'transparent'}));
+
+    /* barra de gasto: anúncio + cachê num único traço — a divisão vive na tabela
+       e no tooltip; dois tons do mesmo azul não se distinguem o suficiente. */
+    const yTop = y + rowH / 2 - bh - gap / 2;
+    if (custo > 0) {
+      g.appendChild(el('rect', {x: padL, y: yTop,
+        width: Math.max(x(custo) - padL, 1.5), height: bh, rx: 3, fill: 'var(--s1)'}));
+    }
+    if (d.f > 0) {
+      const tag = el('text', {x: padL - 12, y: y + rowH / 2 + 12, 'text-anchor': 'end',
+        fill: 'var(--muted)', 'font-size': 9.5});
+      tag.textContent = '+ cachê';
+      svg.appendChild(tag);
+    }
+    if (d.r > 0) {
+      g.appendChild(el('rect', {x: padL, y: y + rowH / 2 + gap / 2,
+        width: Math.max(x(d.r) - padL, 1.5), height: bh, rx: 3, fill: 'var(--s2)'}));
+    }
+
+    if (ret !== null) {
+      const color = vd.cls === 'ok' ? 'var(--good-ink)' : vd.cls === 'bad' ? 'var(--crit-ink)' : 'var(--ink-2)';
+      const rl = el('text', {x: Math.max(x(custo), x(d.r)) + 10, y: y + rowH / 2 + 1,
+        fill: color, 'font-size': 11.5, 'dominant-baseline': 'middle',
+        'font-weight': vd.cls === 'mid' ? 400 : 600});
+      rl.textContent = RET(ret);
+      g.appendChild(rl);
+    }
+
+    bindTip(g, html);
+    svg.appendChild(g);
+  });
+
+  document.getElementById('chart-influs').appendChild(svg);
+})();
+
+/* ── 2. tabela por influ ─────────────────────────────────── */
+(function () {
+  const tb = document.querySelector('#tbl-influs tbody');
+  let ts = 0, tf = 0, tr = 0, tv = 0, tads = 0, trod = 0, tc = 0, tra = 0, tcom = 0;
+  INFLUS.forEach(d => {
+    const custo = d.s + d.f;
+    ts += d.s; tf += d.f; tr += d.r; tv += d.v; tads += d.ads; trod += d.rodou;
+    tc += d.rc; tra += d.ra; tcom += d.rcom;
+    const vd = verdict(custo, d.r);
+    const ret = custo >= 100 ? RET(d.r / custo) : '—';
+    const color = vd.cls === 'ok' ? ' style="color:var(--good-ink);font-weight:600"'
+                : vd.cls === 'bad' ? ' style="color:var(--crit-ink);font-weight:600"' : '';
+    const row = document.createElement('tr');
+    const ativo = custo >= 100 ? d.ra / custo : null;
+    const pctCauda = d.r > 0 ? d.rc / d.r : 0;
+    const pctCom = d.r > 0 ? d.rcom / d.r : 0;
+    row.innerHTML = `<td>${d.n}${d.f ? ` <span class="src">+ cachê ${BRL(d.f)}</span>` : ''}</td>` +
+      `<td>${custo >= 1 ? BRL(custo) : '—'}</td><td>${BRL(d.r)}</td>` +
+      `<td${pctCauda >= 0.3 ? ' style="color:var(--warn-ink);font-weight:600"' : ' class="zero"'}>` +
+        `${d.rc ? BRL(d.rc) + ' · ' + Math.round(pctCauda * 100) + '%' : '—'}</td>` +
+      `<td${pctCom >= 0.5 ? ' style="color:var(--warn-ink);font-weight:600"' : ' class="zero"'}>${d.rcom ? Math.round(pctCom * 100) + '%' : '—'}</td>` +
+      `<td${color}>${ret}</td>` +
+      `<td${ativo !== null && ativo < 1 ? ' style="color:var(--crit-ink);font-weight:600"' : ''}>${ativo === null ? '—' : RET(ativo)}</td>` +
+      `<td>${pill(vd)}</td>` +
+      `<td>${d.ads}</td><td${d.ads >= 10 && d.rodou <= 3 ? ' style="color:var(--crit-ink);font-weight:600"' : ''}>${d.rodou}</td>`;
+    tb.appendChild(row);
+  });
+  const foot = document.createElement('tfoot');
+  foot.innerHTML = `<tr><td>Total</td><td>${BRL(ts + tf)}</td><td>${BRL(tr)}</td>` +
+    `<td>${BRL(tc)} · ${Math.round(tc / tr * 100)}%</td>` +
+    `<td>${Math.round(tcom / tr * 100)}%</td>` +
+    `<td>${RET(tr / (ts + tf))}</td><td>${RET(tra / (ts + tf))}</td>` +
+    `<td>${pill(verdict(ts + tf, tr))}</td><td>${tads}</td><td>${trod}</td></tr>`;
+  document.getElementById('tbl-influs').appendChild(foot);
+})();
+
+/* ── 3. investimento mensal ──────────────────────────────── */
+(function () {
+  const W = 420, H = 210, padL = 52, padR = 8, padT = 12, padB = 26;
+  const max = 750000;
+  const y = v => H - padB - (v / max) * (H - padT - padB);
+  const bw = (W - padL - padR) / MESES.length;
+
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Investimento em anúncios com criativo de influenciador, mês a mês, em 2026'});
+
+  [0, 250000, 500000, 750000].forEach(t => {
+    svg.appendChild(el('line', {x1: padL, x2: W - padR, y1: y(t), y2: y(t),
+      stroke: t === 0 ? 'var(--rule)' : 'var(--rule-soft)', 'stroke-width': 1}));
+    const tx = el('text', {x: padL - 8, y: y(t) + 3.5, 'text-anchor': 'end',
+      fill: 'var(--muted)', 'font-size': 10});
+    tx.textContent = t === 0 ? '0' : 'R$ ' + (t / 1000) + 'k';
+    svg.appendChild(tx);
+  });
+
+  MESES.forEach((d, i) => {
+    const cx = padL + i * bw + bw / 2;
+    const g = el('g', {});
+    g.appendChild(el('rect', {x: padL + i * bw, y: padT, width: bw, height: H - padT - padB, fill: 'transparent'}));
+    const h = Math.max(y(0) - y(d.s), 2);
+    g.appendChild(el('rect', {x: cx - bw * 0.3, y: y(d.s), width: bw * 0.6, height: h, rx: 3,
+      fill: d.m === 'ago' ? 'var(--s1)' : 'var(--rule)'}));
+    if (d.m === 'ago' || d.m === 'jun') {
+      const vl = el('text', {x: cx, y: y(d.s) - 7, 'text-anchor': 'middle',
+        fill: 'var(--ink)', 'font-size': 10.5, 'font-weight': 600});
+      vl.textContent = d.m === 'ago' ? 'R$ 144k' : 'R$ 703k';
+      g.appendChild(vl);
+    }
+    const tx = el('text', {x: cx, y: H - padB + 15, 'text-anchor': 'middle',
+      fill: d.m === 'ago' ? 'var(--ink)' : 'var(--muted)', 'font-size': 10,
+      'font-weight': d.m === 'ago' ? 600 : 400});
+    tx.textContent = d.m;
+    g.appendChild(tx);
+    bindTip(g, `<div class="t-name">${d.m}/2026</div>
+      <div class="t-row"><span>Anúncio</span><span>${BRL(d.s)}</span></div>
+      <div class="t-row"><span>Cada R$ 1 virou</span><span>${RET(d.roas)}</span></div>`);
+    svg.appendChild(g);
+  });
+
+  document.getElementById('chart-spend').appendChild(svg);
+})();
+
+/* ── 4. retorno influs x média ───────────────────────────── */
+(function () {
+  const W = 420, H = 210, padL = 42, padR = 12, padT = 16, padB = 26;
+  const max = 4.2;
+  const y = v => H - padB - (v / max) * (H - padT - padB);
+  const x = i => padL + (i / (MESES.length - 1)) * (W - padL - padR);
+
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Quanto cada real de anúncio devolveu: peças de influenciador comparadas à média da BP, mês a mês em 2026'});
+
+  [0, 1, 2, 3, 4].forEach(t => {
+    svg.appendChild(el('line', {x1: padL, x2: W - padR, y1: y(t), y2: y(t),
+      stroke: t === 0 ? 'var(--rule)' : 'var(--rule-soft)', 'stroke-width': 1}));
+    const tx = el('text', {x: padL - 7, y: y(t) + 3.5, 'text-anchor': 'end',
+      fill: 'var(--muted)', 'font-size': 10});
+    tx.textContent = 'R$ ' + t;
+    svg.appendChild(tx);
+  });
+
+  const line = (key, color) => {
+    const d = MESES.map((m, i) => `${i ? 'L' : 'M'}${x(i)} ${y(m[key])}`).join(' ');
+    svg.appendChild(el('path', {d: d, fill: 'none', stroke: color, 'stroke-width': 2,
+      'stroke-linejoin': 'round', 'stroke-linecap': 'round'}));
+  };
+  line('geral', 'var(--s2)');
+  line('roas', 'var(--s1)');
+
+  MESES.forEach((m, i) => {
+    ['geral', 'roas'].forEach(k => {
+      svg.appendChild(el('circle', {cx: x(i), cy: y(m[k]), r: 4,
+        fill: k === 'roas' ? 'var(--s1)' : 'var(--s2)',
+        stroke: 'var(--surface)', 'stroke-width': 2}));
+    });
+    const tx = el('text', {x: x(i), y: H - padB + 15, 'text-anchor': 'middle',
+      fill: m.m === 'ago' ? 'var(--ink)' : 'var(--muted)', 'font-size': 10,
+      'font-weight': m.m === 'ago' ? 600 : 400});
+    tx.textContent = m.m;
+    svg.appendChild(tx);
+    const g = el('rect', {x: x(i) - (W - padL - padR) / (MESES.length * 2), y: padT,
+      width: (W - padL - padR) / MESES.length, height: H - padT - padB, fill: 'transparent'});
+    bindTip(g, `<div class="t-name">${m.m}/2026 — cada R$ 1 de anúncio devolveu</div>
+      <div class="t-row"><span>Peças de influ</span><span>${RET(m.roas)}</span></div>
+      <div class="t-row"><span>Média da BP</span><span>${RET(m.geral)}</span></div>`);
+    svg.appendChild(g);
+  });
+
+  const lbl = el('text', {x: x(7), y: y(MESES[7].roas) - 11, 'text-anchor': 'end',
+    fill: 'var(--ink)', 'font-size': 10.5, 'font-weight': 600});
+  lbl.textContent = 'R$ 1,67';
+  svg.appendChild(lbl);
+
+  document.getElementById('chart-roas').appendChild(svg);
+})();
+
+/* ── 5. tabela por campanha ──────────────────────────────── */
+(function () {
+  const tb = document.querySelector('#tbl-camp tbody');
+  let ts = 0, tr = 0, tv = 0;
+  CAMPS.forEach(d => {
+    ts += d.s; tr += d.r; tv += d.v;
+    const vd = verdict(d.s, d.r);
+    const color = vd.cls === 'ok' ? ' style="color:var(--good-ink);font-weight:600"'
+                : vd.cls === 'bad' ? ' style="color:var(--crit-ink);font-weight:600"' : '';
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${d.n}</td><td>${d.s >= 1 ? BRL(d.s) : '—'}</td><td>${BRL(d.r)}</td>` +
+      `<td${color}>${d.s >= 100 ? RET(d.r / d.s) : '—'}</td><td>${pill(vd)}</td>` +
+      `<td>${d.v}</td><td>${d.v ? BRL(d.r / d.v) : '—'}</td>`;
+    tb.appendChild(row);
+  });
+  const foot = document.createElement('tfoot');
+  foot.innerHTML = `<tr><td>Total</td><td>${BRL(ts)}</td><td>${BRL(tr)}</td><td>${RET(tr / ts)}</td>` +
+    `<td>${pill(verdict(ts, tr))}</td><td>${tv}</td><td>${BRL(tr / tv)}</td></tr>`;
+  document.getElementById('tbl-camp').appendChild(foot);
+})();
+/* ── 6. tabela dos melhores anúncios ─────────────────────── */
+(function () {
+  const tb = document.querySelector('#tbl-ads tbody');
+  ADS_TOP.forEach(d => {
+    const vd = verdict(d.s, d.r);
+    const color = vd.cls === 'ok' ? ' style="color:var(--good-ink);font-weight:600"'
+                : vd.cls === 'bad' ? ' style="color:var(--crit-ink);font-weight:600"' : '';
+    const row = document.createElement('tr');
+    row.innerHTML = `<td style="white-space:normal">${d.ad}</td><td>${d.s >= 1 ? BRL(d.s) : '—'}</td>` +
+      `<td>${BRL(d.r)}</td><td${color}>${d.s >= 100 ? RET(d.r / d.s) : '—'}</td>` +
+      `<td>${pill(vd)}</td><td>${d.v}</td>` +
+      `<td${d.d === 0 ? ' class="zero"' : ''}>${d.d === 0 ? 'não rodou' : d.d + ' dias'}</td>`;
+    tb.appendChild(row);
+  });
+})();
+
+/* ── 7. peças entregues x peças escaladas ────────────────── */
+(function () {
+  const data = INFLUS.filter(d => d.ads >= 3 && !d.n.startsWith('Outros'))
+                     .sort((a, b) => b.ads - a.ads);
+  const rowH = 30, padL = 152, padR = 150, padT = 4, padB = 26;
+  const W = 900, H = padT + data.length * rowH + padB;
+  const max = Math.max(...data.map(d => d.ads));
+  const x = v => padL + (v / max) * (W - padL - padR);
+
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Peças entregues por influenciador e quantas delas o algoritmo escalou, agosto de 2026'});
+
+  [0, max].forEach(t => {
+    svg.appendChild(el('line', {x1: x(t), x2: x(t), y1: padT, y2: H - padB,
+      stroke: 'var(--rule)', 'stroke-width': 1}));
+    const tx = el('text', {x: x(t), y: H - padB + 16, 'text-anchor': t === 0 ? 'start' : 'middle',
+      fill: 'var(--muted)', 'font-size': 10.5});
+    tx.textContent = t === 0 ? '0' : t + ' peças';
+    svg.appendChild(tx);
+  });
+
+  data.forEach((d, i) => {
+    const y = padT + i * rowH, bh = 13;
+    const g = el('g', {});
+    g.appendChild(el('rect', {x: 0, y: y, width: W, height: rowH, fill: 'transparent'}));
+
+    const lbl = el('text', {x: padL - 12, y: y + rowH / 2, 'text-anchor': 'end',
+      fill: 'var(--ink)', 'font-size': 12, 'dominant-baseline': 'middle'});
+    lbl.textContent = d.n;
+    svg.appendChild(lbl);
+
+    /* total entregue: traço claro. escaladas: traço cheio por cima. */
+    g.appendChild(el('rect', {x: padL, y: y + rowH / 2 - bh / 2,
+      width: Math.max(x(d.ads) - padL, 2), height: bh, rx: 3,
+      fill: 'var(--s1)', opacity: 0.22}));
+    if (d.rodou > 0) {
+      g.appendChild(el('rect', {x: padL, y: y + rowH / 2 - bh / 2,
+        width: Math.max(x(d.rodou) - padL, 2), height: bh, rx: 3, fill: 'var(--s1)'}));
+    }
+
+    const pct = d.rodou / d.ads;
+    const t = el('text', {x: x(d.ads) + 10, y: y + rowH / 2,
+      fill: pct <= 0.15 ? 'var(--crit-ink)' : 'var(--ink-2)', 'font-size': 11,
+      'dominant-baseline': 'middle', 'font-weight': pct <= 0.15 ? 600 : 400});
+    t.textContent = `${d.rodou} de ${d.ads} escaladas`;
+    g.appendChild(t);
+
+    bindTip(g, `<div class="t-name">${d.n}</div>
+      <div class="t-row"><span>Peças no ar</span><span>${d.ads}</span></div>
+      <div class="t-row"><span>Escaladas (R$ 500+)</span><span>${d.rodou}</span></div>
+      <div class="t-row"><span>Aproveitamento</span><span>${Math.round(pct * 100)}%</span></div>
+      <div class="t-row"><span>Verba recebida</span><span>${BRL(d.s)}</span></div>
+      <div class="t-row"><span>Voltou</span><span>${BRL(d.r)}</span></div>`);
+    svg.appendChild(g);
+  });
+
+  document.getElementById('chart-vol').appendChild(svg);
+})();
+/* ── 8. cascata: o que o dinheiro realmente pagou ────────── */
+(function () {
+  const GASTO = 155631;
+  const D = [
+    {t: 'Tudo que entrou no caixa em agosto',                       v: 239785, r: 1.54, cls: 'ok'},
+    {t: 'Tirando venda de peça que não rodou em agosto',            v: 190731, r: 1.23, cls: 'mid'},
+    {t: 'Tirando também o que um vendedor do comercial fechou',     v: 138305, r: 0.89, cls: 'bad'}
+  ];
+  const COR = {ok: 'var(--good-ink)', mid: 'var(--warn-ink)', bad: 'var(--crit-ink)'};
+  const rowH = 74, padL = 8, padR = 8, padT = 6, padB = 34;
+  const W = 900, H = padT + D.length * rowH + padB;
+  const max = D[0].v;
+  const bw = v => (v / max) * (W - padL - padR);
+
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Cascata: receita de agosto em três níveis de exigência, do caixa do mês ao que o anúncio vendeu sozinho'});
+
+  /* linha do ponto de equilíbrio: onde a receita iguala o gasto */
+  const xEq = padL + bw(GASTO);
+  svg.appendChild(el('line', {x1: xEq, x2: xEq, y1: padT, y2: H - padB + 6,
+    stroke: 'var(--ink-2)', 'stroke-width': 1, 'stroke-dasharray': '3 3'}));
+  const eq = el('text', {x: xEq, y: H - padB + 22, 'text-anchor': 'middle',
+    fill: 'var(--ink-2)', 'font-size': 10.5});
+  eq.textContent = 'gasto do mês: R$ 155.631';
+  svg.appendChild(eq);
+
+  D.forEach((d, i) => {
+    const y = padT + i * rowH;
+    const g = el('g', {});
+    g.appendChild(el('rect', {x: 0, y: y, width: W, height: rowH, fill: 'transparent'}));
+
+    const lbl = el('text', {x: padL, y: y + 14, fill: 'var(--ink)', 'font-size': 12.5});
+    lbl.textContent = (i ? '↳ ' : '') + d.t;
+    g.appendChild(lbl);
+
+    g.appendChild(el('rect', {x: padL, y: y + 24, width: Math.max(bw(d.v), 2), height: 20, rx: 3,
+      fill: 'var(--s1)', opacity: i === 0 ? 1 : (i === 1 ? 0.72 : 0.45)}));
+
+    const val = el('text', {x: padL + bw(d.v) + 10, y: y + 38, fill: 'var(--ink)',
+      'font-size': 12.5, 'font-weight': 600});
+    val.textContent = BRL(d.v);
+    g.appendChild(val);
+
+    const ret = el('text', {x: padL, y: y + 60, fill: COR[d.cls], 'font-size': 12, 'font-weight': 600});
+    ret.textContent = `cada R$ 1 virou ${RET(d.r)}`;
+    g.appendChild(ret);
+
+    bindTip(g, `<div class="t-name">${d.t}</div>
+      <div class="t-row"><span>Receita</span><span>${BRL(d.v)}</span></div>
+      <div class="t-row"><span>Gasto</span><span>${BRL(GASTO)}</span></div>
+      <div class="t-row"><span>Cada R$ 1 virou</span><span>${RET(d.r)}</span></div>`);
+    svg.appendChild(g);
+  });
+
+  document.getElementById('chart-cascata').appendChild(svg);
+})();
+
+})();
+</script>
+</body>
+</html>

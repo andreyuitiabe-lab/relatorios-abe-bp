@@ -70,3 +70,21 @@ vendas de anúncios de tráfego pago com criativos de influs, marcadas nas UTMs.
 
 - `wiki-bp/pages/bq-schema-core.md` — documentadas `nm_pptc_tracking_publisher`, `nm_pptc_tracking_name`, `nm_pptc_utm_content`, `nm_utm_source`
 - `wiki-brasil-paralelo/pages/influenciadores.md` — criada com achados e como medir vendas de influs
+
+---
+
+## Fechamento mensal (relatório separado)
+
+O fechamento mensal do canal — quanto gastamos em anúncio e cachê, quanto voltou, desempenho e
+destaques — virou relatório próprio em **[`relatorios/influenciadores-mensal/`](../influenciadores-mensal/)**,
+a partir de agosto/2026. Este aqui segue como o ranking histórico de vendas por influenciador
+(jan/2025 em diante).
+
+Achados de agosto que mudam a leitura deste relatório também:
+- **Contar anúncio por `id_advertising`, não por `nm_ad_name`** — o mesmo nome roda em campanhas
+  diferentes (164 anúncios únicos contra 118 nomes em ago/2026).
+- **Venda atrasada é estrutural no canal:** 20,5% da receita vem de peça sem gasto no mês, contra
+  3,8% na média da BP. Comparações de mês a mês pelo caixa superestimam meses que vêm depois de
+  campanha grande.
+- **A verba por influenciador é decisão do algoritmo da Meta**, não do time — retorno por influ está
+  contaminado por escala.

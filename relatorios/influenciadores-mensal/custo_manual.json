@@ -1,0 +1,36 @@
+{
+ "_fonte": "Aba INFLUENCIADORES do controle de custo variável, enviada por Bárbara Olivieri em 03/set/2026. Não existe no BigQuery — preencher à mão a cada mês.",
+ "_atencao": "A planilha de agosto declara total R$ 46.931,10, mas as 10 linhas somam R$ 52.431,10 (diferença de R$ 5.500). Usada a soma das linhas.",
+ "2026-08": {
+  "cache_peca_venda": {
+   "Alam Carrion": 5000,
+   "Fran Otto": 2000,
+   "Josué Aragão": 2000,
+   "Arthur Schreiber": 1500,
+   "Mayara Ranni": 1500
+  },
+  "acao_de_marca": {
+   "_nota": "Première John Money — fora do cálculo de retorno; nenhum deles tinha anúncio de venda rodando",
+   "Bernardo Kuster (passagem)": 2901.1,
+   "Ricardo Ventura": 1000,
+   "Gustavo Trevisan": 1000,
+   "Press kit amostra": 250
+  },
+  "excluido_a_pedido": {
+   "Première JOM (evento SP 26/08)": 35280
+  },
+  "contexto_bp": {
+   "venda_nova": 22000000,
+   "custo_marginal": 12700000,
+   "spend_meta_total": 7618704,
+   "retorno_medio_casa_caixa": 1.46,
+   "retorno_medio_casa_so_ativas": 1.4
+  },
+  "pendencias": [
+   "A planilha de custo declara total R$ 46.931,10, mas as 10 linhas somam R$ 52.431,10 — R$ 5.500 de diferença. Usada a soma das linhas.",
+   "Murillo Capellozzi, Diego Del Rio, BR Explora, Pedro Alaer e Julliene Salviano somam R$ 84.031 de anúncio sem cachê registrado.",
+   "O valor de anúncio não inclui o acréscimo de 12,15% usado em algumas planilhas da casa. Com ele, o retorno vai de R$ 1,23 para R$ 1,10 — e a média da casa cai junto.",
+   "A comissão das 137 vendas fechadas pelo time comercial não entra em nenhuma conta de retorno."
+  ]
+ }
+}
