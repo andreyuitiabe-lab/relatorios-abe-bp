@@ -375,6 +375,21 @@ section { padding-top: 54px; }
 
 
   <p class="note-line">Os R$ 155.631 que gastamos são só das duas primeiras linhas — o anúncio. Os outros dois caminhos chegam sem custo novo: são lead antigo e link próprio. Por isso toda conta de retorno aqui usa <strong style="color:var(--ink)">R$ 239.785 contra R$ 155.631</strong>.</p>
+
+  <h3 style="margin:34px 0 8px">ROI do canal</h3>
+  <p class="tiny" style="margin-bottom:16px">Quanto sobrou depois de pagar o anúncio e o cachê, em cima dos R$ 155.631 que gastamos. Mesma cascata da seção seguinte: quanto mais exigente a pergunta, menor o número.</p>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Base de cálculo</th><th>Voltou</th><th>Sobrou</th><th>ROI</th></tr></thead>
+      <tbody>
+        <tr><td>Tudo que entrou no caixa em agosto</td><td class="mono">R$ 239.785</td><td class="mono" style="color:var(--good-ink)">+ R$ 84.154</td><td class="mono" style="color:var(--good-ink);font-weight:600">+54%</td></tr>
+        <tr><td>Só as peças que rodaram em agosto</td><td class="mono">R$ 190.731</td><td class="mono" style="color:var(--warn-ink)">+ R$ 35.100</td><td class="mono" style="color:var(--warn-ink);font-weight:600">+23%</td></tr>
+        <tr><td>Só o que o próprio anúncio fechou</td><td class="mono">R$ 138.305</td><td class="mono" style="color:var(--crit-ink)">− R$ 17.326</td><td class="mono" style="color:var(--crit-ink);font-weight:600">−11%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note-line"><strong style="color:var(--ink)">Este ROI é sobre receita bruta.</strong> Ele desconta o que gastamos em anúncio e cachê, mas <strong style="color:var(--ink)">não desconta o custo do produto</strong> (impressão e envio de livro, taxa de gateway, imposto) nem a comissão das vendas fechadas pelo comercial. O ROI final da empresa é menor — em agosto o custo total de venda da BP foi 57,5% da venda nova. Aqui o número serve para comparar influenciadores entre si e meses entre si, não para dizer o lucro da operação.</p>
+
 </section>
 
 <section>
@@ -405,12 +420,12 @@ section { padding-top: 54px; }
 
   <div class="tbl-scroll" style="margin-top:24px">
     <table id="tbl-influs">
-      <thead><tr><th>Influenciador</th><th>Gastamos</th><th>Voltou</th><th>Cada R$ 1</th><th>Só o que rodou</th><th>Situação</th><th>Peças</th><th>Escaladas</th></tr></thead>
+      <thead><tr><th>Influenciador</th><th>Gastamos</th><th>Voltou</th><th>Cada R$ 1</th><th>Só o que rodou</th><th>Situação</th><th>Peças enviadas</th><th>Escaladas</th><th>Hit rate</th></tr></thead>
       <tbody></tbody>
     </table>
   </div>
 
-  <p class="note-line">Três coisas ao ler a tabela. <strong style="color:var(--ink)">A verba de cada um é decisão do algoritmo da Meta</strong>, não nossa — quem recebeu muito tende a render menos, porque escalar encarece a venda. <strong style="color:var(--ink)">Compare pela coluna "só o que rodou"</strong>, que tira a carona da venda antiga. E <strong style="color:var(--ink)">39% da receita vinda do anúncio foi fechada pelo time comercial</strong>, não pelo próprio anúncio — varia muito por pessoa (Pedro Alaer 71%, Fran Otto 63%, contra Diego Del Rio 9%) e paga comissão, que não está em nenhum número aqui.</p>
+  <p class="note-line">Três coisas ao ler a tabela. <strong style="color:var(--ink)">O hit rate é quantas das peças enviadas o algoritmo chegou a escalar</strong> — mede o aproveitamento do que vocês produzem, não a qualidade da venda. No mês fechou em 13% (22 de 164). Murillo Capellozzi teve 80% e Fran Otto 4%. <strong style="color:var(--ink)">A verba de cada um é decisão do algoritmo da Meta</strong>, não nossa — quem recebeu muito tende a render menos, porque escalar encarece a venda. <strong style="color:var(--ink)">Compare pela coluna "só o que rodou"</strong>, que tira a carona da venda antiga. E <strong style="color:var(--ink)">39% da receita vinda do anúncio foi fechada pelo time comercial</strong>, não pelo próprio anúncio — varia muito por pessoa (Pedro Alaer 71%, Fran Otto 63%, contra Diego Del Rio 9%) e paga comissão, que não está em nenhum número aqui.</p>
 </section>
 
 <section>
@@ -495,6 +510,10 @@ const BRL = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
 const BRLk = v => v >= 1000 ? 'R$ ' + (v/1000).toFixed(v >= 10000 ? 0 : 1).replace('.', ',') + ' mil' : 'R$ ' + Math.round(v);
 const NUM = v => v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 const RET = v => 'R$ ' + NUM(v);
+/* ROI = retorno sobre o gasto, em %. É o "cada R$ 1" menos 1: R$ 1,55 -> +55%. */
+const ROI = x => (x < 0 ? '\u2212' : '+') + Math.round(Math.abs(x) * 100) + '%';
+/* hit rate = peças escaladas / peças entregues */
+const HIT = (rodou, ads) => ads ? Math.round(rodou / ads * 100) + '%' : '\u2014';
 const MEDIA = 1.46;
 
 function verdict(custo, r) {
@@ -504,6 +523,7 @@ function verdict(custo, r) {
   if (x >= 1)     return {cls: 'mid', ic: '●', txt: 'se pagou'};
   return {cls: 'bad', ic: '▼', txt: 'não se pagou'};
 }
+const hit = d => d.ads ? d.rodou / d.ads : null;
 const pill = v => `<span class="pill ${v.cls}"><span class="ic">${v.ic}</span>${v.txt}</span>`;
 
 /* s = anúncio · f = cachê · ra = receita de peça que rodou · rc = venda atrasada */
@@ -626,21 +646,30 @@ function el(tag, attrs) {
     const vd = verdict(custo, d.r);
     const ret = custo >= 100 ? RET(d.r / custo) : '—';
     const ativo = custo >= 100 ? d.ra / custo : null;
+    const h = hit(d);
     const color = vd.cls === 'ok' ? ' style="color:var(--good-ink);font-weight:600"'
                 : vd.cls === 'bad' ? ' style="color:var(--crit-ink);font-weight:600"' : '';
+    const corHit = h === null ? '' : h < 0.15 ? ' style="color:var(--crit-ink);font-weight:600"'
+                 : h >= 0.5 ? ' style="color:var(--good-ink);font-weight:600"' : '';
     const row = document.createElement('tr');
-    row.innerHTML = `<td>${d.n}${d.f ? ` <span class="src">+ cachê ${BRL(d.f)}</span>` : ''}</td>` +
-      `<td>${custo >= 1 ? BRL(custo) : '—'}</td><td>${BRL(d.r)}</td>` +
+    row.innerHTML =
+      `<td>${d.n}${d.f ? ` <span class="src">+ cachê ${BRL(d.f)}</span>` : ''}</td>` +
+      `<td>${custo >= 1 ? BRL(custo) : '—'}</td>` +
+      `<td>${BRL(d.r)}</td>` +
       `<td${color}>${ret}</td>` +
       `<td${ativo !== null && ativo < 1 ? ' style="color:var(--crit-ink);font-weight:600"' : ''}>${ativo === null ? '—' : RET(ativo)}</td>` +
-      `<td>${pill(vd)}</td><td>${d.ads}</td>` +
-      `<td${d.ads >= 10 && d.rodou <= 3 ? ' style="color:var(--crit-ink);font-weight:600"' : ''}>${d.rodou}</td>`;
+      `<td>${pill(vd)}</td>` +
+      `<td>${d.ads}</td>` +
+      `<td>${d.rodou}</td>` +
+      `<td${corHit}>${h === null ? '—' : Math.round(h * 100) + '%'}</td>`;
     tb.appendChild(row);
   });
   const foot = document.createElement('tfoot');
-  foot.innerHTML = `<tr><td>Total</td><td>${BRL(ts + tf)}</td><td>${BRL(tr)}</td>` +
+  foot.innerHTML =
+    `<tr><td>Total</td><td>${BRL(ts + tf)}</td><td>${BRL(tr)}</td>` +
     `<td>${RET(tr / (ts + tf))}</td><td>${RET(tra / (ts + tf))}</td>` +
-    `<td>${pill(verdict(ts + tf, tr))}</td><td>${tads}</td><td>${trod}</td></tr>`;
+    `<td>${pill(verdict(ts + tf, tr))}</td><td>${tads}</td><td>${trod}</td>` +
+    `<td>${Math.round(trod / tads * 100)}%</td></tr>`;
   document.getElementById('tbl-influs').appendChild(foot);
 })();
 /* dados de anúncio e campanha */

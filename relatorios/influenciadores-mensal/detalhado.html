@@ -359,6 +359,8 @@ footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
       <div><dt>Lead</dt><dd>Pessoa que deixou o contato com a gente, mas ainda não comprou.</dd></div>
       <div><dt>Venda fechada pelo comercial</dt><dd>A pessoa veio pelo anúncio mas não comprou sozinha no site — quem converteu foi o time de vendas. Em agosto foram R$ 93.690 em 137 vendas: R$ 73.472 pelo time sem oportunidade registrada no CRM, R$ 10.246 de recuperação de pagamento (pix ou boleto vencido, carrinho, compra negada), R$ 9.624 de oportunidade de venda e R$ 348 de chat.</dd></div>
       <div><dt>Cada R$ 1 virou</dt><dd>Quanto de venda cada real gasto devolveu. Em relatórios de mídia aparece como <strong>ROAS</strong>.</dd></div>
+      <div><dt>ROI</dt><dd>O mesmo número visto como lucro sobre o gasto: R$ 1,55 por real é <strong>+55%</strong>; R$ 0,89 é <strong>−11%</strong>. Não desconta cachê de comissão nem imposto — é receita bruta sobre gasto de mídia mais cachê.</dd></div>
+      <div><dt>Hit rate</dt><dd>Das peças que o influenciador entregou, quantas o algoritmo escalou. Fran Otto entregou 28 e teve 1 escalada: hit rate de 4%.</dd></div>
     </dl>
   </div>
 </section>
@@ -443,6 +445,21 @@ footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
     <p class="tiny" style="margin-top:16px">Não há sobreposição entre os três caminhos — nenhuma venda foi contada duas vezes, e isso foi checado venda a venda.</p>
     <p class="tiny" style="margin-top:12px"><strong style="color:var(--ink)">Atenção para não dividir errado.</strong> O gasto de R$ 155.631 é só do primeiro caminho — anúncio e cachê. Os outros dois não têm mídia associada: são lead antigo e link próprio, que chegam sem custo novo. Toda conta de retorno neste relatório usa <strong style="color:var(--ink)">R$ 239.785 contra R$ 155.631</strong>.</p>
     <p class="tiny" style="margin-top:12px">Duas leituras aqui. O canal hoje é essencialmente um <strong style="color:var(--ink)">fornecedor de peça para anúncio</strong> — a cara do influenciador dentro da mídia da empresa. E link ou cupom próprio, com R$ 1.774 e 4 vendas no mês inteiro, é um caminho praticamente extinto: não vale montar operação nem cobrar meta em cima disso.</p>
+
+    <h3 style="margin:30px 0 8px">ROI do canal</h3>
+    <p class="tiny" style="margin-bottom:16px">Quanto sobrou depois de pagar o anúncio e o cachê, em cima dos R$ 155.631 gastos. Segue a mesma cascata da seção 04.</p>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th>Base de cálculo</th><th>Voltou</th><th>Sobrou</th><th>ROI</th></tr></thead>
+        <tbody>
+          <tr><td>Tudo que entrou no caixa em agosto</td><td class="mono">R$ 239.785</td><td class="mono" style="color:var(--good-ink)">+ R$ 84.154</td><td class="mono" style="color:var(--good-ink);font-weight:600">+54%</td></tr>
+          <tr><td>Só as peças que rodaram em agosto</td><td class="mono">R$ 190.731</td><td class="mono" style="color:var(--warn-ink)">+ R$ 35.100</td><td class="mono" style="color:var(--warn-ink);font-weight:600">+23%</td></tr>
+          <tr><td>Só o que o próprio anúncio fechou</td><td class="mono">R$ 138.305</td><td class="mono" style="color:var(--crit-ink)">− R$ 17.326</td><td class="mono" style="color:var(--crit-ink);font-weight:600">−11%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tiny" style="margin-top:14px"><strong style="color:var(--ink)">Este ROI é sobre receita bruta.</strong> Desconta anúncio e cachê, mas <strong style="color:var(--ink)">não desconta o custo do produto</strong> (impressão e envio de livro, gateway, imposto) nem a comissão das vendas fechadas pelo comercial. O ROI final da empresa é menor — em agosto o custo total de venda da BP foi 57,5% da venda nova. Aqui o número serve para comparar influenciadores e meses entre si, não para dizer o lucro da operação.</p>
+
   </div>
 </section>
 
@@ -509,14 +526,14 @@ footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
     <div class="chart-head"><div class="chart-title">A mesma coisa em tabela</div></div>
     <div class="tbl-scroll">
       <table id="tbl-influs">
-        <thead><tr><th>Influenciador</th><th>Gasto total</th><th>Voltou</th><th>Venda atrasada</th><th>Fechada por vendedor</th><th>Cada R$ 1 (caixa)</th><th>Só peças que rodaram</th><th>Situação</th><th>Peças</th><th>Escaladas</th></tr></thead>
+        <thead><tr><th>Influenciador</th><th>Gasto total</th><th>Voltou</th><th>Venda atrasada</th><th>Fechada pelo Comercial</th><th>Cada R$ 1 (caixa)</th><th>Só peças que rodaram</th><th>Situação</th><th>Peças enviadas</th><th>Escaladas</th><th>Hit rate</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
     <h3 style="margin:24px 0 10px">As três leituras que importam</h3>
     <p class="tiny"><strong style="color:var(--ink)">Primeiro, a distância entre as duas colunas de retorno.</strong> Fran Otto sai de R$ 2,67 para R$ 1,47 e Arthur Schreiber de R$ 2,15 para R$ 0,78 — nos dois casos, boa parte do resultado veio de peça antiga, não do que foi pago em agosto. Já Murillo Capellozzi e Diego Del Rio têm o mesmo número nas duas colunas: o resultado deles é de agosto, inteiro.</p>
     <p class="tiny" style="margin-top:10px"><strong style="color:var(--ink)">Segundo, a coluna de vendedor.</strong> Pedro Alaer (71%), Fran Otto (63%) e Arthur Schreiber (56%) vendem majoritariamente com o comercial fechando. Não invalida o resultado, mas quer dizer que o custo verdadeiro dessas vendas é maior do que a tabela mostra, porque falta a comissão.</p>
-    <p class="tiny" style="margin-top:10px"><strong style="color:var(--ink)">Terceiro, peças entregues contra peças escaladas.</strong> Fran Otto entregou 28 peças e o algoritmo usou 1. Arthur Schreiber entregou 27 e o algoritmo usou 3. Josué Aragão entregou 13, teve 4 usadas e recebeu R$ 25,2 mil de verba — doze vezes o cachê que pagamos a ele. Volume de entrega não está virando volume de investimento, e isso não passa por nós.</p>
+    <p class="tiny" style="margin-top:10px"><strong style="color:var(--ink)">Terceiro, peças entregues contra peças escaladas.</strong> Fran Otto entregou 28 peças e o algoritmo usou 1. Arthur Schreiber entregou 27 e o algoritmo usou 3. Josué Aragão entregou 13, teve 4 usadas e recebeu R$ 25,2 mil de verba — doze vezes o cachê que pagamos a ele. Volume de entrega não está virando volume de investimento, e isso não passa por nós. <strong style="color:var(--ink)">O hit rate é quantas das peças enviadas o algoritmo chegou a escalar</strong> — mede o aproveitamento do que vocês produzem, não a qualidade da venda. No mês fechou em 13% (22 de 164). Murillo Capellozzi teve 80% e Fran Otto 4%.</p>
   </div>
 
   <div class="panel">
@@ -682,6 +699,10 @@ const BRL = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
 const BRLk = v => v >= 1000 ? 'R$ ' + (v/1000).toFixed(v >= 10000 ? 0 : 1).replace('.', ',') + ' mil' : 'R$ ' + Math.round(v);
 const NUM = v => v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 const RET = v => 'R$ ' + NUM(v);
+/* ROI = retorno sobre o gasto, em %. É o "cada R$ 1" menos 1: R$ 1,55 -> +55%. */
+const ROI = x => (x < 0 ? '\u2212' : '+') + Math.round(Math.abs(x) * 100) + '%';
+/* hit rate = peças escaladas / peças entregues */
+const HIT = (rodou, ads) => ads ? Math.round(rodou / ads * 100) + '%' : '\u2014';
 const MEDIA = 1.46;
 
 /* classificação usada em toda a página — a régua está explicada na seção 03 */
@@ -692,6 +713,7 @@ function verdict(custo, r) {
   if (x >= 1)     return {cls: 'mid', ic: '●', txt: 'se pagou'};
   return {cls: 'bad', ic: '▼', txt: 'não se pagou'};
 }
+const hit = d => d.ads ? d.rodou / d.ads : null;
 const pill = v => `<span class="pill ${v.cls}"><span class="ic">${v.ic}</span>${v.txt}</span>`;
 
 /* s = anúncio · f = cachê · ra = receita das peças que rodaram · rc = venda atrasada
@@ -799,8 +821,11 @@ function el(tag, attrs) {
       <div class="t-row"><span>Só peças que rodaram</span><span>${custo >= 100 ? RET(d.ra / custo) : '—'}</span></div>
       <div class="t-row"><span>Fechada pelo Comercial</span><span>${d.r ? Math.round(d.rcom / d.r * 100) + '%' : '—'}</span></div>
       <div class="t-row"><span>Vendas</span><span>${d.v}</span></div>
-      <div class="t-row"><span>Peças no ar</span><span>${d.ads}</span></div>
+      <div class="t-row"><span>Peças enviadas</span><span>${d.ads}</span></div>
+      <div class="t-row"><span>Escaladas</span><span>${d.rodou}</span></div>
+      <div class="t-row"><span>Hit rate</span><span>${hit(d) === null ? '—' : Math.round(hit(d) * 100) + '%'}</span></div>
       <div class="t-row"><span>Que o algoritmo escalou</span><span>${d.rodou}</span></div>
+      <div class="t-row"><span>Hit rate</span><span>${hit(d) === null ? '—' : Math.round(hit(d) * 100) + '%'}</span></div>
       <div class="t-verdict">${pill(vd)}</div>`;
 
     const g = el('g', {});
@@ -843,36 +868,44 @@ function el(tag, attrs) {
 /* ── 2. tabela por influ ─────────────────────────────────── */
 (function () {
   const tb = document.querySelector('#tbl-influs tbody');
-  let ts = 0, tf = 0, tr = 0, tv = 0, tads = 0, trod = 0, tc = 0, tra = 0, tcom = 0;
+  let ts = 0, tf = 0, tr = 0, tra = 0, tc = 0, tcom = 0, tads = 0, trod = 0;
   INFLUS.forEach(d => {
     const custo = d.s + d.f;
-    ts += d.s; tf += d.f; tr += d.r; tv += d.v; tads += d.ads; trod += d.rodou;
-    tc += d.rc; tra += d.ra; tcom += d.rcom;
+    ts += d.s; tf += d.f; tr += d.r; tra += d.ra; tc += d.rc; tcom += d.rcom;
+    tads += d.ads; trod += d.rodou;
     const vd = verdict(custo, d.r);
     const ret = custo >= 100 ? RET(d.r / custo) : '—';
-    const color = vd.cls === 'ok' ? ' style="color:var(--good-ink);font-weight:600"'
-                : vd.cls === 'bad' ? ' style="color:var(--crit-ink);font-weight:600"' : '';
-    const row = document.createElement('tr');
     const ativo = custo >= 100 ? d.ra / custo : null;
     const pctCauda = d.r > 0 ? d.rc / d.r : 0;
     const pctCom = d.r > 0 ? d.rcom / d.r : 0;
-    row.innerHTML = `<td>${d.n}${d.f ? ` <span class="src">+ cachê ${BRL(d.f)}</span>` : ''}</td>` +
-      `<td>${custo >= 1 ? BRL(custo) : '—'}</td><td>${BRL(d.r)}</td>` +
-      `<td${pctCauda >= 0.3 ? ' style="color:var(--warn-ink);font-weight:600"' : ' class="zero"'}>` +
-        `${d.rc ? BRL(d.rc) + ' · ' + Math.round(pctCauda * 100) + '%' : '—'}</td>` +
+    const h = hit(d);
+    const color = vd.cls === 'ok' ? ' style="color:var(--good-ink);font-weight:600"'
+                : vd.cls === 'bad' ? ' style="color:var(--crit-ink);font-weight:600"' : '';
+    const corHit = h === null ? '' : h < 0.15 ? ' style="color:var(--crit-ink);font-weight:600"'
+                 : h >= 0.5 ? ' style="color:var(--good-ink);font-weight:600"' : '';
+    const row = document.createElement('tr');
+    row.innerHTML =
+      `<td>${d.n}${d.f ? ` <span class="src">+ cachê ${BRL(d.f)}</span>` : ''}</td>` +
+      `<td>${custo >= 1 ? BRL(custo) : '—'}</td>` +
+      `<td>${BRL(d.r)}</td>` +
+      `<td${pctCauda >= 0.3 ? ' style="color:var(--warn-ink);font-weight:600"' : ' class="zero"'}>${d.rc ? BRL(d.rc) + ' · ' + Math.round(pctCauda * 100) + '%' : '—'}</td>` +
       `<td${pctCom >= 0.5 ? ' style="color:var(--warn-ink);font-weight:600"' : ' class="zero"'}>${d.rcom ? Math.round(pctCom * 100) + '%' : '—'}</td>` +
       `<td${color}>${ret}</td>` +
       `<td${ativo !== null && ativo < 1 ? ' style="color:var(--crit-ink);font-weight:600"' : ''}>${ativo === null ? '—' : RET(ativo)}</td>` +
       `<td>${pill(vd)}</td>` +
-      `<td>${d.ads}</td><td${d.ads >= 10 && d.rodou <= 3 ? ' style="color:var(--crit-ink);font-weight:600"' : ''}>${d.rodou}</td>`;
+      `<td>${d.ads}</td>` +
+      `<td>${d.rodou}</td>` +
+      `<td${corHit}>${h === null ? '—' : Math.round(h * 100) + '%'}</td>`;
     tb.appendChild(row);
   });
   const foot = document.createElement('tfoot');
-  foot.innerHTML = `<tr><td>Total</td><td>${BRL(ts + tf)}</td><td>${BRL(tr)}</td>` +
+  foot.innerHTML =
+    `<tr><td>Total</td><td>${BRL(ts + tf)}</td><td>${BRL(tr)}</td>` +
     `<td>${BRL(tc)} · ${Math.round(tc / tr * 100)}%</td>` +
     `<td>${Math.round(tcom / tr * 100)}%</td>` +
     `<td>${RET(tr / (ts + tf))}</td><td>${RET(tra / (ts + tf))}</td>` +
-    `<td>${pill(verdict(ts + tf, tr))}</td><td>${tads}</td><td>${trod}</td></tr>`;
+    `<td>${pill(verdict(ts + tf, tr))}</td><td>${tads}</td><td>${trod}</td>` +
+    `<td>${Math.round(trod / tads * 100)}%</td></tr>`;
   document.getElementById('tbl-influs').appendChild(foot);
 })();
 
@@ -1060,7 +1093,9 @@ function el(tag, attrs) {
     g.appendChild(t);
 
     bindTip(g, `<div class="t-name">${d.n}</div>
-      <div class="t-row"><span>Peças no ar</span><span>${d.ads}</span></div>
+      <div class="t-row"><span>Peças enviadas</span><span>${d.ads}</span></div>
+      <div class="t-row"><span>Escaladas</span><span>${d.rodou}</span></div>
+      <div class="t-row"><span>Hit rate</span><span>${hit(d) === null ? '—' : Math.round(hit(d) * 100) + '%'}</span></div>
       <div class="t-row"><span>Escaladas (R$ 500+)</span><span>${d.rodou}</span></div>
       <div class="t-row"><span>Aproveitamento</span><span>${Math.round(pct * 100)}%</span></div>
       <div class="t-row"><span>Verba recebida</span><span>${BRL(d.s)}</span></div>

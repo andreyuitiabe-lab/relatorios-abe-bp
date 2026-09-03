@@ -185,7 +185,20 @@ def build(mes: str):
         if nome in agg: agg[nome]['f'] = v
         else: print(f"  ⚠️ cachê de {nome} sem anúncio correspondente no mês")
 
-    influs = sorted(agg.values(), key=lambda d: -(d['s'] + d['f']))
+    # agrupa a cauda: quem não teve verba nem receita relevante vira uma linha só,
+    # senão a tabela do relatório vem com dezenas de linhas de R$ 0 e fica ilegível.
+    CORTE_LINHA_PROPRIA = dict(gasto=100, receita=1000)
+    grandes, cauda = [], dict(n='Outros influenciadores', s=0.0, f=0.0, ra=0.0, rc=0.0,
+                              rdir=0.0, rcom=0.0, v=0, ads=0, rodou=0, c='diversas')
+    for d in agg.values():
+        if (d['s'] + d['f']) >= CORTE_LINHA_PROPRIA['gasto'] or (d['ra'] + d['rc']) >= CORTE_LINHA_PROPRIA['receita']:
+            grandes.append(d)
+        else:
+            for k in ('s','f','ra','rc','rdir','rcom','v','ads','rodou'): cauda[k] += d[k]
+    influs = sorted(grandes, key=lambda d: -(d['s'] + d['f']))
+    if cauda['ads']:
+        cauda['n'] = f"Outros ({cauda['ads']} peças de {len(agg) - len(grandes)} influenciadores)"
+        influs.append(cauda)
     for d in influs:
         for k in ('s', 'f', 'ra', 'rc', 'rdir', 'rcom'): d[k] = round(d[k])
         d['r'] = d['ra'] + d['rc']
