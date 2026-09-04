@@ -100,6 +100,73 @@ Quem está comprando a Coleção Brasil: A Última Cruzada — membros ou não? 
   abaixo de 0,2%.
 - Vendas pulverizadas entre **28 vendedores** (líder com 18) — operação de carteira.
 
+### Dentro das conversas: o que o cliente escreve
+Base: **1.661 prospects que responderam algo** (5.359 mensagens), dos quais
+12,8% compraram.
+
+- **45,2% nunca escreveram nada** — só clicaram no botão do WhatsApp ou
+  mandaram "sim/ok" (750 pessoas, 7,7% de conversão).
+  Cliques em botão + respostas mínimas são 25,7% de todos os turnos do cliente.
+- **Conversão escala com a profundidade**: só clique 7,7% → 1 fala 10,1%
+  → 2–3 falas 14,9% → **4+ falas 35,9%**.
+  ⚠️ Parte é causalidade reversa: frete/endereço (40,2%) e
+  "paguei" (81,2%) são temas **pós-decisão** — logística de fechamento, não persuasão.
+
+**Temas (base = quem escreveu ao menos uma fala, 17,0% de conversão):**
+
+| Tema | Prospects | Conversão | |
+|---|---:|---:|---|
+| Preço / quanto custa | 386 | **14,2%** | abaixo da média |
+| Membro / minha assinatura | 218 | 22,9% | |
+| Não quer / não agora | 217 | 9,7% | |
+| O que é / conteúdo | 180 | 27,2% | pergunta qualificada |
+| Parcelamento | 130 | 33,8% | |
+| Frete / entrega | 87 | 40,2% | pós-decisão |
+| Já tem CDL / Odisseia | 45 | 42,2% | |
+
+- ⚠️ **"Quanto custa" é o tema mais comum e converte ABAIXO da média.** A peça de disparo não traz
+  preço, então boa parte da conversa nasce e morre nisso. Pergunta sobre o produto em si converte
+  quase o dobro.
+
+**O achado acionável — pedir desconto não é objeção, é sinal de compra:**
+
+| Sinal na fala | Prospects | Conversão |
+|---|---:|---:|
+| ✅ Pediu desconto ou condição melhor | 59 | **32,2%** |
+| ✅ Citou ser cliente fiel (vitalício / CDL / Odisseia) | 45 | **42,2%** |
+| ❌ Declarou restrição financeira | 51 | 7,8% |
+| ❌ Achou caro (juízo de valor) | 28 | 10,7% |
+| ❌ Clicou por engano / só curiosidade | 19 | 5,3% |
+| ❌ Ainda pagando o vitalício | 9 | 0,0% |
+
+Contra 12,8% da base. **São dois clientes diferentes na mesma frase sobre dinheiro** —
+quem negocia e quem não tem — e o roteiro não os separa.
+
+**Fricções operacionais expostas pelas conversas** (volumes pequenos, todos evitáveis):
+
+| Fricção | Prospects | Conversão |
+|---|---:|---:|
+| Pediu condição citando fidelidade | 75 | 18,7% |
+| Travou no campo de cupom do checkout | 14 | 57,1% |
+| Esperando entrega de CDL / Odisseia | 14 | 35,7% |
+| Confundiu com a série de 2018 ou com o CDL | 3 | 0,0% |
+| Não sabe onde acessar o que comprou | 3 | 66,7% |
+
+- **Campo de cupom sem código**: o checkout exibe campo de cupom, o cliente para e pergunta qual é.
+  Fricção no último passo — dos 14 que travaram, 8 compraram.
+- **14 pessoas em abordagem estão esperando um produto físico anterior** (CDL ou Odisseia
+  não entregue). Vender outro físico a quem espera o primeiro é risco reputacional evitável com um
+  cruzamento de lista.
+- **Como o vendedor responde ao pedido de desconto** (57 conversas):
+  vai verificar / consegue 12 · passa um cupom 5 · nega — preço fechado 5 · cita a fidelidade do cliente 5. **Não há política visível** —
+  cada vendedor decide na hora, exatamente no momento em que o cliente mais fiel pede reconhecimento.
+- O nome reaproveita a **série "A Última Cruzada" de 2018–2019** (~13k transações na `fct_transactions`),
+  e aparecem clientes perguntando se é o mesmo material ou como difere do Clube do Livro.
+
+⚠️ **Privacidade**: as transcrições contêm nome e às vezes telefone. **Nenhuma citação literal foi
+publicada** — o repo é público e são conversas privadas. A query fica versionada, o texto não;
+o `data.json` recebe apenas contagens.
+
 ### Atribuição: o Comercial trabalha a nata, o digital alcança o resto
 ⚠️ "Abordado" aqui exige abordagem **antes** da compra. **14 compradores foram
 abordados só depois de já ter comprado** — o Comercial correndo atrás da lista, não aquecendo. Sem
@@ -162,6 +229,7 @@ Mesma coleção, ofertas diferentes por canal:
 | [queries/etapa_zenvia_compradores.sql](queries/etapa_zenvia_compradores.sql) | Etapa Zenvia dos compradores | ✅ |
 | [queries/atribuicao_perfil_por_origem.sql](queries/atribuicao_perfil_por_origem.sql) | Perfil por origem (abordado × canal) | ✅ |
 | [queries/amostra_transcricoes.sql](queries/amostra_transcricoes.sql) | Amostra de conversas para ler o pitch | ✅ |
+| [queries/conversas_falas_cliente.sql](queries/conversas_falas_cliente.sql) | Separa turnos `seller:`/`prospect:` e devolve as falas com desfecho (⚠️ PII — uso local) | ✅ |
 
 ## Entrega
 

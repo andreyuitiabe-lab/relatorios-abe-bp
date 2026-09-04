@@ -75,6 +75,171 @@ def rebuild_tables() -> None:
         run(sql)
 
 
+
+# ── análise das conversas (qualitativa → agregados) ─────────────────────────
+#
+# ⚠️ A query de falas retorna PII (nome/telefone dentro do texto). Só AGREGADOS
+#    entram no data.json — nenhuma citação verbatim vai para o repo, que é público.
+
+import re
+
+# Natureza do turno do cliente: clique em botão, template do bot, resposta mínima ou fala real
+_BOTAO = re.compile(r'^(VER|CONHECER|GARANTIR|QUERO|SIM,|FALAR|ACESSAR|COMPRAR)[\s:A-ZÀ-Ú]*$')
+_TEMPLATE = re.compile(r'gostaria de saber mais sobre|quero saber mais sobre|agradecemos (seu|pelo) contato'
+                       r'|n[aã]o estamos dispon[ií]veis|como podemos ajudar', re.I)
+_MINIMA = re.compile(r'^(sim|s|ok|okay|n[aã]o|nao|pode|pode sim|feito|combinado|obrigad[oa]|oi|ol[aá]'
+                     r'|bom dia|boa tarde|boa noite|certo|isso|blz|beleza|👍|\d{1,2}|bronze|prata|ouro'
+                     r'|sim\.|ok\.|[\W\d]{1,4})$', re.I)
+
+def _tipo_turno(t: str) -> str:
+    t = t.strip()
+    if not t: return 'vazio'
+    if _BOTAO.match(t): return 'clique em botão'
+    if _TEMPLATE.search(t): return 'template automático'
+    if _MINIMA.match(t): return 'resposta mínima'
+    if len(t) < 25: return 'curta'
+    return 'fala substantiva'
+
+# Temas do que o cliente escreve. `pos` marca tema que só aparece DEPOIS da decisão de
+# comprar (logística de fechamento) — a conversão alta desses é causalidade reversa.
+TEMAS = [
+    ('Preço / quanto custa', False, r'\bvalor|pre[çc]o|quanto (custa|fica|é|sai)|custa|R\$'),
+    ('Não quer / não agora', False, r'n[ãa]o (quero|tenho interesse|posso|vou)|sem interesse|mais para frente'
+                                   r'|depois|agora n[ãa]o|sem condi[çc][õo]es'),
+    ('Membro / minha assinatura', False, r'assinatura|sou membro|meu plano|vital[íi]cio|renova|mensalidade|acesso'),
+    ('O que é / conteúdo', False, r'quantos? (livros?|volumes?)|o que (vem|tem|inclui)|conte[úu]do|autor'
+                                 r'|p[áa]ginas?|capa|encaderna|f[íi]sico|digital|audiobook|ebook|curso'),
+    ('Parcelamento / forma de pagar', False, r'parcel|\d{1,2}\s*x\b|vezes|boleto|pix|cart[ãa]o|entrada'),
+    ('Já tem CDL / Odisseia', False, r'(adquiri|comprei|assinei|peguei|fiz).{0,30}(clube do livro|cdl|odisseia|cole[çc][ãa]o)'
+                                    r'|tenho o clube do livro|j[áa] tenho a cole'),
+    ('Desconto / condição', False, r'desconto|melhor (pre[çc]o|condi[çc])|condi[çc][ãa]o especial|abatiment|cupom'),
+    ('Frete / entrega / endereço', True, r'frete|entrega|envio|chega|prazo|correio|endere[çc]o|CEP|rastrei'),
+    ('Fechou / pagou', True, r'paguei|fiz o pagamento|comprei agora|finalizei|conclu[íi]|efetuei'),
+]
+
+# Sinais acionáveis: o que separa conversa que vende de conversa que morre
+SINAIS = [
+    ('positivo', 'Pediu desconto ou condição melhor',
+     r'desconto|melhor (pre[çc]o|condi[çc])|condi[çc][ãa]o especial|tem como (fazer|melhorar)|abatiment|cupom'),
+    ('positivo', 'Citou ser cliente fiel (vitalício / CDL / Odisseia)',
+     r'(adquiri|comprei|assinei|peguei|fiz).{0,30}(clube do livro|cdl|odisseia|cole[çc][ãa]o)'
+     r'|tenho o clube do livro|j[áa] tenho a cole'),
+    ('negativo', 'Achou caro (juízo explícito de valor)',
+     r'\b(muito |bem |t[ãa]o |meio |um pouco )?caro\b|fica caro|valor (alto|elevado|salgado)'
+     r'|n[ãa]o (vale|faz sentido).{0,25}valor'),
+    ('negativo', 'Declarou restrição financeira',
+     r'apertad|n[ãa]o (posso|tenho como) me comprometer|sem condi[çc][õo]es|sem dinheiro|desempregad'
+     r'|vida financeira|or[çc]amento|contas de casa|n[ãa]o t[áa] f[áa]cil|fora do (meu )?or[çc]amento'),
+    ('negativo', 'Clicou por engano ou só curiosidade',
+     r'cliquei (errado|sem querer|por engano)|sem querer|por engano|apenas (para|pra) ver'
+     r'|s[óo] (queria|estava) (ver|conhecer|olhar)|por curiosidade'),
+    ('negativo', 'Ainda pagando o vitalício / plano',
+     r'(ainda|nem).{0,25}(terminei|acabei|pago|pagando|quitei).{0,25}(vital[íi]cio|plano|assinatura|parcel)'
+     r'|pagando o vital[íi]cio|parcelas do vital'),
+]
+
+# Fricções operacionais — problemas que a conversa expõe e que não são de venda
+FRICCOES = [
+    ('Travou no campo de cupom do checkout', r'cupom|c[óo]digo de desconto'),
+    ('Esperando entrega de CDL / Odisseia', r'(n[ãa]o|ainda n[ãa]o) (recebi|chegou|me chegou).{0,60}(livro|clube|odisseia|cole|caixa|box)'
+                                            r'|(livro|clube do livro|odisseia).{0,50}(n[ãa]o (chegou|recebi)|ainda n[ãa]o)|era previsto para'),
+    ('Pediu condição por fidelidade', r'(condi[çc][ãa]o|desconto|valor|pre[çc]o).{0,90}(vital[íi]cio|black|clube do livro|odisseia|membro|assinante|cliente)'
+                                      r'|(vital[íi]cio|black|clube do livro|odisseia|assinante|membro).{0,90}(condi[çc][ãa]o|desconto|melhorar)'),
+    ('Confundiu com a série de 2018 ou com o CDL', r'mesmos? (livros?|que).{0,40}(oferecid|antes|tempo atr[áa]s)'
+                                                   r'|(igual|mesma coisa|diferen[çt]a).{0,40}clube do livro|n[ãa]o (fica|est[áa]) claro'
+                                                   r'|s[ãa]o (os mesmos|as mesmas)|obras? (originais|selecionad)'),
+    ('Achava que já estava incluído no plano', r'pensei que.{0,60}(inclu|junto|fizesse parte)|n[ãa]o (est[áa]|estava) inclu'
+                                               r'|deveria (estar|vir) inclu'),
+    ('Não sabe onde acessar o que comprou', r'onde (est[áa]|acesso|fica|encontro|leio|baixo)'
+                                            r'|como (acesso|fa[çc]o para (ler|acessar|baixar))'),
+]
+
+
+def conversas(TB_AB_: str) -> dict:
+    """Roda a query de falas, classifica em Python e devolve só agregados."""
+    rows = q((Q / "conversas_falas_cliente.sql").read_text(encoding="utf-8"), max_rows=20000)
+    if not rows:
+        return {}
+
+    turnos, por_prospect = [], {}
+    for r in rows:
+        pid = r["id_prospect"]
+        comprou = bool(r.get("bl_comprou"))
+        falas = [x.strip() for x in str(r.get("fala_cliente") or "").split(" || ") if x.strip()]
+        d = por_prospect.setdefault(pid, {"comprou": comprou, "substantivas": 0, "texto": "",
+                                          "vendedor": ""})
+        d["comprou"] = d["comprou"] or comprou
+        d["texto"] += " " + " ".join(falas)
+        d["vendedor"] += " " + str(r.get("fala_vendedor") or "")
+        for t in falas:
+            tipo = _tipo_turno(t)
+            turnos.append(tipo)
+            if tipo == "fala substantiva":
+                d["substantivas"] += 1
+
+    tot_turnos = len(turnos)
+    natureza = [{"tipo": k, "n": v, "pc": round(100.0 * v / tot_turnos, 1)}
+                for k, v in sorted(((t, turnos.count(t)) for t in set(turnos)),
+                                   key=lambda x: -x[1]) if k != "vazio"]
+
+    P = list(por_prospect.values())
+    base_n = len(P)
+    base_c = sum(1 for d in P if d["comprou"])
+
+    def taxa(sel):
+        m = [d for d in P if sel(d)]
+        c = sum(1 for d in m if d["comprou"])
+        return {"prospects": len(m), "comprou": c,
+                "pc": round(100.0 * c / len(m), 1) if m else 0.0}
+
+    faixas = [("Só clique ou “sim/ok”", lambda d: d["substantivas"] == 0),
+              ("1 fala escrita", lambda d: d["substantivas"] == 1),
+              ("2 a 3 falas", lambda d: 2 <= d["substantivas"] <= 3),
+              ("4 ou mais falas", lambda d: d["substantivas"] >= 4)]
+
+    def por_regex(rx):
+        c = re.compile(rx, re.I)
+        return taxa(lambda d: bool(c.search(d["texto"])))
+
+    # com fala substantiva: base dos temas
+    sub_n = sum(1 for d in P if d["substantivas"] > 0)
+    sub_c = sum(1 for d in P if d["substantivas"] > 0 and d["comprou"])
+
+    ped = re.compile(r'desconto|cupom|condi[çc][ãa]o especial', re.I)
+    pediram = [d for d in P if ped.search(d["texto"])]
+    resp = {
+        "vai verificar / consegue": r'consigo|vou (ver|verificar|conversar)|autoriza|liberar|posso (fazer|te dar)',
+        "passa um cupom": r'cupom|c[óo]digo',
+        "nega — preço fechado": r'n[ãa]o (temos|h[áa]|posso|consigo)|pre[çc]o (fixo|fechado|de lan[çc]amento)|sem desconto',
+        "cita a fidelidade do cliente": r'(por ser|como).{0,30}(vital[íi]cio|black|assinante|membro|cliente)',
+    }
+
+    return {
+        "respondentes": base_n,
+        "comprou": base_c,
+        "pc_base": round(100.0 * base_c / base_n, 1) if base_n else 0.0,
+        "turnos": tot_turnos,
+        "natureza": natureza,
+        "so_clique": dict(pc_do_total=round(100.0 * sum(1 for d in P if d["substantivas"] == 0) / base_n, 1)
+                          if base_n else 0.0,
+                          **taxa(lambda d: d["substantivas"] == 0)),
+        "com_fala": {"prospects": sub_n, "comprou": sub_c,
+                     "pc": round(100.0 * sub_c / sub_n, 1) if sub_n else 0.0,
+                     "pc_do_total": round(100.0 * sub_n / base_n, 1) if base_n else 0.0},
+        "profundidade": [dict(faixa=nome, **taxa(f)) for nome, f in faixas],
+        "temas": [dict(tema=nome, pos_decisao=pos,
+                       **taxa(lambda d, rx=rx: bool(re.search(rx, d["texto"], re.I))))
+                  for nome, pos, rx in TEMAS],
+        "sinais": [dict(sentido=sent, sinal=nome, **por_regex(rx)) for sent, nome, rx in SINAIS],
+        "friccoes": [dict(friccao=nome, **por_regex(rx)) for nome, rx in FRICCOES],
+        "resposta_desconto": {
+            "conversas": len(pediram),
+            "tipos": [{"tipo": k, "n": sum(1 for d in pediram if re.search(rx, d["vendedor"], re.I))}
+                      for k, rx in resp.items()],
+        },
+    }
+
+
 # ── etapa 2: agregações ──────────────────────────────────────────────────────
 
 def build() -> dict:
@@ -342,6 +507,8 @@ def build() -> dict:
              (SELECT COUNT(*) FROM {TB_COMP} WHERE email IN (SELECT email FROM cdl)) AS converteu
     """)
 
+    conv = conversas(TB_AB)
+
     n = ii(tot["compradores"])
 
     def pc(part, whole):
@@ -471,6 +638,7 @@ def build() -> dict:
              "pc_cartao_premium": fi(r["pc_cartao_premium"])}
             for r in atrib
         ],
+        "conversas": conv,
         "penetracao_cdl": {
             "base": ii(pen["base_cdl"]),
             "converteu": ii(pen["converteu"]),

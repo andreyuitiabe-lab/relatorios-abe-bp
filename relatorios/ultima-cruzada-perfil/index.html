@@ -320,6 +320,94 @@
   </div>
 </section>
 
+<!-- ══ 5b. Como foram as conversas ════════════════════════════════════════ -->
+<section>
+  <h2>Dentro das conversas: o que o cliente escreve</h2>
+  <p class="sub" style="margin-bottom:18px">Leitura das falas do cliente nas conversas que tiveram
+    resposta. Classificação por padrão de texto sobre <code>dim_zenvia_approaches</code>.
+    <strong>Nenhuma citação literal é publicada</strong> — são conversas privadas e este repositório
+    é público; aqui só entram contagens.</p>
+
+  <div class="grid-3">
+    <div class="card" style="text-align:center">
+      <div class="label">Responderam algo</div>
+      <div class="bs-num" id="sConvResp">—</div>
+      <div class="bs-cap" id="sConvRespCap">—</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="label">Nunca escreveram nada</div>
+      <div class="bs-num w" id="sConvClique">—</div>
+      <div class="bs-cap" id="sConvCliqueCap">—</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="label">Conversou de verdade</div>
+      <div class="bs-num g" id="sConvFala">—</div>
+      <div class="bs-cap" id="sConvFalaCap">—</div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px">
+    <div class="card">
+      <h3>Natureza do que o cliente manda</h3>
+      <p class="sub" style="margin:0 0 4px">Cada turno de fala do cliente, classificado.</p>
+      <div id="barsNatureza" style="margin-top:16px"></div>
+      <div class="nota">“Clique em botão” é a resposta rápida do WhatsApp (<em>ver a coleção</em>),
+        não texto escrito. Somada a “sim/ok”, é a maior parte do que o disparo produz.</div>
+    </div>
+    <div class="card">
+      <h3>Conversão por profundidade da conversa</h3>
+      <p class="sub" style="margin:0 0 4px">Quantas falas escritas de verdade o cliente deu.</p>
+      <div class="chart-box" style="height:230px"><canvas id="cProfundidade"
+        role="img" aria-label="Gráfico de barras: taxa de conversão por número de falas escritas pelo cliente."></canvas></div>
+      <div class="takeaway" id="tkProfundidade">—</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>Sobre o que o cliente fala</h3>
+    <p class="sub" style="margin:0 0 12px">Um cliente pode tocar vários temas. A base é quem escreveu
+      pelo menos uma fala. Temas marcados <span class="pill p0">pós-decisão</span> só aparecem depois
+      de a pessoa já ter decidido comprar — a conversão alta deles é consequência, não causa.</p>
+    <div class="scroll-x">
+      <table>
+        <thead><tr><th>Tema</th><th class="num">Prospects</th><th class="num">Comprou</th>
+          <th class="num">Conversão</th></tr></thead>
+        <tbody id="tTemas"></tbody>
+      </table>
+    </div>
+    <div class="takeaway warn" id="tkTemas">—</div>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px">
+    <div class="card">
+      <h3>O que prevê compra e o que prevê perda</h3>
+      <p class="sub" style="margin:0 0 12px">Comparado à base de <span id="convBase">—</span> de quem
+        respondeu. Sinais lidos direto do texto.</p>
+      <div class="scroll-x">
+        <table>
+          <thead><tr><th>Sinal na fala do cliente</th><th class="num">Prospects</th>
+            <th class="num">Conversão</th></tr></thead>
+          <tbody id="tSinais"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Fricções que a conversa expõe</h3>
+      <p class="sub" style="margin:0 0 12px">Problemas que não são de venda — são de operação.
+        Volumes pequenos, mas todos evitáveis.</p>
+      <div class="scroll-x">
+        <table>
+          <thead><tr><th>Fricção</th><th class="num">Prospects</th><th class="num">Conversão</th></tr></thead>
+          <tbody id="tFriccoes"></tbody>
+        </table>
+      </div>
+      <div class="nota" id="notaDesconto">—</div>
+    </div>
+  </div>
+
+  <div class="takeaway" id="tkConversas">—</div>
+</section>
+
 <!-- ══ 6. Atribuição ═════════════════════════════════════════════════════ -->
 <section>
   <h2>Atribuição: o Comercial trabalha a nata, o digital alcança o resto</h2>
@@ -381,7 +469,11 @@
       <p class="sub" id="cardRecusa">—</p>
     </div>
     <div class="card">
-      <h3><span class="pill p0">4</span> Pedir etiqueta do produto no Zenvia</h3>
+      <h3><span class="pill p3">4</span> Definir uma condição de fidelidade</h3>
+      <p class="sub" id="cardFidelidade">—</p>
+    </div>
+    <div class="card">
+      <h3><span class="pill p0">5</span> Pedir etiqueta do produto no Zenvia</h3>
       <p class="sub">Hoje a medição do funil depende de regex no texto da conversa — não escala e não
         entra em dashboard. Uma etapa/etiqueta própria do CBR resolveria de forma permanente.</p>
     </div>
@@ -756,6 +848,102 @@ function initCharts(D){
       <td><code>${r.etapa}</code></td><td class="num">${NUM(r.prospects)}</td>
       <td class="num">${NUM(r.comprou)}</td><td class="num">${PC(r.pc)}</td></tr>`).join('');
 
+  // ── conversas ────────────────────────────────────────────────────────────
+  const CV = D.conversas || null;
+  if (CV) {
+    document.getElementById('sConvResp').textContent = NUM(CV.respondentes);
+    document.getElementById('sConvRespCap').textContent =
+      `${NUM(CV.turnos)} mensagens · ${PC(CV.pc_base)} compraram`;
+    document.getElementById('sConvClique').textContent = PC(CV.so_clique.pc_do_total);
+    document.getElementById('sConvCliqueCap').textContent =
+      `${NUM(CV.so_clique.prospects)} só clicaram ou disseram “sim” · ${PC(CV.so_clique.pc)} compraram`;
+    document.getElementById('sConvFala').textContent = PC(CV.com_fala.pc_do_total);
+    document.getElementById('sConvFalaCap').textContent =
+      `${NUM(CV.com_fala.prospects)} escreveram algo · ${PC(CV.com_fala.pc)} compraram`;
+    document.getElementById('convBase').textContent = PC(CV.pc_base);
+
+    barRows(document.getElementById('barsNatureza'),
+      CV.natureza.map(x => ({label:x.tipo, v:x.pc, n:x.n})),
+      {fmt: r => `${PC(r.v)} <span style="color:var(--soft);font-weight:400">(${NUM(r.n)})</span>`,
+       colorFor: r => (r.label === 'fala substantiva' ? c1 : c2)});
+
+    new Chart('cProfundidade', {
+      type: 'bar',
+      data: {labels: CV.profundidade.map(x => x.faixa),
+             datasets:[{data: CV.profundidade.map(x => x.pc), backgroundColor: c1,
+                        borderRadius:4, borderSkipped:false, maxBarThickness:52}]},
+      options: {
+        scales:{x:AXIS_X, y:{...AXIS_Y, beginAtZero:true, ticks:{callback: v => v + '%'}}},
+        plugins:{legend:{display:false}, tooltip:{callbacks:{
+          label: it => `${PC(it.raw)} de conversão`,
+          footer: it => {
+            const r = CV.profundidade[it[0].dataIndex];
+            return `${NUM(r.comprou)} de ${NUM(r.prospects)} prospects`;
+          }}}}
+      },
+      plugins:[dataLabels(v => PC(v), {key:'prof'})]
+    });
+
+    const p0 = CV.profundidade[0], p3 = CV.profundidade[CV.profundidade.length - 1];
+    document.getElementById('tkProfundidade').innerHTML =
+      `Quem escreve 4+ falas converte ${PC(p3.pc)}, contra ${PC(p0.pc)} de quem só clica — `
+      + `<strong>${Math.round(p3.pc / p0.pc)}× mais</strong>. `
+      + `⚠️ Parte disso é consequência, não causa: quem decidiu comprar conversa mais para acertar `
+      + `endereço e pagamento. Os temas abaixo separam o que é pré e pós-decisão.`;
+
+    document.getElementById('tTemas').innerHTML = CV.temas
+      .slice().sort((a, b) => b.prospects - a.prospects).map(t => `
+      <tr><td>${t.tema} ${t.pos_decisao ? '<span class="pill p0">pós-decisão</span>' : ''}</td>
+        <td class="num">${NUM(t.prospects)}</td><td class="num">${NUM(t.comprou)}</td>
+        <td class="num">${PC(t.pc)}</td></tr>`).join('');
+
+    const tPreco = CV.temas.find(t => t.tema.startsWith('Preço'));
+    const tConteudo = CV.temas.find(t => t.tema.startsWith('O que é'));
+    document.getElementById('tkTemas').innerHTML =
+      `<strong>“Quanto custa” é o tema mais comum (${NUM(tPreco.prospects)} pessoas) e converte `
+      + `${PC(tPreco.pc)} — abaixo da média de ${PC(CV.com_fala.pc)} de quem escreve.</strong> `
+      + `Quem pergunta o preço em geral está sondando, não comprando. Pergunta sobre o produto em si `
+      + `(${NUM(tConteudo.prospects)} pessoas) converte ${PC(tConteudo.pc)}. `
+      + `A peça de disparo não traz preço, então boa parte da conversa começa e termina nisso.`;
+
+    const ordem = {positivo: 0, negativo: 1};
+    document.getElementById('tSinais').innerHTML = CV.sinais
+      .slice().sort((a, b) => ordem[a.sentido] - ordem[b.sentido] || b.prospects - a.prospects)
+      .map(x => `
+      <tr><td><span class="swatch" style="background:${x.sentido === 'positivo' ? c3 : c2}"></span>${x.sinal}</td>
+        <td class="num">${NUM(x.prospects)}</td>
+        <td class="num"><strong>${PC(x.pc)}</strong></td></tr>`).join('');
+
+    document.getElementById('tFriccoes').innerHTML = CV.friccoes
+      .slice().sort((a, b) => b.prospects - a.prospects).map(x => `
+      <tr><td>${x.friccao}</td><td class="num">${NUM(x.prospects)}</td>
+        <td class="num">${PC(x.pc)}</td></tr>`).join('');
+
+    const rd = CV.resposta_desconto;
+    const semResposta = rd.conversas - rd.tipos.reduce((a, x) => a + x.n, 0);
+    document.getElementById('notaDesconto').innerHTML =
+      `<strong>Como o vendedor responde ao pedido de desconto</strong> (${rd.conversas} conversas): `
+      + rd.tipos.map(x => `${x.tipo} ${x.n}`).join(' · ')
+      + `. Não há política visível — cada vendedor decide na hora, e é exatamente aqui que o cliente `
+      + `mais fiel está pedindo reconhecimento.`;
+
+    const sPos = CV.sinais.filter(x => x.sentido === 'positivo');
+    const sFiel = sPos.find(x => x.sinal.startsWith('Citou ser cliente fiel'));
+    const sDesc = sPos.find(x => x.sinal.startsWith('Pediu desconto'));
+    const sRestr = CV.sinais.find(x => x.sinal.startsWith('Declarou restrição'));
+    const fFiel = CV.friccoes.find(x => x.friccao.startsWith('Pediu condição por fidelidade'));
+    document.getElementById('tkConversas').innerHTML =
+      `<strong>Pedir desconto não é objeção — é sinal de compra.</strong> Quem pede converte `
+      + `${PC(sDesc.pc)} e quem cita ser cliente antigo converte ${PC(sFiel.pc)}, contra `
+      + `${PC(CV.pc_base)} da base. Quem <em>reclama do preço em si</em> ou declara aperto financeiro `
+      + `converte ${PC(sRestr.pc)}. São dois clientes diferentes na mesma frase sobre dinheiro, e o `
+      + `roteiro não os separa. <br><br>`
+      + `<strong>${NUM(fFiel.prospects)} pessoas pediram condição citando ser vitalício, assinante do `
+      + `Clube do Livro ou comprador da Odisseia</strong> — e convertem ${PC(fFiel.pc)}, abaixo de quem `
+      + `simplesmente pede desconto. O cliente mais fiel pede reconhecimento e não existe uma `
+      + `condição de fidelidade definida para dar a ele.`;
+  }
+
   // ── atribuição ───────────────────────────────────────────────────────────
   document.getElementById('tAtribuicao').innerHTML = D.atribuicao.map(r => `
     <tr class="${r.origem.startsWith('Digital sem') ? 'hi' : ''}">
@@ -797,6 +985,18 @@ function initCharts(D){
     + `um texto longo com imagem e CTA de clique. Testar mensagem curta com pergunta direta, saindo `
     + `do número do vendedor: qualquer coisa que leve a resposta de ${PC(B0.pc_resposta)} para 2% `
     + `multiplica o topo do funil por 10 sem custo de mídia.`;
+
+  if (CV) {
+    const fFiel = CV.friccoes.find(x => x.friccao.startsWith('Pediu condição por fidelidade'));
+    const fCupom = CV.friccoes.find(x => x.friccao.startsWith('Travou no campo de cupom'));
+    const sDesc = CV.sinais.find(x => x.sinal.startsWith('Pediu desconto'));
+    document.getElementById('cardFidelidade').innerHTML =
+      `${NUM(fFiel.prospects)} pessoas pediram condição citando ser vitalício, assinante do Clube do `
+      + `Livro ou comprador da Odisseia — e pedir desconto é o sinal mais forte de compra da base `
+      + `(${PC(sDesc.pc)}). Hoje cada vendedor decide na hora. Uma condição publicada por tier de `
+      + `fidelidade resolve o pedido sem negociação caso a caso — e ${NUM(fCupom.prospects)} pessoas `
+      + `ainda travaram no campo de cupom do checkout pedindo um código que ninguém tinha.`;
+  }
 
   document.getElementById('cardRecusa').innerHTML =
     `${T.recusa_pessoas} pessoas ficaram com transação recusada ou abandonada (${T.recusa_tx} `
