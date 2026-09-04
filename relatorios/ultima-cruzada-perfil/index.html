@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coleção Brasil: A Última Cruzada — perfil do comprador</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f8fafc; --card:#fff; --line:#e2e8f0; --text:#1e293b; --muted:#475569; --soft:#94a3b8;
+    /* paleta categórica validada (dataviz validate_palette, light, all-pairs)
+       3 slots: azul → âmbar → verde. Ordem fixa, nunca ciclada.
+       Encoding secundário obrigatório (legenda + rótulo direto) por CVD ΔE 6.6 âmbar↔verde. */
+    --c1:#3b6ef5; --c2:#b45309; --c3:#0f8a4d;
+    --c1-soft:#dbeafe; --c2-soft:#fef3c7; --c3-soft:#dcfce7;
+    --grid:#eef2f7;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);
+       color:var(--text);font-size:14px;line-height:1.6}
+  .wrap{max-width:980px;margin:0 auto;padding:48px 24px 80px}
+  body{overflow-x:hidden}
+  section{margin-bottom:56px}
+  h1{font-size:27px;font-weight:700;letter-spacing:-.01em}
+  h2{font-size:18px;font-weight:700;margin-bottom:6px}
+  h3{font-size:14px;font-weight:700;margin-bottom:10px}
+  .sub{color:var(--muted);font-size:13px;margin-top:4px}
+  .label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;
+         color:var(--soft);margin-bottom:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  @media(max-width:700px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+
+  .bs-num{font-size:34px;font-weight:800;line-height:1.05;color:var(--c1);
+          font-variant-numeric:tabular-nums}
+  .bs-num.w{color:var(--c2)} .bs-num.g{color:var(--c3)}
+  .bs-cap{font-size:12px;color:var(--muted);margin-top:6px}
+
+  /* overflow:hidden garante que o canvas nunca vaze do card se o resize do
+     Chart.js chegar depois do primeiro layout (visto em viewport estreito) */
+  .chart-box{position:relative;height:280px;overflow:hidden;max-width:100%}
+  .chart-box canvas{max-width:100%}
+  .chart-box.tall{height:340px}
+  .chart-box.short{height:210px}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  .scroll-x{overflow-x:auto}
+  th{text-align:left;font-weight:600;color:var(--muted);font-size:11px;text-transform:uppercase;
+     letter-spacing:.05em;border-bottom:2px solid var(--line);padding:9px 10px;white-space:nowrap}
+  td{padding:9px 10px;border-bottom:1px solid var(--line)}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  tbody td:first-child{min-width:112px}
+  th,td{padding-left:8px;padding-right:8px}
+  tbody tr.hi{background:#fbfcfe}
+
+  .swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;
+          vertical-align:-1px;flex-shrink:0}
+
+  .takeaway{border-left:3px solid var(--c1);background:#f6f9ff;border-radius:0 8px 8px 0;
+            padding:14px 18px;font-size:13.5px;color:var(--muted);margin-top:18px}
+  .takeaway strong{color:var(--text)}
+  .takeaway.warn{border-left-color:var(--c2);background:#fffaf2}
+  .nota{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:12px 16px;
+        font-size:12.5px;color:var(--muted);margin-top:16px}
+  .nota strong{color:var(--text)} .nota code{font-size:11.5px;background:#eef2f7;padding:1px 5px;border-radius:4px}
+
+  .pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+  .p1{background:var(--c1-soft);color:#1d4ed8}
+  .p2{background:var(--c2-soft);color:#92400e}
+  .p3{background:var(--c3-soft);color:#166534}
+  .p0{background:#f1f5f9;color:#475569}
+
+  header{margin-bottom:44px;padding-bottom:24px;border-bottom:2px solid var(--line)}
+  footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:var(--soft)}
+  footer a,header a{color:var(--c1)}
+  .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:11px;font-size:13px}
+  .bar-row .bl{flex:0 0 200px;color:var(--muted)}
+  .bar-row .bt{flex:1;background:var(--grid);border-radius:0 4px 4px 0;height:20px;position:relative}
+  .bar-row .bf{height:100%;border-radius:0 4px 4px 0;background:var(--c1)}
+  .bar-row .bv{flex:0 0 84px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  @media(max-width:700px){.bar-row .bl{flex-basis:120px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Análise de Produto</p>
+  <h1>Coleção Brasil: A Última Cruzada</h1>
+  <p class="sub" id="headerSub">Carregando…</p>
+  <p class="sub">Perfil de quem está comprando e leitura do funil de abordagem do Comercial.
+    Metodologia e decisões em <code>ANALISE.md</code>; achados de negócio na wiki
+    (<code>ultima-cruzada.md</code>).</p>
+</header>
+
+<main>
+
+<!-- ══ 1. Resultado ══════════════════════════════════════════════════════ -->
+<section>
+  <div class="grid-4">
+    <div class="card" style="text-align:center">
+      <div class="label">Compradores</div>
+      <div class="bs-num" id="sCompradores">—</div>
+      <div class="bs-cap" id="sPeriodo">—</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="label">Receita</div>
+      <div class="bs-num g" id="sReceita">—</div>
+      <div class="bs-cap" id="sTicket">—</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="label">Já eram clientes</div>
+      <div class="bs-num" id="sJaCliente">—</div>
+      <div class="bs-cap" id="sJaClienteCap">—</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="label">Vendido pelo Comercial</div>
+      <div class="bs-num w" id="sComercial">—</div>
+      <div class="bs-cap" id="sComercialCap">—</div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px">
+    <div class="card">
+      <h3>Vendas por dia e canal</h3>
+      <p class="sub" style="margin:0 0 12px">Compradores únicos. O último dia pode estar parcial.</p>
+      <div class="chart-box short"><canvas id="cDia" role="img" aria-label="Gráfico de barras empilhadas: compradores por dia, separados entre canal Comercial e Digital."></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Mix de produto</h3>
+      <p class="sub" style="margin:0 0 12px">Ticket médio por versão da coleção.</p>
+      <div class="scroll-x">
+        <table>
+          <thead><tr><th>Versão</th><th class="num">Compradores</th><th class="num">Ticket</th>
+            <th class="num">Receita</th><th class="num">% Comercial</th></tr></thead>
+          <tbody id="tProduto"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="takeaway" id="tkTopo">—</div>
+</section>
+
+<!-- ══ 2. Quem compra ════════════════════════════════════════════════════ -->
+<section>
+  <h2>Não é aquisição — é monetização da base</h2>
+  <p class="sub" style="margin-bottom:18px">Vínculo dos compradores com a Brasil Paralelo <em>antes</em>
+    desta compra. As categorias se sobrepõem (uma pessoa pode ser vitalícia e ter comprado o Clube do Livro).</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Vínculo anterior com a base</h3>
+      <div id="barsVinculo" style="margin-top:14px"></div>
+      <div class="nota" id="notaVinculo">—</div>
+    </div>
+    <div class="card">
+      <h3>Tempo de casa</h3>
+      <p class="sub" style="margin:0 0 12px">Da primeira compra na BP até a compra da coleção.</p>
+      <div class="chart-box"><canvas id="cCasa" role="img" aria-label="Gráfico de barras: distribuição dos compradores por tempo de casa na Brasil Paralelo."></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-top:16px">
+    <div class="card" style="text-align:center">
+      <div class="label">LTV anterior (mediana)</div>
+      <div class="bs-num g" id="sLtv">—</div>
+      <div class="bs-cap" id="sLtvCap">—</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="label">Tempo de casa (mediana)</div>
+      <div class="bs-num" id="sCasa">—</div>
+      <div class="bs-cap" id="sCasaCap">—</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="label">Penetração no Clube do Livro</div>
+      <div class="bs-num w" id="sPenetracao">—</div>
+      <div class="bs-cap" id="sPenetracaoCap">—</div>
+    </div>
+  </div>
+
+  <div class="takeaway" id="tkBase">—</div>
+</section>
+
+<!-- ══ 3. Perfil socioeconômico ══════════════════════════════════════════ -->
+<section>
+  <h2>Perfil socioeconômico: o topo da base</h2>
+  <p class="sub" style="margin-bottom:18px">Comparação com a base de membros ativos — nível de cartão
+    e renda em absoluto enganam, então tudo aqui é lido como razão contra a base.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Compradores × base de membros ativos</h3>
+      <div class="chart-box"><canvas id="cBench" role="img" aria-label="Gráfico de barras agrupadas comparando compradores da coleção com a base de membros ativos em cartão premium, cartão Black e renda no decil 8 a 10."></canvas></div>
+      <div class="nota" id="notaBench">—</div>
+    </div>
+    <div class="card">
+      <h3>Distribuição de renda por decil</h3>
+      <p class="sub" style="margin:0 0 12px">Decil da renda domiciliar per capita do CEP (IBGE).
+        1 = mais baixa, 10 = mais alta. A massa está nos decis 8–10.</p>
+      <div class="chart-box"><canvas id="cRenda" role="img" aria-label="Gráfico de barras: número de compradores por decil de renda do CEP, de 1 a 10."></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid-4" style="margin-top:16px">
+    <div class="card" style="text-align:center">
+      <div class="label">Cartão premium</div>
+      <div class="bs-num" id="sCartao">—</div><div class="bs-cap" id="sCartaoCap">—</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="label">45 anos ou mais</div>
+      <div class="bs-num" id="sIdade">—</div><div class="bs-cap" id="sIdadeCap">—</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="label">Masculino</div>
+      <div class="bs-num" id="sGenero">—</div><div class="bs-cap">gênero inferido pelo nome</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="label">Pagou no cartão</div>
+      <div class="bs-num" id="sPagamento">—</div><div class="bs-cap" id="sPagamentoCap">—</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>Concentração geográfica</h3>
+    <div id="barsUf" style="margin-top:14px"></div>
+  </div>
+</section>
+
+<!-- ══ 4. Engajamento ════════════════════════════════════════════════════ -->
+<section>
+  <h2>Colecionador não é espectador</h2>
+  <p class="sub" style="margin-bottom:18px">Dias com sessão na plataforma nos 90 dias anteriores
+    (<code>obt_kafka__view_sessions</code>).</p>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Engajamento na plataforma (90 dias)</h3>
+      <div class="chart-box"><canvas id="cEng" role="img" aria-label="Gráfico de barras: compradores por faixa de dias com sessão na plataforma nos últimos 90 dias."></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Por faixa de engajamento</h3>
+      <div class="scroll-x">
+        <table>
+          <thead><tr><th>Dias ativos em 90d</th><th class="num">Pessoas</th><th class="num">%</th>
+            <th class="num">Horas médias</th><th class="num">% vindo do Comercial</th></tr></thead>
+          <tbody id="tEng"></tbody>
+        </table>
+      </div>
+      <div class="takeaway warn" id="tkEng">—</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 5. Abordagem do Comercial ═════════════════════════════════════════ -->
+<section>
+  <h2>Abordagem: o disparo frio não abre conversa</h2>
+  <p class="sub" style="margin-bottom:18px">Conversas Zenvia que mencionam a coleção desde o
+    lançamento. Os três grupos são <strong>mutuamente exclusivos</strong>: quem só recebeu a peça de
+    disparo, quem recebeu a peça <em>e</em> foi atendido por vendedor, e quem foi abordado por
+    vendedor sem receber a peça.</p>
+
+  <div class="grid-3">
+    <div class="card" style="text-align:center">
+      <div class="label">Prospects abordados</div>
+      <div class="bs-num" id="sProspects">—</div>
+      <div class="bs-cap" id="sProspectsCap">—</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="label">Responderam</div>
+      <div class="bs-num w" id="sResposta">—</div>
+      <div class="bs-cap" id="sRespostaCap">—</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="label">Vendedores ativos</div>
+      <div class="bs-num" id="sVendedores">—</div>
+      <div class="bs-cap" id="sVendedoresCap">—</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>Taxa de resposta por tipo de abordagem</h3>
+    <p class="sub" style="margin:0 0 4px">Percentual dos prospects que respondeu alguma coisa.</p>
+    <div id="barsResposta" style="margin-top:16px"></div>
+    <div class="scroll-x" style="margin-top:20px">
+      <table>
+        <thead><tr><th>Tipo de abordagem</th><th class="num">Prospects</th><th class="num">Respondeu</th>
+          <th class="num">Comprou</th><th class="num">Conversão</th><th class="num">Receita</th>
+          <th class="num">Abertura scriptada</th></tr></thead>
+        <tbody id="tAbordagem"></tbody>
+      </table>
+    </div>
+    <div class="takeaway warn" id="tkAbordagem">—</div>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px">
+    <div class="card">
+      <h3>Mesma etapa do CRM, para tirar o efeito da lista</h3>
+      <p class="sub" style="margin:0 0 4px">Conversão só entre prospects em
+        <code>carteiraMecenas</code>, que concentra a operação. Compara maçã com maçã.</p>
+      <div id="barsCarteira" style="margin-top:16px"></div>
+      <div class="takeaway warn" id="tkCarteira">—</div>
+    </div>
+    <div class="card">
+      <h3>Conversão por etapa no CRM</h3>
+      <p class="sub" style="margin:0 0 12px">Etapa atual do contato no Zenvia. Só vendas
+        posteriores à abordagem.</p>
+      <div class="scroll-x">
+        <table>
+          <thead><tr><th>Etapa</th><th class="num">Prospects</th><th class="num">Comprou</th>
+            <th class="num">Conversão</th></tr></thead>
+          <tbody id="tEtapa"></tbody>
+        </table>
+      </div>
+      <div class="nota">A peça de disparo tem CTA “clique abaixo para falar com um consultor”.
+        Quem clica e conversa compra; quem não clica é praticamente inerte.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 6. Atribuição ═════════════════════════════════════════════════════ -->
+<section>
+  <h2>Atribuição: o Comercial trabalha a nata, o digital alcança o resto</h2>
+  <p class="sub" style="margin-bottom:18px">Cruzamento entre ter passado por abordagem do Comercial
+    <strong>antes de comprar</strong> e o canal onde a compra fechou. A guarda de data importa:
+    <span id="atribGuarda">—</span></p>
+  <div class="card">
+    <div class="scroll-x">
+      <table>
+        <thead><tr><th>Origem</th><th class="num">Pessoas</th><th class="num">Receita</th>
+          <th class="num">Ticket</th><th class="num">Membro</th><th class="num">Vitalício</th>
+          <th class="num">LTV mediana</th><th class="num">Cartão premium</th></tr></thead>
+        <tbody id="tAtribuicao"></tbody>
+      </table>
+    </div>
+    <div class="takeaway warn" id="tkAtribuicao">—</div>
+  </div>
+</section>
+
+<!-- ══ 7. Preço ══════════════════════════════════════════════════════════ -->
+<section>
+  <h2>Preço: o Comercial vende mais barato que o site</h2>
+  <p class="sub" style="margin-bottom:18px">Mesmo produto, ofertas diferentes por canal.</p>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Ticket médio por canal e versão</h3>
+      <div class="chart-box"><canvas id="cPreco" role="img" aria-label="Gráfico de barras agrupadas: ticket médio por canal Comercial e Digital, para as versões Completo e Físico."></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Faixas de preço na versão física</h3>
+      <p class="sub" style="margin:0 0 12px">Valores com 3+ compradores. Cada faixa é uma oferta 12×.</p>
+      <div class="scroll-x">
+        <table>
+          <thead><tr><th class="num">Valor</th><th class="num">Compradores</th>
+            <th class="num">Comercial</th><th class="num">Digital</th></tr></thead>
+          <tbody id="tFaixas"></tbody>
+        </table>
+      </div>
+      <div class="nota">Pendente confirmar com o time se a dispersão de preço é teste controlado ou
+        desconto discricionário do vendedor.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 8. O que fazer ════════════════════════════════════════════════════ -->
+<section>
+  <h2>O que fazer com isso</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="pill p1">1</span> A peça de disparo precisa de outro formato</h3>
+      <p class="sub" id="cardDisparo">—</p>
+    </div>
+    <div class="card">
+      <h3><span class="pill p2">2</span> Resolver a atribuição antes de premiar canal</h3>
+      <p class="sub" id="cardAtrib">—</p>
+    </div>
+    <div class="card">
+      <h3><span class="pill p3">3</span> Recuperar as recusas</h3>
+      <p class="sub" id="cardRecusa">—</p>
+    </div>
+    <div class="card">
+      <h3><span class="pill p0">4</span> Pedir etiqueta do produto no Zenvia</h3>
+      <p class="sub">Hoje a medição do funil depende de regex no texto da conversa — não escala e não
+        entra em dashboard. Uma etapa/etiqueta própria do CBR resolveria de forma permanente.</p>
+    </div>
+  </div>
+  <div class="nota" style="margin-top:16px"><strong>Ressalvas de leitura.</strong>
+    <strong>O mecanismo da diferença entre disparo e atendimento não foi testado.</strong>
+    76% das “abordagens de vendedor” também são script repetido, então a explicação não é
+    personalização; remetente (número do vendedor × blast), formato da peça e qualidade da lista
+    são candidatos igualmente plausíveis e não separados por estes dados.
+    A janela é curta e não mede maturação, churn de parcelamento nem efeito defasado do disparo —
+    revisitar em ~15 dias.
+    A conversão aqui usa denominador <strong>prospects abordados</strong>; os números de
+    <code>metricas-referencia.md</code> §Comercial usam <strong>conversas reais</strong> (com resposta)
+    em janela de 14 dias. A linha comparável entre os dois é a conversão condicional a responder.</div>
+</section>
+
+</main>
+
+<footer>
+  <p>Fonte: <code>masterdata.fct_transactions</code>, <code>dim_subscriptions</code>,
+    <code>dim_contact</code>, <code>dim_user</code>, <code>dtm_purchasing_power</code>,
+    <code>int_credit_card_level</code>, <code>obt_kafka__view_sessions</code>,
+    <code>dim_zenvia_approaches</code>, <code>dim_zenvia_contacts</code>.</p>
+  <p style="margin-top:6px">Dados atualizados em <span id="fUpdated">—</span> ·
+    <a href="../">← portal de relatórios</a></p>
+</footer>
+
+</div>
+
+<script>
+const BRL = n => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+const BRLk = n => n >= 20000 ? 'R$ ' + Math.round(n/1000) + 'k' : BRL(n);
+const NUM = n => Math.round(n).toLocaleString('pt-BR');
+const PC  = n => String(n).replace('.', ',') + '%';
+const C   = getComputedStyle(document.documentElement);
+const c1 = C.getPropertyValue('--c1').trim(), c2 = C.getPropertyValue('--c2').trim(),
+      c3 = C.getPropertyValue('--c3').trim(), grid = C.getPropertyValue('--grid').trim(),
+      muted = C.getPropertyValue('--muted').trim(), soft = C.getPropertyValue('--soft').trim();
+
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+Chart.defaults.font.size = 11.5;
+Chart.defaults.color = muted;
+Chart.defaults.maintainAspectRatio = false;
+Chart.defaults.plugins.tooltip.backgroundColor = '#1e293b';
+Chart.defaults.plugins.tooltip.padding = 10;
+Chart.defaults.plugins.tooltip.cornerRadius = 6;
+Chart.defaults.plugins.tooltip.displayColors = true;
+Chart.defaults.plugins.tooltip.boxWidth = 9;
+Chart.defaults.plugins.tooltip.boxHeight = 9;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyle = 'rectRounded';
+Chart.defaults.plugins.legend.labels.boxWidth = 9;
+Chart.defaults.plugins.legend.labels.boxHeight = 9;
+Chart.defaults.plugins.legend.labels.padding = 14;
+
+const AXIS_X = {grid:{display:false}, border:{display:false}};
+const AXIS_Y = {grid:{color:grid, drawTicks:false}, border:{display:false},
+                ticks:{padding:6}, grace:'10%'};
+
+// rótulos diretos no topo/ponta das barras — encoding secundário exigido pela paleta
+const dataLabels = (fmt, opts = {}) => ({
+  id: 'dataLabels' + (opts.key || ''),
+  afterDatasetsDraw(chart){
+    const {ctx} = chart;
+    ctx.save();
+    ctx.font = '600 11px ' + Chart.defaults.font.family;
+    ctx.fillStyle = opts.color || muted;
+    chart.data.datasets.forEach((ds, di) => {
+      if (ds.hidden || (chart.getDatasetMeta(di).hidden)) return;
+      chart.getDatasetMeta(di).data.forEach((el, i) => {
+        const v = ds.data[i];
+        if (v === null || v === undefined || v === 0) return;
+        const t = fmt(v, ds, i);
+        if (!t) return;
+        if (opts.horizontal){
+          ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+          ctx.fillText(t, el.x + 7, el.y);
+        } else {
+          ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+          ctx.fillText(t, el.x, el.y - 5);
+        }
+      });
+    });
+    ctx.restore();
+  }
+});
+
+function barRows(el, rows, {fmt, colorFor}){
+  const max = Math.max(...rows.map(r => r.v)) || 1;
+  el.innerHTML = rows.map(r => `
+    <div class="bar-row">
+      <div class="bl">${r.label}</div>
+      <div class="bt"><div class="bf" style="width:${(r.v / max * 100).toFixed(1)}%;
+        background:${colorFor ? colorFor(r) : c1}"></div></div>
+      <div class="bv">${fmt(r)}</div>
+    </div>`).join('');
+}
+
+function initCharts(D){
+  const T = D.totais, P = D.perfil, B = D.benchmark, A = D.abordagem;
+  const dias = D.dia.length;
+
+  // ── cabeçalho + stats ────────────────────────────────────────────────────
+  const fmtD = s => s.split('-').reverse().slice(0, 2).join('/');
+  document.getElementById('headerSub').textContent =
+    `Lançamento em ${fmtD(D.periodo.inicio)}/2026 · ${dias} ${dias === 1 ? 'dia' : 'dias'} de venda `
+    + `(${fmtD(D.periodo.inicio)} a ${fmtD(D.periodo.fim)}) · ${NUM(T.compradores)} compradores · `
+    + `${BRL(T.receita)}`;
+  document.getElementById('fUpdated').textContent = D.updated_at;
+
+  document.getElementById('sCompradores').textContent = NUM(T.compradores);
+  document.getElementById('sPeriodo').textContent = `em ${dias} ${dias === 1 ? 'dia' : 'dias'}`;
+  document.getElementById('sReceita').textContent = BRLk(T.receita);
+  document.getElementById('sTicket').textContent = `ticket médio ${BRL(T.ticket)}`;
+  document.getElementById('sJaCliente').textContent = PC(T.pc_ja_era_cliente);
+  document.getElementById('sJaClienteCap').textContent =
+    `só ${T.primeira_compra} na 1ª compra na BP`;
+  document.getElementById('sComercial').textContent = PC(T.pc_comercial);
+  document.getElementById('sComercialCap').textContent =
+    `${NUM(T.comercial)} pessoas · ${BRLk(T.receita_comercial)}`;
+
+  document.getElementById('tkTopo').innerHTML =
+    `<strong>${NUM(T.compradores)} compradores e ${BRL(T.receita)} em ${dias} dias`
+    + `, com ${PC(T.pc_comercial)} do volume vindo do Comercial.</strong> `
+    + `Além dos aprovados, ${T.recusa_pessoas} pessoas ficaram com transação recusada ou abandonada `
+    + `(${T.recusa_tx} tentativas) — cerca de ${Math.round(T.recusa_pessoas / T.compradores * 100)}% `
+    + `do volume aprovado, sem fluxo de recuperação aparente.`;
+
+  // ── vendas por dia (2 séries, empilhada) ─────────────────────────────────
+  new Chart('cDia', {
+    type: 'bar',
+    data: {
+      labels: D.dia.map(r => fmtD(r.dia)),
+      datasets: [
+        {label:'Comercial', data: D.dia.map(r => r.comercial), backgroundColor: c1,
+         borderRadius:{topLeft:0,topRight:0,bottomLeft:4,bottomRight:4}, borderSkipped:false,
+         borderColor:'#fff', borderWidth:{top:2}, maxBarThickness:52},
+        {label:'Digital', data: D.dia.map(r => r.digital), backgroundColor: c2,
+         borderRadius:4, borderSkipped:false, maxBarThickness:52}
+      ]
+    },
+    options: {
+      scales:{x:{...AXIS_X, stacked:true}, y:{...AXIS_Y, stacked:true, beginAtZero:true,
+              title:{display:true, text:'compradores', color:soft, font:{size:10.5}}}},
+      plugins:{
+        legend:{position:'bottom'},
+        tooltip:{callbacks:{footer: it => {
+          const r = D.dia[it[0].dataIndex];
+          return `total ${r.comercial + r.digital} · ${BRL(r.receita)}`;
+        }}}
+      }
+    },
+    plugins:[dataLabels((v, ds, i) => {
+      const r = D.dia[i];
+      return ds.label === 'Digital' ? String(r.comercial + r.digital) : '';
+    }, {key:'dia'})]
+  });
+
+  // ── mix de produto ───────────────────────────────────────────────────────
+  document.getElementById('tProduto').innerHTML = D.produto.map(r => `
+    <tr><td>${r.produto}</td><td class="num">${NUM(r.n)}</td>
+      <td class="num">${BRL(r.ticket)}</td><td class="num">${BRLk(r.receita)}</td>
+      <td class="num">${Math.round(r.comercial / r.n * 100)}%</td></tr>`).join('');
+
+  // ── vínculo com a base ───────────────────────────────────────────────────
+  barRows(document.getElementById('barsVinculo'),
+    D.vinculo.map(r => ({label:r.label, v:r.pc, n:r.n})),
+    {fmt: r => `${PC(r.pc ?? r.v)} <span style="color:var(--soft);font-weight:400">(${r.n})</span>`,
+     colorFor: () => c1});
+
+  document.getElementById('notaVinculo').innerHTML =
+    `<strong>As categorias se sobrepõem.</strong> Membership exclui os planos do próprio livro — `
+    + `produto físico gera assinatura-fantasma em <code>dim_subscriptions</code>, e sem essa exclusão `
+    + `todo comprador apareceria como membro ativo.`;
+
+  // ── tempo de casa ────────────────────────────────────────────────────────
+  new Chart('cCasa', {
+    type: 'bar',
+    data: {labels: D.casa.map(r => r.faixa),
+           datasets:[{data: D.casa.map(r => r.n), backgroundColor: c1,
+                      borderRadius:4, borderSkipped:false, maxBarThickness:56}]},
+    options: {
+      scales:{x:AXIS_X, y:{...AXIS_Y, beginAtZero:true,
+              title:{display:true, text:'compradores', color:soft, font:{size:10.5}}}},
+      plugins:{legend:{display:false}, tooltip:{callbacks:{
+        label: it => `${NUM(it.raw)} compradores (${PC(D.casa[it.dataIndex].pc)})`,
+        footer: it => {
+          const m = D.casa[it[0].dataIndex].ltv_mediana;
+          return m ? `LTV anterior mediano ${BRL(m)}` : '';
+        }}}}
+    },
+    plugins:[dataLabels(v => NUM(v), {key:'casa'})]
+  });
+
+  document.getElementById('sLtv').textContent = BRL(D.consumo.ltv_mediana);
+  document.getElementById('sLtvCap').textContent =
+    `${PC(D.consumo.pc_ltv_4k_mais)} já gastou R$ 4 mil+`;
+  document.getElementById('sCasa').textContent =
+    String(D.consumo.anos_casa_mediana).replace('.', ',') + ' anos';
+  document.getElementById('sCasaCap').textContent =
+    `mediana de ${D.consumo.compras_mediana} compras anteriores`;
+  document.getElementById('sPenetracao').textContent = PC(D.penetracao_cdl.pc);
+  document.getElementById('sPenetracaoCap').textContent =
+    `${NUM(D.penetracao_cdl.converteu)} de ${NUM(D.penetracao_cdl.base)} compradores do CDL`;
+
+  const vit = D.vinculo.find(r => r.label === 'Vitalício');
+  document.getElementById('tkBase').innerHTML =
+    `<strong>${PC(T.pc_ja_era_cliente)} já eram clientes e ${PC(vit.pc)} são vitalícios.</strong> `
+    + `Só ${T.primeira_compra} pessoas fizeram a primeira compra na BP com este produto — a coleção `
+    + `monetiza vínculo existente, não abre público novo. Com `
+    + `${PC(D.penetracao_cdl.pc)} de penetração entre os compradores do Clube do Livro, o público `
+    + `natural está longe de saturado.`;
+
+  // ── benchmark (2 séries agrupadas) ───────────────────────────────────────
+  new Chart('cBench', {
+    type: 'bar',
+    data: {
+      labels: ['Cartão premium\n(Black/Amex/Platinum)', 'Cartão nível Black', 'Renda no decil 8–10'],
+      datasets: [
+        {label:'Compradores da coleção',
+         data:[P.pc_cartao_premium, P.pc_cartao_black, P.pc_decil_8mais],
+         backgroundColor: c1, borderRadius:4, borderSkipped:false, maxBarThickness:34},
+        {label:'Base de membros ativos',
+         data:[B.pc_cartao_premium, B.pc_cartao_black, B.pc_decil_8mais],
+         backgroundColor: c2, borderRadius:4, borderSkipped:false, maxBarThickness:34}
+      ]
+    },
+    options: {
+      scales:{x:{...AXIS_X, ticks:{callback(v){ return this.getLabelForValue(v).split('\n'); }}},
+              y:{...AXIS_Y, beginAtZero:true, max:100, grace:0,
+                 ticks:{callback: v => v + '%'}}},
+      plugins:{legend:{position:'bottom'},
+               tooltip:{callbacks:{label: it => `${it.dataset.label}: ${PC(it.raw)}`}}}
+    },
+    plugins:[dataLabels(v => PC(Math.round(v * 10) / 10), {key:'bench'})]
+  });
+
+  const lift = (a, b) => (a / b).toFixed(1).replace('.', ',') + '×';
+  document.getElementById('notaBench').innerHTML =
+    `Lift sobre a base: cartão premium <strong>${lift(P.pc_cartao_premium, B.pc_cartao_premium)}</strong>, `
+    + `cartão Black <strong>${lift(P.pc_cartao_black, B.pc_cartao_black)}</strong>, `
+    + `renda alta <strong>${lift(P.pc_decil_8mais, B.pc_decil_8mais)}</strong>. `
+    + `Base de comparação: ${NUM(B.n)} membros ativos. Cobertura do dado nos compradores: `
+    + `cartão ${P.base_cartao}, renda ${P.base_renda} de ${T.compradores}.`;
+
+  // ── renda por decil ──────────────────────────────────────────────────────
+  const decis = Array.from({length:10}, (_, i) => {
+    const f = D.renda.find(r => r.decil === i + 1);
+    return f ? f.n : 0;
+  });
+  new Chart('cRenda', {
+    type: 'bar',
+    data: {labels: decis.map((_, i) => i + 1),
+           // cor única: nenhum tom claro de azul passa o validador (indistinguível do c1 ou
+           // sem croma/contraste). A assimetria já se lê na altura + rótulos diretos.
+           datasets:[{data: decis, backgroundColor: c1,
+                      borderRadius:4, borderSkipped:false, maxBarThickness:40}]},
+    options: {
+      scales:{x:{...AXIS_X, title:{display:true, text:'decil de renda do CEP', color:soft,
+                 font:{size:10.5}}},
+              y:{...AXIS_Y, beginAtZero:true,
+                 title:{display:true, text:'compradores', color:soft, font:{size:10.5}}}},
+      plugins:{legend:{display:false}, tooltip:{callbacks:{
+        title: it => 'Decil ' + it[0].label,
+        label: it => `${NUM(it.raw)} compradores`}}}
+    },
+    plugins:[dataLabels(v => NUM(v), {key:'renda'})]
+  });
+
+  document.getElementById('sCartao').textContent = PC(P.pc_cartao_premium);
+  document.getElementById('sCartaoCap').textContent =
+    `base ${NUM(B.n)} membros: ${PC(B.pc_cartao_premium)}`;
+  document.getElementById('sIdade').textContent = PC(P.pc_idade_45mais);
+  document.getElementById('sIdadeCap').textContent = `dado em ${P.base_idade} de ${T.compradores}`;
+  document.getElementById('sGenero').textContent = PC(P.pc_masculino);
+  document.getElementById('sPagamento').textContent = PC(P.pc_pg_cartao);
+  document.getElementById('sPagamentoCap').textContent = `${PC(P.pc_pg_pix)} no Pix · todas as ofertas em 12×`;
+
+  barRows(document.getElementById('barsUf'),
+    D.uf.map(r => ({label:r.uf, v:r.n, pc:r.pc})),
+    {fmt: r => `${NUM(r.v)} <span style="color:var(--soft);font-weight:400">(${PC(r.pc)})</span>`});
+
+  // ── engajamento ──────────────────────────────────────────────────────────
+  new Chart('cEng', {
+    type: 'bar',
+    data: {labels: D.engajamento.map(r => r.faixa),
+           datasets:[{data: D.engajamento.map(r => r.n),
+                      backgroundColor: D.engajamento.map(r =>
+                        r.faixa === 'Nenhuma sessão' ? c2 : c1),
+                      borderRadius:4, borderSkipped:false, maxBarThickness:56}]},
+    options: {
+      scales:{x:AXIS_X, y:{...AXIS_Y, beginAtZero:true,
+              title:{display:true, text:'compradores', color:soft, font:{size:10.5}}}},
+      plugins:{legend:{display:false}, tooltip:{callbacks:{
+        label: it => `${NUM(it.raw)} compradores (${PC(D.engajamento[it.dataIndex].pc)})`,
+        footer: it => {
+          const r = D.engajamento[it[0].dataIndex];
+          return r.hr_90d ? `média de ${String(r.hr_90d).replace('.', ',')} h assistidas` : '';
+        }}}}
+    },
+    plugins:[dataLabels(v => NUM(v), {key:'eng'})]
+  });
+
+  document.getElementById('tEng').innerHTML = D.engajamento.map(r => `
+    <tr class="${r.faixa === 'Nenhuma sessão' ? 'hi' : ''}">
+      <td>${r.faixa === 'Nenhuma sessão' ? '<strong>Nenhuma sessão</strong>' : r.faixa}</td>
+      <td class="num">${NUM(r.n)}</td><td class="num">${PC(r.pc)}</td>
+      <td class="num">${r.hr_90d ? String(r.hr_90d).replace('.', ',') : '—'}</td>
+      <td class="num">${Math.round(r.pc_comercial)}%</td></tr>`).join('');
+
+  const inat = D.engajamento.find(r => r.faixa === 'Nenhuma sessão');
+  document.getElementById('tkEng').innerHTML =
+    `<strong>${PC(inat.pc)} dos compradores não abriu a plataforma nos últimos 90 dias.</strong> `
+    + `Produto físico converte vínculo antigo, não consumo corrente — não usar engajamento na `
+    + `plataforma como critério de corte em lista de produto físico.`;
+
+  // ── abordagem ────────────────────────────────────────────────────────────
+  document.getElementById('sProspects').textContent = NUM(A.total_prospects);
+  document.getElementById('sProspectsCap').textContent = `${NUM(A.total_comprou)} compraram depois de abordados`;
+  document.getElementById('sResposta').textContent = PC(A.pc_resposta_geral);
+  document.getElementById('sRespostaCap').textContent = `${NUM(A.total_respondeu)} pessoas`;
+  document.getElementById('sVendedores').textContent = NUM(A.n_vendedores);
+  document.getElementById('sVendedoresCap').textContent = `líder com ${A.top_vendas} vendas`;
+
+  // cor por tipo de abordagem, na ordem fixa da paleta
+  const bcCor = b => b.startsWith('Disparo em massa') ? c2
+                   : b.startsWith('Disparo +')        ? c3 : c1;
+  const B0 = A.buckets.find(b => b.bucket.startsWith('Disparo em massa'));
+  const B1 = A.buckets.find(b => b.bucket.startsWith('Disparo +'));
+  const B2 = A.buckets.find(b => b.bucket.startsWith('Abordagem do vendedor'));
+
+  barRows(document.getElementById('barsResposta'),
+    A.buckets.map(b => ({label:b.bucket, v:b.pc_resposta})),
+    {fmt: r => PC(r.v), colorFor: r => bcCor(r.label)});
+
+  document.getElementById('tAbordagem').innerHTML = A.buckets.map(b => `
+    <tr><td><span class="swatch" style="background:${bcCor(b.bucket)}"></span>${b.bucket}</td>
+      <td class="num">${NUM(b.prospects)}</td>
+      <td class="num">${NUM(b.respondeu)} <span style="color:var(--soft)">${PC(b.pc_resposta)}</span></td>
+      <td class="num">${NUM(b.comprou)}</td>
+      <td class="num">${PC(b.pc_conversao)}</td>
+      <td class="num">${BRL(b.receita)}</td>
+      <td class="num">${Math.round(b.pc_scriptado)}%</td></tr>`).join('');
+
+  document.getElementById('tkAbordagem').innerHTML =
+    `<strong>A peça de disparo, sozinha, é quase inerte: ${NUM(B0.prospects)} prospects, `
+    + `${PC(B0.pc_resposta)} de resposta, ${B0.comprou} vendas, ${BRL(B0.receita)}.</strong> `
+    + `Dos ${B0.respondeu} que responderam só ao disparo, nenhum comprou. `
+    + `Quem foi atendido por vendedor responde ${PC(B2.pc_resposta)} e converte ${PC(B2.pc_conversao)} — `
+    + `${Math.round(B2.pc_conversao / B0.pc_conversao)}× mais, e ${BRL(B2.receita)} de receita. `
+    + `<br><br>⚠️ <strong>Mas os dois lados são disparo scriptado</strong>: `
+    + `${Math.round(B2.pc_scriptado)}% das “abordagens de vendedor” abrem com um texto repetido em `
+    + `20+ conversas (contra ${Math.round(B0.pc_scriptado)}% na peça de massa). A diferença não é `
+    + `personalização — é remetente, formato e lista. O mecanismo não foi testado.`;
+
+  barRows(document.getElementById('barsCarteira'),
+    A.carteira.map(b => ({label:b.bucket, v:b.pc, n:b.prospects, c:b.comprou})),
+    {fmt: r => `${PC(r.v)} <span style="color:var(--soft);font-weight:400">(${r.c}/${NUM(r.n)})</span>`,
+     colorFor: r => bcCor(r.label)});
+
+  const K0 = A.carteira.find(b => b.bucket.startsWith('Disparo em massa'));
+  const K1 = A.carteira.find(b => b.bucket.startsWith('Disparo +'));
+  const K2 = A.carteira.find(b => b.bucket.startsWith('Abordagem do vendedor'));
+  document.getElementById('tkCarteira').innerHTML =
+    `<strong>Dentro da mesma etapa, o disparo não aquece: quem o recebeu antes de falar com o `
+    + `vendedor converteu ${PC(K1.pc)}, contra ${PC(K2.pc)} de quem nunca recebeu.</strong> `
+    + `A peça não preparou ninguém — ela só marcou quem já ia reagir. Ler o disparo como `
+    + `“aquecimento” superestima o que ele faz; o que ele faz é selecionar.`;
+
+  document.getElementById('tEtapa').innerHTML = A.etapas.map(r => `
+    <tr class="${r.etapa === 'carteiraMecenas' ? 'hi' : ''}">
+      <td><code>${r.etapa}</code></td><td class="num">${NUM(r.prospects)}</td>
+      <td class="num">${NUM(r.comprou)}</td><td class="num">${PC(r.pc)}</td></tr>`).join('');
+
+  // ── atribuição ───────────────────────────────────────────────────────────
+  document.getElementById('tAtribuicao').innerHTML = D.atribuicao.map(r => `
+    <tr class="${r.origem.startsWith('Digital sem') ? 'hi' : ''}">
+      <td>${r.origem}</td><td class="num">${NUM(r.n)} <span style="color:var(--soft)">${PC(r.pc)}</span></td>
+      <td class="num">${BRL(r.receita)}</td><td class="num">${BRL(r.ticket)}</td>
+      <td class="num">${Math.round(r.pc_membro)}%</td><td class="num">${Math.round(r.pc_vitalicio)}%</td>
+      <td class="num">${BRL(r.ltv_mediana)}</td>
+      <td class="num">${Math.round(r.pc_cartao_premium)}%</td></tr>`).join('');
+
+  const g = o => D.atribuicao.find(r => r.origem === o);
+  const abC = g('Abordado → Comercial'), abD = g('Abordado → Digital'),
+        semC = g('Comercial sem abordagem prévia'), semD = g('Digital sem abordagem prévia');
+  const pcAbordado = Math.round((abC.n + abD.n) / T.compradores * 100);
+
+  document.getElementById('atribGuarda').innerHTML =
+    `<strong>${A.comprou_antes_da_abordagem} compradores foram abordados só DEPOIS de já ter `
+    + `comprado</strong> e não contam como abordados aqui — sem essa exclusão, o grupo `
+    + `“abordado → digital” dobraria de tamanho com gente que o Comercial não aqueceu.`;
+
+  document.getElementById('tkAtribuicao').innerHTML =
+    `<strong>${pcAbordado}% dos compradores foram abordados pelo Comercial antes de comprar.</strong> `
+    + `Só ${abD.n} vendas (${BRL(abD.receita)}) fecharam no checkout digital tendo abordagem prévia — `
+    + `crédito genuinamente ambíguo, mas um volume pequeno. `
+    + `O grupo grande é outro: <strong>${semD.n} pessoas (${PC(semD.pc)}) compraram no digital sem `
+    + `nenhuma abordagem</strong>, e têm perfil visivelmente mais fraco — `
+    + `${Math.round(semD.pc_vitalicio)}% de vitalícios contra ${Math.round(abC.pc_vitalicio)}%, e LTV `
+    + `mediano ${Math.round((1 - semD.ltv_mediana / abC.ltv_mediana) * 100)}% menor. `
+    + `O Comercial trabalha a nata; o digital alcança quem a carteira não cobre.`;
+
+  document.getElementById('cardAtrib').innerHTML =
+    `${abD.n} vendas (${BRL(abD.receita)}) fecharam no digital com abordagem prévia do Comercial, e `
+    + `outras ${A.comprou_antes_da_abordagem} foram abordadas depois de já ter comprado. Antes de `
+    + `comparar CAC ou premiar canal, decidir a regra — e corrigir a higiene da lista, que hoje `
+    + `inclui quem já comprou.`;
+
+  document.getElementById('cardDisparo').innerHTML =
+    `A peça atual entrega ${PC(B0.pc_resposta)} de resposta e ${BRL(B0.receita)} em `
+    + `${NUM(B0.prospects)} disparos. O problema não é volume nem preço — é que ninguém responde a `
+    + `um texto longo com imagem e CTA de clique. Testar mensagem curta com pergunta direta, saindo `
+    + `do número do vendedor: qualquer coisa que leve a resposta de ${PC(B0.pc_resposta)} para 2% `
+    + `multiplica o topo do funil por 10 sem custo de mídia.`;
+
+  document.getElementById('cardRecusa').innerHTML =
+    `${T.recusa_pessoas} pessoas ficaram com transação recusada ou abandonada (${T.recusa_tx} `
+    + `tentativas; erros de limite e cartão vencido). É ~`
+    + `${Math.round(T.recusa_pessoas / T.compradores * 100)}% do número de compradores, com perfil `
+    + `idêntico ao de quem comprou — a lista de reabordagem mais barata disponível.`;
+
+  // ── preço ────────────────────────────────────────────────────────────────
+  const prods = [...new Set(D.preco.filter(r => r.produto !== 'Outro').map(r => r.produto))];
+  const serie = canal => prods.map(p => {
+    const f = D.preco.find(r => r.produto === p && r.canal === canal);
+    return f ? f.ticket : null;
+  });
+  new Chart('cPreco', {
+    type: 'bar',
+    data: {labels: prods, datasets:[
+      {label:'Comercial', data: serie('Comercial'), backgroundColor: c1,
+       borderRadius:4, borderSkipped:false, maxBarThickness:56},
+      {label:'Digital', data: serie('Digital'), backgroundColor: c2,
+       borderRadius:4, borderSkipped:false, maxBarThickness:56}
+    ]},
+    options: {
+      scales:{x:AXIS_X, y:{...AXIS_Y, beginAtZero:true,
+              ticks:{callback: v => 'R$ ' + v},
+              title:{display:true, text:'ticket médio', color:soft, font:{size:10.5}}}},
+      plugins:{legend:{position:'bottom'},
+               tooltip:{callbacks:{
+                 label: it => `${it.dataset.label}: ${BRL(it.raw)}`,
+                 footer: it => {
+                   const f = D.preco.find(r => r.produto === prods[it[0].dataIndex]
+                                            && r.canal === it[0].dataset.label);
+                   return f ? `${f.n} compradores` : '';
+                 }}}}
+    },
+    plugins:[dataLabels(v => BRL(v), {key:'preco'})]
+  });
+
+  document.getElementById('tFaixas').innerHTML = D.faixas_preco.map(r => `
+    <tr><td class="num"><strong>${BRL(r.valor)}</strong></td><td class="num">${NUM(r.n)}</td>
+      <td class="num">${NUM(r.comercial)}</td><td class="num">${NUM(r.digital)}</td></tr>`).join('');
+}
+
+fetch('./data.json')
+  .then(r => r.json())
+  .then(initCharts)
+  .catch(e => {
+    document.getElementById('headerSub').textContent =
+      'Erro ao carregar data.json — rodar `python refresh.py`.';
+    console.error(e);
+  });
+</script>
+</body>
+</html>
