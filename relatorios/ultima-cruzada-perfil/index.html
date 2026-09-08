@@ -126,7 +126,9 @@
   <div class="grid-2" style="margin-top:16px">
     <div class="card">
       <h3>Vendas por dia e canal</h3>
-      <p class="sub" style="margin:0 0 12px">Compradores únicos. O último dia pode estar parcial.</p>
+      <p class="sub" style="margin:0 0 12px">Compradores únicos. O último dia pode estar parcial.
+        Dias marcados <span style="color:var(--c2)">•</span> são fim de semana ou feriado — o Comercial
+        não vende, o digital não para.</p>
       <div class="chart-box short"><canvas id="cDia" role="img" aria-label="Gráfico de barras empilhadas: compradores por dia, separados entre canal Comercial e Digital."></canvas></div>
     </div>
     <div class="card">
@@ -147,9 +149,11 @@
 
 <!-- ══ 2. Quem compra ════════════════════════════════════════════════════ -->
 <section>
-  <h2>Não é aquisição — é monetização da base</h2>
+  <h2>Quem compra: dois públicos, um por canal</h2>
   <p class="sub" style="margin-bottom:18px">Vínculo dos compradores com a Brasil Paralelo <em>antes</em>
-    desta compra. As categorias se sobrepõem (uma pessoa pode ser vitalícia e ter comprado o Clube do Livro).</p>
+    desta compra. As categorias se sobrepõem (uma pessoa pode ser vitalícia e ter comprado o Clube do
+    Livro). <strong>Os números agregados escondem dois públicos muito diferentes</strong> — o corte por
+    canal está logo abaixo.</p>
 
   <div class="grid-2">
     <div class="card">
@@ -183,6 +187,25 @@
   </div>
 
   <div class="takeaway" id="tkBase">—</div>
+</section>
+
+<!-- ══ 2b. Perfil por canal ═══════════════════════════════════════════════ -->
+<section>
+  <h2>Comercial e digital vendem para pessoas diferentes</h2>
+  <p class="sub" style="margin-bottom:18px">O mesmo produto, dois públicos. À medida que a mídia
+    escala, o agregado se move para o perfil do digital — <strong>não porque o comprador mudou, mas
+    porque o mix de canal mudou</strong>. Ler só o número agregado leva à conclusão errada de que a
+    coleção "perdeu qualidade de público".</p>
+  <div class="card">
+    <div class="scroll-x">
+      <table>
+        <thead><tr><th>Indicador</th><th class="num">Comercial</th><th class="num">Digital</th>
+          <th class="num">Razão</th></tr></thead>
+        <tbody id="tCanal"></tbody>
+      </table>
+    </div>
+    <div class="takeaway" id="tkCanal">—</div>
+  </div>
 </section>
 
 <!-- ══ 3. Perfil socioeconômico ══════════════════════════════════════════ -->
@@ -505,7 +528,9 @@
 
 <script>
 const BRL = n => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
-const BRLk = n => n >= 20000 ? 'R$ ' + Math.round(n/1000) + 'k' : BRL(n);
+const BRLk = n => n >= 1e6 ? 'R$ ' + (n/1e6).toFixed(2).replace('.', ',') + 'M'
+                : n >= 20000 ? 'R$ ' + Math.round(n/1000) + 'k'
+                : BRL(n);
 const NUM = n => Math.round(n).toLocaleString('pt-BR');
 const PC  = n => String(n).replace('.', ',') + '%';
 const C   = getComputedStyle(document.documentElement);
@@ -606,7 +631,7 @@ function initCharts(D){
   new Chart('cDia', {
     type: 'bar',
     data: {
-      labels: D.dia.map(r => fmtD(r.dia)),
+      labels: D.dia.map(r => fmtD(r.dia) + (r.nao_util ? ' •' : '')),
       datasets: [
         {label:'Comercial', data: D.dia.map(r => r.comercial), backgroundColor: c1,
          borderRadius:{topLeft:0,topRight:0,bottomLeft:4,bottomRight:4}, borderSkipped:false,
@@ -681,11 +706,54 @@ function initCharts(D){
 
   const vit = D.vinculo.find(r => r.label === 'Vitalício');
   document.getElementById('tkBase').innerHTML =
-    `<strong>${PC(T.pc_ja_era_cliente)} já eram clientes e ${PC(vit.pc)} são vitalícios.</strong> `
-    + `Só ${T.primeira_compra} pessoas fizeram a primeira compra na BP com este produto — a coleção `
-    + `monetiza vínculo existente, não abre público novo. Com `
-    + `${PC(D.penetracao_cdl.pc)} de penetração entre os compradores do Clube do Livro, o público `
-    + `natural está longe de saturado.`;
+    `<strong>${PC(T.pc_ja_era_cliente)} já eram clientes e ${PC(vit.pc)} são vitalícios</strong> — a `
+    + `coleção monetiza sobretudo vínculo existente. Mas isso está mudando conforme a mídia escala: `
+    + `${NUM(T.primeira_compra)} pessoas fizeram a primeira compra na BP com este produto, e quase `
+    + `todas vieram pelo digital. `
+    + `Com ${PC(D.penetracao_cdl.pc)} de penetração entre os compradores do Clube do Livro, o público `
+    + `natural da carteira segue longe de saturado.`;
+
+  // ── perfil por canal ─────────────────────────────────────────────────────
+  if (D.canal && D.canal.length === 2) {
+    const cm = D.canal.find(x => x.canal === 'Comercial');
+    const dg = D.canal.find(x => x.canal === 'Digital');
+    const linhas = [
+      ['Compradores', cm.n, dg.n, v => NUM(v), false],
+      ['Receita', cm.receita, dg.receita, v => BRL(v), false],
+      ['Ticket médio', cm.ticket, dg.ticket, v => BRL(v), false],
+      ['Membro ativo', cm.pc_membro, dg.pc_membro, v => PC(Math.round(v * 10) / 10), true],
+      ['Vitalício', cm.pc_vitalicio, dg.pc_vitalicio, v => PC(Math.round(v * 10) / 10), true],
+      ['Comprou o Clube do Livro', cm.pc_cdl, dg.pc_cdl, v => PC(Math.round(v * 10) / 10), true],
+      ['1ª compra na BP', cm.pc_novo_na_bp, dg.pc_novo_na_bp, v => PC(Math.round(v * 10) / 10), true],
+      ['LTV anterior (mediana)', cm.ltv_mediana, dg.ltv_mediana, v => BRL(v), false],
+      ['Cartão premium', cm.pc_cartao_premium, dg.pc_cartao_premium, v => PC(Math.round(v * 10) / 10), true],
+      ['Sem sessão na plataforma em 90d', cm.pc_sem_sessao_90d, dg.pc_sem_sessao_90d, v => PC(Math.round(v * 10) / 10), true],
+    ];
+    document.getElementById('tCanal').innerHTML = linhas.map(([lbl, a, b, f]) => {
+      const r = b ? a / b : 0;
+      const forte = Math.abs(Math.log(r || 1)) > Math.log(1.4);
+      return `<tr><td>${lbl}</td>
+        <td class="num"><span class="swatch" style="background:${c1}"></span>${f(a)}</td>
+        <td class="num"><span class="swatch" style="background:${c2}"></span>${f(b)}</td>
+        <td class="num"${forte ? ' style="font-weight:700"' : ''}>${
+          r ? (r >= 1 ? r.toFixed(1).replace('.', ',') + '×' : '÷' + (1 / r).toFixed(1).replace('.', ',')) : '—'
+        }</td></tr>`;
+    }).join('');
+
+    document.getElementById('tkCanal').innerHTML =
+      `<strong>O Comercial vende para a base fiel; o digital vende para um público muito mais frio.</strong> `
+      + `Vitalícios: ${PC(Math.round(cm.pc_vitalicio))} contra ${PC(Math.round(dg.pc_vitalicio))}. `
+      + `LTV anterior mediano ${BRL(cm.ltv_mediana)} contra ${BRL(dg.ltv_mediana)} — `
+      + `${(cm.ltv_mediana / dg.ltv_mediana).toFixed(1).replace('.', ',')}× maior. `
+      + `E ${PC(Math.round(dg.pc_sem_sessao_90d))} dos compradores do digital não abrem a plataforma há `
+      + `90 dias, contra ${PC(Math.round(cm.pc_sem_sessao_90d))} do Comercial. `
+      + `<br><br>Mas <strong>o poder de compra é o mesmo nos dois canais</strong>: cartão premium `
+      + `${PC(Math.round(cm.pc_cartao_premium))} × ${PC(Math.round(dg.pc_cartao_premium))}, e ticket `
+      + `praticamente igual (${BRL(cm.ticket)} × ${BRL(dg.ticket)} — o do digital é até maior, porque o `
+      + `Comercial concentra a oferta com desconto). A mídia não está descendo de faixa econômica; `
+      + `está alcançando <em>o mesmo tipo de gente com dinheiro</em> que ainda não tem vínculo forte `
+      + `com a BP. Os dois canais são complementares, não substitutos.`;
+  }
 
   // ── benchmark (2 séries agrupadas) ───────────────────────────────────────
   new Chart('cBench', {

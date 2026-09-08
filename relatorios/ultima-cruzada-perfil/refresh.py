@@ -262,9 +262,29 @@ def build() -> dict:
 
     dia = q(f"""
       SELECT DATE(dt_compra_uc) AS dia,
+             FORMAT_DATE('%a', DATE(dt_compra_uc)) AS dow,
+             -- fim de semana e feriado derrubam o Comercial (não vende), mas não o digital.
+             -- Sem marcar isso, a queda do Comercial parece decisão estratégica.
+             EXTRACT(DAYOFWEEK FROM DATE(dt_compra_uc)) IN (1, 7)
+               OR DATE(dt_compra_uc) = '2026-09-07' AS bl_nao_util,
              COUNTIF(bl_comercial) AS comercial,
              COUNTIF(NOT bl_comercial) AS digital,
              SUM(vl_uc) AS receita
+      FROM {TB_COMP} GROUP BY 1, 2, 3 ORDER BY 1
+    """)
+
+    # Perfil por canal — é o que explica a diluição do agregado: o mix mudou, não o comprador.
+    canal = q(f"""
+      SELECT CASE WHEN bl_comercial THEN 'Comercial' ELSE 'Digital' END AS canal,
+             COUNT(*) AS n, SUM(vl_uc) AS receita, AVG(vl_uc) AS ticket,
+             100 * COUNTIF(bl_membro_ativo) / COUNT(*) AS pc_membro,
+             100 * COUNTIF(bl_vitalicio) / COUNT(*) AS pc_vitalicio,
+             100 * COUNTIF(bl_cdl) / COUNT(*) AS pc_cdl,
+             100 * COUNTIF(qt_compras_ant IS NULL) / COUNT(*) AS pc_novo_na_bp,
+             APPROX_QUANTILES(vl_ltv_ant, 2)[OFFSET(1)] AS ltv_mediana,
+             100 * COUNTIF(nivel_cartao IN ('6_black','5_amex','4_platinum'))
+                   / NULLIF(COUNTIF(nivel_cartao IS NOT NULL), 0) AS pc_cartao_premium,
+             100 * COUNTIF(COALESCE(qt_dias_ativos_90d, 0) = 0) / COUNT(*) AS pc_sem_sessao_90d
       FROM {TB_COMP} GROUP BY 1 ORDER BY 1
     """)
 
@@ -534,9 +554,19 @@ def build() -> dict:
             "recusa_tx": ii(recusa["tx"]),
         },
         "dia": [
-            {"dia": r["dia"], "comercial": ii(r["comercial"]),
+            {"dia": r["dia"], "dow": r["dow"], "nao_util": bool(r["bl_nao_util"]),
+             "comercial": ii(r["comercial"]),
              "digital": ii(r["digital"]), "receita": ii(r["receita"])}
             for r in dia
+        ],
+        "canal": [
+            {"canal": r["canal"], "n": ii(r["n"]), "receita": ii(r["receita"]),
+             "ticket": ii(r["ticket"]), "pc_membro": fi(r["pc_membro"]),
+             "pc_vitalicio": fi(r["pc_vitalicio"]), "pc_cdl": fi(r["pc_cdl"]),
+             "pc_novo_na_bp": fi(r["pc_novo_na_bp"]), "ltv_mediana": ii(r["ltv_mediana"]),
+             "pc_cartao_premium": fi(r["pc_cartao_premium"]),
+             "pc_sem_sessao_90d": fi(r["pc_sem_sessao_90d"])}
+            for r in canal
         ],
         "vinculo": [
             {"label": "Membro ativo hoje", "n": ii(vinc["membro_ativo"]), "pc": pc(vinc["membro_ativo"], n)},
