@@ -18,8 +18,12 @@ Rotina mensal a partir daqui. O ranking histórico de influs (jan/2025+) é outr
 | `data.json` | Gerado pelo `refresh.py`. Alimenta gráficos e tabelas das duas páginas. |
 | `custo_manual.json` | **Cachê e contexto da BP — preenchido à mão.** Não existe no BigQuery. |
 | `refresh.py` | Queries BQ → `data.json`. Usa `bqq` (nunca `bq query`). |
+| `RUNBOOK.md` | **Passo a passo do fechamento mensal.** Ler antes de rodar um mês novo. |
 
 ### Como rodar um mês novo
+
+**Passo a passo completo em [RUNBOOK.md](RUNBOOK.md)** — inclui o checklist do que revisar no texto,
+os erros conhecidos e o modelo do e-mail. Resumo:
 
 1. Pedir a aba INFLUENCIADORES do controle de custo variável e preencher `custo_manual.json`
    com a chave do mês (`cache_peca_venda`, `acao_de_marca`, `contexto_bp`, `pendencias`).
