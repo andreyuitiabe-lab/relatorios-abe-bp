@@ -256,6 +256,110 @@ Paleta dos gráficos validada com o validador da skill `dataviz`
 banda de luminosidade e no piso de croma). Rótulos diretos em todas as barras são o encoding
 secundário exigido pelo ΔE 6,6 do par âmbar↔verde.
 
+## Aba no dashboard vendasbp (08/09/2026)
+
+O relatório foi portado para uma aba do dash da campanha, para acompanhar a evolução sem regerar
+o HTML à mão: `vendasbp.com/dashboard-campanha/Coleção Brasil?tab=perfil-comprador`.
+
+| Arquivo (repo `marketing-bp`) | Papel |
+|---|---|
+| `supabase/functions/fetch-campaign-buyer-profile/index.ts` | Resolve o universo (produto ou campanha) e roda perfil/benchmark/abordagem |
+| `src/hooks/useCampaignBuyerProfile.ts` | `useCampaignBuyerProfile` (10min) + `useCampaignBuyerBenchmark` (12h) |
+| `src/components/dash-campanha/CampaignBuyerProfileTab.tsx` | A aba |
+| `src/pages/DashCampanha.tsx` | Trigger + content, ligados pela configuração |
+| `src/lib/campaignViewPeriods.ts` | Registro da view como `optional` + `isExtraTabEnabled()` |
+| `src/components/campaign-settings/ExtraTabsSection.tsx` | Configurações › "Abas extras" |
+| `src/components/CampaignSettingsDialog.tsx` | A nova aba do dialog e o save |
+
+**Abas extras são escolhidas por campanha** (evolução do pedido, 08/09): em vez de flag pelo nome
+da campanha, a aba se registra em `CAMPAIGN_VIEWS_WITH_PERIOD` com `optional: true` e é ligada em
+**Configurações › "Abas extras"**, persistindo em `campaign_dashboards.extra_tabs (text[])`. Ao criar
+uma campanha nova, dá para escolher quais visões extras entram. Isso separa dois conceitos que
+estavam misturados:
+
+- `requires` (já existia) — automático: a aba Leads aparece se a campanha tem meta de leads;
+- `optional` (novo) — decisão de quem monta o dash.
+
+**Dois universos de compra**, escolhidos na mesma tela de configuração (evolução de 08/09):
+
+- **produto** — quem compra os *Produtos BP* da campanha (`produto_bp_ids` → `nm_gateway_product`
+  via `produto_bp_mappings`), por qualquer caminho. É o recorte para acompanhar um produto, como o livro.
+- **campanha** — o que a campanha vendeu, pelas **mesmas regras de atribuição da aba Vendas**.
+
+⚠️ **O matching de campanha NÃO foi reimplementado.** `_shared/campaignFilters.ts` é um par
+espelhado **congelado** que unificou 10 implementações históricas (mudanças só pelo steward, com
+autorização da Barbara). A function é um *chamador*, como as `compute-*`: usa o módulo e replica
+apenas o bloco de exclusões, que por desenho fica no chamador. Eu ia replicar a regra em SQL —
+teria criado a 11ª implementação, exatamente o problema que o módulo resolveu.
+
+⚠️ **Mudança de semântica do "LTV anterior"**: agora é *tudo antes do início do período
+selecionado*, não *tudo exceto este produto*. Foi preciso para a definição valer em qualquer
+universo, mas muda números — "1ª compra na BP" passou de 95 para 124 pessoas no mesmo período,
+porque quem comprou outra coisa dentro do período agora conta como sem histórico anterior.
+O relatório HTML mantém a definição antiga; os dois não são comparáveis linha a linha.
+
+⚠️ **O bloco de abordagem exige um "termo de conversa" configurado.** O Zenvia não tem etiqueta
+por produto, então o universo de abordados só é definível por regex no texto. Sem termo, o bloco
+não aparece (e a tela explica o porquê).
+
+**Decisões de engenharia:**
+- **Nada de texto de conversa sai do BigQuery.** A classificação dos temas roda dentro do SQL e a
+  function devolve só contagens — as transcrições têm nome e telefone, e o browser é o pior lugar
+  para isso (o repo já tem PII em 46 consumidores como problema conhecido).
+- **Benchmark em bloco separado** (`block: 'benchmark'`): a query da base de membros custa ~9s e é
+  quase estática; separada, trocar o período não a repaga.
+- **Flags de tema por prospect, não cross join.** A primeira versão cruzava 13 regexes × 14k
+  prospects e levava 22s; avaliando cada regex uma vez por prospect, caiu para 8s.
+- **`dt_approach_start` sem `DATE()`** no filtro: a tabela é particionada por
+  `DATETIME_TRUNC(dt_approach_start, MONTH)` e envolver a coluna em `DATE()` mata o pruning.
+- **`ROLLUP` tem de agrupar pela coluna crua.** Agrupar pelo alias já com `IFNULL(...,'TOTAL')`
+  faz a linha de rollup nunca vir NULL — o TOTAL não é emitido e o ticket sai somado em vez de
+  médio. Peguei isso no preview, não em produção.
+- **Conclusões derivadas, não fixas.** O texto sobre "o disparo aquece ou seleciona" e o de
+  "pedir desconto é sinal de compra" são calculados do período selecionado. Isso importa: na
+  janela de 30 dias o disparo+atendimento converteu **mais** que o vendedor sem disparo (7,9% ×
+  6,4%), o inverso do fechamento de 08/09 — um texto fixo teria mentido. A aba mostra a relação
+  medida e avisa que a leitura é frágil.
+- **Sem animação nos gráficos** (`isAnimationActive={false}`): dashboard de dados não ganha nada
+  com barras crescendo, e a animação atrasa a leitura.
+
+⚠️ **Requer uma migration manual** — a coluna não existe ainda. No SQL Editor do Supabase:
+
+```sql
+alter table public.campaign_dashboards
+  add column if not exists extra_tabs text[] default '{}'::text[],
+  add column if not exists extra_tabs_config jsonb default '{}'::jsonb;
+```
+
+Enquanto ela não existir, o dialog salva todo o resto normalmente e mostra o SQL na aba
+"Abas extras" (o UPDATE de `extra_tabs` é separado justamente para não derrubar o save inteiro).
+O `types.ts` só é regenerado pela Lovable, então o update usa `as never` — padrão do repo.
+
+⚠️ **Deploy da edge function é manual, via Lovable** — não sai no push (não há workflow de deploy e
+as `fetch-*` não estão no `config.toml`). Enquanto a function não subir, a aba mostra erro de
+carregamento. Verificar se subiu: `curl -X POST <url>/functions/v1/fetch-colecao-brasil-perfil`
+→ **401 = no ar**, 404 = não deployada.
+
+## ⚠️ Perda de dados no Zenvia (08/09/2026)
+
+A `masterdata.dim_zenvia_approaches` foi recarregada em **08/09 às 18:02** e a partição de
+setembro voltou com uma fração das conversas. Mesma query, mesmos dias:
+
+| Conversas iniciadas em | Medido 04/09 | Medido 08/09 |
+|---|---:|---:|
+| 02/09 (total) | 21.623 | **3.998** |
+| 02/09 (mencionam a coleção) | 6.483 | **1.326** |
+| 03/09 (mencionam) | 4.382 | **1.221** |
+| 04/09 (mencionam) | 2.532 | **1.421** |
+
+A `dtm_sales_by_zenvia` concorda com o número novo (as duas derivam da mesma staging), e a média
+diária do mês (2.372) ficou abaixo de agosto (3.657) apesar do disparo em massa de setembro.
+
+**Efeito:** os números de **abordagem** deste relatório (6.026 prospects de disparo etc.) não se
+reproduzem hoje. O bloco de **perfil** não é afetado — vem da `fct_transactions`, íntegra.
+Decisão: **não regerar** o relatório enquanto a carga não se resolver, para não trocar um número
+errado por outro. Pendente: avisar quem cuida do pipeline Zenvia e reavaliar qual carga está certa.
+
 ## Wiki atualizada
 
 - `wiki-bp/pages/bq-planos.md` — seção da Coleção reescrita: 4 planos + bundles Black, sigla `CBR`,
