@@ -340,25 +340,50 @@ as `fetch-*` não estão no `config.toml`). Enquanto a function não subir, a ab
 carregamento. Verificar se subiu: `curl -X POST <url>/functions/v1/fetch-colecao-brasil-perfil`
 → **401 = no ar**, 404 = não deployada.
 
-## ⚠️ Perda de dados no Zenvia (08/09/2026)
+## ⚠️ A fonte do Zenvia revisou a série de abordagem para baixo (08–09/09/2026)
 
-A `masterdata.dim_zenvia_approaches` foi recarregada em **08/09 às 18:02** e a partição de
-setembro voltou com uma fração das conversas. Mesma query, mesmos dias:
+A `masterdata.dim_zenvia_approaches` foi recarregada em 08/09 (18:02) e os dias iniciais de
+setembro voltaram com uma fração das abordagens. Reverificado em 09/09: **não se recuperou**.
 
-| Conversas iniciadas em | Medido 04/09 | Medido 08/09 |
+| | Medido 04/09 | Medido 09/09 |
 |---|---:|---:|
-| 02/09 (total) | 21.623 | **3.998** |
-| 02/09 (mencionam a coleção) | 6.483 | **1.326** |
-| 03/09 (mencionam) | 4.382 | **1.221** |
-| 04/09 (mencionam) | 2.532 | **1.421** |
+| Abordagens em 01–04/09 | 45.203 | **12.685** (−72%) |
+| Conversas de 02/09 (total) | 21.623 | **3.998** |
+| 02/09 mencionando a coleção | 6.483 | **1.341** |
+| 03/09 mencionando | 4.382 | 1.235 |
+| 04/09 mencionando | 2.532 | 1.436 |
 
-A `dtm_sales_by_zenvia` concorda com o número novo (as duas derivam da mesma staging), e a média
-diária do mês (2.372) ficou abaixo de agosto (3.657) apesar do disparo em massa de setembro.
+**Onde está a perda — diagnóstico fechado em 09/09:** a dim está **fiel à staging**
+(`int_zenvia_analytics`): para 02/09 as duas têm exatamente 3.998 abordagens distintas, e a dim não
+tem `id_approach` duplicado (21.889 linhas = 21.889 distintos em 01–09/09). Ou seja, **a redução vem
+da origem no Zenvia**, não da transformação dbt nem de dedup no meio do caminho. A carga segue
+rodando normal para os dias novos (row_count subiu 2.917 entre 08 e 09/09).
 
-**Efeito:** os números de **abordagem** deste relatório (6.026 prospects de disparo etc.) não se
-reproduzem hoje. O bloco de **perfil** não é afetado — vem da `fct_transactions`, íntegra.
-Decisão: **não regerar** o relatório enquanto a carga não se resolver, para não trocar um número
-errado por outro. Pendente: avisar quem cuida do pipeline Zenvia e reavaliar qual carga está certa.
+**O que foi feito:** o relatório foi **regerado com os dados atuais** e a página ganhou um aviso
+fixo na seção de abordagem. A decisão de 08/09 (esperar sem republicar) foi revista: com a perda
+confirmada como persistente e originada na fonte, manter no ar um número que não se reproduz é pior
+do que publicar o atual com a ressalva.
+
+⚠️ **A perda foi SELETIVA — saíram os disparos sem resposta.** A taxa de resposta do disparo puro
+saltou de 0,18% para 11,4% sem nada mudar na operação: o denominador perdeu os silenciosos.
+Evidência: 31/08, outro dia de disparo em massa, preservou o padrão (12,7k conversas / 17,7% de
+resposta), enquanto 02/09 ficou com 4,0k / 36,5%. Consequência: **as taxas do disparo nos dados
+atuais estão infladas** — o disparo real é pior do que aparece. A conclusão de fundo (disparo frio
+converte muito abaixo do atendimento humano) se mantém e fica conservadora. O grupo
+*disparo + atendimento* colapsou (460 → 2 prospects), então o teste do "aquecimento" não é
+calculável no período.
+
+**Como ler os números de abordagem agora:**
+- As **proporções entre os grupos se mantiveram** — o disparo puro continua com taxa de resposta e
+  conversão muito mais baixas que o atendimento por vendedor. A conclusão qualitativa não mudou.
+- Os **valores absolutos** de prospects e receita atribuída **não são comparáveis** com qualquer
+  leitura anterior a 08/09.
+- O bloco de **perfil não é afetado** — vem da `fct_transactions`, íntegra.
+
+**Pendente (não é análise, é pipeline):** levar à equipe do Zenvia/dados a pergunta de qual carga
+está correta. Se a antiga estava inflada, o relatório de 04/09 superestimava o alcance do disparo;
+se a nova está incompleta, a série de setembro está subnotificada. Não é decidível com os dados
+disponíveis no DW.
 
 ## Wiki atualizada
 
