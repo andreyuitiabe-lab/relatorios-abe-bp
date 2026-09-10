@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Essa galera assiste e compra?</title>
+<style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style>
+</head>
+<body>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #eff1f4;
+    --surface: #fbfbfc;
+    --surface-2: #f4f6f8;
+    --ink: #11151b;
+    --ink-2: #4c545f;
+    --ink-3: #7c8592;
+    --rule: #dfe3e9;
+    --rule-strong: #c9cfd8;
+    --grid: #e6e9ee;
+    --s1: #2a78d6;
+    --s2: #eb6834;
+    --s3: #1baf7a;
+    --dumb-base: #86b6ef;
+    --dumb-peak: #1c5cab;
+    --neutral-mark: #b3bbc6;
+    --flag: #d03b3b;
+    --font-display: 'Bricolage Grotesque', 'Helvetica Neue', system-ui, sans-serif;
+    --font-body: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #101317;
+      --surface: #1a1e23;
+      --surface-2: #21262c;
+      --ink: #f1f3f6;
+      --ink-2: #b3bac4;
+      --ink-3: #838c98;
+      --rule: #2a2f37;
+      --rule-strong: #3a414a;
+      --grid: #262b32;
+      --s1: #3987e5;
+      --s2: #d95926;
+      --s3: #199e70;
+      --dumb-base: #256abf;
+      --dumb-peak: #9ec5f4;
+      --neutral-mark: #5b636e;
+      --flag: #e66767;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #101317;
+    --surface: #1a1e23;
+    --surface-2: #21262c;
+    --ink: #f1f3f6;
+    --ink-2: #b3bac4;
+    --ink-3: #838c98;
+    --rule: #2a2f37;
+    --rule-strong: #3a414a;
+    --grid: #262b32;
+    --s1: #3987e5;
+    --s2: #d95926;
+    --s3: #199e70;
+    --dumb-base: #256abf;
+    --dumb-peak: #9ec5f4;
+    --neutral-mark: #5b636e;
+    --flag: #e66767;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .prose { max-width: 66ch; }
+  p { margin: 0 0 0.85em; }
+  p:last-child { margin-bottom: 0; }
+  strong { font-weight: 500; color: var(--ink); }
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.84em;
+    background: var(--surface-2);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 0.08em 0.32em;
+  }
+  a { color: var(--s1); text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--s1); outline-offset: 3px; border-radius: 2px; }
+
+  /* ---------- header ---------- */
+  header.masthead {
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 56px 0 28px;
+    display: grid;
+    gap: 20px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(34px, 6vw, 58px);
+    line-height: 1.02;
+    letter-spacing: -0.022em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .standfirst {
+    font-size: clamp(18px, 2.3vw, 21px);
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 60ch;
+    margin: 0;
+  }
+  .quote {
+    border-left: 2px solid var(--s2);
+    padding: 2px 0 2px 18px;
+    font-style: italic;
+    color: var(--ink-2);
+    max-width: 58ch;
+  }
+  .quote span { display: block; font-style: normal; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-top: 8px; }
+
+  /* ---------- kpi row ---------- */
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .kpi { background: var(--surface); padding: 20px 20px 22px; display: grid; gap: 7px; align-content: start; }
+  .kpi .k-label { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+  .kpi .k-value { font-family: var(--font-mono); font-size: 30px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.05; }
+  .kpi .k-note { font-size: 14.5px; line-height: 1.4; color: var(--ink-2); }
+  .k-chip {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    border: 1px solid var(--rule-strong);
+    color: var(--ink-2);
+    background: var(--surface-2);
+    justify-self: start;
+  }
+
+  /* ---------- sections ---------- */
+  section { display: grid; gap: 22px; }
+  .sec-head { display: grid; gap: 10px; max-width: 66ch; }
+  .sec-num {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--s1);
+    text-transform: uppercase;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(24px, 3.4vw, 33px);
+    line-height: 1.1;
+    letter-spacing: -0.016em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 0.005em;
+    margin: 0;
+  }
+
+  /* ---------- figure ---------- */
+  figure { margin: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 22px 22px 18px; display: grid; gap: 16px; }
+  .fig-top { display: grid; gap: 6px; }
+  .fig-title { font-family: var(--font-display); font-weight: 500; font-size: 16px; }
+  .fig-sub { font-size: 14.5px; color: var(--ink-2); line-height: 1.45; max-width: 70ch; }
+  .fig-scroll { overflow-x: auto; }
+  .fig-scroll svg { display: block; width: 100%; min-width: 620px; height: auto; }
+  figcaption { font-size: 13.5px; color: var(--ink-3); line-height: 1.45; border-top: 1px solid var(--rule); padding-top: 12px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+  .legend-item { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-2); }
+  .key-line { width: 18px; height: 2px; border-radius: 1px; }
+  .key-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .key-sq { width: 11px; height: 11px; border-radius: 2px; }
+
+  svg text { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .ax { font-size: 11px; fill: var(--ink-3); }
+  .ax-name { font-size: 10.5px; fill: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; }
+  .dl { font-size: 12px; font-weight: 600; fill: var(--ink); }
+  .dl-sub { font-size: 10.5px; fill: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; }
+  .row-label { font-size: 12px; fill: var(--ink-2); }
+  .row-label.em { fill: var(--ink); font-weight: 600; }
+
+  /* ---------- tables ---------- */
+  .t-scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+  caption { text-align: left; font-family: var(--font-display); font-weight: 500; font-size: 16px; padding: 18px 20px 4px; color: var(--ink); }
+  th, td { padding: 9px 20px; text-align: right; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; }
+  thead th {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  tbody td { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--ink-2); }
+  tbody td:first-child { font-family: var(--font-body); color: var(--ink); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr.em td { color: var(--ink); font-weight: 600; background: var(--surface-2); }
+  td.up { color: var(--s1); }
+  td.down { color: var(--s2); }
+
+  /* ---------- callout ---------- */
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--flag);
+    border-radius: 4px;
+    padding: 18px 22px;
+    display: grid;
+    gap: 8px;
+    max-width: 74ch;
+  }
+  .callout .c-label { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--flag); }
+  .callout p { font-size: 15.5px; }
+
+  .verdict {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(20px, 2.6vw, 26px);
+    letter-spacing: -0.01em;
+  }
+  .verdict .yes { color: var(--s1); }
+  .verdict .no { color: var(--s2); }
+
+  ul.notes { margin: 0; padding-left: 1.15em; display: grid; gap: 9px; max-width: 70ch; }
+  ul.notes li { padding-left: 2px; }
+
+  details { background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; }
+  details > summary {
+    cursor: pointer;
+    padding: 15px 20px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    list-style: none;
+  }
+  details > summary::-webkit-details-marker { display: none; }
+  details > summary::before { content: "▸ "; color: var(--ink-3); }
+  details[open] > summary::before { content: "▾ "; }
+  details .t-scroll { border: none; border-top: 1px solid var(--rule); border-radius: 0; }
+
+  footer.foot { border-top: 1px solid var(--rule-strong); padding-top: 24px; display: grid; gap: 12px; }
+  .foot-meta { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); line-height: 1.7; }
+
+  /* ---------- tooltip ---------- */
+  #tip {
+    position: fixed;
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .1s linear;
+    background: var(--surface);
+    border: 1px solid var(--rule-strong);
+    border-radius: 4px;
+    box-shadow: 0 6px 22px rgba(8, 12, 20, .16);
+    padding: 10px 12px;
+    min-width: 148px;
+  }
+  #tip .tip-h { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 7px; }
+  #tip .tip-r { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--ink); }
+  #tip .tip-r + .tip-r { margin-top: 4px; }
+  #tip .tip-r .sw { width: 9px; height: 9px; border-radius: 2px; flex: 0 0 auto; }
+  #tip .tip-r .nm { color: var(--ink-2); }
+  #tip .tip-r .vl { margin-left: auto; font-weight: 600; }
+  .hit { fill: transparent; }
+  @media (prefers-reduced-motion: reduce) {
+    #tip { transition: none; }
+    * { animation: none !important; }
+  }
+  @media (max-width: 640px) {
+    header.masthead { padding-top: 36px; }
+    .wrap { gap: 32px; }
+    figure { padding: 16px 14px 14px; }
+    th, td { padding: 8px 14px; }
+    caption { padding: 15px 14px 4px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">
+      <span>Brasil Paralelo · Dados</span>
+      <span>08 set 2026</span>
+      <span>coorte 05–07/09</span>
+    </div>
+    <h1>Essa galera assiste e compra?</h1>
+    <p class="standfirst">O pico de cadastros do fim de semana é real e dobrou a base. Quem chegou está assistindo na mesma taxa de sempre — e ainda não está comprando. O faturamento subiu no mesmo período, mas por outro motivo.</p>
+    <blockquote class="quote">
+      Tivemos um up grande de cadastros nos últimos dias. Quero entender se essa galera tá assistindo e se tá comprando. Vi que o faturamento aumentou também, mas vale entender se foi especificamente dessa galera.
+      <span>o pedido, na daily</span>
+    </blockquote>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi">
+      <div class="k-label">Cadastros 05–07/09</div>
+      <div class="k-value">6.247</div>
+      <div class="k-note"><strong>+121%</strong> contra os mesmos três dias da semana anterior (2.826).</div>
+    </div>
+    <div class="kpi">
+      <div class="k-label">Assistiu em 24h</div>
+      <div class="k-value">18,9%</div>
+      <div class="k-note">Contra 17,9% na semana anterior. Taxa <strong>estável</strong>, volume 2,7× maior.</div>
+    </div>
+    <div class="kpi">
+      <div class="k-label">Comprou até agora</div>
+      <div class="k-value">1,26%</div>
+      <div class="k-note">79 compras, R$ 29,8k. <span class="k-chip">coorte de 1–3 dias</span></div>
+    </div>
+    <div class="kpi">
+      <div class="k-label">Da receita do período</div>
+      <div class="k-value">1,8%</div>
+      <div class="k-note">R$ 34k de R$ 1.938k vieram de cadastro com 1–7 dias.</div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">01 · o pico</div>
+      <h2>Duas curvas que andam separadas</h2>
+      <p>Toda comparação aqui é <strong>05–07/09 (sáb, dom, seg)</strong> contra <strong>29–31/08 (sáb, dom, seg)</strong>. Mesmo dia da semana, porque fim de semana tem cerca de 30% mais cadastro por natureza — comparar contra a média dos últimos dias inventaria um lift que não existe.</p>
+      <p>A distinção que sustenta o resto da análise: separar quem <strong>criou a conta e ficou</strong> de quem <strong>criou a conta porque comprou</strong> (dentro de 1h). Sem isso, a pergunta “essa galera compra?” se responde sozinha.</p>
+    </div>
+
+    <figure>
+      <div class="fig-top">
+        <div class="fig-title">Contas novas por dia, agosto a setembro</div>
+        <div class="fig-sub">A linha azul dispara; a laranja não se mexe. O pico é inteiramente topo de funil.</div>
+      </div>
+      <div class="legend" id="lg-serie"></div>
+      <div class="fig-scroll"><svg id="c-serie" role="img" aria-label="Série diária de contas novas de 1 de agosto a 7 de setembro de 2026, separando cadastro puro de conta criada no ato da compra. O cadastro puro salta de cerca de 900 por dia para 2.403 em 6 de setembro, enquanto a conta criada na compra permanece entre 300 e 700."></svg></div>
+      <figcaption>Fonte: <code>masterdata.dim_user</code> (data de criação da conta) cruzada com <code>fct_transactions</code> aprovadas sem renovação. 08/09 fica fora do gráfico — é dia parcial.</figcaption>
+    </figure>
+
+    <div class="t-scroll">
+      <table>
+        <caption>Cadastro puro, mesmo dia da semana</caption>
+        <thead>
+          <tr><th>Dia</th><th>29–31/08</th><th>05–07/09</th><th>Variação</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>sábado</td><td>918</td><td>1.572</td><td class="up">+71%</td></tr>
+          <tr><td>domingo</td><td>988</td><td>2.403</td><td class="up">+143%</td></tr>
+          <tr><td>segunda</td><td>920</td><td>2.272</td><td class="up">+147%</td></tr>
+          <tr class="em"><td>três dias</td><td>2.826</td><td>6.247</td><td class="up">+121%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <figure>
+      <div class="fig-top">
+        <div class="fig-title">De onde vieram — origem do download</div>
+        <div class="fig-sub">93% do incremento é download de app. Cada haste liga a semana anterior ao pico.</div>
+      </div>
+      <div class="legend" id="lg-origem"></div>
+      <div class="fig-scroll"><svg id="c-origem" role="img" aria-label="Comparação da origem do download entre 29 a 31 de agosto e 5 a 7 de setembro. iOS sem atribuição vai de 1.147 para 1.985; Meta Android vai de 74 para 1.360; Google PPT FREE APP vai de zero para 495."></svg></div>
+      <figcaption>Ponte device→conta via <code>id_pseudo_user</code> no <code>first_open</code> do Firebase, com tolerância de 1h entre install e cadastro. Contas cujo install ocorreu até 30 dias antes.</figcaption>
+    </figure>
+
+    <div class="callout">
+      <div class="c-label">Dois alertas de rastreio</div>
+      <p><strong>A campanha <code>[FREE] [ENGAJAMENTO] [APP] Agosto</code> foi renomeada de <code>[LAN]</code> para <code>[PPT]</code>.</strong> A linha antiga zera em 05/09 e a nova assume o volume — qualquer relatório ou regex fixado em <code>[LAN] [FREE]</code> está voltando vazio em silêncio desde então.</p>
+      <p><strong>Apareceu uma origem de install chamada <code>tecnocracia</code> / <code>lp_confirmacao</code></strong> (148 contas). É a primeira rota de download com nome próprio fora do Google Ads. Se der para generalizar, é a saída para o buraco de atribuição do iOS, que hoje cai 97,5% em “direct”. Vale descobrir quem montou.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">02 · está assistindo?</div>
+      <h2 class="verdict"><span class="yes">Sim</span> — e quem puxa é Technocracia</h2>
+      <p>A taxa de quem assiste pelo menos 5 minutos nas primeiras 24 horas ficou onde estava. O que mudou foi o volume: cerca de <strong>1.340 pessoas assistindo contra 500</strong>. O documentário estreou em 03/09 e é o destino de quase metade dessa audiência nova.</p>
+    </div>
+
+    <figure>
+      <div class="fig-top">
+        <div class="fig-title">O que a coorte assistiu nas primeiras 24h</div>
+        <div class="fig-sub">Usuários distintos com sessão de 5 minutos ou mais.</div>
+      </div>
+      <div class="legend" id="lg-play"></div>
+      <div class="fig-scroll"><svg id="c-play" role="img" aria-label="Playlists assistidas nas primeiras 24 horas. Technocracia vai de zero para 586 usuários; El Salvador cai de 350 para 328; Temas em alta vai de 28 para 187."></svg></div>
+      <figcaption>Fonte: <code>datamart.obt_kafka__view_sessions</code>, sessão de 5 minutos ou mais dentro de 24h do cadastro.</figcaption>
+    </figure>
+
+    <div class="t-scroll">
+      <table>
+        <caption>Ativação e profundidade</caption>
+        <thead>
+          <tr><th>Métrica em 24h</th><th>29–31/08</th><th>05–07/09</th><th>Leitura</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>% assistiu — sábado</td><td>16,3%</td><td>18,2%</td><td class="up">estável</td></tr>
+          <tr><td>% assistiu — domingo</td><td>21,5%</td><td>20,6%</td><td class="up">estável</td></tr>
+          <tr><td>% assistiu — segunda</td><td>16,1%</td><td>17,8%</td><td class="up">estável</td></tr>
+          <tr><td>Minutos por sessão — sábado</td><td>79</td><td>63</td><td class="down">−20%</td></tr>
+          <tr><td>Minutos por sessão — domingo</td><td>73</td><td>62</td><td class="down">−15%</td></tr>
+          <tr><td>Minutos por sessão — segunda</td><td>66</td><td>55</td><td class="down">−17%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose">Mesma ativação, engajamento mais raso: a galera nova entra e assiste, mas fica menos tempo por sessão. É o comportamento esperado de audiência trazida por mídia contra audiência que chega por conta própria.</p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">03 · está comprando?</div>
+      <h2 class="verdict"><span class="no">Ainda não</span></h2>
+      <p>A conversão em 24 horas da coorte do pico é igual ou pior que a da semana anterior. No acumulado, <strong>79 compras entre 6.247 cadastros — 1,26%, R$ 29,8k, ticket de R$ 377</strong>.</p>
+    </div>
+
+    <div class="t-scroll">
+      <table>
+        <caption>Conversão em 24h</caption>
+        <thead>
+          <tr><th>Dia</th><th>29–31/08</th><th>05–07/09</th><th>Variação</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>sábado</td><td>1,09%</td><td>1,27%</td><td class="up">+0,18 p.p.</td></tr>
+          <tr><td>domingo</td><td>1,52%</td><td>1,04%</td><td class="down">−0,48 p.p.</td></tr>
+          <tr><td>segunda</td><td>0,76%</td><td>0,62%</td><td class="down">−0,14 p.p.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <div class="c-label">Não é taxa final</div>
+      <p>A coorte tem <strong>1 a 3 dias de vida</strong>. A referência de D7 na campanha de freemium de agosto foi <strong>4,75%</strong>, então esse número cresce. Comparar acumulado de coorte nova com acumulado de coorte antiga sempre faz a nova parecer pior só por ser nova — a leitura honesta é o D7 ou D30 com janela fechada.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">04 · o faturamento</div>
+      <h2>Subiu de verdade, mas veio de outro lugar</h2>
+      <p>As vendas digitais saltaram no mesmo fim de semana — não é impressão. Só que quem comprou não é quem se cadastrou.</p>
+    </div>
+
+    <div class="t-scroll">
+      <table>
+        <caption>Vendas digitais por dia (aprovadas, sem renovação)</caption>
+        <thead>
+          <tr><th>Dia</th><th>29–31/08</th><th>05–07/09</th><th>Variação</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>sábado</td><td>706</td><td>1.014</td><td class="up">+44%</td></tr>
+          <tr><td>domingo</td><td>1.088</td><td>1.302</td><td class="up">+20%</td></tr>
+          <tr><td>segunda</td><td>713</td><td>1.140</td><td class="up">+60%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <figure>
+      <div class="fig-top">
+        <div class="fig-title">Quem comprou os R$ 1.938k de 05–07/09</div>
+        <div class="fig-sub">Receita por idade da conta de quem comprou.</div>
+      </div>
+      <div class="legend" id="lg-rec"></div>
+      <div class="fig-scroll"><svg id="c-rec" role="img" aria-label="Composição da receita de 5 a 7 de setembro: base antiga com mais de 30 dias responde por 53,9 por cento, conta criada no ato da compra por 43,3 por cento, cadastro de 1 a 7 dias por apenas 1,8 por cento e conta de 8 a 30 dias por 1 por cento."></svg></div>
+      <figcaption>Idade da conta medida entre <code>dim_user.dt_created_at</code> e a data do pedido. “Conta criada no ato da compra” = até 1h entre as duas.</figcaption>
+    </figure>
+
+    <div class="t-scroll">
+      <table>
+        <caption>Receita de 05–07/09 por origem do comprador</caption>
+        <thead>
+          <tr><th>Quem comprou</th><th>Receita</th><th>Share</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Base antiga (conta &gt; 30 dias)</td><td>R$ 1.045,6k</td><td>53,9%</td></tr>
+          <tr><td>Conta criada no ato da compra</td><td>R$ 839,1k</td><td>43,3%</td></tr>
+          <tr class="em"><td>Cadastro de 1–7 dias</td><td>R$ 34,3k</td><td>1,8%</td></tr>
+          <tr><td>Conta de 8–30 dias</td><td>R$ 18,9k</td><td>1,0%</td></tr>
+          <tr><td>Sem conta na plataforma</td><td>R$ 0,5k</td><td>0,03%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="prose">Vendas vindas de cadastro recente: <strong>33, 37 e 38 por dia</strong> em 05–07/09, contra 21, 37 e 40 em 29–31/08. Não mexeu. O ticket digital também ficou parado, em torno de R$ 466.</p>
+
+    <div class="callout" style="border-left-color: var(--s1);">
+      <div class="c-label" style="color: var(--s1);">A leitura</div>
+      <p>É o mesmo evento — estreia da Technocracia mais um degrau de mídia de app — enchendo <strong>dois funis independentes</strong>: o de cadastro gratuito e o de compra direta. Somar os dois faz parecer que o cadastro está monetizando, e não está. Ainda.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div class="sec-num">05 · próximo passo</div>
+      <h2>Reavaliar a coorte no D7, em 12/09</h2>
+      <p>Hoje não há informação suficiente para dizer se o cadastro se paga — só que ele <strong>ativa</strong> (assiste na mesma taxa) e que a receita da semana <strong>não veio dele</strong>. Decisão de escala de mídia de app depende do D7 e do D30 dessa coorte, não do que já está medido.</p>
+    </div>
+
+    <h3>Ressalvas de método</h3>
+    <ul class="notes">
+      <li>08/09 é dia parcial e ficou fora de todas as comparações.</li>
+      <li>iOS não tem atribuição de install — o salto de lá é coincidência de janela, não atribuição.</li>
+      <li>O sinal de Meta no Android (<code>fb4a</code> / <code>ig4a</code>) mistura anúncio com clique orgânico em link do Facebook ou Instagram.</li>
+      <li>Receita <strong>semanal</strong> segue em queda: R$ 5.561k na semana de 17/08, R$ 4.639k na de 24/08, R$ 4.395k na de 31/08. O pico de 05–07/09 é forte contra o começo de setembro, que foi fraco.</li>
+      <li><strong>Conta criada no ato da compra</strong> também é cliente novo — só não passou pelo cadastro gratuito. Não é base antiga.</li>
+    </ul>
+
+    <details>
+      <summary>Ver a série diária completa</summary>
+      <div class="t-scroll">
+        <table>
+          <thead>
+            <tr><th>Dia</th><th>Semana</th><th>Cadastro puro</th><th>Conta na compra</th><th>Total</th></tr>
+          </thead>
+          <tbody id="tb-serie"></tbody>
+        </table>
+      </div>
+    </details>
+  </section>
+
+  <footer class="foot">
+    <div class="foot-meta">
+      Medido em 08/09/2026 · <code>bp-datawarehouse</code> · queries em <code>wiki-bp/queries/pico-cadastros-set26/</code><br>
+      Fontes: <code>masterdata.dim_user</code> · <code>masterdata.fct_transactions</code> · <code>masterdata.dim_contact</code> · <code>datamart.obt_kafka__view_sessions</code> · <code>staging.stg_firebase__bp_platform_events</code>
+    </div>
+  </footer>
+</div>
+
+<div id="tip" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  var SERIE = [
+    ["2026-08-01", 616, 670], ["2026-08-02", 648, 660], ["2026-08-03", 421, 348],
+    ["2026-08-04", 426, 320], ["2026-08-05", 476, 420], ["2026-08-06", 524, 522],
+    ["2026-08-07", 606, 550], ["2026-08-08", 705, 744], ["2026-08-09", 745, 803],
+    ["2026-08-10", 536, 475], ["2026-08-11", 660, 459], ["2026-08-12", 693, 484],
+    ["2026-08-13", 725, 526], ["2026-08-14", 837, 605], ["2026-08-15", 1054, 965],
+    ["2026-08-16", 1119, 1021], ["2026-08-17", 789, 633], ["2026-08-18", 781, 619],
+    ["2026-08-19", 807, 717], ["2026-08-20", 780, 519], ["2026-08-21", 797, 603],
+    ["2026-08-22", 1022, 778], ["2026-08-23", 1062, 993], ["2026-08-24", 899, 472],
+    ["2026-08-25", 951, 409], ["2026-08-26", 947, 439], ["2026-08-27", 814, 360],
+    ["2026-08-28", 776, 370], ["2026-08-29", 918, 472], ["2026-08-30", 988, 650],
+    ["2026-08-31", 920, 444], ["2026-09-01", 777, 315], ["2026-09-02", 866, 345],
+    ["2026-09-03", 722, 285], ["2026-09-04", 978, 351], ["2026-09-05", 1572, 540],
+    ["2026-09-06", 2403, 671], ["2026-09-07", 2272, 556]
+  ];
+  var PARCIAL = ["2026-09-08", 1278, 163];
+
+  var ORIGEM = [
+    ["iOS — sem atribuição", 1147, 1985],
+    ["Meta Android (fb4a/ig4a)", 74, 1360],
+    ["Android direct", 288, 548],
+    ["Google [PPT] [FREE] [APP]", 0, 495],
+    ["Android orgânico (store)", 361, 432],
+    ["tecnocracia / lp_confirmacao", 0, 148],
+    ["Google [LAN] [TEC] [APP]", 0, 138],
+    ["Google [LAN] [FREE] [APP]", 397, 5]
+  ];
+
+  var PLAY = [
+    ["Technocracia", 0, 586],
+    ["El Salvador", 350, 328],
+    ["Temas em alta", 28, 187]
+  ];
+
+  var RECEITA = [
+    ["Base antiga (> 30 dias)", 1045.6, "var(--s1)"],
+    ["Conta criada na compra", 839.1, "var(--s2)"],
+    ["Cadastro de 1–7 dias", 34.3, "var(--s3)"],
+    ["Conta de 8–30 dias e sem conta", 19.4, "var(--neutral-mark)"]
+  ];
+
+  var DOW = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
+  var SVGNS = "http://www.w3.org/2000/svg";
+
+  function nf(n) { return n.toLocaleString("pt-BR"); }
+  function el(name, attrs, text) {
+    var e = document.createElementNS(SVGNS, name);
+    for (var k in attrs) { if (attrs[k] !== null) e.setAttribute(k, attrs[k]); }
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function parse(d) { var p = d.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function label(d) { var dt = parse(d); return String(dt.getDate()).padStart(2, "0") + "/" + String(dt.getMonth() + 1).padStart(2, "0"); }
+  function dow(d) { return DOW[parse(d).getDay()]; }
+
+  /* ---------- tooltip ---------- */
+  var tip = document.getElementById("tip");
+  function showTip(x, y, head, rows) {
+    var h = '<div class="tip-h">' + head + "</div>";
+    rows.forEach(function (r) {
+      h += '<div class="tip-r"><span class="sw" style="background:' + r[2] + '"></span>' +
+           '<span class="nm">' + r[0] + '</span><span class="vl">' + r[1] + "</span></div>";
+    });
+    tip.innerHTML = h;
+    tip.style.opacity = "1";
+    var w = tip.offsetWidth, hh = tip.offsetHeight;
+    var left = x + 16, top = y - hh / 2;
+    if (left + w > window.innerWidth - 12) left = x - w - 16;
+    if (top < 8) top = 8;
+    if (top + hh > window.innerHeight - 8) top = window.innerHeight - hh - 8;
+    tip.style.left = left + "px";
+    tip.style.top = top + "px";
+  }
+  function hideTip() { tip.style.opacity = "0"; }
+
+  function legend(id, items) {
+    var box = document.getElementById(id);
+    items.forEach(function (it) {
+      var s = document.createElement("span");
+      s.className = "legend-item";
+      var shape = it.shape || "line";
+      var cls = shape === "dot" ? "key-dot" : (shape === "sq" ? "key-sq" : "key-line");
+      s.innerHTML = '<span class="' + cls + '" style="background:' + it.color + '"></span>' + it.name;
+      box.appendChild(s);
+    });
+  }
+
+  /* ---------- 1. line chart ---------- */
+  function drawSerie() {
+    var svg = document.getElementById("c-serie");
+    var W = 900, H = 380, ml = 52, mr = 118, mt = 26, mb = 42;
+    var iw = W - ml - mr, ih = H - mt - mb;
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+
+    var yMax = 2500;
+    var x = function (i) { return ml + (iw * i) / (SERIE.length - 1); };
+    var y = function (v) { return mt + ih - (ih * v) / yMax; };
+
+    var g = el("g");
+
+    [0, 500, 1000, 1500, 2000, 2500].forEach(function (t) {
+      g.appendChild(el("line", { x1: ml, x2: ml + iw, y1: y(t), y2: y(t), stroke: "var(--grid)", "stroke-width": 1 }));
+      g.appendChild(el("text", { x: ml - 10, y: y(t) + 4, "text-anchor": "end", class: "ax" }, nf(t)));
+    });
+
+    // marco: estreia Technocracia 03/09
+    var iTec = 33;
+    g.appendChild(el("line", { x1: x(iTec), x2: x(iTec), y1: mt + 2, y2: mt + ih, stroke: "var(--rule-strong)", "stroke-width": 1 }));
+    g.appendChild(el("text", { x: x(iTec) - 7, y: mt + 13, "text-anchor": "end", class: "dl-sub" }, "estreia Technocracia · 03/09"));
+
+    SERIE.forEach(function (d, i) {
+      var dt = parse(d[0]);
+      if (dt.getDate() === 1 || dt.getDate() % 7 === 0) {
+        g.appendChild(el("text", { x: x(i), y: mt + ih + 20, "text-anchor": "middle", class: "ax" }, label(d[0])));
+      }
+    });
+    g.appendChild(el("text", { x: ml, y: H - 8, class: "ax-name" }, "contas novas por dia"));
+
+    function path(idx) {
+      return SERIE.map(function (d, i) { return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(d[idx]).toFixed(1); }).join(" ");
+    }
+    g.appendChild(el("path", { d: path(2), fill: "none", stroke: "var(--s2)", "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+    g.appendChild(el("path", { d: path(1), fill: "none", stroke: "var(--s1)", "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+
+    var last = SERIE.length - 1;
+    [[1, "var(--s1)"], [2, "var(--s2)"]].forEach(function (s) {
+      g.appendChild(el("circle", { cx: x(last), cy: y(SERIE[last][s[0]]), r: 5, fill: s[1], stroke: "var(--surface)", "stroke-width": 2 }));
+    });
+    g.appendChild(el("text", { x: x(last) + 12, y: y(SERIE[last][1]) - 2, class: "dl" }, nf(SERIE[last][1])));
+    g.appendChild(el("text", { x: x(last) + 12, y: y(SERIE[last][1]) + 12, class: "dl-sub" }, "cadastro puro"));
+    g.appendChild(el("text", { x: x(last) + 12, y: y(SERIE[last][2]) - 2, class: "dl" }, nf(SERIE[last][2])));
+    g.appendChild(el("text", { x: x(last) + 12, y: y(SERIE[last][2]) + 12, class: "dl-sub" }, "na compra"));
+
+    var cross = el("line", { x1: 0, x2: 0, y1: mt, y2: mt + ih, stroke: "var(--rule-strong)", "stroke-width": 1, opacity: 0 });
+    var d1 = el("circle", { r: 5, fill: "var(--s1)", stroke: "var(--surface)", "stroke-width": 2, opacity: 0 });
+    var d2 = el("circle", { r: 5, fill: "var(--s2)", stroke: "var(--surface)", "stroke-width": 2, opacity: 0 });
+    g.appendChild(cross); g.appendChild(d1); g.appendChild(d2);
+
+    var hit = el("rect", { x: ml, y: mt, width: iw, height: ih, class: "hit" });
+    g.appendChild(hit);
+    svg.appendChild(g);
+
+    function move(ev) {
+      var r = svg.getBoundingClientRect();
+      var px = ((ev.clientX - r.left) / r.width) * W;
+      var i = Math.round(((px - ml) / iw) * (SERIE.length - 1));
+      i = Math.max(0, Math.min(SERIE.length - 1, i));
+      var d = SERIE[i];
+      cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("opacity", 1);
+      d1.setAttribute("cx", x(i)); d1.setAttribute("cy", y(d[1])); d1.setAttribute("opacity", 1);
+      d2.setAttribute("cx", x(i)); d2.setAttribute("cy", y(d[2])); d2.setAttribute("opacity", 1);
+      showTip(ev.clientX, ev.clientY, label(d[0]) + " · " + dow(d[0]), [
+        ["cadastro puro", nf(d[1]), "var(--s1)"],
+        ["conta na compra", nf(d[2]), "var(--s2)"],
+        ["total", nf(d[1] + d[2]), "var(--neutral-mark)"]
+      ]);
+    }
+    function out() { cross.setAttribute("opacity", 0); d1.setAttribute("opacity", 0); d2.setAttribute("opacity", 0); hideTip(); }
+    svg.addEventListener("mousemove", move);
+    svg.addEventListener("mouseleave", out);
+    svg.addEventListener("touchmove", function (e) { if (e.touches[0]) move(e.touches[0]); }, { passive: true });
+    svg.addEventListener("touchend", out);
+  }
+
+  /* ---------- 2 & 3. dumbbell ---------- */
+  function drawDumbbell(cfg) {
+    var svg = document.getElementById(cfg.id);
+    var rows = cfg.rows;
+    var W = 900, ml = cfg.ml, mr = 78, mt = 30, rowH = cfg.rowH || 34;
+    var ih = rows.length * rowH, H = mt + ih + 40;
+    var iw = W - ml - mr;
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+
+    var xMax = cfg.xMax;
+    var x = function (v) { return ml + (iw * v) / xMax; };
+    var g = el("g");
+
+    cfg.ticks.forEach(function (t) {
+      g.appendChild(el("line", { x1: x(t), x2: x(t), y1: mt - 8, y2: mt + ih, stroke: "var(--grid)", "stroke-width": 1 }));
+      g.appendChild(el("text", { x: x(t), y: mt + ih + 20, "text-anchor": "middle", class: "ax" }, nf(t)));
+    });
+    g.appendChild(el("text", { x: ml, y: H - 6, class: "ax-name" }, cfg.axisName));
+
+    rows.forEach(function (r, i) {
+      var cy = mt + rowH * i + rowH / 2;
+      var a = x(r[1]), b = x(r[2]);
+      var em = cfg.emphasize && cfg.emphasize.indexOf(r[0]) >= 0;
+
+      g.appendChild(el("text", { x: ml - 14, y: cy + 4, "text-anchor": "end", class: "row-label" + (em ? " em" : "") }, r[0]));
+      g.appendChild(el("line", {
+        x1: Math.min(a, b), x2: Math.max(a, b), y1: cy, y2: cy,
+        stroke: "var(--dumb-base)", "stroke-width": 2, "stroke-linecap": "round", opacity: 0.55
+      }));
+      g.appendChild(el("circle", { cx: a, cy: cy, r: 5, fill: "var(--dumb-base)", stroke: "var(--surface)", "stroke-width": 2 }));
+      g.appendChild(el("circle", { cx: b, cy: cy, r: 6, fill: "var(--dumb-peak)", stroke: "var(--surface)", "stroke-width": 2 }));
+      var rightVal = b >= a ? r[2] : r[1];
+      g.appendChild(el("text", { x: Math.max(a, b) + 14, y: cy + 4, class: "dl" }, nf(rightVal)));
+
+      var hit = el("rect", { x: ml, y: cy - rowH / 2, width: iw, height: rowH, class: "hit" });
+      hit.addEventListener("mousemove", function (ev) {
+        var delta = r[1] === 0 ? "novo" : (r[2] > r[1] ? "+" : "") + Math.round(((r[2] - r[1]) / r[1]) * 100) + "%";
+        showTip(ev.clientX, ev.clientY, r[0], [
+          ["29–31/08", nf(r[1]), "var(--dumb-base)"],
+          ["05–07/09", nf(r[2]), "var(--dumb-peak)"],
+          ["variação", delta, "var(--neutral-mark)"]
+        ]);
+      });
+      hit.addEventListener("mouseleave", hideTip);
+      g.appendChild(hit);
+    });
+
+    svg.appendChild(g);
+  }
+
+  /* ---------- 4. stacked share bar ---------- */
+  function drawReceita() {
+    var svg = document.getElementById("c-rec");
+    var W = 900, H = 132, ml = 0, mr = 0, barY = 34, barH = 40;
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    var total = RECEITA.reduce(function (s, r) { return s + r[1]; }, 0);
+    var g = el("g");
+    var cursor = 0;
+    var GAP = 2;
+
+    RECEITA.forEach(function (r, i) {
+      var w = (W * r[1]) / total;
+      var drawW = Math.max(2, w - (i < RECEITA.length - 1 ? GAP : 0));
+      var rect = el("rect", { x: cursor, y: barY, width: drawW, height: barH, fill: r[2], rx: 2 });
+      g.appendChild(rect);
+
+      var pct = ((r[1] / total) * 100);
+      var pctTxt = pct.toFixed(1).replace(".", ",") + "%";
+      var kTxt = "R$ " + r[1].toFixed(1).replace(".", ",") + "k";
+      if (w > 150) {
+        g.appendChild(el("text", { x: cursor + 14, y: barY + 17, class: "dl", fill: "#0f1216" }, pctTxt));
+        g.appendChild(el("text", { x: cursor + 14, y: barY + 31, class: "dl-sub", fill: "#0f1216", opacity: 0.72 }, kTxt));
+      } else if (r[0].indexOf("1–7") >= 0) {
+        var mid = cursor + w / 2;
+        g.appendChild(el("line", { x1: mid, x2: mid, y1: barY - 5, y2: barY - 15, stroke: "var(--rule-strong)", "stroke-width": 1 }));
+        g.appendChild(el("text", { x: W, y: barY - 20, "text-anchor": "end", class: "dl" }, pctTxt + " — cadastro de 1–7 dias · " + kTxt));
+      }
+
+      var hit = el("rect", { x: cursor, y: barY - 12, width: Math.max(10, w), height: barH + 24, class: "hit" });
+      hit.addEventListener("mousemove", function (ev) {
+        showTip(ev.clientX, ev.clientY, r[0], [
+          ["receita", "R$ " + r[1].toFixed(1).replace(".", ",") + "k", r[2]],
+          ["share", pctTxt, "var(--neutral-mark)"]
+        ]);
+      });
+      hit.addEventListener("mouseleave", hideTip);
+      g.appendChild(hit);
+      cursor += w;
+    });
+
+    g.appendChild(el("text", { x: 0, y: barY + barH + 26, class: "ax-name" }, "R$ 1.938,4k faturados em 05–07/09 · aprovadas, sem renovação"));
+    svg.appendChild(g);
+  }
+
+  /* ---------- table view ---------- */
+  function fillTable() {
+    var tb = document.getElementById("tb-serie");
+    var rows = SERIE.concat([PARCIAL]);
+    rows.forEach(function (d) {
+      var tr = document.createElement("tr");
+      var isPeak = d[0] >= "2026-09-05" && d[0] <= "2026-09-07";
+      if (isPeak) tr.className = "em";
+      var nome = label(d[0]) + (d[0] === PARCIAL[0] ? " (parcial)" : "");
+      tr.innerHTML = "<td>" + nome + "</td><td>" + dow(d[0]) + "</td><td>" + nf(d[1]) +
+                     "</td><td>" + nf(d[2]) + "</td><td>" + nf(d[1] + d[2]) + "</td>";
+      tb.appendChild(tr);
+    });
+  }
+
+  legend("lg-serie", [
+    { name: "cadastro puro", color: "var(--s1)" },
+    { name: "conta criada na compra", color: "var(--s2)" }
+  ]);
+  legend("lg-origem", [
+    { name: "29–31/08", color: "var(--dumb-base)", shape: "dot" },
+    { name: "05–07/09", color: "var(--dumb-peak)", shape: "dot" }
+  ]);
+  legend("lg-play", [
+    { name: "29–31/08", color: "var(--dumb-base)", shape: "dot" },
+    { name: "05–07/09", color: "var(--dumb-peak)", shape: "dot" }
+  ]);
+  legend("lg-rec", RECEITA.map(function (r) { return { name: r[0], color: r[2], shape: "sq" }; }));
+
+  drawSerie();
+  drawDumbbell({
+    id: "c-origem", rows: ORIGEM, ml: 232, xMax: 2000,
+    ticks: [0, 500, 1000, 1500, 2000],
+    axisName: "contas nascidas de download",
+    emphasize: ["Meta Android (fb4a/ig4a)", "tecnocracia / lp_confirmacao"]
+  });
+  drawDumbbell({
+    id: "c-play", rows: PLAY, ml: 160, xMax: 600, rowH: 42,
+    ticks: [0, 200, 400, 600],
+    axisName: "usuários distintos em 24h",
+    emphasize: ["Technocracia"]
+  });
+  drawReceita();
+  fillTable();
+})();
+</script>
+
+</body>
+</html>
