@@ -1,8 +1,16 @@
 # Curva de Resposta ao Investimento — Meta Ads
 
-**Status:** em andamento (não concluído nessa sessão)
+**Status:** recomendador v1 montado e gate passado (10/09/2026) — pendente: shadow mode
 **Início:** maio/2026
-**Última atualização:** jun/2026
+**Última atualização:** set/2026
+
+> **10/09/2026 — revisão de parâmetros + v1 + margem:**
+> - **b recalibrado 0,75 → ~0,70** (viés de decisão zera em 0,70 no walk-forward ago/25–set/26, 403 dias; faixa honesta 0,70–0,78). Meia-vida do EWMA de β: p/ previsão tanto faz (MAPE 19,7–22,3% no portfólio); p/ o **I\* estratégico usar hl 7–10** (hl=5 faz o ótimo pular ±23%/dia; 7–10 corta p/ 13–17%).
+> - **Margem% levantada** ([MARGEM.md](MARGEM.md)): reembolso 6,5% medido, comissão 10,5% da receita comercial medida; impostos/gateway e custo de livro = cenários (pedir financeiro). Digital central **m=0,75**.
+> - **Ponto ótimo (config revisada)**: teto de receita ~R$312–357k/dia; **I\*(m=0,75) ≈ R$122–137k/dia** — portfólio opera ~40–50% acima do ótimo de margem. ROAS marginal atual 1,17–1,21; margem breakeven implícita 85%.
+> - **Recomendador v1 implementado**: [scripts/recomendador_v1.py](scripts/recomendador_v1.py) — desenho final completo (teto por ticket×margem×demanda, LAN ramp silencia + alerta catástrofe, C com baseline rolling 21d, absoluta como piso, stop-loss escalonado, step ±20%). **Gate PASSOU**: ROAS mediano D+1..D+3 monotônico — AUMENTAR 1,58 > MANTER 1,32 > REDUZIR 1,15 (n=216/1013/564), alinhado ao breakeven com margem (1/0,75=1,33). Uso diário: `python scripts/recomendador_v1.py`.
+> - Gotcha confirmado no dado: **spend do mart é NULL antes de ago/2025** — fits "desde fev/2024" sobre o mart não tinham spend.
+> - Falta para "final": shadow mode 2–4 semanas com decision log + margem% do financeiro.
 
 ## Pergunta original
 

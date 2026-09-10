@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Validação dos modelos de budget — teste em 4 campanhas + stop-loss</title>
+<style>
+:root{
+  color-scheme: light;
+  --plane:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,0.10);
+  --s1:#2a78d6; --s2:#eb6834;
+  --good:#0ca30c; --warning:#fab219; --serious:#ec835a; --critical:#d03b3b;
+  --good-ink:#006300;
+}
+@media (prefers-color-scheme: dark){:root:where(:not([data-theme="light"])){
+  color-scheme: dark;
+  --plane:#0d0d0d; --surface:#1a1a19; --ink:#fff; --ink2:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+  --s1:#3987e5; --s2:#d95926; --good-ink:#0ca30c;
+}}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --plane:#0d0d0d; --surface:#1a1a19; --ink:#fff; --ink2:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+  --s1:#3987e5; --s2:#d95926; --good-ink:#0ca30c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--plane);color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;
+  font-size:15px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:32px 20px 80px}
+header h1{font-size:26px;line-height:1.25;margin:0 0 6px;letter-spacing:-.01em}
+header .sub{color:var(--ink2);font-size:15px;margin:0 0 4px}
+header .meta{color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+h2{font-size:20px;margin:44px 0 6px;letter-spacing:-.01em;padding-top:16px;border-top:1px solid var(--border)}
+h3{font-size:16px;margin:26px 0 8px}
+p{margin:8px 0}
+.lead{color:var(--ink2);font-size:15px;margin:4px 0 18px}
+.verdict-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+@media(max-width:720px){.verdict-grid{grid-template-columns:repeat(2,1fr)}}
+.vcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 13px;position:relative;overflow:hidden}
+.vcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px}
+.vcard.ok::before{background:var(--good)} .vcard.parcial::before{background:var(--warning)} .vcard.falha::before{background:var(--critical)}
+.vcard .sig{font-weight:700;font-size:15px}
+.vcard .nm{color:var(--ink2);font-size:12px;margin:1px 0 8px}
+.vcard .stat{font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--ink2);display:flex;justify-content:space-between;gap:6px}
+.vcard .stat b{color:var(--ink);font-weight:600}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;
+  padding:3px 8px;border-radius:20px;margin-top:9px}
+.badge.ok{background:color-mix(in srgb,var(--good) 15%,transparent);color:var(--good-ink)}
+.badge.parcial{background:color-mix(in srgb,var(--warning) 22%,transparent);color:var(--ink)}
+.badge.falha{background:color-mix(in srgb,var(--critical) 15%,transparent);color:var(--critical)}
+:root[data-theme="dark"] .badge.falha,@media(prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .badge.falha{color:#e66767}}
+.figure{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 16px 12px;margin:16px 0}
+.figure .cap{font-size:13px;color:var(--ink2);margin:2px 2px 12px}
+.figure .cap b{color:var(--ink)}
+.sm-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.sm-grid{grid-template-columns:1fr}}
+.sm h4{margin:0 0 2px;font-size:14px;display:flex;justify-content:space-between;align-items:baseline}
+.sm h4 .tag{font-size:11px;font-weight:600;padding:2px 7px;border-radius:12px}
+.tag.ok{background:color-mix(in srgb,var(--good) 15%,transparent);color:var(--good-ink)}
+.tag.parcial{background:color-mix(in srgb,var(--warning) 22%,transparent);color:var(--ink)}
+.tag.falha{background:color-mix(in srgb,var(--critical) 15%,transparent);color:var(--critical)}
+.sm .note{font-size:12px;color:var(--ink2);margin:6px 2px 0;min-height:32px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:10px 0;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:7px 10px;border-bottom:1px solid var(--border)}
+th:first-child,td:first-child{text-align:left}
+thead th{color:var(--muted);font-weight:600;font-size:12px;border-bottom:1px solid var(--axis)}
+tbody tr:hover{background:color-mix(in srgb,var(--s1) 6%,transparent)}
+.cell-good{color:var(--good-ink);font-weight:600}
+.cell-bad{color:var(--critical);font-weight:600}
+:root[data-theme="dark"] .cell-bad,@media(prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .cell-bad{color:#e66767}}
+.callout{border:1px solid var(--border);border-left:3px solid var(--serious);background:var(--surface);
+  border-radius:8px;padding:12px 15px;margin:14px 0}
+.callout.crit{border-left-color:var(--critical)}
+.callout.good{border-left-color:var(--good)}
+.callout h4{margin:0 0 4px;font-size:14.5px}
+.callout p{margin:4px 0;font-size:13.5px;color:var(--ink2)}
+.callout b{color:var(--ink)}
+.ladder{list-style:none;padding:0;margin:14px 0;counter-reset:step}
+.ladder li{background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  padding:11px 14px 11px 46px;margin:8px 0;position:relative;font-size:14px}
+.ladder li::before{counter-increment:step;content:"D"attr(data-d);position:absolute;left:10px;top:10px;
+  width:28px;height:24px;border-radius:6px;background:color-mix(in srgb,var(--s1) 15%,transparent);
+  color:var(--s1);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+.ladder li b{color:var(--ink)} .ladder li .p{color:var(--ink2);font-size:12.5px}
+.kpi-row{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 16px;flex:1;min-width:150px}
+.kpi .v{font-size:26px;font-weight:700;letter-spacing:-.02em}
+.kpi .v.good{color:var(--good-ink)} .kpi .v.bad{color:var(--critical)}
+.kpi .l{font-size:12px;color:var(--ink2);margin-top:2px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink2);margin:0 2px 10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:20px;height:3px;border-radius:2px;display:inline-block}
+.legend i.dot{width:10px;height:10px;border-radius:50%}
+.legend i.dash{background:none;border-top:2px dashed var(--muted);height:0}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.ax{fill:var(--muted);font-size:10px;font-variant-numeric:tabular-nums}
+.axt{fill:var(--ink2);font-size:11px}
+.gl{stroke:var(--grid);stroke-width:1}
+.bl{stroke:var(--axis);stroke-width:1}
+.ref{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3}
+footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:12.5px}
+.toggle{position:fixed;top:14px;right:14px;background:var(--surface);border:1px solid var(--border);
+  color:var(--ink2);border-radius:20px;padding:6px 13px;font-size:12px;cursor:pointer;font-family:inherit}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--plane);font-size:12px;
+  padding:6px 9px;border-radius:6px;opacity:0;transition:opacity .1s;z-index:9;font-variant-numeric:tabular-nums;max-width:220px}
+</style>
+</head>
+<body>
+<button class="toggle" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';">◑ tema</button>
+<div class="wrap">
+<header>
+  <h1>Os modelos de budget funcionam? Teste em 4 campanhas + o caso do stop-loss</h1>
+  <p class="sub">Validação out-of-sample das modelagens (Abordagem C, regra de teto) em DOM, ELS, EVG e BMA, e quão cedo dá para prever que um lançamento não vai ser rentável.</p>
+  <p class="meta">Brasil Paralelo · mídia paga · 24/jul/2026 · dados fev/2024–jul/2026 (dtm_analytics_facebook_ads_funnel)</p>
+</header>
+
+<p class="lead">Resposta curta: <b>funcionam parcialmente</b>. A Abordagem C acerta em lançamento saudável (DOM), mas tem dois pontos cegos — é <b>cega a campanha nascida ruim</b> (EVG) e <b>corta demais em campanha multi-onda</b> (ELS). A regra de teto absoluto cobre os dois. E para o objetivo de <b>stop-loss</b>, o ROAS acumulado prediz o destino da campanha já no <b>dia 5</b> (Spearman +0,75) — dá para pivotar cedo sem matar campeões em learning.</p>
+
+<h2>1 · Teste nas 4 campanhas</h2>
+<p class="lead">Cada campanha agregada por sigla (a curva de saturação é do lançamento inteiro). Escolhidas de propósito para cobrir casos distintos.</p>
+<div class="verdict-grid" id="verdict"></div>
+
+<div class="figure">
+  <p class="cap"><b>Trajetória de ROAS e investimento por dia.</b> Linha = ROAS diário (eixo cortado em 3,0; dias de gasto ínfimo com ROAS maior ficam presos no teto); a régua tracejada é o breakeven (ROAS 1,0). Barras = investimento/dia. O caso de cada campanha se lê na relação entre as duas.</p>
+  <div class="legend">
+    <span><i style="background:var(--s1)"></i>ROAS diário</span>
+    <span><i class="dash"></i>breakeven (1,0)</span>
+    <span><i style="background:var(--axis);height:8px;width:8px;border-radius:2px"></i>investimento/dia</span>
+  </div>
+  <div class="sm-grid" id="trajs"></div>
+</div>
+
+<h3>Abordagem C (relativa) vs regra de teto (absoluta)</h3>
+<p>ROAS mediano dos 3 dias seguintes ao sinal, por ação recomendada. Um sinal bom mostra <span class="cell-good">reduzir</span> com ROAS baixo e aumentar com ROAS alto.</p>
+<div style="overflow-x:auto"><table id="comp"></table></div>
+
+<div class="callout crit">
+  <h4>Ponto cego 1 — lançamento nascido ruim é invisível à Abordagem C</h4>
+  <p>EVG rodou a CPA R$459 (2,5× o teto), ROAS 0,45, desde o dia 1. Como a Abordagem C é <b>relativa</b> (compara o CPA recente com o histórico da própria campanha), uma campanha uniformemente ruim tem razão ≈ 1,0 → <b>"manter" para sempre</b>. Queimou ~R$69k em 9 dias sem nunca alertar. Só a regra de teto (CPA vs R$180) pega — e pega limpo (reduzir a ROAS 0,48).</p>
+</div>
+<div class="callout">
+  <h4>Ponto cego 2 — multi-onda enviesa a Abordagem C a cortar</h4>
+  <p>Em ELS, o CPA acumulado ancora na 1ª onda barata (CPA R$59–120 em maio). Toda onda de junho/julho (CPA R$180–250) parece "cara" → 21 sinais de "reduzir", cuja mediana de ROAS foi <b>1,13</b> — cortaria dias ainda lucrativos. O baseline precisa ser <b>rolante / por onda</b>, não acumulado da vida inteira.</p>
+</div>
+<div class="callout good">
+  <h4>Dois achados de contorno</h4>
+  <p>O <b>overspend canônico do DOM</b> (09/mai, +114% num dia) <b>não</b> foi pego pela Abordagem C ("manter 1,00") — quem barra é o <b>step-limit ±20-25%</b>, não o sinal. E o <b>detector de pico global é frágil</b>: o spike tardio do DOM colocou o "pico" no dia 65 de 71.</p>
+</div>
+
+<h2>2 · Stop-loss — quão cedo dá para prever o fracasso</h2>
+<p class="lead">Objetivo: medir o potencial de uma campanha cedo e pivotar as que não vão ser rentáveis antes de sangrar. Testado em <b id="sl-n"></b> lançamentos históricos.</p>
+
+<div class="kpi-row" id="kpis"></div>
+
+<div class="figure">
+  <p class="cap"><b>O sinal precoce prediz o destino.</b> Cada ponto é um lançamento: ROAS dos primeiros 5 dias (eixo horizontal) vs ROAS final da campanha (vertical). A correlação é forte (Spearman +0,75). A tensão do stop-loss mora no <b>quadrante superior-esquerdo</b>: campanhas que começaram fracas mas terminaram lucrativas — matá-las seria erro.</p>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--good)"></i>vencedora (ROAS final ≥ 1,0)</span>
+    <span><i class="dot" style="background:var(--critical)"></i>perdedora (&lt; 1,0)</span>
+    <span><i class="dash"></i>limiar de decisão / breakeven</span>
+  </div>
+  <div id="scatter"></div>
+</div>
+
+<div class="figure">
+  <p class="cap"><b>Quanto mais se espera, mais limpa a separação — mais se sangra.</b> Recall (perdedoras pegas) e precisão (dos flagados, quantos eram mesmo perdedores) por dia de corte, com limiar ROAS &lt; 0,7. No dia 7 a precisão chega a 100% no histórico; antes disso há risco de matar campeão em learning.</p>
+  <div class="legend">
+    <span><i style="background:var(--s1)"></i>recall (pega perdedoras)</span>
+    <span><i style="background:var(--s2)"></i>precisão (não mata vencedoras)</span>
+  </div>
+  <div id="curve"></div>
+</div>
+
+<h3>Regra de stop-loss recomendada — uma escada</h3>
+<p>Não é um corte único: o limiar <b>sobe</b> conforme a incerteza cai. Usar ROAS acumulado (não CPA — o ROAS normaliza pelo ticket, que varia de R$180 a R$500 entre lançamentos), com janela de decisão D-2..D-4 (maturação).</p>
+<ul class="ladder">
+  <li data-d="1-3"><b>Não matar</b> — learning. Se ROAS &lt; 0,7, apenas <b>congelar budget</b> (não escalar) e marcar "em observação". <span class="p">Matar aqui derrubaria a CDL, campeã de ROAS 3,0 que começou com 0 venda.</span></li>
+  <li data-d="5"><b>ROAS₅ &lt; 0,7 → pivotar.</b> Primeiro corte seguro. <span class="p">Precisão 83% — só erra 1 marginal.</span></li>
+  <li data-d="7"><b>ROAS₇ &lt; 0,7 → pivotar.</b> <span class="p">Precisão 100% no histórico — nenhuma vencedora morta.</span></li>
+  <li data-d="10"><b>ROAS₁₀ &lt; 0,9 → pivotar.</b> <span class="p">Recall 90%, precisão 90%.</span></li>
+</ul>
+
+<div class="callout">
+  <h4>Por que ROAS e não CPA</h4>
+  <p>O ROAS normaliza pelo ticket automaticamente — resolve o problema de o ticket variar muito entre lançamentos. O CPA precoce é ruidoso demais (explode com poucas vendas iniciais): Spearman de apenas −0,41 no dia 5, contra <b>+0,75</b> do ROAS.</p>
+</div>
+
+<h3>Ressalvas honestas</h3>
+<ul>
+  <li><b>N = 22 lançamentos</b> — a curva é indicativa, não precisa. Recalibrar conforme novos lançamentos entram.</li>
+  <li><b>"Perdedora = ROAS &lt; 1,0" ignora o backend/CRM.</b> A BP tem valor de CRM pós-venda; o breakeven real pode ser ROAS &lt; ~0,8. Calibrar o limiar com margem/LTV (mesmo <code>08_ltv</code> pendente do teto). Até lá, 0,7 é piso conservador.</li>
+  <li><b>A economia é dominada por uma perdedora gigante</b> (BNO25, R$4,46M). O valor vem de pegar poucas grandes, não muitas pequenas.</li>
+  <li>Isto <b>complementa</b> a Abordagem C, não substitui: C cuida da degradação ao longo de uma campanha saudável; o stop-loss cuida do diagnóstico de potencial nos primeiros dias.</li>
+</ul>
+
+<footer>
+  Fonte: <code>bp-datawarehouse.datamart.dtm_analytics_facebook_ads_funnel</code> (campanhas [VENDA], agregado por sigla).
+  Scripts: <code>scripts/analise_siglas.py</code>, <code>scripts/stoploss_analise.py</code>. Detalhe metodológico em <code>VALIDACOES.md</code>.
+  Backtest: sinal com dados até o dia D, comparado com ROAS realizado em D+1..D+3. Números são descritivos, não causais.
+</footer>
+</div>
+
+<div class="tip" id="tip"></div>
+<script>
+const DATA = {"campanhas": [{"sigla": "DOM", "tipo": "LAN", "nome": "Domingo Sem Deus", "caso": "LAN completa e saudável", "status": "ok", "dias": 71, "spend_k": 1161, "roas": 1.2, "cpa": 184, "daily": [{"dia": 0, "data": "2026-03-05", "spend": 541, "vendas": 2, "cpa": 270, "roas": 0.67, "dpct": 0, "sinalC": null, "ratio": null}, {"dia": 1, "data": "2026-03-06", "spend": 1041, "vendas": 2, "cpa": 521, "roas": 0.29, "dpct": 93, "sinalC": null, "ratio": null}, {"dia": 2, "data": "2026-03-07", "spend": 2995, "vendas": 17, "cpa": 176, "roas": 1.05, "dpct": 188, "sinalC": null, "ratio": null}, {"dia": 3, "data": "2026-03-08", "spend": 3066, "vendas": 12, "cpa": 256, "roas": 0.61, "dpct": 2, "sinalC": null, "ratio": null}, {"dia": 4, "data": "2026-03-09", "spend": 1956, "vendas": 14, "cpa": 140, "roas": 1.25, "dpct": -36, "sinalC": "aumentar", "ratio": 0.47}, {"dia": 5, "data": "2026-03-10", "spend": 5155, "vendas": 25, "cpa": 206, "roas": 0.91, "dpct": 164, "sinalC": "manter", "ratio": 0.92}, {"dia": 6, "data": "2026-03-11", "spend": 5386, "vendas": 31, "cpa": 174, "roas": 1.83, "dpct": 4, "sinalC": "aumentar", "ratio": 0.77}, {"dia": 7, "data": "2026-03-12", "spend": 5339, "vendas": 19, "cpa": 281, "roas": 1.1, "dpct": -1, "sinalC": "manter", "ratio": 1.04}, {"dia": 8, "data": "2026-03-13", "spend": 5437, "vendas": 26, "cpa": 209, "roas": 0.87, "dpct": 2, "sinalC": "manter", "ratio": 1.04}, {"dia": 9, "data": "2026-03-14", "spend": 1504, "vendas": 6, "cpa": 251, "roas": 0.69, "dpct": -72, "sinalC": "manter", "ratio": 1.23}, {"dia": 10, "data": "2026-03-15", "spend": 1206, "vendas": 6, "cpa": 201, "roas": 0.68, "dpct": -20, "sinalC": "manter", "ratio": 1.03}, {"dia": 11, "data": "2026-03-16", "spend": 785, "vendas": 3, "cpa": 262, "roas": 0.52, "dpct": -35, "sinalC": "manter", "ratio": 1.12}, {"dia": 12, "data": "2026-03-17", "spend": 348, "vendas": 3, "cpa": 116, "roas": 1.52, "dpct": -56, "sinalC": "manter", "ratio": 0.93}, {"dia": 13, "data": "2026-03-18", "spend": 408, "vendas": 5, "cpa": 82, "roas": 2.53, "dpct": 17, "sinalC": "aumentar", "ratio": 0.67}, {"dia": 14, "data": "2026-03-19", "spend": 514, "vendas": 3, "cpa": 171, "roas": 0.7, "dpct": 26, "sinalC": "aumentar", "ratio": 0.55}, {"dia": 15, "data": "2026-03-20", "spend": 527, "vendas": 3, "cpa": 176, "roas": 0.68, "dpct": 2, "sinalC": "aumentar", "ratio": 0.63}, {"dia": 16, "data": "2026-03-21", "spend": 511, "vendas": 8, "cpa": 64, "roas": 3.4, "dpct": -3, "sinalC": "aumentar", "ratio": 0.54}, {"dia": 17, "data": "2026-03-22", "spend": 648, "vendas": 6, "cpa": 108, "roas": 1.39, "dpct": 27, "sinalC": "aumentar", "ratio": 0.48}, {"dia": 18, "data": "2026-03-23", "spend": 550, "vendas": 1, "cpa": 550, "roas": 0.71, "dpct": -15, "sinalC": "aumentar", "ratio": 0.56}, {"dia": 19, "data": "2026-03-24", "spend": 486, "vendas": 6, "cpa": 81, "roas": 2.39, "dpct": -12, "sinalC": "aumentar", "ratio": 0.65}, {"dia": 20, "data": "2026-03-25", "spend": 398, "vendas": 4, "cpa": 99, "roas": 1.78, "dpct": -18, "sinalC": "aumentar", "ratio": 0.67}, {"dia": 21, "data": "2026-03-26", "spend": 341, "vendas": 3, "cpa": 114, "roas": 2.01, "dpct": -14, "sinalC": "aumentar", "ratio": 0.48}, {"dia": 22, "data": "2026-03-27", "spend": 443, "vendas": 4, "cpa": 111, "roas": 3.74, "dpct": 30, "sinalC": "aumentar", "ratio": 0.55}, {"dia": 23, "data": "2026-03-28", "spend": 689, "vendas": 5, "cpa": 138, "roas": 1.34, "dpct": 56, "sinalC": "aumentar", "ratio": 0.64}, {"dia": 24, "data": "2026-03-29", "spend": 584, "vendas": 6, "cpa": 97, "roas": 1.71, "dpct": -15, "sinalC": "aumentar", "ratio": 0.6}, {"dia": 25, "data": "2026-03-30", "spend": 459, "vendas": 2, "cpa": 229, "roas": 0.99, "dpct": -21, "sinalC": "aumentar", "ratio": 0.7}, {"dia": 26, "data": "2026-03-31", "spend": 493, "vendas": 2, "cpa": 246, "roas": 0.73, "dpct": 7, "sinalC": "aumentar", "ratio": 0.82}, {"dia": 27, "data": "2026-04-01", "spend": 493, "vendas": 7, "cpa": 70, "roas": 2.14, "dpct": 0, "sinalC": "aumentar", "ratio": 0.71}, {"dia": 28, "data": "2026-04-02", "spend": 501, "vendas": 6, "cpa": 83, "roas": 1.68, "dpct": 2, "sinalC": "aumentar", "ratio": 0.53}, {"dia": 29, "data": "2026-04-03", "spend": 296, "vendas": 4, "cpa": 74, "roas": 2.03, "dpct": -41, "sinalC": "aumentar", "ratio": 0.41}, {"dia": 30, "data": "2026-04-05", "spend": 5382, "vendas": 28, "cpa": 192, "roas": 0.94, "dpct": 1720, "sinalC": "manter", "ratio": 0.89}, {"dia": 31, "data": "2026-04-06", "spend": 12662, "vendas": 60, "cpa": 211, "roas": 0.91, "dpct": 135, "sinalC": "manter", "ratio": 1.1}, {"dia": 32, "data": "2026-04-07", "spend": 9736, "vendas": 46, "cpa": 212, "roas": 0.88, "dpct": -23, "sinalC": "manter", "ratio": 1.16}, {"dia": 33, "data": "2026-04-08", "spend": 16121, "vendas": 72, "cpa": 224, "roas": 1.06, "dpct": 66, "sinalC": "manter", "ratio": 1.2}, {"dia": 34, "data": "2026-04-09", "spend": 24731, "vendas": 139, "cpa": 178, "roas": 1.07, "dpct": 53, "sinalC": "manter", "ratio": 1.06}, {"dia": 35, "data": "2026-04-10", "spend": 30019, "vendas": 173, "cpa": 174, "roas": 1.42, "dpct": 21, "sinalC": "manter", "ratio": 0.98}, {"dia": 36, "data": "2026-04-11", "spend": 29605, "vendas": 200, "cpa": 148, "roas": 1.19, "dpct": -1, "sinalC": "aumentar", "ratio": 0.85}, {"dia": 37, "data": "2026-04-12", "spend": 46166, "vendas": 311, "cpa": 148, "roas": 1.23, "dpct": 56, "sinalC": "aumentar", "ratio": 0.81}, {"dia": 38, "data": "2026-04-13", "spend": 43864, "vendas": 196, "cpa": 224, "roas": 0.77, "dpct": -5, "sinalC": "manter", "ratio": 0.91}, {"dia": 39, "data": "2026-04-14", "spend": 41715, "vendas": 148, "cpa": 282, "roas": 0.93, "dpct": -5, "sinalC": "manter", "ratio": 1.13}, {"dia": 40, "data": "2026-04-15", "spend": 32839, "vendas": 162, "cpa": 203, "roas": 1.8, "dpct": -21, "sinalC": "reduzir", "ratio": 1.37}, {"dia": 41, "data": "2026-04-16", "spend": 16608, "vendas": 107, "cpa": 155, "roas": 1.24, "dpct": -49, "sinalC": "manter", "ratio": 1.23}, {"dia": 42, "data": "2026-04-17", "spend": 19328, "vendas": 101, "cpa": 191, "roas": 1.11, "dpct": 16, "sinalC": "manter", "ratio": 0.99}, {"dia": 43, "data": "2026-04-18", "spend": 30936, "vendas": 145, "cpa": 213, "roas": 0.94, "dpct": 60, "sinalC": "manter", "ratio": 1.0}, {"dia": 44, "data": "2026-04-19", "spend": 31240, "vendas": 200, "cpa": 156, "roas": 1.3, "dpct": 1, "sinalC": "manter", "ratio": 0.98}, {"dia": 45, "data": "2026-04-20", "spend": 31288, "vendas": 193, "cpa": 162, "roas": 1.42, "dpct": 0, "sinalC": "manter", "ratio": 0.93}, {"dia": 46, "data": "2026-04-21", "spend": 31247, "vendas": 203, "cpa": 154, "roas": 1.38, "dpct": 0, "sinalC": "aumentar", "ratio": 0.83}, {"dia": 47, "data": "2026-04-22", "spend": 31435, "vendas": 125, "cpa": 251, "roas": 0.88, "dpct": 1, "sinalC": "manter", "ratio": 0.97}, {"dia": 48, "data": "2026-04-23", "spend": 30183, "vendas": 148, "cpa": 204, "roas": 0.88, "dpct": -4, "sinalC": "manter", "ratio": 1.06}, {"dia": 49, "data": "2026-04-24", "spend": 19430, "vendas": 122, "cpa": 159, "roas": 3.37, "dpct": -36, "sinalC": "manter", "ratio": 1.13}, {"dia": 50, "data": "2026-04-25", "spend": 33895, "vendas": 189, "cpa": 179, "roas": 1.01, "dpct": 74, "sinalC": "manter", "ratio": 0.98}, {"dia": 51, "data": "2026-04-26", "spend": 36629, "vendas": 248, "cpa": 148, "roas": 1.17, "dpct": 8, "sinalC": "manter", "ratio": 0.86}, {"dia": 52, "data": "2026-04-27", "spend": 26806, "vendas": 143, "cpa": 187, "roas": 1.25, "dpct": -27, "sinalC": "manter", "ratio": 0.91}, {"dia": 53, "data": "2026-04-28", "spend": 24191, "vendas": 96, "cpa": 252, "roas": 0.86, "dpct": -10, "sinalC": "manter", "ratio": 0.97}, {"dia": 54, "data": "2026-04-29", "spend": 32159, "vendas": 101, "cpa": 318, "roas": 0.68, "dpct": 33, "sinalC": "reduzir", "ratio": 1.34}, {"dia": 55, "data": "2026-04-30", "spend": 33980, "vendas": 146, "cpa": 233, "roas": 1.35, "dpct": 6, "sinalC": "reduzir", "ratio": 1.44}, {"dia": 56, "data": "2026-05-01", "spend": 33567, "vendas": 210, "cpa": 160, "roas": 1.2, "dpct": -1, "sinalC": "manter", "ratio": 1.18}, {"dia": 57, "data": "2026-05-02", "spend": 38864, "vendas": 214, "cpa": 182, "roas": 0.98, "dpct": 16, "sinalC": "manter", "ratio": 0.99}, {"dia": 58, "data": "2026-05-03", "spend": 40448, "vendas": 248, "cpa": 163, "roas": 1.09, "dpct": 4, "sinalC": "manter", "ratio": 0.89}, {"dia": 59, "data": "2026-05-04", "spend": 19558, "vendas": 100, "cpa": 196, "roas": 0.95, "dpct": -52, "sinalC": "manter", "ratio": 0.94}, {"dia": 60, "data": "2026-05-05", "spend": 23123, "vendas": 137, "cpa": 169, "roas": 1.3, "dpct": 18, "sinalC": "manter", "ratio": 0.91}, {"dia": 61, "data": "2026-05-06", "spend": 28730, "vendas": 147, "cpa": 195, "roas": 1.59, "dpct": 24, "sinalC": "manter", "ratio": 1.0}, {"dia": 62, "data": "2026-05-07", "spend": 28664, "vendas": 168, "cpa": 171, "roas": 1.64, "dpct": 0, "sinalC": "manter", "ratio": 0.96}, {"dia": 63, "data": "2026-05-08", "spend": 34358, "vendas": 217, "cpa": 158, "roas": 1.44, "dpct": 20, "sinalC": "manter", "ratio": 0.93}, {"dia": 64, "data": "2026-05-09", "spend": 73385, "vendas": 345, "cpa": 213, "roas": 0.91, "dpct": 114, "sinalC": "manter", "ratio": 1.0}, {"dia": 65, "data": "2026-05-10", "spend": 51754, "vendas": 274, "cpa": 189, "roas": 0.88, "dpct": -29, "sinalC": "manter", "ratio": 1.03}, {"dia": 66, "data": "2026-05-11", "spend": 10074, "vendas": 89, "cpa": 113, "roas": 2.7, "dpct": -81, "sinalC": "manter", "ratio": 1.03}, {"dia": 67, "data": "2026-05-12", "spend": 4267, "vendas": 54, "cpa": 79, "roas": 3.68, "dpct": -58, "sinalC": "manter", "ratio": 0.85}, {"dia": 68, "data": "2026-05-13", "spend": 4560, "vendas": 42, "cpa": 109, "roas": 1.99, "dpct": 7, "sinalC": "aumentar", "ratio": 0.55}, {"dia": 69, "data": "2026-05-14", "spend": 4310, "vendas": 29, "cpa": 149, "roas": 1.49, "dpct": -5, "sinalC": "aumentar", "ratio": 0.57}, {"dia": 70, "data": "2026-05-15", "spend": 2, "vendas": 4, "cpa": 1, "roas": 793.77, "dpct": -100, "sinalC": "aumentar", "ratio": 0.64}]}, {"sigla": "ELS", "tipo": "LAN", "nome": "El Salvador", "caso": "LAN multi-onda (relançada 3×)", "status": "parcial", "dias": 66, "spend_k": 4319, "roas": 1.29, "cpa": 186, "daily": [{"dia": 0, "data": "2026-05-20", "spend": 833, "vendas": 10, "cpa": 83, "roas": 3.34, "dpct": 0, "sinalC": null, "ratio": null}, {"dia": 1, "data": "2026-05-21", "spend": 13156, "vendas": 222, "cpa": 59, "roas": 4.13, "dpct": 1479, "sinalC": null, "ratio": null}, {"dia": 2, "data": "2026-05-22", "spend": 22349, "vendas": 259, "cpa": 86, "roas": 2.88, "dpct": 70, "sinalC": null, "ratio": null}, {"dia": 3, "data": "2026-05-23", "spend": 87095, "vendas": 800, "cpa": 109, "roas": 2.21, "dpct": 290, "sinalC": null, "ratio": null}, {"dia": 4, "data": "2026-05-24", "spend": 150668, "vendas": 1244, "cpa": 121, "roas": 2.11, "dpct": 73, "sinalC": "reduzir", "ratio": 1.87}, {"dia": 5, "data": "2026-05-25", "spend": 123206, "vendas": 823, "cpa": 150, "roas": 1.87, "dpct": -18, "sinalC": "reduzir", "ratio": 1.7}, {"dia": 6, "data": "2026-05-26", "spend": 152383, "vendas": 911, "cpa": 167, "roas": 1.57, "dpct": 24, "sinalC": "reduzir", "ratio": 1.5}, {"dia": 7, "data": "2026-05-27", "spend": 174431, "vendas": 1085, "cpa": 161, "roas": 1.59, "dpct": 14, "sinalC": "reduzir", "ratio": 1.48}, {"dia": 8, "data": "2026-05-28", "spend": 184965, "vendas": 943, "cpa": 196, "roas": 1.32, "dpct": 6, "sinalC": "reduzir", "ratio": 1.47}, {"dia": 9, "data": "2026-05-29", "spend": 185206, "vendas": 1114, "cpa": 166, "roas": 1.66, "dpct": 0, "sinalC": "reduzir", "ratio": 1.35}, {"dia": 10, "data": "2026-05-30", "spend": 240387, "vendas": 1504, "cpa": 160, "roas": 1.49, "dpct": 30, "sinalC": "manter", "ratio": 1.27}, {"dia": 11, "data": "2026-05-31", "spend": 393896, "vendas": 1985, "cpa": 198, "roas": 1.22, "dpct": 64, "sinalC": "manter", "ratio": 1.23}, {"dia": 12, "data": "2026-06-01", "spend": 18370, "vendas": 176, "cpa": 104, "roas": 1.7, "dpct": -95, "sinalC": "manter", "ratio": 1.21}, {"dia": 13, "data": "2026-06-02", "spend": 37119, "vendas": 262, "cpa": 142, "roas": 1.32, "dpct": 102, "sinalC": "manter", "ratio": 1.24}, {"dia": 14, "data": "2026-06-03", "spend": 64222, "vendas": 341, "cpa": 188, "roas": 1.11, "dpct": 73, "sinalC": "manter", "ratio": 0.97}, {"dia": 15, "data": "2026-06-04", "spend": 124420, "vendas": 661, "cpa": 188, "roas": 1.02, "dpct": 94, "sinalC": "manter", "ratio": 1.13}, {"dia": 16, "data": "2026-06-05", "spend": 157639, "vendas": 588, "cpa": 268, "roas": 0.69, "dpct": 27, "sinalC": "reduzir", "ratio": 1.38}, {"dia": 17, "data": "2026-06-06", "spend": 131809, "vendas": 525, "cpa": 251, "roas": 0.75, "dpct": -16, "sinalC": "reduzir", "ratio": 1.47}, {"dia": 18, "data": "2026-06-07", "spend": 131573, "vendas": 652, "cpa": 202, "roas": 0.92, "dpct": 0, "sinalC": "reduzir", "ratio": 1.49}, {"dia": 19, "data": "2026-06-08", "spend": 35281, "vendas": 205, "cpa": 172, "roas": 1.46, "dpct": -73, "sinalC": "reduzir", "ratio": 1.31}, {"dia": 20, "data": "2026-06-09", "spend": 58122, "vendas": 226, "cpa": 257, "roas": 0.92, "dpct": 65, "sinalC": "manter", "ratio": 1.24}, {"dia": 21, "data": "2026-06-10", "spend": 71874, "vendas": 214, "cpa": 336, "roas": 0.71, "dpct": 24, "sinalC": "reduzir", "ratio": 1.51}, {"dia": 22, "data": "2026-06-11", "spend": 67249, "vendas": 175, "cpa": 384, "roas": 0.72, "dpct": -6, "sinalC": "reduzir", "ratio": 1.89}, {"dia": 23, "data": "2026-06-12", "spend": 70048, "vendas": 188, "cpa": 373, "roas": 0.68, "dpct": 4, "sinalC": "reduzir", "ratio": 2.12}, {"dia": 24, "data": "2026-06-13", "spend": 46935, "vendas": 188, "cpa": 250, "roas": 0.79, "dpct": -33, "sinalC": "reduzir", "ratio": 1.93}, {"dia": 25, "data": "2026-06-14", "spend": 82907, "vendas": 426, "cpa": 195, "roas": 0.96, "dpct": 77, "sinalC": "reduzir", "ratio": 1.42}, {"dia": 26, "data": "2026-06-15", "spend": 46162, "vendas": 218, "cpa": 212, "roas": 1.22, "dpct": -44, "sinalC": "manter", "ratio": 1.19}, {"dia": 27, "data": "2026-06-16", "spend": 81043, "vendas": 216, "cpa": 375, "roas": 0.6, "dpct": 76, "sinalC": "reduzir", "ratio": 1.36}, {"dia": 28, "data": "2026-06-17", "spend": 54448, "vendas": 199, "cpa": 274, "roas": 0.92, "dpct": -33, "sinalC": "reduzir", "ratio": 1.6}, {"dia": 29, "data": "2026-06-18", "spend": 26453, "vendas": 138, "cpa": 192, "roas": 1.98, "dpct": -51, "sinalC": "reduzir", "ratio": 1.63}, {"dia": 30, "data": "2026-06-19", "spend": 28928, "vendas": 138, "cpa": 210, "roas": 1.32, "dpct": 9, "sinalC": "manter", "ratio": 1.27}, {"dia": 31, "data": "2026-06-20", "spend": 72825, "vendas": 407, "cpa": 179, "roas": 1.08, "dpct": 152, "sinalC": "manter", "ratio": 1.02}, {"dia": 32, "data": "2026-06-21", "spend": 105085, "vendas": 681, "cpa": 154, "roas": 1.11, "dpct": 44, "sinalC": "manter", "ratio": 0.92}, {"dia": 33, "data": "2026-06-22", "spend": 57517, "vendas": 341, "cpa": 169, "roas": 1.34, "dpct": -45, "sinalC": "manter", "ratio": 0.89}, {"dia": 34, "data": "2026-06-23", "spend": 50792, "vendas": 274, "cpa": 185, "roas": 1.24, "dpct": -12, "sinalC": "manter", "ratio": 0.89}, {"dia": 35, "data": "2026-06-24", "spend": 52558, "vendas": 189, "cpa": 278, "roas": 1.01, "dpct": 3, "sinalC": "manter", "ratio": 1.09}, {"dia": 36, "data": "2026-06-25", "spend": 109843, "vendas": 338, "cpa": 325, "roas": 0.72, "dpct": 109, "sinalC": "reduzir", "ratio": 1.46}, {"dia": 37, "data": "2026-06-26", "spend": 75802, "vendas": 309, "cpa": 245, "roas": 0.95, "dpct": -31, "sinalC": "reduzir", "ratio": 1.56}, {"dia": 38, "data": "2026-06-27", "spend": 99669, "vendas": 535, "cpa": 186, "roas": 1.18, "dpct": 31, "sinalC": "reduzir", "ratio": 1.31}, {"dia": 39, "data": "2026-06-28", "spend": 106345, "vendas": 540, "cpa": 197, "roas": 1.0, "dpct": 7, "sinalC": "manter", "ratio": 1.09}, {"dia": 40, "data": "2026-06-29", "spend": 8989, "vendas": 89, "cpa": 101, "roas": 3.24, "dpct": -92, "sinalC": "manter", "ratio": 0.99}, {"dia": 41, "data": "2026-06-30", "spend": 15481, "vendas": 147, "cpa": 105, "roas": 3.9, "dpct": 72, "sinalC": "manter", "ratio": 0.9}, {"dia": 42, "data": "2026-07-01", "spend": 18646, "vendas": 117, "cpa": 159, "roas": 1.21, "dpct": 20, "sinalC": "aumentar", "ratio": 0.65}, {"dia": 43, "data": "2026-07-02", "spend": 12079, "vendas": 84, "cpa": 144, "roas": 1.29, "dpct": -35, "sinalC": "aumentar", "ratio": 0.71}, {"dia": 44, "data": "2026-07-03", "spend": 25270, "vendas": 125, "cpa": 202, "roas": 1.45, "dpct": 109, "sinalC": "manter", "ratio": 0.92}, {"dia": 45, "data": "2026-07-04", "spend": 33017, "vendas": 182, "cpa": 181, "roas": 0.99, "dpct": 31, "sinalC": "manter", "ratio": 0.97}, {"dia": 46, "data": "2026-07-05", "spend": 34539, "vendas": 174, "cpa": 198, "roas": 0.89, "dpct": 5, "sinalC": "manter", "ratio": 1.04}, {"dia": 47, "data": "2026-07-06", "spend": 39382, "vendas": 178, "cpa": 221, "roas": 1.17, "dpct": 14, "sinalC": "manter", "ratio": 1.08}, {"dia": 48, "data": "2026-07-07", "spend": 36885, "vendas": 178, "cpa": 207, "roas": 1.19, "dpct": -6, "sinalC": "manter", "ratio": 1.12}, {"dia": 49, "data": "2026-07-08", "spend": 29855, "vendas": 178, "cpa": 168, "roas": 1.2, "dpct": -19, "sinalC": "manter", "ratio": 1.07}, {"dia": 50, "data": "2026-07-09", "spend": 38290, "vendas": 203, "cpa": 189, "roas": 1.0, "dpct": 28, "sinalC": "manter", "ratio": 1.01}, {"dia": 51, "data": "2026-07-10", "spend": 33044, "vendas": 172, "cpa": 192, "roas": 0.94, "dpct": -14, "sinalC": "manter", "ratio": 0.98}, {"dia": 52, "data": "2026-07-11", "spend": 49244, "vendas": 201, "cpa": 245, "roas": 0.71, "dpct": 49, "sinalC": "manter", "ratio": 1.12}, {"dia": 53, "data": "2026-07-12", "spend": 29410, "vendas": 190, "cpa": 155, "roas": 1.2, "dpct": -40, "sinalC": "manter", "ratio": 1.06}, {"dia": 54, "data": "2026-07-13", "spend": 17680, "vendas": 95, "cpa": 186, "roas": 3.35, "dpct": -40, "sinalC": "manter", "ratio": 1.06}, {"dia": 55, "data": "2026-07-14", "spend": 22547, "vendas": 82, "cpa": 275, "roas": 0.81, "dpct": 28, "sinalC": "manter", "ratio": 1.01}, {"dia": 56, "data": "2026-07-15", "spend": 5326, "vendas": 50, "cpa": 107, "roas": 2.26, "dpct": -76, "sinalC": "manter", "ratio": 1.07}, {"dia": 57, "data": "2026-07-16", "spend": 5557, "vendas": 42, "cpa": 132, "roas": 3.01, "dpct": 4, "sinalC": "manter", "ratio": 1.03}, {"dia": 58, "data": "2026-07-17", "spend": 5103, "vendas": 47, "cpa": 109, "roas": 3.61, "dpct": -8, "sinalC": "aumentar", "ratio": 0.61}, {"dia": 59, "data": "2026-07-18", "spend": 14394, "vendas": 81, "cpa": 178, "roas": 1.11, "dpct": 182, "sinalC": "aumentar", "ratio": 0.79}, {"dia": 60, "data": "2026-07-19", "spend": 19184, "vendas": 109, "cpa": 176, "roas": 1.07, "dpct": 33, "sinalC": "manter", "ratio": 0.87}, {"dia": 61, "data": "2026-07-20", "spend": 5695, "vendas": 46, "cpa": 124, "roas": 2.96, "dpct": -70, "sinalC": "manter", "ratio": 0.89}, {"dia": 62, "data": "2026-07-21", "spend": 7489, "vendas": 44, "cpa": 170, "roas": 6.74, "dpct": 32, "sinalC": "manter", "ratio": 0.87}, {"dia": 63, "data": "2026-07-22", "spend": 7498, "vendas": 52, "cpa": 144, "roas": 10.87, "dpct": 0, "sinalC": "aumentar", "ratio": 0.78}, {"dia": 64, "data": "2026-07-23", "spend": 10103, "vendas": 61, "cpa": 166, "roas": 2.42, "dpct": 35, "sinalC": "manter", "ratio": 0.86}, {"dia": 65, "data": "2026-07-24", "spend": 563, "vendas": 4, "cpa": 141, "roas": 1.11, "dpct": -94, "sinalC": "aumentar", "ratio": 0.83}]}, {"sigla": "EVG", "tipo": "LAN", "nome": "Brasil Evangélico", "caso": "LAN nascida ruim", "status": "falha", "dias": 9, "spend_k": 126, "roas": 0.45, "cpa": 459, "daily": [{"dia": 0, "data": "2026-07-08", "spend": 3361, "vendas": 9, "cpa": 373, "roas": 0.45, "dpct": 0, "sinalC": null, "ratio": null}, {"dia": 1, "data": "2026-07-09", "spend": 13624, "vendas": 29, "cpa": 470, "roas": 0.38, "dpct": 305, "sinalC": null, "ratio": null}, {"dia": 2, "data": "2026-07-10", "spend": 11793, "vendas": 29, "cpa": 407, "roas": 0.45, "dpct": -13, "sinalC": null, "ratio": null}, {"dia": 3, "data": "2026-07-11", "spend": 21205, "vendas": 41, "cpa": 517, "roas": 0.36, "dpct": 80, "sinalC": null, "ratio": null}, {"dia": 4, "data": "2026-07-12", "spend": 23196, "vendas": 43, "cpa": 539, "roas": 0.4, "dpct": 9, "sinalC": "manter", "ratio": 1.11}, {"dia": 5, "data": "2026-07-13", "spend": 16427, "vendas": 43, "cpa": 382, "roas": 0.72, "dpct": -29, "sinalC": "manter", "ratio": 1.12}, {"dia": 6, "data": "2026-07-14", "spend": 23557, "vendas": 38, "cpa": 620, "roas": 0.28, "dpct": 43, "sinalC": "manter", "ratio": 1.1}, {"dia": 7, "data": "2026-07-15", "spend": 12236, "vendas": 39, "cpa": 314, "roas": 0.6, "dpct": -48, "sinalC": "manter", "ratio": 0.9}, {"dia": 8, "data": "2026-07-16", "spend": 268, "vendas": 3, "cpa": 89, "roas": 7.42, "dpct": -98, "sinalC": "manter", "ratio": 0.98}]}, {"sigla": "BMA", "tipo": "PPT", "nome": "Raio-X Banco Master", "caso": "PPT de baixo volume", "status": "falha", "dias": 49, "spend_k": 170, "roas": 0.94, "cpa": 210, "daily": [{"dia": 0, "data": "2026-04-08", "spend": 879, "vendas": 4, "cpa": 220, "roas": 0.67, "dpct": 0, "sinalC": null, "ratio": null}, {"dia": 1, "data": "2026-04-09", "spend": 2511, "vendas": 10, "cpa": 251, "roas": 0.9, "dpct": 186, "sinalC": null, "ratio": null}, {"dia": 2, "data": "2026-04-10", "spend": 9924, "vendas": 41, "cpa": 242, "roas": 0.69, "dpct": 295, "sinalC": null, "ratio": null}, {"dia": 3, "data": "2026-04-11", "spend": 9994, "vendas": 57, "cpa": 175, "roas": 1.05, "dpct": 1, "sinalC": null, "ratio": null}, {"dia": 4, "data": "2026-04-12", "spend": 10071, "vendas": 30, "cpa": 336, "roas": 0.51, "dpct": 1, "sinalC": "manter", "ratio": 0.97}, {"dia": 5, "data": "2026-04-13", "spend": 3349, "vendas": 12, "cpa": 279, "roas": 0.68, "dpct": -67, "sinalC": "manter", "ratio": 0.98}, {"dia": 6, "data": "2026-04-14", "spend": 1870, "vendas": 14, "cpa": 134, "roas": 1.08, "dpct": -44, "sinalC": "reduzir", "ratio": 1.31}, {"dia": 7, "data": "2026-04-15", "spend": 2552, "vendas": 15, "cpa": 170, "roas": 1.0, "dpct": 36, "sinalC": "aumentar", "ratio": 0.81}, {"dia": 8, "data": "2026-04-16", "spend": 2460, "vendas": 9, "cpa": 273, "roas": 1.06, "dpct": -4, "sinalC": "aumentar", "ratio": 0.76}, {"dia": 9, "data": "2026-04-17", "spend": 2379, "vendas": 11, "cpa": 216, "roas": 1.13, "dpct": -3, "sinalC": "manter", "ratio": 0.92}, {"dia": 10, "data": "2026-04-18", "spend": 6323, "vendas": 30, "cpa": 211, "roas": 0.86, "dpct": 166, "sinalC": "manter", "ratio": 0.99}, {"dia": 11, "data": "2026-04-19", "spend": 6200, "vendas": 29, "cpa": 214, "roas": 0.93, "dpct": -2, "sinalC": "manter", "ratio": 0.94}, {"dia": 12, "data": "2026-04-20", "spend": 2751, "vendas": 15, "cpa": 183, "roas": 0.99, "dpct": -56, "sinalC": "manter", "ratio": 0.91}, {"dia": 13, "data": "2026-04-21", "spend": 2324, "vendas": 22, "cpa": 106, "roas": 1.41, "dpct": -16, "sinalC": "aumentar", "ratio": 0.76}, {"dia": 14, "data": "2026-04-22", "spend": 2580, "vendas": 9, "cpa": 287, "roas": 0.57, "dpct": 11, "sinalC": "aumentar", "ratio": 0.75}, {"dia": 15, "data": "2026-04-23", "spend": 2421, "vendas": 9, "cpa": 269, "roas": 2.0, "dpct": -6, "sinalC": "aumentar", "ratio": 0.83}, {"dia": 16, "data": "2026-04-24", "spend": 2496, "vendas": 8, "cpa": 312, "roas": 0.61, "dpct": 3, "sinalC": "reduzir", "ratio": 1.36}, {"dia": 17, "data": "2026-04-25", "spend": 2411, "vendas": 18, "cpa": 134, "roas": 1.21, "dpct": -3, "sinalC": "manter", "ratio": 0.97}, {"dia": 18, "data": "2026-04-26", "spend": 3797, "vendas": 16, "cpa": 237, "roas": 0.86, "dpct": 57, "sinalC": "manter", "ratio": 0.96}, {"dia": 19, "data": "2026-04-27", "spend": 2061, "vendas": 11, "cpa": 187, "roas": 0.86, "dpct": -46, "sinalC": "aumentar", "ratio": 0.84}, {"dia": 20, "data": "2026-04-28", "spend": 2272, "vendas": 8, "cpa": 284, "roas": 1.09, "dpct": 10, "sinalC": "manter", "ratio": 1.08}, {"dia": 21, "data": "2026-04-29", "spend": 2652, "vendas": 13, "cpa": 204, "roas": 1.43, "dpct": 17, "sinalC": "manter", "ratio": 1.01}, {"dia": 22, "data": "2026-04-30", "spend": 3092, "vendas": 20, "cpa": 155, "roas": 1.13, "dpct": 17, "sinalC": "manter", "ratio": 0.91}, {"dia": 23, "data": "2026-05-01", "spend": 5885, "vendas": 55, "cpa": 107, "roas": 1.68, "dpct": 90, "sinalC": "aumentar", "ratio": 0.61}, {"dia": 24, "data": "2026-05-02", "spend": 8490, "vendas": 49, "cpa": 173, "roas": 1.04, "dpct": 44, "sinalC": "aumentar", "ratio": 0.65}, {"dia": 25, "data": "2026-05-03", "spend": 10524, "vendas": 42, "cpa": 251, "roas": 0.81, "dpct": 24, "sinalC": "aumentar", "ratio": 0.8}, {"dia": 26, "data": "2026-05-04", "spend": 3017, "vendas": 11, "cpa": 274, "roas": 0.62, "dpct": -71, "sinalC": "manter", "ratio": 1.08}, {"dia": 27, "data": "2026-05-05", "spend": 2663, "vendas": 6, "cpa": 444, "roas": 0.39, "dpct": -12, "sinalC": "reduzir", "ratio": 1.39}, {"dia": 28, "data": "2026-05-06", "spend": 2920, "vendas": 15, "cpa": 195, "roas": 0.84, "dpct": 10, "sinalC": "reduzir", "ratio": 1.33}, {"dia": 29, "data": "2026-05-07", "spend": 4431, "vendas": 15, "cpa": 295, "roas": 0.68, "dpct": 52, "sinalC": "reduzir", "ratio": 1.37}, {"dia": 30, "data": "2026-05-08", "spend": 4283, "vendas": 17, "cpa": 252, "roas": 0.89, "dpct": -3, "sinalC": "manter", "ratio": 1.2}, {"dia": 31, "data": "2026-05-09", "spend": 3453, "vendas": 19, "cpa": 182, "roas": 0.89, "dpct": -19, "sinalC": "manter", "ratio": 1.16}, {"dia": 32, "data": "2026-05-10", "spend": 3680, "vendas": 18, "cpa": 204, "roas": 1.06, "dpct": 7, "sinalC": "manter", "ratio": 1.02}, {"dia": 33, "data": "2026-05-11", "spend": 2134, "vendas": 6, "cpa": 356, "roas": 0.38, "dpct": -42, "sinalC": "manter", "ratio": 1.03}, {"dia": 34, "data": "2026-05-12", "spend": 1751, "vendas": 10, "cpa": 175, "roas": 1.79, "dpct": -18, "sinalC": "manter", "ratio": 1.07}, {"dia": 35, "data": "2026-05-13", "spend": 2719, "vendas": 6, "cpa": 453, "roas": 0.34, "dpct": 55, "sinalC": "reduzir", "ratio": 1.44}, {"dia": 36, "data": "2026-05-14", "spend": 2568, "vendas": 7, "cpa": 367, "roas": 0.51, "dpct": -6, "sinalC": "reduzir", "ratio": 1.46}, {"dia": 37, "data": "2026-05-15", "spend": 2314, "vendas": 8, "cpa": 289, "roas": 0.84, "dpct": -10, "sinalC": "reduzir", "ratio": 1.74}, {"dia": 38, "data": "2026-05-16", "spend": 3592, "vendas": 20, "cpa": 180, "roas": 1.26, "dpct": 55, "sinalC": "manter", "ratio": 1.15}, {"dia": 39, "data": "2026-05-17", "spend": 4004, "vendas": 15, "cpa": 267, "roas": 0.96, "dpct": 11, "sinalC": "manter", "ratio": 1.09}, {"dia": 40, "data": "2026-05-18", "spend": 1908, "vendas": 11, "cpa": 173, "roas": 1.06, "dpct": -52, "sinalC": "manter", "ratio": 0.97}, {"dia": 41, "data": "2026-05-19", "spend": 2160, "vendas": 10, "cpa": 216, "roas": 1.23, "dpct": 13, "sinalC": "manter", "ratio": 1.06}, {"dia": 42, "data": "2026-05-20", "spend": 2003, "vendas": 7, "cpa": 286, "roas": 0.83, "dpct": -7, "sinalC": "manter", "ratio": 1.02}, {"dia": 43, "data": "2026-05-21", "spend": 1973, "vendas": 17, "cpa": 116, "roas": 1.87, "dpct": -2, "sinalC": "aumentar", "ratio": 0.85}, {"dia": 44, "data": "2026-05-22", "spend": 2207, "vendas": 9, "cpa": 245, "roas": 0.57, "dpct": 12, "sinalC": "manter", "ratio": 0.88}, {"dia": 45, "data": "2026-05-23", "spend": 996, "vendas": 12, "cpa": 83, "roas": 2.15, "dpct": -55, "sinalC": "aumentar", "ratio": 0.64}, {"dia": 46, "data": "2026-05-24", "spend": 1109, "vendas": 6, "cpa": 185, "roas": 1.13, "dpct": 11, "sinalC": "aumentar", "ratio": 0.76}, {"dia": 47, "data": "2026-05-25", "spend": 1022, "vendas": 4, "cpa": 256, "roas": 0.44, "dpct": -8, "sinalC": "aumentar", "ratio": 0.67}, {"dia": 48, "data": "2026-05-26", "spend": 835, "vendas": 3, "cpa": 278, "roas": 1.09, "dpct": -18, "sinalC": "manter", "ratio": 1.09}]}], "comparacao": [{"sigla": "DOM-LAN", "C_reduzir": [3, 1.09], "C_manter": [39, 1.21], "C_aumentar": [24, 1.5], "abs_reduzir": [3, 1.09], "abs_manter": [47, 1.21], "abs_aumentar": [18, 1.58]}, {"sigla": "ELS-LAN", "C_reduzir": [21, 1.13], "C_manter": [35, 1.19], "C_aumentar": [5, 1.36], "abs_reduzir": [12, 1.02], "abs_manter": [43, 1.2], "abs_aumentar": [8, 1.51]}, {"sigla": "EVG-LAN", "C_reduzir": null, "C_manter": [4, 0.62], "C_aumentar": null, "abs_reduzir": [6, 0.48], "abs_manter": null, "abs_aumentar": null}, {"sigla": "BMA-PPT", "C_reduzir": [8, 0.95], "C_manter": [23, 1.05], "C_aumentar": [13, 0.93], "abs_reduzir": [13, 0.95], "abs_manter": [29, 1.04], "abs_aumentar": [4, 0.88]}], "stoploss_scatter": [{"sigla": "CDL", "roas5": 4.37, "roas_fin": 3.01, "spend_k": 4753, "winner": true}, {"sigla": "BNO25", "roas5": 0.54, "roas_fin": 0.81, "spend_k": 4464, "winner": false}, {"sigla": "ELS", "roas5": 2.31, "roas_fin": 1.28, "spend_k": 4309, "winner": true}, {"sigla": "SDC", "roas5": 1.42, "roas_fin": 1.21, "spend_k": 1641, "winner": true}, {"sigla": "DOM", "roas5": 0.84, "roas_fin": 1.2, "spend_k": 1161, "winner": true}, {"sigla": "TLR", "roas5": 3.54, "roas_fin": 1.54, "spend_k": 1146, "winner": true}, {"sigla": "CPL", "roas5": 2.71, "roas_fin": 1.34, "spend_k": 744, "winner": true}, {"sigla": "PAP", "roas5": 0.44, "roas_fin": 1.1, "spend_k": 486, "winner": true}, {"sigla": "GOD", "roas5": 0.99, "roas_fin": 0.79, "spend_k": 444, "winner": false}, {"sigla": "HDF", "roas5": 0.74, "roas_fin": 1.04, "spend_k": 413, "winner": true}, {"sigla": "IRA", "roas5": 1.06, "roas_fin": 1.19, "spend_k": 298, "winner": true}, {"sigla": "FAU", "roas5": 1.08, "roas_fin": 0.97, "spend_k": 287, "winner": false}, {"sigla": "ODD", "roas5": 0.94, "roas_fin": 0.93, "spend_k": 264, "winner": false}, {"sigla": "BMA", "roas5": 0.88, "roas_fin": 1.05, "spend_k": 219, "winner": true}, {"sigla": "BPF", "roas5": 1.49, "roas_fin": 1.79, "spend_k": 201, "winner": true}, {"sigla": "NTL25", "roas5": 0.77, "roas_fin": 0.61, "spend_k": 199, "winner": false}, {"sigla": "GEO", "roas5": 1.19, "roas_fin": 0.6, "spend_k": 192, "winner": false}, {"sigla": "ABC", "roas5": 0.62, "roas_fin": 0.72, "spend_k": 155, "winner": false}, {"sigla": "PIN", "roas5": 0.26, "roas_fin": 0.38, "spend_k": 76, "winner": false}, {"sigla": "PAG", "roas5": 0.69, "roas_fin": 0.93, "spend_k": 71, "winner": false}, {"sigla": "CRA", "roas5": 1.09, "roas_fin": 1.28, "spend_k": 69, "winner": true}, {"sigla": "HID", "roas5": 0.43, "roas_fin": 0.43, "spend_k": 55, "winner": false}], "stoploss_curva": [{"dia": 3, "thr": 0.7, "recall": 0.4, "precisao": 0.57, "fp": [{"s": "CDL", "roas": 3.01}, {"s": "HDF", "roas": 1.04}, {"s": "PAP", "roas": 1.1}]}, {"dia": 3, "thr": 0.8, "recall": 0.5, "precisao": 0.56, "fp": [{"s": "BMA", "roas": 1.05}, {"s": "CDL", "roas": 3.01}, {"s": "HDF", "roas": 1.04}, {"s": "PAP", "roas": 1.1}]}, {"dia": 3, "thr": 0.9, "recall": 0.7, "precisao": 0.58, "fp": [{"s": "BMA", "roas": 1.05}, {"s": "CDL", "roas": 3.01}, {"s": "DOM", "roas": 1.2}, {"s": "HDF", "roas": 1.04}, {"s": "PAP", "roas": 1.1}]}, {"dia": 3, "thr": 1.0, "recall": 0.8, "precisao": 0.57, "fp": [{"s": "BMA", "roas": 1.05}, {"s": "CDL", "roas": 3.01}, {"s": "CRA", "roas": 1.28}, {"s": "DOM", "roas": 1.2}, {"s": "HDF", "roas": 1.04}, {"s": "PAP", "roas": 1.1}]}, {"dia": 5, "thr": 0.7, "recall": 0.5, "precisao": 0.83, "fp": [{"s": "PAP", "roas": 1.1}]}, {"dia": 5, "thr": 0.8, "recall": 0.6, "precisao": 0.75, "fp": [{"s": "HDF", "roas": 1.04}, {"s": "PAP", "roas": 1.1}]}, {"dia": 5, "thr": 0.9, "recall": 0.6, "precisao": 0.6, "fp": [{"s": "BMA", "roas": 1.05}, {"s": "DOM", "roas": 1.2}, {"s": "HDF", "roas": 1.04}, {"s": "PAP", "roas": 1.1}]}, {"dia": 5, "thr": 1.0, "recall": 0.8, "precisao": 0.67, "fp": [{"s": "BMA", "roas": 1.05}, {"s": "DOM", "roas": 1.2}, {"s": "HDF", "roas": 1.04}, {"s": "PAP", "roas": 1.1}]}, {"dia": 7, "thr": 0.7, "recall": 0.5, "precisao": 1.0, "fp": []}, {"dia": 7, "thr": 0.8, "recall": 0.6, "precisao": 0.86, "fp": [{"s": "PAP", "roas": 1.1}]}, {"dia": 7, "thr": 0.9, "recall": 0.6, "precisao": 0.75, "fp": [{"s": "HDF", "roas": 1.04}, {"s": "PAP", "roas": 1.1}]}, {"dia": 7, "thr": 1.0, "recall": 0.9, "precisao": 0.75, "fp": [{"s": "BPF", "roas": 1.79}, {"s": "HDF", "roas": 1.04}, {"s": "PAP", "roas": 1.1}]}, {"dia": 10, "thr": 0.7, "recall": 0.5, "precisao": 1.0, "fp": []}, {"dia": 10, "thr": 0.8, "recall": 0.5, "precisao": 0.83, "fp": [{"s": "HDF", "roas": 1.04}]}, {"dia": 10, "thr": 0.9, "recall": 0.9, "precisao": 0.9, "fp": [{"s": "HDF", "roas": 1.04}]}, {"dia": 10, "thr": 1.0, "recall": 1.0, "precisao": 0.91, "fp": [{"s": "HDF", "roas": 1.04}]}], "stoploss_meta": {"n": 22, "perdedoras": 10, "vencedoras": 12, "spearman": {"d3": 0.52, "d5": 0.75, "cpa5": -0.41}, "economia_k": 4496, "fp_cost_k": 840}};
+const $=(s,e=document)=>e.querySelector(s);
+const tip=$('#tip');
+function showTip(html,x,y){tip.innerHTML=html;tip.style.opacity=1;
+  tip.style.left=Math.min(x+12,innerWidth-tip.offsetWidth-8)+'px';
+  tip.style.top=(y+12)+'px';}
+function hideTip(){tip.style.opacity=0;}
+const NS='http://www.w3.org/2000/svg';
+function el(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+
+// ---- verdict cards ----
+const vg=$('#verdict');
+DATA.campanhas.forEach(c=>{
+  const lbl={ok:'funciona',parcial:'parcial',falha:'falha'}[c.status];
+  const icon={ok:'✓',parcial:'▲',falha:'✕'}[c.status];
+  vg.insertAdjacentHTML('beforeend',`<div class="vcard ${c.status}">
+    <div class="sig">${c.sigla} <span style="font-weight:400;color:var(--muted);font-size:12px">${c.tipo}</span></div>
+    <div class="nm">${c.nome}</div>
+    <div class="stat"><span>investimento</span><b>R$${c.spend_k>=1000?(c.spend_k/1000).toFixed(1)+'M':c.spend_k+'k'}</b></div>
+    <div class="stat"><span>ROAS</span><b>${c.roas.toFixed(2)}</b></div>
+    <div class="stat"><span>dias · CPA</span><b>${c.dias}d · R$${c.cpa}</b></div>
+    <div class="badge ${c.status}">${icon} ${c.caso}</div>
+  </div>`);
+});
+
+// ---- trajectory small multiples ----
+const tg=$('#trajs');
+DATA.campanhas.forEach(c=>{
+  const W=430,H=170,mL=34,mR=10,mT=10,mB=34,strip=34;
+  const plotH=H-mT-mB-strip;
+  const n=c.daily.length;
+  const sp=c.daily.map(d=>d.spend);
+  const rmax=3; // escala fixa: a história vive em torno do breakeven 1,0; outliers de dias de gasto ínfimo são clipados
+  const smax=Math.max(...sp);
+  const x=i=>mL+(n<=1?0:(i/(n-1))*(W-mL-mR));
+  const yR=v=>mT+plotH-(Math.min(v,rmax)/rmax)*plotH;
+  const yS=v=>mT+plotH+strip-(v/smax)*strip;
+  const div=document.createElement('div');div.className='sm';
+  div.innerHTML=`<h4>${c.sigla}-${c.tipo} <span class="tag ${c.status}">${{ok:'funciona',parcial:'parcial',falha:'falha'}[c.status]}</span></h4>`;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img'});
+  // gridlines ROAS
+  for(let g=0;g<=rmax;g++){const yy=yR(g);
+    svg.appendChild(el('line',{x1:mL,x2:W-mR,y1:yy,y2:yy,class:'gl'}));
+    svg.appendChild(el('text',{x:mL-5,y:yy+3,'text-anchor':'end',class:'ax'})).textContent=g;}
+  // breakeven ref
+  svg.appendChild(el('line',{x1:mL,x2:W-mR,y1:yR(1),y2:yR(1),class:'ref'}));
+  // spend bars
+  const bw=Math.max(1.5,(W-mL-mR)/n*0.7);
+  sp.forEach((v,i)=>{const h=(v/smax)*strip; if(h<=0)return;
+    svg.appendChild(el('rect',{x:x(i)-bw/2,y:mT+plotH+strip-h,width:bw,height:h,rx:1,
+      fill:'var(--axis)','fill-opacity':.7}));});
+  // ROAS line
+  let dpath='';c.daily.forEach((d,i)=>{if(d.roas==null)return;dpath+=(dpath?'L':'M')+x(i)+' '+yR(d.roas);});
+  svg.appendChild(el('path',{d:dpath,fill:'none',stroke:'var(--s1)','stroke-width':2,'stroke-linejoin':'round'}));
+  // dots + hover
+  c.daily.forEach((d,i)=>{if(d.roas==null)return;
+    const dot=el('circle',{cx:x(i),cy:yR(d.roas),r:2.2,fill:'var(--s1)'});
+    const hit=el('rect',{x:x(i)-bw/2-2,y:mT,width:bw+4,height:H-mT-mB,fill:'transparent'});
+    hit.addEventListener('mousemove',e=>showTip(
+      `<b>${d.data}</b> (dia ${d.dia})<br>ROAS ${d.roas} · CPA R$${d.cpa||'—'}<br>gasto R$${(d.spend/1000).toFixed(1)}k · ${d.vendas}v`+
+      (d.sinalC?`<br>sinal C: ${d.sinalC} (${d.ratio})`:''),e.clientX,e.clientY));
+    hit.addEventListener('mouseleave',hideTip);
+    svg.appendChild(dot);svg.appendChild(hit);});
+  // x labels (first/last)
+  svg.appendChild(el('line',{x1:mL,x2:W-mR,y1:mT+plotH+strip,y2:mT+plotH+strip,class:'bl'}));
+  svg.appendChild(el('text',{x:mL,y:H-mB+18,class:'ax'})).textContent='dia 0';
+  const tl=el('text',{x:W-mR,y:H-mB+18,'text-anchor':'end',class:'ax'});tl.textContent='dia '+(n-1);svg.appendChild(tl);
+  svg.appendChild(el('text',{x:mL,y:mT-2,class:'ax'})).textContent='ROAS';
+  div.appendChild(svg);
+  const note=document.createElement('div');note.className='note';
+  note.textContent={
+    'DOM':'Abordagem C discrimina: aumentar 1,50 > manter 1,21 > reduzir 1,09. Escalada premiada.',
+    'ELS':'Multi-onda: baseline ancora na 1ª onda barata → viés de corte (reduzir com ROAS 1,13).',
+    'EVG':'Nasceu a ROAS 0,45. C diz "manter" o tempo todo — cega. Só o teto absoluto pega.',
+    'BMA':'PPT de baixo volume (8-30 vendas/dia): ruído, nenhum sinal diário discrimina.'}[c.sigla]||'';
+  div.appendChild(note);
+  tg.appendChild(div);
+});
+
+// ---- comparison table ----
+const ct=$('#comp');
+ct.innerHTML=`<thead><tr><th>Campanha</th>
+  <th>C: reduzir</th><th>C: manter</th><th>C: aumentar</th>
+  <th>Abs: reduzir</th><th>Abs: manter</th><th>Abs: aumentar</th></tr></thead>`;
+const tb=document.createElement('tbody');
+function fmt(v){return v?`${v[0]} / <b>${v[1].toFixed(2)}</b>`:'—';}
+DATA.comparacao.forEach(r=>{
+  tb.insertAdjacentHTML('beforeend',`<tr><td><b>${r.sigla}</b></td>
+    <td>${fmt(r.C_reduzir)}</td><td>${fmt(r.C_manter)}</td><td>${fmt(r.C_aumentar)}</td>
+    <td>${fmt(r.abs_reduzir)}</td><td>${fmt(r.abs_manter)}</td><td>${fmt(r.abs_aumentar)}</td></tr>`);
+});
+ct.appendChild(tb);
+
+// ---- stop-loss meta ----
+const M=DATA.stoploss_meta;
+$('#sl-n').textContent=M.n; $('#sl-n2')&&($('#sl-n2').textContent=M.n);
+$('#kpis').innerHTML=`
+  <div class="kpi"><div class="v">+0,75</div><div class="l">Spearman ROAS dia-5 × ROAS final — o sinal precoce prediz o destino</div></div>
+  <div class="kpi"><div class="v good">R$${(M.economia_k/1000).toFixed(1)}M</div><div class="l">gasto pós-dia-5 em perdedoras que o stop-loss cortaria</div></div>
+  <div class="kpi"><div class="v bad">R$${M.fp_cost_k}k</div><div class="l">custo de falso positivo (vencedoras cortadas por engano)</div></div>
+  <div class="kpi"><div class="v">${M.perdedoras}/${M.n}</div><div class="l">perdedoras no histórico (ROAS final &lt; 1,0)</div></div>`;
+
+// ---- scatter ----
+(function(){
+  const W=900,H=420,mL=54,mR=20,mT=16,mB=46;
+  const pts=DATA.stoploss_scatter;
+  const xmax=Math.min(5,Math.max(2,Math.ceil(Math.max(...pts.map(p=>p.roas5)))));
+  const ymax=Math.max(2,Math.ceil(Math.max(...pts.map(p=>p.roas_fin))));
+  const x=v=>mL+Math.min(v,xmax)/xmax*(W-mL-mR);
+  const y=v=>mT+(H-mT-mB)-Math.min(v,ymax)/ymax*(H-mT-mB);
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img'});
+  for(let g=0;g<=ymax;g++){const yy=y(g);svg.appendChild(el('line',{x1:mL,x2:W-mR,y1:yy,y2:yy,class:'gl'}));
+    svg.appendChild(el('text',{x:mL-7,y:yy+3,'text-anchor':'end',class:'ax'})).textContent=g;}
+  for(let g=0;g<=xmax;g++){const xx=x(g);
+    svg.appendChild(el('text',{x:xx,y:H-mB+16,'text-anchor':'middle',class:'ax'})).textContent=g;}
+  // ref lines: x=0.7 decision, y=1 breakeven
+  svg.appendChild(el('line',{x1:x(0.7),x2:x(0.7),y1:mT,y2:H-mB,class:'ref'}));
+  svg.appendChild(el('line',{x1:mL,x2:W-mR,y1:y(1),y2:y(1),class:'ref'}));
+  svg.appendChild(el('text',{x:x(0.7)+4,y:mT+11,class:'ax'})).textContent='limiar 0,7';
+  svg.appendChild(el('text',{x:W-mR,y:y(1)-5,'text-anchor':'end',class:'ax'})).textContent='breakeven';
+  // axis titles
+  svg.appendChild(el('text',{x:(mL+W-mR)/2,y:H-6,'text-anchor':'middle',class:'axt'})).textContent='ROAS acumulado dos primeiros 5 dias →';
+  const yt=el('text',{x:14,y:(mT+H-mB)/2,'text-anchor':'middle',class:'axt',transform:`rotate(-90 14 ${(mT+H-mB)/2})`});
+  yt.textContent='ROAS final da campanha →';svg.appendChild(yt);
+  // points (size ~ spend)
+  pts.forEach(p=>{
+    const r=Math.max(4,Math.min(15,Math.sqrt(p.spend_k)/4));
+    const col=p.winner?'var(--good)':'var(--critical)';
+    const c=el('circle',{cx:x(p.roas5),cy:y(p.roas_fin),r,fill:col,'fill-opacity':.5,stroke:col,'stroke-width':1.5});
+    c.addEventListener('mousemove',e=>showTip(`<b>${p.sigla}</b><br>ROAS 5d: ${p.roas5} → final: ${p.roas_fin}<br>R$${p.spend_k>=1000?(p.spend_k/1000).toFixed(1)+'M':p.spend_k+'k'} · ${p.winner?'vencedora':'perdedora'}`,e.clientX,e.clientY));
+    c.addEventListener('mouseleave',hideTip);
+    svg.appendChild(c);});
+  // annotate DOM (the tension) and EVG
+  pts.filter(p=>['DOM','EVG','BNO25'].includes(p.sigla)).forEach(p=>{
+    const t=el('text',{x:x(p.roas5)+ (p.sigla==='EVG'?8:10),y:y(p.roas_fin)-8,class:'axt','font-weight':'600'});
+    t.textContent=p.sigla;svg.appendChild(t);});
+  $('#scatter').appendChild(svg);
+})();
+
+// ---- decision curve (thr 0.7) ----
+(function(){
+  const W=900,H=300,mL=44,mR=16,mT=16,mB=40;
+  const rows=DATA.stoploss_curva.filter(r=>r.thr===0.7).sort((a,b)=>a.dia-b.dia);
+  const days=rows.map(r=>r.dia);
+  const x=i=>mL+(i/(rows.length-1))*(W-mL-mR);
+  const y=v=>mT+(H-mT-mB)-v*(H-mT-mB);
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img'});
+  [0,.25,.5,.75,1].forEach(g=>{const yy=y(g);svg.appendChild(el('line',{x1:mL,x2:W-mR,y1:yy,y2:yy,class:'gl'}));
+    svg.appendChild(el('text',{x:mL-6,y:yy+3,'text-anchor':'end',class:'ax'})).textContent=(g*100)+'%';});
+  rows.forEach((r,i)=>svg.appendChild(el('text',{x:x(i),y:H-mB+16,'text-anchor':'middle',class:'ax'})).textContent='dia '+r.dia);
+  [['recall','var(--s1)'],['precisao','var(--s2)']].forEach(([key,col])=>{
+    let d='';rows.forEach((r,i)=>d+=(d?'L':'M')+x(i)+' '+y(r[key]));
+    svg.appendChild(el('path',{d,fill:'none',stroke:col,'stroke-width':2,'stroke-linejoin':'round'}));
+    rows.forEach((r,i)=>{
+      svg.appendChild(el('circle',{cx:x(i),cy:y(r[key]),r:3.5,fill:col}));
+      const lbl=el('text',{x:x(i),y:y(r[key])-8,'text-anchor':'middle',class:'axt','font-weight':'600',fill:col});
+      lbl.textContent=Math.round(r[key]*100)+'%';svg.appendChild(lbl);});
+  });
+  $('#curve').appendChild(svg);
+})();
+</script>
+</body>
+</html>

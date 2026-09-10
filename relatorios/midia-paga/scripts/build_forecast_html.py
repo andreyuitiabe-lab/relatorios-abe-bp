@@ -1,0 +1,263 @@
+# -*- coding: utf-8 -*-
+import json
+D=json.load(open('forecast_data.json'))
+HTML=r'''<title>Forecast de campanhas — o que dá e o que não dá para projetar</title>
+<style>
+:root{
+  --plane:#eef1f5;--surface:#fff;--surface-2:#f5f7fa;--ink:#0f1720;--ink-2:#51606f;--ink-3:#8494a3;
+  --hair:#dbe1e8;--hair-2:#e8ecf1;--accent:#2563d6;--marg:#7257e6;
+  --good:#0f9d58;--good-soft:#e2f3ea;--bad:#d63b3b;--bad-soft:#fbe4e4;--warn:#c8890a;
+  --shadow:0 1px 2px rgba(15,23,32,.05),0 8px 24px rgba(15,23,32,.06);
+}
+@media(prefers-color-scheme:dark){:root:where(:not([data-theme=light])){
+  --plane:#0c0f13;--surface:#151a20;--surface-2:#1b222a;--ink:#eef2f6;--ink-2:#a4b2c0;--ink-3:#6c7b8a;
+  --hair:#28313b;--hair-2:#212932;--accent:#5b93f5;--marg:#a08cf3;
+  --good:#38c07f;--good-soft:#123023;--bad:#f0605f;--bad-soft:#33191a;--warn:#e0a832;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+}}
+:root[data-theme=dark]{
+  --plane:#0c0f13;--surface:#151a20;--surface-2:#1b222a;--ink:#eef2f6;--ink-2:#a4b2c0;--ink-3:#6c7b8a;
+  --hair:#28313b;--hair-2:#212932;--accent:#5b93f5;--marg:#a08cf3;
+  --good:#38c07f;--good-soft:#123023;--bad:#f0605f;--bad-soft:#33191a;--warn:#e0a832;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--plane);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+  line-height:1.55;font-size:15px;-webkit-font-smoothing:antialiased}
+.num{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:920px;margin:0 auto;padding:30px 20px 72px}
+header .kick{font-size:11px;font-weight:650;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:7px}
+h1{font-size:25px;font-weight:680;letter-spacing:-.02em;line-height:1.2;text-wrap:balance;max-width:22ch}
+.sub{color:var(--ink-2);font-size:15px;margin-top:8px;max-width:64ch}
+.meta{color:var(--ink-3);font-size:12.5px;margin-top:8px}
+.lead{font-size:15.5px;color:var(--ink);background:var(--surface);border:1px solid var(--hair);
+  border-left:3px solid var(--accent);border-radius:10px;padding:15px 18px;margin:20px 0}
+.lead b{font-weight:640}
+h2{font-size:19px;margin:38px 0 4px;letter-spacing:-.01em;padding-top:20px;border-top:1px solid var(--hair)}
+h2 .n{color:var(--ink-3);font-weight:600;margin-right:8px}
+.say{color:var(--ink-2);font-size:14px;margin:4px 0 14px;max-width:66ch}
+.eq{font-family:ui-monospace,monospace;font-size:14px;background:var(--surface-2);border:1px solid var(--hair);
+  border-radius:8px;padding:11px 15px;display:inline-block;margin:6px 0}
+.eq b{color:var(--accent)} .eq .m{color:var(--marg)}
+.fig{background:var(--surface);border:1px solid var(--hair);border-radius:13px;padding:17px 18px 13px;margin:16px 0;box-shadow:var(--shadow)}
+.fig .t{font-size:14.5px;font-weight:640} .fig .c{font-size:12.5px;color:var(--ink-3);margin:2px 0 12px;max-width:70ch}
+.legend{display:flex;gap:15px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-2);margin:0 0 8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:15px;height:3px;border-radius:2px}.legend i.dash{height:0;border-top:2px dashed currentColor}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.axl{fill:var(--ink-3);font-size:10px}
+.gl{stroke:var(--hair-2)}.bl{stroke:var(--hair)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+@media(max-width:680px){.two{grid-template-columns:1fr}}
+.verdict{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:18px 0}
+@media(max-width:680px){.verdict{grid-template-columns:1fr}}
+.vc{border:1px solid;border-radius:12px;padding:17px 18px;position:relative}
+.vc.no{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 38%,transparent)}
+.vc.yes{background:var(--good-soft);border-color:color-mix(in srgb,var(--good) 38%,transparent)}
+.vc .tag{font-size:12px;font-weight:680;letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;gap:7px}
+.vc.no .tag{color:var(--bad)} .vc.yes .tag{color:var(--good)}
+.vc .tag .d{width:9px;height:9px;border-radius:50%}.vc.no .d{background:var(--bad)}.vc.yes .d{background:var(--good)}
+.vc h3{font-size:16px;margin:9px 0 6px;letter-spacing:-.01em}
+.vc p{font-size:13.5px;color:var(--ink-2);margin:5px 0}.vc p b{color:var(--ink)}
+.vc .big{font-size:15px;font-weight:640;margin-top:8px}
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hair-2);border:1px solid var(--hair);border-radius:12px;overflow:hidden;margin:16px 0}
+@media(max-width:520px){.kpi-row{grid-template-columns:1fr}}
+.kpi{background:var(--surface);padding:15px 16px}
+.kpi .v{font-size:24px;font-weight:680;letter-spacing:-.02em}
+.kpi .l{font-size:12px;color:var(--ink-2);margin-top:3px;line-height:1.4}
+.note{font-size:12.5px;color:var(--ink-3);line-height:1.6;margin:8px 2px}
+.note code{font-family:ui-monospace,monospace;font-size:11px;background:var(--surface-2);padding:1px 5px;border-radius:4px}
+.eqbox{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:16px 18px;margin:14px 0}
+.eqbox .big{font-family:ui-monospace,monospace;font-size:15px;line-height:1.9}
+.eqbox .big b{color:var(--accent)}.eqbox .big .m{color:var(--marg)}
+.tag2{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--hair)}
+.themebtn{position:fixed;top:14px;right:14px;border:1px solid var(--hair);background:var(--surface);color:var(--ink-2);
+  border-radius:8px;padding:7px 12px;font-size:12px;cursor:pointer;font-family:inherit;z-index:10}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--plane);font-size:12px;padding:6px 9px;
+  border-radius:7px;opacity:0;transition:opacity .1s;z-index:20;white-space:nowrap;box-shadow:var(--shadow)}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--hair);color:var(--ink-3);font-size:12.5px;line-height:1.6}
+footer code{font-family:ui-monospace,monospace;font-size:11px}
+</style>
+<button class="themebtn" id="theme">◑ tema</button>
+<div class="wrap">
+<header>
+  <div class="kick">Mídia paga · forecast</div>
+  <h1>O que dá e o que não dá para projetar numa campanha</h1>
+  <p class="sub">Testando se o modelo <span class="num">retorno = β·investimento<sup>0,75</sup></span> vira previsão. Resposta: o dia-a-dia não; o total do período, sim.</p>
+  <p class="meta">Brasil Paralelo · 29/jul/2026 · backtest em <span class="num" id="nl"></span> lançamentos (dtm_analytics_facebook_ads_funnel)</p>
+</header>
+
+<div class="lead">
+  Para projetar o retorno, o investimento futuro é <b>decisão sua</b> (input) — o único termo a prever é o <b>β</b>, a altura da curva a cada dia. Medimos quão previsível ele é. <b>O retorno diário é ~40% imprevisível e não melhora com modelo nenhum.</b> Mas o <b>total de um período</b>, dado um plano de budget, projeta com <b>~24% de erro e estável</b> — porque os erros diários se cancelam. Dá para planejar o período, não adivinhar o dia.
+</div>
+
+<h2><span class="n">1</span>O que precisa ser projetado: o β</h2>
+<p class="say">O modelo separa o gasto (que você controla) da eficiência do dia. Reescrevendo em ROAS:</p>
+<div class="eqbox">
+  <div class="big">retorno<sub>t</sub> = <span class="m">β<sub>t</sub></span> · investimento<sub>t</sub><b>^0,75</b></div>
+  <div class="big" style="font-size:13px;color:var(--ink-2)">⇒ <span class="m">β<sub>t</sub></span> = ROAS<sub>t</sub> · investimento<sub>t</sub><sup>0,25</sup> &nbsp;<span class="tag2">a eficiência do dia, limpa do efeito do gasto</span></div>
+</div>
+<p class="say">Se o β fosse estável ou tivesse um ciclo de vida claro (subir no ramp, cair na saturação), daria para projetá-lo. Veja o β de três lançamentos (normalizado à média de cada um):</p>
+<div class="fig">
+  <div class="t">β diário de 3 lançamentos</div>
+  <div class="c">cada linha é a eficiência diária de uma campanha, dividida pela sua própria média. Se houvesse forma previsível, as linhas seriam suaves — são ruidosas e sem pico consistente.</div>
+  <div class="legend" id="leg-ex"></div>
+  <svg id="ex" viewBox="0 0 640 240"></svg>
+</div>
+
+<h2><span class="n">2</span>O β não se deixa prever além de ~2 dias</h2>
+<p class="say">Duas evidências: a memória do β some rápido, e não há ciclo de vida estável para ancorar uma extrapolação.</p>
+<div class="two">
+  <div class="fig">
+    <div class="t">Persistência do β (autocorrelação)</div>
+    <div class="c">o quanto o β de hoje "lembra" do β de N dias atrás. Cai de 0,33 (ontem) para ~0 em uma semana.</div>
+    <svg id="acf" viewBox="0 0 300 210"></svg>
+  </div>
+  <div class="fig">
+    <div class="t">Onde o β atinge o pico</div>
+    <div class="c">se fosse ciclo de vida clássico, o pico seria no início/meio. Mas 54% picam no último terço — sem forma fixa para ajustar.</div>
+    <svg id="peak" viewBox="0 0 300 210"></svg>
+  </div>
+</div>
+
+<h2><span class="n">3</span>Forecast diário: não funciona</h2>
+<p class="say">Prevendo o retorno de cada dia futuro (com o gasto real conhecido, para isolar o erro do β). Três métodos de projeção do β.</p>
+<div class="fig">
+  <div class="t">Erro de previsão do retorno diário, por horizonte</div>
+  <div class="c">MAPE mediano. Nem no dia seguinte fura o piso de ~37%. Extrapolar tendência/ciclo de vida <b>piora</b> — sem forma estável, diverge.</div>
+  <div class="legend">
+    <span style="color:var(--accent)"><i style="background:var(--accent)"></i>random walk (β = último valor)</span>
+    <span style="color:var(--marg)"><i style="background:var(--marg)"></i>EWMA 5 dias</span>
+    <span style="color:var(--bad)"><i style="background:var(--bad)"></i>ciclo de vida (extrapola)</span>
+  </div>
+  <svg id="daily" viewBox="0 0 640 260"></svg>
+</div>
+
+<h2><span class="n">4</span>Forecast acumulado: funciona</h2>
+<p class="say">Agora prevendo o <b>total</b> do retorno de um bloco de dias, dado o plano de budget. Os erros diários (uns para cima, outros para baixo) se cancelam no total.</p>
+<div class="fig">
+  <div class="t">Erro de previsão do retorno acumulado, por horizonte</div>
+  <div class="c">MAPE mediano do total do período. Cai para ~24% e — o ponto — <b>fica estável</b>: prever 14 dias não é pior que prever 3.</div>
+  <div class="legend">
+    <span style="color:var(--marg)"><i style="background:var(--marg)"></i>EWMA 5 dias</span>
+    <span style="color:var(--accent)"><i style="background:var(--accent)"></i>random walk</span>
+    <span style="color:var(--ink-3)"><i class="dash" style="color:var(--ink-3)"></i>diário (referência, ~40%)</span>
+  </div>
+  <svg id="cum" viewBox="0 0 640 260"></svg>
+</div>
+<div class="kpi-row">
+  <div class="kpi"><div class="v num" style="color:var(--bad)">~40%</div><div class="l">erro do retorno de <b>um dia</b> — irredutível (demanda, leilão, maturação)</div></div>
+  <div class="kpi"><div class="v num" style="color:var(--good)">~24%</div><div class="l">erro do <b>total de 1-2 semanas</b>, dado o plano de budget</div></div>
+  <div class="kpi"><div class="v num">estável</div><div class="l">o erro acumulado <b>não cresce</b> de 3 para 14 dias</div></div>
+</div>
+
+<h2><span class="n">5</span>Veredito: dois forecasts, duas respostas</h2>
+<div class="verdict">
+  <div class="vc no">
+    <div class="tag"><span class="d"></span>Não dá</div>
+    <h3>Projetar o dia-a-dia</h3>
+    <p>O retorno de um dia específico é ~40% imprevisível e nenhum modelo melhora isso. O β só tem ~2 dias de memória e não tem ciclo de vida estável.</p>
+    <p class="big" style="color:var(--bad)">"Quanto essa campanha traz terça?" → não confiável</p>
+  </div>
+  <div class="vc yes">
+    <div class="tag"><span class="d"></span>Dá</div>
+    <h3>Projetar o total do período</h3>
+    <p>Dado um plano de budget, o retorno total das próximas 1-2 semanas projeta com ~24% de erro, estável. É o número de planejamento e de decisão de continuar/cortar.</p>
+    <p class="big" style="color:var(--good)">"Mantendo 25k/dia, quanto traz em 14 dias?" → ~R$X ±24%</p>
+  </div>
+</div>
+
+<div class="eqbox">
+  <div style="font-size:12px;color:var(--ink-3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px">Produto de forecast recomendado</div>
+  <div class="big">retorno_total(H dias | plano) = Σ<sub>d</sub> <span class="m">β̂</span> · budget_planejado<sub>d</sub><b>^0,75</b></div>
+  <p class="note" style="margin-top:10px"><span class="m">β̂</span> = EWMA do β dos dias recentes (meia-vida ~5 dias) · banda de ±24% · é o simulador estendido no tempo: entra o plano de budget dos próximos dias, sai o retorno total projetado com banda, e compara cenários. Casa com o stop-loss — juntos respondem "continuo rodando e quanto traz".</p>
+</div>
+
+<footer>
+  Fonte: <code>bp-datawarehouse.datamart.dtm_analytics_facebook_ads_funnel</code> (LAN [VENDA], agregado por sigla). Script: <code>scripts/forecast_beta.py</code>. Backtest: em cada dia de decisão, projeta β com dados até ali e compara com o retorno realizado (gasto futuro conhecido, isolando o erro do β). MAPE = erro percentual absoluto mediano. Números descritivos, não causais.
+</footer>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const D=__DATA__;const $=s=>document.getElementById(s);
+const NS='http://www.w3.org/2000/svg';const E=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+$('nl').textContent=D.n_lans;
+const tip=$('tip');const tOn=(h,x,y)=>{tip.innerHTML=h;tip.style.opacity=1;tip.style.left=Math.min(x+12,innerWidth-tip.offsetWidth-8)+'px';tip.style.top=(y-8)+'px';};const tOff=()=>tip.style.opacity=0;
+
+// --- ex: β séries ---
+(function(){const svg=$('ex'),W=640,H=240,mL=30,mR=14,mT=12,mB=26;
+  const cols={DOM:'var(--accent)',ELS:'var(--marg)',TLR:'var(--warn)'};
+  const maxN=Math.max(...Object.values(D.exemplos).map(e=>e.n));
+  const x=(i,n)=>mL+(i/(n-1))*(W-mL-mR);const yMax=3;const y=v=>mT+(H-mT-mB)-Math.min(v,yMax)/yMax*(H-mT-mB);
+  for(let g=0;g<=3;g++){const yy=y(g);svg.appendChild(E('line',{x1:mL,x2:W-mR,y1:yy,y2:yy,class:'gl','stroke-width':1}));
+    svg.appendChild(E('text',{x:mL-6,y:yy+3,'text-anchor':'end',class:'axl'})).textContent=g+'×';}
+  // linha de média=1
+  svg.appendChild(E('line',{x1:mL,x2:W-mR,y1:y(1),y2:y(1),stroke:'var(--ink-3)','stroke-width':1,'stroke-dasharray':'3 3','stroke-opacity':.5}));
+  const leg=$('leg-ex');
+  for(const[sig,e]of Object.entries(D.exemplos)){
+    let d='';e.beta.forEach((v,i)=>d+=(i?'L':'M')+x(i,e.n).toFixed(1)+' '+y(v).toFixed(1));
+    svg.appendChild(E('path',{d,fill:'none',stroke:cols[sig],'stroke-width':1.8,'stroke-opacity':.9,'stroke-linejoin':'round'}));
+    leg.insertAdjacentHTML('beforeend',`<span style="color:${cols[sig]}"><i style="background:${cols[sig]}"></i>${sig}</span>`);
+  }
+  svg.appendChild(E('text',{x:(mL+W-mR)/2,y:H-4,'text-anchor':'middle',class:'axl'})).textContent='dia da campanha →';
+})();
+
+// --- autocorr bars ---
+(function(){const svg=$('acf'),W=300,H=210,mL=30,mR=10,mT=12,mB=28;
+  const lags=Object.keys(D.autocorr).map(Number);const bw=(W-mL-mR)/lags.length*0.62;
+  const x=i=>mL+(i+0.5)/lags.length*(W-mL-mR);const y=v=>mT+(H-mT-mB)*(1-v);
+  for(const g of[0,.25,.5,.75,1]){const yy=y(g);svg.appendChild(E('line',{x1:mL,x2:W-mR,y1:yy,y2:yy,class:'gl','stroke-width':1}));
+    svg.appendChild(E('text',{x:mL-5,y:yy+3,'text-anchor':'end',class:'axl'})).textContent=g.toFixed(2);}
+  lags.forEach((lag,i)=>{const v=D.autocorr[lag];const h=(H-mT-mB)*v;
+    svg.appendChild(E('rect',{x:x(i)-bw/2,y:y(v),width:bw,height:h,rx:2,fill:'var(--accent)','fill-opacity':.85}));
+    svg.appendChild(E('text',{x:x(i),y:H-mB+15,'text-anchor':'middle',class:'axl'})).textContent=lag+'d';
+    svg.appendChild(E('text',{x:x(i),y:y(v)-4,'text-anchor':'middle',class:'axl',fill:'var(--ink-2)'})).textContent=v.toFixed(2);});
+  svg.appendChild(E('text',{x:(mL+W-mR)/2,y:H-3,'text-anchor':'middle',class:'axl'})).textContent='lag (dias)';
+})();
+
+// --- peak dist ---
+(function(){const svg=$('peak'),W=300,H=210,mL=30,mR=10,mT=12,mB=40;
+  const seg=[['1º terço',D.ciclo.terco1,'var(--good)'],['meio',D.ciclo.terco2,'var(--warn)'],['último terço',D.ciclo.terco3,'var(--bad)']];
+  const bw=(W-mL-mR)/seg.length*0.6;const x=i=>mL+(i+0.5)/seg.length*(W-mL-mR);const y=v=>mT+(H-mT-mB)*(1-v);
+  for(const g of[0,.25,.5,.75]){const yy=y(g);svg.appendChild(E('line',{x1:mL,x2:W-mR,y1:yy,y2:yy,class:'gl','stroke-width':1}));
+    svg.appendChild(E('text',{x:mL-5,y:yy+3,'text-anchor':'end',class:'axl'})).textContent=(g*100)+'%';}
+  seg.forEach((s,i)=>{const h=(H-mT-mB)*s[1];
+    svg.appendChild(E('rect',{x:x(i)-bw/2,y:y(s[1]),width:bw,height:h,rx:2,fill:s[2],'fill-opacity':.8}));
+    svg.appendChild(E('text',{x:x(i),y:y(s[1])-4,'text-anchor':'middle',class:'axl',fill:'var(--ink-2)'})).textContent=(s[1]*100).toFixed(0)+'%';
+    const tx=E('text',{x:x(i),y:H-mB+15,'text-anchor':'middle',class:'axl'});tx.textContent=s[0];svg.appendChild(tx);});
+  svg.appendChild(E('text',{x:(mL+W-mR)/2,y:H-4,'text-anchor':'middle',class:'axl'})).textContent='posição do pico de β';
+})();
+
+function lineChart(svgId,series,horizons,yMaxPct,refLine){
+  const svg=$(svgId),W=640,H=260,mL=40,mR=16,mT=14,mB=34;
+  const xs=horizons;const x=h=>mL+((h-xs[0])/(xs[xs.length-1]-xs[0]))*(W-mL-mR);const y=v=>mT+(H-mT-mB)*(1-v/yMaxPct);
+  for(let g=0;g<=yMaxPct;g+=(yMaxPct<=0.5?0.1:0.2)){const yy=y(g);svg.appendChild(E('line',{x1:mL,x2:W-mR,y1:yy,y2:yy,class:'gl','stroke-width':1}));
+    svg.appendChild(E('text',{x:mL-6,y:yy+3,'text-anchor':'end',class:'axl'})).textContent=(g*100).toFixed(0)+'%';}
+  xs.forEach(h=>svg.appendChild(E('text',{x:x(h),y:H-mB+17,'text-anchor':'middle',class:'axl'})).textContent=h+'d');
+  svg.appendChild(E('text',{x:(mL+W-mR)/2,y:H-3,'text-anchor':'middle',class:'axl'})).textContent='horizonte (dias à frente)';
+  if(refLine!=null){svg.appendChild(E('line',{x1:mL,x2:W-mR,y1:y(refLine),y2:y(refLine),stroke:'var(--ink-3)','stroke-width':1.5,'stroke-dasharray':'4 4','stroke-opacity':.6}));}
+  series.forEach(s=>{let d='';s.pts.forEach((p,i)=>{if(p.v==null)return;d+=(d?'L':'M')+x(p.h)+' '+y(p.v);});
+    svg.appendChild(E('path',{d,fill:'none',stroke:s.col,'stroke-width':2.4,'stroke-linejoin':'round'}));
+    s.pts.forEach(p=>{if(p.v==null)return;const c=E('circle',{cx:x(p.h),cy:y(p.v),r:3.5,fill:s.col});
+      c.addEventListener('mousemove',e=>tOn(`${s.name} · ${p.h}d<br><b class=num>${(p.v*100).toFixed(0)}%</b> erro`,e.clientX,e.clientY));
+      c.addEventListener('mouseleave',tOff);svg.appendChild(c);});});
+}
+// daily
+lineChart('daily',[
+  {name:'random walk',col:'var(--accent)',pts:Object.entries(D.diario.rw).map(([h,v])=>({h:+h,v}))},
+  {name:'EWMA',col:'var(--marg)',pts:Object.entries(D.diario.ewma).map(([h,v])=>({h:+h,v}))},
+  {name:'ciclo de vida',col:'var(--bad)',pts:Object.entries(D.diario.lifecycle).map(([h,v])=>({h:+h,v}))},
+],[1,2,3,4,5,6,7,8,9,10],0.7,null);
+// cumulative
+lineChart('cum',[
+  {name:'EWMA acum',col:'var(--marg)',pts:Object.entries(D.acum.ewma).map(([h,v])=>({h:+h,v}))},
+  {name:'random walk acum',col:'var(--accent)',pts:Object.entries(D.acum.rw).map(([h,v])=>({h:+h,v}))},
+],[3,5,7,10,14],0.5,0.40);
+
+$('theme').addEventListener('click',()=>{const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+  r.setAttribute('data-theme',cur==='dark'?'light':'dark');});
+</script>'''
+html=HTML.replace('__DATA__',json.dumps(D,ensure_ascii=False))
+open('/Users/andre.abe/meu_projeto/relatorios-abe-bp/relatorios/midia-paga/forecast_campanhas.html','w').write(html)
+print('written',len(html))
