@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Mídia — Recomendador Diário</title>
+  <style>
+    :root {
+      --bg:#f8fafc; --card:#ffffff; --line:#e2e8f0; --text:#1e293b; --muted:#475569; --soft:#94a3b8;
+      --s1:#2a78d6; --s2:#eb6834;
+      --good:#0ca30c; --warning:#fab219; --serious:#ec835a; --critical:#d03b3b;
+      --grid:#e1e0d9;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+    .wrap{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+    section{margin-bottom:48px}
+    h1{font-size:26px;font-weight:700}
+    h2{font-size:18px;font-weight:700;margin-bottom:16px}
+    .sub{color:var(--muted);font-size:13px;margin-top:4px}
+    .label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--soft);margin-bottom:12px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}
+    .stats{display:flex;gap:32px;flex-wrap:wrap;margin-bottom:24px}
+    .bigstat .bs-num{font-size:34px;font-weight:800;color:var(--s1);line-height:1;font-variant-numeric:tabular-nums}
+    .bigstat .bs-num.g{color:var(--good)} .bigstat .bs-num.r{color:var(--critical)} .bigstat .bs-num.w{color:var(--serious)}
+    .bigstat .bs-cap{font-size:12px;color:var(--muted);margin-top:4px;max-width:190px}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th{text-align:left;font-weight:600;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--line);padding:8px 10px}
+    td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+    tr:last-child td{border-bottom:none}
+    td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+    .tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+    .t-b{background:#dbeafe;color:#1d4ed8}.t-g{background:#d1fae5;color:#065f46}
+    .t-r{background:#fee2e2;color:#991b1b}.t-n{background:#f1f5f9;color:#475569}
+    .t-w{background:#fef3c7;color:#92400e}
+    .nota{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:12px 16px;font-size:12.5px;color:var(--muted);margin-top:16px}
+    header{margin-bottom:32px;padding-bottom:24px;border-bottom:2px solid var(--line)}
+    footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:var(--soft)}
+    #stale{display:none;background:#fee2e2;border:1px solid var(--critical);color:#991b1b;border-radius:8px;padding:12px 16px;font-weight:600;margin-bottom:24px}
+    .gauge{position:relative;height:46px;margin:18px 0 34px}
+    .gauge .track{position:absolute;top:18px;left:0;right:0;height:10px;border-radius:6px;background:linear-gradient(to right,#d1fae5 0%,#d1fae5 var(--p-ist),#fef3c7 var(--p-ist),#fef3c7 var(--p-teto),#fee2e2 var(--p-teto),#fee2e2 100%)}
+    .gauge .mark{position:absolute;top:10px;width:2px;height:26px;background:var(--muted)}
+    .gauge .mark span{position:absolute;top:28px;left:50%;transform:translateX(-50%);font-size:10.5px;color:var(--muted);white-space:nowrap}
+    .gauge .atual{position:absolute;top:6px;width:4px;height:34px;background:var(--s1);border-radius:2px}
+    .gauge .atual span{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:700;color:var(--s1);white-space:nowrap}
+    .mot{font-size:12px;color:var(--muted)}
+    code{font-family:ui-monospace,Menlo,monospace;font-size:.92em;background:#f1f5f9;padding:1px 5px;border-radius:4px}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Mídia Paga</p>
+  <h1>Painel de Mídia — Recomendador Diário</h1>
+  <p class="sub" id="subtitulo">carregando…</p>
+</header>
+
+<div id="stale">⚠️ Dados desatualizados há mais de 48h — rodar <code>python3 update_painel.py</code> (ou verificar o LaunchAgent com.bp.painel-midia).</div>
+
+<main>
+
+<section>
+  <h2>Portfólio Meta [VENDA] — onde estamos na curva</h2>
+  <div class="stats">
+    <div class="bigstat"><div class="bs-num" id="stSpend">—</div><div class="bs-cap">spend atual (média 7 dias)</div></div>
+    <div class="bigstat"><div class="bs-num w" id="stIstar">—</div><div class="bs-cap">ótimo de margem (m=0,75) — acima disso, cada real corrói lucro</div></div>
+    <div class="bigstat"><div class="bs-num" id="stMroas">—</div><div class="bs-cap" id="capMroas">ROAS marginal no nível atual</div></div>
+    <div class="bigstat"><div class="bs-num" id="stTeto">—</div><div class="bs-cap">teto de receita (mCAC = receita)</div></div>
+  </div>
+  <div class="card">
+    <p class="label">Investimento diário vs zonas de margem</p>
+    <div class="gauge" id="gauge">
+      <div class="track"></div>
+    </div>
+    <p class="mot">Verde: cada real gera margem · Âmbar: receita cresce mas o lucro cai · Vermelho: perde até receita.
+    Ótimo e teto recalculados a cada atualização com o β dos últimos dias (EWMA-7); são faixas que se movem — não constantes.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Recomendações de hoje, por campanha</h2>
+  <div class="card" style="padding:12px 16px">
+    <table id="tblRec">
+      <thead><tr><th>Ação</th><th>Campanha</th><th class="num">Spend/dia</th><th class="num">CPA 3d</th><th class="num">Teto</th><th class="num">ROAS 3d</th><th>Motivo</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="nota"><b>Regras do sistema</b>: janela de dados D-2 (o mart amadurece em 2 dias); mudanças de no máximo ±20%/dia (fronteira medida — saltos maiores custam mCAC ~R$196 vs R$132);
+  lançamento em ramp fica <i>sem recomendação</i> (o plano de lançamento manda) salvo catástrofe (ROAS&lt;0,7 com CPA acima do teto);
+  o lado AUMENTAR só com CPA abaixo do teto E ROAS&gt;1 — e segue menos validado que o REDUZIR: tratar como sugestão, não ordem.</p>
+</section>
+
+<section>
+  <h2>Decision log — recomendação × ação × resultado</h2>
+  <div class="card" style="padding:12px 16px">
+    <table id="tblLog">
+      <thead><tr><th>Data</th><th>Campanha</th><th>Recomendado</th><th class="num">Spend/dia</th><th>Ação tomada</th><th>Resultado</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="nota">Preencher <b>ação tomada</b> e <b>resultado</b> em <code>decisoes.csv</code> (mesma pasta). Este log é o shadow mode:
+  2–4 semanas dele decidem se o recomendador vira regra operacional. Sem log preenchido, não há promoção.</p>
+</section>
+
+<section>
+  <h2>Calibração estratégica (MMM)</h2>
+  <div class="stats">
+    <div class="bigstat"><div class="bs-num g" id="stR2">—</div><div class="bs-cap">R² fora da amostra em 2026 (8 meses nunca vistos)</div></div>
+    <div class="bigstat"><div class="bs-num" id="stMape">—</div><div class="bs-cap">erro semanal típico — usar faixas, não pontos</div></div>
+    <div class="bigstat"><div class="bs-num" id="stBias">—</div><div class="bs-cap">viés no agregado jan–ago</div></div>
+  </div>
+  <p class="nota" id="notaV32">O MMM (<span id="v32versao">v32</span>) responde o nível: "quanto de receita nova o patamar de mídia sustenta".
+  Ele NÃO divide Meta×Google (não-identificável — só experimento geográfico) e superestima no regime de spend alto (aplicar desconto de ~30% acima de R$5mi/mês até o v32.2 com demanda exógena).
+  Recalibração mensal: <code>V32_LOG=1 python3 mmm_project/scripts/03_modelagem/60_modelo_mmm_v32.py</code>.</p>
+</section>
+
+</main>
+
+<footer>
+  Atualização: <code>python3 update_painel.py</code> (LaunchAgent diário às 08h40) · Fontes: dtm_analytics_facebook_ads_funnel + fct_transactions via bqq ·
+  Método: relatorios/midia-paga/ (ANALISE.md, VALIDACOES.md, MARGEM.md) · Modelo: mmm_project/output/mmm_v32_log/interpretacao_v32.md
+</footer>
+</div>
+
+<script>
+fetch('data.json').then(r=>r.json()).then(d=>{
+  const R$ = v => 'R$ ' + Math.round(v/1000) + 'k';
+  const up = new Date(d.atualizado_em);
+  document.getElementById('subtitulo').textContent =
+    `dados de ${d.asof} (janela D-2) · atualizado em ${up.toLocaleString('pt-BR')} · índice de demanda ontem: ${d.demand_index}`;
+  if ((Date.now()-up.getTime()) > 48*3600e3) document.getElementById('stale').style.display='block';
+
+  const e = d.estrategico;
+  stSpend.textContent = R$(e.spend_ma7)+'/d';
+  stIstar.textContent = R$(e.istar_margem_lo)+'–'+R$(e.istar_margem_hi);
+  stMroas.textContent = e.roas_marginal.toFixed(2);
+  stMroas.className = 'bs-num ' + (e.roas_marginal >= e.breakeven_margem ? 'g' : 'w');
+  document.getElementById('capMroas').textContent =
+    `ROAS marginal no nível atual (breakeven com margem ${Math.round(e.margem_usada*100)}%: ${e.breakeven_margem.toFixed(2)})`;
+  stTeto.textContent = R$(e.teto_receita)+'/d';
+
+  // gauge: escala 0 → 1.3×teto
+  const max = e.teto_receita*1.3, pct = v => Math.min(100, 100*v/max)+'%';
+  const g = document.getElementById('gauge');
+  g.querySelector('.track').style.setProperty('--p-ist', pct(e.istar_margem));
+  g.querySelector('.track').style.setProperty('--p-teto', pct(e.teto_receita));
+  [[e.istar_margem,'ótimo '+R$(e.istar_margem)],[e.teto_receita,'teto '+R$(e.teto_receita)]].forEach(([v,l])=>{
+    const m=document.createElement('div');m.className='mark';m.style.left=pct(v);
+    m.innerHTML=`<span>${l}</span>`;g.appendChild(m);});
+  const a=document.createElement('div');a.className='atual';a.style.left=pct(e.spend_ma7);
+  a.innerHTML=`<span>hoje ${R$(e.spend_ma7)}</span>`;g.appendChild(a);
+
+  // tabela de recomendações
+  const TAG={'REDUZIR':'t-r','ALERTA':'t-w','AUMENTAR':'t-g','MANTER':'t-n','SEM REC.':'t-b'};
+  const tb=document.querySelector('#tblRec tbody');
+  d.recomendacoes.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><span class="tag ${TAG[r.acao]||'t-n'}">${r.acao}</span></td>
+      <td>${r.campanha}</td><td class="num">R$ ${r.spend_dia.toLocaleString('pt-BR')}</td>
+      <td class="num">${r.cpa3?('R$ '+r.cpa3.toLocaleString('pt-BR')):'—'}</td>
+      <td class="num">R$ ${r.teto.toLocaleString('pt-BR')}</td>
+      <td class="num">${r.roas3.toFixed(2)}</td><td class="mot">${r.motivo}</td>`;
+    tb.appendChild(tr);});
+
+  // decision log
+  const tl=document.querySelector('#tblLog tbody');
+  (d.decisoes_recentes||[]).slice().reverse().forEach(r=>{
+    const tr=document.createElement('tr');
+    if(!r.acao_tomada) tr.className='';
+    tr.innerHTML=`<td>${r.data}</td><td>${r.campanha}</td>
+      <td><span class="tag ${TAG[r.acao_recomendada]||'t-n'}">${r.acao_recomendada}</span></td>
+      <td class="num">R$ ${Number(r.spend_dia).toLocaleString('pt-BR')}</td>
+      <td>${r.acao_tomada||'<span style="color:var(--soft)">pendente</span>'}</td><td>${r.resultado||''}</td>`;
+    tl.appendChild(tr);});
+
+  // v32
+  if (d.v32 && d.v32.r2_oos !== undefined){
+    stR2.textContent=(d.v32.r2_oos>0?'+':'')+d.v32.r2_oos.toFixed(2);
+    stR2.className='bs-num '+(d.v32.r2_oos>0?'g':'r');
+    stMape.textContent='±'+d.v32.mape+'%';
+    stBias.textContent=(d.v32.bias>0?'+':'')+d.v32.bias+'%';
+    document.getElementById('v32versao').textContent=d.v32.versao+' (calibrado em '+d.v32.calibrado_em+')';
+  }
+}).catch(()=>{document.getElementById('subtitulo').textContent='erro ao carregar data.json';});
+</script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+{
+ "atualizado_em": "2026-09-10T19:03:48",
+ "asof": "2026-09-08",
+ "demand_index": 0.83,
+ "estrategico": {
+  "spend_ma7": 188803,
+  "roas_marginal": 1.21,
+  "breakeven_margem": 1.33,
+  "istar_margem": 136978,
+  "istar_margem_lo": 85075,
+  "istar_margem_hi": 140272,
+  "teto_receita": 357366,
+  "margem_usada": 0.75
+ },
+ "v32": {
+  "versao": "v32.1",
+  "r2_oos": 0.35,
+  "mape": 32,
+  "bias": 5.8,
+  "calibrado_em": "2026-09-10"
+ },
+ "recomendacoes": [
+  {
+   "campanha": "[PPT] [TLR] [VENDA] [ADVANTAGE] Setembro",
+   "acao": "REDUZIR",
+   "motivo": "C=1.20 | CPA_3d R$1229 vs teto R$294 | ROAS_3d 0.51",
+   "spend_dia": 2867,
+   "cpa3": 1229,
+   "roas3": 0.51,
+   "teto": 294,
+   "tipo": "PPT"
+  },
+  {
+   "campanha": "[PPT] [TLR] [VENDA] [ADVANTAGE] Brasil",
+   "acao": "REDUZIR",
+   "motivo": "C=5.72 | CPA_3d R$1123 vs teto R$155 | ROAS_3d 0.32",
+   "spend_dia": 749,
+   "cpa3": 1123,
+   "roas3": 0.32,
+   "teto": 155,
+   "tipo": "PPT"
+  },
+  {
+   "campanha": "[LAN] [BP10] [VENDA] [ADVANTAGE] Julho | Semana 3",
+   "acao": "AUMENTAR",
+   "motivo": "C=0.78 | CPA_3d R$512 < teto R$663 | ROAS_3d 1.95",
+   "spend_dia": 35191,
+   "cpa3": 512,
+   "roas3": 1.95,
+   "teto": 663,
+   "tipo": "LAN"
+  },
+  {
+   "campanha": "[PPT] [10R] [VENDA] [ADVANTAGE] Julho | Top 20",
+   "acao": "AUMENTAR",
+   "motivo": "C=0.76 | CPA_3d R$131 < teto R$138 | ROAS_3d 1.54",
+   "spend_dia": 5033,
+   "cpa3": 131,
+   "roas3": 1.54,
+   "teto": 138,
+   "tipo": "PPT"
+  },
+  {
+   "campanha": "[LAN] [ENE] [VENDA] [ADVANTAGE] Agosto",
+   "acao": "AUMENTAR",
+   "motivo": "C=0.64 | CPA_3d R$143 < teto R$162 | ROAS_3d 1.79",
+   "spend_dia": 4254,
+   "cpa3": 143,
+   "roas3": 1.79,
+   "teto": 162,
+   "tipo": "LAN"
+  },
+  {
+   "campanha": "[LAN] [BP10] [VENDA] [ADVANTAGE] Agosto | Lote 3",
+   "acao": "MANTER",
+   "motivo": "C=1.00 | CPA_3d R$573 vs teto R$455",
+   "spend_dia": 21578,
+   "cpa3": 573,
+   "roas3": 1.36,
+   "teto": 455,
+   "tipo": "LAN"
+  },
+  {
+   "campanha": "[LAN] [ELS] [VENDA] [ADVANTAGE] Junho parte 2",
+   "acao": "MANTER",
+   "motivo": "C=0.81 | CPA_3d R$131 vs teto R$128",
+   "spend_dia": 14254,
+   "cpa3": 131,
+   "roas3": 1.56,
+   "teto": 128,
+   "tipo": "LAN"
+  },
+  {
+   "campanha": "[LAN] [CBR] [VENDA] [ADVANTAGE] Setembro | Pack 2",
+   "acao": "MANTER",
+   "motivo": "C=1.11 | CPA_3d R$597 vs teto R$572",
+   "spend_dia": 14122,
+   "cpa3": 597,
+   "roas3": 1.46,
+   "teto": 572,
+   "tipo": "LAN"
+  },
+  {
+   "campanha": "[PPT] [FNC] [VENDA] [ADVANTAGE] Brasil",
+   "acao": "MANTER",
+   "motivo": "C=0.90 | CPA_3d R$149 vs teto R$127",
+   "spend_dia": 8620,
+   "cpa3": 149,
+   "roas3": 1.32,
+   "teto": 127,
+   "tipo": "PPT"
+  },
+  {
+   "campanha": "[PPT] [10R] [VENDA] [ADVANTAGE] Escala | Maximizar conv.",
+   "acao": "MANTER",
+   "motivo": "C=0.82 | CPA_3d R$164 vs teto R$134",
+   "spend_dia": 4763,
+   "cpa3": 164,
+   "roas3": 1.55,
+   "teto": 134,
+   "tipo": "PPT"
+  },
+  {
+   "campanha": "[LAN] [ENE] [VENDA] [ADVANTAGE] Agosto | Pre venda",
+   "acao": "MANTER",
+   "motivo": "C=0.82 | CPA_3d R$173 vs teto R$168",
+   "spend_dia": 4731,
+   "cpa3": 173,
+   "roas3": 1.72,
+   "teto": 168,
+   "tipo": "LAN"
+  },
+  {
+   "campanha": "[LAN] [BP10] [VENDA] [ADVANTAGE] Setembro",
+   "acao": "SEM REC.",
+   "motivo": "LAN em ramp — plano de lançamento manda",
+   "spend_dia": 84713,
+   "cpa3": 592,
+   "roas3": 1.88,
+   "teto": 707,
+   "tipo": "LAN"
+  },
+  {
+   "campanha": "[LAN] [CBR] [VENDA] [ADVANTAGE] Setembro",
+   "acao": "SEM REC.",
+   "motivo": "LAN em ramp — plano de lançamento manda",
+   "spend_dia": 44286,
+   "cpa3": 507,
+   "roas3": 1.7,
+   "teto": 573,
+   "tipo": "LAN"
+  }
+ ],
+ "decisoes_recentes": [
+  {
+   "data": "2026-09-08",
+   "campanha": "[PPT] [TLR] [VENDA] [ADVANTAGE] Setembro",
+   "acao_recomendada": "REDUZIR",
+   "spend_dia": 2867,
+   "acao_tomada": NaN,
+   "resultado": NaN
+  },
+  {
+   "data": "2026-09-08",
+   "campanha": "[PPT] [TLR] [VENDA] [ADVANTAGE] Brasil",
+   "acao_recomendada": "REDUZIR",
+   "spend_dia": 749,
+   "acao_tomada": NaN,
+   "resultado": NaN
+  },
+  {
+   "data": "2026-09-08",
+   "campanha": "[LAN] [BP10] [VENDA] [ADVANTAGE] Julho | Semana 3",
+   "acao_recomendada": "AUMENTAR",
+   "spend_dia": 35191,
+   "acao_tomada": NaN,
+   "resultado": NaN
+  },
+  {
+   "data": "2026-09-08",
+   "campanha": "[PPT] [10R] [VENDA] [ADVANTAGE] Julho | Top 20",
+   "acao_recomendada": "AUMENTAR",
+   "spend_dia": 5033,
+   "acao_tomada": NaN,
+   "resultado": NaN
+  },
+  {
+   "data": "2026-09-08",
+   "campanha": "[LAN] [ENE] [VENDA] [ADVANTAGE] Agosto",
+   "acao_recomendada": "AUMENTAR",
+   "spend_dia": 4254,
+   "acao_tomada": NaN,
+   "resultado": NaN
+  }
+ ],
+ "params": {
+  "b": 0.7,
+  "hl_beta": 7,
+  "margem": 0.75,
+  "nota_margem": "margem 0,75 = cenário digital central (MARGEM.md); pendente financeiro"
+ }
+}
