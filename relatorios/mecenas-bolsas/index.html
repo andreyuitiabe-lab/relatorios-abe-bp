@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mecenas — Bolsas: vendidas × distribuídas</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:     #f8fafc;
+      --card:   #ffffff;
+      --line:   #e2e8f0;
+      --text:   #1e293b;
+      --muted:  #475569;
+      --soft:   #94a3b8;
+      /* séries — paleta validada do template (validate_palette.js, surface #ffffff) */
+      --s1: #2a78d6;   /* azul     */
+      --s2: #eb6834;   /* laranja  */
+      --s3: #1baf7a;   /* aqua     */
+      --good:     #0ca30c;
+      --critical: #d03b3b;
+      --grid:     #e1e0d9;
+      --baseline: #c3c2b7;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6;
+    }
+    .wrap   { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+    section { margin-bottom: 56px; }
+    h1      { font-size: 26px; font-weight: 700; }
+    h2      { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .sub    { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .label  { font-size: 11px; font-weight: 600; text-transform: uppercase;
+              letter-spacing: .06em; color: var(--soft); margin-bottom: 12px; }
+    .card   { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+    .stats  { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 24px; }
+    .bigstat .bs-num { font-size: 36px; font-weight: 800; color: var(--s1); line-height: 1; }
+    .bigstat .bs-num.g { color: var(--good); }
+    .bigstat .bs-num.r { color: var(--critical); }
+    .bigstat .bs-cap { font-size: 12px; color: var(--muted); margin-top: 4px; max-width: 190px; }
+    table   { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th      { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px;
+              text-transform: uppercase; letter-spacing: .05em;
+              border-bottom: 2px solid var(--line); padding: 8px 10px; }
+    td      { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    tr:last-child td { border-bottom: none; }
+    td.num  { text-align: right; font-variant-numeric: tabular-nums; }
+    tr.tot td { font-weight: 700; border-top: 2px solid var(--line); }
+    .nota   { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px;
+              padding: 12px 16px; font-size: 12.5px; color: var(--muted); margin-top: 16px; }
+    .achado { border-left: 3px solid var(--s2); padding: 4px 0 4px 16px; margin-bottom: 14px; }
+    .achado b { color: var(--text); }
+    .scroll-x { overflow-x: auto; }
+    header  { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+    footer  { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+              font-size: 12px; color: var(--soft); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Base &amp; Produtos</p>
+  <h1>Mecenas — Bolsas: vendidas × distribuídas</h1>
+  <p class="sub">Programa de filantropia: doadores compram bolsas (assinatura Premium ou certificação)
+  que são distribuídas a alunos de instituições parceiras. Histórico completo 2020–2026 e situação
+  operacional atual.</p>
+</header>
+
+<main>
+
+  <!-- ── KPIs ─────────────────────────────────────────────────────────────── -->
+  <section>
+    <div class="stats">
+      <div class="bigstat">
+        <div class="bs-num" id="kVendidas">—</div>
+        <div class="bs-cap">bolsas vendidas (bolsa-ano, 2020–2026)</div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num" id="kReceita">—</div>
+        <div class="bs-cap">receita acumulada do programa</div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num" id="kContas">—</div>
+        <div class="bs-cap">contas de beneficiário já ativadas</div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num r" id="kVigentes">—</div>
+        <div class="bs-cap">beneficiários com acesso vigente hoje ⚠</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GAP VENDA × DISTRIBUIÇÃO ─────────────────────────────────────────── -->
+  <section>
+    <h2>Venda × distribuição, ano a ano</h2>
+    <div class="card">
+      <p class="label">Bolsas vendidas vs contas de beneficiário ativadas</p>
+      <canvas id="chGap" height="240"></canvas>
+    </div>
+    <div class="nota" id="notaGap"></div>
+  </section>
+
+  <!-- ── ACHADOS ──────────────────────────────────────────────────────────── -->
+  <section>
+    <h2>Achados principais</h2>
+    <div class="card">
+      <div class="achado"><b>A distribuição descolou da venda.</b> 2025 foi o recorde de venda
+        (28,7 mil bolsas) e o segundo pior ano de ativação (4,0 mil contas); em 2026 a razão caiu
+        ainda mais. No agregado, ~53% das bolsas-ano vendidas viraram conta ativada — nos últimos
+        dois anos, menos de 15%.</div>
+      <div class="achado"><b>A base vigente encolheu à metade em 6 meses.</b> O controle manual
+        registrava 3.378 beneficiários ativos em mar/2026; hoje o DW mostra ~1,7 mil contas com
+        acesso vigente. As turmas de 2024 (16,4 mil ativações) expiraram quase inteiras sem renovação.</div>
+      <div class="achado"><b>O DW não sabe para qual instituição a bolsa foi.</b> Só
+        <span id="pctInst">—</span> das contas beneficiárias têm instituição registrada no motivo da
+        assinatura; o vínculo conta→instituição vive numa planilha manual do CS (25.169 beneficiados,
+        235 instituições, ref. mar/2026) que também está incompleta frente ao DW.</div>
+      <div class="achado"><b>Três sistemas de provisionamento convivem no histórico</b> — o legado
+        <i>donator</i> (2020–22), o upload via Caverna ("Aluno de instituição parceira", o grosso do
+        volume) e os planos novos <i>bolsa-mecenas</i> (mar/2026, ainda em piloto com ~50 contas).</div>
+    </div>
+  </section>
+
+  <!-- ── VENDAS ───────────────────────────────────────────────────────────── -->
+  <section>
+    <h2>Vendas — bolsas padrão × certificação</h2>
+    <div class="card scroll-x">
+      <table>
+        <thead><tr><th>Tipo</th><th class="num">Bolsas</th><th class="num">Transações</th>
+          <th class="num">Receita</th></tr></thead>
+        <tbody id="tbTipo"></tbody>
+      </table>
+    </div>
+    <div class="card scroll-x" style="margin-top:16px">
+      <p class="label">Bolsas vendidas por ano</p>
+      <table>
+        <thead><tr><th>Ano</th><th class="num">Padrão</th><th class="num">Certificação</th>
+          <th class="num">Total</th><th class="num">Receita</th></tr></thead>
+        <tbody id="tbAno"></tbody>
+      </table>
+    </div>
+    <div class="nota" id="notaSemNumero"></div>
+  </section>
+
+  <!-- ── DISTRIBUIÇÃO ─────────────────────────────────────────────────────── -->
+  <section>
+    <h2>Distribuição — contas de beneficiário</h2>
+    <div class="grid-2">
+      <div class="card scroll-x">
+        <p class="label">Por sistema de provisionamento</p>
+        <table>
+          <thead><tr><th>Sistema</th><th class="num">Assinaturas</th>
+            <th class="num">Vigentes</th><th>Período</th></tr></thead>
+          <tbody id="tbSistemas"></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <p class="label">Controle antigo (planilha do CS)</p>
+        <table>
+          <tbody id="tbPlanilha"></tbody>
+        </table>
+        <div class="nota" style="margin-top:12px">O controle manual é o único lugar com o vínculo
+          beneficiário→instituição completo, mas registra menos contas que o DW e a última
+          referência é de março/2026.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INSTITUIÇÕES ─────────────────────────────────────────────────────── -->
+  <section>
+    <h2>Instituições registradas no DW</h2>
+    <div class="card scroll-x">
+      <p class="label" id="lblInst">Contas com instituição identificada no motivo da assinatura</p>
+      <table>
+        <thead><tr><th>Instituição</th><th class="num">Contas ativadas</th></tr></thead>
+        <tbody id="tbInst"></tbody>
+      </table>
+    </div>
+    <div class="nota">O nome da instituição só aparece quando o operador digita no upload via
+      Caverna — na maioria dos casos o campo fica vazio. A lista acima é o que dá para recuperar
+      do DW; o mapa completo está na planilha do CS.</div>
+  </section>
+
+  <!-- ── METODOLOGIA ──────────────────────────────────────────────────────── -->
+  <section>
+    <h2>Notas metodológicas</h2>
+    <div class="card" style="font-size:13px; color:var(--muted)">
+      <p><b>Bolsas vendidas</b> = transações aprovadas em ofertas Mecenas (filtro canônico da wiki:
+      exclui Mecenas Solidário/Patrono/Apoiador, order bumps e pagamentos &lt; R$ 1.000), com a
+      quantidade extraída do nome da oferta (regex cobre "10 Bolsas", "01 Bolsa" e o padrão antigo
+      "Mecenas 1 - Bolsas"). Renovação anual conta de novo — a unidade é <b>bolsa-ano</b>.</p>
+      <p style="margin-top:8px"><b>Bolsas de certificação</b> = planos
+      <code>mecenas_ciencia-politica</code>, <code>mecenas_travessia</code>,
+      <code>mecenas_metodo-bp</code> e <code>mecenas_travessia-familia</code>; padrão = o restante
+      (assinatura Premium).</p>
+      <p style="margin-top:8px"><b>Contas ativadas</b> = assinaturas de beneficiário na
+      <code>dim_subscriptions</code>: <code>nm_create_reason_type = 'mecenas'</code> (upload via
+      Caverna) ∪ <code>nm_type = 'donator'</code> (legado) ∪ planos <code>bolsa-mecenas-*</code>
+      (sistema novo). <b>Vigente</b> = status ativo e não expirada hoje.</p>
+      <p style="margin-top:8px"><b>Mecenas Solidário</b> (campanha de jul/2026, contribuição
+      recorrente sem bolsa) fica fora deste relatório por definição de negócio.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
+  Fontes: masterdata.fct_transactions · masterdata.dim_subscriptions · planilha de controle do CS
+  (instituições Mecenas)
+</footer>
+
+</div>
+
+<script>
+const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.family = FONT;
+Chart.defaults.font.size   = 12;
+Chart.defaults.color       = "#6b7689";
+
+/* séries em ordem fixa — mesmos hex dos tokens --s1..--s3 */
+const S1 = "#2a78d6", S2 = "#eb6834";
+const GRID = "#e1e0d9";
+
+const nf  = v => v.toLocaleString('pt-BR');
+const rf  = v => 'R$ ' + (v >= 1e6 ? (v / 1e6).toFixed(1).replace('.', ',') + 'M'
+                                   : Math.round(v / 1e3).toLocaleString('pt-BR') + 'k');
+
+function initCharts(D) {
+  const upd = document.getElementById('lastUpdate');
+  if (upd) upd.textContent = 'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
+
+  /* KPIs */
+  const K = D.kpi;
+  kVendidas.textContent = nf(K.bolsas_vendidas);
+  kReceita.textContent  = rf(K.receita);
+  kContas.textContent   = nf(K.contas_beneficiarias);
+  kVigentes.textContent = nf(K.vigentes_contas);
+
+  /* gráfico: vendidas × ativadas por ano */
+  new Chart(chGap, {
+    type: 'bar',
+    data: {
+      labels: D.ano.map(r => r.ano),
+      datasets: [
+        { label: 'Bolsas vendidas',  data: D.ano.map(r => r.vendidas), backgroundColor: S1,
+          borderRadius: 4, maxBarThickness: 34 },
+        { label: 'Contas ativadas',  data: D.ano.map(r => r.ativadas), backgroundColor: S2,
+          borderRadius: 4, maxBarThickness: 34 },
+      ]
+    },
+    options: {
+      plugins: {
+        legend: { position: 'top', align: 'end', labels: { boxWidth: 12, boxHeight: 12 } },
+        tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${nf(c.raw)}` } }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: GRID }, border: { display: false },
+             ticks: { callback: v => nf(v) } }
+      }
+    }
+  });
+
+  /* nota do gap */
+  const u25 = D.ano.find(r => r.ano === 2025), u26 = D.ano.find(r => r.ano === 2026);
+  if (u25 && u26) notaGap.innerHTML =
+    `Em 2025 foram vendidas <b>${nf(u25.vendidas)}</b> bolsas e ativadas <b>${nf(u25.ativadas)}</b> contas
+     (${(100 * u25.ativadas / u25.vendidas).toFixed(0)}%); em 2026, ${nf(u26.vendidas)} vendidas para
+     ${nf(u26.ativadas)} ativadas (${(100 * u26.ativadas / u26.vendidas).toFixed(0)}%). A comparação é
+     aproximada — a bolsa pode ser ativada em ano diferente da venda — mas a tendência é inequívoca.`;
+
+  /* tabela por tipo */
+  const nome = { padrao: 'Padrão (assinatura Premium)', certificacao: 'Certificação' };
+  const totT = D.vendas_tipo.reduce((a, r) => ({ bolsas: a.bolsas + r.bolsas, tx: a.tx + r.tx,
+                                                 receita: a.receita + r.receita }),
+                                    { bolsas: 0, tx: 0, receita: 0 });
+  tbTipo.innerHTML = D.vendas_tipo.map(r =>
+    `<tr><td>${nome[r.tipo] ?? r.tipo}</td><td class="num">${nf(r.bolsas)}</td>
+     <td class="num">${nf(r.tx)}</td><td class="num">${rf(r.receita)}</td></tr>`).join('') +
+    `<tr class="tot"><td>Total</td><td class="num">${nf(totT.bolsas)}</td>
+     <td class="num">${nf(totT.tx)}</td><td class="num">${rf(totT.receita)}</td></tr>`;
+
+  /* tabela por ano */
+  tbAno.innerHTML = D.ano.map(r =>
+    `<tr><td>${r.ano}</td><td class="num">${nf(r.vendidas_padrao)}</td>
+     <td class="num">${nf(r.vendidas_cert)}</td><td class="num">${nf(r.vendidas)}</td>
+     <td class="num">${rf(r.receita)}</td></tr>`).join('');
+
+  /* nota sem número */
+  const SN = D.sem_numero;
+  notaSemNumero.innerHTML =
+    `Fora da contagem: <b>${nf(SN.tx)} vendas (${rf(SN.receita)})</b> cujas ofertas não trazem o
+     número de bolsas no nome — a maior é o Mecenas Funding BP TV (R$ 500 mil, abr/2024), mais o
+     plano original de 2020–21 e doações negociadas caso a caso pelo Comercial. Pelo preço unitário
+     da bolsa, equivalem a <b>~${nf(SN.est_min)}–${nf(SN.est_max)} bolsas</b> adicionais.`;
+
+  /* sistemas */
+  tbSistemas.innerHTML = D.sistemas.map(r =>
+    `<tr><td>${r.sistema}</td><td class="num">${nf(r.assinaturas)}</td>
+     <td class="num">${nf(r.vigentes)}</td><td>${r.periodo}</td></tr>`).join('');
+
+  /* planilha */
+  const P = D.planilha;
+  tbPlanilha.innerHTML =
+    `<tr><td>Beneficiados (histórico)</td><td class="num">${nf(P.beneficiados)}</td></tr>
+     <tr><td>Instituições (histórico)</td><td class="num">${nf(P.instituicoes)}</td></tr>
+     <tr><td>Beneficiados ativos</td><td class="num">${nf(P.beneficiados_ativos)}</td></tr>
+     <tr><td>Instituições ativas</td><td class="num">${nf(P.instituicoes_ativas)}</td></tr>
+     <tr><td>Data de referência</td><td class="num">${new Date(P.ref + 'T00:00').toLocaleDateString('pt-BR')}</td></tr>`;
+
+  /* instituições */
+  const I = D.instituicoes;
+  const pct = (100 * I.contas_com_instituicao / I.contas_total).toFixed(1).replace('.', ',');
+  pctInst.textContent = pct + '%';
+  lblInst.textContent =
+    `Contas com instituição identificada: ${nf(I.contas_com_instituicao)} de ${nf(I.contas_total)} (${pct}%) — top ${I.top.length}`;
+  tbInst.innerHTML = I.top.map(r =>
+    `<tr><td>${r.inst}</td><td class="num">${nf(r.contas)}</td></tr>`).join('');
+}
+
+fetch('./data.json')
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(D => initCharts(D))
+  .catch(err => {
+    console.error('Falha ao carregar data.json:', err);
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
+        ⚠ Erro ao carregar dados: ${err.message}. Para visualização local, usar <code>python -m http.server</code> na pasta do relatório.
+      </div>`);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+{
+  "updated_at": "2026-09-11T17:38:31",
+  "kpi": {
+    "bolsas_vendidas": 92588,
+    "receita": 52697422.04,
+    "contas_doadoras": 9406,
+    "assinaturas_ativadas": 49097,
+    "contas_beneficiarias": 30143,
+    "vigentes_assinaturas": 2022,
+    "vigentes_contas": 1749
+  },
+  "vendas_tipo": [
+    {
+      "tipo": "padrao",
+      "bolsas": 89286,
+      "tx": 14309,
+      "receita": 48236314.08,
+      "contas": 14000
+    },
+    {
+      "tipo": "certificacao",
+      "bolsas": 3302,
+      "tx": 999,
+      "receita": 4461107.96,
+      "contas": 993
+    }
+  ],
+  "ano": [
+    {
+      "ano": 2020,
+      "vendidas": 0,
+      "vendidas_padrao": 0,
+      "vendidas_cert": 0,
+      "receita": 64680.0,
+      "ativadas": 1477,
+      "vigentes": 0
+    },
+    {
+      "ano": 2021,
+      "vendidas": 301,
+      "vendidas_padrao": 301,
+      "vendidas_cert": 0,
+      "receita": 360674.12,
+      "ativadas": 2050,
+      "vigentes": 0
+    },
+    {
+      "ano": 2022,
+      "vendidas": 14095,
+      "vendidas_padrao": 14095,
+      "vendidas_cert": 0,
+      "receita": 9046731.61,
+      "ativadas": 15767,
+      "vigentes": 4
+    },
+    {
+      "ano": 2023,
+      "vendidas": 20655,
+      "vendidas_padrao": 19520,
+      "vendidas_cert": 1135,
+      "receita": 14007710.62,
+      "ativadas": 8628,
+      "vigentes": 2
+    },
+    {
+      "ano": 2024,
+      "vendidas": 19011,
+      "vendidas_padrao": 16900,
+      "vendidas_cert": 2111,
+      "receita": 12359013.05,
+      "ativadas": 16444,
+      "vigentes": 20
+    },
+    {
+      "ano": 2025,
+      "vendidas": 28749,
+      "vendidas_padrao": 28704,
+      "vendidas_cert": 45,
+      "receita": 12294445.72,
+      "ativadas": 4012,
+      "vigentes": 1529
+    },
+    {
+      "ano": 2026,
+      "vendidas": 9777,
+      "vendidas_padrao": 9766,
+      "vendidas_cert": 11,
+      "receita": 4564166.92,
+      "ativadas": 708,
+      "vigentes": 467
+    }
+  ],
+  "sem_numero": {
+    "tx": 82,
+    "receita": 966847.92,
+    "est_min": 527,
+    "est_max": 765,
+    "top": [
+      {
+        "oferta": "Mecenas Funding BP TV",
+        "tx": 1,
+        "receita": 500000.0
+      },
+      {
+        "oferta": "(oferta NULL)",
+        "tx": 24,
+        "receita": 164995.8
+      },
+      {
+        "oferta": "Mecenas - 2 Formações Completas - R$72.000",
+        "tx": 1,
+        "receita": 72000.0
+      },
+      {
+        "oferta": "Plano Mecenas",
+        "tx": 10,
+        "receita": 58800.0
+      },
+      {
+        "oferta": "Comercial Plano Mecenas 50% OFF",
+        "tx": 14,
+        "receita": 41160.0
+      },
+      {
+        "oferta": "plano mecenas 50% Off",
+        "tx": 11,
+        "receita": 32340.0
+      }
+    ]
+  },
+  "sistemas": [
+    {
+      "sistema": "caverna (manual)",
+      "assinaturas": 45416,
+      "vigentes": 1974,
+      "periodo": "2021–2026"
+    },
+    {
+      "sistema": "legado (donator)",
+      "assinaturas": 3632,
+      "vigentes": 0,
+      "periodo": "2020–2022"
+    },
+    {
+      "sistema": "novo (bolsa-mecenas)",
+      "assinaturas": 49,
+      "vigentes": 48,
+      "periodo": "2026–2026"
+    }
+  ],
+  "instituicoes": {
+    "contas_com_instituicao": 1107,
+    "contas_total": 30143,
+    "top": [
+      {
+        "inst": "IFL BH",
+        "contas": 226
+      },
+      {
+        "inst": "UJL - União Juventude e Liberdade",
+        "contas": 148
+      },
+      {
+        "inst": "Sanchez Del Rio",
+        "contas": 111
+      },
+      {
+        "inst": "RECEBS",
+        "contas": 88
+      },
+      {
+        "inst": "Atlantos - RS",
+        "contas": 76
+      },
+      {
+        "inst": "JL",
+        "contas": 72
+      },
+      {
+        "inst": "Viver Melhor",
+        "contas": 67
+      },
+      {
+        "inst": "Natter",
+        "contas": 62
+      },
+      {
+        "inst": "Abenco",
+        "contas": 54
+      },
+      {
+        "inst": "Arrecife",
+        "contas": 36
+      },
+      {
+        "inst": "Comunidade Luz da Vida",
+        "contas": 35
+      },
+      {
+        "inst": "ABCPOVO - SP",
+        "contas": 22
+      },
+      {
+        "inst": "Olhar de Bia",
+        "contas": 21
+      },
+      {
+        "inst": "Materdei Infantil",
+        "contas": 14
+      },
+      {
+        "inst": "Musicos do contestado",
+        "contas": 14
+      }
+    ]
+  },
+  "planilha": {
+    "ref": "2026-03-04",
+    "beneficiados": 25169,
+    "instituicoes": 235,
+    "beneficiados_ativos": 3378,
+    "instituicoes_ativas": 74
+  }
+}
