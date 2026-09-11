@@ -1,21 +1,21 @@
 {
-  "updated_at": "2026-09-11T17:38:31",
+  "updated_at": "2026-09-11T18:28:06",
   "kpi": {
-    "bolsas_vendidas": 92588,
-    "receita": 52697422.04,
+    "bolsas_vendidas": 92608,
+    "receita": 52705702.04,
     "contas_doadoras": 9406,
     "assinaturas_ativadas": 49097,
     "contas_beneficiarias": 30143,
-    "vigentes_assinaturas": 2022,
-    "vigentes_contas": 1749
+    "vigentes_assinaturas": 2020,
+    "vigentes_contas": 1747
   },
   "vendas_tipo": [
     {
       "tipo": "padrao",
-      "bolsas": 89286,
-      "tx": 14309,
-      "receita": 48236314.08,
-      "contas": 14000
+      "bolsas": 89306,
+      "tx": 14310,
+      "receita": 48244594.08,
+      "contas": 14001
     },
     {
       "tipo": "certificacao",
@@ -78,14 +78,14 @@
       "vendidas_cert": 45,
       "receita": 12294445.72,
       "ativadas": 4012,
-      "vigentes": 1529
+      "vigentes": 1527
     },
     {
       "ano": 2026,
-      "vendidas": 9777,
-      "vendidas_padrao": 9766,
+      "vendidas": 9797,
+      "vendidas_padrao": 9786,
       "vendidas_cert": 11,
-      "receita": 4564166.92,
+      "receita": 4572446.92,
       "ativadas": 708,
       "vigentes": 467
     }
@@ -128,11 +128,55 @@
       }
     ]
   },
+  "produtos": [
+    {
+      "produto": "Assinatura Premium",
+      "vendidas": 89306,
+      "receita": 48244594.08,
+      "distribuidas": 48471,
+      "vigentes": 1984
+    },
+    {
+      "produto": "Certificação Ciência Política",
+      "vendidas": 1935,
+      "receita": 2156723.96,
+      "distribuidas": 396,
+      "vigentes": 8
+    },
+    {
+      "produto": "Certificação Travessia",
+      "vendidas": 1267,
+      "receita": 1913316.0,
+      "distribuidas": 145,
+      "vigentes": 8
+    },
+    {
+      "produto": "Certificação Método BP",
+      "vendidas": 88,
+      "receita": 345000.0,
+      "distribuidas": 49,
+      "vigentes": 9
+    },
+    {
+      "produto": "Certificação Travessia da Família",
+      "vendidas": 12,
+      "receita": 46068.0,
+      "distribuidas": 23,
+      "vigentes": 4
+    },
+    {
+      "produto": "Outras certificações",
+      "vendidas": 0,
+      "receita": 0.0,
+      "distribuidas": 13,
+      "vigentes": 7
+    }
+  ],
   "sistemas": [
     {
       "sistema": "caverna (manual)",
       "assinaturas": 45416,
-      "vigentes": 1974,
+      "vigentes": 1972,
       "periodo": "2021–2026"
     },
     {
@@ -205,11 +249,11 @@
         "contas": 21
       },
       {
-        "inst": "Materdei Infantil",
+        "inst": "Musicos do contestado",
         "contas": 14
       },
       {
-        "inst": "Musicos do contestado",
+        "inst": "Materdei Infantil",
         "contas": 14
       }
     ]

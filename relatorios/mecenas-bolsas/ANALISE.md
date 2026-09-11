@@ -44,6 +44,10 @@ situação atual?
   praticamente todas canceladas.
 - **O DW não sabe a instituição**: só 1.107 contas (3,7%) têm instituição registrada no
   `nm_reason`. Top: IFL BH (226), UJL (148), Sanchez Del Rio (111), RECEBS (88), Atlantos (76).
+- **Por produto, a certificação distribui ainda menos que a assinatura**: Ciência Política vendeu
+  1.935 bolsas e distribuiu 396 assinaturas (20%); Travessia 1.267 → 145 (11%). Premium: 89,3k →
+  48,5k (54%). Exceção: Travessia da Família distribuiu mais do que vendeu (12 → 23, provisionada
+  à parte).
 
 ## Pendências / próximos passos
 
@@ -62,6 +66,7 @@ situação atual?
 | [03_distribuicao.sql](queries/03_distribuicao.sql) | Contas ativadas por ano × sistema de provisionamento |
 | [04_instituicoes.sql](queries/04_instituicoes.sql) | Instituições extraídas do nm_reason (Caverna) |
 | [05_totais.sql](queries/05_totais.sql) | KPIs distintos (doadores, beneficiários, vigentes, cobertura de instituição) |
+| [06_por_produto.sql](queries/06_por_produto.sql) | Vendido × distribuído por produto entregue (Premium / cada certificação) |
 
 ## Wiki atualizada
 

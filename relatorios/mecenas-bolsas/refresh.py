@@ -66,6 +66,8 @@ def build() -> dict:
     inst = bqq("04_instituicoes.sql")
     print("  05 totais...", flush=True)
     tot = bqq("05_totais.sql")[0]
+    print("  06 por produto...", flush=True)
+    produtos = bqq("06_por_produto.sql")
 
     # ── vendas: pivot ano → {padrao, certificacao} ────────────────────────────
     anos = sorted({i(r["ano"]) for r in vendas if r["ano"] not in ("", "null")})
@@ -144,6 +146,12 @@ def build() -> dict:
             for a in todos_anos
         ],
         "sem_numero": sem_num_tot,
+        "produtos": [
+            {"produto": r["produto"], "vendidas": i(r["qt_bolsas_vendidas"]),
+             "receita": f(r["vl_receita"]), "distribuidas": i(r["qt_assinaturas_distribuidas"]),
+             "vigentes": i(r["qt_vigentes"])}
+            for r in produtos
+        ],
         "sistemas": [
             {"sistema": s, "assinaturas": d["assinaturas"], "vigentes": d["vigentes"],
              "periodo": f"{min(d['anos'])}–{max(d['anos'])}" if d["anos"] else "—"}

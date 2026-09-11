@@ -137,6 +137,19 @@
       </table>
     </div>
     <div class="card scroll-x" style="margin-top:16px">
+      <p class="label">Por produto entregue ao beneficiário — vendido × distribuído</p>
+      <table>
+        <thead><tr><th>Produto</th><th class="num">Bolsas vendidas</th><th class="num">Receita</th>
+          <th class="num">Assinaturas distribuídas</th><th class="num">Vigentes hoje</th></tr></thead>
+        <tbody id="tbProdutos"></tbody>
+      </table>
+      <div class="nota" style="margin-top:12px">"Assinatura Premium" agrega o plano atual (Premium
+        GBB) e os legados (Patriota, Núcleo, BP-Select, Acesso Total, Teller...). "Outras
+        certificações" são cursos distribuídos que nunca foram vendidos como bolsa (Bitcoin,
+        Rússia). A comparação é de estoque histórico, não de fluxo — uma bolsa vendida pode ser
+        distribuída em outro ano.</div>
+    </div>
+    <div class="card scroll-x" style="margin-top:16px">
       <p class="label">Bolsas vendidas por ano</p>
       <table>
         <thead><tr><th>Ano</th><th class="num">Padrão</th><th class="num">Certificação</th>
@@ -285,6 +298,18 @@ function initCharts(D) {
      <td class="num">${nf(r.tx)}</td><td class="num">${rf(r.receita)}</td></tr>`).join('') +
     `<tr class="tot"><td>Total</td><td class="num">${nf(totT.bolsas)}</td>
      <td class="num">${nf(totT.tx)}</td><td class="num">${rf(totT.receita)}</td></tr>`;
+
+  /* tabela por produto (vendido × distribuído) */
+  const totP = D.produtos.reduce((a, r) => ({ v: a.v + r.vendidas, rc: a.rc + r.receita,
+                                              d: a.d + r.distribuidas, g: a.g + r.vigentes }),
+                                 { v: 0, rc: 0, d: 0, g: 0 });
+  tbProdutos.innerHTML = D.produtos.map(r =>
+    `<tr><td>${r.produto}</td><td class="num">${nf(r.vendidas)}</td>
+     <td class="num">${r.receita ? rf(r.receita) : '—'}</td><td class="num">${nf(r.distribuidas)}</td>
+     <td class="num">${nf(r.vigentes)}</td></tr>`).join('') +
+    `<tr class="tot"><td>Total</td><td class="num">${nf(totP.v)}</td>
+     <td class="num">${rf(totP.rc)}</td><td class="num">${nf(totP.d)}</td>
+     <td class="num">${nf(totP.g)}</td></tr>`;
 
   /* tabela por ano */
   tbAno.innerHTML = D.ano.map(r =>
