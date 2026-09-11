@@ -68,7 +68,7 @@ estrategico = {
 
 # ── status do MMM v32 (calibração mais recente disponível) ───────────────────
 v32 = {}
-for d32, versao in [(MMMP / "output" / "mmm_v32_2", "v32.2"), (MMMP / "output" / "mmm_v32_log", "v32.1")]:
+for d32, versao in [(MMMP / "output" / "mmm_v32_2b", "v32.2b"), (MMMP / "output" / "mmm_v32_log", "v32.1")]:
     f = d32 / "summary_oos_2026.csv"
     if f.exists():
         s32 = pd.read_csv(f)
