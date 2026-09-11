@@ -299,17 +299,23 @@ function initCharts(D) {
     `<tr class="tot"><td>Total</td><td class="num">${nf(totT.bolsas)}</td>
      <td class="num">${nf(totT.tx)}</td><td class="num">${rf(totT.receita)}</td></tr>`;
 
-  /* tabela por produto (vendido × distribuído) */
-  const totP = D.produtos.reduce((a, r) => ({ v: a.v + r.vendidas, rc: a.rc + r.receita,
-                                              d: a.d + r.distribuidas, g: a.g + r.vigentes }),
-                                 { v: 0, rc: 0, d: 0, g: 0 });
-  tbProdutos.innerHTML = D.produtos.map(r =>
-    `<tr><td>${r.produto}</td><td class="num">${nf(r.vendidas)}</td>
-     <td class="num">${r.receita ? rf(r.receita) : '—'}</td><td class="num">${nf(r.distribuidas)}</td>
-     <td class="num">${nf(r.vigentes)}</td></tr>`).join('') +
-    `<tr class="tot"><td>Total</td><td class="num">${nf(totP.v)}</td>
-     <td class="num">${rf(totP.rc)}</td><td class="num">${nf(totP.d)}</td>
-     <td class="num">${nf(totP.g)}</td></tr>`;
+  /* tabela por produto (vendido × distribuído) — guarda: data.json em cache pode ser
+     de versão anterior sem `produtos`; nesse caso a tabela avisa em vez de quebrar o resto */
+  if (Array.isArray(D.produtos)) {
+    const totP = D.produtos.reduce((a, r) => ({ v: a.v + r.vendidas, rc: a.rc + r.receita,
+                                                d: a.d + r.distribuidas, g: a.g + r.vigentes }),
+                                   { v: 0, rc: 0, d: 0, g: 0 });
+    tbProdutos.innerHTML = D.produtos.map(r =>
+      `<tr><td>${r.produto}</td><td class="num">${nf(r.vendidas)}</td>
+       <td class="num">${r.receita ? rf(r.receita) : '—'}</td><td class="num">${nf(r.distribuidas)}</td>
+       <td class="num">${nf(r.vigentes)}</td></tr>`).join('') +
+      `<tr class="tot"><td>Total</td><td class="num">${nf(totP.v)}</td>
+       <td class="num">${rf(totP.rc)}</td><td class="num">${nf(totP.d)}</td>
+       <td class="num">${nf(totP.g)}</td></tr>`;
+  } else {
+    tbProdutos.innerHTML =
+      `<tr><td colspan="5" style="color:var(--muted)">Dados em cache de versão anterior — recarregue com Cmd+Shift+R.</td></tr>`;
+  }
 
   /* tabela por ano */
   tbAno.innerHTML = D.ano.map(r =>
@@ -349,7 +355,7 @@ function initCharts(D) {
     `<tr><td>${r.inst}</td><td class="num">${nf(r.contas)}</td></tr>`).join('');
 }
 
-fetch('./data.json')
+fetch('./data.json', { cache: 'no-store' })
   .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
   .then(D => initCharts(D))
   .catch(err => {
