@@ -33,17 +33,19 @@ parceiro enxerga só os cliques dos links dele.
   identificador, mas recomenda-se padronizar `utm_source=resumo_bp&utm_campaign=<parceiro>&utm_content=<edição>`
   para o parceiro medir no analytics dele e para distinguir 2 anúncios do mesmo parceiro na mesma edição.
 
-### Inserções por anunciante (25/ago/2026)
+### Inserções por anunciante (14/set/2026)
 
 | Anunciante | Inserções | Detalhe (pessoas / cliques) |
 |---|---|---|
-| Sendflow | 3 | 02/07 (73 / 145), 03/07 (28 / 41), 28/07 (36 / 56) |
-| Vimansca | 2 | 14/07 (69 / 145), 17/08 (92 / 113) |
-| Lídio Carraro | 1 | 21/08 (134 / 152) |
+| Vimansca | 7 | 14/07 (69 / 145), 17/08 (98 / 124), 04/09 (83 / 102), 08/09 (67 / 115), 09/09 (38 / 91), 10/09 (54 / 61), 11/09 (38 / 53) |
+| Lídio Carraro | 1 | 21/08 (140 / 159) |
+| Sendflow | 3 | 02/07 (74 / 147), 03/07 (28 / 41), 28/07 (37 / 58) |
 
-Lídio Carraro é a maior inserção única até agora em alcance (134 pessoas).
-Vimansca cresceu em alcance da 1ª para a 2ª inserção (69 → 92 pessoas) apesar de menos cliques totais —
-na 1ª houve mais cliques repetidos. Sendflow caiu a cada inserção.
+**A Vimansca virou anunciante recorrente:** saiu de 2 inserções esporádicas (14/07, 17/08) para veicular 04, 08, 09, 10 e 11/09 — quatro dias seguidos na segunda semana de setembro. O alcance por inserção cai conforme a frequência sobe (98 pessoas em 17/08 contra 38–67 nos dias seguidos), o que é esperado: a mesma base recebe o anúncio repetido. Somadas, as 7 inserções deram 691 cliques.
+
+Sendflow e Lídio Carraro seguem sem inserção nova desde 28/07 e 21/08.
+
+⚠️ A janela do relatório é de 120 dias, então a inserção do **Insider Store** (mar–abr/2024, achada ao varrer o histórico completo) não aparece aqui — só na página do marketing-bp, que lê o histórico inteiro.
 
 ### Detecção automática: o que o código faz sozinho
 
@@ -76,7 +78,12 @@ links dos encurtadores BP são de campanha própria (freemium, compartilhe, EVG)
 - **O rótulo de edição é `DD/MM`** e serve de chave no match parceiro→edição no `index.html`.
   Seguro na janela de 120 dias; se algum dia a janela passar de 365 dias, colide e precisa virar data ISO.
 
-## Próxima fase: migrar para o marketing-bp
+## Migração para o marketing-bp — PR #152 aberto (11/set)
+
+> **Status:** https://github.com/barbaraolivieribp/marketing-bp/pull/152 — CI verde, mergeable. Entrega a página `/bp-ads` com duas abas (**Funil de negociações** do pipeline BP ADS do Pipedrive + **Resultados dos disparos**, que é este relatório embutido com export PDF) e `/admin/resumo-bp-anunciantes`. Depois do merge ainda faltam: aplicar a migration `resumo_bp_dominios` no Supabase e deployar as 2 edge functions pela Lovable (o push não deploya). **Este relatório do portal segue sendo a versão viva até lá.**
+
+⚠️ A página nova `/resultados-crm` (main, set/2026) lê e-mail de `dtm_analytics_revenue_insider_funnel`, enquanto esta usa `cbo_insider_email_analytics_daily`. Os dois marts **discordam em ~4% das edições** (429 de 445 batem até 0,1%; 11 divergem acima de 1%, máx 50%) — ambos batem na edição validada contra a UI. Decidir qual é a fonte oficial antes que alguém compare as duas telas.
+
 
 **Fonte muda para o mart `datamart.cbo_insider_email_analytics_daily`** (descoberto 25/ago), que já tem
 tudo pronto e resolve o refresh manual:
