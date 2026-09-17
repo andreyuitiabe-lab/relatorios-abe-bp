@@ -43,7 +43,8 @@ D = {
     {"o": "Métricas do YouTube do período", "s": "entregue",
      "r": "Acesso destravado em 16/09 (era o gap declarado do relatório anterior). <b>11 de Setembro</b>: 2.857.472 views e 4.549 inscritos, com pico de 1,33 milhão em 11/09, terceiro maior do canal desde junho. <b>Marçal</b>: 823.590 views e 5.301 inscritos. <b>Renan</b>: 379.439 views e 3.421 inscritos."},
     {"o": "CTA do YouTube por UTM, do clique ao objetivo da LP", "s": "entregue",
-     "r": "Os links das descrições carregam UTM que casa com as transações. O canal inteiro rastreia <b>R$ 6,0 milhões em 13 meses</b>, cerca de 1% da receita, e 66% casa com um vídeo específico. <b>Os três cases somam 20 vendas e R$ 8 mil</b> — os CTAs apontavam para outro produto. Por mil views: live R$ 27, corte R$ 10, Short R$ 3."},
+     "r": "Funil completo, de 01/08 a 13/09: <b>26,4 milhões de views</b> no canal geraram <b>14.326 sessões</b> nas landing pages com UTM de YouTube orgânico — 0,054% —, e essas sessões viraram <b>894 leads</b> e <b>834 vendas</b>, R$ 333 mil. A conversão da sessão é alta, 5,8%, porque é tráfego morno que clicou no link da descrição. O gargalo é o passo anterior: de cada 2.000 pessoas que assistem, uma clica. No acumulado de 13 meses o canal rastreia <b>R$ 6,0 milhões</b>, cerca de 1% da receita. Por mil views: live R$ 27, corte R$ 10, Short R$ 3. <b>Os três cases somam 20 vendas e R$ 8 mil</b> — os CTAs apontavam para outro produto, não para o próprio conteúdo.",
+     "funil": [["Views do canal", "26.424.747", ""], ["Sessões na LP por UTM", "14.326", "0,054% das views"], ["Leads", "894", "6,2% das sessões"], ["Vendas", "834", "5,8% das sessões"], ["Receita", "R$ 332.685", "R$ 7.561 por dia"]]},
     {"o": "Pesquisa de marca, incluindo portal", "s": "parcial",
      "r": "Share of Search é coincidente e não move eficiência; o portal no Mixpanel tem série curta, desde maio, e serve como descritivo. A peça que falta é o <b>Search Console</b>, única fonte de volume real de busca por query de marca — depende de acesso à propriedade, e o histórico é de apenas 16 meses."},
     {"o": "Redes sociais, do alcance ao faturamento", "s": "entregue, e o caminho não existe",
@@ -59,7 +60,16 @@ D = {
     {"c": "Spend (checagem do pareamento)", "e": "+1,2%", "ic": "[−3,7, +10,7]", "p": "0,29", "ok": None},
     {"c": "Ticket médio", "e": "−5,4%", "ic": "[−12,8, +4,3]", "p": "0,29", "ok": False}
   ],
-  "nota": "Pareamento por quintil de spend, fim de semana e fase de venda, excluindo abertura e fechamento de campanha. Intervalos por bootstrap de bloco. 262 dias."
+  "nota": "Pareamento por quintil de spend, fim de semana e fase de venda, excluindo abertura e fechamento de campanha. Intervalos por bootstrap de bloco. 262 dias.",
+  "canais_titulo": "Por canal de venda",
+  "canais_texto": "A quebra por canal responde à pergunta sobre impacto nos outros canais, mas com uma ressalva: com o método corrigido, nenhuma destas linhas sobrevive a uma correção para múltiplas comparações. São direcionais.",
+  "canais": [
+    {"c": "Orgânico e YouTube", "part": "8% das transações", "e": "+63%", "ic": "[+20, +119]"},
+    {"c": "Comercial", "part": "22%", "e": "+31%", "ic": "[+2, +85]"},
+    {"c": "Ads (Meta e Google)", "part": "41%", "e": "+21%", "ic": "[+5, +40]"},
+    {"c": "CRM", "part": "14%", "e": "+8%", "ic": "cruza zero"}
+  ],
+  "canais_nota": "O padrão — efeito maior fora da mídia paga — é o que se esperaria de audiência que ativa a base. Mas é também compatível com um fator comum de demanda, e o teste do controle negativo não deixa escolher entre os dois."
 },
 "cases": [
   {"nome": "Sabatinas — Renan (14/08) e Marçal (17/08)",
@@ -68,6 +78,12 @@ D = {
    "nao_rastreavel": "Lift de 1,14× em D+14 na plataforma para os dois, com intervalo cruzando 1. Nos dias, a receita acompanhou o spend, que estava 39% e 147% acima do esperado.",
    "veredito": "Não atribuível. A receita do período é mídia.",
    "extra": "Os dois têm de 10 a 90 vezes mais views que as outras sabatinas e são os únicos sem lift medido. Zema 2,03×, Rebelo 1,82×, Caiado 1,71×. É formato, não fama."},
+  {"nome": "STF e Banco Master — os maiores vídeos do canal",
+   "atencao": "Master x STF, 03/09: 4.358.295 views, o maior do canal no período. STF julga Moraes, 15/09: 3.522.311 views.",
+   "rastreavel": "Master x STF: 408 transações e R$ 58 mil pelo link da descrição, que apontava para assinatura.",
+   "nao_rastreavel": "Em 03/09, dia do maior vídeo do ano, as vendas foram as <b>mais baixas da semana</b>: 825 transações, contra 939 na véspera e 934 no dia seguinte. Em 15/09, com o segundo maior vídeo, foi o <b>melhor dia do mês</b>, R$ 1,68 milhão — mas era o fechamento do BP10 com corujão, e o Vitalício respondeu por 77% da receita.",
+   "veredito": "Dois vídeos do mesmo tipo e tamanho, resultados opostos. O que difere é o calendário comercial, não o vídeo.",
+   "extra": "Este é o contraste mais direto que o dado oferece: se audiência gigante causasse venda, 03/09 teria sido um dia excepcional. Foi o mais fraco da semana."},
   {"nome": "11 de Setembro — live no YouTube em 10/09",
    "atencao": "2,86 milhões de views, 4.549 inscritos, 2.480 usuários na plataforma",
    "rastreavel": "6 transações, R$ 2,1 mil, e 428 leads para o Technocracia",

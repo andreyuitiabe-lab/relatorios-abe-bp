@@ -90,6 +90,13 @@
   .item .s.meio { border-color:var(--flag); color:var(--flag); }
   .item p { font-size:.97rem; line-height:1.55; color:var(--ink-2); margin:0; }
 
+  .funil { margin:.9rem 0 0; border-top:1px solid var(--rule-soft); }
+  .funil .f { display:flex; align-items:baseline; gap:.7rem; padding:.42rem 0; border-bottom:1px solid var(--rule-soft); font-family:var(--sans); font-size:.86rem; }
+  .funil .f .k { flex:0 0 11rem; color:var(--ink-3); }
+  .funil .f .v { font-family:var(--mono); font-weight:500; font-variant-numeric:tabular-nums; }
+  .funil .f .o { color:var(--ink-3); font-size:.92em; }
+  @media (max-width:520px){ .funil .f { flex-wrap:wrap; gap:.15rem .6rem; } .funil .f .k { flex:1 0 100%; } }
+
   /* cases */
   .case { background:var(--surface); border:1px solid var(--rule-soft); padding:1.2rem 1.35rem; margin-bottom:1.3rem; }
   .case h3 { margin-top:0; }
@@ -143,7 +150,11 @@
   <p>Efeito de dias de audiência orgânica alta, comparados a dias de audiência baixa com o mesmo investimento de mídia, no mesmo dia da semana e na mesma fase de campanha.</p>
   <div class="scroll"><table id="t-bloco2"></table></div>
 
-  <h2>Os dois cases</h2>
+  <h3 id="h-canais"></h3>
+  <p id="canais-texto"></p>
+  <div class="scroll"><table id="t-canais"></table></div>
+
+  <h2>Os três cases</h2>
   <div id="cases"></div>
 
   <h3>Notoriedade no YouTube não prevê ativação da base</h3>
@@ -196,7 +207,8 @@ fetch('./data.json').then(r => r.json()).then(D => {
   $('h-bloco1').textContent = D.bloco1.titulo;
   $('bloco1').innerHTML = D.bloco1.itens.map(i => {
     const cls = i.s === 'parcial' ? 'meio' : i.s.startsWith('entregue') ? 'ok' : '';
-    return `<div class="item"><div class="h"><span class="o">${i.o}</span><span class="s ${cls}">${i.s}</span></div><p>${i.r}</p></div>`;
+    const fun = i.funil ? `<div class="funil">${i.funil.map(([k,v,o]) => `<div class="f"><span class="k">${k}</span><span class="v">${v}</span><span class="o">${o}</span></div>`).join('')}</div>` : '';
+    return `<div class="item"><div class="h"><span class="o">${i.o}</span><span class="s ${cls}">${i.s}</span></div><p>${i.r}</p>${fun}</div>`;
   }).join('');
 
   $('h-bloco2').textContent = D.bloco2.titulo;
@@ -206,6 +218,14 @@ fetch('./data.json').then(r => r.json()).then(D => {
       const cor = l.ok === true ? (l.e.startsWith('−') ? 'pos' : 'pos') : l.ok === false ? 'nil' : 'nil';
       return `<tr><td>${l.c}${l.nota ? ` <span class="nil" style="font-size:.85em">— ${l.nota}</span>` : ''}</td><td class="n ${cor}"><b>${l.e}</b></td><td class="n">${l.ic}</td><td class="n">${l.p}</td></tr>`;
     }).join('') + `</tbody><caption>${D.bloco2.nota}</caption>`;
+
+  const b2 = D.bloco2;
+  $('h-canais').textContent = b2.canais_titulo;
+  $('canais-texto').textContent = b2.canais_texto;
+  $('t-canais').innerHTML =
+    `<thead><tr><th>Canal de venda</th><th>Peso</th><th>Efeito</th><th>Intervalo de 95%</th></tr></thead><tbody>` +
+    b2.canais.map(c => `<tr><td>${c.c}</td><td class="n nil">${c.part}</td><td class="n"><b>${c.e}</b></td><td class="n">${c.ic}</td></tr>`).join('') +
+    `</tbody><caption>${b2.canais_nota}</caption>`;
 
   $('cases').innerHTML = D.cases.map(c => `
     <div class="case">
