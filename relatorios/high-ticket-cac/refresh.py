@@ -34,6 +34,16 @@ OUT = AQUI / "data.json"
 # (planilha R$ 8,10 mi vs warehouse R$ 8,01 mi, 1,2%), o que dá confiança no custo.
 MIDIA_PLANILHA = {"TRA": 869_815.77}
 
+# Preços de disparo usados no custo de CRM (fonte canônica: wiki zenvia-custos.md, que corrige
+# o antigo R$ 0,33 para 0,323). E-mail é contratado — o R$ 0,0008 é diluição por envio, não
+# custo marginal. Push e in-app entram como zero (inclusos na plataforma).
+PRECO_DISPARO = {"whatsapp": 0.323, "email": 0.0008, "app_push": 0.0, "inapp": 0.0}
+
+# Comissão do Comercial sobre a venda (premissa do André, set/2026). É PISO: não inclui folha
+# nem ferramenta. Consequência a manter à vista no relatório: com custo proporcional à receita,
+# o ROAS do Comercial é 1/0,09 = 11,11x POR CONSTRUÇÃO — só o CAC dele é informativo.
+COMISSAO_COMERCIAL = 0.09
+
 
 def bqq(sql_path: Path) -> pd.DataFrame:
     """Roda um .sql pelo bqq e devolve DataFrame."""
@@ -122,6 +132,15 @@ def build() -> dict:
         comp_midia = cons.loc[m, "qt_compradores"].iloc[0] * cons.loc[m, "pct_comp_midia"].iloc[0] / 100
         cons.loc[m, "vl_cac_canal_midia"] = round(valor / comp_midia, 2)
 
+    print("  economia por canal...", flush=True)
+    canal = bqq(AQUI / "queries" / "07_economia_por_canal.sql")
+    # Travessia: a verba vem da planilha (2023 é anterior ao alcance da Marketing API)
+    m = (canal["sigla"] == "TRA") & (canal["nm_canal"] == "midia_paga")
+    canal.loc[m, "vl_custo"] = MIDIA_PLANILHA["TRA"]
+    canal.loc[m, "nm_natureza_custo"] = "verba total da campanha (planilha do tráfego)"
+    canal.loc[m, "vl_cac_canal"] = round(MIDIA_PLANILHA["TRA"] / canal.loc[m, "qt_compradores"].iloc[0], 2)
+    canal.loc[m, "vl_roas_canal"] = round(canal.loc[m, "vl_receita"].iloc[0] / MIDIA_PLANILHA["TRA"], 2)
+
     print("  série anual de high-ticket...", flush=True)
     anual = bqq_inline(Q_SERIE_ANUAL)
     print("  reincidência entre campanhas...", flush=True)
@@ -135,7 +154,13 @@ def build() -> dict:
 
     return {
         "updated_at": datetime.datetime.now().isoformat(timespec="seconds"),
+        "premissas": {
+            "comissao_comercial": COMISSAO_COMERCIAL,
+            "preco_disparo": PRECO_DISPARO,
+            "midia_planilha": MIDIA_PLANILHA,
+        },
         "campanhas": campanhas,
+        "canais": [{k: nn(v) for k, v in l.items()} for l in canal.to_dict("records")],
         "anual": [{k: nn(v) for k, v in l.items()} for l in anual.to_dict("records")],
         "mix_promocao": [{k: nn(v) for k, v in l.items()} for l in mix.to_dict("records")],
     }

@@ -185,6 +185,125 @@
   </div>
 </section>
 
+<!-- ── ECONOMIA POR CANAL ──────────────────────────────────────────────────── -->
+<section>
+  <h2>Quanto custa cada canal</h2>
+  <p class="sub">Os três canais têm naturezas de custo diferentes, e isso muda o que cada métrica
+     significa. Mídia é verba de anúncio; Comercial é comissão de 9% sobre a venda; CRM é o disparo
+     das peças com a tag da campanha.</p>
+
+  <div class="card">
+    <p class="label">CAC por canal — as quatro campanhas de escala (acima de 15 mil compradores)</p>
+    <div class="legenda">
+      <span><i class="dot" style="background:var(--s1)"></i> Mídia paga</span>
+      <span><i class="dot" style="background:var(--s2)"></i> Comercial (comissão 9%)</span>
+      <span><i class="dot" style="background:var(--s3)"></i> CRM (disparo)</span>
+    </div>
+    <canvas id="gCacCanal" height="200"></canvas>
+  </div>
+
+  <div class="nota">
+    <strong>⚠️ O ROAS do Comercial é 11,11× em todas as campanhas — e isso não é um achado, é
+    aritmética.</strong> Se o custo é 9% da receita, o retorno é 1 ÷ 0,09 por construção. Do
+    Comercial, só o <strong>CAC</strong> informa alguma coisa (ele acompanha o ticket: R$ 153 no
+    BNO24, R$ 69 no BNO25, R$ 98 no BP10).<br><br>
+    <strong>⚠️ A comissão é piso, não o custo do canal.</strong> Não inclui folha dos ~50 vendedores,
+    Zenvia nem estrutura. O custo real do Comercial por comprador é bem maior que o mostrado aqui —
+    e é justamente a parte que não está no warehouse. Já a mídia é custo integral e atribuível:
+    a comparação entre os dois é desfavorável à mídia por construção.<br><br>
+    <strong>⚠️ Assimetria de escopo.</strong> A verba de mídia é do lançamento inteiro, inclusive do
+    aquecimento que alimentou as vendas dos outros canais; comissão e disparo são custos por venda
+    realizada. O CAC de mídia é o mais conservador dos três.
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <p class="label">Quanto a folha mudaria o CAC do Comercial — sensibilidade no BP10</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+      51 vendedores ativos em 3,19 meses e R$ 445,9 mil de comissão. Bastam
+      <strong>R$ 2,7 mil por vendedor-mês</strong> de custo adicional para o custo do canal dobrar.</p>
+    <table>
+      <thead><tr><th>Folha + encargos por vendedor-mês</th><th class="num">Custo do canal</th><th class="num">CAC do Comercial</th></tr></thead>
+      <tbody>
+        <tr><td>só comissão <span class="tag t-n">o que está no relatório</span></td><td class="num">R$ 445,9 mil</td><td class="num">R$ 98</td></tr>
+        <tr><td>+ R$ 4 mil</td><td class="num">R$ 1,10 mi</td><td class="num">R$ 242</td></tr>
+        <tr><td>+ R$ 6 mil</td><td class="num">R$ 1,42 mi</td><td class="num">R$ 313</td></tr>
+        <tr><td>+ R$ 8 mil</td><td class="num">R$ 1,75 mi</td><td class="num">R$ 385</td></tr>
+      </tbody>
+    </table>
+    <div class="nota">
+      Mesmo no cenário mais caro o Comercial (R$ 385) sai <strong>abaixo da mídia (R$ 849)</strong>
+      no BP10 — mas a distância cai de 8,7× para 2,2×. Pedir folha e ferramenta ao Financeiro muda a
+      ordem de grandeza da conclusão, não o sinal.
+    </div>
+  </div>
+
+  <div class="nota" style="margin-top:0">
+    <strong>Lendo a tabela abaixo:</strong> nas campanhas em que a mídia faz captação e o Comercial
+    fecha (TRA, TRA2, BIT), o CAC de mídia por último clique chega a milhares de reais — não porque
+    a mídia tenha ido mal, mas porque o crédito da venda vai para quem fechou. Nessas três, a leitura
+    de eficiência da mídia é o <strong>ROAS da campanha inteira</strong> (TRA 9,20×, BIT 2,03×),
+    não o CAC do canal.
+  </div>
+
+  <div class="card" style="margin-top:16px; overflow-x:auto">
+    <p class="label">Todos os canais, campanha a campanha</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Campanha</th><th>Canal</th><th class="num">Compradores</th>
+          <th class="num">Receita</th><th class="num">Custo</th><th class="num">CAC</th>
+          <th class="num">ROAS</th><th class="num">Ticket</th><th>Natureza do custo</th>
+        </tr>
+      </thead>
+      <tbody id="tbCanal"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── CRM ─────────────────────────────────────────────────────────────────── -->
+<section>
+  <h2>CRM: o volume dobrou, o retorno por disparo não acompanhou</h2>
+  <p class="sub">Disparos das peças que carregam a tag da campanha (e-mail, WhatsApp, push e in-app),
+     e a receita atribuída a CRM dentro da campanha.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <p class="label">Disparos com a tag da campanha (milhões)</p>
+      <canvas id="gDisparos" height="200"></canvas>
+    </div>
+    <div class="card">
+      <p class="label">Receita de CRM por 1.000 disparos (R$)</p>
+      <canvas id="gCrm1k" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <p class="label">Composição dos disparos por canal (% das entregas com a tag)</p>
+    <div class="legenda">
+      <span><i class="dot" style="background:var(--s1)"></i> E-mail</span>
+      <span><i class="dot" style="background:var(--s2)"></i> WhatsApp</span>
+      <span><i class="dot" style="background:var(--s3)"></i> Push / in-app</span>
+    </div>
+    <canvas id="gCrmMix" height="180"></canvas>
+  </div>
+
+  <div class="nota">
+    <strong>O BNO24 é o pico da série e nada chegou perto depois:</strong> R$ 107 por mil disparos.
+    O BNO25 disparou <strong>1,9× mais</strong> (185 milhões contra 100 milhões) e rendeu
+    <strong>R$ 5,68 por mil — 95% abaixo</strong>. Em 2026 o CDL (R$ 56) e a Odisseia (R$ 49)
+    recuperaram parte; o BP10, com o maior volume da série (159 milhões), ficou em R$ 16,64.<br><br>
+    <strong>⚠️ Duas medidas de CRM que não se contradizem, mas medem coisas diferentes.</strong>
+    Olhando a casa inteira (todos os disparos de todos os meses), 2026 é o melhor período da série —
+    R$ 25–68 por mil contra R$ 5–21 em 2024–25. Olhando só as peças com a tag de cada campanha,
+    o BNO24 continua imbatível. A leitura conjunta: o CRM da casa melhorou, mas o
+    <strong>CRM de campanha de vitalício</strong> não voltou ao nível de 2024.<br><br>
+    <strong>⚠️ Push cresceu e é cego.</strong> O push saiu de zero (BNO24) para 55 milhões de entregas
+    no BP10 — 35% do volume da campanha — e não tem telemetria de abertura nem de clique
+    (140M+ entregues na casa com ~19 opens registrados). A receita atribuída a ele vem do fallback
+    do modelo, não de clique rastreado. Tratar o número de push como alcance, não como engajamento.
+  </div>
+</section>
+
 <!-- ── COMERCIAL ───────────────────────────────────────────────────────────── -->
 <section>
   <h2>O canal que sustentava o high-ticket perdeu tração</h2>
@@ -455,6 +574,78 @@ function initCharts(D){
       aspectRatio:3,
       plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>c.dataset.label+': R$ '+br(c.raw,2)+' mi'}} },
       scales:{ x:{...eixoX, stacked:true}, y:{...eixoY, stacked:true, ticks:{callback:v=>br(v)}} }
+    }
+  });
+
+  /* ── economia por canal ───────────────────────────────────────────────── */
+  const CAN = D.canais;
+  const rotCanal = {midia_paga:'Mídia paga', comercial:'Comercial', crm:'CRM',
+                    organico_portal:'Orgânico/portal'};
+  const pega = (sig,can,campo) => CAN.find(r=>r.sigla===sig && r.nm_canal===can)?.[campo] ?? null;
+
+  /* só as campanhas de escala: grupos de barras com 9 categorias e outliers de 4 mil
+     viram ilegíveis; o resto está na tabela logo abaixo */
+  const escala = C.filter(c=>c.qt_compradores > 15000).map(c=>c.sigla);
+  new Chart(gCacCanal, {
+    type:'bar',
+    data:{ labels:escala, datasets:[
+      {label:'Mídia paga', data:escala.map(s=>pega(s,'midia_paga','vl_cac_canal')), backgroundColor:S1},
+      {label:'Comercial',  data:escala.map(s=>pega(s,'comercial','vl_cac_canal')),  backgroundColor:S2},
+      {label:'CRM',        data:escala.map(s=>pega(s,'crm','vl_cac_canal')),        backgroundColor:S3}
+    ].map(d=>({...d, borderRadius:4, maxBarThickness:34}))},
+    options:{
+      aspectRatio:2.4, layout:{padding:{top:22}},
+      plugins:{ legend:{display:false},
+                tooltip:{callbacks:{label:c=>c.dataset.label+': '+rs(c.raw)}} },
+      scales:{ x:eixoX, y:{...eixoY, ticks:{callback:v=>'R$ '+br(v)}} }
+    },
+    plugins:[rotulos(v=>v==null?null:'R$'+br(v))]
+  });
+
+  const ordemCanal = {midia_paga:0, comercial:1, crm:2, organico_portal:3};
+  document.getElementById('tbCanal').innerHTML = CAN
+    .slice().sort((a,b)=> (a.ord-b.ord) || (ordemCanal[a.nm_canal]-ordemCanal[b.nm_canal]))
+    .map(r=>{
+      const roas = r.vl_roas_canal;
+      const tag = roas==null ? '' :
+        `<span class="tag ${roas>=5?'t-g':(roas<1?'t-r':'t-b')}">${br(roas,2)}×</span>`;
+      const aviso = r.nm_canal==='comercial' ? ' <span style="color:var(--soft)">(por construção)</span>' : '';
+      return `<tr>
+        <td><strong>${r.sigla}</strong></td>
+        <td>${rotCanal[r.nm_canal]}</td>
+        <td class="num">${br(r.qt_compradores)}</td>
+        <td class="num">${mi(r.vl_receita)}</td>
+        <td class="num">${r.vl_custo ? rs(r.vl_custo) : '—'}</td>
+        <td class="num">${r.vl_cac_canal!=null ? rs(r.vl_cac_canal) : '—'}</td>
+        <td class="num">${tag}${aviso}</td>
+        <td class="num">${rs(r.vl_ticket)}</td>
+        <td style="font-size:11.5px;color:var(--muted)">${r.nm_natureza_custo}</td>
+      </tr>`;
+    }).join('');
+
+  /* ── CRM ──────────────────────────────────────────────────────────────── */
+  const crm = C.map(c=>CAN.find(r=>r.sigla===c.sigla && r.nm_canal==='crm') || {});
+  barra(gDisparos, nomes, crm.map(r=>r.qt_disparos==null?null:r.qt_disparos/1e6), S3,
+        v=>v==null?null:br(v,0), v=>br(v,1)+' mi de disparos');
+  barra(gCrm1k, nomes, crm.map(r=>r.vl_receita_por_1k), S3,
+        v=>v==null?null:br(v,0), v=>rs(v)+' por mil disparos');
+
+  const partes = r => {
+    const t = (r.qt_disparos||0) || 1;
+    return [100*(r.qt_email||0)/t, 100*(r.qt_whatsapp||0)/t,
+            100*((r.qt_push||0)+(r.qt_outros||0))/t];
+  };
+  new Chart(gCrmMix, {
+    type:'bar',
+    data:{ labels:nomes, datasets:[
+      {label:'E-mail',        data:crm.map(r=>partes(r)[0]), backgroundColor:S1},
+      {label:'WhatsApp',      data:crm.map(r=>partes(r)[1]), backgroundColor:S2},
+      {label:'Push / in-app', data:crm.map(r=>partes(r)[2]), backgroundColor:S3}
+    ].map(d=>({...d, borderRadius:2, borderWidth:2, borderColor:'#ffffff', maxBarThickness:40}))},
+    options:{
+      aspectRatio:3.2,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>c.dataset.label+': '+pc(c.raw)}} },
+      scales:{ x:{...eixoX, stacked:true}, y:{...eixoY, stacked:true, max:100, ticks:{callback:v=>v+'%'}} }
     }
   });
 

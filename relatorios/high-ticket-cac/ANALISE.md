@@ -152,15 +152,71 @@ a camada mais fácil já foi convertida (o BNO24 sozinho converteu 2,37% do esto
 
 ---
 
-### 5. A eficiência do CRM NÃO caiu — isso refuta parte da premissa
+### 5. CRM: duas medidas que não se contradizem, mas respondem coisas diferentes
 
-A percepção de "alta eficiência de CRM no começo" não se sustenta nos dados disponíveis.
-Receita por 1.000 mensagens entregues, por mês (Insider começa em jan/2024, então 2023 é cego):
-2024 varia entre R$ 5 e 16 (com o pico do BNO24 em R$ 47); **2025 cai para R$ 6–21; 2026 é o melhor
-período da série, R$ 25–68**. O que caiu foi a **taxa de clique** (0,54% em 2024 → 0,14–0,36% em
-2025–26) e o volume de disparo triplicou. O CRM entrega mais receita por mensagem hoje do que entregava.
+⚠️ **Correção da versão anterior deste memo.** A primeira leitura usou a receita de CRM da *janela
+inteira* dividida por *todos* os disparos do período, e concluiu que "o CRM não perdeu eficiência".
+Com o corte por **tag da campanha** (só as peças daquele lançamento), o quadro é mais fino:
+
+| Medida | O que mede | Leitura |
+|---|---|---|
+| Casa inteira, série mensal | todos os disparos ÷ toda a receita CRM | 2026 é o **melhor** período: R$ 25–68 por mil vs R$ 5–21 em 2024–25 |
+| Só peças com a tag da campanha | disparos e receita daquele lançamento | **BNO24 R$ 107/mil é o pico da série** e nada chegou perto |
+
+As duas são verdadeiras. O CRM da casa melhorou; o **CRM de campanha de vitalício** não voltou ao
+nível de 2024.
+
+Receita por mil disparos com a tag: TRA2 16 · **BNO24 107** · BIT 4 · **BNO25 5,7** · DBI 8 ·
+**CDL 56** · BP10 17 · **ODI 49**. O BNO25 disparou **1,9× mais** que o BNO24 (185 mi contra 100 mi)
+e rendeu **95% menos por disparo** — é a mesma história da troca de oferta (achado 2), vista pelo CRM.
+
+**Composição do disparo mudou:** o push saiu de zero (BNO24) para 55 milhões de entregas no BP10
+(35% do volume da campanha) — e push **não tem telemetria** de abertura nem clique (140M+ entregues
+na casa com ~19 opens). A receita atribuída a ele vem do fallback do modelo. Tratar como alcance,
+não como engajamento. Taxa de clique da casa: 0,54% (2024) → 0,14–0,36% (2025–26).
 
 O canal que de fato perdeu eficiência é o **Comercial** (achado 3).
+
+### 6. Economia por canal — o que cada um custa (premissa de comissão de 9%)
+
+Custos por natureza: mídia = verba de anúncio com a sigla; Comercial = **comissão de 9% sobre a
+venda** (premissa do André); CRM = disparos com a tag × preço por canal (WhatsApp R$ 0,323 —
+fonte canônica `zenvia-custos.md`; e-mail R$ 0,0008; push/in-app zero).
+
+| Campanha | CAC mídia | CAC Comercial | CAC CRM | ROAS CRM |
+|---|---|---|---|---|
+| BNO24 | R$ 979 | R$ 153 | R$ 145 | 10,14× |
+| BNO25 | R$ 217 | R$ 69 | R$ 42 | 5,76× |
+| CDL | R$ 578 | R$ 127 | R$ 122 | 11,22× |
+| BP10 | R$ 849 | R$ 98 | R$ 113 | 7,48× |
+| ODI | R$ 1.133 | R$ 121 | R$ 102 | 12,75× |
+
+Três ressalvas que precisam andar junto com esses números:
+
+1. **O ROAS do Comercial é 11,11× em todas as campanhas — é aritmética, não achado.** Com custo
+   proporcional à receita (9%), o retorno é 1 ÷ 0,09 por construção. Só o CAC dele informa algo.
+2. **A comissão é piso.** Não inclui folha dos ~50 vendedores, Zenvia nem estrutura. O custo real
+   por comprador do Comercial é bem maior — e é exatamente a parte que não existe no warehouse.
+   A comparação mídia × Comercial é, por construção, desfavorável à mídia.
+3. **Assimetria de escopo.** A verba de mídia é do lançamento inteiro (inclusive o aquecimento que
+   alimentou as vendas dos outros canais); comissão e disparo são custos por venda realizada.
+   Onde a mídia faz captação e o Comercial fecha (TRA, TRA2, BIT), o CAC de mídia por último clique
+   chega a milhares de reais — ali a leitura correta é o ROAS da campanha inteira.
+
+**Dimensionando o item 2 (sensibilidade no BP10):** foram 51 vendedores ativos em 3,19 meses e
+R$ 445,9 mil de comissão. Bastam **R$ 2,7 mil por vendedor-mês** de custo adicional para o custo do
+canal dobrar. Com uma folha total plausível:
+
+| Folha + encargos por vendedor-mês | Custo do canal | CAC do Comercial |
+|---|---|---|
+| só comissão (o que está no relatório) | R$ 445,9 mil | R$ 98 |
+| + R$ 4 mil | R$ 1,10 mi | R$ 242 |
+| + R$ 6 mil | R$ 1,42 mi | R$ 313 |
+| + R$ 8 mil | R$ 1,75 mi | R$ 385 |
+
+Mesmo no cenário mais caro o Comercial (R$ 385) sai **abaixo da mídia (R$ 849)** no BP10 — mas a
+distância cai de 8,7× para 2,2×. **É a conta que falta pedir ao Financeiro**, e ela muda a ordem de
+grandeza da conclusão, não o sinal.
 
 ---
 
@@ -171,6 +227,8 @@ O canal que de fato perdeu eficiência é o **Comercial** (achado 3).
 - [ ] **Piso de ROAS acordado com o negócio**: a lição do DOM/ELS (`aquecimento-vendas`) se repete —
       sem piso, cada campanha decide desligar mídia no feeling. Com ROAS 2,35× no BP10 e margem
       digital m=0,75 (`midia-paga/MARGEM.md`), vale checar se o BP10 ainda estava acima do piso.
+- [ ] **Custo real do Comercial**: pedir folha + ferramenta ao Financeiro para trocar a comissão de
+      9% (piso) por custo total do canal. Sem isso, toda comparação mídia × Comercial é enviesada.
 - [ ] **Qtd. de anúncios (nível de criativo)**: a extração é de campanha, não de anúncio.
       Para contagem de criativos por campanha, repetir a extração com `level=ad` só nas 9 janelas.
 - [ ] **Reincidência como alerta operacional**: ODI vendeu 54% para quem já havia comprado no CDL.
@@ -186,6 +244,7 @@ O canal que de fato perdeu eficiência é o **Comercial** (achado 3).
 | [queries/04_midia_google_pmax.sql](queries/04_midia_google_pmax.sql) | Spend Google e PMax por campanha (warehouse, jan/2025+) |
 | [queries/05_cac_por_campanha.sql](queries/05_cac_por_campanha.sql) | CAC (tag e blended), ROAS, CPM, CPC e conversão de clique |
 | [queries/06_consolidado.sql](queries/06_consolidado.sql) | Uma linha por campanha — alimenta o `data.json` |
+| [queries/07_economia_por_canal.sql](queries/07_economia_por_canal.sql) | Custo, CAC e ROAS por campanha × canal + detalhe de disparos de CRM |
 | [scripts/extrai_meta_api.py](scripts/extrai_meta_api.py) | Spend Meta por campanha × dia via Marketing API (ago/2023+) |
 | [scripts/carrega_meta_bq.py](scripts/carrega_meta_bq.py) | Carrega o CSV em `bp-staging.dbt_abe.tb_ht_meta_spend` |
 | [refresh.py](refresh.py) | Roda tudo e gera `data.json` |
