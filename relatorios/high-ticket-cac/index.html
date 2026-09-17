@@ -185,6 +185,64 @@
   </div>
 </section>
 
+<!-- ── O QUE FOI VENDIDO ───────────────────────────────────────────────────── -->
+<section>
+  <h2>O que foi vendido em cada campanha</h2>
+  <p class="sub">As promoções não vendem uma coisa só. No BNO24, 10.684 dos 29.313 compradores
+     levaram uma assinatura de R$ 205 — não um vitalício. Comparar “o CAC do vitalício” entre
+     campanhas exige separar isso.</p>
+
+  <div class="card">
+    <p class="label">Composição da receita por família de produto (% da receita da campanha)</p>
+    <div class="legenda">
+      <span><i class="dot" style="background:var(--s1)"></i> Vitalício</span>
+      <span><i class="dot" style="background:var(--s2)"></i> Livro / físico</span>
+      <span><i class="dot" style="background:var(--s3)"></i> Certificação</span>
+      <span><i class="dot" style="background:var(--s4)"></i> Assinatura recorrente</span>
+      <span><i class="dot" style="background:var(--s7)"></i> Mecenas e outros</span>
+    </div>
+    <canvas id="gProduto" height="200"></canvas>
+  </div>
+
+  <div class="conta" style="margin-top:16px" id="contaVit"></div>
+
+  <div class="nota">
+    <strong>⚠️ Qualquer rateio de verba por produto é uma escolha, não um dado.</strong> A mídia
+    dessas campanhas não separa produto — os anúncios do BNO24 se chamam
+    <code>[BNO24] [VENDA] [MEMBROS] ABO Monster</code>, sem produto no nome. Não existe “verba do
+    vitalício” para medir. Por isso a tabela mostra as duas convenções possíveis, e cada uma
+    <strong>cega uma das métricas por construção</strong>:
+    <ul style="margin:8px 0 0 18px">
+      <li><strong>Rateio por receita</strong> — o custo segue o faturamento. O ROAS fica igual para
+        toda família (= ROAS da campanha); só o CAC diferencia.</li>
+      <li><strong>Rateio por comprador</strong> — cada comprador custa o mesmo. O CAC fica igual
+        para toda família (= CAC blendado); só o ROAS diferencia.</li>
+    </ul>
+    <br>
+    <strong>O BNO25 é o caso em que as duas convenções brigam.</strong> Ele tem o melhor CAC blendado
+    da série (R$ 104) e, sob rateio por receita, o <strong>pior CAC de vitalício (R$ 1.046)</strong> —
+    gastou R$ 5,6 mi de mídia e vendeu 1.939 vitalícios. Sob rateio por comprador, o vitalício dele
+    aparece como o <strong>melhor ROAS da série (33,6×)</strong>. As duas leituras são defensáveis: a
+    primeira cobra do BNO25 o vitalício que ele não priorizou; a segunda dá crédito à oferta barata
+    que trouxe 51 mil compradores. <strong>O que não é defensável é citar uma sem a outra.</strong>
+  </div>
+
+  <div class="card" style="margin-top:16px; overflow-x:auto">
+    <p class="label">Família de produto por campanha — os dois rateios lado a lado</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Campanha</th><th>Família</th><th class="num">Compradores</th>
+          <th class="num">Receita</th><th class="num">% receita</th><th class="num">Ticket</th>
+          <th class="num">CAC (rateio receita)</th><th class="num">CAC (rateio comprador)</th>
+          <th class="num">ROAS (rateio comprador)</th>
+        </tr>
+      </thead>
+      <tbody id="tbProduto"></tbody>
+    </table>
+  </div>
+</section>
+
 <!-- ── ECONOMIA POR CANAL ──────────────────────────────────────────────────── -->
 <section>
   <h2>Quanto custa cada canal</h2>
@@ -576,6 +634,58 @@ function initCharts(D){
       scales:{ x:{...eixoX, stacked:true}, y:{...eixoY, stacked:true, ticks:{callback:v=>br(v)}} }
     }
   });
+
+  /* ── o que foi vendido ────────────────────────────────────────────────── */
+  const P = D.produtos;
+  const fams = ['Vitalício','Livro / físico','Certificação','Assinatura recorrente'];
+  const corFam = {'Vitalício':S1,'Livro / físico':S2,'Certificação':S3,'Assinatura recorrente':S4};
+  const pctFam = (sig,fam) => P.find(r=>r.sigla===sig && r.nm_familia===fam)?.pct_receita ?? 0;
+  new Chart(gProduto, {
+    type:'bar',
+    data:{ labels:nomes, datasets:[
+      ...fams.map(f=>({label:f, data:nomes.map(s=>pctFam(s,f)), backgroundColor:corFam[f]})),
+      {label:'Mecenas e outros',
+       data:nomes.map(s=>Math.max(0, 100 - fams.reduce((a,f)=>a+pctFam(s,f),0))),
+       backgroundColor:S7}
+    ].map(d=>({...d, borderRadius:2, borderWidth:2, borderColor:'#ffffff', maxBarThickness:46}))},
+    options:{
+      aspectRatio:2.4,
+      plugins:{ legend:{display:false},
+                tooltip:{callbacks:{label:c=>c.dataset.label+': '+pc(c.raw)}} },
+      scales:{ x:{...eixoX, stacked:true}, y:{...eixoY, stacked:true, max:100, ticks:{callback:v=>v+'%'}} }
+    }
+  });
+
+  const vit = sig => P.find(r=>r.sigla===sig && r.nm_familia==='Vitalício') || {};
+  const v24 = vit('BNO24'), v10 = vit('BP10');
+  document.getElementById('contaVit').innerHTML =
+    `<div style="margin-bottom:10px"><strong>A comparação limpa: BNO24 × BP10.</strong> São as duas ` +
+    `campanhas em que o vitalício era a oferta central (${pc(v24.pct_receita)} e ${pc(v10.pct_receita)} ` +
+    `da receita). O BNO25 fica de fora — lá o vitalício foi ${pc(vit('BNO25').pct_receita)} da receita ` +
+    `e 3,6% dos compradores.</div>` +
+    `<div><b>CAC do vitalício</b> &nbsp; rateio por receita: ${rs(v24.vl_cac_rateio_receita)} → ` +
+    `<b>${rs(v10.vl_cac_rateio_receita)}</b> (+${br(100*(v10.vl_cac_rateio_receita/v24.vl_cac_rateio_receita-1),0)}%) ` +
+    `&nbsp;·&nbsp; rateio por comprador: ${rs(v24.vl_cac_rateio_comprador)} → ` +
+    `<b>${rs(v10.vl_cac_rateio_comprador)}</b> (+${br(100*(v10.vl_cac_rateio_comprador/v24.vl_cac_rateio_comprador-1),0)}%)</div>` +
+    `<div style="margin-top:10px;font-size:13px;color:#475569">Separar o produto <strong>aumenta</strong> ` +
+    `a alta do CAC do vitalício (+151% contra os +129% do número blendado), em vez de suavizá-la. ` +
+    `A conclusão não depende do rateio escolhido.</div>`;
+
+  const ordemFam = {'Vitalício':0,'Livro / físico':1,'Certificação':2,'Assinatura recorrente':3,
+                    'Mecenas':4,'Ebook / Teller':5};
+  document.getElementById('tbProduto').innerHTML = P
+    .slice().sort((a,b)=>(a.ord-b.ord) || ((ordemFam[a.nm_familia]??9)-(ordemFam[b.nm_familia]??9)))
+    .map(r=>`<tr>
+      <td><strong>${r.sigla}</strong></td>
+      <td>${r.nm_familia}</td>
+      <td class="num">${br(r.qt_compradores)}</td>
+      <td class="num">${mi(r.vl_receita)}</td>
+      <td class="num">${pc(r.pct_receita)}</td>
+      <td class="num">${rs(r.vl_ticket)}</td>
+      <td class="num">${rs(r.vl_cac_rateio_receita)}</td>
+      <td class="num">${rs(r.vl_cac_rateio_comprador)}</td>
+      <td class="num">${r.vl_roas_rateio_comprador!=null ? br(r.vl_roas_rateio_comprador,2)+'×' : '—'}</td>
+    </tr>`).join('');
 
   /* ── economia por canal ───────────────────────────────────────────────── */
   const CAN = D.canais;

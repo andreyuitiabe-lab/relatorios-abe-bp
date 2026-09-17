@@ -141,6 +141,21 @@ def build() -> dict:
     canal.loc[m, "vl_cac_canal"] = round(MIDIA_PLANILHA["TRA"] / canal.loc[m, "qt_compradores"].iloc[0], 2)
     canal.loc[m, "vl_roas_canal"] = round(canal.loc[m, "vl_receita"].iloc[0] / MIDIA_PLANILHA["TRA"], 2)
 
+    print("  o que foi vendido em cada campanha...", flush=True)
+    produto = bqq(AQUI / "queries" / "08_cac_por_produto.sql")
+    # Travessia: verba da planilha (2023 é anterior ao alcance da Marketing API)
+    mp = produto["sigla"] == "TRA"
+    tot_rec = produto.loc[mp, "vl_receita"].sum()
+    tot_comp = produto.loc[mp, "qt_compradores"].sum()
+    verba = MIDIA_PLANILHA["TRA"]
+    produto.loc[mp, "vl_custo_rateio_receita"] = (verba * produto.loc[mp, "vl_receita"] / tot_rec).round()
+    produto.loc[mp, "vl_cac_rateio_receita"] = (
+        verba * produto.loc[mp, "vl_receita"] / tot_rec / produto.loc[mp, "qt_compradores"]).round(2)
+    produto.loc[mp, "vl_cac_rateio_comprador"] = round(verba / tot_comp, 2)
+    produto.loc[mp, "vl_roas_rateio_receita"] = round(tot_rec / verba, 2)
+    produto.loc[mp, "vl_roas_rateio_comprador"] = (
+        produto.loc[mp, "vl_receita"] / (verba / tot_comp * produto.loc[mp, "qt_compradores"])).round(2)
+
     print("  série anual de high-ticket...", flush=True)
     anual = bqq_inline(Q_SERIE_ANUAL)
     print("  reincidência entre campanhas...", flush=True)
@@ -161,6 +176,7 @@ def build() -> dict:
         },
         "campanhas": campanhas,
         "canais": [{k: nn(v) for k, v in l.items()} for l in canal.to_dict("records")],
+        "produtos": [{k: nn(v) for k, v in l.items()} for l in produto.to_dict("records")],
         "anual": [{k: nn(v) for k, v in l.items()} for l in anual.to_dict("records")],
         "mix_promocao": [{k: nn(v) for k, v in l.items()} for l in mix.to_dict("records")],
     }

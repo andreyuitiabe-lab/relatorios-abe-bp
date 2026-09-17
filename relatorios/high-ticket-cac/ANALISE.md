@@ -73,7 +73,8 @@ não-membro, como leitura de aquisição pura.
 
 `CAC = (verba ÷ compradores) = (verba ÷ compradores de mídia) × (compradores de mídia ÷ total)`
 
-Comparando as duas campanhas que vendem a mesma coisa (vitalício para a base):
+Comparando as duas campanhas que vendem a mesma coisa (vitalício para a base) — e são mesmo
+comparáveis: o vitalício é **93,4% da receita do BNO24 e 76,5% da do BP10** (achado 7):
 
 | | BNO24 (nov/2024) | BP10 (jun–set/2026) |
 |---|---|---|
@@ -119,6 +120,10 @@ o mesmo produto vendendo menos:
 O BF de 2025 **não vendeu vitalício** — vendeu entrada barata. Comparar o CAC das duas como se
 fossem a mesma campanha é comparar produtos diferentes. Em 2026 o motor de vitalício voltou, mas
 no aniversário (BP10: R$ 14,3 mi dos R$ 18,7 mi são vitalícios).
+
+⚠️ **O "melhor CAC da série" do BNO25 (R$ 104) é artefato de mix.** Ele vendeu 50.997 assinaturas
+de R$ 206 e só 1.939 vitalícios. Separando o produto (achado 7), o CAC de vitalício dele é
+**R$ 1.046 — o pior da série** sob rateio por receita. Não usar o R$ 104 como benchmark.
 
 ### 3. A eficiência do Comercial caiu de forma monotônica
 
@@ -220,6 +225,55 @@ grandeza da conclusão, não o sinal.
 
 ---
 
+### 7. O que foi vendido em cada campanha — e o CAC justo por produto
+
+**Levantado a pedido do André (17/09):** o CAC blendado divide a verba por todos os compradores da
+janela, e as promoções vendem várias coisas ao mesmo tempo. No BNO24, **10.684 dos 29.313
+compradores levaram assinatura de R$ 205**, não vitalício.
+
+Composição da receita (% da campanha):
+
+| | Vitalício | Livro/físico | Certificação | Assinatura | Mecenas/outros |
+|---|---|---|---|---|---|
+| TRA | — | — | **99,4%** | 0,5% | 0,1% |
+| BNO24 | **93,4%** | — | — | 5,5% | 1,2% |
+| BNO25 | 36,1% | — | 0,3% | **56,1%** | 7,5% |
+| CDL | 6,2% | **90,7%** | — | 3,0% | 0,1% |
+| BP10 | **76,5%** | 4,4% | — | 17,6% | 1,6% |
+| ODI | 14,9% | **77,0%** | — | 6,2% | 1,9% |
+
+**⚠️ Qualquer rateio de verba por produto é escolha, não dado.** A mídia não separa produto — os
+anúncios do BNO24 se chamam `[BNO24] [VENDA] [MEMBROS] ABO Monster`. Não existe "verba do
+vitalício". Por isso reporto as duas convenções, e **cada uma cega uma métrica por construção**:
+
+| Rateio | Custo da família | Consequência |
+|---|---|---|
+| por **receita** | verba × (receita da família ÷ total) | ROAS fica **igual** para toda família (= ROAS da campanha); só o CAC separa |
+| por **comprador** | verba ÷ total de compradores | CAC fica **igual** para toda família (= CAC blendado); só o ROAS separa |
+
+**CAC do vitalício, BNO24 → BP10** (as duas campanhas em que ele era a oferta central):
+
+| Convenção | BNO24 | BP10 | Variação |
+|---|---|---|---|
+| rateio por receita | R$ 275 | **R$ 690** | **+151%** |
+| rateio por comprador | R$ 186 | **R$ 426** | +129% |
+
+**Separar o produto aumenta a alta do CAC do vitalício, não a suaviza** — a conclusão central não
+depende do rateio escolhido, que é o teste que importa.
+
+**O BNO25 é o caso em que as duas convenções brigam** e por isso não entra na comparação acima:
+sob rateio por receita ele tem o **pior CAC de vitalício da série (R$ 1.046)** — gastou R$ 5,6 mi e
+vendeu 1.939 vitalícios; sob rateio por comprador, o vitalício dele é o **melhor ROAS da série
+(33,6×)**, porque cada comprador custou R$ 104 e pagou ticket de R$ 3.484. As duas leituras são
+defensáveis (a primeira cobra dele o vitalício que não priorizou; a segunda dá crédito à oferta
+barata que trouxe 51 mil compradores). Citar uma sem a outra é que não é.
+
+**O que resolveria de vez:** verba separada por produto na mídia — hoje impossível porque o nome da
+campanha de anúncio não carrega produto. É uma mudança de nomenclatura no gerenciador, barata,
+e destravaria CAC por produto sem rateio.
+
+---
+
 ## Pendências / próximos passos
 
 - [ ] **Incrementalidade**: nada aqui separa venda que a mídia causou da que ela só registrou.
@@ -245,6 +299,7 @@ grandeza da conclusão, não o sinal.
 | [queries/05_cac_por_campanha.sql](queries/05_cac_por_campanha.sql) | CAC (tag e blended), ROAS, CPM, CPC e conversão de clique |
 | [queries/06_consolidado.sql](queries/06_consolidado.sql) | Uma linha por campanha — alimenta o `data.json` |
 | [queries/07_economia_por_canal.sql](queries/07_economia_por_canal.sql) | Custo, CAC e ROAS por campanha × canal + detalhe de disparos de CRM |
+| [queries/08_cac_por_produto.sql](queries/08_cac_por_produto.sql) | O que foi vendido em cada campanha + CAC por família nos dois rateios |
 | [scripts/extrai_meta_api.py](scripts/extrai_meta_api.py) | Spend Meta por campanha × dia via Marketing API (ago/2023+) |
 | [scripts/carrega_meta_bq.py](scripts/carrega_meta_bq.py) | Carrega o CSV em `bp-staging.dbt_abe.tb_ht_meta_spend` |
 | [refresh.py](refresh.py) | Roda tudo e gera `data.json` |
