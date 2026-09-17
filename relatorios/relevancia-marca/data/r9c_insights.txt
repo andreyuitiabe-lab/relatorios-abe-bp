@@ -1,0 +1,95 @@
+painel: 313 dias (01/08/25→12/09/26)
+
+====================================================================================================
+A. DURAÇÃO DO EFEITO — hipótese: o efeito é só do próprio dia (as rodadas anteriores só testaram lag 0 e 1).
+   Método: log(tx) ~ Σ log(YT) de D a D−10 + controles (DOW, mês×ano, spend, fase, lançamento, fechamento), HAC-14.
+   lag        coef       p   acumulado
+   D−0      +0.177   0.000   +0.177
+   D−1      -0.023   0.459   +0.154
+   D−2      +0.046   0.119   +0.200
+   D−3      -0.077   0.003   +0.123
+   D−4      +0.031   0.368   +0.154
+   D−5      -0.004   0.910   +0.150
+   D−6      +0.051   0.089   +0.201
+   D−7      -0.008   0.830   +0.193
+   D−8      +0.018   0.666   +0.211
+   D−9      -0.028   0.333   +0.183
+   D−10     +0.011   0.756   +0.194
+   Soma dos 11 lags (efeito de longo prazo de +1% de audiência sustentada): +0.194
+   → +10% de audiência sustentada por 10 dias ≈ +1.9% de transações; só no dia ≈ +1.7%
+   Lags com p<0,10: [0, 3, 6]
+
+====================================================================================================
+B. DOSE-RESPOSTA — hipótese: o efeito é linear (alta vs baixa esconde a forma da curva).
+   Método: decis de audiência DENTRO do quintil de spend; média de tx e CAC por decil (resíduo de DOW/mês/spend).
+   quintil de audiência (dentro do spend)        n  tx vs médio  CAC vs médio  views/dia (mediana)
+   Q1 (mais baixa)                             65        -7.7%         +5.7%              189,053
+   Q2                                          60        -2.2%         +7.8%              244,658
+   Q3                                          63        -2.0%         +2.2%              298,724
+   Q4                                          60        +2.6%         -4.1%              361,781
+   Q5 (mais alta)                              65       +10.1%         -8.2%              553,679
+
+====================================================================================================
+C. HETEROGENEIDADE POR CANAL — hipótese: o ganho está em ads (mais tráfego → mais venda).
+   Método: pareado (quintil spend × fds × fase), sem abertura/fechamento, por canal de venda.
+   canal                     efeito                  IC95       p  % das tx
+   TOTAL                     +15.8%  [  +7.4,  +26.9]   0.000      100%
+   Ads (Meta+Google)         +21.3%  [ +11.7,  +34.0]   0.000       41%
+   CRM                        +7.2%  [ -13.0,  +40.5]   0.448       14%
+   Comercial                 +30.6%  [ +16.8,  +59.4]   0.000       22%
+   Orgânico+YouTube          +63.4%  [ +41.3, +100.5]   0.000        8%
+   Tudo menos ads            +22.8%  [ +12.8,  +37.0]   0.000       55%
+   Ticket médio               -5.4%  [ -13.3,   +4.0]   0.292
+
+====================================================================================================
+D. INTERAÇÃO COM SPEND — hipótese: o efeito é igual em qualquer nível de investimento.
+   Método: efeito da audiência DENTRO de cada quintil de spend (alta vs baixa no próprio quintil).
+   quintil de spend      spend mediano    n  Δ transações     Δ CAC
+   Q1                         45,706   63        +35.8%    -19.3%
+   Q2                         81,106   62        +44.0%    -24.0%
+   Q3                        115,024   63        +11.3%     -7.2%
+   Q4                        181,988   62        +21.5%    -29.2%
+   Q5                        310,784   63        +24.8%    -27.9%
+
+====================================================================================================
+E. ASSIMETRIA — hipótese: subir audiência ajuda tanto quanto cair prejudica.
+   Método: top decil e bottom decil de audiência (dentro do quintil de spend) vs os 80% do meio.
+   decil MAIS BAIXO (p<10%)    n=  30  tx vs esperado   -7.5%
+   meio (10–90%)               n= 248  tx vs esperado   +0.0%
+   decil MAIS ALTO (p>90%)     n=  35  tx vs esperado   +6.7%
+
+====================================================================================================
+F. INSCRITOS COMO ESTOQUE — hipótese: só o fluxo diário importa; o estoque acumulado não diz nada.
+   Método: semanal. Inscritos líquidos acumulados nas 4 semanas anteriores → vendas da semana, controlando spend.
+   inscritos líq. acum. 4 sem (defasado)    → transações  elast. -0.020 (p=0.689, n=50)
+   inscritos líq. acum. 4 sem (defasado)    → CAC         elast. +inf (p=nan, n=50)
+   audiência acum. 4 sem (defasada)         → transações  elast. -0.136 (p=0.102, n=50)
+   audiência acum. 4 sem (defasada)         → CAC         elast. +inf (p=nan, n=50)
+   inscritos líq. da própria semana         → transações  elast. +0.206 (p=0.001, n=50)
+   inscritos líq. da própria semana         → CAC         elast. +nan (p=nan, n=50)
+   Inscritos líquidos: mediana 6,791/semana · pior semana 0 · melhor 36,264
+
+====================================================================================================
+G. VÍDEOS GIGANTES — hipótese: um vídeo de milhões de views move a venda do dia.
+   Método: dias com vídeo novo >1M views em D0..D+2 (base classificada) vs placebo de todos os outros dias, resíduo controlado.
+   10 programas com +1M views desde ago/2025. Top 8:
+     21/05/26   4,163,861  EL SALVADOR - O DIA EM QUE O MEDO MUDOU DE LADO | FILME COMPLE
+     03/09/26   4,023,822  MASTER X STF EXPLICADO EM 20 MINUTOS
+     10/09/26   2,857,472  25 ANOS DO 11 DE SETEMBRO
+     29/10/25   2,698,018  Como o Rio de Janeiro chegou ao estado atual? | Rio de Janeiro
+     04/02/26   2,223,288  O LIMITE DA MALDADE HUMANA NO CASO EPSTEIN
+     17/01/26   2,142,951  QUEM É O DONO DO BANCO QUE QUEBROU O BRASIL?
+     25/04/26   1,357,988  A FACE OCULTA DE MICHAEL JACKSON
+     01/10/25   1,296,380  O QUE É METANOL E COMO ELE FOI PARAR NOS BARES DE SP
+   D+0: n=  9  tx   +4.1% (placebo p  61)  CAC   -4.5%
+   D+1: n=  7  tx  +11.5% (placebo p  73)  CAC   -3.0%
+   D+2: n=  6  tx  +12.0% (placebo p  74)  CAC   -6.2%
+
+====================================================================================================
+H. TIPO DE CONTEÚDO — hipótese: qualquer audiência vale igual (live de notícia = documentário).
+   Método: para cada dia, o programa mais visto publicado nos 2 dias anteriores; dias agrupados por tipo.
+   tipo do programa mais visto (D..D+2)    n  views med.  tx vs esp.  CAC vs esp.
+   entrevista/sabatina                  12     646,516       +7.6%        -8.9%
+   live de notícia/react                15     447,606       -5.6%        -1.2%
+   outro programa                      212     344,699       +1.3%        -2.1%
+   (dias sem programa >100k)            65           —       -2.8%        +9.7%

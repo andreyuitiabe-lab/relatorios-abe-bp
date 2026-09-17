@@ -1,0 +1,20 @@
+série: 408 dias (01/08/25→12/09/26) — COMPLETA (antes 313)
+recorte principal (sem abertura ±3d nem fechamento −2..0): 262 dias
+
+EFEITO DE DIAS DE AUDIÊNCIA ORGÂNICA ALTA (pareado por quintil de spend × fds × fase)
+desfecho                               efeito       IC95 (bloco L=14)       p
+Transações não-renovação               +19.5%  [  +8.6,  +42.4]   0.004
+Receita                                +18.0%  [  -2.9,  +48.6]   0.114
+CAC de ads (= o mesmo fato)            -13.7%  [ -25.0,   -6.6]   0.007
+Spend [checagem do pareamento]          +1.2%  [  -3.7,  +10.7]   0.293
+⊗ Renovações (controle negativo)       +16.3%  [  -6.8,  +77.9]   0.119
+⊗ Receita de renovação                 +12.6%  [  -7.4,  +78.5]   0.143
+
+Robustez do bootstrap ao tamanho do bloco (transações):
+   L= 7 dias:  +19.5%  IC [+9.0, +40.6]  p=0.000
+   L=14 dias:  +19.5%  IC [+7.4, +41.3]  p=0.000
+   L=21 dias:  +19.5%  IC [+9.7, +40.6]  p=0.000
+   L=28 dias:  +19.5%  IC [+10.6, +42.4]  p=0.000
+
+Comparação com a série incompleta (313 dias) que gerou os números publicados:
+   série completa (410 dias): +19.5% · publicado com 313 dias: +15,8%

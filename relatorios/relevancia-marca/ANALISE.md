@@ -17,6 +17,13 @@ Metas verificáveis:
 
 ## Resposta curta
 
+> ⚠️ **Auditoria 14/09/2026 (rodada 9a, abaixo):** quatro frases desta seção estão mais fortes do
+> que o dado permite — "freemium nulo / não usar como topo de funil" (é ausência de evidência,
+> MDE ≥1,6–1,9×), "médio 1,44× p<0,005" (p=0,02 com cluster por pessoa), "estreia tardia zera"
+> (D+7, 2 sabatinas) e "com o mesmo dinheiro +24,7% e CAC −11,9%" (um fato, spend não pareia
+> perfeitamente, mix de campanha solto). O núcleo (membro leve 1,65× [1,22–2,23]; volume do YT
+> orgânico) sobrevive. Correções ao texto publicado aguardam decisão do André.
+
 **A hipótese não se sustenta como formulada, mas há um efeito real e mensurável — em outro lugar.**
 
 1. **Não houve lift de atenção nem de vendas atribuível às sabatinas no agregado.** A receita
@@ -623,7 +630,1075 @@ opostas (fatia recorde, bolo e BP em queda), e é exatamente esse desencontro qu
 ⚠️ Trends é índice relativo: o "bolo" aqui é o índice da categoria na nossa escala encadeada, não
 volume absoluto de buscas. Volume absoluto exige Keyword Planner ou Search Console (Fase 2 do plano).
 
+## Rodada 7 — testes de setembro (02/09/2026, executados em paralelo por 3 agentes)
+
+Relatórios completos: [TESTE_A_FORMATO_VS_PAUTA.md](TESTE_A_FORMATO_VS_PAUTA.md) ·
+[TESTE_B_MEDIO_PRAZO.md](TESTE_B_MEDIO_PRAZO.md) · [TESTE_C_GA4_NEWUSERS.md](TESTE_C_GA4_NEWUSERS.md)
+
+### Teste A — o lift é do formato, não da pauta eleitoral
+
+**Descoberta que muda a premissa:** Renan e Marçal só entraram na plataforma em **19/08** (as
+lives de 14 e 17/08 foram no YouTube) — o IAC 1,98× da playlist foi medido **sem nenhum
+pessoa-dia deles** (cobre 7 sabatinas, não 9).
+
+- Lift por sabatina (D+14, controle top-8 pareado por dia): Zema **2,06×***, Aldo Rebelo
+  **1,78×***, Caiado **1,69×***, Salles 1,53× ns, Cury 1,22× ns, de Toni 0,99× ns, Derrite
+  0,93× ns. No D+7: **Marçal 0,81× ns e Renan 0,48× ns** — os dois nomes de maior projeção são
+  os únicos sem lift.
+- ALTA vs BAIXA notoriedade (pooled): 0,70 [0,30–1,15] vs 1,65 [1,34–1,95], p=0,001 — direção
+  **oposta** à hipótese da pauta. Sensibilidades (Zema/Salles como ALTA): ns.
+- **Régua de formato:** sabatinas pooled D+14 **1,61×** = top-5 BP Entrevista **1,61×** (p=0,95).
+  O 2,70× vs 1,98× do IAC era razão de receita sensível a cauda; em taxa de conversão pareada
+  **os formatos empatam**.
+- **Veredito: é FORMATO** (condição pré-registrada satisfeita). Caveat: o grupo ALTA-puro está
+  confundido pela estreia tardia (audiência = replay frio pós-YouTube) e janela D+7.
+- ⚠️ **Achado operacional novo:** publicar a sabatina na plataforma dias depois da live no
+  YouTube **zerou a ativação** — o timing da estreia importa mais que a notoriedade do
+  entrevistado.
+
+### Teste B — incremento real, não pull-forward; freemium nulo até D+60
+
+Universo único com follow-up completo (6 sabatinas de jun–jul; última data íntegra de
+`fct_transactions` = 01/09; **D+90 infactível até ~05/10**):
+
+| Estrato | D+14 | D+30 | D+60 | razão D+60/D+14 |
+|---|---|---|---|---|
+| Membro leve | 1,64× [1,21–2,23] | 1,56× | **1,64× [1,35–1,99]** | **1,00** |
+| Membro médio | 1,30× | 1,31× | 1,26× [1,09–1,47] | 0,97 |
+| Heavy | 0,84× ns | 0,99× ns | 0,97× ns | — |
+| Freemium | 1,15× ns | 1,41× ns | 1,13× ns | 0,99 |
+
+O lift do leve **não decai** e a diferença absoluta **cresce** (+0,93pp → +2,23pp; receita extra
+R$ 20 → R$ 54/pessoa-dia) — o oposto do que pull-forward prevê. **Freemium segue nulo até
+D+60**: alongar a janela não revelou lift de aquisição. A leitura "sabatina ativa a base morna"
+sai fortalecida. ICs de janela longa são anti-conservadores (autocorrelação de pessoa-dias).
+
+### Teste C — GA4 newUsers: passa no crivo, mas não é sinal novo (descartado)
+
+newUsers por canal correlaciona 0,95–0,99 com as sessões do mesmo canal — é a mesma série.
+Organic Video empata com sessões YT (+0,268/−0,156 vs +0,265/−0,143), busca fica levemente
+pior; TOTAL (ρ spend 0,79) e Social (0,83) **medem orçamento**. Razão conceitual: "novo" no GA4
+é **cookie novo, não pessoa nova** (64% do Direct conta como "novo") — o filtro de "membro
+voltando" que o newUsers prometia não existe. **Painel diário inalterado** (sessões YT orgânico
++ busca orgânica + Wikipedia); newUsers Organic Video registrado como substituto se a série de
+sessões quebrar.
+
+## Rodada 8 — revisão pedida pela Bárbara (11/09/2026): lançamentos e fechamento de lote
+
+**Pedido (thread do Luan/Bárbara):** (a) deixar a conclusão mais didática — dois parágrafos;
+(b) checar se os dias de YT orgânico alto batem com **fechamento de lote**; (c) refazer o
++24,7% **excluindo os docs de lançamento** (El Salvador, Vida dos Santos etc.), porque grande
+parte dos dias altos vem de estreia.
+
+**Método:** mesmo teste pareado da rodada 2, com calendário **corrigido** da wiki
+(o `campanhas_periodos.csv` da `tb_campaign_period` não tem DOM/ELS/CDL/EVG/ODI/ENE — a dummy
+`em_venda` original não cobria abr–jul/2026). Janela de lançamento = venda_start ±3d (21
+campanhas, 124 dias); fechamento de lote = venda_end −2..0 (39 dias).
+Script: [teste_pareado_sem_lancamento.py](scripts/teste_pareado_sem_lancamento.py) · saída em
+`data/teste_pareado_sem_lancamento.txt`.
+
+**Diagnóstico de sobreposição:** dos dias de YT orgânico ALTO, **37,8% são janela de
+lançamento** (vs 26,9% dos baixos) — a Bárbara estava certa. Fechamento de lote: 11,2% vs 9,1%
+— não é confundidor. No top-15 de dias: BMA (23 e 20/02), PAP/sabatina Renan (14/08), TLR
+(16/09), BNO25 (01/11), CDL+ELS (20/05).
+
+| Variante | n dias | Transações | CAC ads | Conv/1k sessões | Spend pareou? |
+|---|---:|---:|---:|---:|---|
+| Baseline (fases corrigidas) | 385 | **+25,6%*** | −10,9%*** | +21,7%*** | +3,7% (p=0,08) |
+| **Sem lançamentos** (venda_start ±3d) | 261 | **+18,9%*** [+9,9, +31,2] | −6,8% (p=0,051) | **+2,2% ns** | +3,9% ns |
+| Sem fechamento de lote | 346 | +27,8%*** | −13,6%*** | +23,8%*** | +4,2% (p=0,06) |
+| Sem ambos | 239 | +20,9%*** | −6,4% (p=0,10) | +3,9% ns | +5,4% (p=0,047) |
+
+**Conclusões da rodada:**
+1. **Fechamento de lote não explica os picos** — quase não coincide com dias altos e, excluído,
+   o efeito até sobe.
+2. **O sinal de conversão ("porta mais aberta") é fenômeno de lançamento.** Fora das janelas de
+   estreia, transações ainda sobem +18,9% (p<0,001) mas conv/sessão zera (+2,2% ns) e o CAC
+   enfraquece para −6,8% (p=0,05, IC toca zero). A estreia do doc no YouTube gera simultaneamente
+   o pico de Organic Video e o pico de venda — era o confundidor "lançamento bom" da ressalva,
+   agora quantificado.
+3. **Leitura revisada do termômetro:** YT orgânico alto fora de lançamento ainda marca dia de
+   mais volume de vendas, mas não sustenta mais a leitura de "resistência menor / mesma visita
+   converte melhor" como fenômeno cotidiano. A frase "com o mesmo orçamento, +24,7% de transações
+   e CAC −11,9%" só vale com lançamentos incluídos.
+4. ⚠️ Caveat: a exclusão remove 124 de 385 dias (32%) e o pareamento de spend degrada um pouco
+   nas variantes menores (+3,9% a +5,4%) — parte do +18,9% residual pode ser spend. Fechamentos
+   de lote intermediários (dentro da janela de venda) não estão no calendário; só o fim da venda
+   foi testado.
+5. Relatório atualizado: conclusão em 2 parágrafos na aba "Resposta ao pedido" + flags de
+   revisão nas duas abas.
+
+## Rodada 9a — auditoria das rodadas 1–8 (14/09/2026)
+
+**Por quê:** pedido da Bárbara/Luan (14/09, #squad-cac) para refinar a análise com os cases
+sabatinas e 11 de Setembro. Antes de rodar análise nova, passada adversarial no `ANALISE.md`,
+nos `TESTE_*.md`, nos scripts e nos dados: 11 pontos cegos suspeitos + o que mais aparecesse.
+Tudo recomputado está em [scripts/auditoria_r9a.py](scripts/auditoria_r9a.py) (saída
+`data/r9a_auditoria.txt`) e nas queries [27](queries/27_cluster_robusto_q14.sql),
+[28](queries/28_cluster_robusto_q25.sql), [29](queries/29_spend_google_video_diario.sql).
+Integridade: `fct_transactions` aprovadas fechadas até **13/09/2026** (14/09 parcial).
+
+**Resumo em uma linha:** o núcleo sobrevive (membro leve 1,65× e o sinal de volume do YouTube
+orgânico), mas **quatro conclusões publicadas estão mais fortes do que o dado permite** —
+"freemium nulo → não usar como topo de funil", "membro médio 1,44× (p<0,005)", "estreia tardia
+zera a ativação" e "com o mesmo dinheiro, +24,7% e CAC −11,9%" — e o relatório responde a uma
+pergunta diferente da que a Bárbara está fazendo. Ordenado por quanto muda a conclusão:
+
+### 1. O desenho individual não responde "o vídeo no YouTube vendeu?" — CONFIRMADO (muda a moldura)
+
+Checado: toda a máquina pessoa-dia (queries 11–15, 22–26) parte de `obt_kafka__view_sessions`,
+isto é, **consumo na plataforma**. O lado YouTube tem só duas pontes no warehouse: sessões
+`Organic Video` do GA4 (chegadas ao site, mediana 767/dia) e transações com
+`nm_pptc_tracking_publisher = 'YouTube'` (mediana **13/dia, ~1% das transações**; 23 em 13/09,
+máximo de setembro). Nenhuma métrica de views/retenção/inscritos existe (verificado de novo:
+`datamart`, `dbt_abe`, GA4).
+
+- **Efeito prático:** o que está publicado responde "quem assiste na plataforma compra mais nos
+  14 dias seguintes?" (sim, membro leve). **Não** responde "o vídeo no YouTube gerou venda?".
+  As sabatinas Renan/Marçal ilustram: 1.822 e 3.995 pessoas na plataforma contra uma live no
+  YouTube de ordem de grandeza maior — o pessoa-dia mede a cauda que entrou, não a audiência.
+- A resposta curta e a aba "Resposta ao pedido" do relatório precisam abrir com essa fronteira.
+  Para a rodada 9b, o bloco "impacto relacionável" da Bárbara só fecha com YouTube Studio
+  (item 0 da semana) + UTM/CTA; sem isso, entregar plataforma + GA4 + UTM com o gap no topo.
+
+### 2. "Freemium nulo → não distribuir como topo de funil" — CONFIRMADO: é ausência de evidência
+
+Efeito mínimo detectável (80% de poder, α 5%) dos testes em que o "nulo" se apoia:
+
+| Teste | n tratado | lift observado [IC95] | **só detectaria lift ≥** |
+|---|---:|---|---:|
+| Q14 freemium leve | 486 | 0,83× [0,41–1,66] | **1,91×** |
+| Q14 freemium médio | 363 | 0,58× [0,26–1,30] | 1,88× |
+| Q14 freemium heavy | 102 | 0,28× [0,04–1,99] | 2,49× |
+| Teste B freemium D+14 | 558 | 1,15× [0,60–2,21] | 2,00× |
+| Teste B freemium D+60 | 558 | 1,13× [0,77–1,66] | 1,58× |
+
+O efeito de referência do membro leve (**1,65×**) está **dentro** de todos esses ICs e abaixo
+do MDE de quase todos. Os point estimates oscilam de 0,28–0,83× (Q14) para 1,13–1,41× (Teste B)
+— assinatura de ruído, não de efeito negativo. **Efeito prático:** trocar "nulo / zero / nada"
+por "sem evidência; o teste só excluiria lift acima de ~1,6–1,9×". A recomendação "não usar
+sabatina como topo de funil" **não é sustentada pelos dados** (nem refutada) — vira "sem base
+para recomendar nem para vetar; exige n ≥ ~2.500 pessoa-dias freemium". Aparece em: ANALISE
+(resposta curta, §3, Teste B), `index.html` (linhas ~188, 261, 527, 546), wiki
+`relevancia-marca.md` e `metricas-referencia.md`.
+
+### 3. Erro-padrão com pessoa-dia repetida — CONFIRMADO PARCIALMENTE: leve sobrevive, médio fica frágil
+
+Queries 27/28 agregam a máquina da query 14 e do Teste B por **pessoa** e calculam a variância
+robusta (cluster = e-mail). Design effect: tratado leve 1,23 (1,14 pessoa-dias por pessoa),
+médio 1,97, heavy 1,6; controles 1,3–4,7 (heavy repete muito).
+
+| Estrato (Q14, D+14) | lift | IC naive · p | **IC robusto · p** |
+|---|---:|---|---|
+| Membro leve | 1,65× | [1,26–2,17] · 0,0003 | **[1,22–2,23] · 0,001** |
+| Membro médio | 1,44× | [1,16–1,80] · 0,001 | **[1,06–1,96] · 0,021** |
+| Heavy / freemium | 0,28–0,87× | ns | ns |
+
+Teste B (janelas longas): leve resiste em todas (D+60 **1,65× [1,32–2,04]**, p<0,0001); médio
+vira **ns em D+14 (p=0,16) e D+30 (p=0,08)** e fica no limite em D+60 (1,27× [1,01–1,60],
+p=0,044). **Efeito prático:** "1,4–1,65× com p<0,005" → "leve 1,65× [1,2–2,2], sólido; médio
+1,44× [1,06–1,96], frágil". O achado principal sobrevive.
+
+### 4. "Estreia tardia zera a ativação" — NÃO LISTADO, rebaixar para provisório
+
+Apoia-se em Renan+Marçal pooled D+7: **0,70× [0,30–1,15]**, MDE 1,82×; individualmente
+Marçal 0,81× [0,25–1,45] (MDE 1,98×) e Renan 0,48× [0,00–1,16] (MDE 2,39×) — 7 e 2 compradores.
+O IC pooled exclui 1,65 por pouco e a janela é D+7. Está na wiki como "gotcha central" e no
+relatório como regra ("desde que o conteúdo entre na plataforma no dia da live"). **Agora dá para
+fechar D+14 e D+30 dos dois** (transações íntegras até 13/09) — é o item mais barato da 9b e
+pode confirmar ou derrubar a regra. Até lá: "indício, D+7, n pequeno".
+
+### 5. "+24,7% E CAC −11,9% com o mesmo dinheiro" — P2 CONFIRMADO (um fato), P7 CONFIRMADO (mix solto)
+
+**P2 — volume e eficiência não são duas evidências.** Com spend pareado, `tx_ads` +20,7%
+[+13,8, +29,1] e CAC −10,9% [−15,7, −4,8] são a mesma coisa (CAC implícito
+(1+Δspend)/(1+Δtx_ads) = −14,1%). A evidência **independente** é outra: as transações **não
+atribuídas a ads** subiram **+27,9%** [+18,9, +41,3] — mais que as de ads — e o Comercial
++14,6%. Reescrever: "um fato lido de dois ângulos; o que é independente é que o efeito é maior
+fora da mídia".
+
+**P7 — o pareamento controla fase, não mix.** Campanha Meta dominante do dia vs alta/baixa de
+YT orgânico, na mesma estratificação do teste:
+
+| Campanha dominante | dias | % dias "alta" |
+|---|---:|---:|
+| BP10 | 27 | **7%** (2 de 27) |
+| PAP | 16 | 6% |
+| DOM | 12 | 25% |
+| 10R / GOD / TLR / BNO25 | 122 / 25 / 14 / 30 | 55–57% |
+| ELS / CDL | 32 / 19 | 62–63% |
+| SDC | 16 | **100%** |
+
+O mix está fortemente associado ao lado do corte — e **BP10, o case da Bárbara, é a campanha
+cujos dias quase nunca são "alta" de YouTube** (é exatamente o que ela viu: "Google teve o pior
+desempenho"). Reestratificando por campanha dominante × fds × lançamento: transações +26,5%
+[+16,5, +41,3] e CAC −8,1% [−12,6, −2,7] **mas o spend não pareia** (+18,1%, p<0,001); com
+tercil de spend dentro da campanha (95 dias): +33,2% / CAC −11,1% / spend +8,2% (p=0,07).
+**Efeito prático:** a direção é robusta a mix; a frase "com o mesmo orçamento" não é — trocar por
+"dias de YT alto têm ~20–30% mais transações e CAC 6–11% menor; a igualdade de spend não é
+garantida (pareamento entre +3,7% e +8%)". Registrar também que a rodada 2 publicada ("spend
+pareou +0,4%") usou a dummy `em_venda` incompleta; com fases corrigidas o pareamento já era
++3,7% (p=0,08).
+
+### 6. Multiplicidade e o topo do IAC — CONFIRMADO para o IAC; parcial para o resto
+
+~130 p-valores/estrelas reportados nos 4 documentos, mais 172 playlists ranqueadas e 1.069
+eventos de mCAC. Correção de Bonferroni por família:
+- Teste principal (6 contrastes, α 0,0083): leve passa (p 0,001 robusto); **médio não passa**
+  (0,021). Teste A por sabatina (7, α 0,007): Zema, Caiado (<0,001) e Rebelo (0,003) passam.
+  Pareado YT (p<0,001) passa qualquer correção.
+- **Não sobrevivem a correção nenhuma** e devem ser lidos como exploratórios: mCAC −10% em
+  `[VENDA]`-up (p=0,028, IC cruza zero), `[LEAD]` +53% (p=0,04/0,12), CAC −6,8% sem lançamento
+  (p=0,05), Trends semanal (já rebaixado).
+- **IAC:** o n mínimo é 500 pessoa-dias, não compradores. **53% das 172 playlists têm <30
+  compradores; 19 têm <10.** O topo é selecionado por cauda de receita: *Os Falsários* (rank 3,
+  IAC 7,09×) tem **10 compradores** e é rank **110** por taxa de conversão; *Miss Potter* rank
+  12 → 145; *Entre Facas e Segredos* 4 → 71. `BP nas Eleições` (21 por taxa vs 22 por RPP) e
+  `BP Entrevista` (13 vs 14) são estáveis. **Efeito prático:** IAC precisa de (a) n mínimo de
+  **compradores** (≥30), (b) versão por taxa de conversão com IC ao lado do RPP, (c) aviso de que
+  o ranking por RPP não distingue as posições 3–20. A query 15 deve ganhar essas colunas antes
+  de qualquer uso mensal.
+
+### 7. Potência para n=1 evento (11 de Setembro) — CONFIRMADO, declarar antes de rodar
+
+| Desenho | o que detecta (80% poder) |
+|---|---|
+| Event study diário, janela 3d (rodada 1) | receita ≥ **+62%** (p95 placebo; MDE 80% ≈ +114%); transações ≥ +34%; CAC ≤ −26% |
+| Pessoa-dia, 1.757 usuários → ~966 pd membro leve/médio, D+7 | lift ≥ **2,06×** |
+| idem, D+14 | lift ≥ **1,76×** (acima do 1,65× de referência) |
+| idem, D+60 | lift ≥ 1,48× |
+| só membro leve (~527 pd), D+14 | lift ≥ 2,02× |
+
+**Um "não significativo" do 11 de Setembro na sexta é garantido por construção** (D+7, n pequeno)
+e não pode ser reportado como "o vídeo não teve efeito". Reportar sempre IC + MDE; a resposta
+honesta em 18/09 é "compatível com 0,5× a 2×", e o D+14 (21/09) ainda só detecta ≥1,76×.
+
+### 8. Três eventos na mesma janela — CONFIRMADO; o dia não separa, a pessoa separa em parte
+
+Calendário real levantado (Meta + `fct_transactions`, 03→13/09): spend BP10 **R$ 49k → R$ 255k**
+(vendas Meta BP10 102 → 444); transações com UTM BP10 **163 → 585** (20% → 38% do total);
+Technocracia spend R$ 2k → 22k, vendas 0–12/dia; estreia do 11 de Setembro na plataforma 07/09
+(tx publisher YouTube no dia: 7). A receita do fim de semana 12–13/09 (R$ 846k / 967k) acompanha
+a escalada de BP10. **O teste diário não separa os três** (item 7). O que separa:
+(i) pessoa-dia dos viewers do 11 de Setembro vs top-8 **no mesmo calendário** (mesmos dias de
+BP10 para tratados e controle — isola "assistiu" de "era dia de fechamento"), com o MDE do item
+7 declarado; (ii) decomposição das transações do fim de semana por UTM/publisher (BP10 / TEC /
+YouTube / orgânico / CRM) contra o mesmo fim de semana anterior — descritivo, responde "quanto
+é rastreável"; (iii) a hipótese da Bárbara ("todo o efeito é BP10") é testável assim: se as
+transações **sem** UTM BP10 não subiram mais que a MM28 pareada por spend, ela está certa.
+
+### 9. Indicador coincidente usado como gatilho — DERRUBADO EM PARTE (a favor do uso)
+
+A premissa "lag ≥1 é nulo" valia para **inovações** (resíduos), não para o **nível**: a série é
+persistente (ρ lag-1 do resíduo de YT orgânico **0,68**; P(alta hoje | alta ontem) = 75,5% vs
+48,8% na base). Em nível, pareado por spend de hoje: **YT de ontem** → transações hoje +16,3%
+[+9,2, +25,6], CAC −7,7% [−13,0, −1,5] (p=0,017); **sem dias de lançamento (dia e véspera):
++23,0% / CAC −10,6% [−16,3, −3,3] (p=0,002)**. A regra operacional "YT ontem > 1,3× MM28"
+marca 67/356 dias e nesses dias o CAC de hoje sai −16,2% (−19,4% sem lançamento), com spend
+igual. **Efeito prático:** a recomendação "se o YT orgânico está alto, há espaço" é **mais**
+defensável do que o texto dizia — a informação de ontem está disponível hoje. Corrigir a frase
+"lag ≥1 nulo nas duas direções" → "as inovações não se antecedem, mas o nível é persistente".
+Segue sem prova de que **escalar** nesses dias baixa o mCAC (rodada 3: −10%, IC [−36%, +22%]).
+
+### 10. Seleção dos cases por percepção — CONFIRMADO, sem efeito no publicado
+
+"Sucesso no YouTube" nunca foi medido; todos os rankings são de consumo na plataforma. Proxy
+disponível: dias de `Organic Video` alto (14/08, Renan, está no top-15 do ano) e `tx` com
+publisher YouTube. Para o 11 de Setembro, o GA4 de setembro ainda não foi puxado (9b).
+
+### 11. Contaminação de vídeo pago no Organic Video — DERRUBADO
+
+Spend Google `[YT]` (43% do Google, 4,7% do total; query 29): ρ com Organic Video **−0,066**
+(ns); com views pagas `[YT]` −0,077; com sessões GA4 `Paid Video` −0,069. Dias "alta" têm spend
+de vídeo **13% menor** que dias "baixa". Adicionando tercil de spend de vídeo ao estrato:
+transações +20,6% [+13,1, +32,3], conversão/sessão +22,7%, CAC −5,6% (p=0,10), spend de vídeo
+−1,6%. O termômetro **não** mede orçamento de vídeo.
+
+### Não listados
+
+- **Remarketing fora do CAC (a favor).** `tx_ads` = FB Ads + Adwords; exclui `Adwords
+  Remarketing` + `Instagram Ads` (7,4% das tx de ads). O share deles sobe nos dias alta (9,3% vs
+  5,0%); com denominador completo o CAC sai **−15,2%** [−20,0, −9,3] em vez de −10,9%.
+  O número publicado é conservador.
+- **Dias autocorrelacionados no bootstrap.** ρ lag-1 dos resíduos: transações 0,47, CAC 0,60.
+  n efetivo ≈ **140 de 385 dias**. Os p<0,001 do pareado YT sobrevivem; qualquer p entre 0,01 e
+  0,10 nos testes diários (CAC −6,8%, mCAC −10%, spend "pareou" p=0,07) não deve ser lido como
+  significativo.
+- **Comparador do IAC/Q14 sem pareamento de calendário** — já tratado no Teste B (1,65× → 1,64×
+  pareado); não muda nada, mas a query 15 mensal herda o problema.
+
+### O que muda no que está publicado (proposta — aguardando André)
+
+| Onde | Hoje | Proposta |
+|---|---|---|
+| ANALISE resposta curta · `index.html` ~188/527/546 · wiki | "freemium nulo / zero / nada" | "sem evidência (IC até 1,7–2,0×; MDE ≥1,6–1,9×)" |
+| ANALISE · `index.html` ~261/527 · wiki | "não usar sabatina como topo de funil" | "sem base para recomendar nem vetar; testar com n ≥ 2.500 pd freemium" |
+| ANALISE §3 · wiki · metricas-referencia | "médio 1,44× (p=0,002)" | "médio 1,44× [1,06–1,96], p=0,02 (cluster por pessoa); frágil" |
+| ANALISE Teste A · wiki ("gotcha central") · `index.html` ~527 | "estreia tardia zera a ativação" | "indício (D+7, 0,70× [0,30–1,15]); fechar D+14/30 na 9b" |
+| ANALISE rodada 2 · `index.html` ~533 · wiki · metricas-referencia | "com o mesmo spend, +24,7% E CAC −11,9%" | "um fato (tx de ads +21%); tx fora de mídia +28%; spend pareia entre +3,7% e +8%; mix de campanha não balanceado" |
+| ANALISE rodada 2 · wiki | "lag ≥1 nulo nas duas direções" | "inovações não se antecedem; nível persistente — YT ontem prediz CAC hoje (−8 a −11%)" |
+| IAC (query 15, metricas-referencia) | ranking por RPP, n≥500 pd | + n≥30 compradores, taxa com IC; topo 3–20 indistinguível |
+| Rodada 3 / 8 | mCAC −10%, CAC −6,8% "p=0,05" | exploratórios; n efetivo ~140 dias |
+
+### Adendo 16/09 — "sucesso no YouTube" medido pela primeira vez (Data API v3, chave da Bárbara)
+
+Views públicas acumuladas em 16/09 (`data/yt_videos_publico.csv`, script
+`BigQuery/youtube-analytics/fetch_youtube_public.py`). Muda dois fatos dos cases:
+
+| Vídeo (YouTube) | Data | Views | Nota |
+|---|---|---:|---|
+| **PABLO MARÇAL \| BP NAS ELEIÇÕES** (live) | 17/08 | **833.641** | 9º maior do canal desde junho; + cortes de 348k, 210k, 73k |
+| **RENAN SANTOS \| BP NAS ELEIÇÕES** (live) | 14/08 | **380.434** | |
+| AUGUSTO CURY \| BP NAS ELEIÇÕES | 28/06 | 53.730 | |
+| RONALDO CAIADO / ROMEU ZEMA / RICARDO SALLES / ALDO REBELO / DERRITE | jun | 47.674 / 40.135 / 16.349 / 12.922 / 9.028 | |
+| **25 ANOS DO 11 DE SETEMBRO** (live) | **10/09** | **2.981.782** | 3º maior do canal desde junho |
+| MASTER X STF EXPLICADO EM 20 MINUTOS (live) | 03/09 | 4.351.851 | maior do período |
+| AO VIVO: STF JULGA … MORAES (live) | 15/09 | 3.532.532 | |
+
+1. **Ponto 9 fecha:** a notoriedade no YouTube é o inverso do lift na plataforma. Marçal e Renan
+   têm 10–90× as views das sabatinas de junho e são as duas **sem** lift medido; Zema, Rebelo e
+   Caiado, com 9–48 mil views, têm os maiores lifts. A leitura "é formato, não fama" ganha o dado
+   que faltava — com a ressalva de que o lift deles é D+7 e n pequeno (item 4 da auditoria).
+2. **O case "11 de Setembro" no YouTube é a live de 10/09 (quinta), não a estreia de 07/09 na
+   plataforma.** São dois eventos: doc na plataforma 07/09 (1.757 usuários) e live no YouTube
+   10/09 (2,98M views). Receita de 10/09: R$ 822k vs R$ 673k na véspera (+22%), com spend BP10
+   +16% no dia. O desenho da 9b precisa tratar os dois separadamente; o pareado diário de 10/09
+   segue sem potência (item 7), mas o pessoa-dia da plataforma pode usar 07/09 e 10/09 como duas
+   exposições distintas.
+3. ⚠️ Views são **acumuladas até a consulta** — vídeos mais antigos tiveram mais tempo. Para série
+   diária real (views/dia, retenção, origem, cliques em tela final) continua faltando a Analytics
+   API, que a chave não abre (401). Caminho: convite de Visualizador ou consentimento OAuth de um
+   gestor do canal (`youtube-analytics/README.md`).
+
+### Implicação para a rodada 9b
+
+1. **Item 0 continua sendo o acesso ao YouTube Studio** — sem ele, o bloco "impacto relacionável"
+   da Bárbara é parcial e isso vai no topo da entrega.
+2. **Mais barato e mais informativo:** D+14/D+30 de Renan e Marçal (queries 22/25 com cutoff
+   13/09) — decide o item 4 e responde direto "os vídeos de mais sucesso vendem (na plataforma)?".
+3. **11 de Setembro:** pessoa-dia com calendário pareado + decomposição por UTM do fim de semana;
+   **reportar MDE junto** (D+7 ≥2,06×; D+14 ≥1,76×).
+4. **Teste da hipótese da Bárbara:** transações sem UTM BP10 vs MM28 pareada por spend nos dias
+   05–07/09 e 12–13/09.
+5. Não gastar tempo em: contaminação de vídeo pago (derrubado), Instagram como indicador
+   comercial (social mede orçamento), pareado diário do 11 de Setembro (sem potência).
+
+## Rodada 9b — audiência real do YouTube e os dois cases (16/09/2026)
+
+Acesso à YouTube Analytics API destravado às 14h (OAuth com client da Bárbara + conta gestora;
+`youtube-analytics/README.md`). Séries: `data/yt_diario.csv` (canal/dia desde 01/08/2025),
+`data/yt_cases_diario.csv` (views/dia dos 3 vídeos-case), `data/yt_videos_publico.csv`.
+Script: [r9b_youtube_real.py](scripts/r9b_youtube_real.py) → `data/r9b_youtube_real.txt`.
+Queries novas: [31](queries/31_lift_por_sabatina_d14_set.sql) (sabatinas D+14 com compras até 15/09),
+[32](queries/32_lift_11setembro_plataforma.sql) (11 de Setembro na plataforma). Painel emendado
+com `performance-diaria` até 12/09 (Analytics defasa ~2 dias). `fct_transactions` íntegra até 15/09.
+
+### 1. O proxy do GA4 era fraco — e a audiência real confirma o termômetro, mais forte
+
+ρ(views reais, GA4 Organic Video) = **0,43**. Um ano de análise rodou com um termômetro que
+explicava menos de 20% da variância da audiência. Com views reais (408 dias), crivo da rodada 4:
+
+| Indicador | ρ spend | ρ→tx | ρ→CAC |
+|---|---:|---:|---:|
+| views/dia | 0,17 | +0,21* | −0,17* |
+| **minutos assistidos/dia** | 0,16 | **+0,34*** | **−0,32*** |
+| **inscritos ganhos/dia** | 0,05 | **+0,34*** | **−0,30*** |
+| GA4 Organic Video (antigo) | 0,10 | +0,27* | −0,15* |
+
+Pareado alta vs baixa de **views reais** (quintil de spend × fds × fase): transações **+18,2%**
+[+11,1, +26,8], receita +16,2%, **CAC −12,2%** [−16,9, −6,6], spend **−0,0%** (pareou perfeito).
+**Sem lançamentos: tx +21,8%, receita +26,5%, CAC −10,9%** [−16,7, −4,1], p<0,001 — o efeito
+que com o proxy caía para −6,8% (p=0,05) **resiste com a audiência real**. Conversão por
+sessão do site segue ns (+5%): o canal não passa pelo site, passa pela base. Lag: views de
+ontem → CAC hoje −12,7% [−17,3, −6,9]; persistência 0,78. **Minutos assistidos e inscritos
+ganhos são termômetros melhores que views** — trocar no painel.
+
+⚠️ Ressalvas que continuam: mix de campanha não balanceado (9a §5), n efetivo ~140 dias,
+direcional (Gordon 2023). mCAC por saltos de budget com audiência real: `[VENDA]`-up
+**−13,3%** (R$ 209 → 182, p=0,04; Spearman −0,19, p=0,001), IC da razão [−37%, +15%] —
+direção certa, magnitude aberta. `[LEAD]` não inverte mais (−11%, ns) — o "+53%" da rodada 3
+era artefato do proxy.
+
+### 2. Jun–set/2026 semanal: audiência e mídia são independentes; audiência anda com ROAS
+
+15 semanas: views×spend **+0,02**, views×receita +0,41, views×ROAS +0,42, views×CAC −0,29
+(n=15, nenhum p<0,05). O canal fez 6–8M views/sem em junho (El Salvador), caiu para 2–3M em
+jul–ago e voltou a 6–8M em set (STF/Master, 11 de Setembro). A receita não seguiu: junho
+R$ 5–8M/sem com spend R$ 1,6–2,6M; setembro R$ 4,4–4,5M com spend R$ 1,5M — ROAS 2,9 nas
+duas semanas de set contra 2,2–2,5 em ago (spend maior, audiência menor). Leitura: a
+audiência não vende sozinha, mas as semanas de audiência alta rendem mais por real.
+
+### 3. Sabatinas em D+14 completo (Renan e Marçal entram pela primeira vez)
+
+| Sabatina | n pd | lift D+14 [IC95] | p | MDE |
+|---|---:|---|---:|---:|
+| Zema | 1.517 | **2,03× [1,52–2,56]** | <0,001 | 1,62× |
+| Aldo Rebelo | 1.397 | **1,82× [1,30–2,40]** | 0,001 | 1,66× |
+| Caiado | 2.523 | **1,71× [1,15–2,27]** | <0,001 | 1,48× |
+| Salles | 745 | 1,39× [0,48–2,03] | 0,24 | 1,91× |
+| **Marçal** | 1.835 | **1,14× [0,63–1,65]** | 0,52 | 1,60× |
+| **Renan** | 920 | **1,14× [0,43–1,97]** | 0,65 | 1,83× |
+| Cury / de Toni / Derrite | 1.822 / 419 / 461 | 1,10× / 1,10× / 1,04× | ns | 1,6–2,2× |
+
+Pooled: Marçal+Renan **1,14×** (n=2.755, 39 obs vs 34 esperados) vs demais **1,57×** (n=8.884).
+No YouTube, Marçal (834k) e Renan (380k) têm 10–90× as views dos outros. **"É formato, não
+fama" fecha com dado**: a audiência externa do vídeo não prediz a ativação da base na
+plataforma. **"Estreia tardia zera a ativação" perde força**: o 0,70× de D+7 vira 1,14× em D+14
+— compatível com 1× e com o 1,57× dos demais (IC até 1,65). Continua indício, não regra.
+
+### 4. Os dias dos vídeos-case: views do vídeo × resíduo de receita
+
+| Case | dia | views do vídeo (% do canal) | receita vs esperado | tx vs esp. | spend vs esp. |
+|---|---|---:|---:|---:|---:|
+| Renan | 14/08 | 221k (50%) | +3% | +14% | +39% |
+| Marçal | 17/08 | 292k (45%) | +130% | +101% | **+147%** |
+| **11 de Setembro** | 10/09 | 481k (39%) | **+24%** | −4% | −3% |
+| | **11/09** | **1,33M (64%)** | **+12%** | −8% | **−12%** |
+| | 12/09 | 639k (40%) | +34% | 0% | +13% |
+
+Renan e Marçal: a receita seguiu o spend (rodada 1 confirmada). **11 de Setembro é diferente**:
+em 10 e 11/09 a receita ficou 12–24% acima do esperado **com spend igual ou 12% abaixo** e
+transações abaixo — foi ticket (Vitalício BP10: 29% → 65% da receita ao longo da semana). Duas
+leituras não separáveis no diário: a live trouxe base morna para o fechamento, ou o fechamento
+de lote sozinho fez o mix. O pessoa-dia decide.
+
+### 5. 11 de Setembro na plataforma — e um gotcha
+
+**A "estreia de 07/09" era 1 usuário (QA).** A audiência real do doc na plataforma começa em
+**11/09**, dia seguinte à live no YouTube: 734 / 726 / 607 / 348 usuários em 11–14/09. Mesmo
+padrão do Technocracia. Com compras até 15/09 só existe **D+3** para exposição 11–12/09:
+
+| Estrato | n pd | taxa D+3 | controle | lift [IC95] | p | MDE |
+|---|---:|---:|---:|---|---:|---:|
+| Membro leve/médio | 595 | 0,50% | 0,21% | **2,44× [0,67–8,83]** | 0,16 | 3,67× |
+| Membro heavy | 194 | 0,52% | 0,44% | 1,16× | ns | 4,4× |
+| Freemium | 64 | 1,56% | 0,86% | 1,82× | ns | 4,9× |
+
+3 compradores contra 1,3 esperados. **Não é conclusão** — o MDE é 3,7× — mas a direção é a da
+hipótese contrária à da Bárbara. D+7 fecha em 19/09, D+14 em 26/09; agendado.
+
+### 6. Falso positivo por campanha? Separando orgânico de anúncio e tirando aberturas e fechamentos (16/09, noite)
+
+Views por origem de tráfego (`data/yt_diario_origem.csv`, 313 dias — a API falhou em 19 janelas):
+Shorts 37% · inscritos 31% · sugeridos 13% · busca 7% · externo 4% · **anúncio 1,4%**. Views de
+anúncio têm ρ −0,03 com spend (mediana 0/dia) — a mídia paga em vídeo quase não aparece no canal.
+Dias "alta" de views orgânicas de vídeo longo (sem anúncio, sem Shorts) coincidem com abertura
+de campanha em **30% vs 33% dos dias "baixa"**, e com fechamento em **11% vs 12%** — não há
+sobre-representação de fechamento nos dias de audiência alta.
+
+| Recorte (views orgânicas de vídeo longo) | Transações | CAC ads | Spend pareou |
+|---|---|---|---|
+| todos os dias | +22,8% [+14,1, +34,1] | **−13,6%** [−18,7, −7,5] | +2,3% ns |
+| sem abertura (±3d) | +16,8% | −10,0% [−16,2, −2,6] | +0,5% ns |
+| sem fechamento (−2..0) | +24,1% | **−17,6%** [−22,7, −11,7] | −1,1% ns |
+| **sem abertura nem fechamento** (169 dias) | **+15,8%** [+7,3, +27,5] | **−12,6%** [−18,6, −5,2] | −2,2% ns |
+| controle negativo: views de **anúncio** | +6,0% ns | **+8,7% (pior)** | +2,4% ns |
+| só views de **inscritos**, sem abertura/fechamento | +19,0% | −13,4% | −1,0% ns |
+| só **Shorts**, sem abertura/fechamento | +5,6% ns | −12,5% | +1,1% ns |
+
+Leitura: (a) tirar fechamento **aumenta** o efeito — fechamento não é a fonte do sinal; (b) o
+controle negativo funciona: dias de mais views **pagas** têm CAC **pior**, o oposto do orgânico;
+(c) a audiência de **inscritos** (a base própria, imune a viral e a anúncio) carrega o efeito
+inteiro; (d) Shorts não movem transações. **Não é falso positivo de campanha.** O que sobra em
+aberto é o mix de campanha (9a §5) e a direção causal — para isso só geo.
+
+### 7. Instagram entra na régua (16/09, noite) — Graph API do @brasilparalelo (token do Ailson)
+
+Série diária desde 01/08/2025 (`data/ig_diario.csv`; `BigQuery/instagram-insights/fetch_instagram_daily.py`):
+alcance, contas engajadas (só desde 01/03/2026), interações, shares, saves, views, cliques no site,
+visitas ao perfil. `follower_count` só existe para os últimos 30 dias — coleta diária a partir de agora.
+Mídias de 05–14/09 com alcance/interações em `data/ig_midias_set.csv`. Script: [r9b_instagram.py](scripts/r9b_instagram.py).
+
+| Indicador | ρ spend | ρ→tx | ρ→CAC | Pareado s/ abertura+fechamento (tx · CAC · spend pareou?) |
+|---|---:|---:|---:|---|
+| **IG alcance** | **0,59** | −0,04 | −0,02 | +8% · −0,5% ns · **spend +8,3%** ❌ |
+| IG contas engajadas | 0,60 | −0,17* | +0,05 | ns · ns · ok |
+| IG compartilhamentos | 0,31 | +0,12* | −0,03 | ns · **CAC +8,9% pior** · ok |
+| IG cliques no site | 0,43 | +0,38* | −0,33* | +40% · −24% · **spend +10,4%** ❌ (é clique de campanha) |
+| GA4 Organic Social | 0,88 | +0,06 | −0,08 | — |
+| YT views orgânicas longo | 0,01 | +0,34* | −0,27* | +17% · **−13,4%** · ok ✅ |
+| YT views de inscritos | −0,03 | +0,28* | −0,24* | +20% · **−13,9%** · ok ✅ |
+
+- **Nenhuma métrica do Instagram passa no crivo.** Alcance e engajamento medem orçamento (ρ 0,6 com
+  spend — a conta impulsiona posts e o alcance sobe com campanha); cliques no site têm sinal forte
+  mas o pareamento por spend falha: é o clique da campanha, não relevância. Compartilhamentos, a
+  métrica mais "orgânica", dão CAC **pior**. Repete o que o GA4 social já dizia, agora com o dado nativo.
+- **Instagram e YouTube não medem a mesma coisa**: resíduos correlacionam 0,06–0,13.
+- Dias dos cases: Marçal 17/08 foi também o maior dia de Instagram do período (+86% de alcance);
+  11–12/09 alcance +44% / +25%. Posts sobre 11 de Setembro no feed: ~640k de alcance somado.
+- **Uso legítimo do Instagram no relatório**: atenção (alcance, seguidores) e funil rastreado
+  (leads e vendas com UTM de Instagram orgânico, 8–33 mil leads/mês) — **nunca** como termômetro
+  comercial. O único que sobrevive como termômetro é o YouTube.
+
+### 7b. Alcance pago × orgânico no Instagram (Marketing API, mesmo token) — 16/09, noite
+
+O token do Instagram é o `META_ACCESS_TOKEN` do `meta_api/.env` (Ailson; não expira; *data access*
+até 10/11/2026) e tem `ads_read` → alcance/impressões/spend **pagos no placement Instagram por dia**,
+14 contas (`instagram-insights/separar_pago_organico.py` → `data/ig_pago_diario.csv`, 410 dias).
+Alcance pago IG mediana 1,49M/dia vs alcance da conta 2,38M/dia; **ρ(conta, pago) = 0,61**,
+ρ(conta, spend Meta) = 0,60. Residualizar a conta pelo pago **não** produz uma série orgânica limpa
+(resíduo ainda ρ 0,52 com spend): o que infla a conta não são os dark posts das contas de anúncio e
+sim posts impulsionados + halo de campanha, que a Insights API não separa. Separar de verdade exige
+identificar por mídia os posts impulsionados (ads com `effective_instagram_media_id`) e subtrair — fica
+como pendência. Conclusão mantida: Instagram não serve como termômetro; serve como atenção e funil.
+
+### 8. Calendário completo da wiki (estreias medidas, aberturas, fechamentos, lotes, ofertas) — o efeito sobrevive? (16/09, noite)
+
+Com as páginas novas `lancamentos.md` e `cenario-comercial.md` (+ `campanhas-calendario.md`), 56% dos
+dias do painel têm algum evento interno (estreia ±1, abertura ±3, fechamento −2..0, lote/virada ±1,
+oferta nova). Script: [r9b_calendario_completo.py](scripts/r9b_calendario_completo.py).
+
+| Recorte (views orgânicas de vídeo longo) | Transações | CAC ads | Spend pareou |
+|---|---|---|---|
+| todos (408 dias) | +24,8% | −15,6% | ✅ |
+| sem estreia / sem abertura / sem fechamento / sem oferta nova | +19 a +26% | −14 a −17% | ✅ |
+| sem lote/virada | +18,7% | −11,1% | +4,6% (p=0,05) |
+| **só dias limpos** (181 dias, nenhum evento) | **+15,8%** [+4,9, +30,7] p=0,006 | −9,0% [−17,7, +2,1] p=0,12 | ✅ |
+
+- **Regressão com todos os dummies de calendário + spend + DOW + mês + tendência (HAC):** elasticidade
+  de transações a views **+0,17** [+0,08, +0,26]; minutos **+0,18**; inscritos ganhos **+0,20**; CAC
+  −0,13 a −0,14, todos p<0,001. Para comparar: abertura de carrinho vale +5% e fechamento +11% em
+  transações no mesmo modelo — o YouTube não é um dummy de calendário disfarçado.
+- **Placebo por permutação** (série de YouTube embaralhada dentro dos estratos, 500×): efeito espúrio
+  fica em [−7,6%, +10,1%] para transações e [−6,4%, +8,4%] para CAC; o observado (+24,8% / −15,6%)
+  está fora — p_placebo < 0,002.
+- **Preditivo fora da amostra** (treino ago/25–mai/26, teste jun–set/26): YouTube de ontem reduz o
+  erro de previsão do CAC de hoje (RMSE 0,442 → 0,419), mas o modelo inteiro prevê mal em 2026 (R²
+  fora negativo — mudança de regime de ticket, a mesma que quebrou o MMM). Sinal útil, previsão fraca.
+
+**O que isso fecha e o que não fecha.** Fecha: não é fechamento, não é lote, não é oferta, não é
+estreia, não é anúncio em vídeo, não é ruído (placebo). **Não fecha: causalidade.** Um terceiro fator
+que mova ao mesmo tempo a base a assistir e a comprar (notícia quente, clima político, o próprio
+"momento" da marca) produz exatamente este padrão sem que o vídeo cause a venda. A audiência de
+inscritos carregar o efeito é compatível com as duas leituras. O teste que decide não é observacional:
+**regra pré-registrada de escala** — em dias com YouTube de ontem > 1,3× MM28, subir spend +20% em metade
+das campanhas [VENDA] sorteadas, manter a outra metade, medir mCAC das duas por 6–8 semanas. Se o mCAC
+da metade escalada nesses dias ficar abaixo do mCAC das escaladas em dias normais, a alavanca é real
+para a decisão que importa (quanto gastar). É barato, não exige geo e usa o recomendador que já existe.
+
+### Veredito para a Bárbara (o que dá para dizer na sexta)
+
+1. **Atenção**: 11 de Setembro = 2,86M views, 4,5k inscritos, pico 1,33M em 11/09; 2,5k usuários
+   na plataforma a partir de 11/09. Sabatinas: 834k + 380k views; 3,9k + 1,8k na plataforma.
+2. **Venda rastreável**: publisher YouTube 23 tx em 13/09 (máximo de set), 1% do total; CTA na LP
+   ainda sem UTM específico do vídeo — pedir tagging por vídeo nas telas finais.
+3. **Não rastreável**: no diário, 10–11/09 renderam 12–24% acima do esperado com spend igual ou
+   menor — o único dos três cases em que a receita não segue o spend. No fim de semana 12–13/09
+   o spend BP10 explica mais que o crescimento (BP10 por UTM 1.679 → 2.758; o resto caiu 2,5%).
+4. **Veredito**: **ela está certa para 12–13/09 e provavelmente errada para 10–11/09** — mas
+   "provavelmente" é o teto honesto: o teste de pessoa-dia só detecta ≥3,7× hoje e fecha em 19/09
+   (D+7) e 26/09 (D+14). O pareado com audiência real diz que dias de canal forte rendem CAC
+   ~11–12% menor com o mesmo dinheiro, sem lançamento — é o argumento estrutural a favor dela
+   estar errada no geral, mesmo que certa no fim de semana.
+
+### Escala de mídia sem perder eficiência — semana 07–13/09 (pergunta do André, 14/09)
+
+Query: [30_semana_meta_google_por_campanha.sql](queries/30_semana_meta_google_por_campanha.sql).
+Comparação 07–13/09 vs 31/08–06/09, por campanha e fonte (atribuição das plataformas):
+
+| | 31/08–06/09 | 07–13/09 | Δ |
+|---|---:|---:|---:|
+| Spend total | R$ 1,51M | R$ 1,91M | **+26%** |
+| Receita (fct_transactions) | R$ 4,35M | R$ 5,51M | **+26%** |
+| ROAS total | 2,88 | 2,88 | **igual** |
+| Transações | 7.432 | 8.365 | +13% |
+| Receita por transação | R$ 586 | R$ 658 | +12% |
+
+- **BP10 escalou sem saturar**: spend Meta R$ 669k → R$ 1,16M (**+73%**), vendas 1.304 → 2.216
+  (+70%), CPA R$ 513 → R$ 523, **ROAS 1,73 → 2,08**. mCAC da escalada ≈ R$ 538, igual ao CPA médio.
+- **Saturou fora do BP10**: CBR +84% de spend com CPA +14%; TLR triplicou spend e o CPA foi de
+  R$ 272 para R$ 864. Campanhas que cortaram spend (10R, ELS, ENE, FNC, PMax) melhoraram CPA.
+- Google busca de marca cortado 84% (R$ 40k → R$ 6k); YouTube Ads flat com ROAS 5,55 → 3,09 — o
+  "Google teve o pior desempenho" da Bárbara é isso, sobre base pequena.
+- **Teste da hipótese dela**: tx com UTM BP10 1.679 → 2.758 (**+1.079**); o total subiu **+933**.
+  Tudo que não é BP10 **caiu 2,5%**. No semanal, BP10 explica mais que o crescimento inteiro.
+
+⚠️ Correção de método que isso trouxe para a rodada 1: **"o ROAS caiu em 6 de 8 campanhas ao escalar"
+conta campanhas, não reais.** Ponderado por spend, a BP escalou 26% duas vezes em um mês com ROAS
+constante, e a campanha dominante escalou 70% com custo marginal igual ao médio. A frase "resistência
+não caiu, piorou" não se sustenta ponderada por dinheiro — corrigir na §Resposta curta.
+
+### O que o `mmm_project` já tem e este estudo reusou (revisão de 16/09)
+
+| Peça | Onde | Uso aqui |
+|---|---|---|
+| **Índice de demanda não-Meta** | `mmm_project/scripts/09_bidding/06_demand_index.py` | Validado no overspend de 09–10/05 (índice 0,72 = o pico foi gasto, não demanda). Entrou como contexto no `performance-diaria`. ⚠️ Precisa de variante que exclua UTM da campanha dominante. |
+| **Harness de overspend por evento** | `09_bidding/05_overspend_event.py` | Baseline "mesmo DOW ±3 semanas" adotado no `performance-diaria`. |
+| **GeoLift desenhado** | `output/geolift/` (3 cidades, potência, scripts R) | Viabilidade já feita; **MDE 25% em 2 semanas** — reforça o argumento de potência da §9a. |
+| **Lição do OOS 2026** | `output/oos_2026/interpretacao_oos_2026.md` | Unidades e receita divergiram em 2026 (conversões −26%, receita +23% por mix de ticket). **É a mesma divergência das §9d/§9e** — target em unidades quebrou lá e engana aqui. |
+| **Não-identificabilidade Meta × Google** | `revisao_mmm_2026-09-10.md` | ρ(spend Meta, Google) = 0,874 → nunca separar canais pagos; somar. |
+| **Saturação quase linear** | idem | b≈0,93 medido aqui bate — ⚠️ mas ambos podem ser endogeneidade do spend (§9g). |
+
+**Dívida comum aos dois projetos:** o calendário de campanhas de 2026 estava faltando nos dois
+(`tb_campaign_period` sem DOM/ELS/CDL/EVG/ODI/ENE; `campaign_calendar.csv` do MMM para em VDS).
+Resolvido pelas páginas novas da wiki (`campanhas-calendario.md`, `lancamentos.md`,
+`cenario-comercial.md`) — usar essas como fonte única até a API do marketing-bp subir.
+
+
+## Rodada 9c — insights novos (17/09/2026, skill data-analyst)
+
+Oito hipóteses que as rodadas 1–9b não testaram, cada uma com hipótese nula declarada.
+Script: [r9c_insights.py](scripts/r9c_insights.py) · saída `data/r9c_insights.txt`. Painel de 313 dias
+com audiência real (views orgânicas de vídeo longo, sem anúncio/Shorts), controles de DOW, mês×ano,
+spend, fase, lançamento e fechamento.
+
+### 1. ⭐ O efeito é MAIOR fora da mídia paga — e o Comercial é a prova do mecanismo
+
+Pareado por spend, sem abertura nem fechamento, por canal de venda (placebo por permutação 500×):
+
+| Canal | % das tx | Efeito | IC95 | p_placebo |
+|---|---:|---:|---|---:|
+| **Orgânico + YouTube** | 8% | **+63,4%** | [+41,3, +100,5] | <0,002 |
+| **Comercial** | 22% | **+30,6%** | [+16,8, +59,4] | <0,002 |
+| Ads (Meta+Google) | 41% | +21,3% | [+11,7, +34,0] | <0,002 |
+| CRM | 14% | +7,2% | [−13,0, +40,5] | 0,52 (ns) |
+| **Tudo menos ads** | 55% | **+22,8%** | [+12,8, +37,0] | — |
+| Ticket médio | — | −5,4% ns | [−13,3, +4,0] | — |
+
+**O Comercial é o achado central desta rodada.** O time comercial vende por telefone/WhatsApp — não
+depende de tráfego do site, não é alcançado por remarketing, não vê o vídeo como canal. Decompondo
+(n=79 dias com dado de Zenvia): **abordagens +25,1%** (esforço — há mais gente para abordar) e
+**conversão por abordagem +18,0%** (a mesma abordagem fecha mais). A segunda metade não tem
+explicação por volume de tráfego: é a assinatura de **base mais receptiva**, o mesmo mecanismo que o
+pessoa-dia mostra dentro da plataforma. Se o efeito fosse artefato de mídia ou de tráfego, o
+Comercial seria o canal com menos efeito, não o segundo com mais.
+
+### 2. ⭐ Em dia de audiência alta, o real de mídia rende mais — e mais ainda quando o spend é alto
+
+Efeito dentro de cada quintil de spend (não entre quintis):
+
+| Quintil de spend | Spend mediano | Δ transações | **Δ CAC** |
+|---|---:|---:|---:|
+| Q1 | R$ 46k | +35,8% | −19,3% |
+| Q2 | R$ 81k | +44,0% | −24,0% |
+| Q3 | R$ 115k | +11,3% | −7,2% |
+| Q4 | R$ 182k | +21,5% | **−29,2%** |
+| Q5 | R$ 311k | +24,8% | **−27,9%** |
+
+Em dias de **spend alto (Q4+Q5)**: CAC médio **R$ 270** com audiência alta vs **R$ 379** com audiência
+baixa — **R$ 109 por aquisição**. É a leitura operacional mais direta do programa: não é "gastar mais
+porque o canal está bom", é **escolher o dia de escalar**. (Correlacional; o teste de escala
+pré-registrado da §9b.8 é o que transforma isso em regra.)
+
+### 3. Dose-resposta monotônica, com salto no topo — e um limiar utilizável
+
+Quintis de audiência **dentro** do quintil de spend (resíduo controlado):
+
+| Quintil de audiência | Views/dia (mediana) | tx vs esperado | CAC vs esperado |
+|---|---:|---:|---:|
+| Q1 (mais baixa) | 189k | −7,7% | +5,7% |
+| Q2 | 245k | −2,2% | +7,8% |
+| Q3 | 299k | −2,0% | +2,2% |
+| Q4 | 362k | +2,6% | −4,1% |
+| **Q5 (mais alta)** | **554k** | **+10,1%** | **−8,2%** |
+
+A curva é monotônica em CAC e o ganho se concentra no quintil de cima: **acima de ~450–550k views/dia**
+de vídeo longo orgânico. Serve como corte operacional melhor que o "1,3× a MM28" (que era do proxy GA4).
+
+### 4. O efeito é contemporâneo — não existe adstock de audiência orgânica
+
+Regressão de defasagem distribuída (D a D−10, HAC-14): **D0 +0,177 (p<0,001)**; a soma dos 11 lags é
+**+0,194**, ou seja **91% do efeito está no próprio dia**. Só D−3 (−0,077, p=0,003) e D−6 (+0,051,
+p=0,089) aparecem, com sinais opostos — ruído, não cauda. **Consequência prática: audiência de ontem
+não é "estoque" acumulável.** Um vídeo que rende hoje não deixa saldo para a semana.
+
+### 5. Inscritos: só o fluxo vale; o estoque acumulado não prediz nada
+
+Semanal (n=50): inscritos líquidos **da própria semana** → transações elast. **+0,206 (p=0,001)**;
+inscritos líquidos **acumulados nas 4 semanas anteriores** → **−0,020 (p=0,69)**; audiência acumulada
+de 4 semanas → −0,136 (p=0,10). **Não há construção de marca mensurável por inscrito no nosso dado.**
+O canal funciona como fluxo de atenção, não como ativo que se acumula — pelo menos no horizonte de
+13 meses e com a nossa variância.
+
+### 6. Um vídeo gigante isolado NÃO move a venda de forma detectável
+
+10 programas com +1M views desde ago/2025 (El Salvador 4,16M · Master×STF 4,02M · 11 de Setembro
+2,86M · Rio 2,70M · Epstein 2,22M · Banco Master 2,14M…). Event study com resíduo controlado:
+
+| Janela | n | tx vs esperado | percentil no placebo | CAC |
+|---|---:|---:|---:|---:|
+| D+0 | 9 | +4,1% | p61 | −4,5% |
+| D+1 | 7 | +11,5% | p73 | −3,0% |
+| D+2 | 6 | +12,0% | p74 | −6,2% |
+
+Nenhum passa do p95. **Esta é a resposta direta ao Luan**: "dois hits recentes no YT" não é uma
+amostra — é n=2 dentro de uma série onde nem os 10 maiores vídeos do ano somados produzem efeito
+destacável. O sinal existe no **regime** (dias de canal forte), não no **evento**.
+
+### 7. Entrevista vende; live de notícia não
+
+Dias classificados pelo programa mais visto publicado em D..D−2 (base de vídeos da §BASE_VIDEOS):
+
+| Tipo do programa | n dias | Views medianas | tx vs esperado | CAC vs esperado |
+|---|---:|---:|---:|---:|
+| **Entrevista / sabatina** | 12 | 647k | **+7,6%** | **−8,9%** |
+| Outro programa | 212 | 345k | +1,3% | −2,1% |
+| **Live de notícia / react** | 15 | 448k | **−5,6%** | −1,2% |
+| Sem programa > 100k | 65 | — | −2,8% | +9,7% |
+
+Consistente com o pessoa-dia (formato entrevista ativa a base; 1,61× = BP Entrevista). **Live de
+notícia traz audiência grande e não vende** — é o caso do Master×STF e do STF de 15/09. n pequeno
+(12 e 15 dias), leitura direcional.
+
+### 8. O efeito é quase simétrico — dia ruim custa tanto quanto dia bom rende
+
+Decil mais alto de audiência: **+6,7%** de transações vs esperado. Decil mais baixo: **−7,5%**. Meio
+(80% dos dias): 0,0%. Não há limiar de "tudo ou nada" nem efeito só na cauda boa — o que reforça ler
+a audiência como **termômetro contínuo**, não como gatilho binário.
+
+### O que muda na recomendação
+
+1. **Parar de perguntar "o vídeo X vendeu?"** — a pergunta certa é "o canal está em regime alto?".
+   Evento único não tem potência (§6); regime tem (§1–3).
+2. **A régua operacional vira o quintil de audiência** (~450–550k views/dia de vídeo longo orgânico),
+   não o 1,3× MM28 do proxy antigo.
+3. **A decisão que vale dinheiro é quando escalar**: R$ 270 vs R$ 379 de CAC em dias de spend alto.
+4. **Pautar entrevista, não react de notícia**, se o objetivo é comercial (react serve a alcance).
+5. **Avisar o Comercial** nos dias de audiência alta: a conversão por abordagem sobe 18%.
+
+## Rodada 9d — a eficiência é função só de (spend, audiência)? (17/09/2026)
+
+**Pergunta do André:** no spend alto, a audiência é a única variável? A curva depende de estar
+subindo ou descendo? O próximo passo é aumentar, manter ou reduzir?
+Script: [r9d_curva_direcao.py](scripts/r9d_curva_direcao.py) · saída `data/r9d_curva_direcao.txt`.
+
+> ⚠️ **Esta rodada CORRIGE a §9c.2.** O "CAC R$ 270 vs R$ 379 em dias de spend alto" está certo como
+> número e **errado como recomendação**: é custo por **transação**, e some quando se mede custo por
+> **receita**. A recomendação "escolher o dia de escalar" não se sustenta — ver C abaixo.
+
+### A. A audiência NÃO é a única coisa que muda (balanço da célula de spend alto, Q4+Q5)
+
+| Variável | Aud. alta (n=62) | Aud. baixa (n=63) | Δ | p |
+|---|---:|---:|---:|---:|
+| Views orgânicas | 516.935 | 231.014 | +124% | <0,001 |
+| Spend | R$ 275,8k | R$ 253,9k | +8,6% | 0,18 |
+| Transações | 1.913 | 1.555 | **+23,1%** | <0,001 |
+| CAC de ads | R$ 267 | R$ 376 | **−28,9%** | <0,001 |
+| **Ticket médio** | **R$ 399** | **R$ 479** | **−16,7%** | **0,009** |
+| **% fim de semana** | **45%** | **27%** | **+67%** | **0,035** |
+| % em janela de lançamento | 8% | 22% | −64% | 0,028 |
+| Nº de campanhas ativas | 23,9 | 22,0 | +8,4% | 0,007 |
+| Concentração do spend (HHI) | 0,282 | 0,263 | +7,5% | 0,23 |
+
+Dias de audiência alta são **mais fim de semana, menos lançamento, ticket menor e mais campanhas
+simultâneas**. O mix de campanha (HHI, share do dominante) está balanceado — isso fecha a pendência
+da §9a.5. Mas ticket e fim de semana não estavam controlados.
+
+### B. ⭐ A audiência desloca o NÍVEL da curva, não a INCLINAÇÃO
+
+`log(tx_ads) = a + b·log(spend) + c·log(YT) + d·log(spend)×log(YT) + DOW + mês×ano + fase` (HAC-7):
+
+| Parâmetro | Estimativa | IC95 | p |
+|---|---:|---|---:|
+| **b** — elasticidade ao spend | **+0,932** | [+0,792, +1,071] | <0,001 |
+| **c** — efeito da audiência | +0,153 | — | 0,0005 |
+| **d** — interação spend × audiência | **+0,051** | **[−0,064, +0,167]** | **0,38 (ns)** |
+
+Elasticidade ao spend em dia de audiência baixa **0,909**; em dia de audiência alta **0,955** —
+indistinguíveis. **O próximo real rende o mesmo nos dois tipos de dia.** O dia inteiro é melhor
+(c>0), mas a curva não inclina. Corolário: **"escalar em dia de audiência alta" não tem base** —
+você venderia mais naquele dia de qualquer jeito, e o real incremental performa igual.
+(Nota lateral: b≈0,93 significa resposta **quase linear** ao spend no regime atual, batendo com o
+achado do MMM de que a saturação assumida estava errada.)
+
+### C. ⭐ O ganho é em UNIDADES, não em receita — o CAC engana
+
+Painel completo, sem abertura nem fechamento, pareado por spend:
+
+| Métrica | Efeito | IC95 | p |
+|---|---:|---|---:|
+| Transações | **+15,8%** | [+7,2, +26,2] | <0,001 |
+| **CAC por transação** | **−17,0%** | [−22,6, −10,5] | <0,001 |
+| Receita | +8,2% | [−1,9, +23,2] | 0,11 |
+| **Custo por R$ 1.000 de receita** | **−6,3%** | **[−13,3, +2,7]** | **0,21 (ns)** |
+| ROAS | +8,0% | [−1,3, +23,7] | 0,10 |
+| Ticket médio | −5,4% | [−12,8, +4,3] | 0,29 |
+
+Na célula de spend alto o contraste é mais duro: **receita +1,1% (p=0,87) e ROAS −7,3%** com CAC
+−28,9%. Vendem-se 23% mais unidades de ticket 17% menor, e a receita fica igual. **O sinal forte
+do YouTube é em aquisição de clientes, não em receita.** Sobrevive em dia útil e em fim de semana
+(CAC −27,2% e −22,5%), então não é só composição de calendário — mas a régua de receita não confirma.
+
+### D. ⭐ Histerese: o caminho importa mais que o nível
+
+CAC no mesmo quintil de spend, conforme o spend vinha **subindo** ou **descendo** (vs MM7):
+
+| Quintil de spend | CAC subindo | CAC descendo | Δ | p |
+|---|---:|---:|---:|---:|
+| Q4 | R$ 289 (n=34) | R$ 319 (n=25) | **−9,6%** | **0,041** |
+| **Q5** | **R$ 334** (n=44) | **R$ 436** (n=10) | **−23,5%** | **0,013** |
+| Q1–Q3 | — | — | −11% a +5% | ns |
+
+**Chegar ao spend alto descendo custa 24% mais caro que chegar subindo.** É a "ressaca" pós-pico
+que a `cenario-comercial.md` descreve (queda de 10–30% por 7–14 dias após fechamento): o mesmo
+nível de investimento, com demanda já drenada. Matriz de estados (todos os dias):
+
+| Estado | n | CAC | tx/dia | vs CAC médio |
+|---|---:|---:|---:|---:|
+| **spend ↑ · audiência ↑** | 71 | **R$ 277** | 1.514 | **−9,2%** |
+| spend ↓ · audiência ↑ | 55 | R$ 288 | 1.028 | −5,8% |
+| spend ↓ · audiência ↓ | 94 | R$ 323 | 930 | +5,6% |
+| **spend ↑ · audiência ↓** | 73 | **R$ 324** | 1.479 | **+6,1%** |
+
+**A direção da audiência separa melhor que a direção do spend.** O pior estado é escalar com
+audiência caindo — mesmo CAC de quando se está reduzindo.
+
+### E. Mas o mCAC não segue: a audiência não prediz o retorno de escalar
+
+119 dias em que o spend subiu >5% no dia seguinte e as vendas de ads subiram; mCAC = Δspend/Δtx:
+
+| Estado de hoje | n | mCAC mediano | vs geral |
+|---|---:|---:|---:|
+| Spend já vinha subindo | 52 | R$ 207 | −10,0% |
+| Audiência baixa e caindo | 51 | R$ 216 | −5,9% |
+| Audiência alta (no quintil) | 55 | R$ 224 | −2,5% |
+| Audiência alta E subindo | 39 | R$ 224 | −2,5% |
+| **Audiência subindo** | 52 | **R$ 264** | **+15,1%** |
+
+Mediana geral R$ 229 — **acima do teto de margem de R$ 180** e das referências (LAN R$ 145 / PPT
+R$ 188). "Alta e subindo" vs resto: p=0,194. **A audiência não prediz o mCAC de escalar**, o que é
+exatamente o que B previa. O único estado que aparece com mCAC melhor é *o spend já vir subindo* —
+inércia da própria campanha, não relevância.
+
+### Resposta às três perguntas
+
+1. **"A audiência é a única variável no spend alto?"** Não. Ticket (−17%), fim de semana (+67%),
+   lançamento (−64%) e nº de campanhas também mudam. O mix de campanha, esse sim, está balanceado.
+2. **"A curva vem de subida ou de queda, e isso impacta?"** Impacta, e muito: no Q5, chegar
+   descendo custa **+23,5%** de CAC. Direção da audiência é o melhor separador de estado.
+3. **"O próximo passo é aumentar, reduzir ou manter?"** **A audiência não responde isso.** Ela
+   prevê o resultado do dia, não o retorno do próximo real (d ns; mCAC ns). Quem responde é o
+   mCAC contra o teto: mediana R$ 229 hoje, acima do teto de R$ 180 → o padrão recente é de
+   sobre-escala. A regra operacional continua sendo a do recomendador (mCAC × teto de margem),
+   com a audiência entrando como **contexto do dia**, não como gatilho.
+
+### O que isso muda no que já foi dito
+
+| Antes (9b/9c) | Agora (9d) |
+|---|---|
+| "CAC −12% a −16% em dia de canal forte" | Certo **por transação**; em receita o efeito não é significativo (custo por R$1k: −6,3%, p=0,21) |
+| "R$ 270 vs R$ 379 — a decisão que vale dinheiro é quando escalar" | **Retirado.** É custo por unidade, com ticket 17% menor; escalar não rende mais nesses dias (interação ns) |
+| "Termômetro para decidir escala" | **Termômetro de resultado do dia**, não de retorno marginal |
+| Mix de campanha era pendência (9a.5) | **Fechada**: HHI e share do dominante balanceados entre alta e baixa |
+
+## Rodada 9e — o cliente que entra em dia de audiência alta vale menos? (17/09/2026)
+
+A §9d levantou que o ticket médio cai 17% na célula de spend alto e concluiu que "o ganho é em
+unidades, não em receita". Faltava a pergunta seguinte: **esse cliente mais barato vale menos?**
+Query: [34_ltv_por_dia_aquisicao.sql](queries/34_ltv_por_dia_aquisicao.sql) · dados
+`data/r9e_ltv_por_dia.csv`. **282.989 primeiras compras** em 234 dias (ago/2025–15/06/2026, todas
+com 180 dias de maturação), cohort pelo dia da aquisição.
+
+### Resposta: vale o mesmo — e o "ticket menor" da §9d era composição, não qualidade
+
+Dias de audiência alta vs baixa, dentro do quintil de spend, sem abertura nem fechamento:
+
+| Métrica do cliente adquirido | Aud. alta | Aud. baixa | Δ | p |
+|---|---:|---:|---:|---:|
+| Clientes novos/dia | 1.391 | 1.136 | **+22,5%** | 0,022 |
+| **Ticket da 1ª compra** | **R$ 339** | **R$ 332** | **+1,9%** | **0,57 (ns)** |
+| Receita extra em 90d | R$ 41 | R$ 37 | +11,8% | 0,92 |
+| Receita extra em 180d | R$ 67 | R$ 71 | −5,6% | 0,27 |
+| **LTV 180d** | **R$ 405** | **R$ 403** | **+0,6%** | **0,81 (ns)** |
+| % recomprou em 180d | 6,6% | 6,0% | +9,4% | 0,35 |
+| **LTV 180d ÷ CAC** | **1,59** | **1,37** | **+16,0%** | — |
+
+**O ticket da primeira compra NÃO é menor.** O −17% da §9d era **efeito de composição**: em dia de
+audiência alta entram 22,5% mais clientes novos (que sempre compram produto de entrada, ~R$ 339) e
+vende-se relativamente menos high-ticket para a base (Vitalício/upgrade, R$ 1.500+), porque esses
+dias são mais fim de semana (45% vs 27%) e menos janela de lançamento (8% vs 22%). O ticket médio do
+dia cai porque o **mix** muda, não porque o cliente é pior.
+
+### Por canal de aquisição, o cliente de dia de audiência alta é igual ou melhor
+
+| Canal | n (alta/baixa) | Ticket 1ª compra | LTV 180d |
+|---|---|---:|---:|
+| **Ads** | 42,2k / 40,2k | R$ 203 vs 184 (**+10,5%**) | R$ 244 vs 219 (**+11,4%**) |
+| **CRM** | 11,4k / 12,5k | R$ 246 vs 231 (+6,6%) | R$ 328 vs 301 (+8,7%) |
+| Comercial | 19,8k / 19,6k | R$ 753 vs 772 (−2,4%) | R$ 892 vs 938 (−5,0%) |
+| Outros | 14,2k / 12,9k | R$ 192 vs 193 (−0,6%) | R$ 213 vs 219 (−2,6%) |
+
+**No canal pago, o cliente adquirido em dia de audiência alta tem LTV 11% maior.** Nenhuma
+diferença é significativa isoladamente, mas a direção é consistente nos dois canais de volume.
+
+### O que isso corrige na §9d
+
+| §9d dizia | §9e mostra |
+|---|---|
+| "Ticket 17% menor → o CAC engana" | O ticket **do cliente** não muda; o do **dia** muda por mix (mais clientes novos, menos high-ticket da base) |
+| "O ganho é em unidades, não em receita" | Correto para a **receita do dia**; mas as unidades são **clientes de mesmo valor** — LTV/CAC **+16%** |
+| "Nunca reportar CAC sem receita ao lado" | Continua valendo; **acrescentar LTV/CAC**, que é a régua que reconcilia as duas |
+
+**Leitura final das três rodadas (9c → 9d → 9e):** em dia de audiência alta a empresa **adquire mais
+clientes do mesmo valor, a um custo menor por cliente**, sem ganhar receita no próprio dia (porque
+troca venda de base por aquisição). Isso é bom para crescimento de base e neutro para caixa imediato
+— e explica por que o efeito aparece em unidades e não em receita sem que nenhuma das duas medidas
+esteja errada. O que segue **não** sustentado é usar a audiência como gatilho de escala (§9d B/E):
+o retorno do próximo real continua igual.
+
+## Rodada 9g — revisão estatística independente (17/09/2026)
+
+Auditoria adversarial encomendada a um revisor independente (subagente Model QA), com acesso ao
+`ANALISE.md`, aos scripts, às queries e ao BigQuery. Ele reconstruiu o painel e recomputou o que dava.
+**Veredito: o núcleo sobrevive; quase tudo construído sobre ele nas rodadas 9c–9e não.**
+
+### Erros confirmados (não usar)
+
+| # | Achado derrubado | Por quê |
+|---|---|---|
+| 1 | **§9c.1 — "o Comercial prova o mecanismo"** (abordagens +25,1%, conversão/abordagem +18,0%) | **Não reproduzível e inverte**: com a máquina padrão e 300 dias, conversão/abordagem vira **+7,7% (IC [−12,5, +35,2], p=0,57)**. `tx_comercial` +30,6% se confirma, mas a decomposição — único elo declarado entre o painel diário e o mecanismo pessoa-dia — cai. **Não existe script commitado** que gere os números publicados. |
+| 2 | **§9d.D — histerese "chegar descendo custa +23,5%"** | Confundida: no Q5, os dias "descendo" têm spend **35% menor** e **0% de fim de semana** (vs 52% nos "subindo"). Com controles: coef −0,053, **p=0,48**. A matriz de estados tem o mesmo defeito (compara R$200k/dia com R$104k/dia). **Retirar a seção inteira.** |
+| 3 | **§9c.6 — "vídeo gigante não move a venda"** | **Bug** em `r9c_insights.py:159`: compara a média de n dias contra a distribuição de dias **individuais** — conservador por construção. Corrigido: D+1 e D+2 vão para **p91** com ~+12% (bicaudal p≈0,18). Somado à falta de poder (MDE 22%), o correto é "direcionalmente positivo, sem potência". |
+| 4 | **§9e — "LTV/CAC +16%"** | Mistura populações: LTV é de **todas** as primeiras compras; CAC é **só de mídia paga**. Além de ser aritmética do CAC (−13,4% → +15,5%). É a única linha da tabela sem p. |
+| 5 | **§9e corrigindo a §9d** | Períodos quase não se sobrepõem: o dado de LTV vai até 15/06/2026 e **44% das células de spend alto da §9d são posteriores** — justo o regime BP10/Vitalício (ticket mediano do dia R$ 398 → R$ 551). Além disso, "LTV 180d" é ~80% ticket inicial (só 1,33% renovaram em 180d; plano anual renova em 365d), então "LTV não muda" depois de "ticket não muda" é quase tautológico. Ponderando por cliente: clientes +13,1% (não +22,5%), LTV +0,3%, Ads +6,8% (não +11,4%). |
+
+### Fragilidades graves (corrigir antes de usar)
+
+- **Bootstrap iid em todos os scripts.** Autocorrelação dos resíduos: tx ρ₁ +0,42 (n efetivo 122/300),
+  CAC +0,51 (97), audiência +0,46. Com **moving-block bootstrap** os IC alargam **1,6–1,9×** e
+  **nenhum p<0,001 sobrevive** (o melhor vira 0,002–0,007). O Comercial vai a p=0,029.
+- **Placebo por permutação faz a mesma suposição** do bootstrap (embaralha dentro do estrato,
+  destruindo a autocorrelação). Com **deslocamento circular**, a banda nula é 30–40% mais larga —
+  mas **o efeito continua fora dela** (tx p<0,001; CAC p=0,008). Conclusão "não é ruído" sobrevive.
+- **Multiplicidade.** 40 p-valores explícitos nas rodadas 9a–9e; BH a 5% mantém **18**, corte p≤0,020.
+  A família **executada** é de 250–400 testes → corte real p≤0,002. Combinando com o block bootstrap,
+  o Comercial (p=0,029) **não passa**. As rodadas 9b–9e não aplicaram correção nenhuma.
+- **§9d.B — "o próximo real rende o mesmo" é falta de poder.** MDE de *d* = 0,165, 3,2× a estimativa;
+  o IC da diferença de elasticidade é [−0,057, +0,150] — compatível com 0,86 em dia ruim vs 1,01 em
+  dia bom, diferença economicamente enorme. Além disso **b=+0,932 é endógeno** (spend escolhido em
+  resposta à demanda) — a nota "bate com o MMM" deve sair.
+- **27% dos dias faltavam** em `yt_diario_origem.csv` (95 de 408) e os ausentes tinham **mais**
+  audiência (637k vs 500k, p=0,057) → censura correlacionada com o tratamento. ✅ **Corrigido na §9f**.
+- **Estratos degenerados.** 6 de 14 células descartadas pela regra `len(g)<10`; no recorte principal
+  sobram 8 estratos e **30 dias de fim de semana**. `em_venda`=1 em 88% dos dias (EVG/BP10/ODI/ENE sem
+  data de fim) → a dimensão "fase" quase não separa; na prática o estrato é spend × fds.
+- **CAC e transações continuam reportados como duas evidências** em §9b.1, §9b.6, §9b.8, §9c.2,
+  §9d.A e §9d.C. Identidade verificada no dado real: spend pareia −0,4%, tx_ads +21,3%, CAC −16,5%,
+  identidade prevê −17,9%. **É um fato só.** A §9a item 5 estava certa e foi ignorada.
+
+### Bugs de código a corrigir
+
+- `r9c_insights.py:77,154` — resíduo de CAC ajustado sobre dados **imputados pela mediana**.
+- `r9c_insights.py:140-142` — regressões de CAC da §9c.F retornam `+inf (p=nan)`; o texto omite.
+- `r9c_insights.py:25` — **`tx_organico` muda de definição no ponto de emenda (20/08)**: antes sem
+  YouTube, depois com. São os 23 dias mais recentes e de maior audiência → afeta o "+63,4%" da §9c.1.
+- `r9d_curva_direcao.py:122` — o mCAC condiciona em `Δtx > 0`, **selecionando pelo denominador do
+  próprio desfecho**; 8 estados não-exclusivos, um p escolhido depois de ver os resultados.
+- **A §9e não tem script.** Só query e CSV; os números são irreproduzíveis.
+
+### Conclusões além do dado que eu não tinha visto
+
+1. A seção **"Métrica proposta"** ainda recomenda o **proxy do GA4** (ρ 0,43 com as views reais) e a
+   regra **"se o YT está alto há espaço para escalar"** — que a §9d retirou. É a única parte que vai
+   para o painel, e está internamente contraditória.
+2. **§9c.3** — o corte "450–550k views/dia" é a **mediana do quintil superior**, não a fronteira:
+   recomendá-lo como limiar deixa metade dos dias "bons" de fora.
+3. **§9c.4 — "sem adstock"** é assumido, não medido: a soma dos lags vem **sem erro-padrão**, os lags
+   são colineares (ρ₁ 0,46) e o modelo controla só o spend **contemporâneo**.
+4. **§9d.A — "mix de campanha balanceado fecha a §9a.5"** é aceitação da nula com n=125 e p=0,23/0,45.
+   O HHI mede concentração, não o desbalanço por campanha que a §9a.5 apontou (BP10 7% vs SDC 100%).
+5. **§9c.8 — "quase simétrico"** não tinha teste; recomputado dá p=0,031 e p=0,059, não sobrevive a FDR.
+6. **§9c.7 — entrevista vs react**: o contraste direto é p=0,017 (Welch), melhor do que eu julguei,
+   **mas é post-hoc entre 2 de 4 grupos**, com classificação por regex de título e n=12/15. Sustenta
+   "vale um teste dedicado", não a recomendação de pauta.
+7. **§9b.1 — "views de ontem → CAC hoje"**: com ρ(hoje, ontem)=0,78 é ~o mesmo fato contemporâneo.
+   Precedência exigiria condicionar em views de hoje.
+
+### O achado que ele trouxe a favor — e que virou contra na §9f
+
+O revisor propôs **renovações como controle negativo** e, com a série de 313 dias, elas davam +0,5%
+(p=0,51) contra +15,9% das vendas novas — ele chamou de "o teste mais forte a favor que existe no
+material". **Com a série completa de 408 dias o teste inverte** e é o que a §9f documenta: renovação
+no cartão +0,116 vs venda nova +0,174, razão ns. Registrar os dois resultados é importante: a
+diferença veio exclusivamente da correção da censura de 27% dos dias.
+
+### Desenhos causais — a avaliação dele
+
+- **O holdout de conteúdo na plataforma (que eu propus) não responde a pergunta** — testa o que a
+  máquina pessoa-dia já testa, que a §9a item 1 identificou como pergunta **diferente**.
+- **O teste de escala da §9b.8 também não** — mede o parâmetro *d* da §9d.B, sem sinal e sem poder;
+  produziria um nulo quase garantido que não diria nada sobre causa.
+- **O que responde**, em ordem de custo-benefício:
+  1. **Encorajamento aleatorizado na base** — sortear metade para receber push/e-mail apontando ao
+     vídeo no YouTube; medir compra D+1..D+14 por intenção de tratar. Randomiza no nível da pessoa,
+     usa a infra de CRM, detecta lift de **1,2×** (vs 1,6–2,0× do pessoa-dia observacional).
+  2. **Aleatorizar o dia de publicação** de conteúdo evergreen, em pares bloqueados por DOW e fase.
+     Torna a audiência exógena **no nível do dia**, que é a unidade do painel. Precisa de ~40 estreias
+     → programa de 12 meses.
+  3. **Aleatorizar o empurrão externo** (push no Instagram/CRM/app) por vídeo. Roda imediato, mais fraco.
+- **Não funciona** (registrar para não tentar): geo (o YouTube não recorta por UF), IV com notícia
+  externa (é o confundidor, não o instrumento), synthetic control (não há unidade de controle).
+
+## ⛔ Rodada 9f — o controle negativo FALHA: o efeito não é específico de venda nova (17/09/2026)
+
+Depois da revisão independente (§9g), corrigi dois defeitos e o resultado principal mudou de leitura.
+Script: [nucleo_corrigido.py](scripts/nucleo_corrigido.py) · saída `data/nucleo_corrigido.txt`.
+
+**Correções aplicadas:** (1) série de origem **completa** — os 95 dias que faltavam foram recuperados
+dia a dia (`youtube-analytics/fetch_origem_diario.py`), e eles tinham **mais** audiência que a média,
+então a censura era correlacionada com o tratamento; (2) **moving-block bootstrap** no lugar do iid.
+
+### Com a série completa e bootstrap correto, o efeito bruto é maior
+
+| Desfecho (262 dias, sem abertura nem fechamento) | Efeito | IC95 (bloco L=14) | p |
+|---|---:|---|---:|
+| Transações não-renovação | **+19,5%** | [+8,6, +42,4] | 0,004 |
+| Receita | +18,0% | [−2,9, +48,6] | 0,114 |
+| CAC de ads (**o mesmo fato**) | −13,7% | [−25,0, −6,6] | 0,007 |
+| Spend [checagem do pareamento] | +1,2% | [−3,7, +10,7] | 0,29 |
+
+Robusto a L = 7, 14, 21 e 28 dias. Com 313 dias era +15,8%.
+
+### Mas as renovações — cobranças automáticas — sobem quase igual
+
+**98,8% das renovações são no cartão**, cobrança automática na data de aniversário da assinatura.
+Um vídeo publicado hoje **não pode causar** uma cobrança automática de hoje. Regressão com efeito
+fixo de dia da semana, **dia do mês**, mês×ano e log(spend), HAC-14, 262 dias:
+
+| Série | Elasticidade à audiência | IC95 | p |
+|---|---:|---|---:|
+| Não-renovação (o desfecho do estudo) | **+0,174** | [+0,085, +0,263] | <0,001 |
+| ⊗ **Renovação no cartão (automática)** | **+0,116** | [−0,021, +0,253] | 0,096 |
+| Renovação manual (boleto/pix, 1,2%) | +0,164 | [−0,049, +0,378] | 0,13 |
+| **Razão: nova ÷ renovação cartão** | **+0,058** | **[−0,109, +0,224]** | **0,50** |
+
+**A razão não responde.** Ou seja: em dia de audiência alta sobem, na mesma proporção, tanto as
+vendas novas quanto cobranças que o vídeo não pode ter causado. A parte do efeito que é **específica
+de venda nova** — a única que o YouTube poderia gerar — **não se distingue de zero**.
+
+O dia do mês não explica (Kruskal-Wallis p=0,87 para renovações por faixa do mês; audiência por faixa
+do mês p=0,59). O que resta é um **fator comum de nível de dia**.
+
+### Leituras possíveis, não separáveis com este dado
+
+1. **Confundidor de dia** (a hipótese que o estudo nunca conseguiu descartar): algo move junto a
+   audiência e o volume total de transações do dia, inclusive processamento de cobrança.
+2. **Mecânica de coorte**: quem foi adquirido em dia de audiência alta há 12 meses renova hoje em
+   dia de padrão semelhante. Nesse caso a renovação é **desfecho defasado**, não controle — e o
+   teste não é válido, mas também não salva a conclusão causal.
+3. **Controle grosseiro**: a renovação varia **14,8×** por dia da semana; dummies de DOW podem não
+   bastar.
+
+### Efeito prático
+
+- **A associação continua real e forte** (+19,5% de transações, IC [+8,6, +42,4], p=0,004, com spend
+  pareado). Isso não mudou.
+- **A interpretação de que o YouTube causa venda nova perdeu o principal teste que a sustentaria.**
+  Antes o estudo dizia "não conseguimos descartar um fator comum"; agora há **medida** de que esse
+  fator explica a maior parte do movimento.
+- Qualquer apresentação deve dizer: *dias de audiência alta são dias de mais venda, mas também de
+  mais cobrança automática — o padrão é de "dia bom" no agregado, não de efeito do vídeo.*
+- Isso **eleva** a prioridade do experimento (§9g): sem randomização, este dado não separa.
+
 ## Métrica proposta
+
+> ⛔ **OBSOLETA (17/09/2026).** Esta seção recomenda (a) o **proxy do GA4 Organic Video**, que tem
+> ρ 0,43 com a audiência real (§9b.1), e (b) a regra "se o YT está alto há espaço para escalar",
+> **retirada pela §9d** (a audiência não muda o retorno marginal) e agora sem sustentação causal
+> (§9f). **Não usar em painel nem em apresentação.** A métrica que resta defensável é descritiva:
+> minutos assistidos e inscritos ganhos do canal como leitura de **regime do dia**, sem implicação
+> de decisão de mídia. Reescrever quando o experimento (§9g) der resposta.
+
 
 Duas, uma para cada pergunta.
 
@@ -631,7 +1706,9 @@ Duas, uma para cada pergunta.
 
 O indicador de relevância com sinal limpo em volume **e** eficiência. Lido como desvio da média
 móvel de 28 dias, dentro da faixa de spend corrente. Dias no topo entregam +25% de transações e
-CAC ~12% menor com o mesmo dinheiro. **Não substituir por engajamento de rede social** — esse
+CAC ~12% menor com o mesmo dinheiro — ⚠️ **com lançamentos incluídos** (rodada 8): fora das
+janelas de estreia sobra +18,9% de volume, CAC −6,8% (p=0,05) e conversão por sessão nula.
+**Não substituir por engajamento de rede social** — esse
 anda com a mídia e, condicionado a ela, anda contra a eficiência.
 
 Uso operacional: se a audiência orgânica no YouTube está alta e o CAC ainda não caiu, há espaço
@@ -656,17 +1733,33 @@ diferentes (Clube do Livro 9,7× é funil de produto, não ativação).
 
 ## Pendências / próximos passos
 
-1. **Fechar a atribuição do efeito**: sabatina (1,98×) vs BP Entrevista (2,70×) sugere que é o
-   formato, não a relevância eleitoral. Teste: comparar sabatinas *entre si* por notoriedade do
-   entrevistado (Marçal/Renan vs Derrite/Caroline de Toni) — se o lift não escala com a
-   notoriedade, é formato.
-2. **Efeito de médio prazo**: a janela D+14 pode ser curta demais. Não-membro converte em ~421
-   dias (`regras-negocio.md`) — o lift de aquisição, se existir, não aparece em 14 dias.
+1. ✅ (02/09/2026, Teste A) **É formato, não pauta**: lift não escala com notoriedade (direção
+   até oposta — Marçal/Renan sem lift, confundidos pela estreia tardia na plataforma) e
+   sabatinas pooled = BP Entrevista em taxa pareada (1,61× = 1,61×). Novo gotcha operacional:
+   estreia tardia na plataforma (replay frio pós-YouTube) zera a ativação.
+2. 🔶 (02/09/2026, Teste B) **Médio prazo: incremento real até D+60** (leve 1,64× estável,
+   freemium nulo). Falta o D+90: **reexecutar `queries/25_janelas_medio_prazo.sql` após
+   ~05/10/2026** (universo completa 90d de follow-up em 01/10).
 3. **YouTube Analytics**: a sabatina acontece no YouTube; views/inscritos ficam fora do BQ e do
    GA4. Sem isso, o lado "atenção" da medição é parcial. Pedir acesso ao YT Analytics.
 4. **Freemium negativo** (0,28–0,83×) é direcionalmente consistente em 3 estratos mas n pequeno
    (102–486 pessoa-dias). Vale reconferir em 2–3 meses com mais volume.
 5. ✅ (02/09/2026) Publicado como relatório HTML no portal (seção Mídia Paga, badge Snapshot). O acompanhamento recorrente do IAC segue em aberto (Fase 3 do plano).
+6. ✅ (11/09/2026, rodada 8) Revisão da Bárbara atendida: conclusão em 2 parágrafos, teste de
+   fechamento de lote (não é confundidor) e exclusão de lançamentos (conversão zera; volume
+   +18,9% resiste).
+7. ⚠️ `tb_campaign_period` está incompleta — faltam DOM, ELS, CDL, EVG, ODI e ENE (2026). Afeta
+   qualquer análise que use `campanhas_periodos.csv`/`em_venda`. Corrigir a tabela no BQ; o
+   script da rodada 8 usa calendário hardcoded da wiki como paliativo.
+9. 🔶 (14/09/2026, rodada 9a) **Auditoria concluída — correções ao publicado aguardam André** (tabela
+   "O que muda" na rodada 9a): freemium "nulo"→"sem evidência", médio frágil, estreia tardia
+   provisória, "+24,7% E CAC −11,9%" como um fato, lag em nível, IAC com n mínimo de compradores.
+10. 🔲 (rodada 9b) Sabatinas Renan/Marçal em D+14/D+30 (cutoff 13/09) · 11 de Setembro pessoa-dia
+   com calendário pareado + decomposição UTM do fim de semana 12–13/09 · teste da hipótese
+   "todo o efeito é BP10" · GA4 Organic Video de setembro · YouTube Studio (bloqueado).
+8. Fechamentos de lote intermediários (dentro da janela de venda) não existem em nenhuma tabela —
+   só o fim da venda foi testável. Se o Comercial tiver as datas de virada de lote, dá para
+   refinar o teste da rodada 8.
 
 ## Queries
 
@@ -688,6 +1781,21 @@ diferentes (Clube do Livro 9,7× é funil de produto, não ativação).
 | [14_adesao_condicionado.sql](queries/14_adesao_condicionado.sql) | **Teste final** (sem compra 60d) | ✅ |
 | [15_iac_ranking_playlists.sql](queries/15_iac_ranking_playlists.sql) | **Métrica IAC** — ranking de 172 playlists | ✅ |
 | [16_portal_diario.sql](queries/16_portal_diario.sql) | Portal Mixpanel por origem | ✅ (série curta, fora da análise) |
+| [17_spend_vendas_por_campanha_diario.sql](queries/17_spend_vendas_por_campanha_diario.sql) | Campanha-dia para saltos de mCAC (rodada 3) | ✅ |
+| [18_busca_marca_google_ads.sql](queries/18_busca_marca_google_ads.sql) | Cliques/impressões [KW] Institucional (rodada 4) | ✅ |
+| [19_zenvia_contatos_novos.sql](queries/19_zenvia_contatos_novos.sql) | Contatos novos/inbound Zenvia (rodada 4) | ✅ |
+| [20_receita_mensal_historico.sql](queries/20_receita_mensal_historico.sql) | Receita mensal 59 meses (rodadas 5–6) | ✅ |
+| [21_sabatinas_inventario.sql](queries/21_sabatinas_inventario.sql) | Inventário das 9 sabatinas: estreia e pessoa-dias (teste A) | ✅ |
+| [22_lift_por_sabatina.sql](queries/22_lift_por_sabatina.sql) | Lift D+14/D+7 por sabatina individual (teste A) | ✅ |
+| [23_lift_bp_entrevista.sql](queries/23_lift_bp_entrevista.sql) | Lift por episódio da BP Entrevista (teste A) | ✅ |
+| [24_censura_sabatinas.sql](queries/24_censura_sabatinas.sql) | Elegibilidade por janela / censura à direita (teste B) | ✅ |
+| [25_janelas_medio_prazo.sql](queries/25_janelas_medio_prazo.sql) | Lift D+14/30/60/90 no universo fixo (teste B) | ✅ (D+90: reexecutar após ~05/10) |
+| [26_sensibilidade_periodo_amplo.sql](queries/26_sensibilidade_periodo_amplo.sql) | Sensibilidade com comparador mar–jul (teste B) | ✅ |
+| [27_cluster_robusto_q14.sql](queries/27_cluster_robusto_q14.sql) | Variância clusterizada por pessoa do teste principal (rodada 9a) | ✅ |
+| [28_cluster_robusto_q25.sql](queries/28_cluster_robusto_q25.sql) | Idem para o Teste B, 3 janelas (rodada 9a) | ✅ |
+| [29_spend_google_video_diario.sql](queries/29_spend_google_video_diario.sql) | Spend Google por tipo ([YT]/PMax/display/marca) p/ teste de contaminação (rodada 9a) | ✅ |
+| [31_lift_por_sabatina_d14_set.sql](queries/31_lift_por_sabatina_d14_set.sql) | Query 22 com compras até 15/09 — D+14 das 9 sabatinas (rodada 9b) | ✅ |
+| [32_lift_11setembro_plataforma.sql](queries/32_lift_11setembro_plataforma.sql) | Pessoa-dia do doc 11 de Setembro (exposição 11–12/09, D+3) — reexecutar 19/09 (D+7) e 26/09 (D+14) | ✅ parcial |
 
 Scripts:
 - [event_study.py](scripts/event_study.py) — painel diário, contrafactual e placebo (rodada 1)
@@ -695,6 +1803,12 @@ Scripts:
 - [relevancia_vs_vendas.py](scripts/relevancia_vs_vendas.py) — correlação bruta vs parcial, lags, direção, semanal + Trends
 - [quantificar_relevancia.py](scripts/quantificar_relevancia.py) — quartis de relevância em termos de negócio
 - [teste_pareado_spend.py](scripts/teste_pareado_spend.py) — **teste decisivo** (pareamento por spend × DOW × fase)
+- [teste_pareado_sem_lancamento.py](scripts/teste_pareado_sem_lancamento.py) — robustez da rodada 8: exclui janelas de lançamento e fechamento de lote (calendário corrigido da wiki)
+- [nucleo_corrigido.py](scripts/nucleo_corrigido.py) — **rodada 9f: núcleo com série completa, block bootstrap e controle negativo de renovações (o teste que falha)**
+- [r9d_curva_direcao.py](scripts/r9d_curva_direcao.py) — rodada 9d: balanço da célula de spend alto, nível vs inclinação da curva, histerese (subindo/descendo), mCAC por estado
+- [r9c_insights.py](scripts/r9c_insights.py) — rodada 9c: duração do efeito (lags), dose-resposta, heterogeneidade por canal, interação com spend, assimetria, estoque de inscritos, vídeos gigantes, tipo de conteúdo
+- [r9b_youtube_real.py](scripts/r9b_youtube_real.py) — rodada 9b: audiência real do YouTube (Analytics) × vendas: crivo, pareado, lag, jun–set semanal, dias dos vídeos-case
+- [auditoria_r9a.py](scripts/auditoria_r9a.py) — rodada 9a: decomposição volume×CAC, MDE, estabilidade do IAC, cluster por pessoa, contaminação de vídeo pago, mix de campanha, persistência/lag, remarketing, autocorrelação (saída `data/r9a_auditoria.txt`)
 
 ## Referências metodológicas
 
@@ -712,6 +1826,50 @@ Scripts:
 
 ## Wiki atualizada
 
-- `wiki-bp/pages/metricas-referencia.md` — nova seção "Ativação por conteúdo (IAC-14)".
-- `wiki-brasil-paralelo/pages/relevancia-marca.md` — criada, achados de relevância/ativação.
+- `wiki-bp/pages/metricas-referencia.md` — nova seção "Ativação por conteúdo (IAC-14)";
+  11/09: caveat de lançamento na tabela de canais orgânicos.
+- `wiki-brasil-paralelo/pages/relevancia-marca.md` — criada, achados de relevância/ativação;
+  11/09: veredito da hipótese revisado (conversão = fenômeno de lançamento) + gotcha da
+  tb_campaign_period.
 - `wiki-bp/pages/bq-regras.md` — gotcha de causalidade reversa em análise conteúdo→venda.
+- `wiki-brasil-paralelo/pages/campanhas-calendario.md` — 11/09: aviso de que a
+  tb_campaign_period não tem DOM/ELS/CDL/EVG/ODI/ENE.
+
+## Para retomar (17/09/2026 — pós-revisão independente; NÃO apresentar 9c–9e)
+
+**Estado:** a associação é real (+19,5% de transações, IC [+8,6, +42,4], p=0,004, série completa de
+408 dias, block bootstrap, spend pareado). **A causalidade perdeu sustentação**: o controle negativo
+de renovações falha (§9f) e a revisão independente derrubou tudo que foi construído nas rodadas
+9c–9e (§9g). Prazo com a Bárbara era 18/09 — entregar o núcleo + os blocos que ela pediu, sem os
+achados derrubados.
+
+**Correções pendentes (ordem):**
+1. Trocar o bootstrap iid por **moving-block** em `teste_pareado_spend.py`, `teste_pareado_sem_lancamento.py`,
+   `r9b_youtube_real.py`, `r9b_calendario_completo.py`, `r9c_insights.py`, `r9d_curva_direcao.py`
+   (padrão já implementado em `nucleo_corrigido.py`).
+2. **Refazer os números das rodadas 9b–9e com a série completa** — a censura de 27% dos dias mudou o
+   principal de +15,8% para +19,5%; todos os demais precisam ser recomputados ou marcados como obsoletos.
+3. Corrigir os bugs listados na §9g: placebo de `r9c_insights.py:159`, resíduo de CAC imputado (:77,154),
+   CAC infinito (:140-142), **`tx_organico` mudando de definição em 20/08 (:25)**, seleção por `Δtx>0`
+   em `r9d_curva_direcao.py:122`.
+4. **Escrever e commitar o script da §9e** (hoje só há query e CSV) e o da decomposição do Comercial
+   (§9c.1) — ou retirar os dois achados.
+5. Aplicar **FDR** à família de p-valores e republicar só o que passa.
+6. Reescrever a §Métrica proposta (marcada obsoleta) e a §Resposta curta (a frase "resistência piorou"
+   não se sustenta ponderada por spend — ver §Escala de mídia 07–13/09).
+7. `index.html` in-place com o estado corrigido; hoje o publicado é de 02/09 e está desatualizado.
+
+**Análises agendadas por data:** D+7 do 11 de Setembro em **19/09** e D+14 em **26/09**
+(`queries/32_lift_11setembro_plataforma.sql`, trocar a janela). D+90 do Teste B após **05/10**
+(`queries/25_janelas_medio_prazo.sql`).
+
+**Experimento (o que de fato resolve):** encorajamento aleatorizado na base — sortear metade para
+receber push/e-mail apontando ao vídeo, medir compra D+1..D+14 por intenção de tratar. Detecta 1,2×.
+Desenho a escrever; depende do squad de CRM.
+
+**Acessos:** YouTube (Data + Analytics) e Instagram funcionando — ver `wiki-bp/youtube-instagram-acesso.md`.
+**Search Console pendente** (pedir acesso; histórico só 16 meses). **Coleta ainda manual** — agendar
+launchd 9h com os 3 scripts de YouTube + o do Instagram, senão a série de seguidores do IG se perde.
+
+**Pendências operacionais herdadas:** rodada 8 e tudo desta sessão **não commitados**; thread do
+#performance-e-bi sem resposta desde 11/09; patch da `api-mappings` aguardando André aplicar na Lovable.

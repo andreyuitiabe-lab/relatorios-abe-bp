@@ -1,0 +1,163 @@
+====================================================================================================
+P2 — volume e eficiência: um fato ou dois? (YT orgânico alta vs baixa, pareado por spend)
+ [todos os dias] n=385
+   tx_total        +25.6% IC[+18.2,+35.5] p=0.000 (dias=346)
+   tx_ads          +20.7% IC[+13.8,+29.1] p=0.000 (dias=346)
+   tx_nao_ads      +27.9% IC[+18.9,+41.3] p=0.000 (dias=346)
+   spend_total      +3.7% IC[-0.7,+8.5] p=0.088 (dias=346)
+   cac_ads_calc    -10.9% IC[-15.7,-4.8] p=0.000 (dias=346)
+   CAC implícito (1+Δspend)/(1+Δtx_ads) = -14.1%
+ [sem lançamento] n=261
+   tx_total        +19.5% IC[+10.4,+30.7] p=0.000 (dias=220)
+   tx_ads          +20.4% IC[+11.5,+30.6] p=0.000 (dias=220)
+   tx_nao_ads      +20.3% IC[+9.3,+37.3] p=0.000 (dias=220)
+   spend_total      +7.3% IC[+1.8,+14.6] p=0.010 (dias=220)
+   cac_ads_calc     -6.3% IC[-12.3,+0.7] p=0.092 (dias=220)
+   CAC implícito (1+Δspend)/(1+Δtx_ads) = -10.9%
+
+====================================================================================================
+P3 — estabilidade do topo do IAC (n mín. 500 pessoa-dias; compradores por playlist)
+ rank_rpp                                                 nm_playlist  pessoa_dias  compradores   iac  cv_min  tx_compra_pct  rank_tx
+        1                                           Clube do Livro BP         1720          174 9.731   0.076         10.116        1
+        2 O Grande Tabuleiro - Certificação em Política Internacional          977           31 7.780   0.180          3.173        4
+        3                                                Os Falsários          802           10 7.094   0.316          1.247      110
+        4                                      Entre Facas e Segredos         1783           27 6.636   0.192          1.514       71
+        5                                                   Travessia          561           33 5.478   0.174          5.882        2
+        6                                            Ciência Política          533           23 3.824   0.209          4.315        3
+        7                             A personalidade em três pessoas          604           17 3.083   0.243          2.815        8
+        8                                             O Fim da Beleza         3169           52 3.054   0.139          1.641       51
+        9                                O Essencial para Estudar Bem          504           15 2.868   0.258          2.976        7
+       10                                   Insight BP - 1ª Temporada          978           30 2.747   0.183          3.067        6
+       11                                      Entre Anjos e Demônios         1516           48 2.744   0.144          3.166        5
+       12                                                 Miss Potter         1637           17 2.722   0.243          1.038      145
+ playlists: 172 · <30 compradores: 91 (53%) · <10: 19
+ BP nas Eleições: taxa 2.08% rank por taxa 21/172 (por RPP: 22)
+ BP Entrevista: taxa 2.30% rank por taxa 13/172 (por RPP: 14)
+
+====================================================================================================
+P4 — erro-padrão clusterizado por pessoa (queries 27/28)
+ Q14 (teste principal D+1..14), sabatina vs top-8 — log-RR, delta method:
+  membro   1_leve   lift 1.65×  naive IC[1.26,2.17] p=0.0003  | robusto IC[1.22,2.23] p=0.0011  DEFF 1.23/1.34  pd/pessoa 1.14
+  membro   2_medio  lift 1.44×  naive IC[1.16,1.80] p=0.0011  | robusto IC[1.06,1.96] p=0.0206  DEFF 1.97/2.25  pd/pessoa 1.52
+  membro   3_heavy  lift 0.87×  naive IC[0.65,1.16] p=0.3309  | robusto IC[0.60,1.26] p=0.4519  DEFF 1.58/4.73  pd/pessoa 2.43
+  freemium 1_leve   lift 0.83×  naive IC[0.41,1.66] p=0.5953  | robusto IC[0.41,1.67] p=0.5967  DEFF 1.00/1.26  pd/pessoa 1.14
+  freemium 2_medio  lift 0.58×  naive IC[0.26,1.30] p=0.1890  | robusto IC[0.23,1.50] p=0.2625  DEFF 1.35/2.09  pd/pessoa 1.58
+  freemium 3_heavy  lift 0.28×  naive IC[0.04,2.01] p=0.2063  | robusto IC[0.04,2.14] p=0.2210  DEFF 1.02/4.40  pd/pessoa 2.55
+ Q25 / Teste B (universo 08/06–03/07) — IC naive alargado pelo DEFF de cada grupo:
+  membro_leve   D+14: lift 1.64× naive p=0.0015 | robusto IC[1.17,2.31] p=0.0041  DEFF 1.22/1.29
+  membro_leve   D+30: lift 1.56× naive p=0.0006 | robusto IC[1.18,2.07] p=0.0020  DEFF 1.22/1.35
+  membro_leve   D+60: lift 1.65× naive p=0.0000 | robusto IC[1.32,2.04] p=0.0000  DEFF 1.24/1.36
+  membro_medio  D+14: lift 1.30× naive p=0.0475 | robusto IC[0.90,1.88] p=0.1610  DEFF 1.99/2.08
+  membro_medio  D+30: lift 1.31× naive p=0.0070 | robusto IC[0.97,1.78] p=0.0801  DEFF 2.39/2.30
+  membro_medio  D+60: lift 1.27× naive p=0.0023 | robusto IC[1.01,1.60] p=0.0444  DEFF 2.28/2.48
+  membro_heavy  D+14: lift 0.84× naive p=0.3137 | robusto IC[0.52,1.36] p=0.4801  DEFF 1.65/4.93
+  membro_heavy  D+30: lift 0.99× naive p=0.9028 | robusto IC[0.65,1.49] p=0.9439  DEFF 2.53/6.01
+  membro_heavy  D+60: lift 0.97× naive p=0.7699 | robusto IC[0.69,1.38] p=0.8792  DEFF 3.21/6.83
+
+====================================================================================================
+P5 / P11 — efeito mínimo detectável (80% poder, α 5% bicaudal)
+  Q14 freemium 1_leve   n_t=  486 p0=1.99% lift 0.83× IC[0.41,1.66]  MDE lift ≥ 1.91×
+  Q14 freemium 2_medio  n_t=  363 p0=2.84% lift 0.58× IC[0.26,1.30]  MDE lift ≥ 1.88×
+  Q14 freemium 3_heavy  n_t=  102 p0=3.51% lift 0.28× IC[0.04,1.99]  MDE lift ≥ 2.49×
+  Q14 membro   1_leve   n_t= 2640 p0=1.19% lift 1.65× IC[1.26,2.16]  MDE lift ≥ 1.50×
+  Q14 membro   2_medio  n_t= 3680 p0=1.51% lift 1.44× IC[1.15,1.79]  MDE lift ≥ 1.38×
+  TesteB freemium D+14: n_t=558 p0=1.56% lift 1.15× IC[0.60,2.21]  MDE lift ≥ 2.00×
+  TesteB freemium D+30: n_t=558 p0=2.54% lift 1.41× IC[0.89,2.25]  MDE lift ≥ 1.78×
+  TesteB freemium D+60: n_t=558 p0=4.43% lift 1.13× IC[0.77,1.66]  MDE lift ≥ 1.58×
+  TesteA D+7 Pablo Marçal   n_t= 1527 p0=0.57% lift 0.81× IC[0.25,1.45]  MDE lift ≥ 1.98×
+  TesteA D+7 Renan Santos   n_t=  734 p0=0.57% lift 0.48× IC[0.00,1.16]  MDE lift ≥ 2.39×
+  TesteA pooled ALTA (Marçal+Renan) n_t=2.261 p0=0,57%: MDE lift ≥ 1.82×
+ Case 11 de Setembro (1.757 usuários na plataforma; ~55% membro leve/médio sem compra 60d ≈ 966 pd):
+   D+7: p0=0.75% → MDE lift ≥ 2.06×   (só leve, n≈527: ≥ 2.42×)
+   D+14: p0=1.44% → MDE lift ≥ 1.76×   (só leve, n≈527: ≥ 2.02×)
+   D+60: p0=3.47% → MDE lift ≥ 1.48×   (só leve, n≈527: ≥ 1.65×)
+ Event study agregado (n=1 evento, janela 3 dias) — p95 do placebo:
+   receita_total    p05 -34.9%  p95 +61.8%  MDE(80%) ≈ 114%
+   tx_total         p05 -23.2%  p95 +33.9%  MDE(80%) ≈ 63%
+   cac_ads          p05 -26.4%  p95 +33.6%  MDE(80%) ≈ 63%
+   conv_por_sessao  p05 -26.5%  p95 +37.1%  MDE(80%) ≈ 70%
+
+====================================================================================================
+P6 — contaminação de vídeo pago no Organic Video (query 29 + GA4 Paid Video)
+ spend Google [YT]/vídeo: mediana R$ 3,719/dia · 43% do Google · 4.7% do total
+  ρ(Organic Video, spend total               ) = +0.162 (p=0.001)
+  ρ(Organic Video, spend Google [YT] vídeo   ) = -0.066 (p=0.196)
+  ρ(Organic Video, views pagas [YT]          ) = -0.077 (p=0.133)
+  ρ(Organic Video, GA4 Paid Video sessões    ) = -0.069 (p=0.174)
+  ρ(Organic Video, spend busca de marca [KW] ) = -0.019 (p=0.716)
+  média alta vs baixa spend_g_video         6,120 vs      7,070  Δ -13.4%
+  média alta vs baixa views_g_video         1,849 vs      2,318  Δ -20.3%
+  média alta vs baixa ga4_paid_video          106 vs        114  Δ -7.0%
+  média alta vs baixa spend_meta          112,751 vs    105,592  Δ +6.8%
+ Pareado adicionando tercil de spend de vídeo ao estrato:
+  [todos]
+    tx_total          +20.6% IC[+13.5,+31.4] p=0.000 (dias=287)
+    cac_ads_calc       -5.6% IC[-10.3,+1.0] p=0.092 (dias=287)
+    conv_por_sessao   +22.7% IC[+12.4,+37.7] p=0.000 (dias=287)
+    spend_total        +5.4% IC[+0.9,+11.5] p=0.019 (dias=287)
+    spend_g_video      -1.6% IC[-9.7,+11.0] p=0.962 (dias=287)
+  [sem lançamento]
+    tx_total          +13.2% IC[+3.0,+28.0] p=0.011 (dias=155)
+    cac_ads_calc       +2.3% IC[-4.6,+11.3] p=0.441 (dias=155)
+    conv_por_sessao    +2.5% IC[-7.1,+17.3] p=0.542 (dias=155)
+    spend_total       +11.6% IC[+4.1,+22.1] p=0.001 (dias=155)
+    spend_g_video     -12.3% IC[-21.2,+1.6] p=0.082 (dias=155)
+
+====================================================================================================
+P7 — mix de campanha (sigla Meta dominante do dia) entre dias alta e baixa
+alta       False  True  total  %alta
+sigla_dom                           
+10R           55    67    122   55.0
+ELS           12    20     32   62.0
+BNO25         13    17     30   57.0
+BP10          25     2     27    7.0
+GOD           11    14     25   56.0
+NTL25         12     9     21   43.0
+CDL            7    12     19   63.0
+HDF            9     8     17   47.0
+SDC            0    16     16  100.0
+PAP           15     1     16    6.0
+TLR            6     8     14   57.0
+DOM            9     3     12   25.0
+ [original: quintil spend × fds × em_venda]
+   tx_total          +25.6% IC[+17.8,+35.5] p=0.000 (dias=346)
+   cac_ads_calc      -10.9% IC[-15.7,-4.8] p=0.001 (dias=346)
+   conv_por_sessao   +21.7% IC[+12.0,+35.2] p=0.000 (dias=346)
+   spend_total        +3.7% IC[-0.2,+8.4] p=0.073 (dias=346)
+ [campanha dominante × fds × lançamento]
+   tx_total          +26.5% IC[+16.5,+41.3] p=0.000 (dias=224)
+   cac_ads_calc       -8.1% IC[-12.6,-2.7] p=0.003 (dias=224)
+   conv_por_sessao    +9.7% IC[+1.7,+20.4] p=0.016 (dias=224)
+   spend_total       +18.1% IC[+7.2,+34.8] p=0.000 (dias=224)
+ [campanha dominante × fds × lançamento × tercil spend]
+   tx_total          +33.2% IC[+20.7,+50.2] p=0.000 (dias=95)
+   cac_ads_calc      -11.1% IC[-17.0,-4.4] p=0.001 (dias=95)
+   conv_por_sessao   +15.9% IC[+3.4,+32.1] p=0.012 (dias=95)
+   spend_total        +8.2% IC[-0.5,+18.3] p=0.066 (dias=95)
+
+====================================================================================================
+P8 — indicador coincidente: persistência e lag em nível
+  ρ(lag1) resíduo ga4_organic_video : +0.676   lag7: -0.091
+  ρ(lag1) resíduo tx_total          : +0.466   lag7: +0.049
+  ρ(lag1) resíduo cac_ads           : +0.602   lag7: -0.016
+  ρ(lag1) resíduo conv_por_sessao   : +0.480   lag7: -0.044
+  P(alta hoje | alta ontem) = 0.755  vs P(alta) = 0.488
+ [todos] n=384
+   YT ontem → tx_total        +16.3% IC[+9.2,+25.6] p=0.000 (dias=346)
+   YT ontem → cac_ads_calc     -7.7% IC[-13.0,-1.5] p=0.017 (dias=346)
+   YT ontem → conv_por_sessao  +11.9% IC[+3.5,+23.9] p=0.005 (dias=346)
+   YT ontem → spend_total      +1.9% IC[-2.3,+6.6] p=0.360 (dias=346)
+ [sem lançamento (dia e véspera)] n=244
+   YT ontem → tx_total        +23.0% IC[+14.2,+35.9] p=0.000 (dias=207)
+   YT ontem → cac_ads_calc    -10.6% IC[-16.3,-3.3] p=0.002 (dias=207)
+   YT ontem → conv_por_sessao   +8.0% IC[-1.4,+20.8] p=0.092 (dias=207)
+   YT ontem → spend_total      +3.7% IC[-2.0,+10.2] p=0.194 (dias=207)
+  regra 'YT ontem > 1,3× MM28' [todos]: sinal em 67/356 dias · CAC hoje -16.2% · tx +15.9% · spend +1.9%
+  regra 'YT ontem > 1,3× MM28' [sem lançamento]: sinal em 32/225 dias · CAC hoje -19.4% · tx +11.6% · spend -2.6%
+
+====================================================================================================
+Não listados — remarketing fora do CAC; autocorrelação dos dias no bootstrap
+  Adwords Remarketing + Instagram Ads = 7.4% das tx de ads; share alta 9.3% vs baixa 5.0%
+  cac_ads_calc  -10.9% IC[-16.1,-4.9] p=0.000 (dias=346)
+  cac_full      -15.2% IC[-20.0,-9.3] p=0.000 (dias=346)
+  n efetivo do painel com ρ1=0.47: ≈ 140 de 385 dias (bootstrap i.i.d. de dias é anti-conservador)

@@ -82,3 +82,79 @@ com uma lista de concorrentes é o próximo passo óbvio** e barato via Google T
 3. **Migrar para UCM/MMM com componente de marca** (Cain) quando houver ~2 anos de série: separa
    baseline estrutural de ruído e mede os dois caminhos (baseline + eficiência da ativação) que
    Binet & Field descrevem — em vez de correlação diária.
+
+## Tese 7 — Conteúdo orgânico / earned media → vendas (adicionada 16/09/2026, rodada 9b)
+
+A pergunta da rodada 9 ("o vídeo no YouTube vendeu?") tem literatura própria, distinta da de
+mídia paga: séries de atenção orgânica (views, WOM, buscas, engajamento) como **variáveis
+endógenas** num sistema dinâmico com vendas e mídia, estimadas por VAR e lidas por funções de
+resposta a impulso (IRF), não por regressão estática.
+
+- **Trusov, Bucklin & Pauwels (2009)**, *Effects of Word-of-Mouth Versus Traditional Marketing*,
+  JM — VAR de referrals × eventos de mídia × cadastros num site social; IRF mostra elasticidade
+  de WOM ~20× a da mídia e efeito que dura ~3 semanas. **Modelo-base para "audiência orgânica →
+  vendas" com spend como controle endógeno.** É o que nosso lag/pareado diário aproxima à mão.
+- **Stephen & Galak (2012)**, *The Effects of Traditional and Social Earned Media on Sales*, JMR —
+  earned media tradicional (imprensa) e social (blogs, fóruns) → vendas; social tem efeito por
+  evento menor mas frequência muito maior. Recorte útil: separar **impacto por evento** de
+  **impacto acumulado**.
+- **Sonnier, McAlister & Rutz (2011)**, *A Dynamic Model of the Effect of Online Communications on
+  Firm Sales*, Mkt Sci — valência (positivo/neutro/negativo) do buzz diário → vendas; mostra que
+  volume agregado esconde efeitos de sinal oposto. Vale para comentários/likes dos vídeos.
+- **Srinivasan, Rutz & Pauwels (2016)**, *Paths to and off purchase*, JAMS — métricas de atividade
+  online do consumidor (busca, cliques, likes) como **mindset metrics** que antecedem vendas;
+  framework de "caminhos" que separa efeito direto de efeito via mídia paga. É a formalização
+  do nosso achado "efeito maior fora da mídia (CRM +50%, Comercial +15%)".
+- **Colicev, Malshe, Pauwels & O'Connor (2018)**, *Improving Consumer Mindset Metrics and
+  Shareholder Value Through Social Media*, JM — owned vs earned social media → awareness,
+  satisfação, intenção → valor; earned move awareness, owned move satisfação. Sustenta tratar
+  inscritos/minutos (earned) e CRM (owned) como caminhos distintos.
+- **Johnson, Lewis & Nubbemeyer (2017)**, *Ghost Ads*, JMR — o problema do nosso pessoa-dia
+  (quem assiste ≠ quem não assiste) tem solução limpa só com contrafactual de **exposição
+  predita**: identificar quem *teria* assistido. Sem experimento, o melhor substituto é o
+  placebo de conteúdo pareado por propensão (o que fazemos com top-8 + engajamento prévio).
+
+## Tese 8 — Potência, multiplicidade e erros-padrão (o que a auditoria 9a cobrou)
+
+- **Gelman & Carlin (2014)**, *Beyond Power Calculations: Assessing Type S (Sign) and Type M
+  (Magnitude) Errors*, PPS — com potência baixa, um efeito "significativo" tem magnitude
+  **exagerada** por construção (erro tipo M) e pode ter sinal errado. É o caso dos lifts
+  individuais de sabatina com n<800 e do 11 de Setembro em D+3 (MDE 3,7×). **Reportar MDE junto
+  do IC é a aplicação direta.**
+- **Lewis & Rao (2015)**, QJE — já citado na Tese 5; a versão para conteúdo orgânico é ainda
+  pior: sem randomização, o ruído da série diária de vendas (CV ~35%) exige efeitos >30–60% para
+  um evento único aparecer (nosso placebo p95 = +62% em receita, 3 dias).
+- **Abadie, Athey, Imbens & Wooldridge (2023)**, *When Should You Adjust Standard Errors for
+  Clustering?*, QJE — clusterizar por pessoa quando a mesma pessoa gera várias observações
+  (pessoa-dia); DEFF 1,2–2,5 nos nossos estratos (queries 27/28).
+- **Bertrand, Duflo & Mullainathan (2004)**, *How Much Should We Trust Differences-in-Differences
+  Estimates?*, QJE — séries diárias autocorrelacionadas inflam significância; nosso n efetivo é
+  ~140 de 385 dias. Bootstrap de dias i.i.d. é anti-conservador; usar block bootstrap.
+- **Benjamini & Hochberg (1995)**, *Controlling the False Discovery Rate* — para famílias grandes
+  (172 playlists, 45 células do pareado) a correção FDR é a leitura certa; Bonferroni só para
+  a família pequena do teste principal.
+
+## Tese 9 — Desenho para um evento único (o case 11 de Setembro)
+
+- **Brodersen et al. (2015)**, *CausalImpact* — já na Tese 5; é o desenho canônico para "um
+  vídeo, um dia": série de controle (vendas de produtos não relacionados, outras UFs) → BSTS →
+  intervalo do efeito. Nossa versão OLS+placebo é a aproximação; com 13 meses de spend agora dá
+  para rodar o BSTS de verdade.
+- **Abadie, Diamond & Hainmueller (2010)**, *Synthetic Control Methods*, JASA — controle
+  sintético para um único tratado; **GeoLift (Meta, 2022)** é a implementação com poder de teste
+  embutido — já desenhada no `mmm_project` (3 cidades, MDE 25%, 2 semanas).
+- **Kohavi, Tang & Xu (2020)**, *Trustworthy Online Controlled Experiments* — cap. sobre
+  "peeking" e sobre reportar resultados de teste com poder insuficiente: o padrão "não
+  significativo em D+3, D+7 e D+14 agendados" segue o protocolo de análise pré-registrada.
+
+### Como isso vira método para a próxima análise deste tipo
+
+1. **Série**: audiência orgânica diária (minutos assistidos + inscritos ganhos, não views), spend
+   por fonte, vendas por canal, calendário de campanha → **VAR com IRF** (Trusov 2009) para
+   direção, defasagem e duração; pareado por spend como checagem não-paramétrica.
+2. **Evento único**: BSTS/CausalImpact com controles sintéticos + placebo em datas fictícias;
+   **MDE declarado antes** (Gelman & Carlin); janela pré-registrada (D+7, D+14, D+30).
+3. **Pessoa**: placebo de conteúdo pareado (top-playlists, engajamento prévio, sem compra 60d),
+   erro clusterizado por pessoa, FDR quando houver ranking.
+4. **Causal**: GeoLift para mídia; para conteúdo orgânico não há holdout possível — o teto é
+   direcional, e o texto tem que dizer isso (Gordon 2023).

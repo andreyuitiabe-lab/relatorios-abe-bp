@@ -1,0 +1,53 @@
+painel 408 dias · dias marcados: estreia ±1 75 · abertura ±3 141 · fechamento −2..0 42 · lote/virada ±1 24 · oferta nova 73 · QUALQUER 227 (56%) · limpos 181
+
+(1) PAREADO de views orgânicas de vídeo longo, excluindo cada tipo de evento do calendário:
+ [todos os dias] n=408
+   tx_total      +24.8% IC[+16.6,+36.1] p=0.000 n=270
+   cac_ads       -15.6% IC[-20.6,-9.7] p=0.000 n=270
+   spend_total    +1.0% IC[-2.4,+6.0] p=0.488 n=270
+ [sem estreia ±1] n=333
+   tx_total      +25.9% IC[+16.3,+39.1] p=0.000 n=215
+   cac_ads       -14.3% IC[-19.1,-8.3] p=0.000 n=215
+   spend_total    +1.1% IC[-3.2,+6.6] p=0.549 n=215
+ [sem abertura ±3] n=267
+   tx_total      +19.1% IC[+9.8,+32.2] p=0.000 n=141
+   cac_ads       -14.8% IC[-20.5,-6.9] p=0.000 n=141
+   spend_total    -2.1% IC[-7.5,+5.8] p=0.658 n=141
+ [sem fechamento −2..0] n=366
+   tx_total      +21.5% IC[+13.3,+32.2] p=0.000 n=226
+   cac_ads       -16.7% IC[-21.1,-10.6] p=0.000 n=226
+   spend_total    -0.9% IC[-4.9,+4.2] p=0.844 n=226
+ [sem lote/virada ±1] n=384
+   tx_total      +18.7% IC[+10.8,+30.4] p=0.000 n=249
+   cac_ads       -11.1% IC[-16.0,-4.9] p=0.001 n=249
+   spend_total    +4.6% IC[-0.0,+11.1] p=0.054 n=249
+ [sem oferta nova] n=335
+   tx_total      +24.2% IC[+14.9,+37.1] p=0.000 n=207
+   cac_ads       -14.5% IC[-19.4,-8.0] p=0.000 n=207
+   spend_total    +1.6% IC[-2.4,+7.0] p=0.409 n=207
+ [SÓ DIAS LIMPOS (nenhum evento)] n=181
+   tx_total      +15.8% IC[+4.9,+30.7] p=0.006 n=63
+   cac_ads        -9.0% IC[-17.7,+2.1] p=0.121 n=63
+   spend_total    -1.0% IC[-8.5,+10.0] p=0.896 n=63
+ [SÓ DIAS LIMPOS, views de inscritos]
+   tx_total      +14.4% IC[+2.8,+28.9] p=0.012 n=63
+   cac_ads        -9.7% IC[-19.0,+1.6] p=0.101 n=63
+   spend_total    -2.1% IC[-9.3,+9.8] p=0.690 n=63
+
+(2) REGRESSÃO diária log(y) ~ log(yt) + log(spend) + DOW + mês + tendência + em_venda + 5 dummies de calendário (HAC, 7 lags):
+   views orgânicas longo    → tx_total  elasticidade +0.166 (IC95 [+0.076,+0.256], p=0.0003) · calendário: estreia -0.03 abertura +0.05 fech +0.11 lote -0.04 oferta -0.02
+   views orgânicas longo    → cac_ads   elasticidade -0.130 (IC95 [-0.206,-0.053], p=0.0009) · calendário: estreia +0.05 abertura +0.00 fech -0.12 lote +0.02 oferta +0.07
+   minutos assistidos       → tx_total  elasticidade +0.179 (IC95 [+0.097,+0.260], p=0.0000) · calendário: estreia -0.07 abertura +0.04 fech +0.07 lote -0.03 oferta +0.01
+   minutos assistidos       → cac_ads   elasticidade -0.139 (IC95 [-0.206,-0.072], p=0.0001) · calendário: estreia +0.05 abertura +0.03 fech -0.08 lote +0.02 oferta +0.01
+   inscritos ganhos         → tx_total  elasticidade +0.201 (IC95 [+0.120,+0.282], p=0.0000) · calendário: estreia -0.08 abertura +0.01 fech +0.08 lote -0.02 oferta -0.00
+   inscritos ganhos         → cac_ads   elasticidade -0.144 (IC95 [-0.205,-0.083], p=0.0000) · calendário: estreia +0.06 abertura +0.05 fech -0.09 lote +0.02 oferta +0.02
+   [leitura] +10% de views orgânicas ≈ +1.6% transações, com TUDO o mais constante; abertura de carrinho vale +5% e fechamento +11%
+
+(3) PLACEBO — embaralhar a série de YouTube dentro de (quintil de spend × fds × fase) 500×: distribuição do 'efeito' espúrio
+   tx_total  observado +24.8% · placebo p2.5–p97.5 [-7.6%, +10.1%] · p_placebo = 0.000
+   cac_ads   observado -15.6% · placebo p2.5–p97.5 [-6.4%, +8.4%] · p_placebo = 0.000
+
+(4) PREDITIVO — treino ago/25→mai/26, teste jun→set/26: o CAC de hoje é melhor previsto com o YouTube de ONTEM além do calendário e do spend?
+   só calendário+spend          RMSE fora da amostra 0.442 · MAE 0.398 · R² fora -1.527
+   + YouTube de ontem           RMSE fora da amostra 0.419 · MAE 0.377 · R² fora -1.267
+   + inscritos ganhos ontem     RMSE fora da amostra 0.418 · MAE 0.374 · R² fora -1.253

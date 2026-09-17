@@ -1,0 +1,72 @@
+painel: 01/08/2025 → 12/09/2026, 408 dias · views/dia mediana 512,032 · p90 1,060,179
+ρ(views YouTube, GA4 Organic Video) = +0.428 — o proxy era FRACO
+
+(1) CRIVO da rodada 4 com audiência real (resíduos de DOW+mês+spend+fase+tendência; Spearman):
+indicador                           ρ spend     ρ→tx  ρ→receita    ρ→CAC
+YouTube views/dia (Analytics)        +0.166  +0.208*    +0.111*  -0.167*
+minutos assistidos/dia               +0.163  +0.340*    +0.138*  -0.323*
+inscritos ganhos/dia                 +0.045  +0.344*    +0.143*  -0.299*
+duração média (min/view)             -0.018  +0.170*    +0.057   -0.217*
+GA4 Organic Video (proxy antigo)     +0.101  +0.270*    +0.237*  -0.146*
+
+(2) PAREADO alta vs baixa de VIEWS REAIS dentro de quintil de spend × fds × fase:
+ [todos os dias]
+   views → tx_total          +18.2% IC[+11.1,+26.8] p=0.000 (n=378)
+   views → receita_total     +16.2% IC[+7.7,+29.0] p=0.001 (n=378)
+   views → cac_ads           -12.2% IC[-16.9,-6.6] p=0.000 (n=378)
+   views → conv_por_sessao    +5.8% IC[-1.7,+16.5] p=0.125 (n=378)
+   views → spend_total        -0.0% IC[-3.6,+4.4] p=0.913 (n=378)
+ [sem lançamentos (venda_start ±3d)]
+   views → tx_total          +21.8% IC[+13.2,+33.3] p=0.000 (n=251)
+   views → receita_total     +26.5% IC[+15.0,+43.1] p=0.000 (n=251)
+   views → cac_ads           -10.9% IC[-16.7,-4.1] p=0.000 (n=251)
+   views → conv_por_sessao    +5.2% IC[-3.8,+18.6] p=0.222 (n=251)
+   views → spend_total        +4.2% IC[-0.5,+9.7] p=0.072 (n=251)
+ [mesma coisa com o proxy GA4, para comparar]
+   GA4 OV → tx_total         +26.4% IC[+18.8,+35.1] p=0.000 (n=378)
+   GA4 OV → cac_ads          -12.0% IC[-16.6,-6.5] p=0.000 (n=378)
+
+(3) LAG — views de ONTEM / ANTEONTEM → hoje (pareado pelo spend de hoje):
+   views_ontem      → tx_total    +21.9% IC[+15.0,+31.1] p=0.000 (n=378)
+   views_ontem      → cac_ads     -12.7% IC[-17.3,-6.9] p=0.000 (n=378)
+   views_anteontem  → tx_total    +23.7% IC[+16.1,+33.1] p=0.000 (n=378)
+   views_anteontem  → cac_ads     -13.1% IC[-17.6,-7.4] p=0.000 (n=378)
+   ρ lag-1 das views (bruto) = +0.782
+
+(4) JUN–SET/2026 por semana (seg–dom): views do canal, receita, spend, CAC ads
+semana até         views inscritos     receita     spend  ROAS  CAC ads
+07/06          8,114,837    29,044       5.33M     1.64M  3.25      236
+14/06          5,994,044    13,880       4.60M     1.43M  3.23      297
+21/06          6,616,170    13,662       6.29M     1.78M  3.54      327
+28/06          6,639,338    15,909       8.03M     2.57M  3.13      367
+05/07          2,704,519     9,016       6.73M     1.66M  4.06      474
+12/07          2,472,573    12,638       1.90M     1.01M  1.88      334
+19/07          2,355,829    10,115       2.23M     0.72M  3.11      413
+26/07          2,939,092     7,724       4.14M     0.83M  4.97      333
+02/08          2,415,484     8,954       5.21M     1.73M  3.01      468
+09/08          1,964,537     5,761       4.13M     1.92M  2.15      444
+16/08          2,205,973     9,331       5.31M     2.18M  2.44      403
+23/08          3,139,419    13,320       5.64M     2.30M  2.46      392
+30/08          3,230,781     7,940       4.63M     1.74M  2.66      489
+06/09          5,999,031    13,950       4.35M     1.51M  2.88      436
+13/09          7,880,281    17,008       4.51M     1.52M  2.96      476
+ Spearman semanal jun–set (n=15): views×receita +0.41 · views×spend +0.02 · views×CAC -0.29 · views×ROAS +0.42
+
+(5) VÍDEOS-CASE: views do vídeo no dia × resíduo de receita (real ÷ mediana mesmo-DOW-4-semanas − 1) e de spend
+case            dia      views vídeo % do canal   receita  vs esp. tx vs esp. spend vs esp.
+Renan Santos    14/08 Fri     220,869        50%      782k      +3%       +14%          +39%
+Renan Santos    15/08 Sat      69,834        19%      745k     +24%       +56%          +58%
+Renan Santos    16/08 Sun      20,836         7%      776k     +77%       +93%          +63%
+Renan Santos    17/08 Mon      20,793         3%      906k    +130%      +101%         +147%
+Renan Santos    18/08 Tue      13,708         2%      973k     +75%       +55%          +89%
+
+Pablo Marçal    17/08 Mon     292,194        45%      906k    +130%      +101%         +147%
+Pablo Marçal    18/08 Tue     120,534        19%      973k     +75%       +55%          +89%
+Pablo Marçal    19/08 Wed      81,106        19%      921k     +36%       +77%          +42%
+Pablo Marçal    20/08 Thu      63,482        17%      577k     -25%        +3%           +8%
+Pablo Marçal    21/08 Fri      34,741        13%      865k     +12%        -1%           -5%
+
+11 de Setembro  09/09 Wed      61,239         8%      668k      -5%       -10%          -14%
+11 de Setembro  10/09 Thu     480,766        39%      813k     +24%        -4%           -3%
+11 de Setembro  11/09 Fri   1,328,121        64%      826k     +12%        -8%          -12%
+11 de Setembro  12/09 Sat     639,188        40%      835k     +34%        +0%          +13%
