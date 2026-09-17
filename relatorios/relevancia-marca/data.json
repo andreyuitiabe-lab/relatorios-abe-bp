@@ -1,108 +1,257 @@
 {
-  "updated_at": "2026-08-25",
-  "periodo": "21–25 ago 2026 · 6 rodadas",
-  "readout": [
-    { "k": "Janela diária", "v": "385 dias" },
-    { "k": "Janela mensal", "v": "59 meses" },
-    { "k": "Indicadores testados", "v": "11" },
-    { "k": "Sabatinas", "v": "9" },
-    { "k": "Saltos de budget", "v": "1.069" }
-  ],
-  "sabatinas_facts": [
-    { "k": "Membro engaj. leve", "v": "1,65×", "tone": "pos", "n": "converte mais em 14 dias (p=0,0008)" },
-    { "k": "Membro engaj. médio", "v": "1,44×", "tone": "pos", "n": "(p=0,002); receita/pessoa 1,5–2,2×" },
-    { "k": "Membro heavy user", "v": "nulo", "tone": "nil", "n": "0,87× — já está no teto" },
-    { "k": "Freemium", "v": "0,28–0,83×", "tone": "nil", "n": "nulo ou negativo, ns" }
-  ],
-  "canais": {
-    "scatter": [
-      { "label": "YouTube orgânico", "tx": 24.7, "cac_beneficio": 11.9, "tipo": "pos", "anchor": "end", "dy": 5,
-        "tip_t": "YouTube orgânico", "tip_v": "Transações +24,7% · CAC −11,9% · spend pareou (+0,4% ns)",
-        "aria": "YouTube orgânico: transações +24,7%, CAC −11,9%, spend pareado" },
-      { "label": "Busca orgânica", "tx": 21.9, "cac_beneficio": 9.2, "tipo": "pos", "anchor": "end", "dy": 5,
-        "tip_t": "Busca orgânica", "tip_v": "Transações +21,9% · CAC −9,2% · spend pareou (−3,0% ns)",
-        "aria": "Busca orgânica: transações +21,9%, CAC −9,2%, spend pareado" },
-      { "label": "Referral", "tx": 19.8, "cac_beneficio": 0.1, "tipo": "nil", "anchor": "end", "dy": -9,
-        "tip_t": "Referral", "tip_v": "Transações +19,8% · CAC −0,1% (ns) · spend não pareou (+4,8%)",
-        "aria": "Referral: transações +19,8%, CAC sem efeito" },
-      { "label": "Tráfego direto", "tx": 9.3, "cac_beneficio": -2.9, "tipo": "nil", "anchor": "end", "dy": 5,
-        "tip_t": "Tráfego direto", "tip_v": "Transações +9,3% · CAC +2,9% (ns) · spend não pareou (+4,4%)",
-        "aria": "Tráfego direto: transações +9,3%, CAC sem efeito" },
-      { "label": "Social orgânico", "tx": 2.1, "cac_beneficio": -12.9, "tipo": "neg", "anchor": "start", "dy": 5,
-        "tip_t": "Social orgânico", "tip_v": "Transações +2,1% (ns) · CAC +12,9% · spend NÃO pareou (+16,8%)",
-        "aria": "Social orgânico: transações sem efeito, CAC +12,9% pior, spend não pareou +16,8%" }
-    ],
-    "tabela": [
-      { "canal": "YouTube orgânico", "row": "lead",
-        "tx": { "v": "+24,7%", "c": "pos" }, "cac": { "v": "−11,9%", "c": "pos" }, "conv": { "v": "+28,8%", "c": "pos" },
-        "elast_tx": "0,222", "elast_cac": { "v": "−0,128", "c": "pos" }, "pareou": { "v": "sim · +0,4% ns", "c": "ok" } },
-      { "canal": "Busca orgânica", "row": "lead",
-        "tx": { "v": "+21,9%", "c": "pos" }, "cac": { "v": "−9,2%", "c": "pos" }, "conv": { "v": "+8,1%", "c": "" },
-        "elast_tx": "0,267", "elast_cac": { "v": "−0,130", "c": "pos" }, "pareou": { "v": "sim · −3,0% ns", "c": "ok" } },
-      { "canal": "Referral", "row": "",
-        "tx": { "v": "+19,8%", "c": "" }, "cac": { "v": "−0,1% ns", "c": "nil" }, "conv": { "v": "ns", "c": "nil" },
-        "elast_tx": "0,130", "elast_cac": { "v": "−0,001", "c": "nil" }, "pareou": { "v": "não · +4,8%", "c": "" } },
-      { "canal": "Tráfego direto", "row": "",
-        "tx": { "v": "+9,3%", "c": "" }, "cac": { "v": "+2,9% ns", "c": "nil" }, "conv": { "v": "−11,7%", "c": "neg" },
-        "elast_tx": "0,113", "elast_cac": { "v": "+0,036", "c": "nil" }, "pareou": { "v": "não · +4,4%", "c": "" } },
-      { "canal": "Social orgânico", "row": "warn",
-        "tx": { "v": "+2,1% ns", "c": "nil" }, "cac": { "v": "+12,9%", "c": "neg" }, "conv": { "v": "−20,6%", "c": "neg" },
-        "elast_tx": "0,035", "elast_cac": { "v": "+0,206", "c": "neg" }, "pareou": { "v": "não · +16,8%", "c": "bad" } }
-    ]
+ "meta": {
+  "titulo": "O que o YouTube faz pelas vendas",
+  "gerado": "2026-09-17",
+  "pedido": "Bárbara Olivieri e Luan Licidonio, 14 e 17/09/2026 (#squad-cac e DM)",
+  "janela": "01/08/2025 a 12/09/2026 (408 dias); transações íntegras até 15/09",
+  "aviso": "Versão de trabalho. Os achados das rodadas 9c a 9e foram retirados após revisão estatística independente — ver Método."
+ },
+ "resposta_curta": [
+  {
+   "t": "Existe associação, e é forte.",
+   "d": "Dias em que o canal tem mais audiência orgânica têm <b>19,5% mais transações</b> com o mesmo dinheiro de mídia. Resiste a calendário, placebo e mudança de método."
   },
-  "mcac": [
-    { "recorte": "YouTube orgânico (proxy GA4) · [VENDA] up", "n": "328", "baixa": "R$ 204", "alta": "R$ 184", "delta": { "v": "−10,0%", "c": "pos" }, "p": "0,028" },
-    { "recorte": "YouTube orgânico (proxy) · [LEAD] up", "n": "55", "baixa": "R$ 417", "alta": "R$ 640", "delta": { "v": "+53,5%", "c": "neg" }, "p": "0,115" },
-    { "recorte": "Share of Search · todos os saltos up", "n": "383", "baixa": "R$ 207", "alta": "R$ 205", "delta": { "v": "−0,9%", "c": "nil" }, "p": "0,44" },
-    { "recorte": "Share of Search · [VENDA] up", "n": "328", "baixa": "R$ 196", "alta": "R$ 194", "delta": { "v": "−1,4%", "c": "nil" }, "p": "0,49" }
-  ],
-  "fontes": [
-    { "ind": "YouTube orgânico", "fonte": "GA4", "row": "lead", "rho_spend": { "v": "0,162", "c": "" }, "vendas": { "v": "+0,265*", "c": "pos" }, "cac": { "v": "−0,143*", "c": "pos" }, "veredito": { "v": "★ volume + eficiência", "c": "" } },
-    { "ind": "Busca orgânica", "fonte": "GA4", "row": "lead", "rho_spend": { "v": "−0,188", "c": "" }, "vendas": { "v": "+0,184*", "c": "pos" }, "cac": { "v": "−0,197*", "c": "pos" }, "veredito": { "v": "★ volume + eficiência", "c": "" } },
-    { "ind": "Wikipedia — verbete BP", "fonte": "API Wikimedia", "row": "lead", "rho_spend": { "v": "0,315", "c": "" }, "vendas": { "v": "+0,243*", "c": "pos" }, "cac": { "v": "−0,208*", "c": "pos" }, "veredito": { "v": "★ volume + eficiência", "c": "" } },
-    { "ind": "Tráfego direto", "fonte": "GA4", "row": "", "rho_spend": { "v": "0,371", "c": "" }, "vendas": { "v": "+0,163*", "c": "" }, "cac": { "v": "−0,118*", "c": "" }, "veredito": { "v": "★ (meio confundido)", "c": "" } },
-    { "ind": "Contatos novos Zenvia", "fonte": "dim_zenvia_contacts", "row": "", "rho_spend": { "v": "0,060", "c": "" }, "vendas": { "v": "+0,327*", "c": "" }, "cac": { "v": "−0,083", "c": "nil" }, "veredito": { "v": "só volume", "c": "" } },
-    { "ind": "Referral", "fonte": "GA4", "row": "", "rho_spend": { "v": "−0,071", "c": "" }, "vendas": { "v": "+0,211*", "c": "" }, "cac": { "v": "−0,070", "c": "nil" }, "veredito": { "v": "só volume", "c": "" } },
-    { "ind": "Cliques busca de marca", "fonte": "Google Ads [KW]", "row": "", "rho_spend": { "v": "0,518", "c": "" }, "vendas": { "v": "+0,239*", "c": "" }, "cac": { "v": "−0,090", "c": "nil" }, "veredito": { "v": "só volume", "c": "" } },
-    { "ind": "Leads orgânicos", "fonte": "lead_conversion", "row": "", "rho_spend": { "v": "−0,025", "c": "" }, "vendas": { "v": "+0,112*", "c": "" }, "cac": { "v": "+0,014", "c": "nil" }, "veredito": { "v": "só volume", "c": "" } },
-    { "ind": "Impressões busca de marca", "fonte": "Google Ads [KW]", "row": "", "rho_spend": { "v": "0,384", "c": "" }, "vendas": { "v": "+0,041", "c": "nil" }, "cac": { "v": "+0,058", "c": "nil" }, "veredito": { "v": "sem sinal", "c": "" } },
-    { "ind": "Social orgânico", "fonte": "GA4", "row": "warn", "rho_spend": { "v": "0,861", "c": "neg" }, "vendas": { "v": "+0,013", "c": "nil" }, "cac": { "v": "−0,137*", "c": "" }, "veredito": { "v": "mede orçamento", "c": "bad" } }
-  ],
-  "sos_facts": [
-    { "k": "SoS mídias · 5 anos", "v": "7,6%", "tone": "", "n": "JP, Oeste, Gazeta, Antagonista" },
-    { "k": "SoS mídias · últimas 4 sem", "v": "12,2%", "tone": "neg", "n": "recorde — ver \"fatia vs bolo\"" },
-    { "k": "SoS streamings", "v": "0,74%", "tone": "", "n": "Netflix, Prime, Globoplay, Disney+" },
-    { "k": "SoS todos", "v": "0,66%", "tone": "", "n": "mídias + streamings" }
-  ],
-  "lead_bars": [
-    { "label": "bruta", "v": 0.52, "txt": "+0,52", "sig": true, "op": 1,
-      "tip_t": "Sem controle", "tip_v": "ρ = +0,52 · p < 0,001", "aria": "Bruta: +0,52" },
-    { "label": "− spend do mês do SoS", "v": 0.46, "txt": "+0,46", "sig": true, "op": 0.7,
-      "tip_t": "− spend(t)", "tip_v": "ρ parcial = +0,46 · p < 0,01", "aria": "Controlando spend do mês do SoS: +0,46" },
-    { "label": "− spend do mês do SoS e do mês alvo", "v": 0.18, "txt": "+0,18 ns", "sig": false, "op": 1,
-      "tip_t": "− spend(t) e spend(t+1)", "tip_v": "ρ parcial = +0,18 · ns", "aria": "Controlando também spend do mês alvo: +0,18, não significativo" }
-  ],
-  "bolo_bars": [
-    { "title": "Busca BP", "hist": 0.61, "rec": 0.47, "delta": "−24%", "dir": "neg",
-      "tip_t": "Busca BP", "tip_v": "histórico 0,61 → últimas 4 sem 0,47 · −24%",
-      "aria": "Busca BP: histórico 0,61, recente 0,47, menos 24%" },
-    { "title": "Bolo (categoria mídias)", "hist": 9.41, "rec": 3.84, "delta": "−59%", "dir": "neg",
-      "tip_t": "Bolo · categoria mídias", "tip_v": "histórico 9,41 → últimas 4 sem 3,84 · −59% (JP −62%, Antagonista −71%)",
-      "aria": "Bolo mídias: histórico 9,41, recente 3,84, menos 59%" },
-    { "title": "SoS mídias", "hist": 7.56, "rec": 12.18, "delta": "+61%", "dir": "pos",
-      "tip_t": "SoS mídias", "tip_v": "histórico 7,6% → últimas 4 sem 12,2% · +61%",
-      "aria": "SoS mídias: histórico 7,6%, recente 12,2%, mais 61%" }
-  ],
-  "plano": [
-    { "fase": "1 · Share of Search", "oque": "Denominador de categoria, backtest",
-      "status": "<span class=\"ok\">✓ feita</span> — coincidente forte, sem lead, fatia vs bolo documentado" },
-    { "fase": "2 · Fontes primárias", "oque": "Search Console (volume real de busca), YouTube Analytics (views do canal), GA4 newUsers",
-      "status": "<span class=\"bad\">pedidos de acesso</span> — SC ao time de tech/SEO; Visualizador no YouTube Studio ao time de conteúdo" },
-    { "fase": "3 · Métrica operacional", "oque": "Termômetro no dash de mídia + relatório no portal",
-      "status": "<span class=\"bad\">decisão</span> — entra no marketing-bp?" },
-    { "fase": "4 · Geo lift", "oque": "Único desenho que sai do direcional para o causal",
-      "status": "condicionada a sponsor; spend regional não existe no datamart" },
-    { "fase": "5 · MMM com marca", "oque": "Unobserved Components: marca no baseline + na eficiência da ativação",
-      "status": "2026Q4 — separa \"marca eleva baseline\" de \"marca faz a gente gastar mais\"" }
+  {
+   "t": "Mas não conseguimos provar que o vídeo causa a venda.",
+   "d": "O teste decisivo falhou: <b>renovações no cartão</b>, que são cobrança automática e não podem ser causadas por um vídeo de hoje, sobem quase na mesma proporção. A parte específica de venda nova não se distingue de zero."
+  },
+  {
+   "t": "E os três dias citados têm explicação interna.",
+   "d": "13 e 15/09 são fechamento do BP10, com Vitalício em 65% e 77% da receita. No fim de semana de 12–13/09, o BP10 explica mais que o crescimento inteiro."
+  }
+ ],
+ "perguntas": [
+  {
+   "quem": "Luan",
+   "p": "Tivemos dois hits no YT (11 de setembro e STF) e o melhor dia de vendas do mês com ótimo CM. Acho pouco provável não terem correlação.",
+   "veredito": "Certo sobre o padrão, errado sobre os eventos",
+   "r": "Testei os <b>10 maiores vídeos do canal</b> desde agosto de 2025, todos acima de 1 milhão de views. No dia da publicação o efeito é +4,1%; em D+1 e D+2, cerca de +12%, no percentil 91 do placebo — direcional, mas o teste só detectaria efeito acima de <b>22%</b>. Não dá para concluir nem a favor nem contra pelos eventos. O padrão que existe é de <b>regime</b>: dias de canal forte vendem mais. E os dois hits que ele cita são <b>lives de notícia</b>, o formato que menos aparece nas vendas.",
+   "n": "10 vídeos acima de 1M de views · MDE 22%"
+  },
+  {
+   "quem": "Bárbara",
+   "p": "Google teve o pior desempenho e todo o efeito vem do fechamento de BP10. Tenho clareza que os eventos não são relacionados, mas posso estar errada.",
+   "veredito": "Certa no fim de semana, e o dado geral não a contraria",
+   "r": "No fim de semana de <b>12 e 13/09 ela está certa</b>: as transações com UTM de BP10 foram de 1.679 para 2.758, um aumento de 1.079, enquanto o total subiu 933 — tudo que não é BP10 caiu 2,5%. Em <b>10 e 11/09</b> o padrão é outro: a receita ficou 24% e 12% acima do esperado com spend 3% e 12% <i>abaixo</i>, o único dos casos em que isso acontece. Sobre o Technocracia ela está certa e pelo motivo certo: a coorte de cadastro assiste e não compra melhor, com 1,26% de conversão.",
+   "n": "UTM BP10 · pareamento por mesmo dia da semana"
+  }
+ ],
+ "bloco1": {
+  "titulo": "Bloco 1 — impacto relacionável",
+  "itens": [
+   {
+    "o": "Métricas do YouTube do período",
+    "s": "entregue",
+    "r": "Acesso destravado em 16/09 (era o gap declarado do relatório anterior). <b>11 de Setembro</b>: 2.857.472 views e 4.549 inscritos, com pico de 1,33 milhão em 11/09, terceiro maior do canal desde junho. <b>Marçal</b>: 823.590 views e 5.301 inscritos. <b>Renan</b>: 379.439 views e 3.421 inscritos."
+   },
+   {
+    "o": "CTA do YouTube por UTM, do clique ao objetivo da LP",
+    "s": "entregue",
+    "r": "Os links das descrições carregam UTM que casa com as transações. O canal inteiro rastreia <b>R$ 6,0 milhões em 13 meses</b>, cerca de 1% da receita, e 66% casa com um vídeo específico. <b>Os três cases somam 20 vendas e R$ 8 mil</b> — os CTAs apontavam para outro produto. Por mil views: live R$ 27, corte R$ 10, Short R$ 3."
+   },
+   {
+    "o": "Pesquisa de marca, incluindo portal",
+    "s": "parcial",
+    "r": "Share of Search é coincidente e não move eficiência; o portal no Mixpanel tem série curta, desde maio, e serve como descritivo. A peça que falta é o <b>Search Console</b>, única fonte de volume real de busca por query de marca — depende de acesso à propriedade, e o histórico é de apenas 16 meses."
+   },
+   {
+    "o": "Redes sociais, do alcance ao faturamento",
+    "s": "entregue, e o caminho não existe",
+    "r": "Puxei a Graph API do Instagram, 5,1 milhões de seguidores, série diária desde agosto de 2025. <b>Nenhuma métrica passa no crivo</b>: alcance e engajamento têm correlação 0,6 com o spend, e os cliques no site correlacionam com venda mas os dias de muitos cliques são dias de 10% mais mídia. O que existe e vale usar é o funil rastreado: 8 a 33 mil leads por mês com UTM de Instagram orgânico, convertendo 2% a 4%."
+   }
   ]
+ },
+ "bloco2": {
+  "titulo": "Bloco 2 — impacto indireto nos outros canais",
+  "linhas": [
+   {
+    "c": "Transações totais",
+    "e": "+19,5%",
+    "ic": "[+8,6, +42,4]",
+    "p": "0,004",
+    "ok": true
+   },
+   {
+    "c": "Receita",
+    "e": "+18,0%",
+    "ic": "[−2,9, +48,6]",
+    "p": "0,114",
+    "ok": false
+   },
+   {
+    "c": "CAC de ads",
+    "e": "−13,7%",
+    "ic": "[−25,0, −6,6]",
+    "p": "0,007",
+    "ok": true,
+    "nota": "é o mesmo fato das transações, com o spend pareado"
+   },
+   {
+    "c": "Spend (checagem do pareamento)",
+    "e": "+1,2%",
+    "ic": "[−3,7, +10,7]",
+    "p": "0,29",
+    "ok": null
+   },
+   {
+    "c": "Ticket médio",
+    "e": "−5,4%",
+    "ic": "[−12,8, +4,3]",
+    "p": "0,29",
+    "ok": false
+   }
+  ],
+  "nota": "Pareamento por quintil de spend, fim de semana e fase de venda, excluindo abertura e fechamento de campanha. Intervalos por bootstrap de bloco. 262 dias."
+ },
+ "cases": [
+  {
+   "nome": "Sabatinas — Renan (14/08) e Marçal (17/08)",
+   "atencao": "1,20 milhão de views somadas, 8,7 mil inscritos ganhos, 5,8 mil usuários na plataforma",
+   "rastreavel": "14 transações, R$ 6,0 mil",
+   "nao_rastreavel": "Lift de 1,14× em D+14 na plataforma para os dois, com intervalo cruzando 1. Nos dias, a receita acompanhou o spend, que estava 39% e 147% acima do esperado.",
+   "veredito": "Não atribuível. A receita do período é mídia.",
+   "extra": "Os dois têm de 10 a 90 vezes mais views que as outras sabatinas e são os únicos sem lift medido. Zema 2,03×, Rebelo 1,82×, Caiado 1,71×. É formato, não fama."
+  },
+  {
+   "nome": "11 de Setembro — live no YouTube em 10/09",
+   "atencao": "2,86 milhões de views, 4.549 inscritos, 2.480 usuários na plataforma",
+   "rastreavel": "6 transações, R$ 2,1 mil, e 428 leads para o Technocracia",
+   "nao_rastreavel": "Em 10 e 11/09 a receita ficou acima do esperado com spend menor. No teste por pessoa, 2,44× em D+3, mas o teste só detecta acima de 3,7×.",
+   "veredito": "Parcialmente atribuível em 10 e 11; não no fim de semana, que é BP10.",
+   "extra": "Achado de método: a estreia do doc na plataforma em 07/09 era um único usuário de QA. A audiência real começa em 11/09, dia seguinte à live. D+7 fecha em 19/09 e D+14 em 26/09."
+  }
+ ],
+ "sabatinas": [
+  {
+   "n": "Romeu Zema",
+   "v": 40135,
+   "l": "2,03×",
+   "ic": "[1,52–2,56]",
+   "sig": true
+  },
+  {
+   "n": "Aldo Rebelo",
+   "v": 12922,
+   "l": "1,82×",
+   "ic": "[1,30–2,40]",
+   "sig": true
+  },
+  {
+   "n": "Ronaldo Caiado",
+   "v": 47674,
+   "l": "1,71×",
+   "ic": "[1,15–2,27]",
+   "sig": true
+  },
+  {
+   "n": "Ricardo Salles",
+   "v": 16349,
+   "l": "1,39×",
+   "ic": "[0,48–2,03]",
+   "sig": false
+  },
+  {
+   "n": "Pablo Marçal",
+   "v": 823590,
+   "l": "1,14×",
+   "ic": "[0,63–1,65]",
+   "sig": false
+  },
+  {
+   "n": "Renan Santos",
+   "v": 379439,
+   "l": "1,14×",
+   "ic": "[0,43–1,97]",
+   "sig": false
+  },
+  {
+   "n": "Augusto Cury",
+   "v": 53730,
+   "l": "1,10×",
+   "ic": "[0,72–1,49]",
+   "sig": false
+  },
+  {
+   "n": "Caroline de Toni",
+   "v": 0,
+   "l": "1,10×",
+   "ic": "[0,44–2,00]",
+   "sig": false
+  },
+  {
+   "n": "Guilherme Derrite",
+   "v": 9028,
+   "l": "1,04×",
+   "ic": "[0,29–1,96]",
+   "sig": false
+  }
+ ],
+ "controle_negativo": {
+  "titulo": "O teste que mudou a conclusão",
+  "texto": "Renovação no cartão é 98,8% das renovações e é cobrança automática na data de aniversário da assinatura. Um vídeo publicado hoje não pode causar uma cobrança automática de hoje. Se ela sobe junto com as vendas novas nos dias de audiência alta, existe um fator comum movendo o dia inteiro.",
+  "linhas": [
+   {
+    "c": "Vendas novas (o desfecho do estudo)",
+    "e": "+0,174",
+    "ic": "[+0,085, +0,263]",
+    "p": "&lt;0,001"
+   },
+   {
+    "c": "Renovação automática no cartão",
+    "e": "+0,116",
+    "ic": "[−0,021, +0,253]",
+    "p": "0,096"
+   },
+   {
+    "c": "Razão entre as duas",
+    "e": "+0,058",
+    "ic": "[−0,109, +0,224]",
+    "p": "0,50"
+   }
+  ],
+  "conclusao": "A razão não responde. A parte do efeito específica de venda nova — a única que o YouTube poderia gerar — não se distingue de zero. Não é dia do mês (p=0,87) nem método de pagamento.",
+  "leituras": [
+   "Um fator comum de nível de dia — a hipótese que nunca conseguimos descartar.",
+   "Mecânica de coorte: quem foi adquirido em dia de audiência alta há 12 meses renova hoje em dia parecido. Nesse caso a renovação é desfecho defasado, não controle.",
+   "Controle grosseiro: a renovação varia quase 15 vezes por dia da semana."
+  ]
+ },
+ "o_que_fazer": [
+  {
+   "t": "Encorajamento aleatorizado na base",
+   "prazo": "2 a 3 semanas",
+   "d": "Sortear metade da base para receber o aviso apontando ao vídeo e medir compra em D+1 a D+14 por intenção de tratar. Randomiza no nível da pessoa, usa a régua de CRM que já existe e detecta lift de 1,2×, contra 1,6 a 2,0× do desenho observacional. <b>É o único caminho que separa causa de correlação no prazo do trimestre.</b>"
+  },
+  {
+   "t": "Search Console",
+   "prazo": "1 hora depois do acesso",
+   "d": "Acesso de leitura à propriedade para fechar o bloco de pesquisa de marca. O histórico é de 16 meses, então cada semana sem coletar é semana perdida."
+  },
+  {
+   "t": "Tagging por vídeo nas telas finais",
+   "prazo": "depende do time de conteúdo",
+   "d": "Hoje os CTAs dos programas grandes apontam para a campanha da vez, não para o próprio conteúdo. Por isso os três cases rastreiam R$ 8 mil. Com UTM por vídeo, o bloco rastreável deixa de ser cego."
+  },
+  {
+   "t": "Aleatorizar o dia de estreia de conteúdo evergreen",
+   "prazo": "programa de 12 meses",
+   "d": "Sortear a data dentro de pares bloqueados por dia da semana e fase de campanha torna a audiência exógena no nível do dia. Custo zero em dinheiro, algum em agenda editorial."
+  }
+ ],
+ "metodo": {
+  "desenho": "Comparação de dias com audiência orgânica acima e abaixo da mediana, dentro de estratos de quintil de spend, fim de semana e fase de venda. Audiência é views de vídeo longo pela API do YouTube Analytics, excluindo anúncio e Shorts. Intervalos por bootstrap de bloco, que respeita a autocorrelação da série.",
+  "validacoes": [
+   "Spend pareado: os dois grupos gastam o mesmo (+1,2%, não significativo).",
+   "Calendário completo: excluindo estreias, aberturas, fechamentos, lotes e ofertas novas, o efeito permanece.",
+   "Placebo por deslocamento circular: o efeito fica fora da banda do acaso.",
+   "Controle negativo com views pagas: dias de mais anúncio em vídeo têm CAC pior, o oposto do orgânico.",
+   "Controle negativo com renovações: FALHA — é o que impede a leitura causal."
+  ],
+  "limites": [
+   "Nenhum teste observacional descarta um fator comum: uma pauta quente move audiência e vendas ao mesmo tempo.",
+   "A revisão independente derrubou os achados das rodadas 9c a 9e — mecanismo do Comercial, histerese, corte de views, LTV sobre CAC e o teste dos vídeos grandes. Não foram usados aqui.",
+   "Os intervalos das versões anteriores deste relatório estavam de 1,6 a 1,9 vezes estreitos demais.",
+   "A audiência do YouTube não é endereçável por região, então não existe geo holdout para o canal."
+  ]
+ }
 }
