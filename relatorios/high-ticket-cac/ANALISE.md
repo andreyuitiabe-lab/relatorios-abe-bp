@@ -242,9 +242,12 @@ Composição da receita (% da campanha):
 | BP10 | **76,5%** | 4,4% | — | 17,6% | 1,6% |
 | ODI | 14,9% | **77,0%** | — | 6,2% | 1,9% |
 
+**Convenção adotada: rateio por RECEITA** (decisão do André, 17/09). As outras entram como
+sensibilidade, para checar se a conclusão depende da escolha — não depende.
+
 **⚠️ Qualquer rateio de verba por produto é escolha, não dado.** A mídia não separa produto — os
 anúncios do BNO24 se chamam `[BNO24] [VENDA] [MEMBROS] ABO Monster`. Não existe "verba do
-vitalício". Por isso reporto as duas convenções, e **cada uma cega uma métrica por construção**:
+vitalício". Por isso reporto as convenções possíveis, e **cada uma cega uma métrica por construção**:
 
 | Rateio | Custo da família | Consequência |
 |---|---|---|
@@ -255,18 +258,24 @@ vitalício". Por isso reporto as duas convenções, e **cada uma cega uma métri
 
 | Convenção | BNO24 | BP10 | Variação |
 |---|---|---|---|
-| rateio por receita | R$ 275 | **R$ 690** | **+151%** |
-| rateio por comprador | R$ 186 | **R$ 426** | +129% |
+| **rateio por receita (adotado)** | **R$ 275** | **R$ 690** | **+151%** |
+| rateio por comprador (sensibilidade) | R$ 186 | R$ 426 | +129% |
+| rateio por transação (sensibilidade) | R$ 185 | R$ 410 | +122% |
 
-**Separar o produto aumenta a alta do CAC do vitalício, não a suaviza** — a conclusão central não
-depende do rateio escolhido, que é o teste que importa.
+O rateio por transação fica colado no por comprador porque quase todo comprador faz uma transação
+só: 1,015 tx/comprador no BNO24 e 1,064 no BP10 (a exceção é o CDL, 1,293, por causa dos order bumps).
 
-**O BNO25 é o caso em que as duas convenções brigam** e por isso não entra na comparação acima:
-sob rateio por receita ele tem o **pior CAC de vitalício da série (R$ 1.046)** — gastou R$ 5,6 mi e
-vendeu 1.939 vitalícios; sob rateio por comprador, o vitalício dele é o **melhor ROAS da série
-(33,6×)**, porque cada comprador custou R$ 104 e pagou ticket de R$ 3.484. As duas leituras são
-defensáveis (a primeira cobra dele o vitalício que não priorizou; a segunda dá crédito à oferta
-barata que trouxe 51 mil compradores). Citar uma sem a outra é que não é.
+**As três convenções cercam a alta do CAC do vitalício entre +122% e +151%** — e a de baixo já é
+maior que os +129% do número blendado da campanha. **Separar o produto aumenta a alta, não a
+suaviza**, e a conclusão central não depende do rateio escolhido, que é o teste que importa.
+
+**O BNO25 é onde a escolha da convenção mais pesa** e por isso ele não entra na comparação acima:
+pela convenção adotada (receita) ele tem o **pior CAC de vitalício da série, R$ 1.046** — gastou
+R$ 5,6 mi e vendeu 1.939 vitalícios. Pela alternativa (por comprador) o vitalício dele viraria o
+**melhor ROAS da série (33,6×)**, porque cada comprador custou R$ 104 e pagou ticket de R$ 3.484.
+Registro a leitura contrária porque é a que alguém pode trazer: ela dá crédito à oferta barata que
+trouxe 51 mil compradores, enquanto a adotada cobra dele o vitalício que não priorizou.
+Em nenhuma das duas o R$ 104 do CAC blendado é benchmark válido.
 
 **O que resolveria de vez:** verba separada por produto na mídia — hoje impossível porque o nome da
 campanha de anúncio não carrega produto. É uma mudança de nomenclatura no gerenciador, barata,

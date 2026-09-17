@@ -207,24 +207,36 @@
   <div class="conta" style="margin-top:16px" id="contaVit"></div>
 
   <div class="nota">
+    <strong>Convenção adotada: rateio por receita</strong> (decisão de 17/09). As outras ficam na
+    tabela e nesta nota como sensibilidade — servem para checar se a conclusão depende da escolha
+    (não depende).<br><br>
     <strong>⚠️ Qualquer rateio de verba por produto é uma escolha, não um dado.</strong> A mídia
     dessas campanhas não separa produto — os anúncios do BNO24 se chamam
     <code>[BNO24] [VENDA] [MEMBROS] ABO Monster</code>, sem produto no nome. Não existe “verba do
-    vitalício” para medir. Por isso a tabela mostra as duas convenções possíveis, e cada uma
+    vitalício” para medir. Por isso a tabela mostra as convenções possíveis, e cada uma
     <strong>cega uma das métricas por construção</strong>:
     <ul style="margin:8px 0 0 18px">
       <li><strong>Rateio por receita</strong> — o custo segue o faturamento. O ROAS fica igual para
         toda família (= ROAS da campanha); só o CAC diferencia.</li>
       <li><strong>Rateio por comprador</strong> — cada comprador custa o mesmo. O CAC fica igual
         para toda família (= CAC blendado); só o ROAS diferencia.</li>
+      <li><strong>Rateio por transação</strong> (testado, fora da tabela) — fica colado no rateio por
+        comprador, porque quase todo comprador faz uma transação só: 1,015 tx/comprador no BNO24 e
+        1,064 no BP10 (o CDL é a exceção, 1,293, por causa dos order bumps). No CAC do vitalício dá
+        R$ 185 → R$ 410, <strong>+122%</strong>.</li>
     </ul>
     <br>
-    <strong>O BNO25 é o caso em que as duas convenções brigam.</strong> Ele tem o melhor CAC blendado
-    da série (R$ 104) e, sob rateio por receita, o <strong>pior CAC de vitalício (R$ 1.046)</strong> —
-    gastou R$ 5,6 mi de mídia e vendeu 1.939 vitalícios. Sob rateio por comprador, o vitalício dele
-    aparece como o <strong>melhor ROAS da série (33,6×)</strong>. As duas leituras são defensáveis: a
-    primeira cobra do BNO25 o vitalício que ele não priorizou; a segunda dá crédito à oferta barata
-    que trouxe 51 mil compradores. <strong>O que não é defensável é citar uma sem a outra.</strong>
+    <strong>As três convenções cercam a alta do CAC do vitalício entre +122% e +151%</strong> — e a
+    de baixo já é maior que os +129% do número blendado.
+    <br>
+    <strong>O BNO25 é onde a escolha da convenção pesa mais.</strong> Pela convenção adotada
+    (receita), ele tem o <strong>pior CAC de vitalício da série: R$ 1.046</strong> — gastou R$ 5,6 mi
+    de mídia e vendeu 1.939 vitalícios. Pela alternativa (por comprador), o vitalício dele viraria o
+    <strong>melhor ROAS da série (33,6×)</strong>, já que cada comprador custou R$ 104 e pagou ticket
+    de R$ 3.484. Fica registrado porque é a leitura que alguém pode trazer em contrário: ela dá
+    crédito à oferta barata que trouxe 51 mil compradores, enquanto a adotada cobra do BNO25 o
+    vitalício que ele não priorizou. <strong>Em nenhuma das duas o R$ 104 do CAC blendado é um
+    benchmark válido.</strong>
   </div>
 
   <div class="card" style="margin-top:16px; overflow-x:auto">
@@ -234,8 +246,9 @@
         <tr>
           <th>Campanha</th><th>Família</th><th class="num">Compradores</th>
           <th class="num">Receita</th><th class="num">% receita</th><th class="num">Ticket</th>
-          <th class="num">CAC (rateio receita)</th><th class="num">CAC (rateio comprador)</th>
-          <th class="num">ROAS (rateio comprador)</th>
+          <th class="num">CAC — rateio por receita</th>
+          <th class="num">CAC — por comprador</th>
+          <th class="num">ROAS — por comprador</th>
         </tr>
       </thead>
       <tbody id="tbProduto"></tbody>
@@ -663,13 +676,14 @@ function initCharts(D){
     `campanhas em que o vitalício era a oferta central (${pc(v24.pct_receita)} e ${pc(v10.pct_receita)} ` +
     `da receita). O BNO25 fica de fora — lá o vitalício foi ${pc(vit('BNO25').pct_receita)} da receita ` +
     `e 3,6% dos compradores.</div>` +
-    `<div><b>CAC do vitalício</b> &nbsp; rateio por receita: ${rs(v24.vl_cac_rateio_receita)} → ` +
-    `<b>${rs(v10.vl_cac_rateio_receita)}</b> (+${br(100*(v10.vl_cac_rateio_receita/v24.vl_cac_rateio_receita-1),0)}%) ` +
-    `&nbsp;·&nbsp; rateio por comprador: ${rs(v24.vl_cac_rateio_comprador)} → ` +
-    `<b>${rs(v10.vl_cac_rateio_comprador)}</b> (+${br(100*(v10.vl_cac_rateio_comprador/v24.vl_cac_rateio_comprador-1),0)}%)</div>` +
-    `<div style="margin-top:10px;font-size:13px;color:#475569">Separar o produto <strong>aumenta</strong> ` +
-    `a alta do CAC do vitalício (+151% contra os +129% do número blendado), em vez de suavizá-la. ` +
-    `A conclusão não depende do rateio escolhido.</div>`;
+    `<div style="font-size:18px"><b>CAC do vitalício</b> &nbsp; ${rs(v24.vl_cac_rateio_receita)} → ` +
+    `<b>${rs(v10.vl_cac_rateio_receita)}</b> &nbsp;<span style="color:var(--critical)">` +
+    `+${br(100*(v10.vl_cac_rateio_receita/v24.vl_cac_rateio_receita-1),0)}%</span></div>` +
+    `<div style="margin-top:8px;font-size:13px;color:#475569">Rateio por <strong>receita</strong> — ` +
+    `a convenção adotada (decisão de 17/09). As alternativas dão +129% (por comprador) e +122% ` +
+    `(por transação): <strong>a alta fica cercada entre +122% e +151%</strong>, e mesmo o piso é maior ` +
+    `que os +129% do CAC blendado da campanha. Separar o produto <strong>aumenta</strong> a alta do ` +
+    `CAC do vitalício, em vez de suavizá-la.</div>`;
 
   const ordemFam = {'Vitalício':0,'Livro / físico':1,'Certificação':2,'Assinatura recorrente':3,
                     'Mecenas':4,'Ebook / Teller':5};
@@ -682,9 +696,9 @@ function initCharts(D){
       <td class="num">${mi(r.vl_receita)}</td>
       <td class="num">${pc(r.pct_receita)}</td>
       <td class="num">${rs(r.vl_ticket)}</td>
-      <td class="num">${rs(r.vl_cac_rateio_receita)}</td>
-      <td class="num">${rs(r.vl_cac_rateio_comprador)}</td>
-      <td class="num">${r.vl_roas_rateio_comprador!=null ? br(r.vl_roas_rateio_comprador,2)+'×' : '—'}</td>
+      <td class="num"><strong>${rs(r.vl_cac_rateio_receita)}</strong></td>
+      <td class="num" style="color:var(--soft)">${rs(r.vl_cac_rateio_comprador)}</td>
+      <td class="num" style="color:var(--soft)">${r.vl_roas_rateio_comprador!=null ? br(r.vl_roas_rateio_comprador,2)+'×' : '—'}</td>
     </tr>`).join('');
 
   /* ── economia por canal ───────────────────────────────────────────────── */

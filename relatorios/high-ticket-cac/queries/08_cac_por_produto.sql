@@ -27,6 +27,13 @@
 --    resposta única precisa de verba separada por produto na mídia — que hoje não existe
 --    (os anúncios não trazem produto no nome).
 --
+-- Uma TERCEIRA convenção foi testada e não entrou como coluna: rateio por TRANSAÇÃO
+-- (custo_familia = verba × tx da família ÷ tx total). Ela fica colada no rateio por comprador
+-- porque quase todo comprador faz uma transação só — 1,015 tx/comprador no BNO24 e 1,064 no BP10
+-- (a exceção é o CDL, 1,293, por causa dos order bumps). No CAC do vitalício BNO24 → BP10 ela dá
+-- R$ 184,87 → R$ 409,95 (+122%), contra +129% do rateio por comprador e +151% do rateio por
+-- receita. Ou seja: as três convenções cercam a alta entre +122% e +151%.
+--
 -- Famílias pelo nm_plan_label do maior ticket do comprador (mesmo critério do universo).
 
 WITH win AS (
