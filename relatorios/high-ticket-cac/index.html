@@ -106,6 +106,66 @@
   </div>
 </section>
 
+<!-- ── DUAS ALAVANCAS ──────────────────────────────────────────────────────── -->
+<section>
+  <h2>Duas alavancas, dois donos</h2>
+  <p class="sub">O anúncio dessas campanhas não vende um produto — ele compra atenção para a campanha
+     inteira, e quem decide o que a pessoa leva é a oferta. Isso separa o problema em dois pedaços
+     com donos diferentes, ligados por uma identidade exata.</p>
+
+  <div class="conta" style="text-align:center; font-size:19px; padding:22px">
+    <b>ROAS</b> &nbsp;=&nbsp; <b>ticket médio</b> &nbsp;÷&nbsp; <b>CAC</b>
+    <div style="font-size:13px; color:var(--muted); margin-top:10px; font-weight:400">
+      Não é aproximação: receita ÷ verba = (compradores × ticket) ÷ (compradores × CAC).
+      Confere na segunda casa decimal nas nove campanhas.
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <p class="label">Onde cada campanha caiu — CAC (mídia) × ticket (oferta)</p>
+    <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px">
+      As linhas tracejadas são ROAS constante: quanto mais acima e à esquerda, melhor.
+      Mover para a esquerda é trabalho de mídia; mover para cima é trabalho de oferta.</p>
+    <canvas id="gAlavancas" height="230"></canvas>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px">
+    <div class="card">
+      <p class="label">A queda do ROAS entre as duas campanhas de vitalício</p>
+      <table>
+        <thead><tr><th>Alavanca</th><th>Dono</th><th class="num">BNO24</th><th class="num">BP10</th></tr></thead>
+        <tbody>
+          <tr><td><strong>CAC</strong> — custo de trazer um comprador</td><td>mídia</td>
+              <td class="num">R$ 186</td><td class="num">R$ 426</td></tr>
+          <tr><td><strong>Ticket</strong> — quanto ele paga</td><td>oferta</td>
+              <td class="num">R$ 1.374</td><td class="num">R$ 1.003</td></tr>
+          <tr><td><strong>ROAS</strong></td><td>os dois</td>
+              <td class="num">7,37×</td><td class="num">2,35×</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <p class="label">De quem é a queda (decomposição logarítmica)</p>
+      <div class="legenda">
+        <span><i class="dot" style="background:var(--s1)"></i> CAC (mídia)</span>
+        <span><i class="dot" style="background:var(--s2)"></i> Ticket (oferta)</span>
+      </div>
+      <canvas id="gDecomp" height="150"></canvas>
+      <p style="font-size:12.5px;color:var(--muted);margin-top:10px">
+        <strong>72% do movimento é CAC, 28% é ticket.</strong> O problema é dois terços de mídia e um
+        terço de oferta — e uma alavanca não compensa a outra: para o BP10 empatar o ROAS do BNO24 só
+        com ticket, ele teria que vender a R$ 3.141.</p>
+    </div>
+  </div>
+
+  <div class="nota">
+    <strong>Por que isso importa para o resto do relatório:</strong> como a mídia compra
+    <em>comprador</em> e não <em>produto</em>, não existe "verba do vitalício". Tudo o que vem depois
+    sobre produto é leitura de <strong>o que a oferta entregou</strong> — onde o faturamento caiu e
+    quanto do custo cada família carrega no P&amp;L — e não de quanto custou adquirir cada produto.
+  </div>
+</section>
+
 <!-- ── A CONTA ─────────────────────────────────────────────────────────────── -->
 <section>
   <h2>A conta que explica o CAC</h2>
@@ -187,10 +247,11 @@
 
 <!-- ── O QUE FOI VENDIDO ───────────────────────────────────────────────────── -->
 <section>
-  <h2>O que foi vendido em cada campanha</h2>
-  <p class="sub">As promoções não vendem uma coisa só. No BNO24, 10.684 dos 29.313 compradores
-     levaram uma assinatura de R$ 205 — não um vitalício. Comparar “o CAC do vitalício” entre
-     campanhas exige separar isso.</p>
+  <h2>O que a oferta entregou</h2>
+  <p class="sub">As promoções não vendem uma coisa só: no BNO24, 10.684 dos 29.313 compradores
+     levaram uma assinatura de R$ 205, não um vitalício. Como a mídia compra comprador e não produto,
+     esta seção mede <strong>o resultado da oferta</strong> — que escada o comprador subiu depois de
+     chegar — e o rateio de custo serve ao P&amp;L, não à leitura de aquisição.</p>
 
   <div class="card">
     <p class="label">Composição da receita por família de produto (% da receita da campanha)</p>
@@ -527,7 +588,7 @@ Chart.defaults.color       = "#6b7689";
 /* séries em ordem fixa — mesmos hex dos tokens --s1..--s8 */
 const S = ["#2a78d6","#eb6834","#1baf7a","#eda100","#e87ba4","#008300","#4a3aa7","#e34948"];
 const [S1,S2,S3,S4,,,S7] = S;
-const GOOD="#0ca30c", CRITICAL="#d03b3b", GRID="#e1e0d9", BASELINE="#c3c2b7";
+const GOOD="#0ca30c", CRITICAL="#d03b3b", GRID="#e1e0d9", BASELINE="#c3c2b7", MUTED="#6b7689";
 
 const br  = (v,d=0) => (v==null ? '—' : v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}));
 const rs  = v => v==null ? '—' : 'R$ ' + br(v);
@@ -648,6 +709,104 @@ function initCharts(D){
     }
   });
 
+  /* ── duas alavancas: CAC × ticket, com curvas de ROAS constante ───────── */
+  const pts = C.map(c => ({x:c.vl_cac, y:c.vl_ticket, sigla:c.sigla, roas:c.vl_roas}));
+  const teto = (v,passo) => Math.ceil(v/passo)*passo;   /* eixo em número redondo */
+  const cacMax = teto(Math.max(...pts.map(p=>p.x)) * 1.12, 100);
+  const tkMax  = teto(Math.max(...pts.map(p=>p.y)) * 1.20, 500);
+  /* iso-ROAS: ticket = ROAS × CAC. São referência (cromo), não série — tracejadas e recessivas. */
+  const iso = r => ({
+    label:'ROAS ' + r + '×', showLine:true, borderColor:GRID, borderWidth:1.5,
+    borderDash:[5,4], pointRadius:0, fill:false, order:2,
+    data:[{x:0,y:0},{x:cacMax,y:r*cacMax}]
+  });
+
+  /* rótulo direto em cada ponto: identidade nunca por cor sozinha */
+  const rotuloPonto = {
+    id:'rotpt',
+    afterDatasetsDraw(c){
+      const {ctx} = c; ctx.save();
+      const meta = c.getDatasetMeta(0);
+      ctx.font='700 11px '+FONT; ctx.textAlign='left'; ctx.textBaseline='middle';
+      /* empilha rótulo quando dois pontos caem quase no mesmo lugar (TRA/BNO24/CDL) */
+      const postos = [];
+      const ordem = meta.data.map((el,i)=>({el, d:c.data.datasets[0].data[i]}))
+                             .sort((a,b)=>a.el.y-b.el.y);
+      ordem.forEach(({el,d})=>{
+        const texto = d.sigla+'  '+br(d.roas,2)+'×';
+        const larg = ctx.measureText(texto).width;
+        let x = el.x+10, y = el.y;
+        let tent = 0;
+        while (postos.some(q => Math.abs(q.y-y) < 13 && x < q.x+q.w+6 && q.x < x+larg+6) && tent < 8) {
+          y -= 14; tent++;
+        }
+        /* se saiu do topo da área, joga para baixo do ponto */
+        if (y < c.chartArea.top+8) y = el.y + 14 + tent*2;
+        /* se o rótulo estourar a direita, escreve à esquerda do ponto */
+        if (x + larg > c.chartArea.right - 4) { x = el.x - larg - 10; }
+        if (Math.abs(y-el.y) > 6) { /* linha de chamada discreta */
+          ctx.strokeStyle=BASELINE; ctx.lineWidth=1;
+          ctx.beginPath(); ctx.moveTo(el.x, el.y); ctx.lineTo(x-4, y); ctx.stroke();
+        }
+        ctx.fillStyle='#1e293b';
+        ctx.fillText(texto, x, y);
+        postos.push({x, y, w:larg});
+      });
+      ctx.restore();
+    }
+  };
+
+  new Chart(gAlavancas, {
+    type:'scatter',
+    data:{ datasets:[
+      { label:'Campanha', data:pts, backgroundColor:S1, pointRadius:7,
+        pointHoverRadius:10, borderColor:'#ffffff', borderWidth:2, order:1 },
+      iso(8), iso(4), iso(2)
+    ]},
+    options:{
+      aspectRatio:2.1,
+      plugins:{
+        legend:{display:false},
+        tooltip:{ filter:i=>i.datasetIndex===0,
+          callbacks:{ label:i=>`${i.raw.sigla}: CAC ${rs(i.raw.x)} · ticket ${rs(i.raw.y)} · ROAS ${br(i.raw.roas,2)}×` } }
+      },
+      scales:{
+        x:{ ...eixoX, grid:{color:GRID}, min:0, max:cacMax,
+            title:{display:true, text:'CAC — custo por comprador (R$)', color:MUTED},
+            ticks:{callback:v=>'R$ '+br(v)} },
+        y:{ ...eixoY, min:0, max:tkMax,
+            title:{display:true, text:'Ticket médio (R$)', color:MUTED},
+            ticks:{callback:v=>'R$ '+br(v)} }
+      }
+    },
+    plugins:[rotuloPonto]
+  });
+
+  /* decomposição da queda do ROAS: barra 100% com as duas contribuições */
+  new Chart(gDecomp, {
+    type:'bar',
+    data:{ labels:['BNO24 → BP10'], datasets:[
+      {label:'CAC (mídia)',   data:[72], backgroundColor:S1},
+      {label:'Ticket (oferta)', data:[28], backgroundColor:S2}
+    ].map(d=>({...d, borderRadius:2, borderWidth:2, borderColor:'#ffffff', maxBarThickness:52}))},
+    options:{
+      indexAxis:'y', aspectRatio:3.4,
+      plugins:{ legend:{display:false},
+                tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw+'% da queda'}} },
+      scales:{ x:{ stacked:true, max:100, grid:{display:false}, border:{display:false},
+                   ticks:{callback:v=>v+'%'} },
+               y:{ stacked:true, grid:{display:false}, border:{display:false}, ticks:{display:false} } }
+    },
+    plugins:[{ id:'rotdec', afterDatasetsDraw(c){
+      const {ctx}=c; ctx.save(); ctx.font='700 12px '+FONT; ctx.fillStyle='#ffffff';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      c.data.datasets.forEach((ds,di)=>{
+        const el=c.getDatasetMeta(di).data[0];
+        ctx.fillText(ds.data[0]+'%', (el.x+el.base)/2, el.y);
+      });
+      ctx.restore(); }}]
+  });
+
   /* ── o que foi vendido ────────────────────────────────────────────────── */
   const P = D.produtos;
   const fams = ['Vitalício','Livro / físico','Certificação','Assinatura recorrente'];
@@ -679,7 +838,8 @@ function initCharts(D){
     `<div style="font-size:18px"><b>CAC do vitalício</b> &nbsp; ${rs(v24.vl_cac_rateio_receita)} → ` +
     `<b>${rs(v10.vl_cac_rateio_receita)}</b> &nbsp;<span style="color:var(--critical)">` +
     `+${br(100*(v10.vl_cac_rateio_receita/v24.vl_cac_rateio_receita-1),0)}%</span></div>` +
-    `<div style="margin-top:8px;font-size:13px;color:#475569">Rateio por <strong>receita</strong> — ` +
+    `<div style="margin-top:8px;font-size:13px;color:#475569">⚠️ É rateio de P&L, não custo de ` +
+    `aquisição: ninguém comprou mídia de vitalício. Rateio por <strong>receita</strong> — ` +
     `a convenção adotada (decisão de 17/09). As alternativas dão +129% (por comprador) e +122% ` +
     `(por transação): <strong>a alta fica cercada entre +122% e +151%</strong>, e mesmo o piso é maior ` +
     `que os +129% do CAC blendado da campanha. Separar o produto <strong>aumenta</strong> a alta do ` +

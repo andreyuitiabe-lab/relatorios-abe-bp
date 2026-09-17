@@ -69,6 +69,34 @@ não-membro, como leitura de aquisição pura.
 
 ## Achados principais
 
+### Enquadramento — duas alavancas, dois donos (correção do André, 17/09)
+
+⚠️ **O anúncio dessas campanhas não vende um produto: compra atenção para a campanha inteira, e
+quem decide o que a pessoa leva é a oferta.** Isso não é detalhe — é o que define qual pergunta os
+números conseguem responder.
+
+Consequência: a mídia compra **comprador**; a oferta define o **ticket**. E isso dá uma identidade
+exata (não aproximação), que confere na 2ª casa decimal nas nove campanhas:
+
+> **ROAS = ticket médio ÷ CAC** &nbsp;&nbsp; porque receita ÷ verba = (compradores × ticket) ÷ (compradores × CAC)
+
+| Alavanca | Dono | BNO24 | BP10 |
+|---|---|---|---|
+| **CAC** — custo de trazer um comprador | mídia | R$ 186 | R$ 426 |
+| **Ticket** — quanto ele paga | oferta | R$ 1.374 | R$ 1.003 |
+| **ROAS** | os dois | 7,37× | 2,35× |
+
+**Decomposição logarítmica da queda do ROAS: 72% do movimento é CAC, 28% é ticket.** O problema é
+dois terços de mídia e um terço de oferta — e uma alavanca não compensa a outra: para o BP10 empatar
+o ROAS do BNO24 só com ticket, teria que vender a **R$ 3.141**.
+
+**O que esse enquadramento invalida:** falar em "CAC do vitalício" como custo de aquisição.
+Ninguém comprou mídia de vitalício. O achado 7 (rateio por produto) continua no relatório, mas como
+leitura de **P&L e de resultado da oferta** — onde o faturamento caiu e quanto do custo cada família
+carrega —, não como custo de adquirir cada produto.
+
+---
+
 ### 0. O CAC subiu por mix de canal, não por preço de mídia — e isso é uma identidade aritmética
 
 `CAC = (verba ÷ compradores) = (verba ÷ compradores de mídia) × (compradores de mídia ÷ total)`
@@ -225,11 +253,16 @@ grandeza da conclusão, não o sinal.
 
 ---
 
-### 7. O que foi vendido em cada campanha — e o CAC justo por produto
+### 7. O que a oferta entregou — composição de produto e rateio de custo (P&L)
 
 **Levantado a pedido do André (17/09):** o CAC blendado divide a verba por todos os compradores da
 janela, e as promoções vendem várias coisas ao mesmo tempo. No BNO24, **10.684 dos 29.313
 compradores levaram assinatura de R$ 205**, não vitalício.
+
+⚠️ **Leia esta seção como P&L, não como aquisição.** Pelo enquadramento acima, a mídia não é comprada por
+produto — então "CAC do vitalício R$ 690" significa *quanto do custo da campanha o vitalício carrega
+no rateio*, não *quanto custou trazer um comprador de vitalício*. O que a composição de produto de
+fato mede é o **resultado da oferta**: qual escada o comprador subiu depois de chegar.
 
 Composição da receita (% da campanha):
 
@@ -277,9 +310,17 @@ Registro a leitura contrária porque é a que alguém pode trazer: ela dá créd
 trouxe 51 mil compradores, enquanto a adotada cobra dele o vitalício que não priorizou.
 Em nenhuma das duas o R$ 104 do CAC blendado é benchmark válido.
 
-**O que resolveria de vez:** verba separada por produto na mídia — hoje impossível porque o nome da
-campanha de anúncio não carrega produto. É uma mudança de nomenclatura no gerenciador, barata,
-e destravaria CAC por produto sem rateio.
+**Sugestão anterior descartada.** Eu havia proposto pôr o produto no nome da campanha de anúncio
+para acabar com o rateio. **Não faz sentido** (apontado pelo André): o anúncio não é do produto, a
+campanha vende tudo. Não existe verba de vitalício para separar, e forçar isso criaria um rótulo
+falso.
+
+**O que substitui:** medir **ticket por criativo**, não produto por criativo. Cada anúncio traz um
+público, e públicos diferentes compram tickets diferentes — essa é a versão respondível da pergunta
+("qual anúncio traz gente que compra caro", não "qual anúncio vende vitalício"). É factível hoje:
+`nm_pptc_utm_content` carrega o criativo na transação e a Marketing API dá spend por anúncio
+(refazer `extrai_meta_api.py` com `level=ad` só nas 9 janelas). Resultado: CAC e ticket por criativo,
+que é exatamente a decomposição do enquadramento descida ao nível de decisão de mídia.
 
 ---
 
@@ -292,8 +333,9 @@ e destravaria CAC por produto sem rateio.
       digital m=0,75 (`midia-paga/MARGEM.md`), vale checar se o BP10 ainda estava acima do piso.
 - [ ] **Custo real do Comercial**: pedir folha + ferramenta ao Financeiro para trocar a comissão de
       9% (piso) por custo total do canal. Sem isso, toda comparação mídia × Comercial é enviesada.
-- [ ] **Qtd. de anúncios (nível de criativo)**: a extração é de campanha, não de anúncio.
-      Para contagem de criativos por campanha, repetir a extração com `level=ad` só nas 9 janelas.
+- [ ] **CAC e ticket por criativo** (substitui o item antigo de "qtd. de anúncios"): repetir a
+      extração com `level=ad` nas 9 janelas e cruzar com `nm_pptc_utm_content` das transações.
+      É a decomposição do enquadramento no nível em que a mídia decide.
 - [ ] **Reincidência como alerta operacional**: ODI vendeu 54% para quem já havia comprado no CDL.
       Vale medir canibalização entre lançamentos de livro antes do próximo.
 
