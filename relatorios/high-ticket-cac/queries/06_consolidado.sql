@@ -144,6 +144,9 @@ SELECT
   ROUND(c.vl_receita / NULLIF(m.vl_midia_tag, 0), 2)            AS vl_roas,
   ROUND(1000 * m.vl_midia_tag / NULLIF(m.qt_impressoes, 0), 2)  AS vl_cpm,
   ROUND(m.vl_midia_tag / NULLIF(m.qt_cliques, 0), 2)            AS vl_cpc,
+  -- ⚠️ O contrapeso do CPC: CAC do canal = CPC ÷ conversão. Publicar CPM/CPC sem esta
+  -- coluna faz a mídia parecer melhor do que o dado diz (revisão de 17/09).
+  ROUND(100 * c.qt_comp_midia / NULLIF(m.qt_cliques, 0), 3)     AS pct_conv_clique_compra,
   -- mix de canal (compradores)
   ROUND(100 * c.qt_comp_midia     / c.qt_compradores, 1)        AS pct_comp_midia,
   ROUND(100 * c.qt_comp_comercial / c.qt_compradores, 1)        AS pct_comp_comercial,

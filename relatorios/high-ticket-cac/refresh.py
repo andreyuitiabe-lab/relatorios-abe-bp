@@ -93,19 +93,43 @@ SELECT ano, ROUND(vl_ht) AS vl_ht, qt_compradores, ROUND(qt_base) AS qt_base,
 FROM ht JOIN base USING (ano) ORDER BY ano
 """
 
+# ⚠️ "Anterior" por DATA da primeira compra, não por `ord`. BP10 (11/06-15/09) e ODI
+# (17/07-16/09) se sobrepõem: pelo ordinal, 115 compradores que compraram BP10 DEPOIS do
+# ODI contavam como anteriores. Por data, ODI cai de 54,1% para 50,7% e BP10 sobe p/ 6,6%.
 Q_REINCIDENCIA = """
 WITH c AS (
-  SELECT sigla, ord, id_comprador, vl_receita
+  SELECT sigla, ord, id_comprador, dt_primeira_compra
   FROM `bp-staging.dbt_abe.tb_ht_compradores` WHERE bl_universo_principal
+),
+-- para cada comprador da campanha A, a campanha anterior mais recente em que ele comprou
+antes AS (
+  SELECT
+    a.ord, a.sigla, a.id_comprador,
+    ARRAY_AGG(b.sigla ORDER BY b.dt_primeira_compra DESC LIMIT 1)[SAFE_OFFSET(0)] AS nm_origem
+  FROM c AS a
+  LEFT JOIN c AS b
+    ON b.id_comprador = a.id_comprador
+   AND b.sigla <> a.sigla
+   AND b.dt_primeira_compra < a.dt_primeira_compra
+  GROUP BY 1, 2, 3
+),
+por_origem AS (
+  SELECT ord, sigla, nm_origem, COUNT(*) AS qt
+  FROM antes WHERE nm_origem IS NOT NULL
+  GROUP BY 1, 2, 3
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY sigla ORDER BY COUNT(*) DESC) = 1
+),
+tot AS (
+  SELECT ord, sigla, COUNT(*) AS qt_compradores, COUNTIF(nm_origem IS NOT NULL) AS qt_reincidentes
+  FROM antes GROUP BY 1, 2
 )
-SELECT a.ord, a.sigla,
-  COUNT(DISTINCT a.id_comprador) AS qt_compradores,
-  ROUND(100 * COUNT(DISTINCT IF(b.id_comprador IS NOT NULL, a.id_comprador, NULL))
-        / COUNT(DISTINCT a.id_comprador), 1) AS pct_reincidente
-FROM c AS a
-LEFT JOIN (SELECT DISTINCT id_comprador, ord FROM c) AS b
-  ON b.id_comprador = a.id_comprador AND b.ord < a.ord
-GROUP BY 1, 2 ORDER BY a.ord
+SELECT
+  t.ord, t.sigla, t.qt_compradores,
+  ROUND(100 * t.qt_reincidentes / t.qt_compradores, 1) AS pct_reincidente,
+  o.nm_origem                                          AS nm_origem_principal,
+  ROUND(100 * o.qt / t.qt_compradores, 1)              AS pct_origem_principal
+FROM tot AS t LEFT JOIN por_origem AS o USING (sigla)
+ORDER BY t.ord
 """
 
 Q_BNO_MIX = """
@@ -122,18 +146,23 @@ def build() -> dict:
     print("  consolidado por campanha...", flush=True)
     cons = bqq(AQUI / "queries" / "06_consolidado.sql")
     cons["nm_fonte_midia"] = "api_meta+warehouse"
+
+    print("  economia por canal...", flush=True)
+    canal = bqq(AQUI / "queries" / "07_economia_por_canal.sql")
+    canal_midia_comp = canal[canal["nm_canal"] == "midia_paga"].set_index("sigla")["qt_compradores"]
+
+    # Travessia: verba da planilha (2023 é anterior ao alcance da Marketing API)
     for sigla, valor in MIDIA_PLANILHA.items():
         m = cons["sigla"] == sigla
         cons.loc[m, "vl_midia"] = valor
         cons.loc[m, "nm_fonte_midia"] = "planilha_trafego"
         cons.loc[m, "vl_cac"] = round(valor / cons.loc[m, "qt_compradores"].iloc[0], 2)
         cons.loc[m, "vl_roas"] = round(cons.loc[m, "vl_receita"].iloc[0] / valor, 2)
-        # CAC do canal mídia = verba ÷ compradores que chegaram por mídia
-        comp_midia = cons.loc[m, "qt_compradores"].iloc[0] * cons.loc[m, "pct_comp_midia"].iloc[0] / 100
+        # ⚠️ CAC do canal mídia usa a CONTAGEM real de compradores de mídia, nunca o
+        # percentual arredondado do consolidado: 4.856 × 5,3% dava 257,4 em vez de 256,
+        # e o CAC saía 0,5% errado e divergente do que o próprio data.json publica em `canais`.
+        comp_midia = int(canal_midia_comp[sigla])
         cons.loc[m, "vl_cac_canal_midia"] = round(valor / comp_midia, 2)
-
-    print("  economia por canal...", flush=True)
-    canal = bqq(AQUI / "queries" / "07_economia_por_canal.sql")
     # Travessia: a verba vem da planilha (2023 é anterior ao alcance da Marketing API)
     m = (canal["sigla"] == "TRA") & (canal["nm_canal"] == "midia_paga")
     canal.loc[m, "vl_custo"] = MIDIA_PLANILHA["TRA"]
@@ -156,6 +185,9 @@ def build() -> dict:
     produto.loc[mp, "vl_roas_rateio_comprador"] = (
         produto.loc[mp, "vl_receita"] / (verba / tot_comp * produto.loc[mp, "qt_compradores"])).round(2)
 
+    print("  testes de atribuição (universo e série da casa)...", flush=True)
+    testes = bqq(AQUI / "queries" / "09_testes_atribuicao.sql")
+
     print("  série anual de high-ticket...", flush=True)
     anual = bqq_inline(Q_SERIE_ANUAL)
     print("  reincidência entre campanhas...", flush=True)
@@ -163,9 +195,15 @@ def build() -> dict:
     print("  mix de produto das promoções...", flush=True)
     mix = bqq_inline(Q_BNO_MIX)
 
+    # merge por sigla, nunca por posição: zip() silenciosamente atribuiria a reincidência
+    # à campanha errada se uma das listas mudasse de tamanho ou de ordem
+    reinc_por_sigla = reinc.set_index("sigla").to_dict("index")
     campanhas = [{k: nn(v) for k, v in linha.items()} for linha in cons.to_dict("records")]
-    for c, r in zip(campanhas, reinc.to_dict("records")):
-        c["pct_reincidente"] = nn(r["pct_reincidente"])
+    for c in campanhas:
+        r = reinc_por_sigla.get(c["sigla"], {})
+        c["pct_reincidente"] = nn(r.get("pct_reincidente"))
+        c["nm_origem_principal"] = nn(r.get("nm_origem_principal"))
+        c["pct_origem_principal"] = nn(r.get("pct_origem_principal"))
 
     return {
         "updated_at": datetime.datetime.now().isoformat(timespec="seconds"),
@@ -177,6 +215,10 @@ def build() -> dict:
         "campanhas": campanhas,
         "canais": [{k: nn(v) for k, v in l.items()} for l in canal.to_dict("records")],
         "produtos": [{k: nn(v) for k, v in l.items()} for l in produto.to_dict("records")],
+        "teste_universo": [{k: nn(v) for k, v in l.items()}
+                           for l in testes[testes["nm_teste"] == "teste1_universo"].to_dict("records")],
+        "serie_casa": [{k: nn(v) for k, v in l.items()}
+                       for l in testes[testes["nm_teste"] == "teste2_serie_casa"].to_dict("records")],
         "anual": [{k: nn(v) for k, v in l.items()} for l in anual.to_dict("records")],
         "mix_promocao": [{k: nn(v) for k, v in l.items()} for l in mix.to_dict("records")],
     }

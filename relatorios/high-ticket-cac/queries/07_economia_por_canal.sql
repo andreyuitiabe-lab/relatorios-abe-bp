@@ -126,7 +126,12 @@ SELECT
   IF(c.nm_canal = 'crm', cc.qt_whatsapp,  NULL)         AS qt_whatsapp,
   IF(c.nm_canal = 'crm', cc.qt_push,      NULL)         AS qt_push,
   IF(c.nm_canal = 'crm', cc.qt_outros,    NULL)         AS qt_outros,
-  IF(c.nm_canal = 'crm', ROUND(c.vl_receita / NULLIF(cc.qt_disparos / 1000, 0), 2), NULL) AS vl_receita_por_1k
+  IF(c.nm_canal = 'crm', ROUND(c.vl_receita / NULLIF(cc.qt_disparos / 1000, 0), 2), NULL) AS vl_receita_por_1k,
+  -- ⚠️ Mesma métrica excluindo push do denominador. O push não tem telemetria (o relatório já
+  -- diz para tratá-lo como alcance) e saiu de 0% do volume no BNO24 para 35% no BP10 — mantê-lo
+  -- no denominador exagera a deterioração. Levantado na revisão de 17/09.
+  IF(c.nm_canal = 'crm',
+     ROUND(c.vl_receita / NULLIF((cc.qt_email + cc.qt_whatsapp) / 1000, 0), 2), NULL) AS vl_receita_por_1k_sem_push
 FROM win AS w
 JOIN canal       AS c  USING (sigla)
 LEFT JOIN custo_midia AS cm USING (sigla)

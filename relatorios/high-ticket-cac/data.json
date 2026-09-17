@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-17T19:10:46",
+  "updated_at": "2026-09-17T19:59:35",
   "premissas": {
     "comissao_comercial": 0.09,
     "preco_disparo": {
@@ -28,10 +28,11 @@
       "vl_midia_janela": null,
       "qt_campanhas_midia": 0,
       "vl_cac": 179.12,
-      "vl_cac_canal_midia": 3379.66,
+      "vl_cac_canal_midia": 3397.72,
       "vl_roas": 9.2,
       "vl_cpm": null,
       "vl_cpc": null,
+      "pct_conv_clique_compra": null,
       "pct_comp_midia": 5.3,
       "pct_comp_comercial": 67.8,
       "pct_comp_crm": 21.5,
@@ -50,7 +51,9 @@
       "qt_base_ativa": 558624,
       "pct_base_com_ht": 1.5,
       "nm_fonte_midia": "planilha_trafego",
-      "pct_reincidente": 0.0
+      "pct_reincidente": 0.0,
+      "nm_origem_principal": null,
+      "pct_origem_principal": null
     },
     {
       "ord": 2,
@@ -71,6 +74,7 @@
       "vl_roas": 2.64,
       "vl_cpm": 26.31,
       "vl_cpc": 2.03,
+      "pct_conv_clique_compra": 0.048,
       "pct_comp_midia": 11.3,
       "pct_comp_comercial": 57.4,
       "pct_comp_crm": 11.9,
@@ -89,7 +93,9 @@
       "qt_base_ativa": 365356,
       "pct_base_com_ht": 9.7,
       "nm_fonte_midia": "api_meta+warehouse",
-      "pct_reincidente": 7.8
+      "pct_reincidente": 7.8,
+      "nm_origem_principal": "TRA",
+      "pct_origem_principal": 7.8
     },
     {
       "ord": 3,
@@ -110,6 +116,7 @@
       "vl_roas": 7.37,
       "vl_cpm": 35.07,
       "vl_cpc": 1.73,
+      "pct_conv_clique_compra": 0.176,
       "pct_comp_midia": 19.1,
       "pct_comp_comercial": 41.8,
       "pct_comp_crm": 24.8,
@@ -128,7 +135,9 @@
       "qt_base_ativa": 464794,
       "pct_base_com_ht": 7.8,
       "nm_fonte_midia": "api_meta+warehouse",
-      "pct_reincidente": 2.9
+      "pct_reincidente": 2.9,
+      "nm_origem_principal": "TRA",
+      "pct_origem_principal": 2.7
     },
     {
       "ord": 4,
@@ -149,6 +158,7 @@
       "vl_roas": 2.03,
       "vl_cpm": 19.1,
       "vl_cpc": 1.09,
+      "pct_conv_clique_compra": 0.03,
       "pct_comp_midia": 22.7,
       "pct_comp_comercial": 53.1,
       "pct_comp_crm": 10.2,
@@ -167,7 +177,9 @@
       "qt_base_ativa": 687529,
       "pct_base_com_ht": 7.9,
       "nm_fonte_midia": "api_meta+warehouse",
-      "pct_reincidente": 11.0
+      "pct_reincidente": 11.0,
+      "nm_origem_principal": "BNO24",
+      "pct_origem_principal": 8.1
     },
     {
       "ord": 5,
@@ -188,6 +200,7 @@
       "vl_roas": 3.33,
       "vl_cpm": 21.01,
       "vl_cpc": 0.69,
+      "pct_conv_clique_compra": 0.319,
       "pct_comp_midia": 47.8,
       "pct_comp_comercial": 27.1,
       "pct_comp_crm": 8.0,
@@ -206,7 +219,9 @@
       "qt_base_ativa": 726562,
       "pct_base_com_ht": 8.9,
       "nm_fonte_midia": "api_meta+warehouse",
-      "pct_reincidente": 3.1
+      "pct_reincidente": 3.1,
+      "nm_origem_principal": "BNO24",
+      "pct_origem_principal": 2.7
     },
     {
       "ord": 6,
@@ -227,6 +242,7 @@
       "vl_roas": 1.31,
       "vl_cpm": 17.64,
       "vl_cpc": 0.43,
+      "pct_conv_clique_compra": 0.166,
       "pct_comp_midia": 56.7,
       "pct_comp_comercial": 10.5,
       "pct_comp_crm": 20.4,
@@ -245,7 +261,9 @@
       "qt_base_ativa": 701784,
       "pct_base_com_ht": 9.5,
       "nm_fonte_midia": "api_meta+warehouse",
-      "pct_reincidente": 4.9
+      "pct_reincidente": 4.9,
+      "nm_origem_principal": "BNO25",
+      "pct_origem_principal": 3.0
     },
     {
       "ord": 7,
@@ -266,6 +284,7 @@
       "vl_roas": 6.89,
       "vl_cpm": 22.71,
       "vl_cpc": 0.69,
+      "pct_conv_clique_compra": 0.119,
       "pct_comp_midia": 34.3,
       "pct_comp_comercial": 46.5,
       "pct_comp_crm": 14.1,
@@ -284,7 +303,9 @@
       "qt_base_ativa": 598988,
       "pct_base_com_ht": 11.4,
       "nm_fonte_midia": "api_meta+warehouse",
-      "pct_reincidente": 16.7
+      "pct_reincidente": 16.7,
+      "nm_origem_principal": "BNO24",
+      "pct_origem_principal": 8.4
     },
     {
       "ord": 8,
@@ -305,6 +326,7 @@
       "vl_roas": 2.35,
       "vl_cpm": 18.39,
       "vl_cpc": 0.35,
+      "pct_conv_clique_compra": 0.041,
       "pct_comp_midia": 50.2,
       "pct_comp_comercial": 24.4,
       "pct_comp_crm": 16.8,
@@ -323,7 +345,9 @@
       "qt_base_ativa": 607138,
       "pct_base_com_ht": 11.9,
       "nm_fonte_midia": "api_meta+warehouse",
-      "pct_reincidente": 6.5
+      "pct_reincidente": 6.6,
+      "nm_origem_principal": "CDL",
+      "pct_origem_principal": 3.5
     },
     {
       "ord": 9,
@@ -344,6 +368,7 @@
       "vl_roas": 3.68,
       "vl_cpm": 24.89,
       "vl_cpc": 0.47,
+      "pct_conv_clique_compra": 0.041,
       "pct_comp_midia": 29.9,
       "pct_comp_comercial": 43.1,
       "pct_comp_crm": 21.2,
@@ -362,7 +387,9 @@
       "qt_base_ativa": 610639,
       "pct_base_com_ht": 12.3,
       "nm_fonte_midia": "api_meta+warehouse",
-      "pct_reincidente": 54.1
+      "pct_reincidente": 50.7,
+      "nm_origem_principal": "CDL",
+      "pct_origem_principal": 40.8
     }
   ],
   "canais": [
@@ -384,7 +411,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 1,
@@ -404,7 +432,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 1,
@@ -424,7 +453,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 1,
@@ -444,7 +474,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 2,
@@ -464,7 +495,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 2,
@@ -484,7 +516,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 2,
@@ -504,7 +537,8 @@
       "qt_whatsapp": 58880.0,
       "qt_push": 0.0,
       "qt_outros": 0.0,
-      "vl_receita_por_1k": 16.25
+      "vl_receita_por_1k": 16.25,
+      "vl_receita_por_1k_sem_push": 16.25
     },
     {
       "ord": 2,
@@ -524,7 +558,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 3,
@@ -544,7 +579,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 3,
@@ -564,7 +600,8 @@
       "qt_whatsapp": 3021683.0,
       "qt_push": 0.0,
       "qt_outros": 0.0,
-      "vl_receita_por_1k": 107.2
+      "vl_receita_por_1k": 107.2,
+      "vl_receita_por_1k_sem_push": 107.2
     },
     {
       "ord": 3,
@@ -584,7 +621,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 3,
@@ -604,7 +642,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 4,
@@ -624,7 +663,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 4,
@@ -644,7 +684,8 @@
       "qt_whatsapp": 26738.0,
       "qt_push": 3338368.0,
       "qt_outros": 3625.0,
-      "vl_receita_por_1k": 4.2
+      "vl_receita_por_1k": 4.2,
+      "vl_receita_por_1k_sem_push": 4.45
     },
     {
       "ord": 4,
@@ -664,7 +705,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 4,
@@ -684,7 +726,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 5,
@@ -704,7 +747,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 5,
@@ -724,7 +768,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 5,
@@ -744,7 +789,8 @@
       "qt_whatsapp": 154363.0,
       "qt_push": 18998645.0,
       "qt_outros": 0.0,
-      "vl_receita_por_1k": 5.68
+      "vl_receita_por_1k": 5.68,
+      "vl_receita_por_1k_sem_push": 6.33
     },
     {
       "ord": 5,
@@ -764,7 +810,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 6,
@@ -784,7 +831,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 6,
@@ -804,7 +852,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 6,
@@ -824,7 +873,8 @@
       "qt_whatsapp": 63621.0,
       "qt_push": 1334949.0,
       "qt_outros": 0.0,
-      "vl_receita_por_1k": 7.52
+      "vl_receita_por_1k": 7.52,
+      "vl_receita_por_1k_sem_push": 9.58
     },
     {
       "ord": 6,
@@ -844,7 +894,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 7,
@@ -864,7 +915,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 7,
@@ -884,7 +936,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 7,
@@ -904,7 +957,8 @@
       "qt_whatsapp": 1205659.0,
       "qt_push": 22528416.0,
       "qt_outros": 0.0,
-      "vl_receita_por_1k": 56.06
+      "vl_receita_por_1k": 56.06,
+      "vl_receita_por_1k_sem_push": 75.28
     },
     {
       "ord": 7,
@@ -924,7 +978,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 8,
@@ -944,7 +999,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 8,
@@ -964,7 +1020,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 8,
@@ -984,7 +1041,8 @@
       "qt_whatsapp": 839675.0,
       "qt_push": 55477040.0,
       "qt_outros": 0.0,
-      "vl_receita_por_1k": 16.64
+      "vl_receita_por_1k": 16.64,
+      "vl_receita_por_1k_sem_push": 25.58
     },
     {
       "ord": 8,
@@ -1004,7 +1062,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 9,
@@ -1024,7 +1083,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 9,
@@ -1044,7 +1104,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     },
     {
       "ord": 9,
@@ -1064,7 +1125,8 @@
       "qt_whatsapp": 275860.0,
       "qt_push": 4237716.0,
       "qt_outros": 0.0,
-      "vl_receita_por_1k": 49.06
+      "vl_receita_por_1k": 49.06,
+      "vl_receita_por_1k_sem_push": 57.79
     },
     {
       "ord": 9,
@@ -1084,7 +1146,8 @@
       "qt_whatsapp": null,
       "qt_push": null,
       "qt_outros": null,
-      "vl_receita_por_1k": null
+      "vl_receita_por_1k": null,
+      "vl_receita_por_1k_sem_push": null
     }
   ],
   "produtos": [
@@ -1672,6 +1735,640 @@
       "vl_cac_rateio_comprador": 338.73,
       "vl_roas_rateio_receita": 3.68,
       "vl_roas_rateio_comprador": 0.75
+    }
+  ],
+  "teste_universo": [
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "BIT",
+      "nm_universo": "janela",
+      "qt_compradores": 94855,
+      "pct_midia": 50.4,
+      "pct_comercial": 12.0,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "BIT",
+      "nm_universo": "rastro",
+      "qt_compradores": 1549,
+      "pct_midia": 22.7,
+      "pct_comercial": 53.1,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "BNO24",
+      "nm_universo": "janela",
+      "qt_compradores": 29313,
+      "pct_midia": 19.1,
+      "pct_comercial": 41.8,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "BNO24",
+      "nm_universo": "rastro",
+      "qt_compradores": 15523,
+      "pct_midia": 18.8,
+      "pct_comercial": 37.5,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "BNO25",
+      "nm_universo": "janela",
+      "qt_compradores": 54211,
+      "pct_midia": 47.8,
+      "pct_comercial": 27.1,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "BNO25",
+      "nm_universo": "rastro",
+      "qt_compradores": 38360,
+      "pct_midia": 57.1,
+      "pct_comercial": 14.0,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "BP10",
+      "nm_universo": "janela",
+      "qt_compradores": 98622,
+      "pct_midia": 49.2,
+      "pct_comercial": 26.1,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "BP10",
+      "nm_universo": "rastro",
+      "qt_compradores": 18623,
+      "pct_midia": 50.2,
+      "pct_comercial": 24.4,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "CDL",
+      "nm_universo": "janela",
+      "qt_compradores": 90848,
+      "pct_midia": 49.6,
+      "pct_comercial": 21.7,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "CDL",
+      "nm_universo": "rastro",
+      "qt_compradores": 25591,
+      "pct_midia": 34.3,
+      "pct_comercial": 46.5,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "DBI",
+      "nm_universo": "janela",
+      "qt_compradores": 68215,
+      "pct_midia": 40.9,
+      "pct_comercial": 18.5,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "DBI",
+      "nm_universo": "rastro",
+      "qt_compradores": 1167,
+      "pct_midia": 56.7,
+      "pct_comercial": 10.5,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "ODI",
+      "nm_universo": "janela",
+      "qt_compradores": 61334,
+      "pct_midia": 49.4,
+      "pct_comercial": 27.4,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "ODI",
+      "nm_universo": "rastro",
+      "qt_compradores": 4992,
+      "pct_midia": 29.9,
+      "pct_comercial": 43.1,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "TRA",
+      "nm_universo": "janela",
+      "qt_compradores": 18036,
+      "pct_midia": 26.1,
+      "pct_comercial": 49.5,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "TRA",
+      "nm_universo": "rastro",
+      "qt_compradores": 4856,
+      "pct_midia": 5.3,
+      "pct_comercial": 67.8,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "TRA2",
+      "nm_universo": "janela",
+      "qt_compradores": 24495,
+      "pct_midia": 38.8,
+      "pct_comercial": 19.9,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    },
+    {
+      "nm_teste": "teste1_universo",
+      "sigla": "TRA2",
+      "nm_universo": "rastro",
+      "qt_compradores": 371,
+      "pct_midia": 11.3,
+      "pct_comercial": 57.4,
+      "pct_crm": null,
+      "pct_sem_rastro": null
+    }
+  ],
+  "serie_casa": [
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2023-01",
+      "nm_universo": "casa",
+      "qt_compradores": 18229,
+      "pct_midia": 34.2,
+      "pct_comercial": 32.3,
+      "pct_crm": 13.3,
+      "pct_sem_rastro": 4.2
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2023-02",
+      "nm_universo": "casa",
+      "qt_compradores": 14375,
+      "pct_midia": 34.2,
+      "pct_comercial": 38.8,
+      "pct_crm": 8.3,
+      "pct_sem_rastro": 4.7
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2023-03",
+      "nm_universo": "casa",
+      "qt_compradores": 45623,
+      "pct_midia": 39.6,
+      "pct_comercial": 27.3,
+      "pct_crm": 11.6,
+      "pct_sem_rastro": 5.6
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2023-04",
+      "nm_universo": "casa",
+      "qt_compradores": 10798,
+      "pct_midia": 27.7,
+      "pct_comercial": 46.8,
+      "pct_crm": 8.8,
+      "pct_sem_rastro": 7.4
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2023-05",
+      "nm_universo": "casa",
+      "qt_compradores": 7783,
+      "pct_midia": 22.7,
+      "pct_comercial": 55.1,
+      "pct_crm": 7.6,
+      "pct_sem_rastro": 5.5
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2023-06",
+      "nm_universo": "casa",
+      "qt_compradores": 10054,
+      "pct_midia": 20.6,
+      "pct_comercial": 56.1,
+      "pct_crm": 7.2,
+      "pct_sem_rastro": 5.9
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2023-07",
+      "nm_universo": "casa",
+      "qt_compradores": 18450,
+      "pct_midia": 31.8,
+      "pct_comercial": 34.4,
+      "pct_crm": 12.5,
+      "pct_sem_rastro": 8.7
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2023-08",
+      "nm_universo": "casa",
+      "qt_compradores": 17469,
+      "pct_midia": 28.6,
+      "pct_comercial": 39.7,
+      "pct_crm": 11.9,
+      "pct_sem_rastro": 7.6
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2023-09",
+      "nm_universo": "casa",
+      "qt_compradores": 16253,
+      "pct_midia": 25.4,
+      "pct_comercial": 36.0,
+      "pct_crm": 15.3,
+      "pct_sem_rastro": 5.9
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2023-10",
+      "nm_universo": "casa",
+      "qt_compradores": 20394,
+      "pct_midia": 21.4,
+      "pct_comercial": 31.7,
+      "pct_crm": 27.3,
+      "pct_sem_rastro": 7.1
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2023-11",
+      "nm_universo": "casa",
+      "qt_compradores": 54072,
+      "pct_midia": 26.9,
+      "pct_comercial": 24.8,
+      "pct_crm": 19.2,
+      "pct_sem_rastro": 2.7
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2023-12",
+      "nm_universo": "casa",
+      "qt_compradores": 6402,
+      "pct_midia": 36.3,
+      "pct_comercial": 29.9,
+      "pct_crm": 9.0,
+      "pct_sem_rastro": 6.1
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2024-01",
+      "nm_universo": "casa",
+      "qt_compradores": 15041,
+      "pct_midia": 33.0,
+      "pct_comercial": 29.2,
+      "pct_crm": 23.3,
+      "pct_sem_rastro": 4.3
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2024-02",
+      "nm_universo": "casa",
+      "qt_compradores": 16611,
+      "pct_midia": 24.6,
+      "pct_comercial": 27.2,
+      "pct_crm": 37.8,
+      "pct_sem_rastro": 4.6
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2024-03",
+      "nm_universo": "casa",
+      "qt_compradores": 41311,
+      "pct_midia": 46.5,
+      "pct_comercial": 15.6,
+      "pct_crm": 9.9,
+      "pct_sem_rastro": 6.2
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2024-04",
+      "nm_universo": "casa",
+      "qt_compradores": 16912,
+      "pct_midia": 39.3,
+      "pct_comercial": 17.6,
+      "pct_crm": 24.3,
+      "pct_sem_rastro": 7.2
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2024-05",
+      "nm_universo": "casa",
+      "qt_compradores": 8107,
+      "pct_midia": 38.8,
+      "pct_comercial": 23.7,
+      "pct_crm": 11.1,
+      "pct_sem_rastro": 14.0
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2024-06",
+      "nm_universo": "casa",
+      "qt_compradores": 14585,
+      "pct_midia": 32.4,
+      "pct_comercial": 18.0,
+      "pct_crm": 20.7,
+      "pct_sem_rastro": 11.2
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2024-07",
+      "nm_universo": "casa",
+      "qt_compradores": 12740,
+      "pct_midia": 26.3,
+      "pct_comercial": 22.9,
+      "pct_crm": 29.5,
+      "pct_sem_rastro": 11.7
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2024-08",
+      "nm_universo": "casa",
+      "qt_compradores": 38793,
+      "pct_midia": 47.8,
+      "pct_comercial": 13.3,
+      "pct_crm": 25.1,
+      "pct_sem_rastro": 6.5
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2024-09",
+      "nm_universo": "casa",
+      "qt_compradores": 57958,
+      "pct_midia": 64.3,
+      "pct_comercial": 9.3,
+      "pct_crm": 11.8,
+      "pct_sem_rastro": 6.1
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2024-10",
+      "nm_universo": "casa",
+      "qt_compradores": 76540,
+      "pct_midia": 48.0,
+      "pct_comercial": 12.0,
+      "pct_crm": 14.7,
+      "pct_sem_rastro": 5.1
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2024-11",
+      "nm_universo": "casa",
+      "qt_compradores": 29755,
+      "pct_midia": 19.8,
+      "pct_comercial": 41.3,
+      "pct_crm": 24.6,
+      "pct_sem_rastro": 2.8
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2024-12",
+      "nm_universo": "casa",
+      "qt_compradores": 38587,
+      "pct_midia": 71.0,
+      "pct_comercial": 9.5,
+      "pct_crm": 8.8,
+      "pct_sem_rastro": 2.7
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2025-01",
+      "nm_universo": "casa",
+      "qt_compradores": 75010,
+      "pct_midia": 55.5,
+      "pct_comercial": 13.9,
+      "pct_crm": 8.0,
+      "pct_sem_rastro": 7.1
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2025-02",
+      "nm_universo": "casa",
+      "qt_compradores": 98637,
+      "pct_midia": 56.8,
+      "pct_comercial": 10.4,
+      "pct_crm": 11.1,
+      "pct_sem_rastro": 6.5
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2025-03",
+      "nm_universo": "casa",
+      "qt_compradores": 107860,
+      "pct_midia": 54.8,
+      "pct_comercial": 9.3,
+      "pct_crm": 9.6,
+      "pct_sem_rastro": 5.4
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2025-04",
+      "nm_universo": "casa",
+      "qt_compradores": 78886,
+      "pct_midia": 52.7,
+      "pct_comercial": 9.6,
+      "pct_crm": 12.4,
+      "pct_sem_rastro": 4.0
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2025-05",
+      "nm_universo": "casa",
+      "qt_compradores": 55556,
+      "pct_midia": 53.9,
+      "pct_comercial": 10.8,
+      "pct_crm": 9.0,
+      "pct_sem_rastro": 4.2
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2025-06",
+      "nm_universo": "casa",
+      "qt_compradores": 39986,
+      "pct_midia": 54.9,
+      "pct_comercial": 12.1,
+      "pct_crm": 7.8,
+      "pct_sem_rastro": 4.1
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2025-07",
+      "nm_universo": "casa",
+      "qt_compradores": 29589,
+      "pct_midia": 48.4,
+      "pct_comercial": 22.9,
+      "pct_crm": 9.4,
+      "pct_sem_rastro": 2.7
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2025-08",
+      "nm_universo": "casa",
+      "qt_compradores": 34162,
+      "pct_midia": 44.4,
+      "pct_comercial": 19.6,
+      "pct_crm": 12.7,
+      "pct_sem_rastro": 3.0
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2025-09",
+      "nm_universo": "casa",
+      "qt_compradores": 37211,
+      "pct_midia": 33.3,
+      "pct_comercial": 20.6,
+      "pct_crm": 25.5,
+      "pct_sem_rastro": 3.4
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2025-10",
+      "nm_universo": "casa",
+      "qt_compradores": 27261,
+      "pct_midia": 36.3,
+      "pct_comercial": 31.7,
+      "pct_crm": 12.6,
+      "pct_sem_rastro": 3.7
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2025-11",
+      "nm_universo": "casa",
+      "qt_compradores": 56376,
+      "pct_midia": 48.4,
+      "pct_comercial": 26.3,
+      "pct_crm": 8.1,
+      "pct_sem_rastro": 2.7
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2025-12",
+      "nm_universo": "casa",
+      "qt_compradores": 14363,
+      "pct_midia": 35.5,
+      "pct_comercial": 37.4,
+      "pct_crm": 5.3,
+      "pct_sem_rastro": 5.9
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2026-01",
+      "nm_universo": "casa",
+      "qt_compradores": 18063,
+      "pct_midia": 37.0,
+      "pct_comercial": 32.8,
+      "pct_crm": 8.9,
+      "pct_sem_rastro": 4.6
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2026-02",
+      "nm_universo": "casa",
+      "qt_compradores": 35576,
+      "pct_midia": 34.6,
+      "pct_comercial": 16.4,
+      "pct_crm": 25.6,
+      "pct_sem_rastro": 4.8
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2026-03",
+      "nm_universo": "casa",
+      "qt_compradores": 40291,
+      "pct_midia": 48.1,
+      "pct_comercial": 17.9,
+      "pct_crm": 21.2,
+      "pct_sem_rastro": 2.2
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2026-04",
+      "nm_universo": "casa",
+      "qt_compradores": 37097,
+      "pct_midia": 51.0,
+      "pct_comercial": 16.4,
+      "pct_crm": 19.3,
+      "pct_sem_rastro": 3.3
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2026-05",
+      "nm_universo": "casa",
+      "qt_compradores": 60931,
+      "pct_midia": 51.5,
+      "pct_comercial": 18.4,
+      "pct_crm": 13.9,
+      "pct_sem_rastro": 2.7
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2026-06",
+      "nm_universo": "casa",
+      "qt_compradores": 54102,
+      "pct_midia": 48.9,
+      "pct_comercial": 23.1,
+      "pct_crm": 15.1,
+      "pct_sem_rastro": 4.1
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2026-07",
+      "nm_universo": "casa",
+      "qt_compradores": 26253,
+      "pct_midia": 42.9,
+      "pct_comercial": 30.0,
+      "pct_crm": 14.1,
+      "pct_sem_rastro": 5.8
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2026-08",
+      "nm_universo": "casa",
+      "qt_compradores": 38335,
+      "pct_midia": 54.2,
+      "pct_comercial": 22.5,
+      "pct_crm": 13.3,
+      "pct_sem_rastro": 2.6
+    },
+    {
+      "nm_teste": "teste2_serie_casa",
+      "sigla": "2026-09",
+      "nm_universo": "casa",
+      "qt_compradores": 18339,
+      "pct_midia": 45.8,
+      "pct_comercial": 27.8,
+      "pct_crm": 15.1,
+      "pct_sem_rastro": 3.4
     }
   ],
   "anual": [

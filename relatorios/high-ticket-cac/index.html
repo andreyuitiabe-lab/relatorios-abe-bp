@@ -89,20 +89,35 @@
 
   <div class="veredito sim">
     <h3>1. “A gente fez alguma coisa diferente?” — <strong>Sim, e é a explicação principal</strong></h3>
-    <p>Mudou a oferta (o Black November de 2025 deixou de vender vitalício) e mudou o canal:
-       a mídia saiu de 5% para 50% dos compradores. O CAC subiu por <em>mix</em>, não por preço —
-       a mídia está mais barata hoje do que em 2024.</p>
+    <p>Mudou a <strong>oferta</strong> (o Black November de 2025 deixou de vender vitalício, e o
+       ticket do próprio vitalício caiu 20%) e mudou o <strong>esforço do Comercial</strong>: metade
+       das abordagens por dia do BNO24, com o mesmo time e o mesmo tipo de oferta. O CAC subiu por
+       <em>mix de canal</em>, não por preço de mídia.<br><br>
+       ⚠️ <strong>Correção de moldura:</strong> não foi uma migração gradual de três anos. A casa
+       inteira deu um degrau para mídia em meados de 2024 e opera em ~45–55% desde então — o BNO24
+       (19,8% de mídia) é que foi uma mobilização excepcional do Comercial. A pergunta certa não é
+       “por que a mídia cresceu”, é <strong>“por que o Comercial não foi mobilizado de novo”</strong>.</p>
   </div>
   <div class="veredito parcial">
     <h3>2. “O público está saturando?” — <strong>Parcialmente, e no canal, não na base</strong></h3>
-    <p>O Comercial responde menos da metade do que respondia (74% → 31% das abordagens viram conversa)
-       e as campanhas de 2026 revendem cada vez mais para os mesmos compradores.
-       Mas 88% da base ainda nunca comprou high-ticket.</p>
+    <p>O Comercial responde menos da metade do que respondia (74% → 31% das abordagens viram
+       conversa, de forma irregular) e as campanhas de 2026 revendem para os mesmos compradores —
+       50,7% dos compradores da Odisseia já tinham comprado antes, 40,8% no Clube do Livro.
+       Mas 88% da base nunca comprou high-ticket, e a penetração por campanha não tem tendência
+       de queda.</p>
   </div>
   <div class="veredito nao">
     <h3>3. “Era demanda reprimida se esgotando?” — <strong>Não em volume</strong></h3>
     <p>2026 é o maior ano de high-ticket da história: R$ 82,6 mi em 8 meses e meio, contra
        R$ 76,1 mi no ano inteiro de 2023. A demanda não acabou — ficou mais cara de alcançar.</p>
+  </div>
+  <div class="veredito sim">
+    <h3>4. O achado mais acionável, que não estava no pedido — <strong>a mídia não se paga no
+       last-click em 6 das 8 campanhas</strong></h3>
+    <p>ROAS do canal mídia por campanha: 0,13× a 2,31×. Com a margem digital de 0,75, o piso é
+       <strong>1,33×</strong> — e só o Clube do Livro passa. O número é pessimista por construção
+       (a verba é do lançamento inteiro e alimenta as vendas dos outros canais), mas é a tabela que
+       responde “desligar ou manter” por campanha, e ela já existe.</p>
   </div>
 </section>
 
@@ -152,9 +167,13 @@
       </div>
       <canvas id="gDecomp" height="150"></canvas>
       <p style="font-size:12.5px;color:var(--muted);margin-top:10px">
-        <strong>72% do movimento é CAC, 28% é ticket.</strong> O problema é dois terços de mídia e um
-        terço de oferta — e uma alavanca não compensa a outra: para o BP10 empatar o ROAS do BNO24 só
-        com ticket, ele teria que vender a R$ 3.141.</p>
+        <strong>72% do movimento é CAC, 28% é ticket.</strong> Uma alavanca não compensa a outra:
+        para o BP10 empatar o ROAS do BNO24 só com ticket, teria que vender a R$ 3.141.<br><br>
+        ⚠️ Como o CAC é ele próprio <em>CAC do canal × share de mídia</em>, a decomposição fiel tem
+        <strong>três</strong> fatores, e ela mostra o que a de dois esconde: <strong>share de mídia
+        85%</strong> (contra) · <strong>ticket 28%</strong> (contra) · <strong>CAC do canal −12%</strong>
+        (<em>a favor</em>). A conta que chega na mídia é majoritariamente mix; o preço que ela
+        controla melhorou.</p>
     </div>
   </div>
 
@@ -222,6 +241,17 @@
       <p class="label">CPC — custo por clique (R$)</p>
       <canvas id="gCpc" height="200"></canvas>
     </div>
+  </div>
+
+  <div class="nota" style="margin-top:16px">
+    <strong>⚠️ O contrapeso do CPC barato: a conversão piorou quase na mesma proporção.</strong>
+    <code>CAC do canal = CPC ÷ conversão clique→compra</code>. Entre BNO24 e BP10 o clique ficou 80%
+    mais barato (R$ 1,73 → R$ 0,35) e a conversão caiu 77% (<strong>0,176% → 0,041%</strong>) — os
+    −13% do CAC de canal são o líquido disso. O CTR implícito triplicou (2,03% → 6,23%), assinatura
+    de deslocamento para inventário de atenção barata, não de ganho de eficiência.<br><br>
+    <strong>⚠️ E o CPM não é comparável:</strong> o BNO24 é Meta puro (o warehouse só tem Google/PMax
+    desde jan/2025) e o BP10 tem R$ 1,02 mi de PMax a CPM 12,24 puxando a média. Meta contra Meta o
+    CPM cai <strong>−43,4%</strong>, não −48%. O CPC sobrevive (−81,5%).
   </div>
 
   <div class="card" style="margin-top:16px">
@@ -335,6 +365,11 @@
   </div>
 
   <div class="nota">
+    <strong>⚠️ A mídia não se paga no last-click em 6 das 8 campanhas mensuráveis.</strong>
+    ROAS do canal mídia: TRA 0,48 · TRA2 0,28 · BNO24 0,99 · BIT 0,13 · BNO25 0,83 · <strong>CDL
+    2,31</strong> · BP10 1,25 · ODI 0,99. Com margem digital 0,75 o piso é <strong>1,33×</strong> —
+    só o CDL passa. O número é pessimista pelas ressalvas abaixo (sobretudo a assimetria de escopo),
+    mas isso é razão para publicá-lo com a ressalva, não para omiti-lo.<br><br>
     <strong>⚠️ O ROAS do Comercial é 11,11× em todas as campanhas — e isso não é um achado, é
     aritmética.</strong> Se o custo é 9% da receita, o retorno é 1 ÷ 0,09 por construção. Do
     Comercial, só o <strong>CAC</strong> informa alguma coisa (ele acompanha o ticket: R$ 153 no
@@ -432,7 +467,61 @@
     <strong>⚠️ Push cresceu e é cego.</strong> O push saiu de zero (BNO24) para 55 milhões de entregas
     no BP10 — 35% do volume da campanha — e não tem telemetria de abertura nem de clique
     (140M+ entregues na casa com ~19 opens registrados). A receita atribuída a ele vem do fallback
-    do modelo, não de clique rastreado. Tratar o número de push como alcance, não como engajamento.
+    do modelo, não de clique rastreado. Tratar o número de push como alcance, não como engajamento.<br><br>
+    <strong>E como ele é cego, tirá-lo do denominador é a conta mais justa:</strong> só com e-mail e
+    WhatsApp fica <strong>BNO24 R$ 107 · CDL 75 · ODI 58 · BP10 26 · BNO25 6,3</strong>. A conclusão
+    sobrevive (o BNO24 segue o pico), mas a distância BNO24/BP10 cai de <strong>6,5× para 4,2×</strong> —
+    com push no denominador a métrica exagera a deterioração, porque ele é zero no BNO24 e um terço
+    no BP10.<br><br>
+    <strong>⚠️ Denominador restrito à tag, numerador não.</strong> A cobertura da tag vai de 11,2%
+    (ODI) a 89,5% (BNO24) dos disparos da janela — os R$ 107 do BNO24 e os R$ 49 da ODI não são a
+    mesma conta.
+  </div>
+</section>
+
+<!-- ── TESTES DE ROBUSTEZ ──────────────────────────────────────────────────── -->
+<section>
+  <h2>Dois testes que a conclusão precisa passar</h2>
+  <p class="sub">A tese “o motor trocou de canal” repousa em atribuição de último clique. Estes são
+     os dois testes baratos que a checam — um sustenta, o outro limita. Os dois entraram depois de
+     uma revisão independente em 17/09.</p>
+
+  <div class="card">
+    <p class="label">Teste 1 — o salto de mídia é artefato da regra de atribuição? Não</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+      Cada campanha foi medida em dois universos. Se o salto aparecesse só na regra usada nos Black
+      November, seria efeito da regra. Medindo os dois extremos com a <strong>mesma</strong> regra,
+      o salto sobrevive: 19,1% → 49,2%.</p>
+    <table>
+      <thead><tr><th>Share de mídia (compradores)</th><th class="num">BNO24</th><th class="num">BNO25</th><th class="num">CDL</th><th class="num">BP10</th><th class="num">ODI</th></tr></thead>
+      <tbody id="tbUniverso"></tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <p class="label">Teste 2 — o BNO24 é linha de base ou exceção? É exceção</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+      Mix de canal de <strong>toda</strong> venda nova da casa, mês a mês, com a mesma regra de canal.
+      Os pontos marcados são os meses das campanhas do relatório.</p>
+    <div class="legenda">
+      <span><i class="dot" style="background:var(--s1)"></i> Mídia paga</span>
+      <span><i class="dot" style="background:var(--s2)"></i> Comercial</span>
+    </div>
+    <canvas id="gSerieCasa" height="210"></canvas>
+  </div>
+
+  <div class="nota">
+    <strong>Isso corrige a moldura do relatório.</strong> Não houve migração gradual em três anos:
+    a casa deu um <strong>degrau para mídia em meados de 2024</strong> (ago–set/2024 saltam para
+    48–64%) e opera em ~45–55% desde então. <strong>Nov/2024 — o BNO24 — é o mês de MENOR
+    participação de mídia de todo 2024 (19,8%)</strong>, com o Comercial em 41,3%.<br><br>
+    Ou seja: o BNO24 não é o “antes” de uma deriva, é uma <strong>mobilização excepcional do
+    Comercial</strong> contra um patamar que já era majoritariamente mídia. E a frase “o BP10 é um
+    produto de mídia (53,3%)” descreve a casa inteira em 2026, não algo do BP10.<br><br>
+    <strong>A pergunta acionável muda junto:</strong> não é “por que a mídia cresceu”, é
+    <strong>“por que o Comercial não foi mobilizado de novo como em nov/2024”</strong> — mesmo time
+    (37 vendedores com venda no BNO24, 51 no BP10) e <strong>46% menos abordagens por dia</strong>
+    (5.228 → 2.805), com o mesmo tipo de oferta.
   </div>
 </section>
 
@@ -440,7 +529,8 @@
 <section>
   <h2>O canal que sustentava o high-ticket perdeu tração</h2>
   <p class="sub">Abordagens do Comercial no Zenvia, por campanha. “Resposta” = o cliente respondeu
-     a abordagem (conversa real).</p>
+     a abordagem (conversa real). A queda é de ~40pp entre as pontas, mas <strong>não é
+     monotônica</strong> — há três subidas no caminho (BNO24→BIT, DBI→CDL, BNO25→BP10).</p>
 
   <div class="grid-2">
     <div class="card">
@@ -462,7 +552,8 @@
 <!-- ── OFERTA ──────────────────────────────────────────────────────────────── -->
 <section>
   <h2>O Black November de 2025 não vendeu o mesmo produto</h2>
-  <p class="sub">A queda do BF (R$ 40,3 mi → R$ 18,7 mi) é decisão de oferta, não perda de demanda.</p>
+  <p class="sub">A queda do BF (R$ 56,4 mi em 2023 → R$ 40,3 mi em 2024 → R$ 18,7 mi em 2025, tudo
+     venda nova) é decisão de oferta, não perda de demanda.</p>
 
   <div class="card">
     <p class="label">Receita por tipo de produto nas promoções de base (R$ mi)</p>
@@ -497,9 +588,14 @@
   <div class="nota">
     A penetração saiu de <strong>1,5% para 12,3%</strong> da base em três anos — ainda restam
     ~535 mil membros sem nenhuma compra high-ticket. O sinal de esgotamento não está no estoque,
-    está na <strong>reincidência</strong>: a Odisseia vendeu 54% para quem já havia comprado
-    em campanha anterior (majoritariamente o Clube do Livro). Os lançamentos de 2026 estão
-    girando a mesma carteira.
+    está na <strong>reincidência</strong>: <strong>50,7%</strong> dos compradores da Odisseia já
+    haviam comprado em campanha anterior, e a maior origem única é o <strong>Clube do Livro, com
+    40,8%</strong>. Os lançamentos de livro de 2026 estão girando a mesma carteira.<br><br>
+    <strong>⚠️ Duas ressalvas sobre a penetração</strong> (revisão de 17/09): com o CDL na série
+    (1,30% em mai–jun/2026, a segunda maior) <strong>não há tendência de queda</strong> — a métrica
+    acompanha o tamanho da campanha, não a exaustão. E o numerador conta só membros: dos 17.286
+    compradores em 1ª compra high-ticket do BP10, <strong>87% vieram de fora da base</strong>, o que
+    é o oposto de estoque esgotado.
   </div>
 </section>
 
@@ -559,6 +655,17 @@
       na data da primeira compra, com whitelist de planos de assinatura — sem ela todo comprador de
       livro viraria “membro”, porque o sistema grava produto avulso como assinatura ativa. A base ativa
       reconstruída assim reproduz o indicador oficial (558.624 contra 558.769 em abr/2023).</p>
+    <p style="margin-bottom:12px"><strong>Revisão independente (17/09).</strong> Esta página passou
+      por revisão crítica de um agente de analytics com acesso ao warehouse (~20 queries de
+      verificação), e tudo que ele apontou foi conferido antes de ser aceito. Foram corrigidos
+      <strong>6 números publicados</strong> (o R$ 66,6 mi do BF2023 misturava renovação; os vitalícios
+      do BNO25 são 1.939 e não 1.607; a queda do Comercial não é monotônica; a reincidência da
+      Odisseia é 50,7% e o CDL sozinho 40,8%; o CAC de canal da Travessia vinha de um percentual
+      arredondado; seis células truncadas). E <strong>três conclusões mudaram</strong>: a moldura
+      “troca de motor em três anos” virou “degrau em meados de 2024 com o BNO24 como exceção”, a
+      validação da whitelist de membership caiu, e a penetração do estoque deixou de sustentar
+      “camada fácil esgotada”. Sobreviveram à verificação as duas identidades centrais, os universos
+      de atribuição e todos os agregados por campanha.</p>
     <p><strong>O que esta análise não mede.</strong> Incrementalidade: nenhum dos números aqui separa
       a venda que a mídia <em>causou</em> da que ela apenas registrou. E a janela do BP10 (97 dias)
       convive com Odisseia e Coleção Brasil — o CAC dele usa apenas a verba com a sigla no nome da
@@ -860,6 +967,47 @@ function initCharts(D){
       <td class="num" style="color:var(--soft)">${rs(r.vl_cac_rateio_comprador)}</td>
       <td class="num" style="color:var(--soft)">${r.vl_roas_rateio_comprador!=null ? br(r.vl_roas_rateio_comprador,2)+'×' : '—'}</td>
     </tr>`).join('');
+
+  /* ── testes de robustez ───────────────────────────────────────────────── */
+  const U = {};
+  D.teste_universo.forEach(r => { (U[r.sigla] = U[r.sigla] || {})[r.nm_universo] = r.pct_midia; });
+  const colsU = ['BNO24','BNO25','CDL','BP10','ODI'];
+  document.getElementById('tbUniverso').innerHTML = ['janela','rastro'].map(u =>
+    `<tr><td>regra <code>${u}</code></td>` +
+    colsU.map(s2 => `<td class="num">${pc(U[s2]?.[u])}</td>`).join('') + '</tr>').join('');
+
+  /* série mensal da casa: linhas finas, sem marcador em todo ponto */
+  const SC = D.serie_casa;
+  const destaques = {'2024-11':'BNO24','2025-11':'BNO25','2026-05':'CDL','2026-06':'BP10','2023-04':'TRA'};
+  new Chart(gSerieCasa, {
+    type:'line',
+    data:{ labels:SC.map(r=>r.sigla), datasets:[
+      { label:'Mídia paga', data:SC.map(r=>r.pct_midia), borderColor:S1, backgroundColor:S1,
+        borderWidth:2, tension:0.25, fill:false,
+        pointRadius:SC.map(r=>destaques[r.sigla]?5:0), pointHoverRadius:6 },
+      { label:'Comercial', data:SC.map(r=>r.pct_comercial), borderColor:S2, backgroundColor:S2,
+        borderWidth:2, tension:0.25, fill:false,
+        pointRadius:SC.map(r=>destaques[r.sigla]?5:0), pointHoverRadius:6 }
+    ]},
+    options:{
+      aspectRatio:2.4, interaction:{mode:'index', intersect:false},
+      plugins:{ legend:{display:false},
+        tooltip:{ callbacks:{ title:i=>i[0].label + (destaques[i[0].label] ? '  ·  '+destaques[i[0].label] : ''),
+                              label:c=>c.dataset.label+': '+pc(c.raw) } } },
+      scales:{
+        x:{ ...eixoX, ticks:{ maxRotation:0, autoSkip:false,
+              callback:function(v,i){ const l=this.getLabelForValue(v); return l.endsWith('-01')||l.endsWith('-07') ? l : ''; } } },
+        y:{ ...eixoY, max:80, ticks:{callback:v=>v+'%'} }
+      }
+    },
+    plugins:[{ id:'marcacasa', afterDatasetsDraw(c){
+      const {ctx}=c; ctx.save(); ctx.font='700 10px '+FONT; ctx.fillStyle='#1e293b'; ctx.textAlign='center';
+      c.getDatasetMeta(0).data.forEach((el,i)=>{
+        const nome = destaques[SC[i].sigla]; if (!nome) return;
+        ctx.fillText(nome, el.x, el.y - 12);
+      });
+      ctx.restore(); }}]
+  });
 
   /* ── economia por canal ───────────────────────────────────────────────── */
   const CAN = D.canais;
