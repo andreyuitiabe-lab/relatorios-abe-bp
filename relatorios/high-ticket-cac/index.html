@@ -131,19 +131,20 @@
 <!-- ══ OS NÚMEROS ══ -->
 <section>
   <h2>Os números, campanha a campanha</h2>
-  <p class="sub">As oito métricas combinadas para o estudo, lado a lado. A última coluna mostra
-     quanto da receita de cada campanha foi de fato de alto ticket — acima de R$ 1.000.</p>
+  <p class="sub">As métricas do estudo lado a lado. <strong>Custo por comprador</strong> é o de quem
+     pagou acima de R$ 1.000 — a versão que mistura todo mundo aparece na seção seguinte, e engana.
+     A última coluna diz quanto da receita foi de fato de alto ticket.</p>
 
   <div class="card" style="overflow-x:auto">
     <table>
       <thead>
         <tr>
-          <th>Campanha</th><th class="num">Receita</th><th class="num">Ticket</th>
-          <th class="num">Mídia</th><th class="num">CAC<br><small style="font-weight:400;text-transform:none">blendado</small></th>
-          <th class="num">CAC<br><small style="font-weight:400;text-transform:none">alto ticket</small></th>
-          <th class="num">Retorno</th>
-          <th class="num">Ads</th><th class="num">% mídia</th>
-          <th class="num">% não-membro</th><th class="num">% alto ticket</th>
+          <th>Campanha</th><th class="num">Receita</th><th class="num">Ticket<br>médio</th>
+          <th class="num">Verba de<br>mídia</th>
+          <th class="num">Custo por<br>comprador</th>
+          <th class="num">Retorno<br>da campanha</th>
+          <th class="num">Anúncios</th><th class="num">Veio de<br>mídia</th>
+          <th class="num">Nunca foi<br>membro</th><th class="num">Receita de<br>alto ticket</th>
         </tr>
       </thead>
       <tbody id="tbResumo"></tbody>
@@ -173,14 +174,14 @@
     <strong>O caso que prova o ponto é o Black Friday de 2025.</strong> Ele tem o melhor CAC da
     série — R$ 104 — e isso é ilusão de mistura: 94% dos compradores levaram produto de entrada.
     Olhando só quem comprou acima de R$ 1.000, o CAC dele é <b>R$ 878</b>, o segundo pior do
-    estudo. <b>Oito vezes maior</b> que o número que aparece na tabela.
+    estudo. <b>Oito vezes maior</b> — e é esse o número que importa para decidir mídia.
   </div>
 
   <div class="card" style="overflow-x:auto">
     <p class="label">Alto ticket: quanto custou trazer quem comprou acima de R$ 1.000</p>
     <table>
       <thead><tr><th>Campanha</th><th class="num">Compradores</th><th class="num">Ticket médio</th>
-        <th class="num">% da receita</th><th class="num">CAC blendado</th>
+        <th class="num">% da receita</th><th class="num">CAC de todos</th>
         <th class="num">CAC alto ticket</th><th class="num">Diferença</th></tr></thead>
       <tbody id="tbFaixaAlto"></tbody>
     </table>
@@ -205,12 +206,12 @@
 
   <div class="stats">
     <div class="stat up"><div class="n">+143%</div>
-      <div class="c">o CAC do alto ticket foi de R$ 277 para R$ 674<br>
-        <span style="color:var(--soft)">(no blendado, +129%: R$ 186 → R$ 426)</span></div></div>
+      <div class="c">custou R$ 674 para trazer um comprador de alto ticket,<br>contra R$ 277 no
+        Black Friday de 2024</div></div>
     <div class="stat down"><div class="n">−13%</div>
-      <div class="c">mas o custo de trazer um comprador <em>pela mídia</em> caiu</div></div>
+      <div class="c">mas o custo de trazer um comprador <em>por anúncio</em> caiu — a mídia ficou mais barata, não mais cara</div></div>
     <div class="stat up"><div class="n">19% → 50%</div>
-      <div class="c">a fatia de compradores que chega por mídia quase triplicou</div></div>
+      <div class="c">é a fatia de compradores que chega por anúncio — quase triplicou</div></div>
   </div>
 
   <div class="destaque">
@@ -383,6 +384,9 @@
   </div>
 
   <div class="nota">
+    A Travessia não aparece no gráfico porque não existe o dado — a ferramenta de disparo só começa
+    em janeiro de 2024. Barra ausente aqui não é zero.
+    <br><br>
     O Black Friday de 2024 rendeu <strong>R$ 107 por mil mensagens</strong> e nada chegou perto
     depois. O de 2025 disparou <strong>quase o dobro de mensagens</strong> (185 milhões contra 100)
     e rendeu 95% menos por mensagem.<br><br>
@@ -428,6 +432,62 @@
   </div>
 </section>
 
+
+<!-- ══ CUSTO DE AQUISIÇÃO E O QUE SOBRA ══ -->
+<section>
+  <h2>Quanto sobra depois de pagar para adquirir</h2>
+  <p class="sub">Receita menos os três custos de aquisição: mídia, comissão do Comercial e disparo
+     de CRM. <strong>Não é margem</strong> — impostos, gateway, reembolso e custo de produto ficam
+     de fora. Serve para comparar eficiência de aquisição entre campanhas.</p>
+
+  <div class="card">
+    <p class="label">% da receita que sobra depois do custo de aquisição</p>
+    <canvas id="gLiquido" height="190"></canvas>
+  </div>
+
+  <div class="destaque">
+    A eficiência de aquisição caiu de <b>83% na Travessia</b> e <b>79% no Black Friday 2024</b>
+    para <b>53% no BP10</b>. E o motivo é um só: <b>a mídia custa 5 a 10 vezes mais por real de
+    receita do que os outros canais</b> — 9% no Comercial, 9–13% no CRM, 43% a 100% na mídia.
+    Quando o mix migra, a conta piora sozinha.
+  </div>
+
+  <div class="card" style="overflow-x:auto">
+    <p class="label">A conta completa, campanha a campanha</p>
+    <table>
+      <thead><tr><th>Campanha</th><th class="num">Receita</th><th class="num">Mídia</th>
+        <th class="num">Comissão</th><th class="num">CRM</th>
+        <th class="num">Sobra</th><th class="num">% que<br>sobra</th>
+        <th class="num">Sobra por<br>comprador</th><th class="num">Mídia no<br>custo</th></tr></thead>
+      <tbody id="tbLiquido"></tbody>
+    </table>
+  </div>
+
+  <div class="destaque" style="background:#fef3c7;border-color:#fde68a">
+    <strong>O que isso custou em dinheiro.</strong> Se o BP10 tivesse o mesmo mix de canal do
+    Black Friday 2024 — mantendo as próprias eficiências de custo que ele teve em cada canal —
+    a sobra seria <b>81% em vez de 53%</b>: <b>R$ 15,2 milhões no lugar de R$ 9,9 milhões</b>.
+    <br><br>
+    <strong>R$ 5,2 milhões</strong> é o preço de ter deixado o Comercial e o CRM encolherem.
+  </div>
+
+  <div class="nota">
+    <strong>O que está fora desta conta, de propósito:</strong> impostos e gateway (12–18%),
+    reembolso (6,5%), custo de produto físico (15–25% em livro e coleção), folha do Comercial e do
+    time de mídia. Com esses descontos a Travessia sairia de 83% para ~61% e o Clube do Livro de
+    80% para ~38% — o Clube do Livro é livro físico, e o custo de produto muda muito a leitura dele.
+    A referência de margem de verdade da casa está em <code>relatorios/midia-paga/MARGEM.md</code>.
+    <br><br>
+    <strong>* Travessia:</strong> o Insider só tem dado a partir de 30/01/2024, então o custo de CRM
+    dela não entra na conta. Não é zero — é ausente. Nas campanhas em que dá para medir, o CRM custa
+    de 2,7% a 4,5% da receita; aplicando essa faixa, a Travessia iria de 83% para algo entre 79% e 80%.
+    Não muda a leitura, mas o 83% é teto.
+    <br><br>
+    A comissão de 9% do Comercial é piso — não inclui folha. Isso torna a comparação entre canais
+    conservadora a favor do Comercial; mesmo dobrando o custo dele, a conclusão não muda de sinal.
+  </div>
+</section>
+
 <!-- ══ O QUE FAZER ══ -->
 <section>
   <h2>O que fazer com isso</h2>
@@ -442,7 +502,9 @@
   <div class="acao">
     <h3>2. Descobrir por que o Comercial não foi mobilizado de novo</h3>
     <p>Mesmo time, mesmo tipo de oferta, metade das abordagens por dia. E quem conversa fecha igual
-       ou melhor do que antes. É a alavanca com dono mais clara do estudo — e a que não custa mídia.</p>
+       ou melhor do que antes. É a alavanca com dono mais clara do estudo — e tem preço:
+       <strong>com o mix de canal do BF 2024, o BP10 teria deixado R$ 5,2 milhões a mais depois do
+       custo de aquisição</strong>.</p>
   </div>
 
   <div class="acao">
@@ -528,6 +590,9 @@ const br = (v,d=0) => (v==null||Number.isNaN(v) ? '—'
   : v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}));
 const rs = v => v==null ? '—' : 'R$ ' + br(v);
 const mi = v => v==null ? '—' : 'R$ ' + br(v/1e6,1) + ' mi';
+/* mesma unidade só enquanto couber: abaixo de R$ 1 mi vira mil, senão tudo vira 'R$ 0,0 mi' */
+const miM = v => v==null ? '—' : (Math.abs(v) >= 1e6 ? 'R$ ' + br(v/1e6,1) + ' mi'
+                                                     : 'R$ ' + br(v/1e3,0) + ' mil');
 const pc = (v,d=1) => v==null ? '—' : br(v,d) + '%';
 
 const rotulos = (fmt) => ({
@@ -592,13 +657,33 @@ function initCharts(D) {
       <td class="num">${mi(c.vl_receita)}</td>
       <td class="num">${rs(c.vl_ticket)}</td>
       <td class="num">${mi(c.vl_midia)}</td>
-      <td class="num" style="color:var(--soft)">${rs(c.vl_cac)}</td>
       <td class="num" style="font-weight:700">${rs(c.vl_cac_alto_ticket)}</td>
       <td class="num" style="color:${cor};font-weight:700">${br(c.vl_roas,2)}×</td>
       <td class="num">${br(c.qt_anuncios)}</td>
       <td class="num">${pc(c.pct_comp_midia)}</td>
       <td class="num">${pc(c.pct_nao_membro)}</td>
       <td class="num" style="color:${c.pct_receita_ht<70?'var(--critical)':'var(--muted)'}">${pc(c.pct_receita_ht)}</td>
+    </tr>`;
+  }).join('');
+
+  /* ── receita líquida de aquisição ─────────────────────────────────────── */
+  barra(gLiquido, nomes, C.map(c=>c.pct_liquido_aquisicao), S1,
+        v=>br(v,0)+'%', v=>pc(v), {aspect:2.6, tickY:v=>v+'%'});
+
+  document.getElementById('tbLiquido').innerHTML = C.map(c=>{
+    const sobra = c.vl_receita - c.vl_custo_aquisicao;
+    const cor = c.pct_liquido_aquisicao>=75 ? 'var(--good)'
+              : (c.pct_liquido_aquisicao<45 ? 'var(--critical)' : 'var(--text)');
+    return `<tr>
+      <td class="campanha">${c.sigla}<small>${(D.rotulos||{})[c.sigla]||c.nm_campanha}</small></td>
+      <td class="num">${miM(c.vl_receita)}</td>
+      <td class="num">${miM(c.vl_midia)}</td>
+      <td class="num">${miM(c.vl_comissao)}</td>
+      <td class="num">${c.sigla==='TRA' ? '<span style="color:var(--soft)">s/ dado</span>' : miM(c.vl_custo_crm)}</td>
+      <td class="num">${miM(sobra)}</td>
+      <td class="num" style="color:${cor};font-weight:700">${pc(c.pct_liquido_aquisicao)}${c.sigla==='TRA'?'*':''}</td>
+      <td class="num">${rs(c.vl_liquido_por_comprador)}</td>
+      <td class="num" style="color:var(--soft)">${pc(c.pct_custo_midia)}</td>
     </tr>`;
   }).join('');
 
@@ -644,11 +729,15 @@ function initCharts(D) {
     const {ctx}=c; ctx.save(); ctx.font='700 11px '+FONT;
     ctx.textAlign='left'; ctx.textBaseline='middle';
     const postos=[];
+    /* os próprios pontos também são obstáculo — senão o rótulo de um cobre a bolinha do vizinho */
+    const bolas=c.getDatasetMeta(0).data.map(el=>({x:el.x,y:el.y}));
+    const cobrePonto=(x,y,w)=>bolas.some(b=>b.x>x-9 && b.x<x+w+4 && Math.abs(b.y-y)<9);
     c.getDatasetMeta(0).data.map((el,i)=>({el,d:c.data.datasets[0].data[i]}))
       .sort((a,b)=>a.el.y-b.el.y).forEach(({el,d})=>{
         const txt=d.sigla+'  '+br(d.roas,2)+'×', w=ctx.measureText(txt).width;
         let x=el.x+10, y=el.y, t=0;
-        while (postos.some(q=>Math.abs(q.y-y)<13 && x<q.x+q.w+6 && q.x<x+w+6) && t<8) { y-=14; t++; }
+        while ((postos.some(q=>Math.abs(q.y-y)<13 && x<q.x+q.w+6 && q.x<x+w+6)
+                || cobrePonto(x,y,w)) && t<8) { y-=14; t++; }
         if (y < c.chartArea.top+8) y = el.y+14+t*2;
         if (x+w > c.chartArea.right-4) x = el.x-w-10;
         if (Math.abs(y-el.y)>6) { ctx.strokeStyle=BASELINE; ctx.lineWidth=1;

@@ -190,6 +190,9 @@ def build() -> dict:
     produto.loc[mp, "vl_roas_rateio_comprador"] = (
         produto.loc[mp, "vl_receita"] / (verba / tot_comp * produto.loc[mp, "qt_compradores"])).round(2)
 
+    print("  receita líquida de aquisição...", flush=True)
+    liquido = bqq(AQUI / "queries" / "16_receita_liquida_aquisicao.sql")
+
     print("  CAC por faixa de valor da venda...", flush=True)
     faixas = bqq(AQUI / "queries" / "15_cac_por_faixa_valor.sql")
 
@@ -218,6 +221,7 @@ def build() -> dict:
     comercial_por_sigla = comercial.set_index("sigla").to_dict("index")
     anuncios_por_sigla = anuncios.set_index("sigla").to_dict("index")
     faixa_alto = faixas[faixas["nm_faixa"] == "alto"].set_index("sigla").to_dict("index")
+    liq_por_sigla = liquido.set_index("sigla").to_dict("index")
     pecas_por_sigla = pecas.set_index("sigla").to_dict("index")
     campanhas = [{k: nn(v) for k, v in linha.items()} for linha in cons.to_dict("records")]
     for c in campanhas:
@@ -242,6 +246,10 @@ def build() -> dict:
         c["vl_cac_alto_ticket"] = nn(fa.get("vl_cac_faixa"))
         c["qt_comp_alto_ticket"] = nn(fa.get("qt_compradores"))
         c["vl_ticket_alto"] = nn(fa.get("vl_ticket"))
+        lq = liq_por_sigla.get(c["sigla"], {})
+        for k in ("vl_custo_aquisicao", "vl_comissao", "vl_custo_crm",
+                  "pct_liquido_aquisicao", "vl_liquido_por_comprador", "pct_custo_midia"):
+            c[k] = nn(lq.get(k))
         pc = pecas_por_sigla.get(c["sigla"], {})
         for k in ("qt_email_tag", "qt_whatsapp_tag", "qt_push_tag", "qt_pecas_crm_tag",
                   "qt_pecas_crm_por_dia", "qt_entregas_por_peca", "qt_email_janela"):

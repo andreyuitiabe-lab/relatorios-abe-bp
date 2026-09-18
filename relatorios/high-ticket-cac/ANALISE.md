@@ -622,6 +622,54 @@ mesma pessoa em 14d, por telefone ou e-mail) — ⚠️ é atribuição por prox
 
 ---
 
+### 9. Quanto sobra depois do custo de aquisição (pedido do André em 18/09)
+
+⚠️ **Nomenclatura.** Eu chamei isto de "margem" numa versão anterior e estava errado — o André
+pegou (*"a gente trabalhou com uma margem tão alta assim?"*). Não é. É **receita menos os três
+custos de aquisição** (mídia + comissão de 9% do Comercial + disparo de CRM) e nada mais. Ficam de
+fora impostos e gateway (12–18%), reembolso (6,5%), custo de produto físico (15–25%), folha do
+Comercial e do time de mídia, produção de conteúdo. A margem de verdade da casa está em
+`relatorios/midia-paga/MARGEM.md` (0,75 digital / 0,55 físico). Aplicando aqueles descontos, a
+Travessia sai de 83% para ~61%, o CDL de 80% para ~38% e o DBI fica **negativo (−12%)**.
+Depois da correção, o André fechou o escopo: *"eu preciso só dos custos de aquisição mesmo"* — é o
+que está publicado, com o rótulo certo.
+
+| Campanha | Receita | Custo de aquisição | Sobra | % que sobra | Por comprador | Mídia no custo |
+|---|---:|---:|---:|---:|---:|---:|
+| TRA*  | R$ 8,0 mi  | R$ 1,4 mi | R$ 6,6 mi  | 83,0% | R$ 1.368 | 63,9% |
+| TRA2  | R$ 471 mil | R$ 231 mil| R$ 240 mil | 51,0% | R$ 647   | 77,3% |
+| BNO24 | R$ 40,3 mi | R$ 8,4 mi | R$ 31,9 mi | 79,2% | R$ 1.088 | 65,1% |
+| BIT   | R$ 2,6 mi  | R$ 1,5 mi | R$ 1,1 mi  | 41,9% | R$ 704   | 84,7% |
+| BNO25 | R$ 18,7 mi | R$ 6,8 mi | R$ 11,9 mi | 63,6% | R$ 220   | 82,5% |
+| DBI   | R$ 223 mil | R$ 203 mil| R$ 21 mil  |  9,2% | R$ 18    | 83,9% |
+| CDL   | R$ 34,9 mi | R$ 7,0 mi | R$ 27,9 mi | 79,9% | R$ 1.091 | 72,2% |
+| BP10  | R$ 18,7 mi | R$ 8,7 mi | R$ 9,9 mi  | 53,2% | R$ 534   | 90,9% |
+| ODI   | R$ 6,2 mi  | R$ 2,1 mi | R$ 4,2 mi  | 66,9% | R$ 833   | 82,1% |
+
+\* **Travessia é teto.** O Insider só tem dado a partir de 30/01/2024, então o custo de CRM da
+Travessia entra como zero — não porque foi zero, mas porque não é medível. Nas campanhas em que dá
+para medir, o CRM custa de 2,7% (BNO24) a 4,5% (TRA2) da receita; nessa faixa a Travessia iria de
+83% para 79–80%. Não muda a leitura; muda o número.
+
+**O mecanismo é o mix, não a eficiência.** A coluna "mídia no custo" sobe de 63,9% (TRA) para 90,9%
+(BP10) em paralelo com a queda do % que sobra — são a mesma coisa vista de dois ângulos, porque o
+custo por real de receita é 9% no Comercial, 9–13% no CRM e 43% a 100% na mídia (achado 6). Trocar
+o motor de canal piora a conta mesmo com a eficiência unitária de cada canal intacta.
+
+**O contrafactual, que é o número acionável.** Se o BP10 tivesse o mix de canal do BNO24 — mantendo
+as próprias eficiências de custo que o BP10 teve em cada canal, sem supor nenhuma melhora — a sobra
+iria de 53,2% para **81,1%**: R$ 15,2 mi no lugar de R$ 9,9 mi. Diferença de **R$ 5,2 milhões**.
+O número é estável nos cenários de imposto de 12/15/18% porque depende só do mix, não do nível de
+custo — é aritmética de composição, não projeção.
+
+⚠️ **O contrafactual não é promessa.** Ele supõe que o Comercial e o CRM conseguiriam entregar o
+volume do BNO24 na mesma eficiência unitária. O achado 3 mostra que a resposta à abordagem caiu de
+73,8% para 31% — então parte do volume do BNO24 pode simplesmente não estar mais disponível. Leia
+como *teto do que se perdeu*, não como receita a recuperar.
+
+**A comissão de 9% é piso** — não inclui folha do time. Isso deixa a comparação entre canais
+conservadora a favor do Comercial. Dobrando o custo dele, nenhuma conclusão muda de sinal.
+
 ## Revisão independente (17/09/2026)
 
 A análise passou por revisão crítica de um agente de analytics com acesso ao warehouse, que rodou
@@ -707,6 +755,7 @@ BP10/ODI/CDL.
 | [queries/13_external_tables_planilhas.sql](queries/13_external_tables_planilhas.sql) | DDL das external tables sobre as planilhas — ⚠️ requer escopo de Drive na ADC |
 | [queries/14_qtd_anuncios_v2.sql](queries/14_qtd_anuncios_v2.sql) | Qtd. de anúncios pelas duas fontes, com a definição de cada uma |
 | [queries/15_cac_por_faixa_valor.sql](queries/15_cac_por_faixa_valor.sql) | CAC separado por faixa de valor da venda (alto / médio / entrada) |
+| [queries/16_receita_liquida_aquisicao.sql](queries/16_receita_liquida_aquisicao.sql) | Receita menos os três custos de aquisição — ⚠️ **não é margem**, ver cabeçalho do arquivo |
 | [scripts/carrega_planilha_ads.py](scripts/carrega_planilha_ads.py) | Carrega a aba de anúncios do XLSX do time de tráfego no BQ (595 mil linhas, 2022→2026) |
 | [scripts/extrai_meta_ads.py](scripts/extrai_meta_ads.py) | Extração em `level=ad` nas 9 janelas (⚠️ requer token Meta válido) |
 | [scripts/extrai_meta_api.py](scripts/extrai_meta_api.py) | Spend Meta por campanha × dia via Marketing API (ago/2023+) |
