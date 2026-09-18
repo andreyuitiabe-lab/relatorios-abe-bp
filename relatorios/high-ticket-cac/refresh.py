@@ -185,6 +185,9 @@ def build() -> dict:
     produto.loc[mp, "vl_roas_rateio_comprador"] = (
         produto.loc[mp, "vl_receita"] / (verba / tot_comp * produto.loc[mp, "qt_compradores"])).round(2)
 
+    print("  peças criadas (anúncios e e-mails distintos)...", flush=True)
+    pecas = bqq(AQUI / "queries" / "12_pecas_criadas.sql")
+
     print("  quantidade de anúncios...", flush=True)
     anuncios = bqq(AQUI / "queries" / "11_qtd_anuncios.sql")
 
@@ -206,6 +209,7 @@ def build() -> dict:
     reinc_por_sigla = reinc.set_index("sigla").to_dict("index")
     comercial_por_sigla = comercial.set_index("sigla").to_dict("index")
     anuncios_por_sigla = anuncios.set_index("sigla").to_dict("index")
+    pecas_por_sigla = pecas.set_index("sigla").to_dict("index")
     campanhas = [{k: nn(v) for k, v in linha.items()} for linha in cons.to_dict("records")]
     for c in campanhas:
         r = reinc_por_sigla.get(c["sigla"], {})
@@ -222,6 +226,10 @@ def build() -> dict:
         # ⚠️ contagem de campanhas SÓ Meta, para ficar na mesma unidade da contagem de anúncios.
         # O `qt_campanhas_midia` do consolidado conta Meta+Google+PMax e não é comparável.
         c["qt_campanhas_meta"] = nn(an.get("qt_campanhas_meta"))
+        pc = pecas_por_sigla.get(c["sigla"], {})
+        for k in ("qt_email_tag", "qt_whatsapp_tag", "qt_push_tag", "qt_pecas_crm_tag",
+                  "qt_pecas_crm_por_dia", "qt_entregas_por_peca", "qt_email_janela"):
+            c[k] = nn(pc.get(k))
         c["nm_origem_principal"] = nn(r.get("nm_origem_principal"))
         c["pct_origem_principal"] = nn(r.get("pct_origem_principal"))
 

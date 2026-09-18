@@ -444,6 +444,29 @@
     </div>
   </div>
 
+  <div class="card" style="margin-top:16px; overflow-x:auto">
+    <p class="label">Peças distintas colocadas no ar (produção, não entrega)</p>
+    <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px">
+      Um e-mail disparado para 3 milhões de pessoas conta 1. É o par do “qtd. de ads”.</p>
+    <table>
+      <thead><tr><th>Campanha</th><th class="num">E-mails</th><th class="num">WhatsApp</th>
+        <th class="num">Push</th><th class="num">Total CRM</th><th class="num">Peças/dia</th>
+        <th class="num">Entregas por peça</th><th class="num">Anúncios</th></tr></thead>
+      <tbody id="tbPecas"></tbody>
+    </table>
+    <div class="nota">
+      <strong>O BNO24 produziu 28,4 peças de CRM por dia; o BP10, 6,1 — 4,7× menos.</strong>
+      E olhe o tamanho da lista de cada peça: <strong>117 mil entregas por peça no BNO24 contra
+      268 mil no BP10</strong>. O BNO24 falou com a base em muitas peças para segmentos menores;
+      o BP10, em menos peças para listas maiores.<br><br>
+      É uma explicação mecânica para a queda da taxa de resposta: a base não ficou surda — passou a
+      receber <em>menos mensagens e mais genéricas</em>. No lado da mídia o movimento foi o oposto
+      (1.182 anúncios no BP10 contra 690 no BNO25): multiplicou-se variação criativa na mídia e
+      reduziu-se no CRM — justamente o canal que rende R$ 26–107 por mil entregas enquanto a mídia
+      não se paga no last-click em 6 de 8 campanhas.
+    </div>
+  </div>
+
   <div class="card" style="margin-top:16px">
     <p class="label">Composição dos disparos por canal (% das entregas com a tag)</p>
     <div class="legenda">
@@ -773,10 +796,25 @@
         <tr>
           <td><strong>Qtd. de disparos de CRM</strong></td>
           <td>“CRM: o volume dobrou”</td>
-          <td>3 mi (TRA2) a 185 mi (BNO25) por campanha. Receita por mil: R$ 107 (BNO24) a R$ 5,68 (BNO25).</td>
+          <td>Entregas: 3 mi (TRA2) a 185 mi (BNO25). Peças distintas: 104 (TRA2) a <strong>852 (BNO24)</strong>.
+              Receita por mil: R$ 107 (BNO24) a R$ 5,68 (BNO25). ⚠️ 8 das 9 — Insider começa em jan/2024.</td>
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="nota" style="margin-top:0">
+    <strong>Cobertura das 8 métricas nas 9 campanhas: 6 completas, 2 com lacuna — e as duas
+    lacunas são ausência de fonte, não de análise.</strong>
+    <ul style="margin:8px 0 0 18px">
+      <li><strong>Qtd. de ads — 5 de 9.</strong> O nome do anúncio só é confiável no warehouse a
+        partir de mar/2025 (em nov/2024 há 74 nomes em 56 campanhas, e nenhum é do BNO24, enquanto
+        a API mostra 109 campanhas com R$ 5,47 mi). Fechar TRA, TRA2, BNO24 e BIT exige a Marketing
+        API em nível de anúncio — script pronto, <strong>token invalidado em 18/09</strong>.</li>
+      <li><strong>Qtd. de CRM — 8 de 9.</strong> A Insider começa em <strong>30/01/2024</strong>,
+        inclusive nos eventos brutos. A Travessia (abr–mai/2023) não tem CRM medível por nenhuma
+        fonte do warehouse.</li>
+    </ul>
   </div>
 
   <div class="nota">
@@ -1118,6 +1156,18 @@ function initCharts(D){
       <td class="num"><strong>${rs(r.vl_cac_rateio_receita)}</strong></td>
       <td class="num" style="color:var(--soft)">${rs(r.vl_cac_rateio_comprador)}</td>
       <td class="num" style="color:var(--soft)">${r.vl_roas_rateio_comprador!=null ? br(r.vl_roas_rateio_comprador,2)+'×' : '—'}</td>
+    </tr>`).join('');
+
+  /* ── peças distintas ──────────────────────────────────────────────────── */
+  document.getElementById('tbPecas').innerHTML = C.map(c=>`<tr>
+      <td><strong>${c.sigla}</strong></td>
+      <td class="num">${c.qt_email_tag!=null ? '<strong>'+br(c.qt_email_tag)+'</strong>' : '—'}</td>
+      <td class="num">${c.qt_whatsapp_tag!=null ? br(c.qt_whatsapp_tag) : '—'}</td>
+      <td class="num">${c.qt_push_tag!=null ? br(c.qt_push_tag) : '—'}</td>
+      <td class="num">${c.qt_pecas_crm_tag!=null ? br(c.qt_pecas_crm_tag) : '—'}</td>
+      <td class="num">${c.qt_pecas_crm_por_dia!=null ? br(c.qt_pecas_crm_por_dia,1) : '—'}</td>
+      <td class="num">${c.qt_entregas_por_peca!=null ? br(c.qt_entregas_por_peca) : '—'}</td>
+      <td class="num">${c.qt_anuncios!=null ? br(c.qt_anuncios) : '—'}</td>
     </tr>`).join('');
 
   /* ── quantidade de anúncios ───────────────────────────────────────────── */
