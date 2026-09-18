@@ -479,6 +479,73 @@
   </div>
 </section>
 
+<!-- ── QUANTOS ANÚNCIOS ────────────────────────────────────────────────────── -->
+<section>
+  <h2>Quantos anúncios cada campanha rodou</h2>
+  <p class="sub">Contagem de anúncios distintos com verba, na conta Meta, dentro da janela da
+     campanha.</p>
+
+  <div class="card">
+    <p class="label">Anúncios distintos com verba (Meta)</p>
+    <canvas id="gAds" height="190"></canvas>
+  </div>
+
+  <div class="card" style="margin-top:16px; overflow-x:auto">
+    <table>
+      <thead><tr><th>Campanha</th><th class="num">Anúncios</th><th class="num">Conjuntos</th>
+        <th class="num">Campanhas de anúncio (Meta)</th><th class="num">Verba por anúncio</th>
+        <th>Fonte da contagem</th></tr></thead>
+      <tbody id="tbAds"></tbody>
+    </table>
+  </div>
+
+  <div class="nota">
+    <strong>⚠️ Quatro campanhas ficaram sem contagem de anúncio, e a razão é externa.</strong>
+    O nome do anúncio só existe no warehouse a partir de <strong>ago/2025</strong>. Para TRA, TRA2,
+    BNO24 e BIT a contagem exigiria a Marketing API em nível de anúncio — a extração está pronta
+    (<code>scripts/extrai_meta_ads.py</code>), mas o <strong>token da Meta foi invalidado em
+    18/09/2026</strong> (erro 190/460: sessão encerrada por troca de senha ou decisão do Facebook).
+    Renovado o token, o script fecha as quatro.<br><br>
+    Para essas quatro existe o piso: a <strong>contagem de campanhas de anúncio</strong>, que veio da
+    extração de nível de campanha e cobre as nove.<br><br>
+    <strong>O que a contagem mostra onde existe:</strong> o volume de criativos cresceu junto com a
+    dependência de mídia — de 284 anúncios (DBI) a <strong>1.182 (BP10)</strong>. E a verba por
+    anúncio é estável (R$ 5,4–6,5 mil nas campanhas grandes), ou seja escalou-se em
+    <strong>número de criativos</strong>, não em verba por criativo.<br><br>
+    Google e PMax ficam fora desta contagem de propósito: o PMax não tem nível de anúncio e o Google
+    do warehouse traz id, não nome comparável — somar os três misturaria unidades.
+  </div>
+</section>
+
+<!-- ── QUEM COMPRA ─────────────────────────────────────────────────────────── -->
+<section>
+  <h2>Quem compra: membro, ex-membro ou gente de fora</h2>
+  <p class="sub">Status na data da primeira compra da campanha. É a métrica que mostra se a campanha
+     está vendendo para dentro da base ou conquistando gente nova.</p>
+
+  <div class="card">
+    <p class="label">Distribuição dos compradores por status (% da campanha)</p>
+    <div class="legenda">
+      <span><i class="dot" style="background:var(--s1)"></i> Membro ativo</span>
+      <span><i class="dot" style="background:var(--s2)"></i> Ex-membro</span>
+      <span><i class="dot" style="background:var(--s3)"></i> Nunca foi membro</span>
+    </div>
+    <canvas id="gStatus" height="200"></canvas>
+  </div>
+
+  <div class="nota">
+    <strong>A Travessia vendeu para a casa (84,8% membros); o BP10 vendeu para fora (54,8% nunca
+    foram membros).</strong> Isso é a mesma história do canal vista pelo outro lado: quem vende pela
+    base vende para membro, quem vende por mídia alcança quem nunca assinou.<br><br>
+    O caso que foge do padrão é o <strong>BNO25</strong>, com 61,9% de não-membros — mas ali a oferta
+    era assinatura de R$ 7,90, ou seja captação barata, não high-ticket.<br><br>
+    ⚠️ O status usa uma <strong>whitelist de planos de assinatura</strong>: sem ela, quem compra um
+    livro viraria “membro” pelo próprio ato de comprar (o sistema grava produto avulso como assinatura
+    ativa). A whitelist é a escolha certa aqui, mas <strong>não</strong> reproduz o indicador oficial
+    da casa — ver a seção de método.
+  </div>
+</section>
+
 <!-- ── TESTES DE ROBUSTEZ ──────────────────────────────────────────────────── -->
 <section>
   <h2>Dois testes que a conclusão precisa passar</h2>
@@ -542,10 +609,30 @@
       <canvas id="gResp" height="200"></canvas>
     </div>
   </div>
+  <div class="card" style="margin-top:16px">
+    <p class="label">O funil inteiro: abordagem → conversa → venda</p>
+    <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px">
+      “Venda” = venda comercial da mesma pessoa em até 14 dias da conversa (telefone ou e-mail),
+      mesmo método do relatório <code>comercial-abordagens</code>.</p>
+    <table>
+      <thead>
+        <tr><th>Campanha</th><th class="num">Abordagens</th><th class="num">Conversas</th>
+            <th class="num">% resposta</th><th class="num">Conversas com venda</th>
+            <th class="num">% conversa → venda</th><th class="num">% abordagem → venda</th></tr>
+      </thead>
+      <tbody id="tbComercial"></tbody>
+    </table>
+  </div>
+
   <div class="nota">
-    O time não encolheu — eram 37 vendedores ativos no BNO24 e 51 no BP10, com receita por vendedor
-    estável (R$ 546 mil → R$ 556 mil). O que caiu foi a <strong>resposta da base</strong>:
-    é preciso disparar cada vez mais para abrir a mesma conversa.
+    <strong>O funil do Comercial não quebrou no fechamento — quebrou no topo.</strong> A conversão
+    de conversa em venda ficou estável e até melhorou: 10,6% na Travessia, <strong>14,5% no BNO24
+    (o pico)</strong>, 12,3% no BP10. Quem sabe conversar continua fechando na mesma proporção.<br><br>
+    O que despencou foi <strong>abrir a conversa</strong> (73,8% → 36,6% de resposta) e, junto com o
+    teste 2 acima, o <strong>volume de abordagem</strong>: metade do BNO24. O resultado líquido é a
+    taxa abordagem → venda caindo de <strong>7,81% para 4,51%</strong>.<br><br>
+    O time não encolheu — eram 37 vendedores com venda no BNO24 e 51 no BP10, com receita por vendedor
+    estável (R$ 546 mil → R$ 556 mil).
   </div>
 </section>
 
@@ -634,6 +721,71 @@
     </table>
   </div>
   <div class="nota" id="notaFonte"></div>
+</section>
+
+<!-- ── CHECKLIST DO PEDIDO ─────────────────────────────────────────────────── -->
+<section>
+  <h2>A lista do pedido, item a item</h2>
+  <p class="sub">As oito métricas pedidas no início, onde cada uma está e o que ela diz.
+     Marcadas com ⚠️ as que têm ressalva de método que muda a leitura.</p>
+
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Métrica pedida</th><th>Onde está</th><th>O que diz</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Receita</strong></td>
+          <td>tabela final</td>
+          <td>R$ 8,0 mi (TRA) a R$ 40,3 mi (BNO24). Total das 9: R$ 150 mi.</td>
+        </tr>
+        <tr>
+          <td><strong>CAC</strong></td>
+          <td>“A conta que explica o CAC”</td>
+          <td>R$ 104 a R$ 828. ⚠️ Não é comparável entre tickets diferentes — usar ROAS.</td>
+        </tr>
+        <tr>
+          <td><strong>% de cada canal</strong></td>
+          <td>“A mídia não ficou pior”</td>
+          <td>Mídia 5,3% → 53,3% da receita; Comercial 68,2% → 26,5%. ⚠️ Último clique.</td>
+        </tr>
+        <tr>
+          <td><strong>Qtd. de ads</strong></td>
+          <td>“Quantos anúncios”</td>
+          <td>284 (DBI) a <strong>1.182 (BP10)</strong>, com verba por anúncio estável — escalou em
+              nº de criativos, não em verba por criativo. ⚠️ Só 5 das 9: o nome do anúncio existe no
+              warehouse desde ago/2025 e o token da Meta caiu em 18/09.</td>
+        </tr>
+        <tr>
+          <td><strong>CAC por canal</strong></td>
+          <td>“Quanto custa cada canal”</td>
+          <td>Mídia R$ 217–1.133 · Comercial R$ 68–217 · CRM R$ 42–484. ⚠️ Naturezas de custo diferentes; a comissão do Comercial é piso.</td>
+        </tr>
+        <tr>
+          <td><strong>Membros / ex / não-membros</strong></td>
+          <td>“Quem compra”</td>
+          <td>De 84,8% membros (TRA) a 54,8% nunca-membros (BP10).</td>
+        </tr>
+        <tr>
+          <td><strong>Disparos e conversas do Comercial + conversão</strong></td>
+          <td>“O canal que sustentava o high-ticket”</td>
+          <td>Resposta 73,8% → 36,6%; <strong>conversa → venda estável (10,6% → 12,3%)</strong>. O funil quebrou no topo, não no fechamento.</td>
+        </tr>
+        <tr>
+          <td><strong>Qtd. de disparos de CRM</strong></td>
+          <td>“CRM: o volume dobrou”</td>
+          <td>3 mi (TRA2) a 185 mi (BNO25) por campanha. Receita por mil: R$ 107 (BNO24) a R$ 5,68 (BNO25).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="nota">
+    <strong>O que o pedido não tinha e apareceu no caminho:</strong> a queda do Black November foi
+    <strong>troca de oferta</strong>, não de demanda; o <strong>ROAS do canal mídia fica abaixo do
+    piso de margem em 8 das 9 campanhas</strong>; e a migração para mídia foi um
+    <strong>degrau em meados de 2024</strong>, não uma deriva de três anos — o que muda a pergunta de
+    “por que a mídia cresceu” para “por que o Comercial não foi mobilizado de novo”.
+  </div>
 </section>
 
 <!-- ── MÉTODO ──────────────────────────────────────────────────────────────── -->
@@ -967,6 +1119,48 @@ function initCharts(D){
       <td class="num" style="color:var(--soft)">${rs(r.vl_cac_rateio_comprador)}</td>
       <td class="num" style="color:var(--soft)">${r.vl_roas_rateio_comprador!=null ? br(r.vl_roas_rateio_comprador,2)+'×' : '—'}</td>
     </tr>`).join('');
+
+  /* ── quantidade de anúncios ───────────────────────────────────────────── */
+  barra(gAds, nomes, C.map(c=>c.qt_anuncios), S1,
+        v=>v==null?null:br(v), v=>br(v)+' anúncios');
+
+  document.getElementById('tbAds').innerHTML = C.map(c=>`<tr>
+      <td><strong>${c.sigla}</strong></td>
+      <td class="num">${c.qt_anuncios!=null ? '<strong>'+br(c.qt_anuncios)+'</strong>' : '—'}</td>
+      <td class="num">${c.qt_conjuntos!=null ? br(c.qt_conjuntos) : '—'}</td>
+      <td class="num">${c.qt_campanhas_meta ? br(c.qt_campanhas_meta) : '—'}</td>
+      <td class="num">${c.vl_spend_por_anuncio!=null ? rs(c.vl_spend_por_anuncio) : '—'}</td>
+      <td style="font-size:11.5px;color:var(--muted)">${c.nm_fonte_contagem_ads ?? '—'}</td>
+    </tr>`).join('');
+
+  /* ── quem compra: status na data da compra ────────────────────────────── */
+  new Chart(gStatus, {
+    type:'bar',
+    data:{ labels:nomes, datasets:[
+      {label:'Membro ativo',    data:C.map(c=>c.pct_membro),     backgroundColor:S1},
+      {label:'Ex-membro',       data:C.map(c=>c.pct_ex_membro),  backgroundColor:S2},
+      {label:'Nunca foi membro',data:C.map(c=>c.pct_nao_membro), backgroundColor:S3}
+    ].map(d=>({...d, borderRadius:2, borderWidth:2, borderColor:'#ffffff', maxBarThickness:46}))},
+    options:{
+      aspectRatio:2.4,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>c.dataset.label+': '+pc(c.raw)}} },
+      scales:{ x:{...eixoX, stacked:true}, y:{...eixoY, stacked:true, max:100, ticks:{callback:v=>v+'%'}} }
+    }
+  });
+
+  /* ── funil do Comercial ───────────────────────────────────────────────── */
+  document.getElementById('tbComercial').innerHTML = C.map(c=>{
+    const abord = Math.round(c.qt_abordagens_dia * c.qt_dias);
+    return `<tr>
+      <td><strong>${c.sigla}</strong></td>
+      <td class="num">${br(abord)}</td>
+      <td class="num">${br(c.qt_conversas)}</td>
+      <td class="num">${pc(c.pct_resposta_abordagem)}</td>
+      <td class="num">${br(Math.round(c.qt_conversas * c.pct_conv_conversa / 100))}</td>
+      <td class="num"><strong>${pc(c.pct_conv_conversa)}</strong></td>
+      <td class="num">${pc(c.pct_conv_abordagem, 2)}</td>
+    </tr>`;
+  }).join('');
 
   /* ── testes de robustez ───────────────────────────────────────────────── */
   const U = {};

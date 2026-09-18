@@ -478,6 +478,64 @@ que é exatamente a decomposição do enquadramento descida ao nível de decisã
 
 ---
 
+### 8. Fechando a lista do pedido: anúncios, status do comprador e conversão do Comercial
+
+Auditando o relatório contra a lista de métricas do pedido original, três itens não estavam
+entregues. Foram fechados em 18/09.
+
+**Qtd. de anúncios** — anúncios distintos com verba na conta Meta, dentro da janela:
+
+| | TRA | TRA2 | BNO24 | BIT | BNO25 | DBI | CDL | BP10 | ODI |
+|---|---|---|---|---|---|---|---|---|---|
+| Anúncios | — | — | — | — | 690 | 284 | **897** | **1.182** | 506 |
+| Campanhas de anúncio (Meta) | — | 8 | 109 | 43 | 81 | 40 | 34 | 52 | 20 |
+| Verba por anúncio | — | — | — | — | R$ 6.479 | R$ 536 | R$ 5.393 | R$ 5.840 | R$ 3.166 |
+
+O volume de criativos cresceu junto com a dependência de mídia (284 → 1.182), e a **verba por
+anúncio ficou estável** (R$ 5,4–6,5 mil nas campanhas grandes): escalou-se em número de criativos,
+não em verba por criativo.
+
+⚠️ **Só 5 das 9, e a razão é externa.** O nome do anúncio só existe no warehouse desde ago/2025.
+Para TRA, TRA2, BNO24 e BIT a contagem exige a Marketing API em `level=ad` — o script está pronto
+(`scripts/extrai_meta_ads.py`, com janelas e retry), mas **o token da Meta foi invalidado em
+18/09/2026** (erro 190 / subcode 460: sessão encerrada por troca de senha ou decisão do Facebook).
+Renovado o token, o script fecha as quatro. Google e PMax ficam fora de propósito: PMax não tem
+nível de anúncio e o Google do warehouse traz id, não nome comparável.
+
+**Distribuição membro / ex-membro / não-membro** — estava no `data.json` mas só o "% não-membro"
+aparecia na página:
+
+| | TRA | TRA2 | BNO24 | BIT | BNO25 | DBI | CDL | BP10 | ODI |
+|---|---|---|---|---|---|---|---|---|---|
+| Membro ativo | **84,8** | 63,3 | 43,9 | 63,3 | 12,8 | 28,1 | 54,7 | 16,9 | 58,0 |
+| Ex-membro | 6,7 | 26,4 | 24,1 | 12,8 | 25,2 | 22,3 | 17,8 | **28,3** | 16,4 |
+| Nunca foi membro | 8,5 | 10,2 | 32,0 | 23,9 | **61,9** | 49,6 | 27,5 | **54,8** | 25,6 |
+
+A Travessia vendeu para dentro de casa (84,8% membros) e o BP10 vendeu para fora (54,8% nunca foram
+membros) — é a história do canal vista pelo outro lado. O BNO25 tem 61,9% de não-membros porque a
+oferta era assinatura de R$ 7,90: captação barata, não high-ticket.
+
+**Funil do Comercial completo** — o relatório tinha abordagens e conversas, faltava a conversão:
+
+| | TRA | TRA2 | BNO24 | BIT | BNO25 | DBI | CDL | BP10 | ODI |
+|---|---|---|---|---|---|---|---|---|---|
+| % resposta (abordagem → conversa) | **73,8** | 44,6 | 43,8 | 51,1 | 31,9 | 25,5 | 42,1 | 36,6 | 31,5 |
+| **% conversa → venda** | 10,6 | 9,5 | **14,5** | 8,2 | 10,5 | 8,5 | 12,6 | 12,3 | 12,8 |
+| % abordagem → venda | **7,81** | 4,22 | 6,34 | 4,17 | 3,36 | 2,18 | 5,29 | 4,51 | 4,03 |
+
+**O funil do Comercial não quebrou no fechamento — quebrou no topo.** A conversão de conversa em
+venda ficou estável e até melhorou (10,6% → 12,3%, com o BNO24 no pico de 14,5%): quem conversa
+continua fechando na mesma proporção. O que despencou foi **abrir a conversa** (73,8% → 36,6%) e,
+junto com o teste 2 do achado 1, o **volume de abordagem** (metade do BNO24). O líquido é a taxa
+abordagem → venda caindo de 7,81% para 4,51%.
+
+Isso reforça o diagnóstico do achado 1: o problema do Comercial é de **alcance e mobilização**, não
+de capacidade de venda. Método idêntico ao de `relatorios/comercial-abordagens` (venda comercial da
+mesma pessoa em 14d, por telefone ou e-mail) — ⚠️ é atribuição por proximidade temporal, mede
+"conversou e comprou", não "comprou por causa da conversa".
+
+---
+
 ## Revisão independente (17/09/2026)
 
 A análise passou por revisão crítica de um agente de analytics com acesso ao warehouse, que rodou
@@ -532,9 +590,13 @@ BP10/ODI/CDL.
       digital m=0,75 (`midia-paga/MARGEM.md`), vale checar se o BP10 ainda estava acima do piso.
 - [ ] **Custo real do Comercial**: pedir folha + ferramenta ao Financeiro para trocar a comissão de
       9% (piso) por custo total do canal. Sem isso, toda comparação mídia × Comercial é enviesada.
-- [ ] **CAC e ticket por criativo** (substitui o item antigo de "qtd. de anúncios"): repetir a
-      extração com `level=ad` nas 9 janelas e cruzar com `nm_pptc_utm_content` das transações.
-      É a decomposição do enquadramento no nível em que a mídia decide.
+- [ ] 🔑 **Renovar o token da Meta** (`~/meu_projeto/BigQuery/meta_api/.env`) — invalidado em
+      18/09/2026 (erro 190/460). Destrava: (a) a contagem de anúncios das 4 campanhas antigas
+      (`scripts/extrai_meta_ads.py`, pronto) e (b) o CAC e ticket por criativo. Sem ele a extração
+      de nível de campanha que já está no BQ continua válida — nada do relatório depende do token.
+- [ ] **CAC e ticket por criativo**: com o token renovado, `level=ad` nas 9 janelas cruzado com
+      `nm_pptc_utm_content` das transações. É a decomposição do enquadramento no nível em que a
+      mídia decide — e a versão respondível de "qual anúncio traz gente que compra caro".
 - [ ] **Reincidência como alerta operacional**: ODI vendeu 54% para quem já havia comprado no CDL.
       Vale medir canibalização entre lançamentos de livro antes do próximo.
 
@@ -551,6 +613,9 @@ BP10/ODI/CDL.
 | [queries/07_economia_por_canal.sql](queries/07_economia_por_canal.sql) | Custo, CAC e ROAS por campanha × canal + detalhe de disparos de CRM |
 | [queries/08_cac_por_produto.sql](queries/08_cac_por_produto.sql) | O que foi vendido em cada campanha + CAC por família nos dois rateios |
 | [queries/09_testes_atribuicao.sql](queries/09_testes_atribuicao.sql) | Os 2 testes de robustez: universo rastro×janela e série mensal de canal da casa |
+| [queries/10_conversao_comercial.sql](queries/10_conversao_comercial.sql) | Funil do Comercial: abordagem → conversa → venda em 14d |
+| [queries/11_qtd_anuncios.sql](queries/11_qtd_anuncios.sql) | Qtd. de anúncios, conjuntos e campanhas de anúncio por campanha |
+| [scripts/extrai_meta_ads.py](scripts/extrai_meta_ads.py) | Extração em `level=ad` nas 9 janelas (⚠️ requer token Meta válido) |
 | [scripts/extrai_meta_api.py](scripts/extrai_meta_api.py) | Spend Meta por campanha × dia via Marketing API (ago/2023+) |
 | [scripts/carrega_meta_bq.py](scripts/carrega_meta_bq.py) | Carrega o CSV em `bp-staging.dbt_abe.tb_ht_meta_spend` |
 | [refresh.py](refresh.py) | Roda tudo e gera `data.json` |

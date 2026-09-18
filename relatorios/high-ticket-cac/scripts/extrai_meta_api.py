@@ -88,9 +88,16 @@ def puxa(conta, ini, fim, token, prof=0):
 
 
 def contas(token):
+    """Lista as contas de anuncio. Retenta: get() devolve None em falha transitoria da API,
+    e sem a guarda o script morre no primeiro passo com TypeError."""
     url = f"{API}/me/adaccounts?" + urllib.parse.urlencode(
         {"fields": "id,name", "limit": 200, "access_token": token})
-    return [(a["id"], a["name"]) for a in get(url)["data"]]
+    for tentativa in range(5):
+        d = get(url)
+        if d and d.get("data"):
+            return [(a["id"], a["name"]) for a in d["data"]]
+        time.sleep(10 * (tentativa + 1))
+    raise RuntimeError("nao consegui listar as contas de anuncio apos 5 tentativas")
 
 
 def meses(desde, ate):

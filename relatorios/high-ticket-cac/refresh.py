@@ -185,6 +185,12 @@ def build() -> dict:
     produto.loc[mp, "vl_roas_rateio_comprador"] = (
         produto.loc[mp, "vl_receita"] / (verba / tot_comp * produto.loc[mp, "qt_compradores"])).round(2)
 
+    print("  quantidade de anúncios...", flush=True)
+    anuncios = bqq(AQUI / "queries" / "11_qtd_anuncios.sql")
+
+    print("  funil do Comercial (abordagem → conversa → venda)...", flush=True)
+    comercial = bqq(AQUI / "queries" / "10_conversao_comercial.sql")
+
     print("  testes de atribuição (universo e série da casa)...", flush=True)
     testes = bqq(AQUI / "queries" / "09_testes_atribuicao.sql")
 
@@ -198,10 +204,24 @@ def build() -> dict:
     # merge por sigla, nunca por posição: zip() silenciosamente atribuiria a reincidência
     # à campanha errada se uma das listas mudasse de tamanho ou de ordem
     reinc_por_sigla = reinc.set_index("sigla").to_dict("index")
+    comercial_por_sigla = comercial.set_index("sigla").to_dict("index")
+    anuncios_por_sigla = anuncios.set_index("sigla").to_dict("index")
     campanhas = [{k: nn(v) for k, v in linha.items()} for linha in cons.to_dict("records")]
     for c in campanhas:
         r = reinc_por_sigla.get(c["sigla"], {})
         c["pct_reincidente"] = nn(r.get("pct_reincidente"))
+        cm = comercial_por_sigla.get(c["sigla"], {})
+        c["qt_conversas"] = nn(cm.get("qt_conversas"))
+        c["pct_conv_conversa"] = nn(cm.get("pct_conv_conversa"))
+        c["pct_conv_abordagem"] = nn(cm.get("pct_conv_abordagem"))
+        an = anuncios_por_sigla.get(c["sigla"], {})
+        c["qt_anuncios"] = nn(an.get("qt_anuncios"))
+        c["qt_conjuntos"] = nn(an.get("qt_conjuntos"))
+        c["vl_spend_por_anuncio"] = nn(an.get("vl_spend_por_anuncio"))
+        c["nm_fonte_contagem_ads"] = nn(an.get("nm_fonte_contagem"))
+        # ⚠️ contagem de campanhas SÓ Meta, para ficar na mesma unidade da contagem de anúncios.
+        # O `qt_campanhas_midia` do consolidado conta Meta+Google+PMax e não é comparável.
+        c["qt_campanhas_meta"] = nn(an.get("qt_campanhas_meta"))
         c["nm_origem_principal"] = nn(r.get("nm_origem_principal"))
         c["pct_origem_principal"] = nn(r.get("pct_origem_principal"))
 
