@@ -35,6 +35,13 @@ comp AS (
     COUNTIF(st_status_compra = 'ex_membro')         AS qt_ex_membro,
     COUNTIF(st_status_compra = 'nao_membro')        AS qt_nao_membro,
     COUNTIF(NOT bl_ht_previo)                       AS qt_primeira_ht,
+    -- quanto da campanha é de fato ALTO TICKET (transação acima de R$ 1.000).
+    -- O universo do relatório é "todo comprador da campanha" — estas colunas dizem quanto
+    -- disso é high-ticket de verdade. Em BNO25 e DBI a diferença inverte o perfil do comprador.
+    COUNTIF(vl_maior_tx > 1000)                     AS qt_comp_ht,
+    SUM(IF(vl_maior_tx > 1000, vl_receita, 0))      AS vl_rec_ht,
+    COUNTIF(st_status_compra = 'membro'     AND vl_maior_tx > 1000) AS qt_membro_ht,
+    COUNTIF(st_status_compra = 'nao_membro' AND vl_maior_tx > 1000) AS qt_nao_membro_ht,
     SUM(IF(bl_vitalicio_previo, 0, IF(REGEXP_CONTAINS(LOWER(nm_plano_principal), r'vital'), vl_receita, 0))) AS vl_rec_vitalicio
   FROM `bp-staging.dbt_abe.tb_ht_compradores`
   WHERE bl_universo_principal
@@ -161,6 +168,10 @@ SELECT
   ROUND(100 * c.qt_ex_membro  / c.qt_compradores, 1)            AS pct_ex_membro,
   ROUND(100 * c.qt_nao_membro / c.qt_compradores, 1)            AS pct_nao_membro,
   ROUND(100 * c.qt_primeira_ht / c.qt_compradores, 1)           AS pct_primeira_ht,
+  ROUND(100 * c.vl_rec_ht  / c.vl_receita, 1)                   AS pct_receita_ht,
+  ROUND(100 * c.qt_comp_ht / c.qt_compradores, 1)               AS pct_compradores_ht,
+  ROUND(100 * c.qt_membro_ht     / NULLIF(c.qt_comp_ht, 0), 1)  AS pct_membro_ht,
+  ROUND(100 * c.qt_nao_membro_ht / NULLIF(c.qt_comp_ht, 0), 1)  AS pct_nao_membro_ht,
   -- esforço
   ROUND(cr.qt_disparos / (DATE_DIFF(w.dt_fim, w.dt_ini, DAY) + 1)) AS qt_disparos_dia,
   ROUND(cr.vl_receita_crm_janela / NULLIF(cr.qt_disparos / 1000, 0), 2) AS vl_crm_por_1k,

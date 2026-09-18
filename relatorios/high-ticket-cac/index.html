@@ -47,16 +47,17 @@
     .stat .c { font-size:13px; color:var(--muted); margin-top:8px; }
     .stat.up .n { color:var(--critical); }
     .stat.down .n { color:var(--good); }
-    table { width:100%; border-collapse:collapse; font-size:13.5px; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
     th { text-align:left; font-weight:600; color:var(--muted); font-size:11px;
          text-transform:uppercase; letter-spacing:.05em;
          border-bottom:2px solid var(--line); padding:10px 8px; }
-    td { padding:10px 8px; border-bottom:1px solid var(--line); }
+    td { padding:10px 7px; border-bottom:1px solid var(--line); }
     tr:last-child td { border-bottom:none; }
     td.num,th.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
     tbody tr:hover { background:#fafbfc; }
     .campanha { font-weight:700; }
-    .campanha small { display:block; font-weight:400; color:var(--soft); font-size:11px; }
+    .campanha small { display:block; font-weight:400; color:var(--soft); font-size:10.5px;
+                      white-space:nowrap; }
     .destaque { background:#eff6ff; border-radius:10px; padding:20px 24px; margin:20px 0;
                 font-size:15px; border:1px solid #dbeafe; }
     .destaque b { color:var(--s1); }
@@ -130,7 +131,8 @@
 <!-- ══ OS NÚMEROS ══ -->
 <section>
   <h2>Os números, campanha a campanha</h2>
-  <p class="sub">As oito métricas combinadas para o estudo, lado a lado.</p>
+  <p class="sub">As oito métricas combinadas para o estudo, lado a lado. A última coluna mostra
+     quanto da receita de cada campanha foi de fato de alto ticket — acima de R$ 1.000.</p>
 
   <div class="card" style="overflow-x:auto">
     <table>
@@ -138,8 +140,8 @@
         <tr>
           <th>Campanha</th><th class="num">Receita</th><th class="num">Ticket</th>
           <th class="num">Mídia</th><th class="num">CAC</th><th class="num">Retorno</th>
-          <th class="num">Anúncios</th><th class="num">Veio de mídia</th>
-          <th class="num">Nunca foi membro</th>
+          <th class="num">Ads</th><th class="num">% mídia</th>
+          <th class="num">% não-membro</th><th class="num">% alto ticket</th>
         </tr>
       </thead>
       <tbody id="tbResumo"></tbody>
@@ -259,7 +261,7 @@
   <p class="sub">Situação da pessoa no dia da compra.</p>
 
   <div class="card">
-    <p class="label">Perfil dos compradores (% da campanha)</p>
+    <p class="label">Perfil dos compradores — todos os compradores da campanha</p>
     <div class="legenda">
       <span><i class="dot" style="background:var(--s1)"></i> Membro ativo</span>
       <span><i class="dot" style="background:var(--s2)"></i> Ex-membro</span>
@@ -274,6 +276,27 @@
      por mídia alcança quem nunca assinou.</p>
 
   <div class="nota">
+    <strong>⚠️ Este gráfico conta todos os compradores da campanha, não só os de alto ticket</strong>
+    — como todo o resto do relatório. Nas sete campanhas em que o alto ticket é 88% ou mais da
+    receita isso não muda nada. Nas <strong>duas em que muda, inverte</strong>:
+    <table style="margin-top:12px">
+      <thead><tr><th></th><th class="num">Alto ticket<br>na receita</th>
+        <th class="num">Todos os compradores<br>membro · nunca-membro</th>
+        <th class="num">Só alto ticket<br>membro · nunca-membro</th></tr></thead>
+      <tbody>
+        <tr><td><strong>BF 2025</strong></td><td class="num">51%</td>
+            <td class="num">12,8% · 61,9%</td><td class="num"><strong>69,2% · 17,0%</strong></td></tr>
+        <tr><td><strong>Bitcoin 2</strong></td><td class="num">37%</td>
+            <td class="num">28,1% · 49,6%</td><td class="num"><strong>67,7% · 22,6%</strong></td></tr>
+        <tr><td>BP10 (para comparar)</td><td class="num">88%</td>
+            <td class="num">16,9% · 54,8%</td><td class="num">20,9% · 52,0%</td></tr>
+      </tbody>
+    </table>
+    <br>
+    Faz sentido: o BF 2025 e o Bitcoin 2 venderam sobretudo produto de entrada barato, e quem compra
+    entrada barata é gente de fora. <strong>Quem levou o produto caro nessas campanhas era membro da
+    base</strong> — a leitura de “vendemos para fora” vale para a promoção inteira, não para o alto
+    ticket.<br><br>
     <strong>A base não está esgotada:</strong> 88% dos membros nunca compraram um produto de alto
     ticket. O sinal de desgaste está em outro lugar — na <strong>reincidência</strong>: metade dos
     compradores da Odisseia já tinha comprado em campanha anterior, e 41% vieram especificamente do
@@ -504,6 +527,10 @@ function empilhado(el, labels, series, opts={}) {
 
 function initCharts(D) {
   const C = D.campanhas;
+  /* nomes curtos para caber na tabela sem quebrar linha */
+  D.rotulos = {TRA:'Travessia', TRA2:'Travessia 2ª', BNO24:'Black Nov. 2024', BIT:'Cert. Bitcoin 1',
+               BNO25:'Black Nov. 2025', DBI:'Cert. Bitcoin 2', CDL:'Clube do Livro',
+               BP10:'BP 10 Anos', ODI:'Odisseia'};
   const nomes = C.map(c=>c.sigla);
   const upd = document.getElementById('lastUpdate');
   if (upd) upd.textContent = 'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
@@ -512,7 +539,7 @@ function initCharts(D) {
   document.getElementById('tbResumo').innerHTML = C.map(c=>{
     const cor = c.vl_roas>=5 ? 'var(--good)' : (c.vl_roas<2.5 ? 'var(--critical)' : 'var(--text)');
     return `<tr>
-      <td class="campanha">${c.sigla}<small>${c.nm_campanha}</small></td>
+      <td class="campanha">${c.sigla}<small>${(D.rotulos||{})[c.sigla] || c.nm_campanha}</small></td>
       <td class="num">${mi(c.vl_receita)}</td>
       <td class="num">${rs(c.vl_ticket)}</td>
       <td class="num">${mi(c.vl_midia)}</td>
@@ -521,6 +548,7 @@ function initCharts(D) {
       <td class="num">${br(c.qt_anuncios)}</td>
       <td class="num">${pc(c.pct_comp_midia)}</td>
       <td class="num">${pc(c.pct_nao_membro)}</td>
+      <td class="num" style="color:${c.pct_receita_ht<70?'var(--critical)':'var(--muted)'}">${pc(c.pct_receita_ht)}</td>
     </tr>`;
   }).join('');
 

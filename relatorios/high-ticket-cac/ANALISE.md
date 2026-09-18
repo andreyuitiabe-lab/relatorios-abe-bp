@@ -480,6 +480,40 @@ que é exatamente a decomposição do enquadramento descida ao nível de decisã
 
 ---
 
+### 7b. Universo: o relatório conta TODOS os compradores, não só os de alto ticket
+
+**Pergunta do André (18/09):** os gráficos contam só as vendas high-ticket ou o geral da campanha?
+
+**Resposta: o geral.** O "high-ticket" do título se refere ao tipo de *lançamento*, não a um filtro
+de transação. O universo é consistente em todo o relatório — todo comprador da campanha — e é a
+mesma convenção da planilha do time de tráfego (BNO24 = toda venda nova de novembro).
+
+Quanto da campanha é de fato alto ticket (transação acima de R$ 1.000):
+
+| | TRA | TRA2 | BNO24 | BIT | BNO25 | DBI | CDL | BP10 | ODI |
+|---|---|---|---|---|---|---|---|---|---|
+| % da receita | 99,5 | 92,2 | 94,7 | 95,9 | **51,2** | **36,6** | 96,4 | 88,0 | 93,7 |
+| % dos compradores | 97,7 | 70,4 | 63,7 | 56,2 | **6,0** | **2,7** | 89,2 | 55,6 | 78,7 |
+
+Em sete das nove, alto ticket é 88%+ da receita e a distinção não muda nada. **Nas duas em que
+muda, ela inverte o perfil do comprador:**
+
+| | Todos os compradores | Só alto ticket |
+|---|---|---|
+| **BNO25** | 12,8% membro · 61,9% nunca-membro | **69,2% membro · 17,0% nunca-membro** |
+| **DBI** | 28,1% · 49,6% | **67,7% · 22,6%** |
+| BP10 (controle) | 16,9% · 54,8% | 20,9% · 52,0% |
+
+Faz sentido: BNO25 e DBI venderam sobretudo produto de entrada barato (R$ 7,90 e R$ 48), e quem
+compra entrada barata é gente de fora. **Quem levou o produto caro nessas duas era membro da base.**
+
+⚠️ **Consequência para leitura:** a frase "o BNO25 vendeu para fora" vale para a promoção inteira,
+não para o alto ticket. A página agora traz a coluna "% alto ticket" na tabela mestra e essa
+comparação na nota do gráfico de perfil. As demais métricas (CAC, receita, mix de canal) seguem no
+universo completo de propósito — mudar o universo de um gráfico só criaria inconsistência.
+
+---
+
 ### 8. Fechando a lista do pedido: anúncios, status do comprador e conversão do Comercial
 
 Auditando o relatório contra a lista de métricas do pedido original, três itens não estavam
