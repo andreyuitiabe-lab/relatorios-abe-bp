@@ -2,7 +2,9 @@
 
 **Data:** 2026-09-17 | **Status:** concluída (relatório vivo) · **revisado por agente independente
 em 17/09** — 6 erros corrigidos e 2 testes de robustez incorporados (ver §Revisão independente)
-**Relatório:** [index.html](index.html)
+**Relatório:** [index.html](index.html) — reescrito em 18/09 para leitura de negócio: resultado na
+frente, método no fim, sem jargão. **Este memo é o documento técnico**: todo o detalhe de método,
+as ressalvas, a revisão independente e o histórico de correções ficam aqui, não na página.
 **Pedido (André):** nos últimos anos lançamos produtos de alto ticket. No começo vendíamos bem
 com CAC baixo e alta eficiência de CRM; ultimamente dependemos mais de anúncios e o CAC subiu.
 Entender se **(1)** fizemos algo diferente, **(2)** o perfil do público está saturando, ou

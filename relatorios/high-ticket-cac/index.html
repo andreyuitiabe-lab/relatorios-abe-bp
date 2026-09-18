@@ -9,65 +9,72 @@
     :root {
       --bg:#f8fafc; --card:#ffffff; --line:#e2e8f0; --text:#1e293b;
       --muted:#475569; --soft:#94a3b8;
-      /* séries — ordem fixa, paleta validada (skill dataviz) contra superfície #ffffff */
-      --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
-      --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948;
-      --good:#0ca30c; --warning:#fab219; --serious:#ec835a; --critical:#d03b3b;
+      --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s7:#4a3aa7;
+      --good:#0ca30c; --warning:#fab219; --critical:#d03b3b;
       --grid:#e1e0d9; --baseline:#c3c2b7;
     }
     *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
     body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-           background:var(--bg); color:var(--text); font-size:14px; line-height:1.6; }
-    .wrap { max-width:960px; margin:0 auto; padding:48px 24px 80px; }
-    section { margin-bottom:56px; }
-    h1 { font-size:26px; font-weight:700; }
-    h2 { font-size:18px; font-weight:700; margin-bottom:6px; }
-    h2 + .sub { margin-bottom:16px; }
-    .sub { color:var(--muted); font-size:13px; margin-top:4px; }
+           background:var(--bg); color:var(--text); font-size:15px; line-height:1.65; }
+    .wrap { max-width:940px; margin:0 auto; padding:48px 24px 90px; }
+    section { margin-bottom:64px; }
+    h1 { font-size:30px; font-weight:800; letter-spacing:-0.02em; }
+    h2 { font-size:21px; font-weight:700; letter-spacing:-0.01em; margin-bottom:8px; }
+    h3 { font-size:16px; font-weight:700; }
+    p { margin-bottom:12px; } p:last-child { margin-bottom:0; }
+    .sub { color:var(--muted); font-size:14.5px; margin-bottom:20px; }
     .label { font-size:11px; font-weight:600; text-transform:uppercase;
-             letter-spacing:.06em; color:var(--soft); margin-bottom:12px; }
-    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:24px; }
+             letter-spacing:.07em; color:var(--soft); margin-bottom:14px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:26px; }
     .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-    @media (max-width:640px){ .grid-2,.grid-3 { grid-template-columns:1fr; } }
-    .stats { display:flex; gap:32px; flex-wrap:wrap; margin-bottom:24px; }
-    .bigstat .bs-num { font-size:36px; font-weight:800; color:var(--s1); line-height:1; }
-    .bigstat .bs-num.g { color:var(--good); }
-    .bigstat .bs-num.r { color:var(--critical); }
-    .bigstat .bs-cap { font-size:12px; color:var(--muted); margin-top:4px; max-width:200px; }
-    table { width:100%; border-collapse:collapse; font-size:13px; }
+    @media (max-width:700px){ .grid-2 { grid-template-columns:1fr; } }
+    .resp { background:var(--card); border:1px solid var(--line); border-left:5px solid var(--s1);
+            border-radius:10px; padding:22px 26px; margin-bottom:14px; }
+    .resp h3 { margin-bottom:8px; }
+    .resp p { color:var(--muted); font-size:14.5px; }
+    .resp .veredito { display:inline-block; font-size:11px; font-weight:700; letter-spacing:.05em;
+                      text-transform:uppercase; padding:3px 10px; border-radius:20px; margin-bottom:10px; }
+    .resp.sim { border-left-color:var(--critical); }
+    .resp.sim .veredito { background:#fee2e2; color:#991b1b; }
+    .resp.meio { border-left-color:var(--warning); }
+    .resp.meio .veredito { background:#fef3c7; color:#92400e; }
+    .resp.nao { border-left-color:var(--good); }
+    .resp.nao .veredito { background:#d1fae5; color:#065f46; }
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin:24px 0; }
+    @media (max-width:700px){ .stats { grid-template-columns:1fr; } }
+    .stat { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:20px; }
+    .stat .n { font-size:34px; font-weight:800; line-height:1.05; letter-spacing:-0.02em; }
+    .stat .c { font-size:13px; color:var(--muted); margin-top:8px; }
+    .stat.up .n { color:var(--critical); }
+    .stat.down .n { color:var(--good); }
+    table { width:100%; border-collapse:collapse; font-size:13.5px; }
     th { text-align:left; font-weight:600; color:var(--muted); font-size:11px;
          text-transform:uppercase; letter-spacing:.05em;
-         border-bottom:2px solid var(--line); padding:8px 10px; }
-    td { padding:8px 10px; border-bottom:1px solid var(--line); }
+         border-bottom:2px solid var(--line); padding:10px 8px; }
+    td { padding:10px 8px; border-bottom:1px solid var(--line); }
     tr:last-child td { border-bottom:none; }
     td.num,th.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
-    td:first-child { min-width:150px; }
-    .tag { display:inline-block; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:600; }
-    .t-b { background:#dbeafe; color:#1d4ed8; }
-    .t-g { background:#d1fae5; color:#065f46; }
-    .t-r { background:#fee2e2; color:#991b1b; }
-    .t-n { background:#f1f5f9; color:#475569; }
+    tbody tr:hover { background:#fafbfc; }
+    .campanha { font-weight:700; }
+    .campanha small { display:block; font-weight:400; color:var(--soft); font-size:11px; }
+    .destaque { background:#eff6ff; border-radius:10px; padding:20px 24px; margin:20px 0;
+                font-size:15px; border:1px solid #dbeafe; }
+    .destaque b { color:var(--s1); }
     .nota { background:#f8fafc; border:1px solid var(--line); border-radius:8px;
-            padding:12px 16px; font-size:12.5px; color:var(--muted); margin-top:16px; }
+            padding:14px 18px; font-size:13px; color:var(--muted); margin-top:16px; }
     .nota strong { color:var(--text); }
-    .veredito { background:#fff; border:1px solid var(--line); border-left:4px solid var(--s1);
-                border-radius:8px; padding:20px 24px; margin-bottom:16px; }
-    .veredito h3 { font-size:15px; margin-bottom:6px; }
-    .veredito p { color:var(--muted); font-size:13.5px; }
-    .veredito.sim { border-left-color:var(--critical); }
-    .veredito.parcial { border-left-color:var(--warning); }
-    .veredito.nao { border-left-color:var(--good); }
-    .conta { font-variant-numeric:tabular-nums; background:#f1f5f9; border-radius:8px;
-             padding:16px 20px; margin-top:16px; font-size:14px; }
-    .conta b { color:var(--s1); }
-    header { margin-bottom:40px; padding-bottom:24px; border-bottom:2px solid var(--line); }
-    footer { margin-top:64px; padding-top:24px; border-top:1px solid var(--line);
-             font-size:12px; color:var(--soft); }
-    .legenda { display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--muted);
-               margin-bottom:12px; }
-    .legenda span { display:flex; align-items:center; gap:6px; }
-    .dot { width:10px; height:10px; border-radius:3px; display:inline-block; }
+    .legenda { display:flex; gap:18px; flex-wrap:wrap; font-size:12.5px; color:var(--muted);
+               margin-bottom:14px; }
+    .legenda span { display:flex; align-items:center; gap:7px; }
+    .dot { width:11px; height:11px; border-radius:3px; display:inline-block; }
+    ul { margin:10px 0 0 20px; } li { margin-bottom:7px; color:var(--muted); font-size:14.5px; }
+    li strong { color:var(--text); }
+    header { margin-bottom:44px; padding-bottom:26px; border-bottom:2px solid var(--line); }
+    footer { margin-top:70px; padding-top:26px; border-top:1px solid var(--line);
+             font-size:12.5px; color:var(--soft); }
+    .acao { border-left:3px solid var(--s1); padding-left:18px; margin-bottom:24px; }
+    .acao h3 { margin-bottom:6px; }
+    .acao p { color:var(--muted); font-size:14.5px; }
   </style>
 </head>
 <body>
@@ -76,796 +83,352 @@
 <header>
   <p class="label">Brasil Paralelo · Mídia paga &amp; Campanhas</p>
   <h1>High-ticket: por que o CAC subiu</h1>
-  <p class="sub">Nove lançamentos de alto ticket, da Travessia (abr/2023) ao BP10 (set/2026).
-     Verba de mídia reconstruída campanha a campanha desde ago/2023 pela Marketing API do Meta.</p>
+  <p class="sub" style="margin-top:10px;margin-bottom:0">
+    Nove lançamentos de alto ticket, da Travessia (abr/2023) ao BP10 (set/2026) —
+    R$ 130 milhões de receita e R$ 28 milhões de mídia.</p>
 </header>
 
 <main>
 
-<!-- ── RESPOSTA ────────────────────────────────────────────────────────────── -->
+<!-- ══ A RESPOSTA ══ -->
 <section>
-  <h2>A resposta em três linhas</h2>
-  <p class="sub">As três hipóteses levantadas têm pesos muito diferentes.</p>
+  <h2>A resposta</h2>
+  <p class="sub">A pergunta era se o CAC subiu porque fizemos algo diferente, porque o público
+     saturou, ou porque a demanda reprimida acabou.</p>
 
-  <div class="veredito sim">
-    <h3>1. “A gente fez alguma coisa diferente?” — <strong>Sim, e é a explicação principal</strong></h3>
-    <p>Mudou a <strong>oferta</strong> (o Black November de 2025 deixou de vender vitalício, e o
-       ticket do próprio vitalício caiu 20%) e mudou o <strong>esforço do Comercial</strong>: metade
-       das abordagens por dia do BNO24, com o mesmo time e o mesmo tipo de oferta. O CAC subiu por
-       <em>mix de canal</em>, não por preço de mídia.<br><br>
-       ⚠️ <strong>Correção de moldura:</strong> não foi uma migração gradual de três anos. A casa
-       inteira deu um degrau para mídia em meados de 2024 e opera em ~45–55% desde então — o BNO24
-       (19,8% de mídia) é que foi uma mobilização excepcional do Comercial. A pergunta certa não é
-       “por que a mídia cresceu”, é <strong>“por que o Comercial não foi mobilizado de novo”</strong>.</p>
+  <div class="resp sim">
+    <span class="veredito">Sim — e é a explicação principal</span>
+    <h3>Fizemos duas coisas diferentes</h3>
+    <p>Mudamos a <strong>oferta</strong>: o Black Friday de 2025 parou de vender vitalício.
+       E mudamos o <strong>esforço do Comercial</strong>: metade das abordagens por dia, com o
+       mesmo time e o mesmo tipo de produto.</p>
   </div>
-  <div class="veredito parcial">
-    <h3>2. “O público está saturando?” — <strong>Parcialmente, e no canal, não na base</strong></h3>
-    <p>O Comercial responde menos da metade do que respondia (74% → 31% das abordagens viram
-       conversa, de forma irregular) e as campanhas de 2026 revendem para os mesmos compradores —
-       50,7% dos compradores da Odisseia já tinham comprado antes, 40,8% no Clube do Livro.
-       Mas 88% da base nunca comprou high-ticket, e a penetração por campanha não tem tendência
-       de queda.</p>
+
+  <div class="resp meio">
+    <span class="veredito">Em parte — e não onde se imagina</span>
+    <h3>O público não está mais resistente. Está mais difícil de alcançar</h3>
+    <p>A resposta às abordagens caiu de 74% para 31%. Mas quem responde <strong>compra na mesma
+       proporção de antes</strong> — a conversão de conversa em venda até melhorou. O problema é
+       chamar a atenção, não convencer.</p>
   </div>
-  <div class="veredito nao">
-    <h3>3. “Era demanda reprimida se esgotando?” — <strong>Não em volume</strong></h3>
-    <p>2026 é o maior ano de high-ticket da história: R$ 82,6 mi em 8 meses e meio, contra
-       R$ 76,1 mi no ano inteiro de 2023. A demanda não acabou — ficou mais cara de alcançar.</p>
+
+  <div class="resp nao">
+    <span class="veredito">Não</span>
+    <h3>A demanda não acabou</h3>
+    <p>2026 é o maior ano de high-ticket da história: <strong>R$ 82,6 milhões em oito meses e
+       meio</strong>, contra R$ 76,1 milhões no ano inteiro de 2023. E 88% da base nunca comprou
+       um produto de alto ticket.</p>
   </div>
-  <div class="veredito sim">
-    <h3>4. O achado mais acionável, que não estava no pedido — <strong>a mídia não se paga no
-       last-click em 6 das 8 campanhas</strong></h3>
-    <p>ROAS do canal mídia por campanha: 0,13× a 2,31×. Com a margem digital de 0,75, o piso é
-       <strong>1,33×</strong> — e só o Clube do Livro passa. O número é pessimista por construção
-       (a verba é do lançamento inteiro e alimenta as vendas dos outros canais), mas é a tabela que
-       responde “desligar ou manter” por campanha, e ela já existe.</p>
+
+  <div class="destaque">
+    <strong>E um achado que não estava na pergunta:</strong> pelo último clique,
+    <b>a mídia não se paga em 8 das 9 campanhas</b>. O retorno do canal vai de 0,13× a 2,31×, e o
+    mínimo para empatar com a margem é 1,33× — só o Clube do Livro passa.
   </div>
 </section>
 
-<!-- ── DUAS ALAVANCAS ──────────────────────────────────────────────────────── -->
+<!-- ══ OS NÚMEROS ══ -->
 <section>
-  <h2>Duas alavancas, dois donos</h2>
-  <p class="sub">O anúncio dessas campanhas não vende um produto — ele compra atenção para a campanha
-     inteira, e quem decide o que a pessoa leva é a oferta. Isso separa o problema em dois pedaços
-     com donos diferentes, ligados por uma identidade exata.</p>
+  <h2>Os números, campanha a campanha</h2>
+  <p class="sub">As oito métricas combinadas para o estudo, lado a lado.</p>
 
-  <div class="conta" style="text-align:center; font-size:19px; padding:22px">
-    <b>ROAS</b> &nbsp;=&nbsp; <b>ticket médio</b> &nbsp;÷&nbsp; <b>CAC</b>
-    <div style="font-size:13px; color:var(--muted); margin-top:10px; font-weight:400">
-      Não é aproximação: receita ÷ verba = (compradores × ticket) ÷ (compradores × CAC).
-      Confere na segunda casa decimal nas nove campanhas.
-    </div>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Campanha</th><th class="num">Receita</th><th class="num">Ticket</th>
+          <th class="num">Mídia</th><th class="num">CAC</th><th class="num">Retorno</th>
+          <th class="num">Anúncios</th><th class="num">Veio de mídia</th>
+          <th class="num">Nunca foi membro</th>
+        </tr>
+      </thead>
+      <tbody id="tbResumo"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══ POR QUE O CAC SUBIU ══ -->
+<section>
+  <h2>Por que o CAC subiu</h2>
+  <p class="sub">A comparação limpa é Black Friday 2024 contra BP10: as duas vendiam vitalício
+     para a base.</p>
+
+  <div class="stats">
+    <div class="stat up"><div class="n">+129%</div>
+      <div class="c">o CAC foi de R$ 186 para R$ 426</div></div>
+    <div class="stat down"><div class="n">−13%</div>
+      <div class="c">mas o custo de trazer um comprador <em>pela mídia</em> caiu</div></div>
+    <div class="stat up"><div class="n">19% → 50%</div>
+      <div class="c">a fatia de compradores que chega por mídia quase triplicou</div></div>
   </div>
 
-  <div class="card" style="margin-top:16px">
-    <p class="label">Onde cada campanha caiu — CAC (mídia) × ticket (oferta)</p>
-    <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px">
-      As linhas tracejadas são ROAS constante: quanto mais acima e à esquerda, melhor.
-      Mover para a esquerda é trabalho de mídia; mover para cima é trabalho de oferta.</p>
+  <div class="destaque">
+    O CAC não subiu porque a mídia ficou cara. Subiu porque <b>a mídia virou o motor</b>.
+    Antes ela trazia um em cada cinco compradores e o resto vinha do Comercial e do CRM, que não
+    entram na conta do CAC. Hoje traz metade — então a mesma verba se divide por menos gente
+    "de graça".
+  </div>
+
+  <div class="card">
+    <p class="label">Cada campanha entre as duas alavancas: o que custa trazer alguém × quanto essa
+       pessoa paga</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+      As linhas tracejadas são retorno constante. Quanto mais para cima e para a esquerda, melhor.
+      Ir para a esquerda é trabalho de mídia; subir é trabalho de oferta.</p>
     <canvas id="gAlavancas" height="230"></canvas>
   </div>
 
-  <div class="grid-2" style="margin-top:16px">
-    <div class="card">
-      <p class="label">A queda do ROAS entre as duas campanhas de vitalício</p>
-      <table>
-        <thead><tr><th>Alavanca</th><th>Dono</th><th class="num">BNO24</th><th class="num">BP10</th></tr></thead>
-        <tbody>
-          <tr><td><strong>CAC</strong> — custo de trazer um comprador</td><td>mídia</td>
-              <td class="num">R$ 186</td><td class="num">R$ 426</td></tr>
-          <tr><td><strong>Ticket</strong> — quanto ele paga</td><td>oferta</td>
-              <td class="num">R$ 1.374</td><td class="num">R$ 1.003</td></tr>
-          <tr><td><strong>ROAS</strong></td><td>os dois</td>
-              <td class="num">7,37×</td><td class="num">2,35×</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="card">
-      <p class="label">De quem é a queda (decomposição logarítmica)</p>
-      <div class="legenda">
-        <span><i class="dot" style="background:var(--s1)"></i> CAC (mídia)</span>
-        <span><i class="dot" style="background:var(--s2)"></i> Ticket (oferta)</span>
-      </div>
-      <canvas id="gDecomp" height="150"></canvas>
-      <p style="font-size:12.5px;color:var(--muted);margin-top:10px">
-        <strong>72% do movimento é CAC, 28% é ticket.</strong> Uma alavanca não compensa a outra:
-        para o BP10 empatar o ROAS do BNO24 só com ticket, teria que vender a R$ 3.141.<br><br>
-        ⚠️ Como o CAC é ele próprio <em>CAC do canal × share de mídia</em>, a decomposição fiel tem
-        <strong>três</strong> fatores, e ela mostra o que a de dois esconde: <strong>share de mídia
-        85%</strong> (contra) · <strong>ticket 28%</strong> (contra) · <strong>CAC do canal −12%</strong>
-        (<em>a favor</em>). A conta que chega na mídia é majoritariamente mix; o preço que ela
-        controla melhorou.</p>
-    </div>
-  </div>
-
   <div class="nota">
-    <strong>Por que isso importa para o resto do relatório:</strong> como a mídia compra
-    <em>comprador</em> e não <em>produto</em>, não existe "verba do vitalício". Tudo o que vem depois
-    sobre produto é leitura de <strong>o que a oferta entregou</strong> — onde o faturamento caiu e
-    quanto do custo cada família carrega no P&amp;L — e não de quanto custou adquirir cada produto.
+    <strong>Retorno = ticket ÷ CAC.</strong> É uma identidade exata, não uma aproximação — e por
+    isso separa a responsabilidade: a mídia controla o CAC, a oferta controla o ticket. Entre o
+    Black Friday 2024 e o BP10, <strong>72% da queda do retorno veio do CAC e 28% do ticket</strong>.
+    Uma alavanca não compensa a outra: para o BP10 empatar o retorno do BF24 só com preço, teria
+    que vender a R$ 3.141.
   </div>
 </section>
 
-<!-- ── A CONTA ─────────────────────────────────────────────────────────────── -->
+<!-- ══ O MOTOR TROCOU ══ -->
 <section>
-  <h2>A conta que explica o CAC</h2>
-  <p class="sub">O CAC médio de uma campanha é, por identidade aritmética, o CAC do canal de mídia
-     multiplicado pela fatia de compradores que chega por mídia.</p>
+  <h2>O motor trocou de canal</h2>
+  <p class="sub">De onde veio cada comprador, campanha a campanha.</p>
 
-  <div class="stats">
-    <div class="bigstat">
-      <div class="bs-num" id="statRoasTra">—</div>
-      <div class="bs-cap">ROAS da Travessia (2023) — R$ 8,0 mi de receita sobre R$ 0,87 mi de mídia</div>
-    </div>
-    <div class="bigstat">
-      <div class="bs-num r" id="statRoasBp10">—</div>
-      <div class="bs-cap">ROAS do BP10 (2026) — R$ 18,7 mi sobre R$ 7,9 mi</div>
-    </div>
-    <div class="bigstat">
-      <div class="bs-num g" id="statCpc">—</div>
-      <div class="bs-cap">queda do custo por clique entre BNO24 e BP10 — a mídia ficou mais barata</div>
-    </div>
-  </div>
-
-  <div class="conta" id="contaMix"></div>
-
-  <div class="grid-2" style="margin-top:16px">
-    <div class="card">
-      <p class="label">CAC por campanha (mídia ÷ compradores)</p>
-      <canvas id="gCac" height="220"></canvas>
-    </div>
-    <div class="card">
-      <p class="label">ROAS por campanha (receita ÷ mídia)</p>
-      <canvas id="gRoas" height="220"></canvas>
-    </div>
-  </div>
-  <div class="nota">
-    <strong>Por que dois gráficos e não um com dois eixos:</strong> CAC e ROAS têm escalas diferentes;
-    sobrepor num eixo duplo faria as duas curvas se cruzarem em pontos arbitrários.
-    O <strong>ROAS é a métrica comparável</strong> entre campanhas de ticket diferente — o CAC do
-    BNO25 parece ótimo (R$ 104) só porque ele vendeu assinatura de R$ 345 em vez de vitalício de R$ 1.374.
-  </div>
-</section>
-
-<!-- ── MÍDIA NÃO PIOROU ────────────────────────────────────────────────────── -->
-<section>
-  <h2>A mídia não ficou pior — ficou maior</h2>
-  <p class="sub">Preço de veiculação e custo por clique caíram de forma consistente.
-     O que subiu foi a responsabilidade da mídia pelo resultado.</p>
-
-  <div class="grid-2">
-    <div class="card">
-      <p class="label">CPM — custo por mil impressões (R$)</p>
-      <canvas id="gCpm" height="200"></canvas>
-    </div>
-    <div class="card">
-      <p class="label">CPC — custo por clique (R$)</p>
-      <canvas id="gCpc" height="200"></canvas>
-    </div>
-  </div>
-
-  <div class="nota" style="margin-top:16px">
-    <strong>⚠️ O contrapeso do CPC barato: a conversão piorou quase na mesma proporção.</strong>
-    <code>CAC do canal = CPC ÷ conversão clique→compra</code>. Entre BNO24 e BP10 o clique ficou 80%
-    mais barato (R$ 1,73 → R$ 0,35) e a conversão caiu 77% (<strong>0,176% → 0,041%</strong>) — os
-    −13% do CAC de canal são o líquido disso. O CTR implícito triplicou (2,03% → 6,23%), assinatura
-    de deslocamento para inventário de atenção barata, não de ganho de eficiência.<br><br>
-    <strong>⚠️ E o CPM não é comparável:</strong> o BNO24 é Meta puro (o warehouse só tem Google/PMax
-    desde jan/2025) e o BP10 tem R$ 1,02 mi de PMax a CPM 12,24 puxando a média. Meta contra Meta o
-    CPM cai <strong>−43,4%</strong>, não −48%. O CPC sobrevive (−81,5%).
-  </div>
-
-  <div class="card" style="margin-top:16px">
-    <p class="label">De onde vem cada comprador (% dos compradores da campanha)</p>
+  <div class="card">
+    <p class="label">Origem dos compradores (% da campanha)</p>
     <div class="legenda">
       <span><i class="dot" style="background:var(--s1)"></i> Mídia paga</span>
       <span><i class="dot" style="background:var(--s2)"></i> Comercial</span>
       <span><i class="dot" style="background:var(--s3)"></i> CRM</span>
-      <span><i class="dot" style="background:var(--s4)"></i> Orgânico/outros</span>
+      <span><i class="dot" style="background:var(--s4)"></i> Orgânico e outros</span>
     </div>
-    <canvas id="gMix" height="260"></canvas>
-  </div>
-  <div class="nota">
-    Aqua e amarelo ficam abaixo de 3:1 de contraste no fundo branco (regra de relevo da paleta):
-    por isso o gráfico tem legenda nomeada, tooltip por segmento e a tabela completa no fim da página.<br><br>
-    <strong>Ressalva de atribuição:</strong> o canal é o do último toque da compra. Em 2023 a mídia
-    enchia o funil (46 mil cadastros na Travessia) e a venda era fechada pelo Comercial — o crédito ia
-    para o Comercial. Parte da migração vista aqui é venda que mudou de dono, não só de origem.
-    Por isso a leitura principal é o <strong>ROAS</strong>, que compara verba total com receita total
-    e não depende de atribuição.
-  </div>
-</section>
-
-<!-- ── O QUE FOI VENDIDO ───────────────────────────────────────────────────── -->
-<section>
-  <h2>O que a oferta entregou</h2>
-  <p class="sub">As promoções não vendem uma coisa só: no BNO24, 10.684 dos 29.313 compradores
-     levaram uma assinatura de R$ 205, não um vitalício. Como a mídia compra comprador e não produto,
-     esta seção mede <strong>o resultado da oferta</strong> — que escada o comprador subiu depois de
-     chegar — e o rateio de custo serve ao P&amp;L, não à leitura de aquisição.</p>
-
-  <div class="card">
-    <p class="label">Composição da receita por família de produto (% da receita da campanha)</p>
-    <div class="legenda">
-      <span><i class="dot" style="background:var(--s1)"></i> Vitalício</span>
-      <span><i class="dot" style="background:var(--s2)"></i> Livro / físico</span>
-      <span><i class="dot" style="background:var(--s3)"></i> Certificação</span>
-      <span><i class="dot" style="background:var(--s4)"></i> Assinatura recorrente</span>
-      <span><i class="dot" style="background:var(--s7)"></i> Mecenas e outros</span>
-    </div>
-    <canvas id="gProduto" height="200"></canvas>
+    <canvas id="gMix" height="230"></canvas>
   </div>
 
-  <div class="conta" style="margin-top:16px" id="contaVit"></div>
+  <p style="margin-top:20px">A Travessia foi vendida pelo Comercial: <strong>68% da receita</strong>,
+     com a mídia em 5%. O BP10 é o inverso — mídia em 53%, Comercial em 26%.</p>
 
-  <div class="nota">
-    <strong>Convenção adotada: rateio por receita</strong> (decisão de 17/09). As outras ficam na
-    tabela e nesta nota como sensibilidade — servem para checar se a conclusão depende da escolha
-    (não depende).<br><br>
-    <strong>⚠️ Qualquer rateio de verba por produto é uma escolha, não um dado.</strong> A mídia
-    dessas campanhas não separa produto — os anúncios do BNO24 se chamam
-    <code>[BNO24] [VENDA] [MEMBROS] ABO Monster</code>, sem produto no nome. Não existe “verba do
-    vitalício” para medir. Por isso a tabela mostra as convenções possíveis, e cada uma
-    <strong>cega uma das métricas por construção</strong>:
-    <ul style="margin:8px 0 0 18px">
-      <li><strong>Rateio por receita</strong> — o custo segue o faturamento. O ROAS fica igual para
-        toda família (= ROAS da campanha); só o CAC diferencia.</li>
-      <li><strong>Rateio por comprador</strong> — cada comprador custa o mesmo. O CAC fica igual
-        para toda família (= CAC blendado); só o ROAS diferencia.</li>
-      <li><strong>Rateio por transação</strong> (testado, fora da tabela) — fica colado no rateio por
-        comprador, porque quase todo comprador faz uma transação só: 1,015 tx/comprador no BNO24 e
-        1,064 no BP10 (o CDL é a exceção, 1,293, por causa dos order bumps). No CAC do vitalício dá
-        R$ 185 → R$ 410, <strong>+122%</strong>.</li>
-    </ul>
-    <br>
-    <strong>As três convenções cercam a alta do CAC do vitalício entre +122% e +151%</strong> — e a
-    de baixo já é maior que os +129% do número blendado.
-    <br>
-    <strong>O BNO25 é onde a escolha da convenção pesa mais.</strong> Pela convenção adotada
-    (receita), ele tem o <strong>pior CAC de vitalício da série: R$ 1.046</strong> — gastou R$ 5,6 mi
-    de mídia e vendeu 1.939 vitalícios. Pela alternativa (por comprador), o vitalício dele viraria o
-    <strong>melhor ROAS da série (33,6×)</strong>, já que cada comprador custou R$ 104 e pagou ticket
-    de R$ 3.484. Fica registrado porque é a leitura que alguém pode trazer em contrário: ela dá
-    crédito à oferta barata que trouxe 51 mil compradores, enquanto a adotada cobra do BNO25 o
-    vitalício que ele não priorizou. <strong>Em nenhuma das duas o R$ 104 do CAC blendado é um
-    benchmark válido.</strong>
-  </div>
-
-  <div class="card" style="margin-top:16px; overflow-x:auto">
-    <p class="label">Família de produto por campanha — os dois rateios lado a lado</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Campanha</th><th>Família</th><th class="num">Compradores</th>
-          <th class="num">Receita</th><th class="num">% receita</th><th class="num">Ticket</th>
-          <th class="num">CAC — rateio por receita</th>
-          <th class="num">CAC — por comprador</th>
-          <th class="num">ROAS — por comprador</th>
-        </tr>
-      </thead>
-      <tbody id="tbProduto"></tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ── ECONOMIA POR CANAL ──────────────────────────────────────────────────── -->
-<section>
-  <h2>Quanto custa cada canal</h2>
-  <p class="sub">Os três canais têm naturezas de custo diferentes, e isso muda o que cada métrica
-     significa. Mídia é verba de anúncio; Comercial é comissão de 9% sobre a venda; CRM é o disparo
-     das peças com a tag da campanha.</p>
-
-  <div class="card">
-    <p class="label">CAC por canal — as quatro campanhas de escala (acima de 15 mil compradores)</p>
+  <div class="card" style="margin-top:20px">
+    <p class="label">Mas isso não foi uma migração de três anos — foi um degrau em 2024</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+      Participação de cada canal em <strong>todas</strong> as vendas da casa, mês a mês.</p>
     <div class="legenda">
       <span><i class="dot" style="background:var(--s1)"></i> Mídia paga</span>
-      <span><i class="dot" style="background:var(--s2)"></i> Comercial (comissão 9%)</span>
-      <span><i class="dot" style="background:var(--s3)"></i> CRM (disparo)</span>
+      <span><i class="dot" style="background:var(--s2)"></i> Comercial</span>
     </div>
-    <canvas id="gCacCanal" height="200"></canvas>
+    <canvas id="gSerieCasa" height="200"></canvas>
   </div>
 
   <div class="nota">
-    <strong>⚠️ A mídia não se paga no last-click em 6 das 8 campanhas mensuráveis.</strong>
-    ROAS do canal mídia: TRA 0,48 · TRA2 0,28 · BNO24 0,99 · BIT 0,13 · BNO25 0,83 · <strong>CDL
-    2,31</strong> · BP10 1,25 · ODI 0,99. Com margem digital 0,75 o piso é <strong>1,33×</strong> —
-    só o CDL passa. O número é pessimista pelas ressalvas abaixo (sobretudo a assimetria de escopo),
-    mas isso é razão para publicá-lo com a ressalva, não para omiti-lo.<br><br>
-    <strong>⚠️ O ROAS do Comercial é 11,11× em todas as campanhas — e isso não é um achado, é
-    aritmética.</strong> Se o custo é 9% da receita, o retorno é 1 ÷ 0,09 por construção. Do
-    Comercial, só o <strong>CAC</strong> informa alguma coisa (ele acompanha o ticket: R$ 153 no
-    BNO24, R$ 69 no BNO25, R$ 98 no BP10).<br><br>
-    <strong>⚠️ A comissão é piso, não o custo do canal.</strong> Não inclui folha dos ~50 vendedores,
-    Zenvia nem estrutura. O custo real do Comercial por comprador é bem maior que o mostrado aqui —
-    e é justamente a parte que não está no warehouse. Já a mídia é custo integral e atribuível:
-    a comparação entre os dois é desfavorável à mídia por construção.<br><br>
-    <strong>⚠️ Assimetria de escopo.</strong> A verba de mídia é do lançamento inteiro, inclusive do
-    aquecimento que alimentou as vendas dos outros canais; comissão e disparo são custos por venda
-    realizada. O CAC de mídia é o mais conservador dos três.
-  </div>
-
-  <div class="card" style="margin-top:16px">
-    <p class="label">Quanto a folha mudaria o CAC do Comercial — sensibilidade no BP10</p>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
-      51 vendedores ativos em 3,19 meses e R$ 445,9 mil de comissão. Bastam
-      <strong>R$ 2,7 mil por vendedor-mês</strong> de custo adicional para o custo do canal dobrar.</p>
-    <table>
-      <thead><tr><th>Folha + encargos por vendedor-mês</th><th class="num">Custo do canal</th><th class="num">CAC do Comercial</th></tr></thead>
-      <tbody>
-        <tr><td>só comissão <span class="tag t-n">o que está no relatório</span></td><td class="num">R$ 445,9 mil</td><td class="num">R$ 98</td></tr>
-        <tr><td>+ R$ 4 mil</td><td class="num">R$ 1,10 mi</td><td class="num">R$ 242</td></tr>
-        <tr><td>+ R$ 6 mil</td><td class="num">R$ 1,42 mi</td><td class="num">R$ 313</td></tr>
-        <tr><td>+ R$ 8 mil</td><td class="num">R$ 1,75 mi</td><td class="num">R$ 385</td></tr>
-      </tbody>
-    </table>
-    <div class="nota">
-      Mesmo no cenário mais caro o Comercial (R$ 385) sai <strong>abaixo da mídia (R$ 849)</strong>
-      no BP10 — mas a distância cai de 8,7× para 2,2×. Pedir folha e ferramenta ao Financeiro muda a
-      ordem de grandeza da conclusão, não o sinal.
-    </div>
-  </div>
-
-  <div class="nota" style="margin-top:0">
-    <strong>Lendo a tabela abaixo:</strong> nas campanhas em que a mídia faz captação e o Comercial
-    fecha (TRA, TRA2, BIT), o CAC de mídia por último clique chega a milhares de reais — não porque
-    a mídia tenha ido mal, mas porque o crédito da venda vai para quem fechou. Nessas três, a leitura
-    de eficiência da mídia é o <strong>ROAS da campanha inteira</strong> (TRA 9,20×, BIT 2,03×),
-    não o CAC do canal.
-  </div>
-
-  <div class="card" style="margin-top:16px; overflow-x:auto">
-    <p class="label">Todos os canais, campanha a campanha</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Campanha</th><th>Canal</th><th class="num">Compradores</th>
-          <th class="num">Receita</th><th class="num">Custo</th><th class="num">CAC</th>
-          <th class="num">ROAS</th><th class="num">Ticket</th><th>Natureza do custo</th>
-        </tr>
-      </thead>
-      <tbody id="tbCanal"></tbody>
-    </table>
+    A casa inteira passou a operar com ~50% de mídia a partir de meados de 2024 e segue assim.
+    <strong>O Black Friday de 2024 é o mês de MENOR participação de mídia de todo aquele ano
+    (19,8%)</strong> — ele não é o "antes" de uma tendência, foi uma mobilização excepcional do
+    Comercial contra um patamar que já era majoritariamente mídia.<br><br>
+    Isso muda a pergunta que vale a pena fazer: não é “por que a mídia cresceu”, é
+    <strong>“por que o Comercial não foi mobilizado de novo como em novembro de 2024”</strong>.
   </div>
 </section>
 
-<!-- ── CRM ─────────────────────────────────────────────────────────────────── -->
+<!-- ══ A OFERTA ══ -->
 <section>
-  <h2>CRM: o volume dobrou, o retorno por disparo não acompanhou</h2>
-  <p class="sub">Disparos das peças que carregam a tag da campanha (e-mail, WhatsApp, push e in-app),
-     e a receita atribuída a CRM dentro da campanha.</p>
+  <h2>O Black Friday de 2025 não vendeu o mesmo produto</h2>
+  <p class="sub">A queda de R$ 40,3 mi para R$ 18,7 mi foi decisão de oferta, não perda de demanda.</p>
 
-  <div class="grid-2">
-    <div class="card">
-      <p class="label">Disparos com a tag da campanha (milhões)</p>
-      <canvas id="gDisparos" height="200"></canvas>
-    </div>
-    <div class="card">
-      <p class="label">Receita de CRM por 1.000 disparos (R$)</p>
-      <canvas id="gCrm1k" height="200"></canvas>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:16px; overflow-x:auto">
-    <p class="label">Peças distintas colocadas no ar (produção, não entrega)</p>
-    <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px">
-      Um e-mail disparado para 3 milhões de pessoas conta 1. É o par do “qtd. de ads”.</p>
-    <table>
-      <thead><tr><th>Campanha</th><th class="num">E-mails</th><th class="num">WhatsApp</th>
-        <th class="num">Push</th><th class="num">Total CRM</th><th class="num">Peças/dia</th>
-        <th class="num">Entregas por peça</th><th class="num">Anúncios</th></tr></thead>
-      <tbody id="tbPecas"></tbody>
-    </table>
-    <div class="nota">
-      <strong>O BNO24 produziu 28,4 peças de CRM por dia; o BP10, 6,1 — 4,7× menos.</strong>
-      E olhe o tamanho da lista de cada peça: <strong>117 mil entregas por peça no BNO24 contra
-      268 mil no BP10</strong>. O BNO24 falou com a base em muitas peças para segmentos menores;
-      o BP10, em menos peças para listas maiores.<br><br>
-      É uma explicação mecânica para a queda da taxa de resposta: a base não ficou surda — passou a
-      receber <em>menos mensagens e mais genéricas</em>. No lado da mídia o movimento foi o oposto
-      (1.182 anúncios no BP10 contra 690 no BNO25): multiplicou-se variação criativa na mídia e
-      reduziu-se no CRM — justamente o canal que rende R$ 26–107 por mil entregas enquanto a mídia
-      não se paga no last-click em 6 de 8 campanhas.
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:16px">
-    <p class="label">Composição dos disparos por canal (% das entregas com a tag)</p>
+  <div class="card">
+    <p class="label">Receita por tipo de produto nas promoções de base (R$ milhões)</p>
     <div class="legenda">
-      <span><i class="dot" style="background:var(--s1)"></i> E-mail</span>
-      <span><i class="dot" style="background:var(--s2)"></i> WhatsApp</span>
-      <span><i class="dot" style="background:var(--s3)"></i> Push / in-app</span>
+      <span><i class="dot" style="background:var(--s1)"></i> Vitalício</span>
+      <span><i class="dot" style="background:var(--s2)"></i> Assinatura e outros</span>
     </div>
-    <canvas id="gCrmMix" height="180"></canvas>
+    <canvas id="gMixProd" height="170"></canvas>
   </div>
 
+  <p style="margin-top:20px">Em 2024 vendemos <strong>18.553 vitalícios</strong>; em 2025,
+     <strong>1.939</strong>. A oferta tinha mudado: de “Vitalício, começo do Black” para “Originais
+     por R$ 7,90 e 70% off no premium”. O ticket caiu de R$ 1.374 para R$ 345.</p>
+
   <div class="nota">
-    <strong>O BNO24 é o pico da série e nada chegou perto depois:</strong> R$ 107 por mil disparos.
-    O BNO25 disparou <strong>1,9× mais</strong> (185 milhões contra 100 milhões) e rendeu
-    <strong>R$ 5,68 por mil — 95% abaixo</strong>. Em 2026 o CDL (R$ 56) e a Odisseia (R$ 49)
-    recuperaram parte; o BP10, com o maior volume da série (159 milhões), ficou em R$ 16,64.<br><br>
-    <strong>⚠️ Duas medidas de CRM que não se contradizem, mas medem coisas diferentes.</strong>
-    Olhando a casa inteira (todos os disparos de todos os meses), 2026 é o melhor período da série —
-    R$ 25–68 por mil contra R$ 5–21 em 2024–25. Olhando só as peças com a tag de cada campanha,
-    o BNO24 continua imbatível. A leitura conjunta: o CRM da casa melhorou, mas o
-    <strong>CRM de campanha de vitalício</strong> não voltou ao nível de 2024.<br><br>
-    <strong>⚠️ Push cresceu e é cego.</strong> O push saiu de zero (BNO24) para 55 milhões de entregas
-    no BP10 — 35% do volume da campanha — e não tem telemetria de abertura nem de clique
-    (140M+ entregues na casa com ~19 opens registrados). A receita atribuída a ele vem do fallback
-    do modelo, não de clique rastreado. Tratar o número de push como alcance, não como engajamento.<br><br>
-    <strong>E como ele é cego, tirá-lo do denominador é a conta mais justa:</strong> só com e-mail e
-    WhatsApp fica <strong>BNO24 R$ 107 · CDL 75 · ODI 58 · BP10 26 · BNO25 6,3</strong>. A conclusão
-    sobrevive (o BNO24 segue o pico), mas a distância BNO24/BP10 cai de <strong>6,5× para 4,2×</strong> —
-    com push no denominador a métrica exagera a deterioração, porque ele é zero no BNO24 e um terço
-    no BP10.<br><br>
-    <strong>⚠️ Denominador restrito à tag, numerador não.</strong> A cobertura da tag vai de 11,2%
-    (ODI) a 89,5% (BNO24) dos disparos da janela — os R$ 107 do BNO24 e os R$ 49 da ODI não são a
-    mesma conta.
+    <strong>Consequência prática:</strong> o BNO25 tem o melhor CAC da série (R$ 104) e isso não
+    quer dizer nada — ele vendeu assinatura barata, não vitalício. Olhando só o vitalício, ele é a
+    <strong>pior</strong> campanha da série. Não usar esse R$ 104 como referência.<br><br>
+    O motor de vitalício voltou em 2026, mas pelo aniversário: o BP10 vendeu 8.798.
   </div>
 </section>
 
-<!-- ── QUANTOS ANÚNCIOS ────────────────────────────────────────────────────── -->
+<!-- ══ QUEM COMPRA ══ -->
 <section>
-  <h2>Quantos anúncios cada campanha rodou</h2>
-  <p class="sub">Contagem de anúncios distintos com verba, na conta Meta, dentro da janela da
-     campanha.</p>
+  <h2>Quem compra</h2>
+  <p class="sub">Situação da pessoa no dia da compra.</p>
 
   <div class="card">
-    <p class="label">Anúncios distintos com verba (Meta)</p>
-    <canvas id="gAds" height="190"></canvas>
-  </div>
-
-  <div class="card" style="margin-top:16px; overflow-x:auto">
-    <table>
-      <thead><tr><th>Campanha</th><th class="num">Anúncios</th>
-        <th class="num">Só fase de venda</th><th class="num">Todas as fases</th>
-        <th class="num">Conjuntos</th><th class="num">Verba por anúncio</th>
-        <th>Fonte da contagem</th></tr></thead>
-      <tbody id="tbAds"></tbody>
-    </table>
-  </div>
-
-  <div class="nota">
-    <strong>As nove campanhas têm contagem — mas de duas fontes com definições diferentes, e elas
-    não são intercambiáveis.</strong>
-    <ul style="margin:8px 0 0 18px">
-      <li><strong>Planilha do time de tráfego</strong> — nível de anúncio desde 01/06/2022, mas
-        <strong>só a fase de venda</strong>. É a única fonte para TRA, TRA2, BNO24 e BIT.</li>
-      <li><strong>Warehouse</strong> — todas as fases, mas nome de anúncio só é confiável a partir
-        de mar/2025. Cobre BNO25, DBI, CDL, BP10 e ODI.</li>
-    </ul>
-    <br>
-    <strong>O DBI mostra por que a distinção importa:</strong> 78 anúncios e R$ 19 mil na planilha
-    contra <strong>284 anúncios e R$ 152 mil no warehouse</strong> — quase toda a verba dele foi
-    captação, que a aba de venda não enxerga. Em campanhas majoritariamente de venda as duas
-    convergem: no BNO25 são 753 contra 690 anúncios, com o spend batendo em 0,6%.<br><br>
-    ⚠️ A planilha é um <strong>XLSX baixado em 16/04/2026</strong>, não a planilha viva: não
-    atualiza sozinha e não alcança CDL, BP10 nem ODI. Para dado novo, rebaixar o arquivo e rodar
-    <code>scripts/carrega_planilha_ads.py</code>.<br><br>
-    <strong>Validação:</strong> o spend mensal da planilha bate com a Marketing API em
-    <strong>0,0% em 22 de 31 meses</strong> (máximo 3,8%) — é o mesmo dado, recortado diferente.<br><br>
-    Google e PMax ficam fora desta contagem de propósito: o PMax não tem nível de anúncio e o Google
-    do warehouse traz id, não nome comparável — somar os três misturaria unidades.
-  </div>
-</section>
-
-<!-- ── QUEM COMPRA ─────────────────────────────────────────────────────────── -->
-<section>
-  <h2>Quem compra: membro, ex-membro ou gente de fora</h2>
-  <p class="sub">Status na data da primeira compra da campanha. É a métrica que mostra se a campanha
-     está vendendo para dentro da base ou conquistando gente nova.</p>
-
-  <div class="card">
-    <p class="label">Distribuição dos compradores por status (% da campanha)</p>
+    <p class="label">Perfil dos compradores (% da campanha)</p>
     <div class="legenda">
       <span><i class="dot" style="background:var(--s1)"></i> Membro ativo</span>
       <span><i class="dot" style="background:var(--s2)"></i> Ex-membro</span>
       <span><i class="dot" style="background:var(--s3)"></i> Nunca foi membro</span>
     </div>
-    <canvas id="gStatus" height="200"></canvas>
+    <canvas id="gStatus" height="220"></canvas>
   </div>
 
+  <p style="margin-top:20px">A Travessia vendeu para dentro de casa — <strong>85% eram membros
+     ativos</strong>. O BP10 vendeu para fora: <strong>55% nunca tinham sido membros</strong>.
+     É a troca de canal vista pelo outro lado: quem vende pela base vende para membro, quem vende
+     por mídia alcança quem nunca assinou.</p>
+
   <div class="nota">
-    <strong>A Travessia vendeu para a casa (84,8% membros); o BP10 vendeu para fora (54,8% nunca
-    foram membros).</strong> Isso é a mesma história do canal vista pelo outro lado: quem vende pela
-    base vende para membro, quem vende por mídia alcança quem nunca assinou.<br><br>
-    O caso que foge do padrão é o <strong>BNO25</strong>, com 61,9% de não-membros — mas ali a oferta
-    era assinatura de R$ 7,90, ou seja captação barata, não high-ticket.<br><br>
-    ⚠️ O status usa uma <strong>whitelist de planos de assinatura</strong>: sem ela, quem compra um
-    livro viraria “membro” pelo próprio ato de comprar (o sistema grava produto avulso como assinatura
-    ativa). A whitelist é a escolha certa aqui, mas <strong>não</strong> reproduz o indicador oficial
-    da casa — ver a seção de método.
+    <strong>A base não está esgotada:</strong> 88% dos membros nunca compraram um produto de alto
+    ticket. O sinal de desgaste está em outro lugar — na <strong>reincidência</strong>: metade dos
+    compradores da Odisseia já tinha comprado em campanha anterior, e 41% vieram especificamente do
+    Clube do Livro. Os lançamentos de livro de 2026 estão girando a mesma carteira.
   </div>
 </section>
 
-<!-- ── TESTES DE ROBUSTEZ ──────────────────────────────────────────────────── -->
+<!-- ══ OS CANAIS DA CASA ══ -->
 <section>
-  <h2>Dois testes que a conclusão precisa passar</h2>
-  <p class="sub">A tese “o motor trocou de canal” repousa em atribuição de último clique. Estes são
-     os dois testes baratos que a checam — um sustenta, o outro limita. Os dois entraram depois de
-     uma revisão independente em 17/09.</p>
-
-  <div class="card">
-    <p class="label">Teste 1 — o salto de mídia é artefato da regra de atribuição? Não</p>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
-      Cada campanha foi medida em dois universos. Se o salto aparecesse só na regra usada nos Black
-      November, seria efeito da regra. Medindo os dois extremos com a <strong>mesma</strong> regra,
-      o salto sobrevive: 19,1% → 49,2%.</p>
-    <table>
-      <thead><tr><th>Share de mídia (compradores)</th><th class="num">BNO24</th><th class="num">BNO25</th><th class="num">CDL</th><th class="num">BP10</th><th class="num">ODI</th></tr></thead>
-      <tbody id="tbUniverso"></tbody>
-    </table>
-  </div>
-
-  <div class="card" style="margin-top:16px">
-    <p class="label">Teste 2 — o BNO24 é linha de base ou exceção? É exceção</p>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
-      Mix de canal de <strong>toda</strong> venda nova da casa, mês a mês, com a mesma regra de canal.
-      Os pontos marcados são os meses das campanhas do relatório.</p>
-    <div class="legenda">
-      <span><i class="dot" style="background:var(--s1)"></i> Mídia paga</span>
-      <span><i class="dot" style="background:var(--s2)"></i> Comercial</span>
-    </div>
-    <canvas id="gSerieCasa" height="210"></canvas>
-  </div>
-
-  <div class="nota">
-    <strong>Isso corrige a moldura do relatório.</strong> Não houve migração gradual em três anos:
-    a casa deu um <strong>degrau para mídia em meados de 2024</strong> (ago–set/2024 saltam para
-    48–64%) e opera em ~45–55% desde então. <strong>Nov/2024 — o BNO24 — é o mês de MENOR
-    participação de mídia de todo 2024 (19,8%)</strong>, com o Comercial em 41,3%.<br><br>
-    Ou seja: o BNO24 não é o “antes” de uma deriva, é uma <strong>mobilização excepcional do
-    Comercial</strong> contra um patamar que já era majoritariamente mídia. E a frase “o BP10 é um
-    produto de mídia (53,3%)” descreve a casa inteira em 2026, não algo do BP10.<br><br>
-    <strong>A pergunta acionável muda junto:</strong> não é “por que a mídia cresceu”, é
-    <strong>“por que o Comercial não foi mobilizado de novo como em nov/2024”</strong> — mesmo time
-    (37 vendedores com venda no BNO24, 51 no BP10) e <strong>46% menos abordagens por dia</strong>
-    (5.228 → 2.805), com o mesmo tipo de oferta.
-  </div>
-</section>
-
-<!-- ── COMERCIAL ───────────────────────────────────────────────────────────── -->
-<section>
-  <h2>O canal que sustentava o high-ticket perdeu tração</h2>
-  <p class="sub">Abordagens do Comercial no Zenvia, por campanha. “Resposta” = o cliente respondeu
-     a abordagem (conversa real). A queda é de ~40pp entre as pontas, mas <strong>não é
-     monotônica</strong> — há três subidas no caminho (BNO24→BIT, DBI→CDL, BNO25→BP10).</p>
+  <h2>O Comercial e o CRM</h2>
+  <p class="sub">Os dois canais que sustentavam o high-ticket antes da mídia assumir.</p>
 
   <div class="grid-2">
     <div class="card">
-      <p class="label">Abordagens por dia</p>
-      <canvas id="gAbord" height="200"></canvas>
-    </div>
-    <div class="card">
-      <p class="label">% das abordagens que viraram conversa</p>
+      <p class="label">Comercial — % das abordagens que viram conversa</p>
       <canvas id="gResp" height="200"></canvas>
     </div>
+    <div class="card">
+      <p class="label">Comercial — % das conversas que viram venda</p>
+      <canvas id="gConv" height="200"></canvas>
+    </div>
   </div>
-  <div class="card" style="margin-top:16px">
-    <p class="label">O funil inteiro: abordagem → conversa → venda</p>
-    <p style="font-size:12.5px;color:var(--muted);margin-bottom:12px">
-      “Venda” = venda comercial da mesma pessoa em até 14 dias da conversa (telefone ou e-mail),
-      mesmo método do relatório <code>comercial-abordagens</code>.</p>
-    <table>
-      <thead>
-        <tr><th>Campanha</th><th class="num">Abordagens</th><th class="num">Conversas</th>
-            <th class="num">% resposta</th><th class="num">Conversas com venda</th>
-            <th class="num">% conversa → venda</th><th class="num">% abordagem → venda</th></tr>
-      </thead>
-      <tbody id="tbComercial"></tbody>
-    </table>
+
+  <div class="destaque">
+    <strong>O funil do Comercial quebrou no topo, não no fechamento.</strong> Abrir conversa ficou
+    muito mais difícil (74% → 31%), mas <b>quem conversa fecha na mesma proporção — ou melhor</b>
+    (10,6% na Travessia, 12,3% no BP10, com o pico de 14,5% no Black Friday 2024).
+    O time não encolheu: 37 vendedores com venda no BF24, 51 no BP10, com receita por vendedor
+    estável.
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <p class="label">CRM — receita por mil mensagens entregues (R$)</p>
+    <canvas id="gCrm1k" height="180"></canvas>
   </div>
 
   <div class="nota">
-    <strong>O funil do Comercial não quebrou no fechamento — quebrou no topo.</strong> A conversão
-    de conversa em venda ficou estável e até melhorou: 10,6% na Travessia, <strong>14,5% no BNO24
-    (o pico)</strong>, 12,3% no BP10. Quem sabe conversar continua fechando na mesma proporção.<br><br>
-    O que despencou foi <strong>abrir a conversa</strong> (73,8% → 36,6% de resposta) e, junto com o
-    teste 2 acima, o <strong>volume de abordagem</strong>: metade do BNO24. O resultado líquido é a
-    taxa abordagem → venda caindo de <strong>7,81% para 4,51%</strong>.<br><br>
-    O time não encolheu — eram 37 vendedores com venda no BNO24 e 51 no BP10, com receita por vendedor
-    estável (R$ 546 mil → R$ 556 mil).
+    O Black Friday de 2024 rendeu <strong>R$ 107 por mil mensagens</strong> e nada chegou perto
+    depois. O de 2025 disparou <strong>quase o dobro de mensagens</strong> (185 milhões contra 100)
+    e rendeu 95% menos por mensagem.<br><br>
+    <strong>Uma pista de por quê:</strong> em 2024 foram 852 peças diferentes para listas de 117 mil
+    pessoas. No BP10, 590 peças para listas de 268 mil. <strong>Menos peças, listas maiores, mais
+    genérico</strong> — o que ajuda a explicar a queda na taxa de resposta. Na mídia o movimento foi
+    o oposto: de 371 anúncios no BF24 para 1.182 no BP10.
   </div>
 </section>
 
-<!-- ── OFERTA ──────────────────────────────────────────────────────────────── -->
+<!-- ══ CAC POR CANAL ══ -->
 <section>
-  <h2>O Black November de 2025 não vendeu o mesmo produto</h2>
-  <p class="sub">A queda do BF (R$ 56,4 mi em 2023 → R$ 40,3 mi em 2024 → R$ 18,7 mi em 2025, tudo
-     venda nova) é decisão de oferta, não perda de demanda.</p>
+  <h2>Quanto custa cada canal</h2>
+  <p class="sub">Nas quatro campanhas de escala (acima de 15 mil compradores).</p>
 
   <div class="card">
-    <p class="label">Receita por tipo de produto nas promoções de base (R$ mi)</p>
+    <p class="label">Custo por comprador, por canal</p>
     <div class="legenda">
-      <span><i class="dot" style="background:var(--s1)"></i> Vitalício</span>
-      <span><i class="dot" style="background:var(--s2)"></i> Assinatura e outros</span>
+      <span><i class="dot" style="background:var(--s1)"></i> Mídia paga</span>
+      <span><i class="dot" style="background:var(--s2)"></i> Comercial (comissão de 9%)</span>
+      <span><i class="dot" style="background:var(--s3)"></i> CRM (custo de disparo)</span>
     </div>
-    <canvas id="gMixProd" height="200"></canvas>
+    <canvas id="gCacCanal" height="200"></canvas>
   </div>
+
+  <div class="destaque">
+    <strong>Pelo último clique, a mídia não se paga em 8 das 9 campanhas.</strong> Retorno do canal:
+    Travessia 0,48× · BF24 0,99× · BF25 0,83× · <b>Clube do Livro 2,31×</b> · BP10 1,25× ·
+    Odisseia 0,99×. Com a margem digital de 0,75, o mínimo para empatar é <b>1,33×</b> —
+    só o Clube do Livro passa.
+  </div>
+
   <div class="nota">
-    Registro da planilha do time de tráfego: a oferta do BNO24 foi “Vitalício. Começo do Black”;
-    a do BNO25, “Originais por R$ 7,90 e 70% off no premium”. Foram vendidos
-    <strong>18.553 vitalícios em 2024 contra 1.939 em 2025</strong>. O motor de vitalício voltou em
-    2026, mas no aniversário: o BP10 vendeu 8.798.
-  </div>
-</section>
-
-<!-- ── SATURAÇÃO ───────────────────────────────────────────────────────────── -->
-<section>
-  <h2>A base já não é virgem — mas está longe de esgotada</h2>
-
-  <div class="grid-2">
-    <div class="card">
-      <p class="label">% da base ativa que já comprou high-ticket, na abertura da campanha</p>
-      <canvas id="gPenetra" height="200"></canvas>
-    </div>
-    <div class="card">
-      <p class="label">% dos compradores que já tinham comprado em campanha high-ticket anterior</p>
-      <canvas id="gReinc" height="200"></canvas>
-    </div>
-  </div>
-  <div class="nota">
-    A penetração saiu de <strong>1,5% para 12,3%</strong> da base em três anos — ainda restam
-    ~535 mil membros sem nenhuma compra high-ticket. O sinal de esgotamento não está no estoque,
-    está na <strong>reincidência</strong>: <strong>50,7%</strong> dos compradores da Odisseia já
-    haviam comprado em campanha anterior, e a maior origem única é o <strong>Clube do Livro, com
-    40,8%</strong>. Os lançamentos de livro de 2026 estão girando a mesma carteira.<br><br>
-    <strong>⚠️ Duas ressalvas sobre a penetração</strong> (revisão de 17/09): com o CDL na série
-    (1,30% em mai–jun/2026, a segunda maior) <strong>não há tendência de queda</strong> — a métrica
-    acompanha o tamanho da campanha, não a exaustão. E o numerador conta só membros: dos 17.286
-    compradores em 1ª compra high-ticket do BP10, <strong>87% vieram de fora da base</strong>, o que
-    é o oposto de estoque esgotado.
-  </div>
-</section>
-
-<!-- ── FATURAMENTO ─────────────────────────────────────────────────────────── -->
-<section>
-  <h2>O faturamento não caiu</h2>
-  <p class="sub">Receita de transações acima de R$ 1.000 por ano (novas vendas, sem renovação).
-     2026 vai até 17/09.</p>
-
-  <div class="card">
-    <p class="label">Receita high-ticket por ano (R$ mi)</p>
-    <canvas id="gAnual" height="180"></canvas>
-  </div>
-  <div class="nota">
-    Receita high-ticket por membro ativo: R$ 154 (2023) · R$ 150 (2024) · R$ 94 (2025) ·
-    <strong>R$ 126 em 2026 com o ano ainda aberto</strong>. 2025 é o ponto baixo da série,
-    não 2026 — e foi o ano em que o Black November trocou vitalício por assinatura barata.
-  </div>
-</section>
-
-<!-- ── TABELA ──────────────────────────────────────────────────────────────── -->
-<section>
-  <h2>Todos os números, campanha a campanha</h2>
-  <div class="card" style="overflow-x:auto">
-    <table>
-      <thead>
-        <tr>
-          <th>Campanha</th><th class="num">Dias</th><th class="num">Compradores</th>
-          <th class="num">Receita</th><th class="num">Ticket</th><th class="num">Mídia</th>
-          <th class="num">CAC</th><th class="num">ROAS</th>
-          <th class="num">Mídia %</th><th class="num">Comercial %</th>
-          <th class="num">Não-membro %</th>
-        </tr>
-      </thead>
-      <tbody id="tbCamp"></tbody>
-    </table>
-  </div>
-  <div class="nota" id="notaFonte"></div>
-</section>
-
-<!-- ── CHECKLIST DO PEDIDO ─────────────────────────────────────────────────── -->
-<section>
-  <h2>A lista do pedido, item a item</h2>
-  <p class="sub">As oito métricas pedidas no início, onde cada uma está e o que ela diz.
-     Marcadas com ⚠️ as que têm ressalva de método que muda a leitura.</p>
-
-  <div class="card" style="overflow-x:auto">
-    <table>
-      <thead><tr><th>Métrica pedida</th><th>Onde está</th><th>O que diz</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>Receita</strong></td>
-          <td>tabela final</td>
-          <td>R$ 8,0 mi (TRA) a R$ 40,3 mi (BNO24). Total das 9: R$ 150 mi.</td>
-        </tr>
-        <tr>
-          <td><strong>CAC</strong></td>
-          <td>“A conta que explica o CAC”</td>
-          <td>R$ 104 a R$ 828. ⚠️ Não é comparável entre tickets diferentes — usar ROAS.</td>
-        </tr>
-        <tr>
-          <td><strong>% de cada canal</strong></td>
-          <td>“A mídia não ficou pior”</td>
-          <td>Mídia 5,3% → 53,3% da receita; Comercial 68,2% → 26,5%. ⚠️ Último clique.</td>
-        </tr>
-        <tr>
-          <td><strong>Qtd. de ads</strong></td>
-          <td>“Quantos anúncios”</td>
-          <td><strong>128 (Travessia) → 1.182 (BP10)</strong>, com verba por anúncio estável —
-              escalou em nº de criativos, não em verba por criativo. ⚠️ Duas fontes com definições
-              diferentes (só-venda até BIT, todas as fases de BNO25 em diante).</td>
-        </tr>
-        <tr>
-          <td><strong>CAC por canal</strong></td>
-          <td>“Quanto custa cada canal”</td>
-          <td>Mídia R$ 217–1.133 · Comercial R$ 68–217 · CRM R$ 42–484. ⚠️ Naturezas de custo diferentes; a comissão do Comercial é piso.</td>
-        </tr>
-        <tr>
-          <td><strong>Membros / ex / não-membros</strong></td>
-          <td>“Quem compra”</td>
-          <td>De 84,8% membros (TRA) a 54,8% nunca-membros (BP10).</td>
-        </tr>
-        <tr>
-          <td><strong>Disparos e conversas do Comercial + conversão</strong></td>
-          <td>“O canal que sustentava o high-ticket”</td>
-          <td>Resposta 73,8% → 36,6%; <strong>conversa → venda estável (10,6% → 12,3%)</strong>. O funil quebrou no topo, não no fechamento.</td>
-        </tr>
-        <tr>
-          <td><strong>Qtd. de disparos de CRM</strong></td>
-          <td>“CRM: o volume dobrou”</td>
-          <td>Entregas: 3 mi (TRA2) a 185 mi (BNO25). Peças distintas: 104 (TRA2) a <strong>852 (BNO24)</strong>.
-              Receita por mil: R$ 107 (BNO24) a R$ 5,68 (BNO25). ⚠️ 8 das 9 — Insider começa em jan/2024.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="nota" style="margin-top:0">
-    <strong>Cobertura das 8 métricas nas 9 campanhas: 7 completas, 1 com lacuna — e a lacuna é
-    ausência de fonte, não de análise.</strong>
-    <ul style="margin:8px 0 0 18px">
-      <li><strong>Qtd. de ads — 9 de 9</strong>, fechada em 18/09 com a planilha histórica do time
-        de tráfego (nível de anúncio desde jun/2022). ⚠️ São duas definições: só-venda para TRA,
-        TRA2, BNO24 e BIT; todas as fases de BNO25 em diante. Comparar dentro de cada grupo.</li>
-      <li><strong>Qtd. de CRM — 8 de 9.</strong> A Insider começa em <strong>30/01/2024</strong>,
-        inclusive nos eventos brutos. A Travessia (abr–mai/2023) não tem CRM medível por nenhuma
-        fonte do warehouse — não há como fechar.</li>
+    <strong>Três ressalvas antes de agir só com esse número:</strong>
+    <ul>
+      <li>A comissão de 9% do Comercial é <strong>piso</strong> — não inclui folha. Com folha
+        realista, o CAC dele sobe de R$ 98 para R$ 240–500, mas continua abaixo do da mídia.</li>
+      <li>A verba de mídia é do lançamento inteiro, <strong>inclusive do aquecimento que alimentou
+        as vendas dos outros canais</strong> — então esse retorno é o mais pessimista dos três.</li>
+      <li>O canal é o do <strong>último clique</strong>: quando a mídia atrai e o Comercial fecha,
+        o crédito vai para quem fechou.</li>
     </ul>
   </div>
+</section>
 
-  <div class="nota">
-    <strong>O que o pedido não tinha e apareceu no caminho:</strong> a queda do Black November foi
-    <strong>troca de oferta</strong>, não de demanda; o <strong>ROAS do canal mídia fica abaixo do
-    piso de margem em 8 das 9 campanhas</strong>; e a migração para mídia foi um
-    <strong>degrau em meados de 2024</strong>, não uma deriva de três anos — o que muda a pergunta de
-    “por que a mídia cresceu” para “por que o Comercial não foi mobilizado de novo”.
+<!-- ══ O QUE FAZER ══ -->
+<section>
+  <h2>O que fazer com isso</h2>
+
+  <div class="acao">
+    <h3>1. Acordar um piso de retorno para desligar mídia</h3>
+    <p>Com margem de 0,75, o piso é 1,33×. A tabela de retorno por canal responde “manter ou
+       desligar” campanha a campanha — hoje essa decisão é tomada no feeling, e o resultado é
+       inconsistente entre campanhas.</p>
+  </div>
+
+  <div class="acao">
+    <h3>2. Descobrir por que o Comercial não foi mobilizado de novo</h3>
+    <p>Mesmo time, mesmo tipo de oferta, metade das abordagens por dia. E quem conversa fecha igual
+       ou melhor do que antes. É a alavanca com dono mais clara do estudo — e a que não custa mídia.</p>
+  </div>
+
+  <div class="acao">
+    <h3>3. Rever onde está indo o esforço criativo</h3>
+    <p>Multiplicamos anúncios por 3× no canal que não se paga no último clique e reduzimos peças de
+       CRM no canal que rende de R$ 26 a R$ 107 por mil mensagens. Vale ao menos testar o inverso.</p>
+  </div>
+
+  <div class="acao">
+    <h3>4. Separar decisão de oferta de decisão de mídia</h3>
+    <p>Metade dos “problemas de CAC” deste estudo eram decisões de oferta — Black Friday sem
+       vitalício, preço do vitalício 20% menor. Quando o ticket cai, o CAC piora sem ninguém ter
+       errado em mídia.</p>
+  </div>
+
+  <div class="acao">
+    <h3>5. Medir o que a mídia realmente causou</h3>
+    <p>Nada aqui separa a venda que a mídia gerou da que ela apenas registrou por último. Um teste
+       geográfico com região de controle resolveria — o modelo de mídia já tem o instrumento.</p>
   </div>
 </section>
 
-<!-- ── MÉTODO ──────────────────────────────────────────────────────────────── -->
+<!-- ══ MÉTODO ══ -->
 <section>
   <h2>Como os números foram construídos</h2>
+
   <div class="card">
-    <p style="margin-bottom:12px"><strong>Universo de cada campanha.</strong> Os sete lançamentos de
-      produto usam atribuição por rastro (tracking ∪ utm_campaign ∪ utm_content ∪ checkout), que captura
-      o upsell vendido dentro da campanha — sem isso a Certificação Bitcoin perderia 70% da receita
-      (o Black) e o Clube do Livro perderia R$ 2,8 mi de Black Vitalício do cashback. Os dois Black
-      November usam toda a venda nova do mês, porque são promoção do catálogo inteiro.</p>
-    <p style="margin-bottom:12px"><strong>Verba de mídia.</strong> O warehouse só tem spend do Meta
-      desde ago/2025. A série foi reconstruída pela Marketing API do Meta, que guarda 37 meses
-      (desde 17/08/2023) — e bate com o warehouse com <strong>0,0% de diferença</strong> nos 13 meses
-      completos em que as duas fontes coexistem. Google e PMax vêm do warehouse (desde jan/2025).
-      A Travessia de 2023 é anterior ao alcance da API: o custo dela (R$ 869,8 mil) vem da planilha
-      do time de tráfego, que confirma a receita medida aqui (R$ 8,10 mi contra R$ 8,01 mi).</p>
-    <p style="margin-bottom:12px"><strong>Status do comprador.</strong> Membro / ex-membro / não-membro
-      na data da primeira compra, com whitelist de planos de assinatura — sem ela todo comprador de
-      livro viraria “membro”, porque o sistema grava produto avulso como assinatura ativa. A base ativa
-      reconstruída assim reproduz o indicador oficial (558.624 contra 558.769 em abr/2023).</p>
-    <p style="margin-bottom:12px"><strong>Revisão independente (17/09).</strong> Esta página passou
-      por revisão crítica de um agente de analytics com acesso ao warehouse (~20 queries de
-      verificação), e tudo que ele apontou foi conferido antes de ser aceito. Foram corrigidos
-      <strong>6 números publicados</strong> (o R$ 66,6 mi do BF2023 misturava renovação; os vitalícios
-      do BNO25 são 1.939 e não 1.607; a queda do Comercial não é monotônica; a reincidência da
-      Odisseia é 50,7% e o CDL sozinho 40,8%; o CAC de canal da Travessia vinha de um percentual
-      arredondado; seis células truncadas). E <strong>três conclusões mudaram</strong>: a moldura
-      “troca de motor em três anos” virou “degrau em meados de 2024 com o BNO24 como exceção”, a
-      validação da whitelist de membership caiu, e a penetração do estoque deixou de sustentar
-      “camada fácil esgotada”. Sobreviveram à verificação as duas identidades centrais, os universos
-      de atribuição e todos os agregados por campanha.</p>
-    <p><strong>O que esta análise não mede.</strong> Incrementalidade: nenhum dos números aqui separa
-      a venda que a mídia <em>causou</em> da que ela apenas registrou. E a janela do BP10 (97 dias)
-      convive com Odisseia e Coleção Brasil — o CAC dele usa apenas a verba com a sigla no nome da
-      campanha de mídia, não a verba total do período.</p>
+    <p><strong>O que entra em cada campanha.</strong> Os sete lançamentos de produto usam as vendas
+      que carregam o rastro da campanha (link, UTM ou checkout), o que inclui o que foi vendido junto
+      — sem isso a Certificação Bitcoin perderia 70% da receita e o Clube do Livro perderia
+      R$ 2,8 mi de Black Vitalício do cashback. Os dois Black November usam toda a venda nova do
+      mês, porque são promoção do catálogo inteiro.</p>
+
+    <p><strong>De onde vem a verba de mídia.</strong> O sistema só guarda gasto do Meta desde
+      ago/2025. A série foi reconstruída pela API do Meta, que alcança 37 meses, e conferida contra
+      o sistema: <strong>0,0% de diferença nos 13 meses em que as duas fontes coexistem</strong>.
+      Para a Travessia, anterior a isso, o custo vem da planilha do time de tráfego — que também
+      confere com a receita que medimos (R$ 8,10 mi contra R$ 8,01 mi).</p>
+
+    <p><strong>Quantos anúncios.</strong> Vêm de duas fontes com recortes diferentes, e não devem ser
+      comparadas entre si: da Travessia ao Bitcoin 1 a contagem é da planilha histórica do time de
+      tráfego e cobre <strong>só a fase de venda</strong>; do Black Friday 2025 em diante é do
+      sistema e cobre <strong>todas as fases</strong>. Comparar dentro de cada grupo.</p>
+
+    <p><strong>Quem é membro.</strong> Compras avulsas (livro, curso, certificação) são registradas
+      como assinatura no sistema — sem tratar isso, todo comprador de livro viraria “membro” pelo
+      próprio ato de comprar. Usamos uma lista fechada de planos que contam como assinatura de fato.</p>
+
+    <p style="margin-bottom:0"><strong>O que este estudo não mede.</strong> Incrementalidade: nenhum
+      número aqui separa a venda que a mídia causou da que ela apenas registrou. E o CRM da Travessia
+      não existe em lugar nenhum — a ferramenta de disparo só tem dados a partir de janeiro de 2024.</p>
+  </div>
+
+  <div class="nota">
+    <strong>Revisão independente.</strong> Este estudo passou por revisão crítica com acesso aos
+    dados, que corrigiu seis números e mudou três conclusões — entre elas a de que a migração para
+    mídia teria sido gradual ao longo de três anos (foi um degrau em 2024). O registro completo do
+    que mudou está no memo técnico que acompanha o relatório.
   </div>
 </section>
 
@@ -873,11 +436,8 @@
 
 <footer>
   Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
-  Fontes: <code>masterdata.fct_transactions</code>, <code>dim_subscriptions</code>,
-  <code>dim_zenvia_approaches</code>, <code>datamart.dtm_analytics_revenue_insider_funnel</code>,
-  <code>dtm_analytics_google_ads_funnel</code>, <code>dtm_analytics_pmax_ads_funnel</code>,
-  <code>bp-staging.dbt_abe.tb_ht_meta_spend</code> (Marketing API do Meta),
-  planilha histórica do time de tráfego.
+  Fontes: transações e assinaturas do data warehouse, abordagens do Zenvia, disparos da Insider,
+  Meta Ads (API e planilha histórica do time de tráfego), Google Ads e PMax.
 </footer>
 
 </div>
@@ -888,490 +448,215 @@ Chart.defaults.font.family = FONT;
 Chart.defaults.font.size   = 12;
 Chart.defaults.color       = "#6b7689";
 
-/* séries em ordem fixa — mesmos hex dos tokens --s1..--s8 */
 const S = ["#2a78d6","#eb6834","#1baf7a","#eda100","#e87ba4","#008300","#4a3aa7","#e34948"];
 const [S1,S2,S3,S4,,,S7] = S;
-const GOOD="#0ca30c", CRITICAL="#d03b3b", GRID="#e1e0d9", BASELINE="#c3c2b7", MUTED="#6b7689";
+const GRID="#e1e0d9", BASELINE="#c3c2b7", MUTED="#6b7689";
 
-const br  = (v,d=0) => (v==null ? '—' : v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}));
-const rs  = v => v==null ? '—' : 'R$ ' + br(v);
-const mi  = v => v==null ? '—' : 'R$ ' + br(v/1e6,2) + ' mi';
-const pc  = (v,d=1) => v==null ? '—' : br(v,d) + '%';
+const br = (v,d=0) => (v==null||Number.isNaN(v) ? '—'
+  : v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}));
+const rs = v => v==null ? '—' : 'R$ ' + br(v);
+const mi = v => v==null ? '—' : 'R$ ' + br(v/1e6,1) + ' mi';
+const pc = (v,d=1) => v==null ? '—' : br(v,d) + '%';
 
-/* rótulos diretos sobre as barras (o skill dataviz pede rótulo seletivo, não em todo ponto) */
 const rotulos = (fmt) => ({
   id:'rot',
   afterDatasetsDraw(c){
-    const {ctx} = c; ctx.save();
+    const {ctx}=c; ctx.save();
     c.data.datasets.forEach((ds,di)=>{
-      const meta = c.getDatasetMeta(di); if (meta.hidden) return;
+      const meta=c.getDatasetMeta(di); if (meta.hidden) return;
       meta.data.forEach((el,i)=>{
-        const v = ds.data[i]; if (v==null) return;
-        const t = fmt(v); if (t==null) return;
+        const v=ds.data[i]; if (v==null) return;
+        const t=fmt(v); if (t==null) return;
         ctx.fillStyle="#3a4254"; ctx.font="700 11px "+FONT;
         ctx.textAlign="center"; ctx.textBaseline="bottom";
-        ctx.fillText(t, el.x, el.y-5);
+        ctx.fillText(t, el.x, el.y-6);
       });
     });
     ctx.restore();
   }
 });
-
 const eixoX = { grid:{display:false}, border:{color:BASELINE} };
 const eixoY = { grid:{color:GRID}, border:{display:false}, beginAtZero:true };
 
-function barra(el, labels, dados, cor, fmtRotulo, fmtTooltip){
+function barra(el, labels, dados, cor, fmtRot, fmtTip, opts={}) {
   return new Chart(el, {
     type:'bar',
-    data:{ labels, datasets:[{ data:dados, backgroundColor:cor, borderRadius:4, maxBarThickness:38 }]},
-    options:{
-      aspectRatio:1.9,
-      layout:{padding:{top:22}},
-      plugins:{
-        legend:{display:false},
-        tooltip:{callbacks:{label:c=>fmtTooltip(c.raw)}}
-      },
-      scales:{ x:eixoX, y:{...eixoY, ticks:{callback:v=>br(v)}} }
-    },
-    plugins:[rotulos(fmtRotulo)]
+    data:{ labels, datasets:[{ data:dados, backgroundColor:cor, borderRadius:4, maxBarThickness:40 }]},
+    options:{ aspectRatio:opts.aspect||1.9, layout:{padding:{top:22}},
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>fmtTip(c.raw)}} },
+      scales:{ x:eixoX, y:{...eixoY, ticks:{callback:opts.tickY||(v=>br(v))}} } },
+    plugins:[rotulos(fmtRot)]
   });
 }
 
-function initCharts(D){
+function empilhado(el, labels, series, opts={}) {
+  return new Chart(el, {
+    type:'bar',
+    data:{ labels, datasets: series.map(s=>({ label:s.label, data:s.data, backgroundColor:s.cor,
+             borderRadius:2, borderWidth:2, borderColor:'#ffffff', maxBarThickness:46 })) },
+    options:{ aspectRatio:opts.aspect||2.3,
+      plugins:{ legend:{display:false},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+(opts.fmtTip?opts.fmtTip(c.raw):pc(c.raw))}} },
+      scales:{ x:{...eixoX, stacked:true},
+               y:{...eixoY, stacked:true, max:opts.max, ticks:{callback:opts.tickY||(v=>v+'%')}} } }
+  });
+}
+
+function initCharts(D) {
   const C = D.campanhas;
   const nomes = C.map(c=>c.sigla);
   const upd = document.getElementById('lastUpdate');
   if (upd) upd.textContent = 'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
 
-  const tra  = C.find(c=>c.sigla==='TRA');
-  const bp10 = C.find(c=>c.sigla==='BP10');
-  const bno24= C.find(c=>c.sigla==='BNO24');
-
-  document.getElementById('statRoasTra').textContent  = br(tra.vl_roas,1) + '×';
-  document.getElementById('statRoasBp10').textContent = br(bp10.vl_roas,2) + '×';
-  document.getElementById('statCpc').textContent =
-    '−' + br(100*(1 - bp10.vl_cpc/bno24.vl_cpc),0) + '%';
-
-  document.getElementById('contaMix').innerHTML =
-    `<div style="margin-bottom:8px"><b>BNO24</b> (nov/2024) &nbsp; ` +
-    `CAC do canal mídia ${rs(bno24.vl_cac_canal_midia)} × ${pc(bno24.pct_comp_midia)} dos compradores ` +
-    `= <b>CAC ${rs(bno24.vl_cac)}</b></div>` +
-    `<div><b>BP10</b> (jun–set/2026) &nbsp; ` +
-    `CAC do canal mídia ${rs(bp10.vl_cac_canal_midia)} × ${pc(bp10.pct_comp_midia)} dos compradores ` +
-    `= <b>CAC ${rs(bp10.vl_cac)}</b></div>` +
-    `<div style="margin-top:10px;font-size:13px;color:#475569">` +
-    `Entre as duas campanhas de vitalício, o custo de adquirir um comprador <em>pela mídia</em> ` +
-    `caiu ${br(100*(1-bp10.vl_cac_canal_midia/bno24.vl_cac_canal_midia),0)}%. ` +
-    `O CAC médio subiu ${br(100*(bp10.vl_cac/bno24.vl_cac-1),0)}% porque a fatia que vem por mídia ` +
-    `passou de ${pc(bno24.pct_comp_midia)} para ${pc(bp10.pct_comp_midia)}.</div>`;
-
-  barra(gCac,  nomes, C.map(c=>c.vl_cac),  S1, v=>'R$'+br(v), rs);
-  barra(gRoas, nomes, C.map(c=>c.vl_roas), S3, v=>br(v,1)+'×', v=>br(v,2)+'×');
-  barra(gCpm,  nomes, C.map(c=>c.vl_cpm),  S2, v=>br(v,0), v=>rs(v)+' / mil impressões');
-  barra(gCpc,  nomes, C.map(c=>c.vl_cpc),  S2, v=>br(v,2), v=>'R$ '+br(v,2)+' / clique');
-  barra(gAbord,nomes, C.map(c=>c.qt_abordagens_dia), S4, v=>br(v), v=>br(v)+' abordagens/dia');
-  barra(gResp, nomes, C.map(c=>c.pct_resposta_abordagem), S4, v=>br(v,0)+'%', v=>pc(v));
-  barra(gPenetra, nomes, C.map(c=>c.pct_base_com_ht), S7, v=>br(v,1)+'%', v=>pc(v));
-  barra(gReinc,   nomes, C.map(c=>c.pct_reincidente),  S7, v=>br(v,0)+'%', v=>pc(v));
-
-  /* mix de canal — barras empilhadas em 100%, com 2px de respiro entre segmentos */
-  new Chart(gMix, {
-    type:'bar',
-    data:{
-      labels:nomes,
-      datasets:[
-        {label:'Mídia paga', data:C.map(c=>c.pct_comp_midia),     backgroundColor:S1},
-        {label:'Comercial',  data:C.map(c=>c.pct_comp_comercial), backgroundColor:S2},
-        {label:'CRM',        data:C.map(c=>c.pct_comp_crm),       backgroundColor:S3},
-        {label:'Orgânico/outros',
-         data:C.map(c=>Math.max(0, 100-c.pct_comp_midia-c.pct_comp_comercial-c.pct_comp_crm)),
-         backgroundColor:S4}
-      ].map(d=>({...d, borderRadius:2, borderWidth:2, borderColor:'#ffffff', maxBarThickness:46}))
-    },
-    options:{
-      aspectRatio:2.4,
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>c.dataset.label+': '+pc(c.raw)}} },
-      scales:{ x:{...eixoX, stacked:true}, y:{...eixoY, stacked:true, max:100, ticks:{callback:v=>v+'%'}} }
-    }
-  });
-
-  /* mix de produto das promoções de base */
-  const promos = [...new Set(D.mix_promocao.map(r=>r.sigla))];
-  const serie = tipo => promos.map(s =>
-    (D.mix_promocao.find(r=>r.sigla===s && r.nm_tipo===tipo)?.vl ?? 0)/1e6);
-  new Chart(gMixProd, {
-    type:'bar',
-    data:{ labels:promos, datasets:[
-      {label:'Vitalício',          data:serie('Vitalício'),         backgroundColor:S1},
-      {label:'Assinatura e outros',data:serie('Assinatura/outros'), backgroundColor:S2}
-    ].map(d=>({...d, borderRadius:2, borderWidth:2, borderColor:'#ffffff', maxBarThickness:60}))},
-    options:{
-      aspectRatio:3,
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>c.dataset.label+': R$ '+br(c.raw,2)+' mi'}} },
-      scales:{ x:{...eixoX, stacked:true}, y:{...eixoY, stacked:true, ticks:{callback:v=>br(v)}} }
-    }
-  });
-
-  /* ── duas alavancas: CAC × ticket, com curvas de ROAS constante ───────── */
-  const pts = C.map(c => ({x:c.vl_cac, y:c.vl_ticket, sigla:c.sigla, roas:c.vl_roas}));
-  const teto = (v,passo) => Math.ceil(v/passo)*passo;   /* eixo em número redondo */
-  const cacMax = teto(Math.max(...pts.map(p=>p.x)) * 1.12, 100);
-  const tkMax  = teto(Math.max(...pts.map(p=>p.y)) * 1.20, 500);
-  /* iso-ROAS: ticket = ROAS × CAC. São referência (cromo), não série — tracejadas e recessivas. */
-  const iso = r => ({
-    label:'ROAS ' + r + '×', showLine:true, borderColor:GRID, borderWidth:1.5,
-    borderDash:[5,4], pointRadius:0, fill:false, order:2,
-    data:[{x:0,y:0},{x:cacMax,y:r*cacMax}]
-  });
-
-  /* rótulo direto em cada ponto: identidade nunca por cor sozinha */
-  const rotuloPonto = {
-    id:'rotpt',
-    afterDatasetsDraw(c){
-      const {ctx} = c; ctx.save();
-      const meta = c.getDatasetMeta(0);
-      ctx.font='700 11px '+FONT; ctx.textAlign='left'; ctx.textBaseline='middle';
-      /* empilha rótulo quando dois pontos caem quase no mesmo lugar (TRA/BNO24/CDL) */
-      const postos = [];
-      const ordem = meta.data.map((el,i)=>({el, d:c.data.datasets[0].data[i]}))
-                             .sort((a,b)=>a.el.y-b.el.y);
-      ordem.forEach(({el,d})=>{
-        const texto = d.sigla+'  '+br(d.roas,2)+'×';
-        const larg = ctx.measureText(texto).width;
-        let x = el.x+10, y = el.y;
-        let tent = 0;
-        while (postos.some(q => Math.abs(q.y-y) < 13 && x < q.x+q.w+6 && q.x < x+larg+6) && tent < 8) {
-          y -= 14; tent++;
-        }
-        /* se saiu do topo da área, joga para baixo do ponto */
-        if (y < c.chartArea.top+8) y = el.y + 14 + tent*2;
-        /* se o rótulo estourar a direita, escreve à esquerda do ponto */
-        if (x + larg > c.chartArea.right - 4) { x = el.x - larg - 10; }
-        if (Math.abs(y-el.y) > 6) { /* linha de chamada discreta */
-          ctx.strokeStyle=BASELINE; ctx.lineWidth=1;
-          ctx.beginPath(); ctx.moveTo(el.x, el.y); ctx.lineTo(x-4, y); ctx.stroke();
-        }
-        ctx.fillStyle='#1e293b';
-        ctx.fillText(texto, x, y);
-        postos.push({x, y, w:larg});
-      });
-      ctx.restore();
-    }
-  };
-
-  new Chart(gAlavancas, {
-    type:'scatter',
-    data:{ datasets:[
-      { label:'Campanha', data:pts, backgroundColor:S1, pointRadius:7,
-        pointHoverRadius:10, borderColor:'#ffffff', borderWidth:2, order:1 },
-      iso(8), iso(4), iso(2)
-    ]},
-    options:{
-      aspectRatio:2.1,
-      plugins:{
-        legend:{display:false},
-        tooltip:{ filter:i=>i.datasetIndex===0,
-          callbacks:{ label:i=>`${i.raw.sigla}: CAC ${rs(i.raw.x)} · ticket ${rs(i.raw.y)} · ROAS ${br(i.raw.roas,2)}×` } }
-      },
-      scales:{
-        x:{ ...eixoX, grid:{color:GRID}, min:0, max:cacMax,
-            title:{display:true, text:'CAC — custo por comprador (R$)', color:MUTED},
-            ticks:{callback:v=>'R$ '+br(v)} },
-        y:{ ...eixoY, min:0, max:tkMax,
-            title:{display:true, text:'Ticket médio (R$)', color:MUTED},
-            ticks:{callback:v=>'R$ '+br(v)} }
-      }
-    },
-    plugins:[rotuloPonto]
-  });
-
-  /* decomposição da queda do ROAS: barra 100% com as duas contribuições */
-  new Chart(gDecomp, {
-    type:'bar',
-    data:{ labels:['BNO24 → BP10'], datasets:[
-      {label:'CAC (mídia)',   data:[72], backgroundColor:S1},
-      {label:'Ticket (oferta)', data:[28], backgroundColor:S2}
-    ].map(d=>({...d, borderRadius:2, borderWidth:2, borderColor:'#ffffff', maxBarThickness:52}))},
-    options:{
-      indexAxis:'y', aspectRatio:3.4,
-      plugins:{ legend:{display:false},
-                tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw+'% da queda'}} },
-      scales:{ x:{ stacked:true, max:100, grid:{display:false}, border:{display:false},
-                   ticks:{callback:v=>v+'%'} },
-               y:{ stacked:true, grid:{display:false}, border:{display:false}, ticks:{display:false} } }
-    },
-    plugins:[{ id:'rotdec', afterDatasetsDraw(c){
-      const {ctx}=c; ctx.save(); ctx.font='700 12px '+FONT; ctx.fillStyle='#ffffff';
-      ctx.textAlign='center'; ctx.textBaseline='middle';
-      c.data.datasets.forEach((ds,di)=>{
-        const el=c.getDatasetMeta(di).data[0];
-        ctx.fillText(ds.data[0]+'%', (el.x+el.base)/2, el.y);
-      });
-      ctx.restore(); }}]
-  });
-
-  /* ── o que foi vendido ────────────────────────────────────────────────── */
-  const P = D.produtos;
-  const fams = ['Vitalício','Livro / físico','Certificação','Assinatura recorrente'];
-  const corFam = {'Vitalício':S1,'Livro / físico':S2,'Certificação':S3,'Assinatura recorrente':S4};
-  const pctFam = (sig,fam) => P.find(r=>r.sigla===sig && r.nm_familia===fam)?.pct_receita ?? 0;
-  new Chart(gProduto, {
-    type:'bar',
-    data:{ labels:nomes, datasets:[
-      ...fams.map(f=>({label:f, data:nomes.map(s=>pctFam(s,f)), backgroundColor:corFam[f]})),
-      {label:'Mecenas e outros',
-       data:nomes.map(s=>Math.max(0, 100 - fams.reduce((a,f)=>a+pctFam(s,f),0))),
-       backgroundColor:S7}
-    ].map(d=>({...d, borderRadius:2, borderWidth:2, borderColor:'#ffffff', maxBarThickness:46}))},
-    options:{
-      aspectRatio:2.4,
-      plugins:{ legend:{display:false},
-                tooltip:{callbacks:{label:c=>c.dataset.label+': '+pc(c.raw)}} },
-      scales:{ x:{...eixoX, stacked:true}, y:{...eixoY, stacked:true, max:100, ticks:{callback:v=>v+'%'}} }
-    }
-  });
-
-  const vit = sig => P.find(r=>r.sigla===sig && r.nm_familia==='Vitalício') || {};
-  const v24 = vit('BNO24'), v10 = vit('BP10');
-  document.getElementById('contaVit').innerHTML =
-    `<div style="margin-bottom:10px"><strong>A comparação limpa: BNO24 × BP10.</strong> São as duas ` +
-    `campanhas em que o vitalício era a oferta central (${pc(v24.pct_receita)} e ${pc(v10.pct_receita)} ` +
-    `da receita). O BNO25 fica de fora — lá o vitalício foi ${pc(vit('BNO25').pct_receita)} da receita ` +
-    `e 3,6% dos compradores.</div>` +
-    `<div style="font-size:18px"><b>CAC do vitalício</b> &nbsp; ${rs(v24.vl_cac_rateio_receita)} → ` +
-    `<b>${rs(v10.vl_cac_rateio_receita)}</b> &nbsp;<span style="color:var(--critical)">` +
-    `+${br(100*(v10.vl_cac_rateio_receita/v24.vl_cac_rateio_receita-1),0)}%</span></div>` +
-    `<div style="margin-top:8px;font-size:13px;color:#475569">⚠️ É rateio de P&L, não custo de ` +
-    `aquisição: ninguém comprou mídia de vitalício. Rateio por <strong>receita</strong> — ` +
-    `a convenção adotada (decisão de 17/09). As alternativas dão +129% (por comprador) e +122% ` +
-    `(por transação): <strong>a alta fica cercada entre +122% e +151%</strong>, e mesmo o piso é maior ` +
-    `que os +129% do CAC blendado da campanha. Separar o produto <strong>aumenta</strong> a alta do ` +
-    `CAC do vitalício, em vez de suavizá-la.</div>`;
-
-  const ordemFam = {'Vitalício':0,'Livro / físico':1,'Certificação':2,'Assinatura recorrente':3,
-                    'Mecenas':4,'Ebook / Teller':5};
-  document.getElementById('tbProduto').innerHTML = P
-    .slice().sort((a,b)=>(a.ord-b.ord) || ((ordemFam[a.nm_familia]??9)-(ordemFam[b.nm_familia]??9)))
-    .map(r=>`<tr>
-      <td><strong>${r.sigla}</strong></td>
-      <td>${r.nm_familia}</td>
-      <td class="num">${br(r.qt_compradores)}</td>
-      <td class="num">${mi(r.vl_receita)}</td>
-      <td class="num">${pc(r.pct_receita)}</td>
-      <td class="num">${rs(r.vl_ticket)}</td>
-      <td class="num"><strong>${rs(r.vl_cac_rateio_receita)}</strong></td>
-      <td class="num" style="color:var(--soft)">${rs(r.vl_cac_rateio_comprador)}</td>
-      <td class="num" style="color:var(--soft)">${r.vl_roas_rateio_comprador!=null ? br(r.vl_roas_rateio_comprador,2)+'×' : '—'}</td>
-    </tr>`).join('');
-
-  /* ── peças distintas ──────────────────────────────────────────────────── */
-  document.getElementById('tbPecas').innerHTML = C.map(c=>`<tr>
-      <td><strong>${c.sigla}</strong></td>
-      <td class="num">${c.qt_email_tag!=null ? '<strong>'+br(c.qt_email_tag)+'</strong>' : '—'}</td>
-      <td class="num">${c.qt_whatsapp_tag!=null ? br(c.qt_whatsapp_tag) : '—'}</td>
-      <td class="num">${c.qt_push_tag!=null ? br(c.qt_push_tag) : '—'}</td>
-      <td class="num">${c.qt_pecas_crm_tag!=null ? br(c.qt_pecas_crm_tag) : '—'}</td>
-      <td class="num">${c.qt_pecas_crm_por_dia!=null ? br(c.qt_pecas_crm_por_dia,1) : '—'}</td>
-      <td class="num">${c.qt_entregas_por_peca!=null ? br(c.qt_entregas_por_peca) : '—'}</td>
-      <td class="num">${c.qt_anuncios!=null ? br(c.qt_anuncios) : '—'}</td>
-    </tr>`).join('');
-
-  /* ── quantidade de anúncios ───────────────────────────────────────────── */
-  barra(gAds, nomes, C.map(c=>c.qt_anuncios), S1,
-        v=>v==null?null:br(v), v=>br(v)+' anúncios');
-
-  document.getElementById('tbAds').innerHTML = C.map(c=>`<tr>
-      <td><strong>${c.sigla}</strong></td>
-      <td class="num">${c.qt_anuncios!=null ? '<strong>'+br(c.qt_anuncios)+'</strong>' : '—'}</td>
-      <td class="num" style="color:var(--soft)">${c.qt_ads_venda!=null ? br(c.qt_ads_venda) : '—'}</td>
-      <td class="num" style="color:var(--soft)">${c.qt_ads_todas_fases!=null ? br(c.qt_ads_todas_fases) : '—'}</td>
-      <td class="num">${c.qt_conjuntos!=null ? br(c.qt_conjuntos) : '—'}</td>
-      <td class="num">${c.vl_spend_por_anuncio!=null ? rs(c.vl_spend_por_anuncio) : '—'}</td>
-      <td style="font-size:11.5px;color:var(--muted)">${c.nm_fonte_contagem_ads ?? '—'}</td>
-    </tr>`).join('');
-
-  /* ── quem compra: status na data da compra ────────────────────────────── */
-  new Chart(gStatus, {
-    type:'bar',
-    data:{ labels:nomes, datasets:[
-      {label:'Membro ativo',    data:C.map(c=>c.pct_membro),     backgroundColor:S1},
-      {label:'Ex-membro',       data:C.map(c=>c.pct_ex_membro),  backgroundColor:S2},
-      {label:'Nunca foi membro',data:C.map(c=>c.pct_nao_membro), backgroundColor:S3}
-    ].map(d=>({...d, borderRadius:2, borderWidth:2, borderColor:'#ffffff', maxBarThickness:46}))},
-    options:{
-      aspectRatio:2.4,
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>c.dataset.label+': '+pc(c.raw)}} },
-      scales:{ x:{...eixoX, stacked:true}, y:{...eixoY, stacked:true, max:100, ticks:{callback:v=>v+'%'}} }
-    }
-  });
-
-  /* ── funil do Comercial ───────────────────────────────────────────────── */
-  document.getElementById('tbComercial').innerHTML = C.map(c=>{
-    const abord = Math.round(c.qt_abordagens_dia * c.qt_dias);
+  /* tabela resumo */
+  document.getElementById('tbResumo').innerHTML = C.map(c=>{
+    const cor = c.vl_roas>=5 ? 'var(--good)' : (c.vl_roas<2.5 ? 'var(--critical)' : 'var(--text)');
     return `<tr>
-      <td><strong>${c.sigla}</strong></td>
-      <td class="num">${br(abord)}</td>
-      <td class="num">${br(c.qt_conversas)}</td>
-      <td class="num">${pc(c.pct_resposta_abordagem)}</td>
-      <td class="num">${br(Math.round(c.qt_conversas * c.pct_conv_conversa / 100))}</td>
-      <td class="num"><strong>${pc(c.pct_conv_conversa)}</strong></td>
-      <td class="num">${pc(c.pct_conv_abordagem, 2)}</td>
-    </tr>`;
-  }).join('');
-
-  /* ── testes de robustez ───────────────────────────────────────────────── */
-  const U = {};
-  D.teste_universo.forEach(r => { (U[r.sigla] = U[r.sigla] || {})[r.nm_universo] = r.pct_midia; });
-  const colsU = ['BNO24','BNO25','CDL','BP10','ODI'];
-  document.getElementById('tbUniverso').innerHTML = ['janela','rastro'].map(u =>
-    `<tr><td>regra <code>${u}</code></td>` +
-    colsU.map(s2 => `<td class="num">${pc(U[s2]?.[u])}</td>`).join('') + '</tr>').join('');
-
-  /* série mensal da casa: linhas finas, sem marcador em todo ponto */
-  const SC = D.serie_casa;
-  const destaques = {'2024-11':'BNO24','2025-11':'BNO25','2026-05':'CDL','2026-06':'BP10','2023-04':'TRA'};
-  new Chart(gSerieCasa, {
-    type:'line',
-    data:{ labels:SC.map(r=>r.sigla), datasets:[
-      { label:'Mídia paga', data:SC.map(r=>r.pct_midia), borderColor:S1, backgroundColor:S1,
-        borderWidth:2, tension:0.25, fill:false,
-        pointRadius:SC.map(r=>destaques[r.sigla]?5:0), pointHoverRadius:6 },
-      { label:'Comercial', data:SC.map(r=>r.pct_comercial), borderColor:S2, backgroundColor:S2,
-        borderWidth:2, tension:0.25, fill:false,
-        pointRadius:SC.map(r=>destaques[r.sigla]?5:0), pointHoverRadius:6 }
-    ]},
-    options:{
-      aspectRatio:2.4, interaction:{mode:'index', intersect:false},
-      plugins:{ legend:{display:false},
-        tooltip:{ callbacks:{ title:i=>i[0].label + (destaques[i[0].label] ? '  ·  '+destaques[i[0].label] : ''),
-                              label:c=>c.dataset.label+': '+pc(c.raw) } } },
-      scales:{
-        x:{ ...eixoX, ticks:{ maxRotation:0, autoSkip:false,
-              callback:function(v,i){ const l=this.getLabelForValue(v); return l.endsWith('-01')||l.endsWith('-07') ? l : ''; } } },
-        y:{ ...eixoY, max:80, ticks:{callback:v=>v+'%'} }
-      }
-    },
-    plugins:[{ id:'marcacasa', afterDatasetsDraw(c){
-      const {ctx}=c; ctx.save(); ctx.font='700 10px '+FONT; ctx.fillStyle='#1e293b'; ctx.textAlign='center';
-      c.getDatasetMeta(0).data.forEach((el,i)=>{
-        const nome = destaques[SC[i].sigla]; if (!nome) return;
-        ctx.fillText(nome, el.x, el.y - 12);
-      });
-      ctx.restore(); }}]
-  });
-
-  /* ── economia por canal ───────────────────────────────────────────────── */
-  const CAN = D.canais;
-  const rotCanal = {midia_paga:'Mídia paga', comercial:'Comercial', crm:'CRM',
-                    organico_portal:'Orgânico/portal'};
-  const pega = (sig,can,campo) => CAN.find(r=>r.sigla===sig && r.nm_canal===can)?.[campo] ?? null;
-
-  /* só as campanhas de escala: grupos de barras com 9 categorias e outliers de 4 mil
-     viram ilegíveis; o resto está na tabela logo abaixo */
-  const escala = C.filter(c=>c.qt_compradores > 15000).map(c=>c.sigla);
-  new Chart(gCacCanal, {
-    type:'bar',
-    data:{ labels:escala, datasets:[
-      {label:'Mídia paga', data:escala.map(s=>pega(s,'midia_paga','vl_cac_canal')), backgroundColor:S1},
-      {label:'Comercial',  data:escala.map(s=>pega(s,'comercial','vl_cac_canal')),  backgroundColor:S2},
-      {label:'CRM',        data:escala.map(s=>pega(s,'crm','vl_cac_canal')),        backgroundColor:S3}
-    ].map(d=>({...d, borderRadius:4, maxBarThickness:34}))},
-    options:{
-      aspectRatio:2.4, layout:{padding:{top:22}},
-      plugins:{ legend:{display:false},
-                tooltip:{callbacks:{label:c=>c.dataset.label+': '+rs(c.raw)}} },
-      scales:{ x:eixoX, y:{...eixoY, ticks:{callback:v=>'R$ '+br(v)}} }
-    },
-    plugins:[rotulos(v=>v==null?null:'R$'+br(v))]
-  });
-
-  const ordemCanal = {midia_paga:0, comercial:1, crm:2, organico_portal:3};
-  document.getElementById('tbCanal').innerHTML = CAN
-    .slice().sort((a,b)=> (a.ord-b.ord) || (ordemCanal[a.nm_canal]-ordemCanal[b.nm_canal]))
-    .map(r=>{
-      const roas = r.vl_roas_canal;
-      const tag = roas==null ? '' :
-        `<span class="tag ${roas>=5?'t-g':(roas<1?'t-r':'t-b')}">${br(roas,2)}×</span>`;
-      const aviso = r.nm_canal==='comercial' ? ' <span style="color:var(--soft)">(por construção)</span>' : '';
-      return `<tr>
-        <td><strong>${r.sigla}</strong></td>
-        <td>${rotCanal[r.nm_canal]}</td>
-        <td class="num">${br(r.qt_compradores)}</td>
-        <td class="num">${mi(r.vl_receita)}</td>
-        <td class="num">${r.vl_custo ? rs(r.vl_custo) : '—'}</td>
-        <td class="num">${r.vl_cac_canal!=null ? rs(r.vl_cac_canal) : '—'}</td>
-        <td class="num">${tag}${aviso}</td>
-        <td class="num">${rs(r.vl_ticket)}</td>
-        <td style="font-size:11.5px;color:var(--muted)">${r.nm_natureza_custo}</td>
-      </tr>`;
-    }).join('');
-
-  /* ── CRM ──────────────────────────────────────────────────────────────── */
-  const crm = C.map(c=>CAN.find(r=>r.sigla===c.sigla && r.nm_canal==='crm') || {});
-  barra(gDisparos, nomes, crm.map(r=>r.qt_disparos==null?null:r.qt_disparos/1e6), S3,
-        v=>v==null?null:br(v,0), v=>br(v,1)+' mi de disparos');
-  barra(gCrm1k, nomes, crm.map(r=>r.vl_receita_por_1k), S3,
-        v=>v==null?null:br(v,0), v=>rs(v)+' por mil disparos');
-
-  const partes = r => {
-    const t = (r.qt_disparos||0) || 1;
-    return [100*(r.qt_email||0)/t, 100*(r.qt_whatsapp||0)/t,
-            100*((r.qt_push||0)+(r.qt_outros||0))/t];
-  };
-  new Chart(gCrmMix, {
-    type:'bar',
-    data:{ labels:nomes, datasets:[
-      {label:'E-mail',        data:crm.map(r=>partes(r)[0]), backgroundColor:S1},
-      {label:'WhatsApp',      data:crm.map(r=>partes(r)[1]), backgroundColor:S2},
-      {label:'Push / in-app', data:crm.map(r=>partes(r)[2]), backgroundColor:S3}
-    ].map(d=>({...d, borderRadius:2, borderWidth:2, borderColor:'#ffffff', maxBarThickness:40}))},
-    options:{
-      aspectRatio:3.2,
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>c.dataset.label+': '+pc(c.raw)}} },
-      scales:{ x:{...eixoX, stacked:true}, y:{...eixoY, stacked:true, max:100, ticks:{callback:v=>v+'%'}} }
-    }
-  });
-
-  /* receita anual */
-  const A = D.anual;
-  barra(gAnual, A.map(r=>r.ano + (r.ano===2026 ? ' *' : '')), A.map(r=>r.vl_ht/1e6),
-        S1, v=>br(v,0), v=>'R$ '+br(v,1)+' mi');
-
-  /* tabela */
-  document.getElementById('tbCamp').innerHTML = C.map(c=>{
-    const fonte = c.nm_fonte_midia==='planilha_trafego' ? ' <span class="tag t-n">planilha</span>' : '';
-    const roasTag = c.vl_roas >= 5 ? 't-g' : (c.vl_roas < 2.5 ? 't-r' : 't-b');
-    return `<tr>
-      <td><strong>${c.sigla}</strong><br><span style="color:var(--soft);font-size:11px">${c.nm_campanha}</span></td>
-      <td class="num">${c.qt_dias}</td>
-      <td class="num">${br(c.qt_compradores)}</td>
+      <td class="campanha">${c.sigla}<small>${c.nm_campanha}</small></td>
       <td class="num">${mi(c.vl_receita)}</td>
       <td class="num">${rs(c.vl_ticket)}</td>
-      <td class="num">${mi(c.vl_midia)}${fonte}</td>
+      <td class="num">${mi(c.vl_midia)}</td>
       <td class="num">${rs(c.vl_cac)}</td>
-      <td class="num"><span class="tag ${roasTag}">${br(c.vl_roas,2)}×</span></td>
+      <td class="num" style="color:${cor};font-weight:700">${br(c.vl_roas,2)}×</td>
+      <td class="num">${br(c.qt_anuncios)}</td>
       <td class="num">${pc(c.pct_comp_midia)}</td>
-      <td class="num">${pc(c.pct_comp_comercial)}</td>
       <td class="num">${pc(c.pct_nao_membro)}</td>
     </tr>`;
   }).join('');
 
-  document.getElementById('notaFonte').innerHTML =
-    `<strong>Mídia</strong> = verba das campanhas de anúncio que carregam a sigla no nome ` +
-    `(Meta via Marketing API + Google e PMax do warehouse). A Travessia está marcada como ` +
-    `<span class="tag t-n">planilha</span>: é anterior aos 37 meses que a API alcança. ` +
-    `<strong>Não-membro %</strong> = compradores sem nenhuma assinatura anterior na data da compra.`;
+  /* alavancas: CAC × ticket */
+  const pts = C.map(c=>({x:c.vl_cac, y:c.vl_ticket, sigla:c.sigla, roas:c.vl_roas}));
+  const teto=(v,p)=>Math.ceil(v/p)*p;
+  const cacMax = teto(Math.max(...pts.map(p=>p.x))*1.12, 100);
+  const tkMax  = teto(Math.max(...pts.map(p=>p.y))*1.20, 500);
+  const iso = r => ({ label:'', showLine:true, borderColor:GRID, borderWidth:1.5,
+    borderDash:[5,4], pointRadius:0, fill:false, order:2, data:[{x:0,y:0},{x:cacMax,y:r*cacMax}] });
+  const rotuloPonto = { id:'rotpt', afterDatasetsDraw(c){
+    const {ctx}=c; ctx.save(); ctx.font='700 11px '+FONT;
+    ctx.textAlign='left'; ctx.textBaseline='middle';
+    const postos=[];
+    c.getDatasetMeta(0).data.map((el,i)=>({el,d:c.data.datasets[0].data[i]}))
+      .sort((a,b)=>a.el.y-b.el.y).forEach(({el,d})=>{
+        const txt=d.sigla+'  '+br(d.roas,2)+'×', w=ctx.measureText(txt).width;
+        let x=el.x+10, y=el.y, t=0;
+        while (postos.some(q=>Math.abs(q.y-y)<13 && x<q.x+q.w+6 && q.x<x+w+6) && t<8) { y-=14; t++; }
+        if (y < c.chartArea.top+8) y = el.y+14+t*2;
+        if (x+w > c.chartArea.right-4) x = el.x-w-10;
+        if (Math.abs(y-el.y)>6) { ctx.strokeStyle=BASELINE; ctx.lineWidth=1;
+          ctx.beginPath(); ctx.moveTo(el.x,el.y); ctx.lineTo(x-4,y); ctx.stroke(); }
+        ctx.fillStyle='#1e293b'; ctx.fillText(txt,x,y); postos.push({x,y,w});
+      });
+    ctx.restore(); }};
+  new Chart(gAlavancas, {
+    type:'scatter',
+    data:{ datasets:[
+      { data:pts, backgroundColor:S1, pointRadius:7, pointHoverRadius:10,
+        borderColor:'#fff', borderWidth:2, order:1 }, iso(8), iso(4), iso(2) ]},
+    options:{ aspectRatio:2.1,
+      plugins:{ legend:{display:false}, tooltip:{ filter:i=>i.datasetIndex===0,
+        callbacks:{ label:i=>`${i.raw.sigla}: custo ${rs(i.raw.x)} · ticket ${rs(i.raw.y)} · retorno ${br(i.raw.roas,2)}×` } } },
+      scales:{ x:{...eixoX, grid:{color:GRID}, min:0, max:cacMax,
+                  title:{display:true,text:'Custo por comprador (R$)',color:MUTED},
+                  ticks:{callback:v=>'R$ '+br(v)}},
+               y:{...eixoY, min:0, max:tkMax,
+                  title:{display:true,text:'Ticket médio (R$)',color:MUTED},
+                  ticks:{callback:v=>'R$ '+br(v)}} } },
+    plugins:[rotuloPonto]
+  });
+
+  /* mix de canal */
+  empilhado(gMix, nomes, [
+    {label:'Mídia paga', data:C.map(c=>c.pct_comp_midia), cor:S1},
+    {label:'Comercial',  data:C.map(c=>c.pct_comp_comercial), cor:S2},
+    {label:'CRM',        data:C.map(c=>c.pct_comp_crm), cor:S3},
+    {label:'Orgânico e outros',
+     data:C.map(c=>Math.max(0,100-c.pct_comp_midia-c.pct_comp_comercial-c.pct_comp_crm)), cor:S4}
+  ], {max:100});
+
+  /* série da casa */
+  const SC = D.serie_casa;
+  const marcos = {'2023-04':'Travessia','2024-11':'BF 2024','2025-11':'BF 2025','2026-06':'BP10'};
+  new Chart(gSerieCasa, {
+    type:'line',
+    data:{ labels:SC.map(r=>r.sigla), datasets:[
+      {label:'Mídia paga', data:SC.map(r=>r.pct_midia), borderColor:S1, borderWidth:2,
+       tension:.25, fill:false, pointRadius:SC.map(r=>marcos[r.sigla]?5:0), pointBackgroundColor:S1},
+      {label:'Comercial', data:SC.map(r=>r.pct_comercial), borderColor:S2, borderWidth:2,
+       tension:.25, fill:false, pointRadius:SC.map(r=>marcos[r.sigla]?5:0), pointBackgroundColor:S2}
+    ]},
+    options:{ aspectRatio:2.5, interaction:{mode:'index',intersect:false},
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{
+        title:i=>i[0].label+(marcos[i[0].label]?'  ·  '+marcos[i[0].label]:''),
+        label:c=>c.dataset.label+': '+pc(c.raw)}} },
+      scales:{ x:{...eixoX, ticks:{maxRotation:0, autoSkip:false,
+                 callback:function(v){ const l=this.getLabelForValue(v);
+                   return (l.endsWith('-01')||l.endsWith('-07')) ? l : ''; }}},
+               y:{...eixoY, max:80, ticks:{callback:v=>v+'%'}} } },
+    plugins:[{ id:'marcos', afterDatasetsDraw(c){
+      const {ctx}=c; ctx.save(); ctx.font='700 10px '+FONT; ctx.fillStyle='#1e293b'; ctx.textAlign='center';
+      c.getDatasetMeta(0).data.forEach((el,i)=>{ const n=marcos[SC[i].sigla];
+        if (n) ctx.fillText(n, el.x, el.y-12); });
+      ctx.restore(); }}]
+  });
+
+  /* mix de produto das promoções */
+  const promos = [...new Set(D.mix_promocao.map(r=>r.sigla))];
+  const rotuloPromo = {BNO24:'BF 2024', BNO25:'BF 2025', BP10:'BP10'};
+  const serieProd = tipo => promos.map(s =>
+    (D.mix_promocao.find(r=>r.sigla===s && r.nm_tipo===tipo)?.vl ?? 0)/1e6);
+  empilhado(gMixProd, promos.map(s=>rotuloPromo[s]||s), [
+    {label:'Vitalício', data:serieProd('Vitalício'), cor:S1},
+    {label:'Assinatura e outros', data:serieProd('Assinatura/outros'), cor:S2}
+  ], {aspect:3, max:undefined, tickY:v=>br(v), fmtTip:v=>'R$ '+br(v,2)+' mi'});
+
+  /* status */
+  empilhado(gStatus, nomes, [
+    {label:'Membro ativo', data:C.map(c=>c.pct_membro), cor:S1},
+    {label:'Ex-membro', data:C.map(c=>c.pct_ex_membro), cor:S2},
+    {label:'Nunca foi membro', data:C.map(c=>c.pct_nao_membro), cor:S3}
+  ], {max:100});
+
+  /* comercial */
+  barra(gResp, nomes, C.map(c=>c.pct_resposta_abordagem), S2,
+        v=>br(v,0)+'%', v=>pc(v), {tickY:v=>v+'%'});
+  barra(gConv, nomes, C.map(c=>c.pct_conv_conversa), S3,
+        v=>br(v,1)+'%', v=>pc(v), {tickY:v=>v+'%'});
+
+  /* CRM — usa a medida POR CAMPANHA (peças com a tag), que é a citada no texto.
+     O data.json também tem vl_crm_por_1k, que é da janela inteira e inclui CRM de
+     outras frentes — não usar aqui, senão gráfico e texto divergem. */
+  const crmPor1k = s2 => (D.canais.find(r=>r.sigla===s2 && r.nm_canal==='crm')||{}).vl_receita_por_1k ?? null;
+  barra(gCrm1k, nomes, C.map(c=>crmPor1k(c.sigla)), S3,
+        v=>br(v,0), v=>rs(v)+' por mil mensagens', {aspect:3});
+
+  /* CAC por canal */
+  const CAN = D.canais;
+  const pega = (s,can) => CAN.find(r=>r.sigla===s && r.nm_canal===can)?.vl_cac_canal ?? null;
+  const escala = C.filter(c=>c.qt_compradores>15000).map(c=>c.sigla);
+  const rotEsc = {BNO24:'BF 2024', BNO25:'BF 2025', CDL:'Clube do Livro', BP10:'BP10'};
+  new Chart(gCacCanal, {
+    type:'bar',
+    data:{ labels:escala.map(s=>rotEsc[s]||s), datasets:[
+      {label:'Mídia paga', data:escala.map(s=>pega(s,'midia_paga')), backgroundColor:S1},
+      {label:'Comercial',  data:escala.map(s=>pega(s,'comercial')),  backgroundColor:S2},
+      {label:'CRM',        data:escala.map(s=>pega(s,'crm')),        backgroundColor:S3}
+    ].map(d=>({...d, borderRadius:4, maxBarThickness:36}))},
+    options:{ aspectRatio:2.4, layout:{padding:{top:22}},
+      plugins:{ legend:{display:false},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+rs(c.raw)}} },
+      scales:{ x:eixoX, y:{...eixoY, ticks:{callback:v=>'R$ '+br(v)}} } },
+    plugins:[rotulos(v=>v==null?null:'R$'+br(v))]
+  });
 }
 
 fetch('./data.json')
-  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(r => { if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
   .then(initCharts)
   .catch(err => {
-    console.error('Falha ao carregar data.json:', err);
+    console.error(err);
     document.querySelector('main').insertAdjacentHTML('afterbegin',
-      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
-        ⚠ Erro ao carregar dados: ${err.message}. Para ver local, rodar <code>python -m http.server</code> nesta pasta.
-      </div>`);
+      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b">
+        Erro ao carregar os dados: ${err.message}</div>`);
   });
 </script>
 </body>
