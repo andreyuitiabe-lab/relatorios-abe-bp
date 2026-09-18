@@ -139,13 +139,61 @@
       <thead>
         <tr>
           <th>Campanha</th><th class="num">Receita</th><th class="num">Ticket</th>
-          <th class="num">Mídia</th><th class="num">CAC</th><th class="num">Retorno</th>
+          <th class="num">Mídia</th><th class="num">CAC<br><small style="font-weight:400;text-transform:none">blendado</small></th>
+          <th class="num">CAC<br><small style="font-weight:400;text-transform:none">alto ticket</small></th>
+          <th class="num">Retorno</th>
           <th class="num">Ads</th><th class="num">% mídia</th>
           <th class="num">% não-membro</th><th class="num">% alto ticket</th>
         </tr>
       </thead>
       <tbody id="tbResumo"></tbody>
     </table>
+  </div>
+</section>
+
+
+<!-- ══ CAC POR FAIXA ══ -->
+<section>
+  <h2>O CAC muda muito quando se separa pelo valor da venda</h2>
+  <p class="sub">O CAC de uma campanha divide a verba por todo mundo que comprou — quem pagou
+     R$ 7,90 conta igual a quem pagou R$ 3.484. Separando por faixa de preço, o número fica
+     comparável.</p>
+
+  <div class="card">
+    <p class="label">Custo por comprador, por faixa de valor da venda</p>
+    <div class="legenda">
+      <span><i class="dot" style="background:var(--s1)"></i> Alto ticket (acima de R$ 1.000)</span>
+      <span><i class="dot" style="background:var(--s2)"></i> Médio (R$ 200 a 1.000)</span>
+      <span><i class="dot" style="background:var(--s3)"></i> Entrada (abaixo de R$ 200)</span>
+    </div>
+    <canvas id="gFaixas" height="220"></canvas>
+  </div>
+
+  <div class="destaque">
+    <strong>O caso que prova o ponto é o Black Friday de 2025.</strong> Ele tem o melhor CAC da
+    série — R$ 104 — e isso é ilusão de mistura: 94% dos compradores levaram produto de entrada.
+    Olhando só quem comprou acima de R$ 1.000, o CAC dele é <b>R$ 878</b>, o segundo pior do
+    estudo. <b>Oito vezes maior</b> que o número que aparece na tabela.
+  </div>
+
+  <div class="card" style="overflow-x:auto">
+    <p class="label">Alto ticket: quanto custou trazer quem comprou acima de R$ 1.000</p>
+    <table>
+      <thead><tr><th>Campanha</th><th class="num">Compradores</th><th class="num">Ticket médio</th>
+        <th class="num">% da receita</th><th class="num">CAC blendado</th>
+        <th class="num">CAC alto ticket</th><th class="num">Diferença</th></tr></thead>
+      <tbody id="tbFaixaAlto"></tbody>
+    </table>
+  </div>
+
+  <div class="nota">
+    <strong>Como o custo é repartido:</strong> a mídia não é comprada por faixa de preço, então a
+    verba é dividida <strong>proporcionalmente à receita</strong> de cada faixa — a convenção
+    escolhida para este estudo. Ela é a mesma usada em P&amp;L e é a que responde “quanto do custo
+    da campanha cada faixa carrega”.<br><br>
+    Uma consequência a ter em mente: com essa convenção o <em>retorno</em> fica igual em todas as
+    faixas por construção — só o CAC diferencia. É por isso que o CAC, e não o retorno, é a métrica
+    a usar quando se compara faixa de preço dentro de uma campanha.
   </div>
 </section>
 
@@ -156,8 +204,9 @@
      para a base.</p>
 
   <div class="stats">
-    <div class="stat up"><div class="n">+129%</div>
-      <div class="c">o CAC foi de R$ 186 para R$ 426</div></div>
+    <div class="stat up"><div class="n">+143%</div>
+      <div class="c">o CAC do alto ticket foi de R$ 277 para R$ 674<br>
+        <span style="color:var(--soft)">(no blendado, +129%: R$ 186 → R$ 426)</span></div></div>
     <div class="stat down"><div class="n">−13%</div>
       <div class="c">mas o custo de trazer um comprador <em>pela mídia</em> caiu</div></div>
     <div class="stat up"><div class="n">19% → 50%</div>
@@ -543,12 +592,44 @@ function initCharts(D) {
       <td class="num">${mi(c.vl_receita)}</td>
       <td class="num">${rs(c.vl_ticket)}</td>
       <td class="num">${mi(c.vl_midia)}</td>
-      <td class="num">${rs(c.vl_cac)}</td>
+      <td class="num" style="color:var(--soft)">${rs(c.vl_cac)}</td>
+      <td class="num" style="font-weight:700">${rs(c.vl_cac_alto_ticket)}</td>
       <td class="num" style="color:${cor};font-weight:700">${br(c.vl_roas,2)}×</td>
       <td class="num">${br(c.qt_anuncios)}</td>
       <td class="num">${pc(c.pct_comp_midia)}</td>
       <td class="num">${pc(c.pct_nao_membro)}</td>
       <td class="num" style="color:${c.pct_receita_ht<70?'var(--critical)':'var(--muted)'}">${pc(c.pct_receita_ht)}</td>
+    </tr>`;
+  }).join('');
+
+  /* ── CAC por faixa de valor ───────────────────────────────────────────── */
+  const F = D.faixas;
+  const pegaF = (sig,fx,campo) => (F.find(r=>r.sigla===sig && r.nm_faixa===fx)||{})[campo] ?? null;
+  new Chart(gFaixas, {
+    type:'bar',
+    data:{ labels:nomes, datasets:[
+      {label:'Alto ticket', data:nomes.map(s2=>pegaF(s2,'alto','vl_cac_faixa')),    backgroundColor:S1},
+      {label:'Médio',       data:nomes.map(s2=>pegaF(s2,'medio','vl_cac_faixa')),   backgroundColor:S2},
+      {label:'Entrada',     data:nomes.map(s2=>pegaF(s2,'entrada','vl_cac_faixa')), backgroundColor:S3}
+    ].map(d=>({...d, borderRadius:4, maxBarThickness:22}))},
+    options:{ aspectRatio:2.2, layout:{padding:{top:20}},
+      plugins:{ legend:{display:false},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+rs(c.raw)}} },
+      scales:{ x:eixoX, y:{...eixoY, ticks:{callback:v=>'R$ '+br(v)}} } }
+  });
+
+  document.getElementById('tbFaixaAlto').innerHTML = C.map(c=>{
+    const dif = c.vl_cac_alto_ticket && c.vl_cac
+      ? c.vl_cac_alto_ticket / c.vl_cac : null;
+    const alerta = dif && dif > 2;
+    return `<tr>
+      <td class="campanha">${c.sigla}<small>${(D.rotulos||{})[c.sigla]||c.nm_campanha}</small></td>
+      <td class="num">${br(c.qt_comp_alto_ticket)}</td>
+      <td class="num">${rs(c.vl_ticket_alto)}</td>
+      <td class="num">${pc(c.pct_receita_ht)}</td>
+      <td class="num" style="color:var(--soft)">${rs(c.vl_cac)}</td>
+      <td class="num" style="font-weight:700">${rs(c.vl_cac_alto_ticket)}</td>
+      <td class="num" style="color:${alerta?'var(--critical)':'var(--muted)'}">${dif?br(dif,1)+'×':'—'}</td>
     </tr>`;
   }).join('');
 

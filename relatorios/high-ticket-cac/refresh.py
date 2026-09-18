@@ -190,6 +190,9 @@ def build() -> dict:
     produto.loc[mp, "vl_roas_rateio_comprador"] = (
         produto.loc[mp, "vl_receita"] / (verba / tot_comp * produto.loc[mp, "qt_compradores"])).round(2)
 
+    print("  CAC por faixa de valor da venda...", flush=True)
+    faixas = bqq(AQUI / "queries" / "15_cac_por_faixa_valor.sql")
+
     print("  peças criadas (anúncios e e-mails distintos)...", flush=True)
     pecas = bqq(AQUI / "queries" / "12_pecas_criadas.sql")
 
@@ -214,6 +217,7 @@ def build() -> dict:
     reinc_por_sigla = reinc.set_index("sigla").to_dict("index")
     comercial_por_sigla = comercial.set_index("sigla").to_dict("index")
     anuncios_por_sigla = anuncios.set_index("sigla").to_dict("index")
+    faixa_alto = faixas[faixas["nm_faixa"] == "alto"].set_index("sigla").to_dict("index")
     pecas_por_sigla = pecas.set_index("sigla").to_dict("index")
     campanhas = [{k: nn(v) for k, v in linha.items()} for linha in cons.to_dict("records")]
     for c in campanhas:
@@ -234,6 +238,10 @@ def build() -> dict:
         # ⚠️ contagem de campanhas SÓ Meta, para ficar na mesma unidade da contagem de anúncios.
         # O `qt_campanhas_midia` do consolidado conta Meta+Google+PMax e não é comparável.
         c["qt_campanhas_meta"] = nn(an.get("qt_campanhas_meta"))
+        fa = faixa_alto.get(c["sigla"], {})
+        c["vl_cac_alto_ticket"] = nn(fa.get("vl_cac_faixa"))
+        c["qt_comp_alto_ticket"] = nn(fa.get("qt_compradores"))
+        c["vl_ticket_alto"] = nn(fa.get("vl_ticket"))
         pc = pecas_por_sigla.get(c["sigla"], {})
         for k in ("qt_email_tag", "qt_whatsapp_tag", "qt_push_tag", "qt_pecas_crm_tag",
                   "qt_pecas_crm_por_dia", "qt_entregas_por_peca", "qt_email_janela"):
@@ -251,6 +259,7 @@ def build() -> dict:
         "campanhas": campanhas,
         "canais": [{k: nn(v) for k, v in l.items()} for l in canal.to_dict("records")],
         "produtos": [{k: nn(v) for k, v in l.items()} for l in produto.to_dict("records")],
+        "faixas": [{k: nn(v) for k, v in l.items()} for l in faixas.to_dict("records")],
         "teste_universo": [{k: nn(v) for k, v in l.items()}
                            for l in testes[testes["nm_teste"] == "teste1_universo"].to_dict("records")],
         "serie_casa": [{k: nn(v) for k, v in l.items()}

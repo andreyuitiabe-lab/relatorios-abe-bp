@@ -480,6 +480,42 @@ que é exatamente a decomposição do enquadramento descida ao nível de decisã
 
 ---
 
+### 7a. CAC por faixa de valor da venda — o corte que o André pediu duas vezes
+
+⚠️ **Falha minha, registrada:** o André pediu isso em 17/09 ("no BNO24 tinham outros produtos
+sendo vendidos, atribuir todo o custo ao CAC do vitalício é injusto") e de novo em 18/09. Eu
+calculei por família de produto (achado 7) mas, ao reescrever a página para legibilidade, **removi
+a seção** — ela ficou só neste memo. Refeito em 18/09 por faixa de valor, que é o corte mais direto.
+
+Faixas pelo maior ticket do comprador: alto > R$ 1.000 (46% dos compradores, 88% da receita) ·
+médio R$ 200–1.000 (25% / 8%) · entrada < R$ 200 (29% / 4%). Rateio por receita (convenção oficial).
+
+| | CAC blendado | **CAC alto ticket** | diferença | ticket alto |
+|---|---|---|---|---|
+| TRA | R$ 179 | **R$ 182** | 1,0× | R$ 1.679 |
+| TRA2 | R$ 482 | **R$ 631** | 1,3× | R$ 1.666 |
+| BNO24 | R$ 186 | **R$ 277** | 1,5× | R$ 2.045 |
+| BIT | R$ 828 | **R$ 1.413** | 1,7× | R$ 2.872 |
+| **BNO25** | **R$ 104** | **R$ 878** | **8,5×** | R$ 2.923 |
+| **DBI** | **R$ 146** | **R$ 2.008** | **13,8×** | R$ 2.638 |
+| CDL | R$ 198 | **R$ 214** | 1,1× | R$ 1.475 |
+| BP10 | R$ 426 | **R$ 674** | 1,6× | R$ 1.587 |
+| ODI | R$ 339 | **R$ 404** | 1,2× | R$ 1.484 |
+
+**O que muda na conclusão:**
+1. **A alta do CAC do produto caro é maior que a do blendado:** BNO24 → BP10 vai de R$ 277 para
+   R$ 674 (**+143%**), contra +129% no blendado.
+2. **O BNO25 e o DBI eram ilusão de mistura.** Tinham os melhores CACs da série (R$ 104 e R$ 146)
+   porque 94% e 97% dos compradores levaram produto de entrada. No alto ticket são o 2º e o 1º
+   **piores** do estudo. A diferença de 8,5× e 13,8× é o tamanho do engano.
+3. **O CDL segue sendo a melhor campanha da série por qualquer corte** — R$ 214 de CAC de alto
+   ticket, praticamente igual ao blendado, porque 96% da receita dele já era alto ticket.
+
+⚠️ O rateio por receita torna o **retorno idêntico em todas as faixas por construção** — entre
+faixas de preço, só o CAC diferencia. Não citar "retorno da faixa X".
+
+---
+
 ### 7b. Universo: o relatório conta TODOS os compradores, não só os de alto ticket
 
 **Pergunta do André (18/09):** os gráficos contam só as vendas high-ticket ou o geral da campanha?
@@ -670,6 +706,7 @@ BP10/ODI/CDL.
 | [queries/11_qtd_anuncios.sql](queries/11_qtd_anuncios.sql) | (superada pela 14) Qtd. de anúncios só pelo warehouse |
 | [queries/13_external_tables_planilhas.sql](queries/13_external_tables_planilhas.sql) | DDL das external tables sobre as planilhas — ⚠️ requer escopo de Drive na ADC |
 | [queries/14_qtd_anuncios_v2.sql](queries/14_qtd_anuncios_v2.sql) | Qtd. de anúncios pelas duas fontes, com a definição de cada uma |
+| [queries/15_cac_por_faixa_valor.sql](queries/15_cac_por_faixa_valor.sql) | CAC separado por faixa de valor da venda (alto / médio / entrada) |
 | [scripts/carrega_planilha_ads.py](scripts/carrega_planilha_ads.py) | Carrega a aba de anúncios do XLSX do time de tráfego no BQ (595 mil linhas, 2022→2026) |
 | [scripts/extrai_meta_ads.py](scripts/extrai_meta_ads.py) | Extração em `level=ad` nas 9 janelas (⚠️ requer token Meta válido) |
 | [scripts/extrai_meta_api.py](scripts/extrai_meta_api.py) | Spend Meta por campanha × dia via Marketing API (ago/2023+) |
