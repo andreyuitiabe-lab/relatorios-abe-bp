@@ -12,6 +12,11 @@ Fontes:
                                 scripts/carrega_meta_bq.py a partir da Marketing API.
                                 Rodar `python scripts/extrai_meta_api.py` + o carregador
                                 antes deste script quando quiser atualizar a mídia.
+  - tb_ht_sheet_meta_ads     -> planilha histórica do time de tráfego em nível de anúncio
+                                (01/06/2022 -> 16/04/2026), carregada de um XLSX BAIXADO por
+                                scripts/carrega_planilha_ads.py. É a única fonte de contagem de
+                                anúncio para TRA, TRA2, BNO24 e BIT. ⚠️ Não atualiza sozinha:
+                                rebaixar o arquivo e recarregar quando precisar de dado novo.
   - MIDIA_PLANILHA           -> a Travessia de 2023 é anterior ao alcance da API (37 meses);
                                 o custo dela vem da planilha do time de tráfego e está
                                 fixado aqui de propósito, com a fonte marcada no data.json.
@@ -189,7 +194,7 @@ def build() -> dict:
     pecas = bqq(AQUI / "queries" / "12_pecas_criadas.sql")
 
     print("  quantidade de anúncios...", flush=True)
-    anuncios = bqq(AQUI / "queries" / "11_qtd_anuncios.sql")
+    anuncios = bqq(AQUI / "queries" / "14_qtd_anuncios_v2.sql")
 
     print("  funil do Comercial (abordagem → conversa → venda)...", flush=True)
     comercial = bqq(AQUI / "queries" / "10_conversao_comercial.sql")
@@ -221,8 +226,11 @@ def build() -> dict:
         an = anuncios_por_sigla.get(c["sigla"], {})
         c["qt_anuncios"] = nn(an.get("qt_anuncios"))
         c["qt_conjuntos"] = nn(an.get("qt_conjuntos"))
-        c["vl_spend_por_anuncio"] = nn(an.get("vl_spend_por_anuncio"))
+        c["qt_ads_venda"] = nn(an.get("qt_ads_venda"))
+        c["qt_ads_todas_fases"] = nn(an.get("qt_ads_todas_fases"))
         c["nm_fonte_contagem_ads"] = nn(an.get("nm_fonte_contagem"))
+        if c.get("qt_anuncios") and c.get("vl_midia"):
+            c["vl_spend_por_anuncio"] = round(c["vl_midia"] / c["qt_anuncios"])
         # ⚠️ contagem de campanhas SÓ Meta, para ficar na mesma unidade da contagem de anúncios.
         # O `qt_campanhas_midia` do consolidado conta Meta+Google+PMax e não é comparável.
         c["qt_campanhas_meta"] = nn(an.get("qt_campanhas_meta"))

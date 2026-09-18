@@ -483,24 +483,38 @@ que é exatamente a decomposição do enquadramento descida ao nível de decisã
 Auditando o relatório contra a lista de métricas do pedido original, três itens não estavam
 entregues. Foram fechados em 18/09.
 
-**Qtd. de anúncios** — anúncios distintos com verba na conta Meta, dentro da janela:
+**Qtd. de anúncios — 9 de 9** (fechada em 18/09 com a planilha histórica do time de tráfego):
 
 | | TRA | TRA2 | BNO24 | BIT | BNO25 | DBI | CDL | BP10 | ODI |
 |---|---|---|---|---|---|---|---|---|---|
-| Anúncios | — | — | — | — | 690 | 284 | **897** | **1.182** | 506 |
-| Campanhas de anúncio (Meta) | — | 8 | 109 | 43 | 81 | 40 | 34 | 52 | 20 |
-| Verba por anúncio | — | — | — | — | R$ 6.479 | R$ 536 | R$ 5.393 | R$ 5.840 | R$ 3.166 |
+| **Anúncios** | **128** | **40** | **371** | **91** | 690 | 284 | **897** | **1.182** | 506 |
+| só fase de venda (planilha) | 128 | 40 | 371 | 91 | 753 | 78 | — | — | — |
+| todas as fases (warehouse) | — | — | — | — | 690 | 284 | 897 | 1.182 | 506 |
 
-O volume de criativos cresceu junto com a dependência de mídia (284 → 1.182), e a **verba por
-anúncio ficou estável** (R$ 5,4–6,5 mil nas campanhas grandes): escalou-se em número de criativos,
-não em verba por criativo.
+O volume de criativos cresceu junto com a dependência de mídia — **128 na Travessia contra 1.182 no
+BP10** — e a **verba por anúncio ficou estável**: escalou-se em número de criativos, não em verba
+por criativo.
 
-⚠️ **Só 5 das 9, e a razão é externa.** O nome do anúncio só existe no warehouse desde ago/2025.
-Para TRA, TRA2, BNO24 e BIT a contagem exige a Marketing API em `level=ad` — o script está pronto
-(`scripts/extrai_meta_ads.py`, com janelas e retry), mas **o token da Meta foi invalidado em
-18/09/2026** (erro 190 / subcode 460: sessão encerrada por troca de senha ou decisão do Facebook).
-Renovado o token, o script fecha as quatro. Google e PMax ficam fora de propósito: PMax não tem
-nível de anúncio e o Google do warehouse traz id, não nome comparável.
+⚠️ **São duas fontes com definições diferentes, e elas não são intercambiáveis:**
+
+| Fonte | Cobertura | Limite |
+|---|---|---|
+| Planilha do tráfego (`tb_ht_sheet_meta_ads`) | nível de anúncio, 01/06/2022 → 16/04/2026 | **só fase de venda** |
+| Warehouse (`dtm_analytics_facebook_ads_funnel`) | todas as fases | nome de anúncio só confiável desde **mar/2025** |
+
+**O DBI mostra por que a distinção importa:** 78 anúncios / R$ 19 k na planilha contra
+**284 / R$ 152 k no warehouse** — quase toda a verba dele foi captação, que a aba de venda não vê.
+Em campanha majoritariamente de venda as duas convergem (BNO25: 753 vs 690 anúncios, spend batendo
+em 0,6%). **Comparar dentro de cada grupo, nunca entre eles.**
+
+⚠️ A planilha é um **XLSX baixado em 16/04/2026**, não a planilha viva — não atualiza sozinha e não
+alcança CDL, BP10 nem ODI. Para dado novo: rebaixar e rodar `scripts/carrega_planilha_ads.py`.
+
+**Validação:** o spend mensal da planilha bate com a Marketing API em **0,0% em 22 de 31 meses**
+(máximo 3,8%) — é o mesmo dado, recortado diferente. A planilha também alcança abr–mai/2023 e
+mostra que a conta gastou **R$ 2,09 mi** em mídia de venda na janela da Travessia; os R$ 869.816
+que o time de tráfego atribui à campanha são **41,5% disso** — proporção plausível, o que dá
+sustentação ao CAC de R$ 179 e ao ROAS de 9,20× que abrem a série.
 
 **Distribuição membro / ex-membro / não-membro** — estava no `data.json` mas só o "% não-membro"
 aparecia na página:
@@ -591,9 +605,12 @@ BP10/ODI/CDL.
 - [ ] **Custo real do Comercial**: pedir folha + ferramenta ao Financeiro para trocar a comissão de
       9% (piso) por custo total do canal. Sem isso, toda comparação mídia × Comercial é enviesada.
 - [ ] 🔑 **Renovar o token da Meta** (`~/meu_projeto/BigQuery/meta_api/.env`) — invalidado em
-      18/09/2026 (erro 190/460). Destrava: (a) a contagem de anúncios das 4 campanhas antigas
-      (`scripts/extrai_meta_ads.py`, pronto) e (b) o CAC e ticket por criativo. Sem ele a extração
-      de nível de campanha que já está no BQ continua válida — nada do relatório depende do token.
+      18/09/2026 (erro 190/460). Já **não bloqueia a contagem de anúncios** (resolvida pela planilha),
+      mas ainda destrava o CAC e ticket por criativo. Migrar para System User, que não morre com
+      troca de senha.
+- [ ] **Escopo de Drive na ADC** para ler as planilhas de mídia direto do BigQuery (external table,
+      mesmo padrão dos marts Adveronix) em vez de depender de XLSX baixado. DDL pronto em
+      `queries/13_external_tables_planilhas.sql`; a autenticação de 18/09 não pegou os escopos.
 - [ ] **CAC e ticket por criativo**: com o token renovado, `level=ad` nas 9 janelas cruzado com
       `nm_pptc_utm_content` das transações. É a decomposição do enquadramento no nível em que a
       mídia decide — e a versão respondível de "qual anúncio traz gente que compra caro".
@@ -614,7 +631,10 @@ BP10/ODI/CDL.
 | [queries/08_cac_por_produto.sql](queries/08_cac_por_produto.sql) | O que foi vendido em cada campanha + CAC por família nos dois rateios |
 | [queries/09_testes_atribuicao.sql](queries/09_testes_atribuicao.sql) | Os 2 testes de robustez: universo rastro×janela e série mensal de canal da casa |
 | [queries/10_conversao_comercial.sql](queries/10_conversao_comercial.sql) | Funil do Comercial: abordagem → conversa → venda em 14d |
-| [queries/11_qtd_anuncios.sql](queries/11_qtd_anuncios.sql) | Qtd. de anúncios, conjuntos e campanhas de anúncio por campanha |
+| [queries/11_qtd_anuncios.sql](queries/11_qtd_anuncios.sql) | (superada pela 14) Qtd. de anúncios só pelo warehouse |
+| [queries/13_external_tables_planilhas.sql](queries/13_external_tables_planilhas.sql) | DDL das external tables sobre as planilhas — ⚠️ requer escopo de Drive na ADC |
+| [queries/14_qtd_anuncios_v2.sql](queries/14_qtd_anuncios_v2.sql) | Qtd. de anúncios pelas duas fontes, com a definição de cada uma |
+| [scripts/carrega_planilha_ads.py](scripts/carrega_planilha_ads.py) | Carrega a aba de anúncios do XLSX do time de tráfego no BQ (595 mil linhas, 2022→2026) |
 | [scripts/extrai_meta_ads.py](scripts/extrai_meta_ads.py) | Extração em `level=ad` nas 9 janelas (⚠️ requer token Meta válido) |
 | [scripts/extrai_meta_api.py](scripts/extrai_meta_api.py) | Spend Meta por campanha × dia via Marketing API (ago/2023+) |
 | [scripts/carrega_meta_bq.py](scripts/carrega_meta_bq.py) | Carrega o CSV em `bp-staging.dbt_abe.tb_ht_meta_spend` |

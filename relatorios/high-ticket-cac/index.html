@@ -515,26 +515,33 @@
 
   <div class="card" style="margin-top:16px; overflow-x:auto">
     <table>
-      <thead><tr><th>Campanha</th><th class="num">Anúncios</th><th class="num">Conjuntos</th>
-        <th class="num">Campanhas de anúncio (Meta)</th><th class="num">Verba por anúncio</th>
+      <thead><tr><th>Campanha</th><th class="num">Anúncios</th>
+        <th class="num">Só fase de venda</th><th class="num">Todas as fases</th>
+        <th class="num">Conjuntos</th><th class="num">Verba por anúncio</th>
         <th>Fonte da contagem</th></tr></thead>
       <tbody id="tbAds"></tbody>
     </table>
   </div>
 
   <div class="nota">
-    <strong>⚠️ Quatro campanhas ficaram sem contagem de anúncio, e a razão é externa.</strong>
-    O nome do anúncio só existe no warehouse a partir de <strong>ago/2025</strong>. Para TRA, TRA2,
-    BNO24 e BIT a contagem exigiria a Marketing API em nível de anúncio — a extração está pronta
-    (<code>scripts/extrai_meta_ads.py</code>), mas o <strong>token da Meta foi invalidado em
-    18/09/2026</strong> (erro 190/460: sessão encerrada por troca de senha ou decisão do Facebook).
-    Renovado o token, o script fecha as quatro.<br><br>
-    Para essas quatro existe o piso: a <strong>contagem de campanhas de anúncio</strong>, que veio da
-    extração de nível de campanha e cobre as nove.<br><br>
-    <strong>O que a contagem mostra onde existe:</strong> o volume de criativos cresceu junto com a
-    dependência de mídia — de 284 anúncios (DBI) a <strong>1.182 (BP10)</strong>. E a verba por
-    anúncio é estável (R$ 5,4–6,5 mil nas campanhas grandes), ou seja escalou-se em
-    <strong>número de criativos</strong>, não em verba por criativo.<br><br>
+    <strong>As nove campanhas têm contagem — mas de duas fontes com definições diferentes, e elas
+    não são intercambiáveis.</strong>
+    <ul style="margin:8px 0 0 18px">
+      <li><strong>Planilha do time de tráfego</strong> — nível de anúncio desde 01/06/2022, mas
+        <strong>só a fase de venda</strong>. É a única fonte para TRA, TRA2, BNO24 e BIT.</li>
+      <li><strong>Warehouse</strong> — todas as fases, mas nome de anúncio só é confiável a partir
+        de mar/2025. Cobre BNO25, DBI, CDL, BP10 e ODI.</li>
+    </ul>
+    <br>
+    <strong>O DBI mostra por que a distinção importa:</strong> 78 anúncios e R$ 19 mil na planilha
+    contra <strong>284 anúncios e R$ 152 mil no warehouse</strong> — quase toda a verba dele foi
+    captação, que a aba de venda não enxerga. Em campanhas majoritariamente de venda as duas
+    convergem: no BNO25 são 753 contra 690 anúncios, com o spend batendo em 0,6%.<br><br>
+    ⚠️ A planilha é um <strong>XLSX baixado em 16/04/2026</strong>, não a planilha viva: não
+    atualiza sozinha e não alcança CDL, BP10 nem ODI. Para dado novo, rebaixar o arquivo e rodar
+    <code>scripts/carrega_planilha_ads.py</code>.<br><br>
+    <strong>Validação:</strong> o spend mensal da planilha bate com a Marketing API em
+    <strong>0,0% em 22 de 31 meses</strong> (máximo 3,8%) — é o mesmo dado, recortado diferente.<br><br>
     Google e PMax ficam fora desta contagem de propósito: o PMax não tem nível de anúncio e o Google
     do warehouse traz id, não nome comparável — somar os três misturaria unidades.
   </div>
@@ -774,9 +781,9 @@
         <tr>
           <td><strong>Qtd. de ads</strong></td>
           <td>“Quantos anúncios”</td>
-          <td>284 (DBI) a <strong>1.182 (BP10)</strong>, com verba por anúncio estável — escalou em
-              nº de criativos, não em verba por criativo. ⚠️ Só 5 das 9: o nome do anúncio existe no
-              warehouse desde ago/2025 e o token da Meta caiu em 18/09.</td>
+          <td><strong>128 (Travessia) → 1.182 (BP10)</strong>, com verba por anúncio estável —
+              escalou em nº de criativos, não em verba por criativo. ⚠️ Duas fontes com definições
+              diferentes (só-venda até BIT, todas as fases de BNO25 em diante).</td>
         </tr>
         <tr>
           <td><strong>CAC por canal</strong></td>
@@ -804,16 +811,15 @@
   </div>
 
   <div class="nota" style="margin-top:0">
-    <strong>Cobertura das 8 métricas nas 9 campanhas: 6 completas, 2 com lacuna — e as duas
-    lacunas são ausência de fonte, não de análise.</strong>
+    <strong>Cobertura das 8 métricas nas 9 campanhas: 7 completas, 1 com lacuna — e a lacuna é
+    ausência de fonte, não de análise.</strong>
     <ul style="margin:8px 0 0 18px">
-      <li><strong>Qtd. de ads — 5 de 9.</strong> O nome do anúncio só é confiável no warehouse a
-        partir de mar/2025 (em nov/2024 há 74 nomes em 56 campanhas, e nenhum é do BNO24, enquanto
-        a API mostra 109 campanhas com R$ 5,47 mi). Fechar TRA, TRA2, BNO24 e BIT exige a Marketing
-        API em nível de anúncio — script pronto, <strong>token invalidado em 18/09</strong>.</li>
+      <li><strong>Qtd. de ads — 9 de 9</strong>, fechada em 18/09 com a planilha histórica do time
+        de tráfego (nível de anúncio desde jun/2022). ⚠️ São duas definições: só-venda para TRA,
+        TRA2, BNO24 e BIT; todas as fases de BNO25 em diante. Comparar dentro de cada grupo.</li>
       <li><strong>Qtd. de CRM — 8 de 9.</strong> A Insider começa em <strong>30/01/2024</strong>,
         inclusive nos eventos brutos. A Travessia (abr–mai/2023) não tem CRM medível por nenhuma
-        fonte do warehouse.</li>
+        fonte do warehouse — não há como fechar.</li>
     </ul>
   </div>
 
@@ -1177,8 +1183,9 @@ function initCharts(D){
   document.getElementById('tbAds').innerHTML = C.map(c=>`<tr>
       <td><strong>${c.sigla}</strong></td>
       <td class="num">${c.qt_anuncios!=null ? '<strong>'+br(c.qt_anuncios)+'</strong>' : '—'}</td>
+      <td class="num" style="color:var(--soft)">${c.qt_ads_venda!=null ? br(c.qt_ads_venda) : '—'}</td>
+      <td class="num" style="color:var(--soft)">${c.qt_ads_todas_fases!=null ? br(c.qt_ads_todas_fases) : '—'}</td>
       <td class="num">${c.qt_conjuntos!=null ? br(c.qt_conjuntos) : '—'}</td>
-      <td class="num">${c.qt_campanhas_meta ? br(c.qt_campanhas_meta) : '—'}</td>
       <td class="num">${c.vl_spend_por_anuncio!=null ? rs(c.vl_spend_por_anuncio) : '—'}</td>
       <td style="font-size:11.5px;color:var(--muted)">${c.nm_fonte_contagem_ads ?? '—'}</td>
     </tr>`).join('');
