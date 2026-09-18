@@ -34,12 +34,13 @@ PARCEIROS_NOME = {
     "sndflw.com": "Sendflow",
     "vimansca.com.br": "Vimansca",
     "lidiocarraro.com": "Lídio Carraro",
+    "allugator.com": "Allugator",
 }
 # Domínios externos que são fonte editorial (link de notícia), não anúncio
 DOMINIOS_EDITORIAIS = {
     "vatican.va", "google.com", "substack.com", "uol.com.br", "cnnbrasil.com.br",
     "reuters.com", "globo.com", "sympla.com.br", "overton.digital", "docs.google.com",
-    "terra.com.br",
+    "terra.com.br", "stf.jus.br",
 }
 
 

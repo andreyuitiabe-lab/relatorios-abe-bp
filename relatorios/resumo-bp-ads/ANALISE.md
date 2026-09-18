@@ -28,20 +28,43 @@ parceiro enxerga só os cliques dos links dele.
 
 - ~390k enviados/edição diária, ~96% de entrega, ~37k aberturas humanas (~10%), 300–3.000 clicadores únicos.
 - Cliques concentram em notícias BP (~74% no período inicial analisado); anunciantes ainda são <1% dos cliques.
-- Anunciantes já veiculados: Sendflow, Vimansca e Lídio Carraro — detalhe por inserção na tabela abaixo.
+- Anunciantes já veiculados: Sendflow, Vimansca, Lídio Carraro e **Allugator** (novo, estreou 16/09) — detalhe por inserção na tabela abaixo.
 - ⚠️ **Links de anunciante saem sem UTM** (ex.: `vimansca.com.br/` puro). Domínio funciona como
   identificador, mas recomenda-se padronizar `utm_source=resumo_bp&utm_campaign=<parceiro>&utm_content=<edição>`
   para o parceiro medir no analytics dele e para distinguir 2 anúncios do mesmo parceiro na mesma edição.
 
-### Inserções por anunciante (14/set/2026)
+### Inserções por anunciante (18/set/2026)
 
 | Anunciante | Inserções | Detalhe (pessoas / cliques) |
 |---|---|---|
-| Vimansca | 7 | 14/07 (69 / 145), 17/08 (98 / 124), 04/09 (83 / 102), 08/09 (67 / 115), 09/09 (38 / 91), 10/09 (54 / 61), 11/09 (38 / 53) |
-| Lídio Carraro | 1 | 21/08 (140 / 159) |
+| Vimansca | 8 | 14/07 (69 / 145), 17/08 (98 / 124), 04/09 (84 / 105), 08/09 (68 / 116), 09/09 (39 / 92), 10/09 (58 / 66), 11/09 (40 / 55), 14/09 (32 / 44) |
+| **Allugator** | 2 | 16/09 (64 / 92), 17/09 (62 / 75) |
+| Lídio Carraro | 1 | 21/08 (141 / 162) |
 | Sendflow | 3 | 02/07 (74 / 147), 03/07 (28 / 41), 28/07 (37 / 58) |
 
-**A Vimansca virou anunciante recorrente:** saiu de 2 inserções esporádicas (14/07, 17/08) para veicular 04, 08, 09, 10 e 11/09 — quatro dias seguidos na segunda semana de setembro. O alcance por inserção cai conforme a frequência sobe (98 pessoas em 17/08 contra 38–67 nos dias seguidos), o que é esperado: a mesma base recebe o anúncio repetido. Somadas, as 7 inserções deram 691 cliques.
+Números maiores que os de 14/set nas edições de setembro: cliques tardios continuam entrando por
+alguns dias depois do envio.
+
+**Allugator — anunciante novo (18/set):** estreou nas edições de **16 e 17/09**, com o padrão de
+inserção contratada — **3 links por edição** para `https://franquias.allugator.com/` (banner, texto
+e botão, provavelmente), igual à edição contratada da Vimansca em 04/09. Somam 167 cliques / 126
+clicadores nas duas edições. Verificado no mart `cbo_insider_email_analytics_daily` (histórico
+completo desde fev/2024): **nunca apareceu antes** — é estreia de verdade, não retorno. Link também
+sai **sem UTM**. Cadastrado em `PARCEIROS_NOME` no `refresh.py` (única manutenção manual por
+anunciante novo); apareceu sozinho no dropdown e na tabela de destinos, como previsto.
+
+⚠️ **`stf.jus.br` classificado como editorial (18/set):** a edição de 14/09 linkou uma matéria com
+131 cliques para o STF. Pela regra *fail-open*, entraria no relatório como anunciante falso — foi
+para `DOMINIOS_EDITORIAIS`. É exatamente o caso que o cadastro do marketing-bp resolve com fila de
+pendências em vez de classificação automática.
+
+✅ **Link esquecido da Vimansca saiu do template:** último clique em **14/09** (44 cliques);
+nenhuma edição de 15/09 em diante tem link para `vimansca.com.br`. Confere com o relato de remoção
+em 15/09.
+
+⚠️ **Correção (16/set):** o Elias avisou que 08, 09, 10 e 11/09 **não foram dias de anúncio** da Vimansca — só 04/09 (3º mês do contrato). Validado no `stg_insider__events` e no mart `cbo_insider_email_analytics_daily`: a edição de 04/09 tinha **3 links** para `vimansca.com.br` (88+6+4 cliques); as edições de 08, 09, 10, 11 e 14/09 têm **1 link** cada (116, 93, 63, 54 e 41 cliques), com primeiro clique no dia do envio e maioria de clicadores novos (em 11/09, 32 de 38 não tinham clicado em 04/09). Conclusão: um elemento com link da Vimansca ficou no template do Resumo BP depois de 04/09 e só saiu em 15/09. Os cliques são reais, mas não são inserção contratada. O relatório detecta por domínio e não consegue distinguir os dois casos — precisa da lista de dias contratados por anunciante (cadastro por inserção, não só por empresa). O parágrafo abaixo ficou registrado como estava em 14/set e está **errado** na leitura de "recorrente".
+
+~~**A Vimansca virou anunciante recorrente:**~~ saiu de 2 inserções esporádicas (14/07, 17/08) para veicular 04, 08, 09, 10 e 11/09 — quatro dias seguidos na segunda semana de setembro. O alcance por inserção cai conforme a frequência sobe (98 pessoas em 17/08 contra 38–67 nos dias seguidos), o que é esperado: a mesma base recebe o anúncio repetido. Somadas, as 7 inserções deram 691 cliques.
 
 Sendflow e Lídio Carraro seguem sem inserção nova desde 28/07 e 21/08.
 
@@ -127,6 +150,8 @@ Mockup navegável com dados reais: artifact `99bbc54b`.
 
 ## Pendências / próximos passos
 
+- **Cadastrar no marketing-bp:** com o PR #152 mergeado (16/09), `allugator.com` (anunciante, marca "Allugator") e `stf.jus.br` (fonte externa) precisam entrar no seed/tabela `resumo_bp_dominios` do Supabase — senão a Allugator sai como domínio cru e o STF vira anunciante falso na página nova. Hoje só estão cadastrados no `refresh.py` deste relatório.
+- **Link esquecido no template (16/set):** ✅ resolvido no template (sem cliques de Vimansca desde 15/09); avisar Nicolas para conferir o template do Resumo BP; decidir com Elias se as edições 08–14/09 devem sair do relatório da Vimansca (hoje o filtro é só por domínio). No cadastro de anunciantes do marketing-bp, considerar registrar **dias contratados** por anunciante, não só o domínio.
 - Validar dash com Nicolas/Elias (mensagem na thread do #performance-e-bi).
 - Avaliar se a janela de 120 dias basta a longo prazo: quando o BP Ads tiver mais de 4 meses de
   histórico, o parceiro volta a perder inserções antigas. Alternativa é materializar uma tabela
