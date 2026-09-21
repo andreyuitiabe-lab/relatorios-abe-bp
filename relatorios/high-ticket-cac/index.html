@@ -332,8 +332,8 @@
     <p class="label">Vitalícios vendidos por degrau</p>
     <div class="recorte" data-toggle="vitalicio">
       <div class="seg" role="group" aria-label="Régua de comparação">
-        <button type="button" data-rec="rastro" aria-pressed="true">O que a campanha gerou</button>
-        <button type="button" data-rec="janela" aria-pressed="false">Tudo o que a casa vendeu</button>
+        <button type="button" data-rec="rastro" aria-pressed="true">Só a campanha</button>
+        <button type="button" data-rec="janela" aria-pressed="false">Todo o período</button>
       </div>
       <span class="n" data-n></span>
     </div>
@@ -371,7 +371,7 @@
 
   <div class="nota">
     <strong>Por que faixa e não número único.</strong> As duas campanhas não são medidas com a
-    mesma régua no resto do relatório: o Black Friday é promoção do catálogo inteiro e conta
+    mesma régua nas demais seções: o Black Friday é promoção do catálogo inteiro e conta
     <em>tudo o que a casa vendeu no mês</em>; o BP10 é lançamento e conta <em>o que carrega o
     rastro da campanha</em>. Para comparar oferta com oferta é preciso fixar a régua — e cada uma
     puxa para um lado. Em “o que a campanha gerou”, o Black Friday fica subcontado, porque nem
@@ -677,10 +677,10 @@
   </div>
 
   <div class="nota">
-    <strong>Revisão independente.</strong> Este estudo passou por revisão crítica com acesso aos
-    dados, que corrigiu seis números e mudou três conclusões — entre elas a de que a migração para
-    mídia teria sido gradual ao longo de três anos (foi um degrau em 2024). O registro completo do
-    que mudou está no memo técnico que acompanha o relatório.
+    <strong>Revisão independente.</strong> Os números e as conclusões deste estudo passaram por
+    revisão crítica com acesso aos dados. Os testes de robustez — universo de atribuição, régua de
+    comparação entre campanhas e sensibilidade das premissas de custo — estão detalhados no memo
+    técnico que acompanha o relatório.
   </div>
 </section>
 
@@ -982,10 +982,10 @@ function initCharts(D) {
     }).join('');
 
     const box = document.querySelector('[data-toggle="vitalicio"]');
-    const t24 = degraus.reduce((a,d)=>a+(vGet(d,'BNO24',uni,'qt')||0),0);
-    const t10 = degraus.reduce((a,d)=>a+(vGet(d,'BP10', uni,'qt')||0),0);
-    box.querySelector('[data-n]').textContent =
-      `${br(t24)} vitalícios no BF 2024 · ${br(t10)} no BP10 (${br(100*(t10/t24-1),0)}%)`;
+    /* o rótulo diz o que a régua É, não o que ela dá — o resultado está no gráfico logo abaixo */
+    box.querySelector('[data-n]').textContent = uni==='rastro'
+      ? 'vendas que carregam o rastro de cada campanha'
+      : 'todas as vendas do período — 30 dias no BF 2024, 97 no BP10';
     box.querySelectorAll('button').forEach(b=>
       b.setAttribute('aria-pressed', String(b.dataset.rec===uni)));
   }
@@ -1029,8 +1029,13 @@ function initCharts(D) {
       b.setAttribute('aria-pressed', String(b.dataset.rec===r)));
   }
 
+  /* só os toggles de recorte campanha × alto ticket. O toggle do vitalício é de outra
+     natureza (troca a RÉGUA de comparação, não o recorte) e tem o próprio handler — sem
+     esta guarda ele cairia aqui e quebraria em campos[alvo] indefinido. */
+  const alvosRecorte = new Set(Object.keys(campos).concat(['resumo']));
   document.querySelectorAll('[data-toggle]').forEach(box=>{
     const alvo = box.dataset.toggle;
+    if (!alvosRecorte.has(alvo)) return;
     box.querySelectorAll('button').forEach(b=>
       b.addEventListener('click', ()=>aplica(alvo, b.dataset.rec)));
     /* a tabela mestra abre no alto ticket (ver data-default); os gráficos descritivos
@@ -1077,7 +1082,7 @@ fetch('./data.json')
   .catch(err => {
     console.error(err);
     document.querySelector('main').insertAdjacentHTML('afterbegin',
-      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b">
+      `<div data-erro-render style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b">
         Erro ao carregar os dados: ${err.message}</div>`);
   });
 </script>
