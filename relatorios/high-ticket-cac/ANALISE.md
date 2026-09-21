@@ -482,42 +482,49 @@ não como engajamento. Taxa de clique da casa: 0,54% (2024) → 0,14–0,36% (20
 
 O canal que de fato perdeu eficiência é o **Comercial** (achado 3).
 
-### 5b. Produção de peças por campanha — anúncios, e-mails, WhatsApp e push (21/09/2026)
+### 5b. Produção de CRM: o que caiu foi a segmentação, não a criação (corrigido 21/09/2026)
 
-Publicado a pedido do André, que perguntou se a quantidade de anúncios e de e-mails estava em
-algum lugar. A de anúncios já estava (coluna da tabela mestra); a de CRM existia no `data.json`
-mas só aparecia solta no texto, para duas campanhas, e sem separar os canais.
+⚠️ **Publiquei errado e o André pegou** (*"tem certeza desse volume de crm/dia? ta estranho isso"*).
+A primeira versão dizia que o ritmo de CRM caiu de **28,4 para 6,1 peças/dia** do BNO24 para o
+BP10, "quase 5× menos", e a ação nº 3 se apoiava nisso. **A conclusão inverte quando se mede
+direito.**
 
-Conta **peças distintas que foram ao ar**, não envios — um e-mail disparado para 3 milhões conta 1.
-Mede produção criativa, não alcance. Fonte: [queries/12_pecas_criadas.sql](queries/12_pecas_criadas.sql).
+**A causa:** `COUNT(DISTINCT nm_campaign)` não conta peça criativa. O CRM manda o mesmo e-mail em
+várias versões, uma por bloco da base, com o marcador `[B00]`…`[B11]` no nome — o `EM03` do BNO24
+saiu em **12 versões**. Por isso o BNO24 aparecia com 581 e-mails distintos quando a régua vai até
+`EM55`. **A contagem premia quem segmenta mais, que é o oposto do que se queria medir.**
 
-| Campanha | Dias | Anúncios | E-mails | WhatsApp | Push | Total CRM | Anúncios/dia | CRM/dia |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| TRA   | 61 |   128 | s/ dado | s/ dado | s/ dado | s/ dado |  2,1 |   — |
-| TRA2  | 61 |    40 |      82 |      22 |       0 |     104 |  0,7 | 1,7 |
-| BNO24 | 30 |   371 |     581 |     271 |       0 | **852** | 12,4 | **28,4** |
-| BIT   | 53 |    91 |     193 |      10 |       7 |     210 |  1,7 | 4,0 |
-| DBI   | 56 |   284 |      34 |       3 |      11 |      48 |  5,1 | 0,9 |
-| CDL   | 57 |   897 |     304 |      85 |      62 |     451 | 15,7 | 7,9 |
-| BP10  | 97 | 1.182 |     368 |      41 |     185 | **594** | 12,2 | **6,1** |
-| ODI   | 62 |   506 |     116 |      31 |      13 |     160 |  8,2 | 2,6 |
+| Campanha | Dias | Disparos | Peças (est.) | Versões/peça | Peças/dia | Pessoas por disparo |
+|---|---:|---:|---:|---:|---:|---:|
+| TRA2  | 61 | 103 |  45 | 2,3× | 0,74 |  28 mil |
+| BNO24 | 30 | 852 | 211 | **4,0×** | **7,03** | **117 mil** |
+| BIT   | 53 | 210 |  41 | 5,1× | 0,77 | 285 mil |
+| DBI   | 56 |  48 |  34 | 1,4× | 0,61 | 129 mil |
+| CDL   | 57 | 451 | 218 | 2,1× | 3,82 | 196 mil |
+| BP10  | 97 | 594 | **248** | 2,4× | 2,56 | **270 mil** |
+| ODI   | 62 | 160 | 108 | 1,5× | 1,74 | 175 mil |
 
-🔑 **O ritmo é o número que fecha a história do CRM e resolve uma tensão com o achado 3.** O BNO24
-colocou **28,4 peças de CRM no ar por dia**; o BP10, **6,1** — quase 5× menos. Isso contrasta com o
-Comercial, que **manteve** a intensidade de abordagem (achado 3). Então: dos dois canais próprios,
-**o CRM é o que de fato desacelerou**, e é justamente o que rendeu R$ 107 por mil mensagens em 2024
-contra R$ 17 no BP10. A ação nº 3 do relatório passou a citar esse número.
+🔑 **O BP10 produziu MAIS peças que o BNO24** (248 × 211), em campanha 3× mais longa. O CDL fez 218.
+Não houve queda de criação. **O que mudou é o tamanho da lista de cada disparo: 117 mil pessoas no
+BNO24 contra 270 mil no BP10** — a mesma mensagem passou a ir para mais que o dobro de gente.
 
-🔑 **Push:** de 0 peças em 2024 para 185 no BP10. É o que mais cresceu em produção e o único canal
-sem telemetria de abertura ou clique — tratar como alcance, nunca como engajamento.
+**A intuição do texto original estava certa** ("listas maiores, mais genérico") **e o número usado
+para sustentá-la estava errado.** O número certo é *pessoas por disparo*, que é entrega ÷ envio e
+não depende de convenção nenhuma.
 
-⚠️ **As contagens de anúncio vêm de duas fontes com recortes diferentes e não se comparam entre
-si** (ver achado 8 e `14_qtd_anuncios_v2.sql`): TRA→BIT é da planilha do tráfego e cobre só a fase
-de venda; DBI em diante é do warehouse e cobre todas as fases. A comparação BNO24 × BP10
-(371 → 1.182) atravessa essa fronteira e é **conservadora**: 371 conta só venda, o número real de
-2024 seria maior. Está dito na nota da tabela.
+⚠️ **A coluna "peças" é heurística** e deve ser lida como ordem de grandeza: identifica a peça pelo
+código no nome (`EM03`, `WA07`) ou, sem código, pelo nome sem o marcador `[Bnn]`. Onde o time não
+seguiu a nomenclatura, duas versões viram duas peças — o que **superestima** campanhas com muito
+WhatsApp sem código, como o BNO24 (135 dos 271 nomes de WhatsApp não têm prefixo). Por isso a
+conclusão do relatório se apoia em *pessoas por disparo*, não nesta coluna.
 
-⚠️ A Travessia não tem contagem de CRM: o Insider começa em 30/01/2024.
+**Ritmo:** o BNO24 concentrou 7,0 peças/dia contra 2,6 do BP10 — mas em 30 dias contra 97. É
+diferença real de intensidade, não de volume total, e está publicada com essa ressalva.
+
+**Padrão que se repete nesta análise:** é a terceira vez no dia que uma contagem `COUNT(DISTINCT)`
+sobre um campo de nome produz conclusão errada. Antes de publicar qualquer contagem de "quantidade
+de X", **olhar uma amostra dos valores distintos** — aqui bastava listar 12 nomes para ver o
+`[B00]…[B11]`.
 
 ### 6. Economia por canal — o que cada um custa (premissa de comissão de 9%)
 

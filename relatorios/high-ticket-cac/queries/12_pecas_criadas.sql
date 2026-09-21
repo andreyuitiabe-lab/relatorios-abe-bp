@@ -41,16 +41,36 @@ ads AS (
 ),
 
 crm AS (
+  -- ⚠️ CORREÇÃO 21/09/2026 (o André desconfiou do volume e estava certo): `nm_campaign` distinto
+  --    NÃO é peça criativa. O CRM manda o mesmo e-mail em várias versões por bloco da base, com
+  --    o marcador [B00]..[B11] no nome — o EM03 do BNO24 saiu em 12 versões. Contar nome distinto
+  --    dava 581 e-mails no BNO24 quando a régua vai só até EM55.
+  --
+  --    Três medidas diferentes, e o relatório mostra as três:
+  --      qt_disparos_distintos — nomes distintos (o que a contagem antiga media)
+  --      qt_pecas              — identidade da peça: prefixo numerado, ou o nome sem o [Bnn].
+  --                              ⚠️ HEURÍSTICA: onde não há prefixo nem marcador de bloco, duas
+  --                              variantes viram duas peças. Superestima o BNO24, que tem 135
+  --                              nomes de WhatsApp sem prefixo. Usar como ordem de grandeza.
+  --      qt_entregas_por_disparo — ENTREGAS ÷ disparos distintos. Não depende de heurística
+  --                              nenhuma e é a medida robusta de "quão segmentado foi": quanto
+  --                              maior, mais gente recebeu a mesma mensagem.
   SELECT
     w.sigla,
-    COUNT(DISTINCT IF(i.nm_channel = 'email'    AND UPPER(i.nm_campaign_tag) = w.tag, i.nm_campaign, NULL)) AS qt_email_tag,
-    COUNT(DISTINCT IF(i.nm_channel = 'email',    i.nm_campaign, NULL))                                      AS qt_email_janela,
-    COUNT(DISTINCT IF(i.nm_channel = 'whatsapp' AND UPPER(i.nm_campaign_tag) = w.tag, i.nm_campaign, NULL)) AS qt_whatsapp_tag,
-    COUNT(DISTINCT IF(i.nm_channel = 'app_push' AND UPPER(i.nm_campaign_tag) = w.tag, i.nm_campaign, NULL)) AS qt_push_tag,
-    SUM(IF(UPPER(i.nm_campaign_tag) = w.tag, i.qt_insider_delivered, 0))                                    AS qt_entregas_tag
+    COUNT(DISTINCT IF(i.nm_channel='email',    i.nm_campaign, NULL))    AS qt_email_tag,
+    COUNT(DISTINCT IF(i.nm_channel='whatsapp', i.nm_campaign, NULL))    AS qt_whatsapp_tag,
+    COUNT(DISTINCT IF(i.nm_channel='app_push', i.nm_campaign, NULL))    AS qt_push_tag,
+    COUNT(DISTINCT i.nm_campaign)                                       AS qt_disparos_distintos,
+    COUNT(DISTINCT COALESCE(
+      REGEXP_EXTRACT(i.nm_campaign, r'^([A-Za-z]{2,4}\s?[0-9]+)'),
+      TRIM(REGEXP_REPLACE(i.nm_campaign, r'\[B[0-9]{1,2}\]', ''))))   AS qt_pecas,
+    SUM(i.qt_insider_delivered)                                         AS qt_entregas_tag,
+    COUNT(DISTINCT IF(i.nm_channel='email', i.nm_campaign, NULL))       AS qt_email_janela_dummy
   FROM win AS w
   JOIN `bp-datawarehouse.datamart.dtm_analytics_revenue_insider_funnel` AS i
     ON i.dt_dispatch_date BETWEEN w.dt_ini AND w.dt_fim
+   AND UPPER(i.nm_campaign_tag) = w.tag
+   AND i.nm_channel IN ('email','whatsapp','app_push')
   GROUP BY 1
 )
 
@@ -66,14 +86,16 @@ SELECT
   c.qt_email_tag,
   c.qt_whatsapp_tag,
   c.qt_push_tag,
-  c.qt_email_tag + c.qt_whatsapp_tag + c.qt_push_tag                  AS qt_pecas_crm_tag,
-  c.qt_email_janela,
+  c.qt_disparos_distintos                                             AS qt_pecas_crm_tag,
+  c.qt_pecas,
+  ROUND(c.qt_disparos_distintos / NULLIF(c.qt_pecas, 0), 1)           AS qt_variantes_por_peca,
+  ROUND(c.qt_pecas / (DATE_DIFF(w.dt_fim, w.dt_ini, DAY) + 1), 2)     AS qt_pecas_por_dia_real,
   -- ritmo de produção
-  ROUND((c.qt_email_tag + c.qt_whatsapp_tag + c.qt_push_tag)
+  ROUND(c.qt_disparos_distintos
         / (DATE_DIFF(w.dt_fim, w.dt_ini, DAY) + 1), 2)                AS qt_pecas_crm_por_dia,
   ROUND(a.qt_anuncios_com_verba / (DATE_DIFF(w.dt_fim, w.dt_ini, DAY) + 1), 2) AS qt_anuncios_por_dia,
   -- quantas entregas cada peça de CRM carregou, em média
-  ROUND(c.qt_entregas_tag / NULLIF(c.qt_email_tag + c.qt_whatsapp_tag + c.qt_push_tag, 0)) AS qt_entregas_por_peca
+  ROUND(c.qt_entregas_tag / NULLIF(c.qt_disparos_distintos, 0))       AS qt_entregas_por_disparo
 FROM win AS w
 LEFT JOIN ads AS a USING (sigla)
 LEFT JOIN crm AS c USING (sigla)

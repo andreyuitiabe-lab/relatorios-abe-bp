@@ -274,7 +274,8 @@ def build() -> dict:
             c[k] = nn(lq.get(k))
         pc = pecas_por_sigla.get(c["sigla"], {})
         for k in ("qt_email_tag", "qt_whatsapp_tag", "qt_push_tag", "qt_pecas_crm_tag",
-                  "qt_pecas_crm_por_dia", "qt_entregas_por_peca", "qt_email_janela"):
+                  "qt_pecas_crm_por_dia", "qt_entregas_por_disparo",
+                  "qt_pecas", "qt_variantes_por_peca", "qt_pecas_por_dia_real"):
             c[k] = nn(pc.get(k))
         c["nm_origem_principal"] = nn(r.get("nm_origem_principal"))
         c["pct_origem_principal"] = nn(r.get("pct_origem_principal"))
