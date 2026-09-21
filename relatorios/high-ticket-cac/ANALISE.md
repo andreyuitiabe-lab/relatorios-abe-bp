@@ -295,49 +295,67 @@ no aniversário (BP10: R$ 14,3 mi dos R$ 18,7 mi são vitalícios).
 de R$ 206 e só 1.939 vitalícios. Separando o produto (achado 7), o CAC de vitalício dele é
 **R$ 1.046 — o pior da série** sob rateio por receita. Não usar o R$ 104 como benchmark.
 
-### 2b. A oferta de vitalício foi reprecificada — e é isso que o relatório publica agora
+### 2b. A oferta de vitalício foi reprecificada
 
-⚠️ **CORRIGIDO em 21/09/2026 — erro meu, pego pelo André** (*"bp10 só teve isso de vendas de black
-mesmo?"*). A primeira versão desta seção comparava o universo **principal** de cada campanha:
-BNO24 em `janela` e BP10 em `rastro`. São réguas diferentes, e a diferença é grande — o Black
-Vitalício do BP10 é **368 em rastro e 1.644 em janela**. A tabela publicada dava −87% de volume no
-Black; com régua consistente é **−43% (janela) ou −77% (rastro)**. O total também estava errado:
-eu publiquei "18.553 → 8.798" (−53%), que é janela contra rastro.
+Compara as **duas únicas campanhas que venderam vitalício para a base**, BNO24 e BP10 — vitalício
+contra vitalício, isolando decisão de oferta de decisão de mídia.
 
-**Por que não dá para escolher só uma régua.** Cada uma enviesa para um lado:
-- `rastro × rastro` — o BNO24 fica subcontado (era promoção de catálogo, nem toda venda levava
-  tag: 11.788 de 18.553 vitalícios). **Exagera a queda.**
-- `janela × janela` — o BP10 ganha 97 dias de janela contra 30 do BNO24. **Suaviza a queda.**
+**Universo: `janela` nas duas — todas as vendas do período, com ou sem rastro.** Decisão do André
+em 21/09/2026: *"todas as vendas no período fazem parte da campanha. vendas do comercial às vezes
+não têm o rastreio mas fazem parte"*. É conhecimento de negócio que a atribuição não captura —
+filtrar por rastro esconderia justamente o canal que mais vendeu vitalício em 2024.
 
-A leitura honesta é o intervalo. O relatório publica os dois com um toggle e escreve os números em
-faixa.
+| Degrau | Preço BF24 | Preço BP10 | Preço | Vendas BF24 | Vendas BP10 | Volume |
+|---|---:|---:|---:|---:|---:|---:|
+| Básico        | R$ 1.290 | R$ 1.286 | igual | 11.313 | 3.307 | **−71%** |
+| Premium GBB   | R$ 2.470 | R$ 1.672 | **−32%** | 4.065 | 7.191 | **+77%** |
+| Black         | R$ 4.296 | R$ 4.255 | −1% | 2.887 | 1.644 | **−43%** |
+| Intermediário | R$ 1.987 | — | — | 288 | 0 | saiu do mix |
+| **Total** | | | | **18.553** | **12.142** | **−35%** |
 
-| Degrau | Preço BF24 → BP10 | Volume `rastro` | Volume `janela` |
-|---|---|---|---|
-| Básico  | R$ 1.292 → 1.289 (igual) | 7.739 → 2.443 (**−68%**) | 11.313 → 3.307 (**−71%**) |
-| Premium | R$ 2.468 → 1.622 (**−34%**) / R$ 2.470 → 1.672 (**−32%**) | 2.334 → 5.987 (**+157%**) | 4.065 → 7.191 (**+77%**) |
-| Black   | R$ 4.338 → 3.918 (−10%) / R$ 4.296 → 4.255 (−1%) | 1.569 → 368 (**−77%**) | 2.887 → 1.644 (**−43%**) |
-| Intermediário | R$ 1.987 → não existe | 146 → 0 | 288 → 0 |
-| **Total** | | **11.788 → 8.798 (−25%)** | **18.553 → 12.142 (−35%)** |
+- **O Premium funcionou como reprecificação.** Preço −32%, volume +77%, receita quase estável.
+  Troca deliberada de margem por volume; o CAC piorar por isso é **mecânico, não erro de mídia**.
+- **A perda está onde o preço NÃO mudou.** Básico −71% e Black −43%. Não é elasticidade — é volume
+  que não apareceu, no mesmo período em que a resposta às abordagens caiu de 44% para 37%.
 
-**O que sobrevive à troca de régua** (é o que a seção afirma):
-- **Preço do Premium caiu ~1/3** (−32% a −34%). Preço é robusto ao universo — preço é preço.
-- **Volume do Premium subiu muito** (+77% a +157%), com receita quase estável. Reprecificação que
-  funcionou: troca deliberada de margem por volume. O CAC piorar por isso é **mecânico, não erro
-  de mídia** — ticket menor com a mesma verba.
-- **Volume caiu onde o preço NÃO mudou**: Básico −68/−71% e Black −43/−77%. Não é elasticidade; é
-  volume que não apareceu, no mesmo período da queda de abordagens do Comercial (achado 3).
-- **Total de vitalício caiu 25–35%.**
+⚠️ **Ressalva de duração:** o BP10 ocupou 97 dias contra 30 do Black Friday. Para preço não
+importa; para volume **favorece o BP10**, então a queda real é pelo menos a reportada.
 
-**Lição de método para as próximas comparações:** o universo principal é escolhido por campanha,
-por boas razões (o BNO24 é promoção de catálogo, o BP10 é lançamento). Isso é correto para medir
-*cada campanha*, e errado para *comparar duas*. Toda comparação campanha × campanha neste relatório
-precisa fixar a régua antes — conferir se a afirmação sobrevive nas duas.
+⚠️ **Histórico da correção (não publicado na página):** a primeira versão desta seção comparava o
+universo *principal* de cada campanha — BNO24 em `janela` e BP10 em `rastro` — e publicava −87% de
+volume no Black. O André questionou o número. A régua cruzada foi corrigida primeiro para um
+toggle com as duas leituras, e depois fixada em `janela` pela razão de negócio acima. O `rastro`
+segue no `data.json` para conferência.
 
-⚠️ `nm_plano_principal` é o plano principal do comprador e `vl_receita` inclui order bump, então a
-soma por degrau excede a receita estrita de vitalício. Vale para preço e volume, que é o uso aqui;
-para receita de vitalício usar `vl_receita_vitalicio` do consolidado. Query: `Q_VITALICIO` em
-[refresh.py](refresh.py).
+---
+
+**Teste que a observação do André motivou: o universo `rastro` subconta o Comercial?**
+
+Se venda do Comercial frequentemente não carrega rastro, o mix de canal de todo o relatório
+poderia estar enviesado. Medi:
+
+| | rastro: % Comercial | janela: % Comercial |
+|---|---:|---:|
+| BNO24 | 37,5% | 41,8% |
+| CDL   | **46,5%** | 21,7% |
+| BP10  | 24,4% | 26,1% |
+| ODI   | **43,1%** | 27,4% |
+
+**Não há subcontagem sistemática — o efeito é o oposto.** Em CDL e ODI o `rastro` tem
+proporcionalmente *muito mais* Comercial que a janela, porque quem carrega link da campanha é
+desproporcionalmente o Comercial, enquanto a janela dilui com a operação normal da casa (que é
+majoritariamente mídia). No BP10 a diferença é de 1,7 pp. **O achado central de mix de canal
+sobrevive.**
+
+⚠️ O que continua verdadeiro é a ressalva do André sobre **volume absoluto**: existem vendas do
+Comercial sem rastro que ficam fora do universo `rastro`. Elas ficam de fora junto com vendas de
+outros canais, então a *proporção* se mantém — mas a contagem absoluta do Comercial na campanha é
+maior que a publicada.
+
+⚠️ **`janela` não serve como universo de campanha para lançamento de produto.** Na TRA2 são 24.495
+compradores em `janela` contra 371 em `rastro` — a janela ali é a casa inteira operando, não a
+campanha. Só faz sentido para os Black November (promoção de catálogo) e para esta comparação de
+vitalício, onde o produto é o da campanha.
 
 ### 3. O Comercial responde menos — mas NÃO é falta de esforço (corrigido 21/09/2026)
 

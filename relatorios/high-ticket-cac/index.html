@@ -174,17 +174,16 @@
 
 <!-- ══ CAC POR FAIXA ══ -->
 <section>
-  <h2>O CAC muda muito quando se separa pelo valor da venda</h2>
+  <h2>O custo por comprador só é comparável na mesma faixa de preço</h2>
   <p class="sub">O CAC de uma campanha divide a verba por todo mundo que comprou — quem pagou
-     R$ 7,90 conta igual a quem pagou R$ 3.484. Separando por faixa de preço, o número fica
-     comparável.</p>
+     R$ 7,90 conta igual a quem pagou R$ 3.484. Campanhas com mix de preço diferente viram números
+     que não se comparam. A saída é olhar sempre a mesma faixa.</p>
 
   <div class="card">
-    <p class="label">Custo por comprador, por faixa de valor da venda</p>
+    <p class="label">Custo por comprador — todo mundo × só quem pagou acima de R$ 1.000</p>
     <div class="legenda">
-      <span><i class="dot" style="background:var(--s1)"></i> Alto ticket (acima de R$ 1.000)</span>
-      <span><i class="dot" style="background:var(--s2)"></i> Médio (R$ 200 a 1.000)</span>
-      <span><i class="dot" style="background:var(--s3)"></i> Entrada (abaixo de R$ 200)</span>
+      <span><i class="dot" style="background:var(--s4)"></i> Contando todo mundo</span>
+      <span><i class="dot" style="background:var(--s1)"></i> Só quem pagou acima de R$ 1.000</span>
     </div>
     <canvas id="gFaixas" height="220"></canvas>
   </div>
@@ -194,6 +193,19 @@
     o BP10, o custo por comprador sobe 129% se contarmos todo mundo — e <b>143% se contarmos só
     quem pagou acima de R$ 1.000</b>, de R$ 277 para R$ 674. A segunda é a conta certa: é a mesma
     régua nas duas campanhas.
+  </div>
+
+  <div class="nota">
+    <strong>O que este corte NÃO responde: quanto custa adquirir um comprador caro contra um
+    barato.</strong> A verba não é comprada por faixa de preço — a campanha compra mídia uma vez
+    e vende de tudo. Para dividir esse custo entre as faixas é preciso escolher uma convenção, e a
+    daqui é a mesma usada em P&amp;L: <strong>proporcional à receita</strong>.
+    <br><br>
+    Essa escolha tem uma consequência que vale entender: quem gera mais receita carrega mais custo
+    por construção, então o custo de cada faixa acaba sendo o ticket dela dividido pelo retorno da
+    campanha. <strong>Comparar faixas dentro de uma mesma campanha só devolve a convenção, não um
+    fato.</strong> O que informa — e é o que está no gráfico — é comparar <em>a mesma faixa entre
+    campanhas diferentes</em>, porque aí o que muda é o desempenho, não a regra de divisão.
   </div>
 
   <div class="destaque" style="background:#fff7ed;border-color:#fed7aa">
@@ -332,13 +344,6 @@
 
   <div class="card">
     <p class="label">Vitalícios vendidos por degrau</p>
-    <div class="recorte" data-toggle="vitalicio">
-      <div class="seg" role="group" aria-label="Régua de comparação">
-        <button type="button" data-rec="rastro" aria-pressed="true">Só a campanha</button>
-        <button type="button" data-rec="janela" aria-pressed="false">Todo o período</button>
-      </div>
-      <span class="n" data-n></span>
-    </div>
     <div class="legenda">
       <span><i class="dot" style="background:var(--s1)"></i> Black Friday 2024</span>
       <span><i class="dot" style="background:var(--s2)"></i> BP10</span>
@@ -347,52 +352,47 @@
   </div>
 
   <div class="card" style="margin-top:20px;overflow-x:auto">
-    <p class="label">O mesmo em números — o preço segue a régua escolhida, o volume aparece nas duas</p>
+    <p class="label">O mesmo em números</p>
     <table>
       <thead><tr><th>Degrau</th>
         <th class="num">Preço<br>BF 2024</th><th class="num">Preço<br>BP10</th><th class="num">Preço</th>
-        <th class="num">Volume — o que<br>a campanha gerou</th>
-        <th class="num">Volume — tudo o<br>que a casa vendeu</th></tr></thead>
+        <th class="num">Vendas<br>BF 2024</th><th class="num">Vendas<br>BP10</th><th class="num">Volume</th></tr></thead>
       <tbody id="tbVitalicio"></tbody>
     </table>
   </div>
 
   <div class="destaque">
-    <strong>O Premium foi reprecificado e funcionou.</strong> O preço caiu 32–34% e o volume subiu
-    nas duas réguas — <b>+77% na leitura conservadora, +157% na outra</b>, com receita
-    praticamente estável. É troca deliberada de margem por volume, e o efeito no CAC é mecânico,
-    não erro de mídia: <b>ticket menor com a mesma verba significa custo por comprador maior</b>.
+    <strong>O Premium foi reprecificado e funcionou.</strong> Preço 32% menor, <b>volume 77% maior</b>,
+    receita praticamente a mesma. É troca deliberada de margem por volume — e o efeito no CAC é
+    mecânico, não erro de mídia: <b>ticket menor com a mesma verba significa custo por comprador
+    maior</b>.
   </div>
 
   <div class="destaque" style="background:#fef2f2;border-color:#fecaca">
-    <strong>A perda está nos degraus em que o preço não mudou.</strong> O Básico caiu
-    <b>68–71%</b> em volume e o Black <b>43–77%</b>, os dois com preço praticamente igual ao de
-    2024. Não é elasticidade de preço: é volume que não apareceu. No total, o vitalício caiu entre
-    <b>24% e 34%</b> de uma campanha para a outra.
+    <strong>A perda está nos degraus em que o preço não mudou.</strong> O Básico caiu <b>71%</b> em
+    volume e o Black <b>43%</b>, os dois com preço praticamente igual ao de 2024. Não é
+    elasticidade de preço: é volume que não apareceu. No total, foram <b>18.553 vitalícios em 2024
+    contra 12.142 no BP10</b>.
   </div>
 
   <div class="nota">
-    <strong>Por que faixa e não número único.</strong> As duas campanhas não são medidas com a
-    mesma régua nas demais seções: o Black Friday é promoção do catálogo inteiro e conta
-    <em>tudo o que a casa vendeu no mês</em>; o BP10 é lançamento e conta <em>o que carrega o
-    rastro da campanha</em>. Para comparar oferta com oferta é preciso fixar a régua — e cada uma
-    puxa para um lado. Em “o que a campanha gerou”, o Black Friday fica subcontado, porque nem
-    toda venda da promoção levava a tag: isso <em>exagera</em> a queda. Em “tudo o que a casa
-    vendeu”, o BP10 ganha 97 dias de janela contra 30 do Black Friday: isso a <em>suaviza</em>.
-    A leitura honesta é o intervalo entre as duas.
+    <strong>O que entra na conta.</strong> Todas as vendas de vitalício no período de cada
+    campanha, tenham ou não o rastro dela. É a leitura certa aqui porque <strong>venda do Comercial
+    muitas vezes não carrega rastro e é campanha do mesmo jeito</strong> — filtrar por rastro
+    esconderia justamente o canal que mais vendeu vitalício em 2024.
     <br><br>
-    O que <strong>não</strong> depende da régua é o preço — o Premium caiu cerca de um terço nas
-    duas. Preço é preço.
+    <strong>A ressalva de duração.</strong> O BP10 ocupou 97 dias e o Black Friday, 30. Para o
+    <em>preço</em> isso não importa — preço é preço. Para o <em>volume</em> favorece o BP10, que
+    teve mais tempo para acumular venda: a queda real de volume é pelo menos a que está aqui.
     <br><br>
-    O degrau Intermediário saiu do mix: existia em 2024 (288 vendas) e não aparece no BP10 em
-    nenhuma das réguas.
+    O degrau Intermediário saiu do mix: 288 vendas em 2024, nenhuma no BP10.
   </div>
 
   <div class="nota">
     Os dois movimentos não se contradizem. O Premium mostra que <em>baixar preço traz gente</em>;
     o Black e o Básico mostram que, onde o preço não mudou, o volume caiu muito — no mesmo período
-    em que o Comercial passou a abordar metade por dia. A oferta explica o ticket; o canal explica
-    o volume.
+    em que a taxa de resposta às abordagens do Comercial caiu de 44% para 37%. A oferta explica o
+    ticket; o canal explica o volume.
   </div>
 </section>
 
@@ -904,17 +904,21 @@ function initCharts(D) {
   /* ── CAC por faixa de valor ───────────────────────────────────────────── */
   const F = D.faixas;
   const pegaF = (sig,fx,campo) => (F.find(r=>r.sigla===sig && r.nm_faixa===fx)||{})[campo] ?? null;
+  /* ⚠️ NÃO desenhar CAC por faixa lado a lado dentro da campanha: com rateio por receita,
+     CAC_faixa = ticket_faixa ÷ ROAS_campanha (verificado, bate até a 4ª casa). Um gráfico desses
+     é o ticket reescalado e convida a uma comparação que a convenção já determinou.
+     A comparação que informa é a MESMA faixa ENTRE campanhas — é o que está aqui. */
   new Chart(gFaixas, {
     type:'bar',
     data:{ labels:nomes, datasets:[
-      {label:'Alto ticket', data:nomes.map(s2=>pegaF(s2,'alto','vl_cac_faixa')),    backgroundColor:S1},
-      {label:'Médio',       data:nomes.map(s2=>pegaF(s2,'medio','vl_cac_faixa')),   backgroundColor:S2},
-      {label:'Entrada',     data:nomes.map(s2=>pegaF(s2,'entrada','vl_cac_faixa')), backgroundColor:S3}
-    ].map(d=>({...d, borderRadius:4, maxBarThickness:22}))},
-    options:{ aspectRatio:2.2, layout:{padding:{top:20}},
+      {label:'Contando todo mundo', data:C.map(c=>c.vl_cac), backgroundColor:S4},
+      {label:'Só quem pagou acima de R$ 1.000', data:C.map(c=>c.vl_cac_alto_ticket), backgroundColor:S1}
+    ].map(d=>({...d, borderRadius:4, maxBarThickness:30}))},
+    options:{ aspectRatio:2.4, layout:{padding:{top:22}},
       plugins:{ legend:{display:false},
         tooltip:{callbacks:{label:c=>c.dataset.label+': '+rs(c.raw)}} },
-      scales:{ x:eixoX, y:{...eixoY, ticks:{callback:v=>'R$ '+br(v)}} } }
+      scales:{ x:eixoX, y:{...eixoY, ticks:{callback:v=>'R$ '+br(v)}} } },
+    plugins:[rotulos(v=>v==null?null:'R$'+br(v))]
   });
 
   document.getElementById('tbFaixaAlto').innerHTML = C.map(c=>{
@@ -1011,23 +1015,24 @@ function initCharts(D) {
       ctx.restore(); }}]
   });
 
-  /* vitalício: preço e volume por degrau, BF 2024 × BP10, nas duas réguas.
-     ⚠️ As duas campanhas NÃO usam o mesmo universo no resto do relatório (BNO24 = janela,
-     BP10 = rastro). Comparar oferta com oferta exige fixar a régua, e cada uma enviesa para
-     um lado — por isso o toggle e os números em faixa. Ver a nota da seção. */
-  const V = D.vitalicio || [];
-  const vGet = (deg,sig,uni,campo) =>
-    V.find(r=>r.nm_plano===deg && r.sigla===sig && r.nm_universo===uni)?.[campo] ?? null;
+  /* vitalício: preço e volume por degrau, BF 2024 × BP10.
+     Usa o universo `janela` — TODAS as vendas do período, com ou sem rastro da campanha.
+     Decisão do André (21/09): venda do Comercial muitas vezes não carrega rastro e é campanha
+     do mesmo jeito, então filtrar por rastro esconderia o canal que mais vendeu vitalício em
+     2024. O `rastro` continua no data.json para quem precisar conferir. */
+  const V = (D.vitalicio || []).filter(r => r.nm_universo === 'janela');
+  const vGet = (deg,sig,campo) =>
+    V.find(r=>r.nm_plano===deg && r.sigla===sig)?.[campo] ?? null;
   const degraus = [...new Set(V.map(r=>r.nm_plano))]
-    .sort((a,b)=>(vGet(b,'BNO24','janela','qt')||0)-(vGet(a,'BNO24','janela','qt')||0));
+    .sort((a,b)=>(vGet(b,'BNO24','qt')||0)-(vGet(a,'BNO24','qt')||0));
   const curto = d => d.replace(' Vitalício','').replace('Premium GBB','Premium');
 
-  const chVit = new Chart(gVitalicio, {
+  new Chart(gVitalicio, {
     type:'bar',
     data:{ labels:degraus.map(curto), datasets:[
-      {label:'Black Friday 2024', data:[], backgroundColor:S1,
+      {label:'Black Friday 2024', data:degraus.map(d=>vGet(d,'BNO24','qt')||0), backgroundColor:S1,
        borderRadius:4, borderWidth:2, borderColor:'#fff', maxBarThickness:46},
-      {label:'BP10', data:[], backgroundColor:S2,
+      {label:'BP10', data:degraus.map(d=>vGet(d,'BP10','qt')||0), backgroundColor:S2,
        borderRadius:4, borderWidth:2, borderColor:'#fff', maxBarThickness:46}]},
     options:{ aspectRatio:2.6, layout:{padding:{top:22}},
       plugins:{ legend:{display:false},
@@ -1044,41 +1049,17 @@ function initCharts(D) {
              (pp>0?'+':'')+br(pp,0)}%</span>`;
   };
 
-  function pintaVitalicio(uni) {
-    chVit.data.datasets[0].data = degraus.map(d=>vGet(d,'BNO24',uni,'qt')||0);
-    chVit.data.datasets[1].data = degraus.map(d=>vGet(d,'BP10', uni,'qt')||0);
-    chVit.update();
-
-    document.getElementById('tbVitalicio').innerHTML = degraus.map(d=>{
-      const p24=vGet(d,'BNO24',uni,'vl_ticket'), p10=vGet(d,'BP10',uni,'vl_ticket');
-      /* o volume aparece nas DUAS réguas lado a lado: é onde elas discordam */
-      const vol = u => {
-        const a=vGet(d,'BNO24',u,'qt'), b=vGet(d,'BP10',u,'qt');
-        if (a==null) return '—';
-        return `${br(a)} → ${b==null?'0':br(b)} &nbsp;${varPct(a, b ?? 0)}`;
-      };
-      const marca = u => u===uni ? ' style="background:#f1f5fb"' : '';
-      return `<tr>
-        <td class="campanha">${curto(d)}</td>
-        <td class="num">${rs(p24)}</td><td class="num">${rs(p10)}</td>
-        <td class="num">${varPct(p24,p10)}</td>
-        <td class="num"${marca('rastro')}>${vol('rastro')}</td>
-        <td class="num"${marca('janela')}>${vol('janela')}</td>
-      </tr>`;
-    }).join('');
-
-    const box = document.querySelector('[data-toggle="vitalicio"]');
-    /* o rótulo diz o que a régua É, não o que ela dá — o resultado está no gráfico logo abaixo */
-    box.querySelector('[data-n]').textContent = uni==='rastro'
-      ? 'vendas que carregam o rastro de cada campanha'
-      : 'todas as vendas do período — 30 dias no BF 2024, 97 no BP10';
-    box.querySelectorAll('button').forEach(b=>
-      b.setAttribute('aria-pressed', String(b.dataset.rec===uni)));
-  }
-
-  document.querySelectorAll('[data-toggle="vitalicio"] button').forEach(b=>
-    b.addEventListener('click', ()=>pintaVitalicio(b.dataset.rec)));
-  pintaVitalicio('rastro');
+  document.getElementById('tbVitalicio').innerHTML = degraus.map(d=>{
+    const p24=vGet(d,'BNO24','vl_ticket'), p10=vGet(d,'BP10','vl_ticket');
+    const q24=vGet(d,'BNO24','qt'),        q10=vGet(d,'BP10','qt');
+    return `<tr>
+      <td class="campanha">${curto(d)}</td>
+      <td class="num">${rs(p24)}</td><td class="num">${rs(p10)}</td>
+      <td class="num">${varPct(p24,p10)}</td>
+      <td class="num">${br(q24)}</td><td class="num">${q10==null?'0':br(q10)}</td>
+      <td class="num">${varPct(q24, q10 ?? 0)}</td>
+    </tr>`;
+  }).join('');
 
   /* status */
   const chStatus = empilhado(gStatus, nomes, [
