@@ -339,22 +339,49 @@ soma por degrau excede a receita estrita de vitalício. Vale para preço e volum
 para receita de vitalício usar `vl_receita_vitalicio` do consolidado. Query: `Q_VITALICIO` em
 [refresh.py](refresh.py).
 
-### 3. O Comercial responde menos — mas a queda não é monotônica
+### 3. O Comercial responde menos — mas NÃO é falta de esforço (corrigido 21/09/2026)
 
-Taxa de resposta às abordagens do Zenvia (grupo Comercial, janela da campanha):
+⚠️ **Correção de conclusão, pega pelo André** (*"essa frase aqui é verdadeira?"* sobre "metade das
+abordagens por dia, com o mesmo time"). A frase era verdadeira como média e **falsa como leitura
+de esforço**, e sustentava a ação nº 2 do relatório ("descobrir por que o Comercial não foi
+mobilizado de novo"). A premissa não existe.
 
-| | TRA | TRA2 | BNO24 | BIT | BNO25 | DBI | CDL | BP10 | ODI |
-|---|---|---|---|---|---|---|---|---|---|
-| Abordagens/dia | 2.559 | 1.172 | 5.228 | 3.862 | **9.726** | 5.688 | 3.344 | 2.805 | 3.066 |
-| % com resposta | **73,8%** | 44,6% | 43,8% | 51,1% | 31,9% | **25,5%** | 42,1% | 36,6% | 31,4% |
+**O que a média escondia:** o BP10 durou 97 dias e o BNO24, 30. Normalizando:
 
-⚠️ **Correção (revisão de 17/09):** a versão anterior chamava essa queda de "monotônica" e a própria
-tabela desmente — há três subidas (BNO24→BIT +7,3pp, BNO25→BP10 +4,7pp, DBI→CDL +16,6pp). O que se
-sustenta é: **caiu ~40pp entre as pontas**, de forma irregular. O par limpo (mesmo mês do ano, mesma
-promoção) é BNO24 43,8% → BNO25 31,9%.
+| | BNO24 | BP10 |
+|---|---|---|
+| Abordagens/dia (média simples) | 5.228 | 2.806 |
+| **Abordagens/dia nos 30 dias mais intensos** | **5.228** | **5.378** |
+| Abordagens no total | 156.832 | **272.148 (+74%)** |
+| Pico em um dia | 7.496 | **11.267** |
+| Vendedores que abordaram | 67 | 71 |
 
-Em 2023 três de cada quatro abordagens viravam conversa; em 2026 é uma em três. O canal que
-sustentava o high-ticket ficou mais caro **em trabalho**, não em mídia.
+Na série inteira, o top-30 diário é: TRA 3.485 · TRA2 1.802 · BNO24 5.228 · BIT 5.401 · DBI 8.413 ·
+CDL 4.839 · BP10 5.378 · ODI 5.027. **O BNO24 não é o pico de esforço da série** — o DBI é, e o
+BP10 está acima dele. O que era excepcional no BNO24 é o *resultado* do Comercial (41,8% dos
+compradores), não o volume de abordagem.
+
+**O que É robusto e sustenta o achado original:** a **taxa de resposta** — 73,8% (TRA) → 43,8%
+(BNO24) → 36,9% (BP10) → 32,0% (ODI) — e a **conversa→venda estável ou melhor** (10,6% → 14,5% →
+12,2%). As duas são medidas dentro do próprio Zenvia, sem atribuição de venda e sem universo, então
+não dependem de régua nenhuma. **O funil quebra no topo: o time aborda tanto quanto sempre e a
+abordagem deixou de ser respondida.**
+
+🚫 **O que eu tentei medir e NÃO publiquei:** eficiência abordagem → venda entre campanhas. O
+numerador depende do universo de atribuição e **as duas réguas discordam de sinal** — em `rastro` o
+BP10 sai 2,2× pior (3,71% → 1,67%), em `janela` sai melhor (7,82% → 9,47%). Sem régua comum não há
+afirmação possível, e escolher uma seria escolher o resultado. Mesma armadilha do achado 2b.
+
+**Efeito no contrafactual dos R$ 5,2 mi.** O número continua válido como aritmética de composição,
+mas mudou de significado: **não é dinheiro a recuperar mandando o Comercial trabalhar mais**, já
+que ele trabalha tanto quanto antes. Mede o tamanho do problema, não o da solução — o que está em
+jogo em destravar a resposta. O texto do relatório foi reescrito nesses termos.
+
+**A ação nº 2 virou** "descobrir por que a abordagem deixou de ser respondida", com as pistas a
+investigar: qualidade e repetição da lista abordada, canal, horário, e quantas dessas pessoas já
+tinham sido abordadas em campanha anterior.
+
+Query: [queries/18_esforco_comercial_real.sql](queries/18_esforco_comercial_real.sql).
 
 ### 4. A base já não é virgem, mas o estoque não acabou
 
@@ -909,6 +936,7 @@ BP10/ODI/CDL.
 | [queries/15_cac_por_faixa_valor.sql](queries/15_cac_por_faixa_valor.sql) | CAC separado por faixa de valor da venda (alto / médio / entrada) |
 | [queries/16_receita_liquida_aquisicao.sql](queries/16_receita_liquida_aquisicao.sql) | Receita menos os três custos de aquisição — ⚠️ **não é margem**, ver cabeçalho do arquivo |
 | [queries/17_recortes_campanha_alto_ticket.sql](queries/17_recortes_campanha_alto_ticket.sql) | As mesmas métricas nos dois recortes (campanha inteira × alto ticket) — alimenta o toggle |
+| [queries/18_esforco_comercial_real.sql](queries/18_esforco_comercial_real.sql) | Esforço do Comercial normalizado por duração (top-30 dias) — desmente "metade das abordagens" |
 | [scripts/carrega_planilha_ads.py](scripts/carrega_planilha_ads.py) | Carrega a aba de anúncios do XLSX do time de tráfego no BQ (595 mil linhas, 2022→2026) |
 | [scripts/extrai_meta_ads.py](scripts/extrai_meta_ads.py) | Extração em `level=ad` nas 9 janelas (⚠️ requer token Meta válido) |
 | [scripts/extrai_meta_api.py](scripts/extrai_meta_api.py) | Spend Meta por campanha × dia via Marketing API (ago/2023+) |

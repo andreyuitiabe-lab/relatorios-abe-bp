@@ -215,6 +215,8 @@ def build() -> dict:
     faixas = bqq(AQUI / "queries" / "15_cac_por_faixa_valor.sql")
     print("  recortes campanha × alto ticket (toggle)...", flush=True)
     recortes = bqq(AQUI / "queries" / "17_recortes_campanha_alto_ticket.sql")
+    print("  esforço real do Comercial (normalizado por duração)...", flush=True)
+    esforco = bqq(AQUI / "queries" / "18_esforco_comercial_real.sql")
 
     print("  peças criadas (anúncios e e-mails distintos)...", flush=True)
     pecas = bqq(AQUI / "queries" / "12_pecas_criadas.sql")
@@ -289,6 +291,7 @@ def build() -> dict:
         "produtos": [{k: nn(v) for k, v in l.items()} for l in produto.to_dict("records")],
         "faixas": [{k: nn(v) for k, v in l.items()} for l in faixas.to_dict("records")],
         "recortes": [{k: nn(v) for k, v in l.items()} for l in recortes.to_dict("records")],
+        "esforco_comercial": [{k: nn(v) for k, v in l.items()} for l in esforco.to_dict("records")],
         "teste_universo": [{k: nn(v) for k, v in l.items()}
                            for l in testes[testes["nm_teste"] == "teste1_universo"].to_dict("records")],
         "serie_casa": [{k: nn(v) for k, v in l.items()}

@@ -112,8 +112,8 @@
     <span class="veredito">Sim — e é a explicação principal</span>
     <h3>Fizemos duas coisas diferentes</h3>
     <p>Mudamos a <strong>oferta</strong>: o vitalício Premium saiu de R$ 2.470 para R$ 1.622, e os
-       degraus de cima quase sumiram do mix. E mudamos o <strong>esforço do Comercial</strong>:
-       metade das abordagens por dia, com o mesmo time e o mesmo tipo de produto.</p>
+       degraus de cima quase sumiram do mix. E mudamos o <strong>peso dos canais</strong>: a mídia
+       passou de um em cada cinco compradores para metade deles.</p>
   </div>
 
   <div class="resp meio">
@@ -315,10 +315,12 @@
   <div class="nota">
     A casa inteira passou a operar com ~50% de mídia a partir de meados de 2024 e segue assim.
     <strong>O Black Friday de 2024 é o mês de MENOR participação de mídia de todo aquele ano
-    (19,8%)</strong> — ele não é o "antes" de uma tendência, foi uma mobilização excepcional do
-    Comercial contra um patamar que já era majoritariamente mídia.<br><br>
+    (19,8%)</strong> — ele não é o "antes" de uma tendência, é um resultado excepcional do
+    Comercial contra um patamar que já era majoritariamente mídia. Excepcional no resultado, não
+    no esforço: em volume de abordagem ele fica no meio da série.<br><br>
     Isso muda a pergunta que vale a pena fazer: não é “por que a mídia cresceu”, é
-    <strong>“por que o Comercial não foi mobilizado de novo como em novembro de 2024”</strong>.
+    <strong>“por que a mesma quantidade de abordagem rende cada vez menos”</strong> — porque o
+    Comercial <em>continua</em> abordando tanto quanto em novembro de 2024.
   </div>
 </section>
 
@@ -493,8 +495,24 @@
     <strong>O funil do Comercial quebrou no topo, não no fechamento.</strong> Abrir conversa ficou
     muito mais difícil (74% → 31%), mas <b>quem conversa fecha na mesma proporção — ou melhor</b>
     (10,6% na Travessia, 12,2% no BP10, com o pico de 14,5% no Black Friday 2024).
-    O time não encolheu: 37 vendedores com venda no BF24, 51 no BP10, com receita por vendedor
-    estável.
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <p class="label">Abordagens por dia nos 30 dias mais intensos de cada campanha</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+      A média simples engana quando as campanhas têm durações diferentes — o BP10 durou 97 dias e o
+      Black Friday, 30. Comparar os picos coloca as duas na mesma régua.</p>
+    <canvas id="gEsforco" height="180"></canvas>
+  </div>
+
+  <div class="destaque">
+    <strong>E não é falta de esforço.</strong> Nos 30 dias mais intensos, o BP10 abordou
+    <b>5.378 pessoas por dia</b> contra <b>5.228</b> do Black Friday de 2024 — e no total da
+    campanha abordou <b>74% mais</b> (272 mil contra 157 mil), com time equivalente (71 vendedores
+    contra 67). O pico diário do BP10, 11.267 abordagens, é o maior das duas.
+    <br><br>
+    <b>O time aborda tanto quanto sempre. O que mudou é que a abordagem deixou de ser
+    respondida.</b>
   </div>
 
   <div class="card" style="margin-top:20px">
@@ -582,11 +600,15 @@
   </div>
 
   <div class="destaque" style="background:#fef3c7;border-color:#fde68a">
-    <strong>O que isso custou em dinheiro.</strong> Se o BP10 tivesse o mesmo mix de canal do
-    Black Friday 2024 — mantendo as próprias eficiências de custo que ele teve em cada canal —
-    a sobra seria <b>81% em vez de 53%</b>: <b>R$ 15,2 milhões no lugar de R$ 9,9 milhões</b>.
+    <strong>Quanto vale o mix de canal.</strong> Se o BP10 tivesse o mesmo mix do Black Friday
+    2024 — mantendo as próprias eficiências de custo que ele teve em cada canal — a sobra seria
+    <b>81% em vez de 53%</b>: <b>R$ 15,2 milhões no lugar de R$ 9,9 milhões</b>. A diferença é
+    <strong>R$ 5,2 milhões</strong>.
     <br><br>
-    <strong>R$ 5,2 milhões</strong> é o preço de ter deixado o Comercial e o CRM encolherem.
+    <b>Isso mede o tamanho do problema, não o tamanho da solução.</b> Não é dinheiro a recuperar
+    mandando o Comercial trabalhar mais: ele já aborda tanto quanto em 2024, e ainda assim traz
+    metade dos compradores. Enquanto a abordagem não voltar a ser respondida, esse mix não volta —
+    a conta serve para dimensionar o que está em jogo em <em>destravar a resposta</em>.
   </div>
 
   <div class="nota">
@@ -618,11 +640,13 @@
   </div>
 
   <div class="acao">
-    <h3>2. Descobrir por que o Comercial não foi mobilizado de novo</h3>
-    <p>Mesmo time, mesmo tipo de oferta, metade das abordagens por dia. E quem conversa fecha igual
-       ou melhor do que antes. É a alavanca com dono mais clara do estudo — e tem preço:
-       <strong>com o mix de canal do BF 2024, o BP10 teria deixado R$ 5,2 milhões a mais depois do
-       custo de aquisição</strong>.</p>
+    <h3>2. Descobrir por que a abordagem deixou de ser respondida</h3>
+    <p>O time aborda tanto quanto em 2024 — 5.378 pessoas por dia nos picos do BP10 contra 5.228 no
+       Black Friday — e quem conversa fecha igual ou melhor. O que caiu pela metade foi a
+       <strong>taxa de resposta: 74% na Travessia, 44% no Black Friday de 2024, 37% no BP10</strong>.
+       Não é um problema de mobilização, é de quem está sendo abordado e de como. Vale olhar
+       qualidade e repetição da lista, canal e horário — e quantas dessas pessoas já tinham sido
+       abordadas em campanha anterior.</p>
   </div>
 
   <div class="acao">
@@ -1048,6 +1072,15 @@ function initCharts(D) {
         v=>br(v,0)+'%', v=>pc(v), {tickY:v=>v+'%'});
   barra(gConv, nomes, C.map(c=>c.pct_conv_conversa), S3,
         v=>br(v,1)+'%', v=>pc(v), {tickY:v=>v+'%'});
+
+  /* esforço do Comercial normalizado: os 30 dias mais intensos de cada campanha.
+     A média simples não serve para comparar campanhas de 30 e de 97 dias. */
+  const ESF = D.esforco_comercial || [];
+  const esf = (sig,campo) => ESF.find(r=>r.sigla===sig)?.[campo] ?? null;
+  barra(gEsforco, nomes, C.map(c=>esf(c.sigla,'qt_abordagens_dia_top30')), S2,
+        v=>v?br(v):null,
+        v=>br(v)+' abordagens/dia nos 30 dias mais intensos',
+        {aspect:2.8, tickY:v=>br(v)});
 
   /* CRM — usa a medida POR CAMPANHA (peças com a tag), que é a citada no texto.
      O data.json também tem vl_crm_por_1k, que é da janela inteira e inclui CRM de
