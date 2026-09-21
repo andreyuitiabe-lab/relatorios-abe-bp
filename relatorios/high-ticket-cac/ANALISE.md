@@ -764,6 +764,50 @@ como *teto do que se perdeu*, não como receita a recuperar.
 **A comissão de 9% é piso** — não inclui folha do time. Isso deixa a comparação entre canais
 conservadora a favor do Comercial. Dobrando o custo dele, nenhuma conclusão muda de sinal.
 
+### Toggle campanha × alto ticket (21/09/2026)
+
+Pedido do André: *"nos gráficos, você consegue adicionar um toggle para ver dados da campanha e dos
+produtos de alto ticket"*. Formaliza uma dúvida que ele já tinha levantado em 18/09 ao ver o
+gráfico de perfil. Implementado em
+[queries/17_recortes_campanha_alto_ticket.sql](queries/17_recortes_campanha_alto_ticket.sql).
+
+**Onde tem toggle:** tabela mestra, origem dos compradores, perfil dos compradores. São as três
+peças em que o recorte existe no dado — basta filtrar `vl_maior_tx > 1000` e recontar.
+
+**Onde NÃO tem, de propósito:**
+- *Esforço de CRM e funil do Comercial.* Uma mensagem enviada não tem ticket — quem recebeu ainda
+  não comprou. O recorte não existe no dado, e fabricá-lo por rateio seria inventar.
+- *CAC por faixa de valor.* Já É a quebra; um toggle ali seria redundante.
+- *Série mensal da casa, vitalício por degrau.* Não são recortes de campanha.
+- *Verba de mídia e número de anúncios,* mesmo dentro da tabela com toggle: não existe "verba do
+  alto ticket", a campanha comprou mídia uma vez só. Ficam iguais nos dois estados e o subtítulo
+  da tabela diz isso.
+
+**Defaults diferentes, de propósito.** A tabela mestra abre em **alto ticket**; os dois gráficos
+descritivos abrem em **campanha inteira**. Razão: da tabela se tira número para decidir mídia, e o
+CAC blendado é exatamente o que o relatório mostra ser enganoso — abrir nele contradiria o próprio
+argumento. Já os gráficos descrevem quem comprou, e o universo completo é a descrição honesta;
+além disso o texto ao lado deles se refere a esse universo.
+
+**O que o recorte revelou** (não era o objetivo, mas é o achado mais forte desta rodada):
+
+| | Mídia % dos compradores — campanha | — só alto ticket |
+|---|---|---|
+| Bitcoin 1 | 22,7% | **7,0%** |
+| Bitcoin 2 | 56,7% | **3,2%** |
+| BF 2024   | 19,1% | 14,3% |
+| Clube do Livro | 34,3% | 33,6% |
+| **BP10** | 50,2% | **59,7%** |
+
+Em quase toda campanha a mídia encolhe no recorte de alto ticket — ela trouxe o produto de entrada
+e o **Comercial** fechou o caro (no Bitcoin 1 o Comercial vai de 53,1% para 72,8%). **O BP10 é a
+única em que a mídia sobe**, e é também a campanha com pior eficiência de aquisição da série
+(53,2% de sobra). Vale como hipótese a testar, não como conclusão: é leitura de último clique.
+
+⚠️ O CAC do recorte de alto ticket usa rateio da verba **por receita** — é o mesmo número da faixa
+'alto' em `15_cac_por_faixa_valor.sql`. Por construção o ROAS fica igual nos dois recortes; quem
+compara recorte tem que olhar o CAC, não o retorno.
+
 ## Revisão independente (17/09/2026)
 
 A análise passou por revisão crítica de um agente de analytics com acesso ao warehouse, que rodou
@@ -850,6 +894,7 @@ BP10/ODI/CDL.
 | [queries/14_qtd_anuncios_v2.sql](queries/14_qtd_anuncios_v2.sql) | Qtd. de anúncios pelas duas fontes, com a definição de cada uma |
 | [queries/15_cac_por_faixa_valor.sql](queries/15_cac_por_faixa_valor.sql) | CAC separado por faixa de valor da venda (alto / médio / entrada) |
 | [queries/16_receita_liquida_aquisicao.sql](queries/16_receita_liquida_aquisicao.sql) | Receita menos os três custos de aquisição — ⚠️ **não é margem**, ver cabeçalho do arquivo |
+| [queries/17_recortes_campanha_alto_ticket.sql](queries/17_recortes_campanha_alto_ticket.sql) | As mesmas métricas nos dois recortes (campanha inteira × alto ticket) — alimenta o toggle |
 | [scripts/carrega_planilha_ads.py](scripts/carrega_planilha_ads.py) | Carrega a aba de anúncios do XLSX do time de tráfego no BQ (595 mil linhas, 2022→2026) |
 | [scripts/extrai_meta_ads.py](scripts/extrai_meta_ads.py) | Extração em `level=ad` nas 9 janelas (⚠️ requer token Meta válido) |
 | [scripts/extrai_meta_api.py](scripts/extrai_meta_api.py) | Spend Meta por campanha × dia via Marketing API (ago/2023+) |

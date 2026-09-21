@@ -68,6 +68,17 @@
                margin-bottom:14px; }
     .legenda span { display:flex; align-items:center; gap:7px; }
     .dot { width:11px; height:11px; border-radius:3px; display:inline-block; }
+
+    /* toggle de recorte: campanha inteira × só alto ticket */
+    .recorte { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+    .recorte .seg { display:inline-flex; background:#eef1f5; border-radius:8px; padding:3px; gap:2px; }
+    .recorte button { font:inherit; font-size:12.5px; font-weight:600; border:0; cursor:pointer;
+      background:transparent; color:var(--muted); padding:6px 13px; border-radius:6px;
+      transition:background .12s, color .12s; }
+    .recorte button[aria-pressed="true"] { background:var(--card); color:var(--text);
+      box-shadow:0 1px 2px rgba(15,23,42,.14); }
+    .recorte button:focus-visible { outline:2px solid var(--s1); outline-offset:2px; }
+    .recorte .n { font-size:12.5px; color:var(--soft); }
     ul { margin:10px 0 0 20px; } li { margin-bottom:7px; color:var(--muted); font-size:14.5px; }
     li strong { color:var(--text); }
     header { margin-bottom:44px; padding-bottom:26px; border-bottom:2px solid var(--line); }
@@ -131,11 +142,19 @@
 <!-- ══ OS NÚMEROS ══ -->
 <section>
   <h2>Os números, campanha a campanha</h2>
-  <p class="sub">As métricas do estudo lado a lado. <strong>Custo por comprador</strong> é o de quem
-     pagou acima de R$ 1.000 — a versão que mistura todo mundo aparece na seção seguinte, e engana.
-     A última coluna diz quanto da receita foi de fato de alto ticket.</p>
+  <p class="sub">As métricas do estudo lado a lado. Use o botão para alternar entre
+     <strong>toda a campanha</strong> e <strong>só quem pagou acima de R$ 1.000</strong> — receita,
+     ticket, custo por comprador e perfil mudam junto. Verba de mídia e número de anúncios não
+     mudam: são da campanha inteira, e não existem “por faixa de preço”.</p>
 
   <div class="card" style="overflow-x:auto">
+    <div class="recorte" data-toggle="resumo" data-default="alto_ticket">
+      <div class="seg" role="group" aria-label="Recorte dos dados">
+        <button type="button" data-rec="campanha"    aria-pressed="false">Toda a campanha</button>
+        <button type="button" data-rec="alto_ticket" aria-pressed="true">Só alto ticket</button>
+      </div>
+      <span class="n" data-n></span>
+    </div>
     <table>
       <thead>
         <tr>
@@ -252,7 +271,14 @@
   <p class="sub">De onde veio cada comprador, campanha a campanha.</p>
 
   <div class="card">
-    <p class="label">Origem dos compradores (% da campanha)</p>
+    <p class="label">Origem dos compradores</p>
+    <div class="recorte" data-toggle="mix">
+      <div class="seg" role="group" aria-label="Recorte dos dados">
+        <button type="button" data-rec="campanha"    aria-pressed="true">Toda a campanha</button>
+        <button type="button" data-rec="alto_ticket" aria-pressed="false">Só alto ticket</button>
+      </div>
+      <span class="n" data-n></span>
+    </div>
     <div class="legenda">
       <span><i class="dot" style="background:var(--s1)"></i> Mídia paga</span>
       <span><i class="dot" style="background:var(--s2)"></i> Comercial</span>
@@ -263,7 +289,17 @@
   </div>
 
   <p style="margin-top:20px">A Travessia foi vendida pelo Comercial: <strong>68% da receita</strong>,
-     com a mídia em 5%. O BP10 é o inverso — mídia em 53%, Comercial em 26%.</p>
+     com a mídia em 5%. O BP10 é o inverso — mídia em 53%, Comercial em 26%.
+     <span style="color:var(--muted)">(O gráfico conta compradores; estes dois números são de
+     receita, por isso não batem exatamente com as barras.)</span></p>
+
+  <div class="destaque">
+    <strong>Trocando para “só alto ticket”, a mídia encolhe em quase toda campanha — menos no
+    BP10.</strong> No Bitcoin 1 ela cai de 22,7% dos compradores para <b>7,0%</b>, e no Bitcoin 2
+    de 56,7% para <b>3,2%</b>: ali o anúncio trouxe o produto de entrada e o <b>Comercial</b> fechou
+    o caro (de 53% para 73% no Bitcoin 1). No BP10 acontece o contrário — a mídia <b>sobe</b> de
+    50,2% para 59,7%. É a única campanha em que o anúncio é, de fato, o canal do alto ticket.
+  </div>
 
   <div class="card" style="margin-top:20px">
     <p class="label">Mas isso não foi uma migração de três anos — foi um degrau em 2024</p>
@@ -342,7 +378,14 @@
   <p class="sub">Situação da pessoa no dia da compra.</p>
 
   <div class="card">
-    <p class="label">Perfil dos compradores — todos os compradores da campanha</p>
+    <p class="label">Perfil dos compradores</p>
+    <div class="recorte" data-toggle="status">
+      <div class="seg" role="group" aria-label="Recorte dos dados">
+        <button type="button" data-rec="campanha"    aria-pressed="true">Toda a campanha</button>
+        <button type="button" data-rec="alto_ticket" aria-pressed="false">Só alto ticket</button>
+      </div>
+      <span class="n" data-n></span>
+    </div>
     <div class="legenda">
       <span><i class="dot" style="background:var(--s7)"></i> Membro vitalício</span>
       <span><i class="dot" style="background:var(--s1)"></i> Membro assinante</span>
@@ -356,6 +399,11 @@
      ativos</strong>. O BP10 vendeu para fora: <strong>55% nunca tinham sido membros</strong>.
      É a troca de canal vista pelo outro lado: quem vende pela base vende para membro, quem vende
      por mídia alcança quem nunca assinou.</p>
+
+  <p>Trocando para <em>só alto ticket</em>, quase todas as campanhas ficam mais “de casa” — no
+     Black Friday de 2024 os nunca-membros caem de 32% para 21%. <strong>O BP10 é a exceção:
+     55% na campanha inteira e 52% no alto ticket.</strong> Ele não vendeu barato para fora e caro
+     para dentro; vendeu caro para fora também. É a campanha mais dependente de gente nova.</p>
 
   <div class="destaque">
     <strong>O vitalício virou o comprador principal dos lançamentos de livro.</strong> Entre os
@@ -377,9 +425,9 @@
   </div>
 
   <div class="nota">
-    <strong>⚠️ Este gráfico conta todos os compradores da campanha, não só os de alto ticket</strong>
-    — como todo o resto do relatório. Nas sete campanhas em que o alto ticket é 88% ou mais da
-    receita isso não muda nada. Na <strong>única em que muda, inverte</strong>:
+    <strong>O botão acima troca o recorte</strong> — e vale saber onde ele muda a leitura. Nas sete
+    campanhas em que o alto ticket é 88% ou mais da receita, quase nada se move. Na
+    <strong>única em que inverte</strong>:
     <table style="margin-top:12px">
       <thead><tr><th></th><th class="num">Alto ticket<br>na receita</th>
         <th class="num">Todos os compradores<br>membro · nunca-membro</th>
@@ -697,22 +745,32 @@ function initCharts(D) {
   const upd = document.getElementById('lastUpdate');
   if (upd) upd.textContent = 'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
 
+  /* ── recortes: campanha inteira × só quem pagou acima de R$ 1.000 ────────
+     A query 17 devolve as duas versões. Tudo que reage ao toggle lê daqui;
+     o que não tem recorte no dado (verba, anúncios) repete nos dois. */
+  const REC = D.recortes || [];
+  const rec = (sig, r) => REC.find(x=>x.sigla===sig && x.nm_recorte===r) || {};
+  const serieRec = (r, campo) => C.map(c => rec(c.sigla, r)[campo] ?? null);
+
   /* tabela resumo */
-  document.getElementById('tbResumo').innerHTML = C.map(c=>{
-    const cor = c.vl_roas>=5 ? 'var(--good)' : (c.vl_roas<2.5 ? 'var(--critical)' : 'var(--text)');
-    return `<tr>
-      <td class="campanha">${c.sigla}<small>${(D.rotulos||{})[c.sigla] || c.nm_campanha}</small></td>
-      <td class="num">${mi(c.vl_receita)}</td>
-      <td class="num">${rs(c.vl_ticket)}</td>
-      <td class="num">${mi(c.vl_midia)}</td>
-      <td class="num" style="font-weight:700">${rs(c.vl_cac_alto_ticket)}</td>
-      <td class="num" style="color:${cor};font-weight:700">${br(c.vl_roas,2)}×</td>
-      <td class="num">${br(c.qt_anuncios)}</td>
-      <td class="num">${pc(c.pct_comp_midia)}</td>
-      <td class="num">${pc(c.pct_nao_membro)}</td>
-      <td class="num" style="color:${c.pct_receita_ht<70?'var(--critical)':'var(--muted)'}">${pc(c.pct_receita_ht)}</td>
-    </tr>`;
-  }).join('');
+  function pintaResumo(r) {
+    document.getElementById('tbResumo').innerHTML = C.map(c=>{
+      const x = rec(c.sigla, r);
+      const cor = x.vl_roas>=5 ? 'var(--good)' : (x.vl_roas<2.5 ? 'var(--critical)' : 'var(--text)');
+      return `<tr>
+        <td class="campanha">${c.sigla}<small>${(D.rotulos||{})[c.sigla] || c.nm_campanha}</small></td>
+        <td class="num">${mi(x.vl_receita)}</td>
+        <td class="num">${rs(x.vl_ticket)}</td>
+        <td class="num">${mi(c.vl_midia)}</td>
+        <td class="num" style="font-weight:700">${rs(x.vl_cac)}</td>
+        <td class="num" style="color:${cor};font-weight:700">${br(x.vl_roas,2)}×</td>
+        <td class="num">${br(c.qt_anuncios)}</td>
+        <td class="num">${pc(x.pct_comp_midia)}</td>
+        <td class="num">${pc(x.pct_nao_membro)}</td>
+        <td class="num" style="color:${c.pct_receita_ht<70?'var(--critical)':'var(--muted)'}">${pc(c.pct_receita_ht)}</td>
+      </tr>`;
+    }).join('');
+  }
 
   /* ── receita líquida de aquisição ─────────────────────────────────────── */
   barra(gLiquido, nomes, C.map(c=>c.pct_liquido_aquisicao), S1,
@@ -811,7 +869,7 @@ function initCharts(D) {
   });
 
   /* mix de canal */
-  empilhado(gMix, nomes, [
+  const chMix = empilhado(gMix, nomes, [
     {label:'Mídia paga', data:C.map(c=>c.pct_comp_midia), cor:S1},
     {label:'Comercial',  data:C.map(c=>c.pct_comp_comercial), cor:S2},
     {label:'CRM',        data:C.map(c=>c.pct_comp_crm), cor:S3},
@@ -889,12 +947,48 @@ function initCharts(D) {
   }).join('');
 
   /* status */
-  empilhado(gStatus, nomes, [
+  const chStatus = empilhado(gStatus, nomes, [
     {label:'Membro vitalício', data:C.map(c=>c.pct_membro_vitalicio), cor:S7},
     {label:'Membro assinante', data:C.map(c=>c.pct_membro_assinante), cor:S1},
     {label:'Ex-membro', data:C.map(c=>c.pct_ex_membro), cor:S2},
     {label:'Nunca foi membro', data:C.map(c=>c.pct_nao_membro), cor:S3}
   ], {max:100});
+
+  /* ── liga os toggles ──────────────────────────────────────────────────────
+     Cada bloco com data-toggle controla só o seu próprio gráfico/tabela, para
+     que o clique mostre uma mudança visível ali mesmo. O rótulo à direita diz
+     quantos compradores o recorte tem — sem isso, o corte do DBI (31 pessoas)
+     passaria despercebido. */
+  const campos = {
+    mix:    ['pct_comp_midia','pct_comp_comercial','pct_comp_crm','pct_comp_organico'],
+    status: ['pct_membro_vitalicio','pct_membro_assinante','pct_ex_membro','pct_nao_membro']
+  };
+  const charts = {mix:chMix, status:chStatus};
+
+  function aplica(alvo, r) {
+    if (alvo === 'resumo') { pintaResumo(r); }
+    else {
+      const ch = charts[alvo];
+      campos[alvo].forEach((campo,i)=>{ ch.data.datasets[i].data = serieRec(r, campo); });
+      ch.update();
+    }
+    const box = document.querySelector(`[data-toggle="${alvo}"]`);
+    const n = C.reduce((a,c)=>a + (rec(c.sigla,r).qt_compradores||0), 0);
+    box.querySelector('[data-n]').textContent = r==='alto_ticket'
+      ? `${br(n)} compradores acima de R$ 1.000`
+      : `${br(n)} compradores no total`;
+    box.querySelectorAll('button').forEach(b=>
+      b.setAttribute('aria-pressed', String(b.dataset.rec===r)));
+  }
+
+  document.querySelectorAll('[data-toggle]').forEach(box=>{
+    const alvo = box.dataset.toggle;
+    box.querySelectorAll('button').forEach(b=>
+      b.addEventListener('click', ()=>aplica(alvo, b.dataset.rec)));
+    /* a tabela mestra abre no alto ticket (ver data-default); os gráficos descritivos
+       abrem na campanha inteira, que é o universo que o texto ao lado descreve */
+    aplica(alvo, box.dataset.default || 'campanha');
+  });
 
   /* comercial */
   barra(gResp, nomes, C.map(c=>c.pct_resposta_abordagem), S2,
