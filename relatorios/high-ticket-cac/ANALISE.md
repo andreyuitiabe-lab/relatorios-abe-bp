@@ -482,6 +482,43 @@ não como engajamento. Taxa de clique da casa: 0,54% (2024) → 0,14–0,36% (20
 
 O canal que de fato perdeu eficiência é o **Comercial** (achado 3).
 
+### 5b. Produção de peças por campanha — anúncios, e-mails, WhatsApp e push (21/09/2026)
+
+Publicado a pedido do André, que perguntou se a quantidade de anúncios e de e-mails estava em
+algum lugar. A de anúncios já estava (coluna da tabela mestra); a de CRM existia no `data.json`
+mas só aparecia solta no texto, para duas campanhas, e sem separar os canais.
+
+Conta **peças distintas que foram ao ar**, não envios — um e-mail disparado para 3 milhões conta 1.
+Mede produção criativa, não alcance. Fonte: [queries/12_pecas_criadas.sql](queries/12_pecas_criadas.sql).
+
+| Campanha | Dias | Anúncios | E-mails | WhatsApp | Push | Total CRM | Anúncios/dia | CRM/dia |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| TRA   | 61 |   128 | s/ dado | s/ dado | s/ dado | s/ dado |  2,1 |   — |
+| TRA2  | 61 |    40 |      82 |      22 |       0 |     104 |  0,7 | 1,7 |
+| BNO24 | 30 |   371 |     581 |     271 |       0 | **852** | 12,4 | **28,4** |
+| BIT   | 53 |    91 |     193 |      10 |       7 |     210 |  1,7 | 4,0 |
+| DBI   | 56 |   284 |      34 |       3 |      11 |      48 |  5,1 | 0,9 |
+| CDL   | 57 |   897 |     304 |      85 |      62 |     451 | 15,7 | 7,9 |
+| BP10  | 97 | 1.182 |     368 |      41 |     185 | **594** | 12,2 | **6,1** |
+| ODI   | 62 |   506 |     116 |      31 |      13 |     160 |  8,2 | 2,6 |
+
+🔑 **O ritmo é o número que fecha a história do CRM e resolve uma tensão com o achado 3.** O BNO24
+colocou **28,4 peças de CRM no ar por dia**; o BP10, **6,1** — quase 5× menos. Isso contrasta com o
+Comercial, que **manteve** a intensidade de abordagem (achado 3). Então: dos dois canais próprios,
+**o CRM é o que de fato desacelerou**, e é justamente o que rendeu R$ 107 por mil mensagens em 2024
+contra R$ 17 no BP10. A ação nº 3 do relatório passou a citar esse número.
+
+🔑 **Push:** de 0 peças em 2024 para 185 no BP10. É o que mais cresceu em produção e o único canal
+sem telemetria de abertura ou clique — tratar como alcance, nunca como engajamento.
+
+⚠️ **As contagens de anúncio vêm de duas fontes com recortes diferentes e não se comparam entre
+si** (ver achado 8 e `14_qtd_anuncios_v2.sql`): TRA→BIT é da planilha do tráfego e cobre só a fase
+de venda; DBI em diante é do warehouse e cobre todas as fases. A comparação BNO24 × BP10
+(371 → 1.182) atravessa essa fronteira e é **conservadora**: 371 conta só venda, o número real de
+2024 seria maior. Está dito na nota da tabela.
+
+⚠️ A Travessia não tem contagem de CRM: o Insider começa em 30/01/2024.
+
 ### 6. Economia por canal — o que cada um custa (premissa de comissão de 9%)
 
 Custos por natureza: mídia = verba de anúncio com a sigla; Comercial = **comissão de 9% sobre a
