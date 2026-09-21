@@ -31,6 +31,12 @@ comp AS (
     SUM(IF(nm_canal = 'crm',             vl_receita, 0)) AS vl_rec_crm,
     SUM(IF(nm_canal = 'organico_portal', vl_receita, 0)) AS vl_rec_organico,
     COUNTIF(st_status_compra = 'membro')            AS qt_membro,
+    -- quebra do membro: quem JÁ ERA VITALÍCIO antes desta campanha vs quem era assinante corrente.
+    -- Importa porque são vendas diferentes: para o vitalício não há mensalidade a converter, ele
+    -- já pagou alto ticket antes, e o que se vende é produto novo — não upgrade de plano.
+    -- `bl_vitalicio_previo` já vem da 01 (assinatura vitalícia iniciada antes da 1ª compra).
+    COUNTIF(st_status_compra = 'membro' AND bl_vitalicio_previo)       AS qt_membro_vitalicio,
+    COUNTIF(st_status_compra = 'membro' AND NOT bl_vitalicio_previo)   AS qt_membro_assinante,
     COUNTIF(st_status_compra = 'ex_membro')         AS qt_ex_membro,
     COUNTIF(st_status_compra = 'nao_membro')        AS qt_nao_membro,
     COUNTIF(NOT bl_ht_previo)                       AS qt_primeira_ht,
@@ -164,6 +170,8 @@ SELECT
   ROUND(100 * c.vl_rec_organico   / c.vl_receita, 1)            AS pct_rec_organico,
   -- status
   ROUND(100 * c.qt_membro     / c.qt_compradores, 1)            AS pct_membro,
+  ROUND(100 * c.qt_membro_vitalicio / c.qt_compradores, 1)      AS pct_membro_vitalicio,
+  ROUND(100 * c.qt_membro_assinante / c.qt_compradores, 1)      AS pct_membro_assinante,
   ROUND(100 * c.qt_ex_membro  / c.qt_compradores, 1)            AS pct_ex_membro,
   ROUND(100 * c.qt_nao_membro / c.qt_compradores, 1)            AS pct_nao_membro,
   ROUND(100 * c.qt_primeira_ht / c.qt_compradores, 1)           AS pct_primeira_ht,

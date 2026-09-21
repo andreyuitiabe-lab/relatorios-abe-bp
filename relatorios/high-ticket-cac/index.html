@@ -344,7 +344,8 @@
   <div class="card">
     <p class="label">Perfil dos compradores — todos os compradores da campanha</p>
     <div class="legenda">
-      <span><i class="dot" style="background:var(--s1)"></i> Membro ativo</span>
+      <span><i class="dot" style="background:var(--s7)"></i> Membro vitalício</span>
+      <span><i class="dot" style="background:var(--s1)"></i> Membro assinante</span>
       <span><i class="dot" style="background:var(--s2)"></i> Ex-membro</span>
       <span><i class="dot" style="background:var(--s3)"></i> Nunca foi membro</span>
     </div>
@@ -355,6 +356,25 @@
      ativos</strong>. O BP10 vendeu para fora: <strong>55% nunca tinham sido membros</strong>.
      É a troca de canal vista pelo outro lado: quem vende pela base vende para membro, quem vende
      por mídia alcança quem nunca assinou.</p>
+
+  <div class="destaque">
+    <strong>O vitalício virou o comprador principal dos lançamentos de livro.</strong> Entre os
+    membros que compraram, já eram vitalícios <b>57% na Odisseia</b> e <b>44% no Clube do Livro</b>
+    — contra 14% no Black Friday de 2024 e 20% no BP10. É outra venda: o vitalício não tem
+    mensalidade a converter e já pagou alto ticket antes, então o que se oferece a ele é produto
+    novo, não upgrade de plano.
+  </div>
+
+  <div class="nota">
+    <strong>A Travessia aparece com zero vitalícios e isso está certo.</strong> O primeiro vitalício
+    da base é de <b>01/11/2023</b> — o Black November daquele ano. A Travessia é de abril e maio de
+    2023, anterior ao produto existir. Não é falha de dado.
+    <br><br>
+    A leitura junta com a reincidência fecha: a Odisseia tem 51% de compradores que já haviam
+    comprado em campanha anterior e 57% dos seus membros são vitalícios. <strong>Os lançamentos de
+    livro de 2026 estão girando a carteira de vitalícios</strong> — o que é receita boa e barata,
+    mas é a mesma carteira. É onde olhar se a pergunta for esgotamento.
+  </div>
 
   <div class="nota">
     <strong>⚠️ Este gráfico conta todos os compradores da campanha, não só os de alto ticket</strong>
@@ -379,7 +399,7 @@
     <strong>A base não está esgotada:</strong> 88% dos membros nunca compraram um produto de alto
     ticket. O sinal de desgaste está em outro lugar — na <strong>reincidência</strong>: metade dos
     compradores da Odisseia já tinha comprado em campanha anterior, e 41% vieram especificamente do
-    Clube do Livro. Os lançamentos de livro de 2026 estão girando a mesma carteira.
+    Clube do Livro.
   </div>
 </section>
 
@@ -870,7 +890,8 @@ function initCharts(D) {
 
   /* status */
   empilhado(gStatus, nomes, [
-    {label:'Membro ativo', data:C.map(c=>c.pct_membro), cor:S1},
+    {label:'Membro vitalício', data:C.map(c=>c.pct_membro_vitalicio), cor:S7},
+    {label:'Membro assinante', data:C.map(c=>c.pct_membro_assinante), cor:S1},
     {label:'Ex-membro', data:C.map(c=>c.pct_ex_membro), cor:S2},
     {label:'Nunca foi membro', data:C.map(c=>c.pct_nao_membro), cor:S3}
   ], {max:100});

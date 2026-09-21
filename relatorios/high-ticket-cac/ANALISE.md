@@ -369,6 +369,43 @@ a camada mais fácil já foi convertida (o BNO24 sozinho converteu 2,37% do esto
 
 ---
 
+### 4b. Quem é "membro" mudou de natureza: o vitalício virou o comprador principal (21/09)
+
+Pedido do André ao ver o gráfico de perfil: quebrar "membro ativo" entre **vitalício** e
+**assinante corrente**. A coluna já existia (`bl_vitalicio_previo` na query 01, assinatura vitalícia
+iniciada antes da primeira compra da campanha); só faltava expor. Adicionada na
+[queries/06_consolidado.sql](queries/06_consolidado.sql) como `qt_membro_vitalicio` /
+`qt_membro_assinante`.
+
+| Campanha | Membros | Já eram vitalícios | % dos membros |
+|---|---:|---:|---:|
+| TRA   |  4.118 |     0 | **0,0%** |
+| TRA2  |    235 |    47 | 20,0% |
+| BNO24 | 12.855 | 1.777 | 13,8% |
+| BIT   |    981 |   236 | 24,1% |
+| DBI   |    328 |    54 | 16,5% |
+| CDL   | 14.000 | 6.180 | **44,1%** |
+| BP10  |  3.146 |   619 | 19,7% |
+| ODI   |  2.893 | 1.654 | **57,2%** |
+
+**Por que importa:** vender para vitalício é outra venda. Não há mensalidade a converter, ele já
+pagou alto ticket antes, e o que se oferece é produto novo — não upgrade de plano. Nos dois
+lançamentos de livro de 2026 (CDL e ODI) essa é a maioria ou quase, contra 14% no BNO24.
+
+✅ **O zero da Travessia foi validado, não é falha de dado:** a primeira assinatura vitalícia da
+base é de **01/11/2023** (`MIN(dt_started_at)` em `dim_subscriptions` com
+`nm_subscription_recurrence = 'vitalício'`, 85.612 no total). A Travessia é de abr–mai/2023,
+anterior ao produto existir.
+
+🔗 **Fecha com o achado 4 (reincidência).** A Odisseia tem 50,7% de compradores vindos de campanha
+anterior *e* 57,2% dos seus membros são vitalícios. Os lançamentos de livro de 2026 estão girando a
+carteira de vitalícios — receita boa e barata, mas a mesma carteira. É aqui que se olha se a
+pergunta for esgotamento, e não na penetração da base (que segue em 88% sem high-ticket).
+
+⚠️ Paleta do gráfico revalidada com `validate_palette.js` ao virar 4 séries
+(`#4a3aa7,#2a78d6,#eb6834,#1baf7a`): todos PASS, pior par adjacente ΔE 9,2 em deutan e 16,3 em
+visão normal. O WARN de contraste do verde é o mesmo de antes e está coberto por legenda + rótulos.
+
 ### 5. CRM: duas medidas que não se contradizem, mas respondem coisas diferentes
 
 ⚠️ **Correção da versão anterior deste memo.** A primeira leitura usou a receita de CRM da *janela
