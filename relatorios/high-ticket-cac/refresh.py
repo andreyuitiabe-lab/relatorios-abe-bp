@@ -134,16 +134,26 @@ SELECT
   o.nm_origem                                          AS nm_origem_principal,
   ROUND(100 * o.qt / t.qt_compradores, 1)              AS pct_origem_principal
 FROM tot AS t LEFT JOIN por_origem AS o USING (sigla)
+-- o BNO25 saiu do escopo do relatório, mas continua valendo como ORIGEM de reincidência
+-- (é a origem principal do DBI) — por isso o filtro é só na linha de saída
+WHERE t.sigla <> 'BNO25'
 ORDER BY t.ord
 """
 
-Q_BNO_MIX = """
-SELECT sigla,
-  IF(REGEXP_CONTAINS(LOWER(nm_plano_principal), r'vital'), 'Vitalício', 'Assinatura/outros') AS nm_tipo,
-  COUNT(*) AS qt, ROUND(SUM(vl_receita)) AS vl
+# Preço e volume de cada degrau do vitalício nas duas campanhas que o venderam para a base.
+# Substituiu o antigo Q_BNO_MIX (BNO24/BNO25/BP10) quando o BNO25 saiu do escopo em 21/09/2026:
+# a pergunta "mudamos a oferta?" passa a ser respondida por BNO24 × BP10, que é comparação de
+# vitalício contra vitalício — mais limpa do que a anterior, que comparava com uma campanha de
+# entrada.
+Q_VITALICIO = """
+SELECT sigla, nm_plano_principal AS nm_plano,
+       COUNT(*) AS qt, ROUND(AVG(vl_receita)) AS vl_ticket, ROUND(SUM(vl_receita)) AS vl_receita
 FROM `bp-staging.dbt_abe.tb_ht_compradores`
-WHERE bl_universo_principal AND sigla IN ('BNO24', 'BNO25', 'BP10')
-GROUP BY 1, 2 ORDER BY 1, 2
+WHERE bl_universo_principal AND sigla IN ('BNO24', 'BP10')
+  AND REGEXP_CONTAINS(LOWER(nm_plano_principal), r'vital')
+GROUP BY 1, 2
+HAVING qt >= 50
+ORDER BY sigla, vl_receita DESC
 """
 
 
@@ -212,8 +222,8 @@ def build() -> dict:
     anual = bqq_inline(Q_SERIE_ANUAL)
     print("  reincidência entre campanhas...", flush=True)
     reinc = bqq_inline(Q_REINCIDENCIA)
-    print("  mix de produto das promoções...", flush=True)
-    mix = bqq_inline(Q_BNO_MIX)
+    print("  preço e volume do vitalício (BNO24 × BP10)...", flush=True)
+    vit = bqq_inline(Q_VITALICIO)
 
     # merge por sigla, nunca por posição: zip() silenciosamente atribuiria a reincidência
     # à campanha errada se uma das listas mudasse de tamanho ou de ordem
@@ -273,7 +283,7 @@ def build() -> dict:
         "serie_casa": [{k: nn(v) for k, v in l.items()}
                        for l in testes[testes["nm_teste"] == "teste2_serie_casa"].to_dict("records")],
         "anual": [{k: nn(v) for k, v in l.items()} for l in anual.to_dict("records")],
-        "mix_promocao": [{k: nn(v) for k, v in l.items()} for l in mix.to_dict("records")],
+        "vitalicio": [{k: nn(v) for k, v in l.items()} for l in vit.to_dict("records")],
     }
 
 

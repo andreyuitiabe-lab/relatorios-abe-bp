@@ -16,6 +16,29 @@ Campanhas: Travessia, Travessia relançamento, BNO24, Bitcoin 1, Bitcoin 2, BNO2
 
 ## Decisões de abordagem
 
+**Escopo: 8 campanhas, não 9 — o BNO25 saiu em 21/09/2026.** Decisão do André a pedido da Bárbara:
+*"só tiraria o bp25, realmente foi foco em entrada mesmo"*. O relatório passou de R$ 130,1 mi para
+**R$ 111,4 mi de receita** e de R$ 28,3 mi para **R$ 22,7 mi de mídia**.
+
+Antes de executar, levantei a objeção com número: o BNO25 é o **5º maior em receita de alto ticket
+da série** (R$ 9,6 mi, 3.277 compradores acima de R$ 1.000 — mais que a Travessia, R$ 8,0 mi). O
+"foco em entrada" descreve a *composição* dele (51,2% da receita), não o tamanho do alto ticket.
+O André manteve a remoção; registro aqui para quem retomar saber que não foi descuido.
+
+Três consequências que precisaram de tratamento:
+1. **O BNO25 continua em `tb_ht_compradores`** (query 01), de propósito. Ele é a origem principal
+   de reincidência do DBI — tirá-lo do universo faria a reincidência do DBI cair por artefato de
+   escopo, não por fato. As demais queries já não o listam, e a query de reincidência do
+   `refresh.py` o exclui **só da linha de saída**, mantendo-o como origem possível.
+2. **A evidência de "mudamos a oferta" trocou de dono.** Era o BF 2025 ter parado de vender
+   vitalício; passou a ser a reprecificação do vitalício entre BNO24 e BP10 (achado 2b) — que é
+   comparação de vitalício contra vitalício e, por isso, mais limpa do que a anterior.
+3. **O caso pedagógico do CAC blendado enfraqueceu.** O BNO25 era o exemplo extremo (8,5× entre o
+   CAC de todos e o de alto ticket). O que sobra com amostra grande é o BP10 (1,6×) e o BNO24
+   (1,5×); o DBI tem 13,8×, mas com **31 compradores** de alto ticket — publicado como alerta, não
+   como conclusão (decisão do André na mesma conversa: manter o DBI marcado como amostra
+   insuficiente).
+
 **Janelas e universo.** Cada campanha é medida em três universos (`rastro`, `janela`, `produto`)
 e só um vale como principal — a margem de erro de uma campanha é a regra de atribuição, não o
 dado (mesma lição de `relatorios/atribuicao-filmes`). Detalhe e justificativa no cabeçalho de
@@ -243,7 +266,11 @@ BNO24), **46% menos abordagens por dia** (5.228 → 2.805), com o mesmo tipo de 
 ⚠️ Um efeito menor na mesma direção da tese: a cobertura de rastreio melhorou (`sem_rastro` caiu de
 6–14% em 2023–24 para 3–5% em 2025–26), o que empurra share para canais nomeados. Poucos pp.
 
-### 2. O BNO25 não foi saturação — foi outra oferta
+### 2. O BNO25 não foi saturação — foi outra oferta  ⚠️ FORA DO ESCOPO DESDE 21/09/2026
+
+> Mantido como registro: foi este achado que refutou a hipótese de saturação no Black November, e
+> o raciocínio segue válido. Ele **não aparece mais no relatório publicado** — a campanha saiu do
+> escopo (ver "Decisões de abordagem"). Quem for reusar estes números precisa dizer de onde vêm.
 
 A queda do Black November (**R$ 56,4 mi em 2023 → R$ 40,3 mi em 2024 → R$ 18,7 mi em 2025**, tudo
 venda nova) não é o mesmo produto vendendo menos:
@@ -267,6 +294,36 @@ no aniversário (BP10: R$ 14,3 mi dos R$ 18,7 mi são vitalícios).
 ⚠️ **O "melhor CAC da série" do BNO25 (R$ 104) é artefato de mix.** Ele vendeu 50.997 assinaturas
 de R$ 206 e só 1.939 vitalícios. Separando o produto (achado 7), o CAC de vitalício dele é
 **R$ 1.046 — o pior da série** sob rateio por receita. Não usar o R$ 104 como benchmark.
+
+### 2b. A oferta de vitalício foi reprecificada — e é isso que o relatório publica agora
+
+Substitui o achado 2 como evidência de "fizemos algo diferente na oferta". Compara as **duas únicas
+campanhas que venderam vitalício para a base**, BNO24 e BP10 — vitalício contra vitalício, sem o
+problema de comparar com uma campanha de entrada.
+
+| Degrau | Preço BF24 | Preço BP10 | Preço | Vendas BF24 | Vendas BP10 | Volume | Receita |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Básico        | R$ 1.290 | R$ 1.289 | igual | 11.313 | 2.443 | **−78%** | −78% |
+| Premium GBB   | R$ 2.470 | R$ 1.622 | **−34%** | 4.065 | 5.987 | **+47%** | −3% |
+| Black         | R$ 4.296 | R$ 3.918 | −9%  | 2.887 | 368   | **−87%** | −88% |
+| Intermediário | R$ 1.987 | — | — | 288 | 0 | saiu do mix | — |
+
+Duas leituras que não se contradizem:
+
+- **O Premium funcionou como reprecificação.** Preço −34%, volume +47%, receita −3%. É troca
+  deliberada de margem por volume. O efeito colateral no CAC é mecânico e **não é erro de mídia**:
+  ticket menor com a mesma verba ⇒ CAC pior. Isso é metade do "problema de CAC" do BP10.
+- **A perda de volume está onde o preço NÃO mudou.** Básico −78% e Black −87%, com preço
+  praticamente idêntico. Não é elasticidade — é volume que não apareceu, no mesmo período em que o
+  Comercial passou a abordar metade por dia (achado 3). A oferta explica o ticket; o canal explica
+  o volume.
+
+Total: **18.553 vitalícios no BNO24 contra 8.798 no BP10.**
+
+⚠️ `nm_plano_principal` é o plano principal do comprador e `vl_receita` é a receita total dele na
+campanha (inclui order bump), então a soma por degrau excede a receita estrita de vitalício. Para
+preço e volume — que é o uso aqui — a medida é válida; para receita de vitalício, usar
+`vl_receita_vitalicio` do consolidado. Query: `Q_VITALICIO` em [refresh.py](refresh.py).
 
 ### 3. O Comercial responde menos — mas a queda não é monotônica
 

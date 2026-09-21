@@ -85,8 +85,8 @@
   <p class="label">Brasil Paralelo · Mídia paga &amp; Campanhas</p>
   <h1>High-ticket: por que o CAC subiu</h1>
   <p class="sub" style="margin-top:10px;margin-bottom:0">
-    Nove lançamentos de alto ticket, da Travessia (abr/2023) ao BP10 (set/2026) —
-    R$ 130 milhões de receita e R$ 28 milhões de mídia.</p>
+    Oito lançamentos de alto ticket, da Travessia (abr/2023) ao BP10 (set/2026) —
+    R$ 111 milhões de receita e R$ 23 milhões de mídia.</p>
 </header>
 
 <main>
@@ -100,9 +100,9 @@
   <div class="resp sim">
     <span class="veredito">Sim — e é a explicação principal</span>
     <h3>Fizemos duas coisas diferentes</h3>
-    <p>Mudamos a <strong>oferta</strong>: o Black Friday de 2025 parou de vender vitalício.
-       E mudamos o <strong>esforço do Comercial</strong>: metade das abordagens por dia, com o
-       mesmo time e o mesmo tipo de produto.</p>
+    <p>Mudamos a <strong>oferta</strong>: o vitalício Premium saiu de R$ 2.470 para R$ 1.622, e os
+       degraus de cima quase sumiram do mix. E mudamos o <strong>esforço do Comercial</strong>:
+       metade das abordagens por dia, com o mesmo time e o mesmo tipo de produto.</p>
   </div>
 
   <div class="resp meio">
@@ -116,14 +116,14 @@
   <div class="resp nao">
     <span class="veredito">Não</span>
     <h3>A demanda não acabou</h3>
-    <p>2026 é o maior ano de high-ticket da história: <strong>R$ 82,6 milhões em oito meses e
-       meio</strong>, contra R$ 76,1 milhões no ano inteiro de 2023. E 88% da base nunca comprou
+    <p>2026 é o maior ano de high-ticket da história: <strong>R$ 83,1 milhões em menos de nove
+       meses</strong>, contra R$ 76,1 milhões no ano inteiro de 2023. E 88% da base nunca comprou
        um produto de alto ticket.</p>
   </div>
 
   <div class="destaque">
     <strong>E um achado que não estava na pergunta:</strong> pelo último clique,
-    <b>a mídia não se paga em 8 das 9 campanhas</b>. O retorno do canal vai de 0,13× a 2,31×, e o
+    <b>a mídia não se paga em 7 das 8 campanhas</b>. O retorno do canal vai de 0,13× a 2,31×, e o
     mínimo para empatar com a margem é 1,33× — só o Clube do Livro passa.
   </div>
 </section>
@@ -171,10 +171,17 @@
   </div>
 
   <div class="destaque">
-    <strong>O caso que prova o ponto é o Black Friday de 2025.</strong> Ele tem o melhor CAC da
-    série — R$ 104 — e isso é ilusão de mistura: 94% dos compradores levaram produto de entrada.
-    Olhando só quem comprou acima de R$ 1.000, o CAC dele é <b>R$ 878</b>, o segundo pior do
-    estudo. <b>Oito vezes maior</b> — e é esse o número que importa para decidir mídia.
+    <strong>A diferença muda a comparação que mais importa.</strong> Entre o Black Friday de 2024 e
+    o BP10, o custo por comprador sobe 129% se contarmos todo mundo — e <b>143% se contarmos só
+    quem pagou acima de R$ 1.000</b>, de R$ 277 para R$ 674. A segunda é a conta certa: é a mesma
+    régua nas duas campanhas.
+  </div>
+
+  <div class="destaque" style="background:#fff7ed;border-color:#fed7aa">
+    <strong>Onde a mistura mais engana: a Certificação Bitcoin 2.</strong> O custo por comprador
+    dela parece R$ 146 e é <b>R$ 2.008</b> quando se olha só o alto ticket — quatorze vezes maior.
+    Mas foram <b>31 compradores</b> acima de R$ 1.000, então o número serve de alerta, não de
+    conclusão: com essa amostra, qualquer leitura de eficiência dela é ruído.
   </div>
 
   <div class="card" style="overflow-x:auto">
@@ -281,27 +288,51 @@
 
 <!-- ══ A OFERTA ══ -->
 <section>
-  <h2>O Black Friday de 2025 não vendeu o mesmo produto</h2>
-  <p class="sub">A queda de R$ 40,3 mi para R$ 18,7 mi foi decisão de oferta, não perda de demanda.</p>
+  <h2>A oferta de vitalício mudou de preço</h2>
+  <p class="sub">Black Friday 2024 e BP10 são as duas campanhas que venderam vitalício para a base.
+     Comparar uma com a outra isola a decisão de oferta da decisão de mídia.</p>
 
   <div class="card">
-    <p class="label">Receita por tipo de produto nas promoções de base (R$ milhões)</p>
+    <p class="label">Vitalícios vendidos por degrau</p>
     <div class="legenda">
-      <span><i class="dot" style="background:var(--s1)"></i> Vitalício</span>
-      <span><i class="dot" style="background:var(--s2)"></i> Assinatura e outros</span>
+      <span><i class="dot" style="background:var(--s1)"></i> Black Friday 2024</span>
+      <span><i class="dot" style="background:var(--s2)"></i> BP10</span>
     </div>
-    <canvas id="gMixProd" height="170"></canvas>
+    <canvas id="gVitalicio" height="200"></canvas>
   </div>
 
-  <p style="margin-top:20px">Em 2024 vendemos <strong>18.553 vitalícios</strong>; em 2025,
-     <strong>1.939</strong>. A oferta tinha mudado: de “Vitalício, começo do Black” para “Originais
-     por R$ 7,90 e 70% off no premium”. O ticket caiu de R$ 1.374 para R$ 345.</p>
+  <div class="card" style="margin-top:20px;overflow-x:auto">
+    <p class="label">O mesmo em números</p>
+    <table>
+      <thead><tr><th>Degrau</th>
+        <th class="num">Preço<br>BF 2024</th><th class="num">Preço<br>BP10</th><th class="num">Preço</th>
+        <th class="num">Vendas<br>BF 2024</th><th class="num">Vendas<br>BP10</th><th class="num">Volume</th>
+        <th class="num">Receita</th></tr></thead>
+      <tbody id="tbVitalicio"></tbody>
+    </table>
+  </div>
+
+  <div class="destaque">
+    <strong>O Premium foi reprecificado e funcionou.</strong> Preço 34% menor, volume 47% maior,
+    receita praticamente a mesma (−3%). Isso é troca deliberada de margem por volume — e o efeito
+    colateral é mecânico: <b>ticket menor com a mesma verba de mídia significa CAC pior</b>, sem
+    ninguém ter errado em mídia.
+  </div>
+
+  <div class="destaque" style="background:#fef2f2;border-color:#fecaca">
+    <strong>Mas a perda não está no Premium — está nos degraus de cima e de baixo.</strong>
+    O Black Vitalício caiu <b>87%</b> em vendas (2.887 → 368) e o Básico <b>78%</b>
+    (11.313 → 2.443), com o preço praticamente igual nos dois. Não é elasticidade de preço: é
+    volume que não apareceu.
+    Foram <b>18.553 vitalícios em 2024 contra 8.798 no BP10</b>.
+  </div>
 
   <div class="nota">
-    <strong>Consequência prática:</strong> o BNO25 tem o melhor CAC da série (R$ 104) e isso não
-    quer dizer nada — ele vendeu assinatura barata, não vitalício. Olhando só o vitalício, ele é a
-    <strong>pior</strong> campanha da série. Não usar esse R$ 104 como referência.<br><br>
-    O motor de vitalício voltou em 2026, mas pelo aniversário: o BP10 vendeu 8.798.
+    Os dois números não se contradizem. O Premium mostra que <em>baixar preço traz gente</em>; o
+    Black e o Básico mostram que, onde o preço não mudou, o volume caiu quase por inteiro — no
+    mesmo período em que o Comercial passou a abordar metade por dia. A oferta explica o ticket;
+    o canal explica o volume.<br><br>
+    O degrau Intermediário simplesmente saiu do mix: 288 vendas em 2024, nenhuma no BP10.
   </div>
 </section>
 
@@ -328,14 +359,12 @@
   <div class="nota">
     <strong>⚠️ Este gráfico conta todos os compradores da campanha, não só os de alto ticket</strong>
     — como todo o resto do relatório. Nas sete campanhas em que o alto ticket é 88% ou mais da
-    receita isso não muda nada. Nas <strong>duas em que muda, inverte</strong>:
+    receita isso não muda nada. Na <strong>única em que muda, inverte</strong>:
     <table style="margin-top:12px">
       <thead><tr><th></th><th class="num">Alto ticket<br>na receita</th>
         <th class="num">Todos os compradores<br>membro · nunca-membro</th>
         <th class="num">Só alto ticket<br>membro · nunca-membro</th></tr></thead>
       <tbody>
-        <tr><td><strong>BF 2025</strong></td><td class="num">51%</td>
-            <td class="num">12,8% · 61,9%</td><td class="num"><strong>69,2% · 17,0%</strong></td></tr>
         <tr><td><strong>Bitcoin 2</strong></td><td class="num">37%</td>
             <td class="num">28,1% · 49,6%</td><td class="num"><strong>67,7% · 22,6%</strong></td></tr>
         <tr><td>BP10 (para comparar)</td><td class="num">88%</td>
@@ -343,10 +372,10 @@
       </tbody>
     </table>
     <br>
-    Faz sentido: o BF 2025 e o Bitcoin 2 venderam sobretudo produto de entrada barato, e quem compra
-    entrada barata é gente de fora. <strong>Quem levou o produto caro nessas campanhas era membro da
-    base</strong> — a leitura de “vendemos para fora” vale para a promoção inteira, não para o alto
-    ticket.<br><br>
+    Faz sentido: o Bitcoin 2 vendeu sobretudo produto de entrada barato, e quem compra entrada
+    barata é gente de fora. <strong>Quem levou o produto caro nele era membro da base</strong> — a
+    leitura de “vendemos para fora” vale para a campanha inteira, não para o alto ticket.
+    (Com 31 compradores de alto ticket, vale como indicação, não como medida.)<br><br>
     <strong>A base não está esgotada:</strong> 88% dos membros nunca compraram um produto de alto
     ticket. O sinal de desgaste está em outro lugar — na <strong>reincidência</strong>: metade dos
     compradores da Odisseia já tinha comprado em campanha anterior, e 41% vieram especificamente do
@@ -373,7 +402,7 @@
   <div class="destaque">
     <strong>O funil do Comercial quebrou no topo, não no fechamento.</strong> Abrir conversa ficou
     muito mais difícil (74% → 31%), mas <b>quem conversa fecha na mesma proporção — ou melhor</b>
-    (10,6% na Travessia, 12,3% no BP10, com o pico de 14,5% no Black Friday 2024).
+    (10,6% na Travessia, 12,2% no BP10, com o pico de 14,5% no Black Friday 2024).
     O time não encolheu: 37 vendedores com venda no BF24, 51 no BP10, com receita por vendedor
     estável.
   </div>
@@ -388,10 +417,9 @@
     em janeiro de 2024. Barra ausente aqui não é zero.
     <br><br>
     O Black Friday de 2024 rendeu <strong>R$ 107 por mil mensagens</strong> e nada chegou perto
-    depois. O de 2025 disparou <strong>quase o dobro de mensagens</strong> (185 milhões contra 100)
-    e rendeu 95% menos por mensagem.<br><br>
+    depois — o melhor resultado seguinte é o Clube do Livro, com R$ 56.<br><br>
     <strong>Uma pista de por quê:</strong> em 2024 foram 852 peças diferentes para listas de 117 mil
-    pessoas. No BP10, 590 peças para listas de 268 mil. <strong>Menos peças, listas maiores, mais
+    pessoas. No BP10, 594 peças para listas de 268 mil. <strong>Menos peças, listas maiores, mais
     genérico</strong> — o que ajuda a explicar a queda na taxa de resposta. Na mídia o movimento foi
     o oposto: de 371 anúncios no BF24 para 1.182 no BP10.
   </div>
@@ -400,7 +428,7 @@
 <!-- ══ CAC POR CANAL ══ -->
 <section>
   <h2>Quanto custa cada canal</h2>
-  <p class="sub">Nas quatro campanhas de escala (acima de 15 mil compradores).</p>
+  <p class="sub">Nas três campanhas de escala (acima de 15 mil compradores).</p>
 
   <div class="card">
     <p class="label">Custo por comprador, por canal</p>
@@ -413,10 +441,10 @@
   </div>
 
   <div class="destaque">
-    <strong>Pelo último clique, a mídia não se paga em 8 das 9 campanhas.</strong> Retorno do canal:
-    Travessia 0,48× · BF24 0,99× · BF25 0,83× · <b>Clube do Livro 2,31×</b> · BP10 1,25× ·
-    Odisseia 0,99×. Com a margem digital de 0,75, o mínimo para empatar é <b>1,33×</b> —
-    só o Clube do Livro passa.
+    <strong>Pelo último clique, a mídia não se paga em 7 das 8 campanhas.</strong> Retorno do canal:
+    Travessia 0,48× · Travessia 2ª 0,28× · BF 2024 0,99× · Bitcoin 1 0,13× · Bitcoin 2 0,31× ·
+    <b>Clube do Livro 2,31×</b> · BP10 1,25× · Odisseia 0,99×. Com a margem digital de 0,75, o
+    mínimo para empatar é <b>1,33×</b> — só o Clube do Livro passa.
   </div>
 
   <div class="nota">
@@ -515,8 +543,8 @@
 
   <div class="acao">
     <h3>4. Separar decisão de oferta de decisão de mídia</h3>
-    <p>Metade dos “problemas de CAC” deste estudo eram decisões de oferta — Black Friday sem
-       vitalício, preço do vitalício 20% menor. Quando o ticket cai, o CAC piora sem ninguém ter
+    <p>Parte dos “problemas de CAC” deste estudo eram decisões de oferta — o vitalício Premium
+       reprecificado 34% para baixo. Quando o ticket cai, o CAC piora sem ninguém ter
        errado em mídia.</p>
   </div>
 
@@ -535,8 +563,8 @@
     <p><strong>O que entra em cada campanha.</strong> Os sete lançamentos de produto usam as vendas
       que carregam o rastro da campanha (link, UTM ou checkout), o que inclui o que foi vendido junto
       — sem isso a Certificação Bitcoin perderia 70% da receita e o Clube do Livro perderia
-      R$ 2,8 mi de Black Vitalício do cashback. Os dois Black November usam toda a venda nova do
-      mês, porque são promoção do catálogo inteiro.</p>
+      R$ 2,8 mi de Black Vitalício do cashback. O Black November de 2024 usa toda a venda nova do
+      mês, porque é promoção do catálogo inteiro.</p>
 
     <p><strong>De onde vem a verba de mídia.</strong> O sistema só guarda gasto do Meta desde
       ago/2025. A série foi reconstruída pela API do Meta, que alcança 37 meses, e conferida contra
@@ -643,7 +671,7 @@ function initCharts(D) {
   const C = D.campanhas;
   /* nomes curtos para caber na tabela sem quebrar linha */
   D.rotulos = {TRA:'Travessia', TRA2:'Travessia 2ª', BNO24:'Black Nov. 2024', BIT:'Cert. Bitcoin 1',
-               BNO25:'Black Nov. 2025', DBI:'Cert. Bitcoin 2', CDL:'Clube do Livro',
+               DBI:'Cert. Bitcoin 2', CDL:'Clube do Livro',
                BP10:'BP 10 Anos', ODI:'Odisseia'};
   const nomes = C.map(c=>c.sigla);
   const upd = document.getElementById('lastUpdate');
@@ -773,7 +801,7 @@ function initCharts(D) {
 
   /* série da casa */
   const SC = D.serie_casa;
-  const marcos = {'2023-04':'Travessia','2024-11':'BF 2024','2025-11':'BF 2025','2026-06':'BP10'};
+  const marcos = {'2023-04':'Travessia','2024-11':'BF 2024','2026-06':'BP10'};
   new Chart(gSerieCasa, {
     type:'line',
     data:{ labels:SC.map(r=>r.sigla), datasets:[
@@ -797,15 +825,48 @@ function initCharts(D) {
       ctx.restore(); }}]
   });
 
-  /* mix de produto das promoções */
-  const promos = [...new Set(D.mix_promocao.map(r=>r.sigla))];
-  const rotuloPromo = {BNO24:'BF 2024', BNO25:'BF 2025', BP10:'BP10'};
-  const serieProd = tipo => promos.map(s =>
-    (D.mix_promocao.find(r=>r.sigla===s && r.nm_tipo===tipo)?.vl ?? 0)/1e6);
-  empilhado(gMixProd, promos.map(s=>rotuloPromo[s]||s), [
-    {label:'Vitalício', data:serieProd('Vitalício'), cor:S1},
-    {label:'Assinatura e outros', data:serieProd('Assinatura/outros'), cor:S2}
-  ], {aspect:3, max:undefined, tickY:v=>br(v), fmtTip:v=>'R$ '+br(v,2)+' mi'});
+  /* vitalício: preço e volume por degrau, BF 2024 × BP10 */
+  const V = D.vitalicio || [];
+  const vGet = (deg,sig,campo) =>
+    V.find(r=>r.nm_plano===deg && r.sigla===sig)?.[campo] ?? null;
+  /* ordem pelo volume no BF 2024 — o degrau que mais vendia primeiro */
+  const degraus = [...new Set(V.map(r=>r.nm_plano))]
+    .sort((a,b)=>(vGet(b,'BNO24','qt')||0)-(vGet(a,'BNO24','qt')||0));
+  const curto = d => d.replace(' Vitalício','').replace('Premium GBB','Premium');
+
+  new Chart(gVitalicio, {
+    type:'bar',
+    data:{ labels:degraus.map(curto), datasets:[
+      {label:'Black Friday 2024', data:degraus.map(d=>vGet(d,'BNO24','qt')||0), backgroundColor:S1,
+       borderRadius:4, borderWidth:2, borderColor:'#fff', maxBarThickness:46},
+      {label:'BP10',              data:degraus.map(d=>vGet(d,'BP10','qt')||0),  backgroundColor:S2,
+       borderRadius:4, borderWidth:2, borderColor:'#fff', maxBarThickness:46}]},
+    options:{ aspectRatio:2.6, layout:{padding:{top:22}},
+      plugins:{ legend:{display:false},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+br(c.raw)+' vitalícios'}} },
+      scales:{ x:eixoX, y:{...eixoY, ticks:{callback:v=>br(v)}} } },
+    plugins:[rotulos(v=>v?br(v):null)]
+  });
+
+  document.getElementById('tbVitalicio').innerHTML = degraus.map(d=>{
+    const p24=vGet(d,'BNO24','vl_ticket'), p10=vGet(d,'BP10','vl_ticket');
+    const q24=vGet(d,'BNO24','qt'),        q10=vGet(d,'BP10','qt');
+    const r24=vGet(d,'BNO24','vl_receita'),r10=vGet(d,'BP10','vl_receita');
+    const var_ = (a,b) => {
+      if (a==null||b==null||!a) return '—';
+      const p = 100*(b-a)/a;
+      /* abaixo de meio ponto é ruído de arredondamento, não mudança — "-0%" confunde */
+      if (Math.abs(p) < 0.5) return '<span style="color:var(--soft)">igual</span>';
+      return `<span style="color:${p>0?'var(--good)':'var(--critical)'};font-weight:700">${
+               (p>0?'+':'')+br(p,0)}%</span>`;
+    };
+    return `<tr>
+      <td class="campanha">${curto(d)}</td>
+      <td class="num">${rs(p24)}</td><td class="num">${rs(p10)}</td><td class="num">${var_(p24,p10)}</td>
+      <td class="num">${br(q24)}</td><td class="num">${br(q10)}</td><td class="num">${var_(q24,q10)}</td>
+      <td class="num">${var_(r24,r10)}</td>
+    </tr>`;
+  }).join('');
 
   /* status */
   empilhado(gStatus, nomes, [
@@ -831,7 +892,7 @@ function initCharts(D) {
   const CAN = D.canais;
   const pega = (s,can) => CAN.find(r=>r.sigla===s && r.nm_canal===can)?.vl_cac_canal ?? null;
   const escala = C.filter(c=>c.qt_compradores>15000).map(c=>c.sigla);
-  const rotEsc = {BNO24:'BF 2024', BNO25:'BF 2025', CDL:'Clube do Livro', BP10:'BP10'};
+  const rotEsc = {BNO24:'BF 2024', CDL:'Clube do Livro', BP10:'BP10'};
   new Chart(gCacCanal, {
     type:'bar',
     data:{ labels:escala.map(s=>rotEsc[s]||s), datasets:[

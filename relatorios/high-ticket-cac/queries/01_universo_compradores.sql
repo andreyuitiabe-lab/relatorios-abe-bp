@@ -41,6 +41,11 @@ WITH win AS (
   SELECT 'TRA2',          'Travessia 2ª turma',     DATE '2024-04-01', DATE '2024-05-31', 'rastro', r'travessia', 2 UNION ALL
   SELECT 'BNO24',         'Black November 2024',    DATE '2024-11-01', DATE '2024-11-30', 'janela',  r'bno24|black[ _-]?(friday|november)|(^|[^a-z])bf24([^a-z]|$)', 3 UNION ALL
   SELECT 'BIT',           'Certificação Bitcoin 1', DATE '2025-04-09', DATE '2025-05-31', 'rastro',  r'(^|[^a-z])bit([^a-z]|$)|nova[ _-]moeda|bitcoin', 4 UNION ALL
+  -- ⚠️ O BNO25 saiu do ESCOPO DO RELATÓRIO em 21/09/2026 (decisão do André, a pedido da Bárbara:
+  --    "foi foco em entrada mesmo"). Ele continua NESTA tabela de propósito: é o histórico de
+  --    compra da base, e o DBI tem o BNO25 como origem principal de reincidência. Tirá-lo daqui
+  --    faria a reincidência do DBI cair por artefato de escopo, não por fato.
+  --    Todas as demais queries já não o listam — ele não aparece em nenhuma saída do relatório.
   SELECT 'BNO25',         'Black November 2025',    DATE '2025-11-01', DATE '2025-11-30', 'janela',  r'bno25|black[ _-]?(friday|november)|(^|[^a-z])bf25([^a-z]|$)', 5 UNION ALL
   SELECT 'DBI',           'Certificação Bitcoin 2', DATE '2026-02-04', DATE '2026-03-31', 'rastro',  r'(^|[^a-z])dbi([^a-z]|$)|bitcoin|nova[ _-]moeda', 6 UNION ALL
   SELECT 'CDL',           'Clube do Livro',         DATE '2026-05-05', DATE '2026-06-30', 'rastro', r'(^|[^a-z])cdl([^a-z]|$)|clube[ _-]do[ _-]livro', 7 UNION ALL

@@ -25,7 +25,6 @@ WITH win AS (
   SELECT 'TRA2',          DATE '2024-04-01', DATE '2024-05-31', 'TRA',   r'\[TRA\]|TRAVESSIA',                  2 UNION ALL
   SELECT 'BNO24',         DATE '2024-11-01', DATE '2024-11-30', 'BNO24', r'\[BNO24\]|\[BNO\]|BLACK',            3 UNION ALL
   SELECT 'BIT',           DATE '2025-04-09', DATE '2025-05-31', 'BIT',   r'\[BIT\]|NOVA MOEDA|BITCOIN',         4 UNION ALL
-  SELECT 'BNO25',         DATE '2025-11-01', DATE '2025-11-30', 'BNO25', r'\[BNO25\]|\[BNO\]|BLACK',            5 UNION ALL
   SELECT 'DBI',           DATE '2026-02-04', DATE '2026-03-31', 'DBI',   r'\[DBI\]|BITCOIN',                    6 UNION ALL
   SELECT 'CDL',           DATE '2026-05-05', DATE '2026-06-30', 'CDL',   r'\[CDL\]|CLUBE DO LIVRO',             7 UNION ALL
   SELECT 'BP10',          DATE '2026-06-11', DATE '2026-09-15', 'BP10',  r'\[BP10\]|10 ANOS|ANIVERS',           8 UNION ALL
