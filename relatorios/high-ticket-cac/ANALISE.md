@@ -297,33 +297,47 @@ de R$ 206 e só 1.939 vitalícios. Separando o produto (achado 7), o CAC de vita
 
 ### 2b. A oferta de vitalício foi reprecificada — e é isso que o relatório publica agora
 
-Substitui o achado 2 como evidência de "fizemos algo diferente na oferta". Compara as **duas únicas
-campanhas que venderam vitalício para a base**, BNO24 e BP10 — vitalício contra vitalício, sem o
-problema de comparar com uma campanha de entrada.
+⚠️ **CORRIGIDO em 21/09/2026 — erro meu, pego pelo André** (*"bp10 só teve isso de vendas de black
+mesmo?"*). A primeira versão desta seção comparava o universo **principal** de cada campanha:
+BNO24 em `janela` e BP10 em `rastro`. São réguas diferentes, e a diferença é grande — o Black
+Vitalício do BP10 é **368 em rastro e 1.644 em janela**. A tabela publicada dava −87% de volume no
+Black; com régua consistente é **−43% (janela) ou −77% (rastro)**. O total também estava errado:
+eu publiquei "18.553 → 8.798" (−53%), que é janela contra rastro.
 
-| Degrau | Preço BF24 | Preço BP10 | Preço | Vendas BF24 | Vendas BP10 | Volume | Receita |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| Básico        | R$ 1.290 | R$ 1.289 | igual | 11.313 | 2.443 | **−78%** | −78% |
-| Premium GBB   | R$ 2.470 | R$ 1.622 | **−34%** | 4.065 | 5.987 | **+47%** | −3% |
-| Black         | R$ 4.296 | R$ 3.918 | −9%  | 2.887 | 368   | **−87%** | −88% |
-| Intermediário | R$ 1.987 | — | — | 288 | 0 | saiu do mix | — |
+**Por que não dá para escolher só uma régua.** Cada uma enviesa para um lado:
+- `rastro × rastro` — o BNO24 fica subcontado (era promoção de catálogo, nem toda venda levava
+  tag: 11.788 de 18.553 vitalícios). **Exagera a queda.**
+- `janela × janela` — o BP10 ganha 97 dias de janela contra 30 do BNO24. **Suaviza a queda.**
 
-Duas leituras que não se contradizem:
+A leitura honesta é o intervalo. O relatório publica os dois com um toggle e escreve os números em
+faixa.
 
-- **O Premium funcionou como reprecificação.** Preço −34%, volume +47%, receita −3%. É troca
-  deliberada de margem por volume. O efeito colateral no CAC é mecânico e **não é erro de mídia**:
-  ticket menor com a mesma verba ⇒ CAC pior. Isso é metade do "problema de CAC" do BP10.
-- **A perda de volume está onde o preço NÃO mudou.** Básico −78% e Black −87%, com preço
-  praticamente idêntico. Não é elasticidade — é volume que não apareceu, no mesmo período em que o
-  Comercial passou a abordar metade por dia (achado 3). A oferta explica o ticket; o canal explica
-  o volume.
+| Degrau | Preço BF24 → BP10 | Volume `rastro` | Volume `janela` |
+|---|---|---|---|
+| Básico  | R$ 1.292 → 1.289 (igual) | 7.739 → 2.443 (**−68%**) | 11.313 → 3.307 (**−71%**) |
+| Premium | R$ 2.468 → 1.622 (**−34%**) / R$ 2.470 → 1.672 (**−32%**) | 2.334 → 5.987 (**+157%**) | 4.065 → 7.191 (**+77%**) |
+| Black   | R$ 4.338 → 3.918 (−10%) / R$ 4.296 → 4.255 (−1%) | 1.569 → 368 (**−77%**) | 2.887 → 1.644 (**−43%**) |
+| Intermediário | R$ 1.987 → não existe | 146 → 0 | 288 → 0 |
+| **Total** | | **11.788 → 8.798 (−25%)** | **18.553 → 12.142 (−35%)** |
 
-Total: **18.553 vitalícios no BNO24 contra 8.798 no BP10.**
+**O que sobrevive à troca de régua** (é o que a seção afirma):
+- **Preço do Premium caiu ~1/3** (−32% a −34%). Preço é robusto ao universo — preço é preço.
+- **Volume do Premium subiu muito** (+77% a +157%), com receita quase estável. Reprecificação que
+  funcionou: troca deliberada de margem por volume. O CAC piorar por isso é **mecânico, não erro
+  de mídia** — ticket menor com a mesma verba.
+- **Volume caiu onde o preço NÃO mudou**: Básico −68/−71% e Black −43/−77%. Não é elasticidade; é
+  volume que não apareceu, no mesmo período da queda de abordagens do Comercial (achado 3).
+- **Total de vitalício caiu 25–35%.**
 
-⚠️ `nm_plano_principal` é o plano principal do comprador e `vl_receita` é a receita total dele na
-campanha (inclui order bump), então a soma por degrau excede a receita estrita de vitalício. Para
-preço e volume — que é o uso aqui — a medida é válida; para receita de vitalício, usar
-`vl_receita_vitalicio` do consolidado. Query: `Q_VITALICIO` em [refresh.py](refresh.py).
+**Lição de método para as próximas comparações:** o universo principal é escolhido por campanha,
+por boas razões (o BNO24 é promoção de catálogo, o BP10 é lançamento). Isso é correto para medir
+*cada campanha*, e errado para *comparar duas*. Toda comparação campanha × campanha neste relatório
+precisa fixar a régua antes — conferir se a afirmação sobrevive nas duas.
+
+⚠️ `nm_plano_principal` é o plano principal do comprador e `vl_receita` inclui order bump, então a
+soma por degrau excede a receita estrita de vitalício. Vale para preço e volume, que é o uso aqui;
+para receita de vitalício usar `vl_receita_vitalicio` do consolidado. Query: `Q_VITALICIO` em
+[refresh.py](refresh.py).
 
 ### 3. O Comercial responde menos — mas a queda não é monotônica
 

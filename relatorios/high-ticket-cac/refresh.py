@@ -141,19 +141,27 @@ ORDER BY t.ord
 """
 
 # Preço e volume de cada degrau do vitalício nas duas campanhas que o venderam para a base.
-# Substituiu o antigo Q_BNO_MIX (BNO24/BNO25/BP10) quando o BNO25 saiu do escopo em 21/09/2026:
-# a pergunta "mudamos a oferta?" passa a ser respondida por BNO24 × BP10, que é comparação de
-# vitalício contra vitalício — mais limpa do que a anterior, que comparava com uma campanha de
-# entrada.
+#
+# ⚠️ CORREÇÃO 21/09/2026 (o André desconfiou do número e estava certo): a primeira versão comparava
+#    o universo PRINCIPAL de cada campanha — BNO24 em 'janela' e BP10 em 'rastro'. São réguas
+#    diferentes, e a diferença é enorme: o Black Vitalício do BP10 é 368 em rastro e 1.644 em
+#    janela. A comparação publicada dava −87% de volume no Black; com régua consistente é −43%
+#    (janela) ou −77% (rastro).
+#
+#    Por isso esta query devolve OS DOIS universos e o relatório mostra os dois. Cada um puxa para
+#    um lado: em 'rastro' o BNO24 fica subcontado (era promoção de catálogo, nem tudo levava tag),
+#    o que exagera a queda; em 'janela' o BP10 ganha 97 dias contra 30 do BNO24, o que a suaviza.
+#    A leitura honesta é o intervalo entre os dois, não um ponto.
 Q_VITALICIO = """
-SELECT sigla, nm_plano_principal AS nm_plano,
+SELECT sigla, nm_universo, nm_plano_principal AS nm_plano,
        COUNT(*) AS qt, ROUND(AVG(vl_receita)) AS vl_ticket, ROUND(SUM(vl_receita)) AS vl_receita
 FROM `bp-staging.dbt_abe.tb_ht_compradores`
-WHERE bl_universo_principal AND sigla IN ('BNO24', 'BP10')
+WHERE sigla IN ('BNO24', 'BP10')
+  AND nm_universo IN ('rastro', 'janela')
   AND REGEXP_CONTAINS(LOWER(nm_plano_principal), r'vital')
-GROUP BY 1, 2
-HAVING qt >= 50
-ORDER BY sigla, vl_receita DESC
+GROUP BY 1, 2, 3
+HAVING qt >= 20
+ORDER BY sigla, nm_universo, vl_receita DESC
 """
 
 

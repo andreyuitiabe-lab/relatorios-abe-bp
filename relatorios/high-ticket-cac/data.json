@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-21T15:58:30",
+  "updated_at": "2026-09-21T16:25:31",
   "premissas": {
     "comissao_comercial": 0.09,
     "preco_disparo": {
@@ -58,7 +58,7 @@
       "pct_base_com_ht": 1.5,
       "nm_fonte_midia": "planilha_trafego",
       "pct_reincidente": 0.0,
-      "qt_conversas": 115180,
+      "qt_conversas": 115186,
       "pct_conv_conversa": 10.6,
       "pct_conv_abordagem": 7.8,
       "qt_anuncios": 128,
@@ -132,7 +132,7 @@
       "pct_base_com_ht": 9.7,
       "nm_fonte_midia": "api_meta+warehouse",
       "pct_reincidente": 7.8,
-      "qt_conversas": 31878,
+      "qt_conversas": 31877,
       "pct_conv_conversa": 9.5,
       "pct_conv_abordagem": 4.22,
       "qt_anuncios": 40,
@@ -206,7 +206,7 @@
       "pct_base_com_ht": 7.8,
       "nm_fonte_midia": "api_meta+warehouse",
       "pct_reincidente": 2.9,
-      "qt_conversas": 68711,
+      "qt_conversas": 68710,
       "pct_conv_conversa": 14.5,
       "pct_conv_abordagem": 6.34,
       "qt_anuncios": 371,
@@ -280,7 +280,7 @@
       "pct_base_com_ht": 7.9,
       "nm_fonte_midia": "api_meta+warehouse",
       "pct_reincidente": 11.0,
-      "qt_conversas": 104497,
+      "qt_conversas": 104494,
       "pct_conv_conversa": 8.2,
       "pct_conv_abordagem": 4.17,
       "qt_anuncios": 91,
@@ -354,7 +354,7 @@
       "pct_base_com_ht": 9.5,
       "nm_fonte_midia": "api_meta+warehouse",
       "pct_reincidente": 4.9,
-      "qt_conversas": 81244,
+      "qt_conversas": 81247,
       "pct_conv_conversa": 8.5,
       "pct_conv_abordagem": 2.17,
       "qt_anuncios": 284,
@@ -428,7 +428,7 @@
       "pct_base_com_ht": 11.4,
       "nm_fonte_midia": "api_meta+warehouse",
       "pct_reincidente": 16.7,
-      "qt_conversas": 80320,
+      "qt_conversas": 80317,
       "pct_conv_conversa": 12.6,
       "pct_conv_abordagem": 5.29,
       "qt_anuncios": 897,
@@ -502,7 +502,7 @@
       "pct_base_com_ht": 11.9,
       "nm_fonte_midia": "api_meta+warehouse",
       "pct_reincidente": 6.6,
-      "qt_conversas": 100300,
+      "qt_conversas": 100371,
       "pct_conv_conversa": 12.2,
       "pct_conv_abordagem": 4.51,
       "qt_anuncios": 1182,
@@ -571,12 +571,12 @@
       "qt_disparos_dia": 4043342.0,
       "vl_crm_por_1k": 37.37,
       "qt_abordagens_dia": 3067.0,
-      "pct_resposta_abordagem": 31.9,
+      "pct_resposta_abordagem": 32.0,
       "qt_base_ativa": 610652,
       "pct_base_com_ht": 12.3,
       "nm_fonte_midia": "api_meta+warehouse",
       "pct_reincidente": 50.7,
-      "qt_conversas": 60744,
+      "qt_conversas": 60820,
       "pct_conv_conversa": 12.6,
       "pct_conv_abordagem": 4.03,
       "qt_anuncios": 506,
@@ -3047,7 +3047,7 @@
       "nm_teste": "teste2_serie_casa",
       "sigla": "2026-05",
       "nm_universo": "casa",
-      "qt_compradores": 60927,
+      "qt_compradores": 60925,
       "pct_midia": 51.5,
       "pct_comercial": 18.4,
       "pct_crm": 13.9,
@@ -3057,7 +3057,7 @@
       "nm_teste": "teste2_serie_casa",
       "sigla": "2026-06",
       "nm_universo": "casa",
-      "qt_compradores": 54093,
+      "qt_compradores": 54092,
       "pct_midia": 48.9,
       "pct_comercial": 23.1,
       "pct_crm": 15.1,
@@ -3077,7 +3077,7 @@
       "nm_teste": "teste2_serie_casa",
       "sigla": "2026-08",
       "nm_universo": "casa",
-      "qt_compradores": 38315,
+      "qt_compradores": 38311,
       "pct_midia": 54.2,
       "pct_comercial": 22.5,
       "pct_crm": 13.3,
@@ -3087,9 +3087,9 @@
       "nm_teste": "teste2_serie_casa",
       "sigla": "2026-09",
       "nm_universo": "casa",
-      "qt_compradores": 21924,
-      "pct_midia": 45.7,
-      "pct_comercial": 26.6,
+      "qt_compradores": 21972,
+      "pct_midia": 45.6,
+      "pct_comercial": 26.7,
       "pct_crm": 16.4,
       "pct_sem_rastro": 3.4
     }
@@ -3125,15 +3125,16 @@
     },
     {
       "ano": 2026,
-      "vl_ht": 83180680.0,
-      "qt_compradores": 43870,
+      "vl_ht": 83193299.0,
+      "qt_compradores": 43873,
       "qt_base": 655275.0,
-      "vl_ht_por_membro": 126.94
+      "vl_ht_por_membro": 126.96
     }
   ],
   "vitalicio": [
     {
       "sigla": "BNO24",
+      "nm_universo": "janela",
       "nm_plano": "Básico Vitalício",
       "qt": 11313,
       "vl_ticket": 1290.0,
@@ -3141,6 +3142,7 @@
     },
     {
       "sigla": "BNO24",
+      "nm_universo": "janela",
       "nm_plano": "Black Vitalício",
       "qt": 2887,
       "vl_ticket": 4296.0,
@@ -3148,6 +3150,7 @@
     },
     {
       "sigla": "BNO24",
+      "nm_universo": "janela",
       "nm_plano": "Premium GBB Vitalício",
       "qt": 4065,
       "vl_ticket": 2470.0,
@@ -3155,13 +3158,71 @@
     },
     {
       "sigla": "BNO24",
+      "nm_universo": "janela",
       "nm_plano": "Intermediário Vitalício",
       "qt": 288,
       "vl_ticket": 1987.0,
       "vl_receita": 572364.0
     },
     {
+      "sigla": "BNO24",
+      "nm_universo": "rastro",
+      "nm_plano": "Básico Vitalício",
+      "qt": 7739,
+      "vl_ticket": 1292.0,
+      "vl_receita": 9996530.0
+    },
+    {
+      "sigla": "BNO24",
+      "nm_universo": "rastro",
+      "nm_plano": "Black Vitalício",
+      "qt": 1569,
+      "vl_ticket": 4338.0,
+      "vl_receita": 6805952.0
+    },
+    {
+      "sigla": "BNO24",
+      "nm_universo": "rastro",
+      "nm_plano": "Premium GBB Vitalício",
+      "qt": 2334,
+      "vl_ticket": 2468.0,
+      "vl_receita": 5759696.0
+    },
+    {
+      "sigla": "BNO24",
+      "nm_universo": "rastro",
+      "nm_plano": "Intermediário Vitalício",
+      "qt": 146,
+      "vl_ticket": 1966.0,
+      "vl_receita": 287106.0
+    },
+    {
       "sigla": "BP10",
+      "nm_universo": "janela",
+      "nm_plano": "Premium GBB Vitalício",
+      "qt": 7191,
+      "vl_ticket": 1672.0,
+      "vl_receita": 12019977.0
+    },
+    {
+      "sigla": "BP10",
+      "nm_universo": "janela",
+      "nm_plano": "Black Vitalício",
+      "qt": 1644,
+      "vl_ticket": 4255.0,
+      "vl_receita": 6995624.0
+    },
+    {
+      "sigla": "BP10",
+      "nm_universo": "janela",
+      "nm_plano": "Básico Vitalício",
+      "qt": 3307,
+      "vl_ticket": 1286.0,
+      "vl_receita": 4253935.0
+    },
+    {
+      "sigla": "BP10",
+      "nm_universo": "rastro",
       "nm_plano": "Premium GBB Vitalício",
       "qt": 5987,
       "vl_ticket": 1622.0,
@@ -3169,6 +3230,7 @@
     },
     {
       "sigla": "BP10",
+      "nm_universo": "rastro",
       "nm_plano": "Básico Vitalício",
       "qt": 2443,
       "vl_ticket": 1289.0,
@@ -3176,6 +3238,7 @@
     },
     {
       "sigla": "BP10",
+      "nm_universo": "rastro",
       "nm_plano": "Black Vitalício",
       "qt": 368,
       "vl_ticket": 3918.0,

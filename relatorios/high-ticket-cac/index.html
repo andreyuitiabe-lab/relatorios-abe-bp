@@ -330,6 +330,13 @@
 
   <div class="card">
     <p class="label">Vitalícios vendidos por degrau</p>
+    <div class="recorte" data-toggle="vitalicio">
+      <div class="seg" role="group" aria-label="Régua de comparação">
+        <button type="button" data-rec="rastro" aria-pressed="true">O que a campanha gerou</button>
+        <button type="button" data-rec="janela" aria-pressed="false">Tudo o que a casa vendeu</button>
+      </div>
+      <span class="n" data-n></span>
+    </div>
     <div class="legenda">
       <span><i class="dot" style="background:var(--s1)"></i> Black Friday 2024</span>
       <span><i class="dot" style="background:var(--s2)"></i> BP10</span>
@@ -338,37 +345,52 @@
   </div>
 
   <div class="card" style="margin-top:20px;overflow-x:auto">
-    <p class="label">O mesmo em números</p>
+    <p class="label">O mesmo em números — o preço segue a régua escolhida, o volume aparece nas duas</p>
     <table>
       <thead><tr><th>Degrau</th>
         <th class="num">Preço<br>BF 2024</th><th class="num">Preço<br>BP10</th><th class="num">Preço</th>
-        <th class="num">Vendas<br>BF 2024</th><th class="num">Vendas<br>BP10</th><th class="num">Volume</th>
-        <th class="num">Receita</th></tr></thead>
+        <th class="num">Volume — o que<br>a campanha gerou</th>
+        <th class="num">Volume — tudo o<br>que a casa vendeu</th></tr></thead>
       <tbody id="tbVitalicio"></tbody>
     </table>
   </div>
 
   <div class="destaque">
-    <strong>O Premium foi reprecificado e funcionou.</strong> Preço 34% menor, volume 47% maior,
-    receita praticamente a mesma (−3%). Isso é troca deliberada de margem por volume — e o efeito
-    colateral é mecânico: <b>ticket menor com a mesma verba de mídia significa CAC pior</b>, sem
-    ninguém ter errado em mídia.
+    <strong>O Premium foi reprecificado e funcionou.</strong> O preço caiu 32–34% e o volume subiu
+    nas duas réguas — <b>+77% na leitura conservadora, +157% na outra</b>, com receita
+    praticamente estável. É troca deliberada de margem por volume, e o efeito no CAC é mecânico,
+    não erro de mídia: <b>ticket menor com a mesma verba significa custo por comprador maior</b>.
   </div>
 
   <div class="destaque" style="background:#fef2f2;border-color:#fecaca">
-    <strong>Mas a perda não está no Premium — está nos degraus de cima e de baixo.</strong>
-    O Black Vitalício caiu <b>87%</b> em vendas (2.887 → 368) e o Básico <b>78%</b>
-    (11.313 → 2.443), com o preço praticamente igual nos dois. Não é elasticidade de preço: é
-    volume que não apareceu.
-    Foram <b>18.553 vitalícios em 2024 contra 8.798 no BP10</b>.
+    <strong>A perda está nos degraus em que o preço não mudou.</strong> O Básico caiu
+    <b>68–71%</b> em volume e o Black <b>43–77%</b>, os dois com preço praticamente igual ao de
+    2024. Não é elasticidade de preço: é volume que não apareceu. No total, o vitalício caiu entre
+    <b>24% e 34%</b> de uma campanha para a outra.
   </div>
 
   <div class="nota">
-    Os dois números não se contradizem. O Premium mostra que <em>baixar preço traz gente</em>; o
-    Black e o Básico mostram que, onde o preço não mudou, o volume caiu quase por inteiro — no
-    mesmo período em que o Comercial passou a abordar metade por dia. A oferta explica o ticket;
-    o canal explica o volume.<br><br>
-    O degrau Intermediário simplesmente saiu do mix: 288 vendas em 2024, nenhuma no BP10.
+    <strong>Por que faixa e não número único.</strong> As duas campanhas não são medidas com a
+    mesma régua no resto do relatório: o Black Friday é promoção do catálogo inteiro e conta
+    <em>tudo o que a casa vendeu no mês</em>; o BP10 é lançamento e conta <em>o que carrega o
+    rastro da campanha</em>. Para comparar oferta com oferta é preciso fixar a régua — e cada uma
+    puxa para um lado. Em “o que a campanha gerou”, o Black Friday fica subcontado, porque nem
+    toda venda da promoção levava a tag: isso <em>exagera</em> a queda. Em “tudo o que a casa
+    vendeu”, o BP10 ganha 97 dias de janela contra 30 do Black Friday: isso a <em>suaviza</em>.
+    A leitura honesta é o intervalo entre as duas.
+    <br><br>
+    O que <strong>não</strong> depende da régua é o preço — o Premium caiu cerca de um terço nas
+    duas. Preço é preço.
+    <br><br>
+    O degrau Intermediário saiu do mix: existia em 2024 (288 vendas) e não aparece no BP10 em
+    nenhuma das réguas.
+  </div>
+
+  <div class="nota">
+    Os dois movimentos não se contradizem. O Premium mostra que <em>baixar preço traz gente</em>;
+    o Black e o Básico mostram que, onde o preço não mudou, o volume caiu muito — no mesmo período
+    em que o Comercial passou a abordar metade por dia. A oferta explica o ticket; o canal explica
+    o volume.
   </div>
 </section>
 
@@ -903,21 +925,23 @@ function initCharts(D) {
       ctx.restore(); }}]
   });
 
-  /* vitalício: preço e volume por degrau, BF 2024 × BP10 */
+  /* vitalício: preço e volume por degrau, BF 2024 × BP10, nas duas réguas.
+     ⚠️ As duas campanhas NÃO usam o mesmo universo no resto do relatório (BNO24 = janela,
+     BP10 = rastro). Comparar oferta com oferta exige fixar a régua, e cada uma enviesa para
+     um lado — por isso o toggle e os números em faixa. Ver a nota da seção. */
   const V = D.vitalicio || [];
-  const vGet = (deg,sig,campo) =>
-    V.find(r=>r.nm_plano===deg && r.sigla===sig)?.[campo] ?? null;
-  /* ordem pelo volume no BF 2024 — o degrau que mais vendia primeiro */
+  const vGet = (deg,sig,uni,campo) =>
+    V.find(r=>r.nm_plano===deg && r.sigla===sig && r.nm_universo===uni)?.[campo] ?? null;
   const degraus = [...new Set(V.map(r=>r.nm_plano))]
-    .sort((a,b)=>(vGet(b,'BNO24','qt')||0)-(vGet(a,'BNO24','qt')||0));
+    .sort((a,b)=>(vGet(b,'BNO24','janela','qt')||0)-(vGet(a,'BNO24','janela','qt')||0));
   const curto = d => d.replace(' Vitalício','').replace('Premium GBB','Premium');
 
-  new Chart(gVitalicio, {
+  const chVit = new Chart(gVitalicio, {
     type:'bar',
     data:{ labels:degraus.map(curto), datasets:[
-      {label:'Black Friday 2024', data:degraus.map(d=>vGet(d,'BNO24','qt')||0), backgroundColor:S1,
+      {label:'Black Friday 2024', data:[], backgroundColor:S1,
        borderRadius:4, borderWidth:2, borderColor:'#fff', maxBarThickness:46},
-      {label:'BP10',              data:degraus.map(d=>vGet(d,'BP10','qt')||0),  backgroundColor:S2,
+      {label:'BP10', data:[], backgroundColor:S2,
        borderRadius:4, borderWidth:2, borderColor:'#fff', maxBarThickness:46}]},
     options:{ aspectRatio:2.6, layout:{padding:{top:22}},
       plugins:{ legend:{display:false},
@@ -926,25 +950,49 @@ function initCharts(D) {
     plugins:[rotulos(v=>v?br(v):null)]
   });
 
-  document.getElementById('tbVitalicio').innerHTML = degraus.map(d=>{
-    const p24=vGet(d,'BNO24','vl_ticket'), p10=vGet(d,'BP10','vl_ticket');
-    const q24=vGet(d,'BNO24','qt'),        q10=vGet(d,'BP10','qt');
-    const r24=vGet(d,'BNO24','vl_receita'),r10=vGet(d,'BP10','vl_receita');
-    const var_ = (a,b) => {
-      if (a==null||b==null||!a) return '—';
-      const p = 100*(b-a)/a;
-      /* abaixo de meio ponto é ruído de arredondamento, não mudança — "-0%" confunde */
-      if (Math.abs(p) < 0.5) return '<span style="color:var(--soft)">igual</span>';
-      return `<span style="color:${p>0?'var(--good)':'var(--critical)'};font-weight:700">${
-               (p>0?'+':'')+br(p,0)}%</span>`;
-    };
-    return `<tr>
-      <td class="campanha">${curto(d)}</td>
-      <td class="num">${rs(p24)}</td><td class="num">${rs(p10)}</td><td class="num">${var_(p24,p10)}</td>
-      <td class="num">${br(q24)}</td><td class="num">${br(q10)}</td><td class="num">${var_(q24,q10)}</td>
-      <td class="num">${var_(r24,r10)}</td>
-    </tr>`;
-  }).join('');
+  const varPct = (a,b) => {
+    if (a==null||b==null||!a) return '—';
+    const pp = 100*(b-a)/a;
+    if (Math.abs(pp) < 0.5) return '<span style="color:var(--soft)">igual</span>';
+    return `<span style="color:${pp>0?'var(--good)':'var(--critical)'};font-weight:700">${
+             (pp>0?'+':'')+br(pp,0)}%</span>`;
+  };
+
+  function pintaVitalicio(uni) {
+    chVit.data.datasets[0].data = degraus.map(d=>vGet(d,'BNO24',uni,'qt')||0);
+    chVit.data.datasets[1].data = degraus.map(d=>vGet(d,'BP10', uni,'qt')||0);
+    chVit.update();
+
+    document.getElementById('tbVitalicio').innerHTML = degraus.map(d=>{
+      const p24=vGet(d,'BNO24',uni,'vl_ticket'), p10=vGet(d,'BP10',uni,'vl_ticket');
+      /* o volume aparece nas DUAS réguas lado a lado: é onde elas discordam */
+      const vol = u => {
+        const a=vGet(d,'BNO24',u,'qt'), b=vGet(d,'BP10',u,'qt');
+        if (a==null) return '—';
+        return `${br(a)} → ${b==null?'0':br(b)} &nbsp;${varPct(a, b ?? 0)}`;
+      };
+      const marca = u => u===uni ? ' style="background:#f1f5fb"' : '';
+      return `<tr>
+        <td class="campanha">${curto(d)}</td>
+        <td class="num">${rs(p24)}</td><td class="num">${rs(p10)}</td>
+        <td class="num">${varPct(p24,p10)}</td>
+        <td class="num"${marca('rastro')}>${vol('rastro')}</td>
+        <td class="num"${marca('janela')}>${vol('janela')}</td>
+      </tr>`;
+    }).join('');
+
+    const box = document.querySelector('[data-toggle="vitalicio"]');
+    const t24 = degraus.reduce((a,d)=>a+(vGet(d,'BNO24',uni,'qt')||0),0);
+    const t10 = degraus.reduce((a,d)=>a+(vGet(d,'BP10', uni,'qt')||0),0);
+    box.querySelector('[data-n]').textContent =
+      `${br(t24)} vitalícios no BF 2024 · ${br(t10)} no BP10 (${br(100*(t10/t24-1),0)}%)`;
+    box.querySelectorAll('button').forEach(b=>
+      b.setAttribute('aria-pressed', String(b.dataset.rec===uni)));
+  }
+
+  document.querySelectorAll('[data-toggle="vitalicio"] button').forEach(b=>
+    b.addEventListener('click', ()=>pintaVitalicio(b.dataset.rec)));
+  pintaVitalicio('rastro');
 
   /* status */
   const chStatus = empilhado(gStatus, nomes, [
