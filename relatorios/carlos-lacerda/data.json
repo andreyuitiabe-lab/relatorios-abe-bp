@@ -1,0 +1,954 @@
+{
+  "updated_at": "2026-09-22T14:48:25",
+  "janelas": {
+    "ENE": {
+      "d1": "2026-07-28",
+      "d3": "2026-07-30",
+      "d4": "2026-07-31",
+      "nome": "Enéas"
+    },
+    "LAC": {
+      "d1": "2026-09-19",
+      "d3": "2026-09-21",
+      "d4": "2026-09-22",
+      "nome": "Carlos Lacerda"
+    }
+  },
+  "meta": [
+    {
+      "sigla": "ENE",
+      "fase": "LEAD",
+      "dia": 1,
+      "dt": "2026-07-28",
+      "qt_ads_ativos": 37,
+      "vl_spend": 1226.0,
+      "qt_impressoes": 54742.0,
+      "cpm": 22.39,
+      "qt_cliques": 3294.0,
+      "ctr_pct": 6.02,
+      "cpc": 0.37,
+      "hook_rate_pct": 55.5,
+      "hold_rate_pct": 65.0,
+      "qt_vendas": 3,
+      "vl_receita": 2152.0
+    },
+    {
+      "sigla": "ENE",
+      "fase": "LEAD",
+      "dia": 2,
+      "dt": "2026-07-29",
+      "qt_ads_ativos": 40,
+      "vl_spend": 2721.0,
+      "qt_impressoes": 166104.0,
+      "cpm": 16.38,
+      "qt_cliques": 8002.0,
+      "ctr_pct": 4.82,
+      "cpc": 0.34,
+      "hook_rate_pct": 48.2,
+      "hold_rate_pct": 65.2,
+      "qt_vendas": 3,
+      "vl_receita": 392.0
+    },
+    {
+      "sigla": "ENE",
+      "fase": "LEAD",
+      "dia": 3,
+      "dt": "2026-07-30",
+      "qt_ads_ativos": 45,
+      "vl_spend": 1976.0,
+      "qt_impressoes": 135767.0,
+      "cpm": 14.55,
+      "qt_cliques": 6362.0,
+      "ctr_pct": 4.69,
+      "cpc": 0.31,
+      "hook_rate_pct": 46.3,
+      "hold_rate_pct": 67.5,
+      "qt_vendas": 2,
+      "vl_receita": 262.0
+    },
+    {
+      "sigla": "ENE",
+      "fase": "LEAD",
+      "dia": 4,
+      "dt": "2026-07-31",
+      "qt_ads_ativos": 35,
+      "vl_spend": 2599.0,
+      "qt_impressoes": 161862.0,
+      "cpm": 16.06,
+      "qt_cliques": 8675.0,
+      "ctr_pct": 5.36,
+      "cpc": 0.3,
+      "hook_rate_pct": 51.6,
+      "hold_rate_pct": 74.9,
+      "qt_vendas": 5,
+      "vl_receita": 762.0
+    },
+    {
+      "sigla": "ENE",
+      "fase": "LEAD",
+      "dia": null,
+      "dt": "2026-07-28",
+      "qt_ads_ativos": 47,
+      "vl_spend": 8522.0,
+      "qt_impressoes": 518475.0,
+      "cpm": 16.44,
+      "qt_cliques": 26333.0,
+      "ctr_pct": 5.08,
+      "cpc": 0.32,
+      "hook_rate_pct": 49.5,
+      "hold_rate_pct": 68.9,
+      "qt_vendas": 13,
+      "vl_receita": 3568.0
+    },
+    {
+      "sigla": "ENE",
+      "fase": "VENDA",
+      "dia": 1,
+      "dt": "2026-07-28",
+      "qt_ads_ativos": 48,
+      "vl_spend": 2939.0,
+      "qt_impressoes": 219375.0,
+      "cpm": 13.4,
+      "qt_cliques": 5573.0,
+      "ctr_pct": 2.54,
+      "cpc": 0.53,
+      "hook_rate_pct": 37.9,
+      "hold_rate_pct": 48.3,
+      "qt_vendas": 18,
+      "vl_receita": 3030.0
+    },
+    {
+      "sigla": "ENE",
+      "fase": "VENDA",
+      "dia": 2,
+      "dt": "2026-07-29",
+      "qt_ads_ativos": 34,
+      "vl_spend": 4345.0,
+      "qt_impressoes": 277401.0,
+      "cpm": 15.66,
+      "qt_cliques": 7103.0,
+      "ctr_pct": 2.56,
+      "cpc": 0.61,
+      "hook_rate_pct": 36.4,
+      "hold_rate_pct": 58.4,
+      "qt_vendas": 21,
+      "vl_receita": 4656.0
+    },
+    {
+      "sigla": "ENE",
+      "fase": "VENDA",
+      "dia": 3,
+      "dt": "2026-07-30",
+      "qt_ads_ativos": 41,
+      "vl_spend": 8016.0,
+      "qt_impressoes": 441529.0,
+      "cpm": 18.15,
+      "qt_cliques": 14501.0,
+      "ctr_pct": 3.28,
+      "cpc": 0.55,
+      "hook_rate_pct": 34.2,
+      "hold_rate_pct": 67.8,
+      "qt_vendas": 41,
+      "vl_receita": 8869.0
+    },
+    {
+      "sigla": "ENE",
+      "fase": "VENDA",
+      "dia": 4,
+      "dt": "2026-07-31",
+      "qt_ads_ativos": 40,
+      "vl_spend": 4975.0,
+      "qt_impressoes": 259006.0,
+      "cpm": 19.21,
+      "qt_cliques": 10046.0,
+      "ctr_pct": 3.88,
+      "cpc": 0.5,
+      "hook_rate_pct": 37.5,
+      "hold_rate_pct": 71.2,
+      "qt_vendas": 30,
+      "vl_receita": 18514.0
+    },
+    {
+      "sigla": "ENE",
+      "fase": "VENDA",
+      "dia": null,
+      "dt": "2026-07-28",
+      "qt_ads_ativos": 55,
+      "vl_spend": 20273.0,
+      "qt_impressoes": 1197311.0,
+      "cpm": 16.93,
+      "qt_cliques": 37223.0,
+      "ctr_pct": 3.11,
+      "cpc": 0.54,
+      "hook_rate_pct": 36.1,
+      "hold_rate_pct": 62.6,
+      "qt_vendas": 110,
+      "vl_receita": 35069.0
+    },
+    {
+      "sigla": "ENE",
+      "fase": null,
+      "dia": null,
+      "dt": "2026-07-28",
+      "qt_ads_ativos": 102,
+      "vl_spend": 28795.0,
+      "qt_impressoes": 1715786.0,
+      "cpm": 16.78,
+      "qt_cliques": 63556.0,
+      "ctr_pct": 3.7,
+      "cpc": 0.45,
+      "hook_rate_pct": 40.2,
+      "hold_rate_pct": 65.0,
+      "qt_vendas": 123,
+      "vl_receita": 38636.0
+    },
+    {
+      "sigla": "LAC",
+      "fase": "VENDA",
+      "dia": 1,
+      "dt": "2026-09-19",
+      "qt_ads_ativos": 25,
+      "vl_spend": 2259.0,
+      "qt_impressoes": 88262.0,
+      "cpm": 25.6,
+      "qt_cliques": 1578.0,
+      "ctr_pct": 1.79,
+      "cpc": 1.43,
+      "hook_rate_pct": 28.6,
+      "hold_rate_pct": 38.9,
+      "qt_vendas": 0,
+      "vl_receita": 0.0
+    },
+    {
+      "sigla": "LAC",
+      "fase": "VENDA",
+      "dia": 2,
+      "dt": "2026-09-20",
+      "qt_ads_ativos": 25,
+      "vl_spend": 3099.0,
+      "qt_impressoes": 159647.0,
+      "cpm": 19.41,
+      "qt_cliques": 3401.0,
+      "ctr_pct": 2.13,
+      "cpc": 0.91,
+      "hook_rate_pct": 28.7,
+      "hold_rate_pct": 33.3,
+      "qt_vendas": 5,
+      "vl_receita": 1294.0
+    },
+    {
+      "sigla": "LAC",
+      "fase": "VENDA",
+      "dia": 3,
+      "dt": "2026-09-21",
+      "qt_ads_ativos": 26,
+      "vl_spend": 2011.0,
+      "qt_impressoes": 144676.0,
+      "cpm": 13.9,
+      "qt_cliques": 3176.0,
+      "ctr_pct": 2.2,
+      "cpc": 0.63,
+      "hook_rate_pct": 31.6,
+      "hold_rate_pct": 32.1,
+      "qt_vendas": 5,
+      "vl_receita": 2809.0
+    },
+    {
+      "sigla": "LAC",
+      "fase": "VENDA",
+      "dia": 4,
+      "dt": "2026-09-22",
+      "qt_ads_ativos": 0,
+      "vl_spend": null,
+      "qt_impressoes": null,
+      "cpm": null,
+      "qt_cliques": null,
+      "ctr_pct": null,
+      "cpc": null,
+      "hook_rate_pct": null,
+      "hold_rate_pct": null,
+      "qt_vendas": 1,
+      "vl_receita": 239.0
+    },
+    {
+      "sigla": "LAC",
+      "fase": "VENDA",
+      "dia": null,
+      "dt": "2026-09-19",
+      "qt_ads_ativos": 26,
+      "vl_spend": 7368.0,
+      "qt_impressoes": 392585.0,
+      "cpm": 18.77,
+      "qt_cliques": 8155.0,
+      "ctr_pct": 2.08,
+      "cpc": 0.9,
+      "hook_rate_pct": 29.8,
+      "hold_rate_pct": 34.1,
+      "qt_vendas": 11,
+      "vl_receita": 4342.0
+    },
+    {
+      "sigla": "LAC",
+      "fase": null,
+      "dia": null,
+      "dt": "2026-09-19",
+      "qt_ads_ativos": 26,
+      "vl_spend": 7368.0,
+      "qt_impressoes": 392585.0,
+      "cpm": 18.77,
+      "qt_cliques": 8155.0,
+      "ctr_pct": 2.08,
+      "cpc": 0.9,
+      "hook_rate_pct": 29.8,
+      "hold_rate_pct": 34.1,
+      "qt_vendas": 11,
+      "vl_receita": 4342.0
+    }
+  ],
+  "ads_distintos": [
+    {
+      "sigla": "ENE",
+      "fase": "LEAD",
+      "qt_ads_distintos": 47
+    },
+    {
+      "sigla": "ENE",
+      "fase": "VENDA",
+      "qt_ads_distintos": 55
+    },
+    {
+      "sigla": "LAC",
+      "fase": "VENDA",
+      "qt_ads_distintos": 26
+    }
+  ],
+  "cpm_conta": [
+    {
+      "janela": "ENE (jul)",
+      "reference_date": "2026-07-28",
+      "dia_semana": "Tue",
+      "vl_spend_conta_venda": 160151.35,
+      "qt_impr_conta_venda": 8180548.0,
+      "cpm_conta_lead": 24.98,
+      "cpm_conta_venda": 19.58,
+      "cpm_campanha_venda": 13.4,
+      "indice_camp_vs_conta": 0.68
+    },
+    {
+      "janela": "ENE (jul)",
+      "reference_date": "2026-07-29",
+      "dia_semana": "Wed",
+      "vl_spend_conta_venda": 193294.1900000001,
+      "qt_impr_conta_venda": 8553906.0,
+      "cpm_conta_lead": 22.34,
+      "cpm_conta_venda": 22.6,
+      "cpm_campanha_venda": 15.66,
+      "indice_camp_vs_conta": 0.69
+    },
+    {
+      "janela": "ENE (jul)",
+      "reference_date": "2026-07-30",
+      "dia_semana": "Thu",
+      "vl_spend_conta_venda": 210032.18,
+      "qt_impr_conta_venda": 9710595.0,
+      "cpm_conta_lead": 22.58,
+      "cpm_conta_venda": 21.63,
+      "cpm_campanha_venda": 18.15,
+      "indice_camp_vs_conta": 0.84
+    },
+    {
+      "janela": "LAC (set)",
+      "reference_date": "2026-09-19",
+      "dia_semana": "Sat",
+      "vl_spend_conta_venda": 92986.73,
+      "qt_impr_conta_venda": 3153117.0,
+      "cpm_conta_lead": 20.15,
+      "cpm_conta_venda": 29.49,
+      "cpm_campanha_venda": 25.6,
+      "indice_camp_vs_conta": 0.87
+    },
+    {
+      "janela": "LAC (set)",
+      "reference_date": "2026-09-20",
+      "dia_semana": "Sun",
+      "vl_spend_conta_venda": 99673.58000000002,
+      "qt_impr_conta_venda": 3626003.0,
+      "cpm_conta_lead": 16.93,
+      "cpm_conta_venda": 27.49,
+      "cpm_campanha_venda": 19.41,
+      "indice_camp_vs_conta": 0.71
+    },
+    {
+      "janela": "LAC (set)",
+      "reference_date": "2026-09-21",
+      "dia_semana": "Mon",
+      "vl_spend_conta_venda": 49387.069999999985,
+      "qt_impr_conta_venda": 1923777.0,
+      "cpm_conta_lead": 16.1,
+      "cpm_conta_venda": 25.67,
+      "cpm_campanha_venda": 13.9,
+      "indice_camp_vs_conta": 0.54
+    }
+  ],
+  "crm": [
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-28",
+      "canal": "email",
+      "qt_entregues": 826,
+      "qt_cliques": 5,
+      "dia": 1
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-28",
+      "canal": "whatsapp",
+      "qt_entregues": 801,
+      "qt_cliques": 87,
+      "dia": 1
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-29",
+      "canal": "email",
+      "qt_entregues": 1476,
+      "qt_cliques": 12,
+      "dia": 2
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-29",
+      "canal": "whatsapp",
+      "qt_entregues": 1535,
+      "qt_cliques": 185,
+      "dia": 2
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-30",
+      "canal": "email",
+      "qt_entregues": 1264,
+      "qt_cliques": 9,
+      "dia": 3
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-30",
+      "canal": "whatsapp",
+      "qt_entregues": 1269,
+      "qt_cliques": 179,
+      "dia": 3
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-31",
+      "canal": "email",
+      "qt_entregues": 3619,
+      "qt_cliques": 34,
+      "dia": 4
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-31",
+      "canal": "whatsapp",
+      "qt_entregues": 1554,
+      "qt_cliques": 222,
+      "dia": 4
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-09-19",
+      "canal": "email",
+      "qt_entregues": 299,
+      "qt_cliques": 4,
+      "dia": 54
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-09-19",
+      "canal": "whatsapp",
+      "qt_entregues": 225,
+      "qt_cliques": 13,
+      "dia": 54
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-09-20",
+      "canal": "email",
+      "qt_entregues": 271,
+      "qt_cliques": 75,
+      "dia": 55
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-09-20",
+      "canal": "whatsapp",
+      "qt_entregues": 205,
+      "qt_cliques": 8,
+      "dia": 55
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-09-21",
+      "canal": "email",
+      "qt_entregues": 224,
+      "qt_cliques": 1,
+      "dia": 56
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-09-21",
+      "canal": "whatsapp",
+      "qt_entregues": 193,
+      "qt_cliques": 4,
+      "dia": 56
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-09-22",
+      "canal": "email",
+      "qt_entregues": 81,
+      "qt_cliques": 0,
+      "dia": 57
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-09-22",
+      "canal": "whatsapp",
+      "qt_entregues": 70,
+      "qt_cliques": 1,
+      "dia": 57
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-19",
+      "canal": "app_push",
+      "qt_entregues": 765643,
+      "qt_cliques": 0,
+      "dia": 1
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-19",
+      "canal": "email",
+      "qt_entregues": 231133,
+      "qt_cliques": 1628,
+      "dia": 1
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-20",
+      "canal": "app_push",
+      "qt_entregues": 768000,
+      "qt_cliques": 0,
+      "dia": 2
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-20",
+      "canal": "email",
+      "qt_entregues": 232837,
+      "qt_cliques": 1842,
+      "dia": 2
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-20",
+      "canal": "whatsapp",
+      "qt_entregues": 9225,
+      "qt_cliques": 83,
+      "dia": 2
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-21",
+      "canal": "app_push",
+      "qt_entregues": 161966,
+      "qt_cliques": 0,
+      "dia": 3
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-21",
+      "canal": "email",
+      "qt_entregues": 233363,
+      "qt_cliques": 3022,
+      "dia": 3
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-21",
+      "canal": "whatsapp",
+      "qt_entregues": 26,
+      "qt_cliques": 17,
+      "dia": 3
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-22",
+      "canal": "email",
+      "qt_entregues": 2,
+      "qt_cliques": 139,
+      "dia": 4
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-22",
+      "canal": "whatsapp",
+      "qt_entregues": 0,
+      "qt_cliques": 2,
+      "dia": 4
+    }
+  ],
+  "vendas": [
+    {
+      "sigla": "ENE",
+      "dia": 1,
+      "dt": null,
+      "qt_transacoes": 19,
+      "qt_compradores": 18,
+      "vl_receita": 5108.0,
+      "ticket_medio": 269.0
+    },
+    {
+      "sigla": "ENE",
+      "dia": 1,
+      "dt": "2026-07-28",
+      "qt_transacoes": 19,
+      "qt_compradores": 18,
+      "vl_receita": 5108.0,
+      "ticket_medio": 269.0
+    },
+    {
+      "sigla": "ENE",
+      "dia": 2,
+      "dt": null,
+      "qt_transacoes": 30,
+      "qt_compradores": 28,
+      "vl_receita": 5832.0,
+      "ticket_medio": 194.0
+    },
+    {
+      "sigla": "ENE",
+      "dia": 2,
+      "dt": "2026-07-29",
+      "qt_transacoes": 30,
+      "qt_compradores": 28,
+      "vl_receita": 5832.0,
+      "ticket_medio": 194.0
+    },
+    {
+      "sigla": "ENE",
+      "dia": 3,
+      "dt": null,
+      "qt_transacoes": 57,
+      "qt_compradores": 51,
+      "vl_receita": 14611.0,
+      "ticket_medio": 256.0
+    },
+    {
+      "sigla": "ENE",
+      "dia": 3,
+      "dt": "2026-07-30",
+      "qt_transacoes": 57,
+      "qt_compradores": 51,
+      "vl_receita": 14611.0,
+      "ticket_medio": 256.0
+    },
+    {
+      "sigla": "ENE",
+      "dia": 4,
+      "dt": null,
+      "qt_transacoes": 42,
+      "qt_compradores": 37,
+      "vl_receita": 19706.0,
+      "ticket_medio": 469.0
+    },
+    {
+      "sigla": "ENE",
+      "dia": 4,
+      "dt": "2026-07-31",
+      "qt_transacoes": 42,
+      "qt_compradores": 37,
+      "vl_receita": 19706.0,
+      "ticket_medio": 469.0
+    },
+    {
+      "sigla": "ENE",
+      "dia": null,
+      "dt": null,
+      "qt_transacoes": 148,
+      "qt_compradores": 134,
+      "vl_receita": 45258.0,
+      "ticket_medio": 306.0
+    },
+    {
+      "sigla": "LAC",
+      "dia": 1,
+      "dt": "2026-09-19",
+      "qt_transacoes": 2,
+      "qt_compradores": 2,
+      "vl_receita": 478.0,
+      "ticket_medio": 239.0
+    },
+    {
+      "sigla": "LAC",
+      "dia": 1,
+      "dt": null,
+      "qt_transacoes": 2,
+      "qt_compradores": 2,
+      "vl_receita": 478.0,
+      "ticket_medio": 239.0
+    },
+    {
+      "sigla": "LAC",
+      "dia": 2,
+      "dt": null,
+      "qt_transacoes": 7,
+      "qt_compradores": 6,
+      "vl_receita": 1447.0,
+      "ticket_medio": 207.0
+    },
+    {
+      "sigla": "LAC",
+      "dia": 2,
+      "dt": "2026-09-20",
+      "qt_transacoes": 7,
+      "qt_compradores": 6,
+      "vl_receita": 1447.0,
+      "ticket_medio": 207.0
+    },
+    {
+      "sigla": "LAC",
+      "dia": 3,
+      "dt": "2026-09-21",
+      "qt_transacoes": 7,
+      "qt_compradores": 7,
+      "vl_receita": 3293.0,
+      "ticket_medio": 470.0
+    },
+    {
+      "sigla": "LAC",
+      "dia": 3,
+      "dt": null,
+      "qt_transacoes": 7,
+      "qt_compradores": 7,
+      "vl_receita": 3293.0,
+      "ticket_medio": 470.0
+    },
+    {
+      "sigla": "LAC",
+      "dia": 4,
+      "dt": null,
+      "qt_transacoes": 5,
+      "qt_compradores": 5,
+      "vl_receita": 1644.0,
+      "ticket_medio": 329.0
+    },
+    {
+      "sigla": "LAC",
+      "dia": 4,
+      "dt": "2026-09-22",
+      "qt_transacoes": 5,
+      "qt_compradores": 5,
+      "vl_receita": 1644.0,
+      "ticket_medio": 329.0
+    },
+    {
+      "sigla": "LAC",
+      "dia": null,
+      "dt": null,
+      "qt_transacoes": 21,
+      "qt_compradores": 20,
+      "vl_receita": 6861.0,
+      "ticket_medio": 327.0
+    }
+  ],
+  "leads": [
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-28",
+      "qt_leads": 1251,
+      "dia": 1
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-29",
+      "qt_leads": 1988,
+      "dia": 2
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-30",
+      "qt_leads": 1618,
+      "dia": 3
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-31",
+      "qt_leads": 2015,
+      "dia": 4
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-09-19",
+      "qt_leads": 1,
+      "dia": 54
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-09-20",
+      "qt_leads": 1,
+      "dia": 55
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-09-21",
+      "qt_leads": 1,
+      "dia": 56
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-09-22",
+      "qt_leads": 1,
+      "dia": 57
+    }
+  ],
+  "lp": [
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-30",
+      "dia": 3,
+      "tipo": "venda",
+      "path": "/seja-membro/filmes/eneas",
+      "pageviews": 13489,
+      "sessions": 13028
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-31",
+      "dia": 4,
+      "tipo": "venda",
+      "path": "/seja-membro/filmes/eneas",
+      "pageviews": 9888,
+      "sessions": 9403
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-29",
+      "dia": 2,
+      "tipo": "venda",
+      "path": "/seja-membro/filmes/eneas",
+      "pageviews": 6838,
+      "sessions": 6593
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-29",
+      "dia": 2,
+      "tipo": "cadastro",
+      "path": "/cadastro-eneas/a",
+      "pageviews": 6402,
+      "sessions": 4918
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-28",
+      "dia": 1,
+      "tipo": "venda",
+      "path": "/seja-membro/filmes/eneas",
+      "pageviews": 5402,
+      "sessions": 5258
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-28",
+      "dia": 1,
+      "tipo": "cadastro",
+      "path": "/cadastro-eneas/a",
+      "pageviews": 5015,
+      "sessions": 3859
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-31",
+      "dia": 4,
+      "tipo": "cadastro",
+      "path": "/cadastro-eneas/a",
+      "pageviews": 4995,
+      "sessions": 4066
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-31",
+      "dia": 4,
+      "tipo": "cadastro",
+      "path": "/cadastro-eneas/b",
+      "pageviews": 4852,
+      "sessions": 3816
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-30",
+      "dia": 3,
+      "tipo": "cadastro",
+      "path": "/cadastro-eneas/a",
+      "pageviews": 3998,
+      "sessions": 3194
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-30",
+      "dia": 3,
+      "tipo": "cadastro",
+      "path": "/cadastro-eneas/b",
+      "pageviews": 3666,
+      "sessions": 2955
+    },
+    {
+      "sigla": "ENE",
+      "dt": "2026-07-29",
+      "dia": 2,
+      "tipo": "cadastro",
+      "path": "/cadastro-eneas/b",
+      "pageviews": 2156,
+      "sessions": 1689
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-20",
+      "dia": 2,
+      "tipo": "venda",
+      "path": "/seja-membro/filmes/carlos-lacerda",
+      "pageviews": 4211,
+      "sessions": 3855
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-21",
+      "dia": 3,
+      "tipo": "venda",
+      "path": "/seja-membro/filmes/carlos-lacerda",
+      "pageviews": 4193,
+      "sessions": 3657
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-22",
+      "dia": 4,
+      "tipo": "venda",
+      "path": "/seja-membro/filmes/carlos-lacerda",
+      "pageviews": 3290,
+      "sessions": 3262
+    },
+    {
+      "sigla": "LAC",
+      "dt": "2026-09-19",
+      "dia": 1,
+      "tipo": "venda",
+      "path": "/seja-membro/filmes/carlos-lacerda",
+      "pageviews": 2969,
+      "sessions": 2725
+    }
+  ]
+}
