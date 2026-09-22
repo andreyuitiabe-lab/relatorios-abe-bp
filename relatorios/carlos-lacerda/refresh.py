@@ -130,6 +130,10 @@ def build() -> dict:
     cpm_pareado = clean(q("07_cpm_pareado.sql"))
     print("  midia nos 3 canais...", flush=True)
     midia = clean(q("08_midia_todos_canais.sql"))
+    print("  curva completa da ENE...", flush=True)
+    curva_ene = clean(q("10_curva_ene_completa.sql"))
+    print("  crm da casa por janela...", flush=True)
+    crm_casa = clean(q("11_crm_da_casa_por_janela.sql"))
     print("  crm por data de disparo...", flush=True)
     crm_disparo = clean(q("09_crm_por_disparo.sql"))
     print("  cpm da conta...", flush=True)
@@ -157,6 +161,8 @@ def build() -> dict:
         "cpm_pareado": cpm_pareado,
         "midia": midia,
         "crm_disparo": crm_disparo,
+        "curva_ene": curva_ene,
+        "crm_casa": crm_casa,
         "cpm_conta": cpm_conta,
         "crm": crm,
         "vendas": vendas,

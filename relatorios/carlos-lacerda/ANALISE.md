@@ -22,6 +22,12 @@ CPM, volumetria de ads, e-mails disparados, visitas em LP e engajamento nos ads.
 
 ## Achados principais
 
+**0. Estamos comparando LARGADAS, não campanhas inteiras.** Os 3 primeiros dias da ENE são o arranque:
+**35 transações/dia** contra um pico de **435** em 19/08 (dia da estreia no Ticaracaticast) — **12,3×**.
+A campanha mudou de patamar já no **10º dia** (06/08), bem antes da estreia. Comparar largada com
+largada é metodologicamente correto, mas **nenhum número deste relatório prevê como a LAC vai
+terminar** — e a LAC ainda não tem data de estreia anunciada (squad iniciou 16/09).
+
 **1. O CPM subiu porque o leilão subiu — e isso foi testado, não suposto.** LAC R$ 18,77 × ENE
 R$ 16,31 (+15%); a conta Meta em campanhas de venda foi de R$ 21,31 (jul) para R$ 27,81 (set), +30%;
 índice campanha ÷ conta **0,67 (LAC) × 0,77 (ENE)**. O controle que fecha o argumento: das **7
@@ -67,14 +73,21 @@ em 3 dias (335× o volume de CRM da ENE, que fazia jornada 1:1). Mas:
 | Spam | 15 | — |
 
 Quem abre clica ~6× mais que a média da casa e a lista não está sendo queimada. O diagnóstico não é
-fadiga: é **assunto/remetente/entregabilidade**. Mexer nisso, não no volume. ⚠️ App push não tem
+fadiga: é **assunto/remetente/entregabilidade**. Mexer nisso, não no volume.
+
+⚠️ **O 196× de e-mail entre LAC e ENE não é escolha de campanha — é régua de CRM ocupada.** Em
+28–30/07 os maiores disparos da casa foram **BP10 (6,9 mi), ELB26 (2,5 mi) e ODI (2,4 mi)**; a ENE não
+tinha espaço. Em 19–21/09 são TEC (5,8 mi), FRE (2,9 mi), CBR (1,3 mi) e LAC (697 mil). Comparar volume
+de CRM entre campanhas sem olhar o que a casa disparou no período leva à conclusão errada. ⚠️ App push não tem
 telemetria de abertura/clique no warehouse — é volume entregue, não engajamento medido.
 
 **6. A LP recebe menos gente e converte um terço.** LP de venda: 25.729 pv (ENE) × 11.373 (LAC);
 a ENE ainda tinha 21.237 pv nas LPs de cadastro. Conversão de sessão em venda: **0,16% (LAC) ×
 0,43% (ENE)**, 2,7× pior. ⚠️ O numerador da ENE inclui vendas vindas também da LP de cadastro e do
 CRM — a vantagem dela está algo superestimada, mas a ordem de grandeza se mantém. Aponta para
-**oferta e página**, não só criativo.
+**oferta e página**, não só criativo. ⚠️ **A LP da LAC está em teste A/B desde 21/09** (variante da
+campanha × estrutura da vencedora padrão, 50/50 — Fred Menge no `#campanha-carlos-lacerda`): a
+conversão medida é a média das duas variantes.
 
 **7. Vendas por rastro (D1–D3):** ENE 106 transações / R$ 25,6k; LAC 16 / R$ 5,2k.
 
@@ -99,6 +112,8 @@ Duas revisões independentes (agentes de dataviz e de análise) auditaram a 1ª 
 | "CPL de R$ 1,22 subestimado (numerador Meta, denominador todas as fontes)" | **Confirmada, impacto pequeno** | CPL de mídia real R$ 1,34 (91% dos leads da ENE vieram do Meta) |
 | "CRM: fadiga de lista" (versão 1) | **Corrigida** | Descadastro 0,05% e CTOR 6× a casa: o problema é abertura, não saturação (`queries/09`) |
 | Série de abertura por data de evento | **Corrigida** | A cauda de abertura do dia anterior contaminava a série — passou a ser por data de disparo |
+| "O CRM da LAC é 196× o da ENE" sem contexto | **Contextualizada (André, 22/09)** | A régua de e-mail da casa estava ocupada com BP10/ELB26/ODI em julho (`queries/11`) |
+| "Os 3 dias da ENE representam a ENE" | **Contextualizada (André, 22/09)** | São a largada: 35 tx/dia contra pico de 435; patamar muda no 10º dia (`queries/10`) |
 | Regex `lacerda` no CRM | **Corrigida** | Casava `EM10 - [INP] [VEN] [NME] - Marina Lacerda`; agora só `[lac]` |
 | Vazamento de janela no CRM | **Corrigida** | A ENE segue ativa em set/2026 e entrava no lado da LAC; cada sigla só na sua janela |
 
@@ -131,6 +146,8 @@ pelo cliente Python (ADC, como o `bqq`) e chama `ga4_lp.py` **na venv do MCP GA4
 | [queries/07_cpm_pareado.sql](queries/07_cpm_pareado.sql) | Teste within-campaign: leilão × mix de carteira |
 | [queries/08_midia_todos_canais.sql](queries/08_midia_todos_canais.sql) | Meta + PMax + Google |
 | [queries/09_crm_por_disparo.sql](queries/09_crm_por_disparo.sql) | E-mail por data de disparo + saúde da lista |
+| [queries/10_curva_ene_completa.sql](queries/10_curva_ene_completa.sql) | Curva da ENE inteira — onde caem os 3 primeiros dias |
+| [queries/11_crm_da_casa_por_janela.sql](queries/11_crm_da_casa_por_janela.sql) | O que a casa inteira disparou em cada janela (contexto do volume de CRM) |
 
 Visitas de LP: MCP GA4 (property 378996649). ⚠️ O `dimension_filter` do MCP é ignorado — filtrar o
 path no pós-processamento (é o que o `ga4_lp.py` faz).

@@ -102,6 +102,18 @@
   </section>
 
   <section>
+    <h2>Antes de comparar: estamos olhando a largada, não a campanha inteira</h2>
+    <p class="dek">Os 3 primeiros dias da ENE são o arranque dela — a estreia só veio 22 dias depois,
+      no Ticaracaticast (19/08), e a campanha mudou de patamar no 10º dia. A ENE que ficou na memória é
+      a de agosto, não a destes três dias.</p>
+    <div class="card">
+      <p class="label">Enéas — transações por dia, da largada ao fim da campanha</p>
+      <canvas id="chartCurva" height="170"></canvas>
+      <div class="nota" id="notaCurva">—</div>
+    </div>
+  </section>
+
+  <section>
     <h2>1. O CPM subiu porque o leilão subiu — e dá para provar</h2>
     <p class="dek">Duas checagens independentes. Primeiro, cada campanha contra a <em>conta Meta inteira</em>
       no mesmo dia. Depois, o teste que elimina a dúvida de composição: as campanhas que rodaram
@@ -223,9 +235,7 @@
         <thead><tr><th>Canal</th><th class="num">Enéas</th><th class="num">Lacerda</th><th class="num">LAC ÷ ENE</th></tr></thead>
         <tbody id="tabCrm"></tbody>
       </table></div>
-      <div class="nota">Na ENE o CRM dos primeiros dias era <strong>jornada 1:1</strong> para quem acabava de
-        se cadastrar; na LAC é <strong>broadcast na base</strong>. ⚠️ Os app pushes não têm telemetria de
-        abertura ou clique no warehouse — entram como volume entregue, não como engajamento medido.</div>
+      <div class="nota" id="notaCrmContexto">—</div>
     </div>
   </section>
 
@@ -402,6 +412,51 @@ function initCharts(D) {
   const cplENE = eneL.spend / leadsMetaENE;
   document.getElementById('statCpl').textContent = rs(cplENE);
 
+  /* ── curva da ENE ─────────────────────────────────────────────────────── */
+  const curva = D.curva_ene;
+  const marcos = {
+    id: 'marcos',
+    afterDraw(c) {
+      const { ctx, chartArea: a, scales } = c;
+      const x0 = scales.x.getPixelForValue(0), x1 = scales.x.getPixelForValue(2);
+      ctx.save();
+      ctx.fillStyle = 'rgba(42,120,214,.12)';
+      ctx.fillRect(x0 - 3, a.top, (x1 - x0) + 6, a.bottom - a.top);
+      ctx.fillStyle = "#2a78d6"; ctx.font = "700 10px " + FONT; ctx.textAlign = "left";
+      ctx.fillText('D1–D3 (este relatório)', x0 + 6, a.top + 12);
+      const iEstreia = curva.findIndex(r => r.dt === '2026-08-19');
+      if (iEstreia > 0) {
+        const x = scales.x.getPixelForValue(iEstreia);
+        ctx.strokeStyle = "#9aa3b0"; ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(x, a.top); ctx.lineTo(x, a.bottom); ctx.stroke();
+        ctx.fillStyle = "#6b7280"; ctx.font = "600 10px " + FONT; ctx.textAlign = "right";
+        ctx.fillText('estreia · 19/08', x - 6, a.top + 12);
+      }
+      ctx.restore();
+    }
+  };
+  new Chart(chartCurva, {
+    type: 'line',
+    data: { labels: curva.map(r => fmtData(r.dt)), datasets: [
+      { label: 'transações/dia', data: curva.map(r => r.qt_transacoes), borderColor: C.ENE,
+        backgroundColor: 'rgba(42,120,214,.08)', borderWidth: 2, pointRadius: 0, fill: true, tension: .25 }
+    ]},
+    options: (() => {
+      const o = baseOpts('transações', v => nf(v)); o.plugins.legend.display = false;
+      o.scales.x.ticks = { maxTicksLimit: 10, autoSkip: true };
+      return o;
+    })(),
+    plugins: [marcos]
+  });
+  const med3 = curva.slice(0, 3).reduce((a, r) => a + r.qt_transacoes, 0) / 3;
+  const pico = curva.reduce((m, r) => r.qt_transacoes > m.qt_transacoes ? r : m, curva[0]);
+  document.getElementById('notaCurva').innerHTML =
+    `Nos 3 primeiros dias a ENE fazia <strong>${nf(Math.round(med3))} transações por dia</strong>. O pico foi de ` +
+    `<strong>${nf(pico.qt_transacoes)}</strong> em ${fmtData(pico.dt)}, dia da estreia — <strong>${br(pico.qt_transacoes / med3, 1)}× a largada</strong> ` +
+    `— e a campanha já tinha mudado de patamar no 10º dia, bem antes disso. <strong>O que isso significa aqui:</strong> ` +
+    `comparar largada com largada é justo, mas nenhum número deste relatório diz como a LAC vai terminar. ` +
+    `A LAC ainda não tem data de estreia anunciada.`;
+
   /* ── 1. CPM ───────────────────────────────────────────────────────────── */
   const serieCampanha = s => rowsDia(s, 'VENDA').map(r => r.cpm);
   const serieConta = s => conta.filter(r => r.janela.startsWith(s)).map(r => r.cpm_conta_venda);
@@ -500,11 +555,16 @@ function initCharts(D) {
     ['Anúncios ativos', nf(adsDist('ENE', 'VENDA') + adsDist('ENE', 'LEAD')) + ' (venda + captação)', nf(adsDist('LAC', 'VENDA'))],
     ['Investimento Meta', rs0(eneV.spend + eneL.spend), rs0(lacV.spend)],
     ['Impressões', nf(eneV.impr + eneL.impr), nf(lacV.impr)],
+    ['CPM', rs((eneV.spend + eneL.spend) / (eneV.impr + eneL.impr) * 1000), rs(lacV.cpm)],
     ['Cliques de saída', nf(eneV.cliques + eneL.cliques), nf(lacV.cliques)],
+    ['CPC', rs((eneV.spend + eneL.spend) / (eneV.cliques + eneL.cliques)), rs(lacV.spend / lacV.cliques)],
     ['Campanha de captação', rs0(eneL.spend) + ' · ' + nf(leadsENE) + ' leads', 'não existe'],
     ['Custo por lead (mídia Meta)', rs(cplENE), '—']
   ].map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join('');
   document.getElementById('notaCaptacao').innerHTML =
+    `<strong>CPM e CPC aqui somam captação + venda</strong> no lado da ENE, que é o universo desta tabela. ` +
+    `São por isso diferentes dos da seção 1 e 2 (${rs(eneV.cpm)} de CPM e ${rs(eneC.cpc)} de CPC), que ` +
+    `comparam só campanha de venda contra campanha de venda. Do lado da LAC os dois são iguais — ela só tem venda.<br><br>` +
     `No ritmo da ENE — ${nf(Math.round(leadsENE / 3))} leads/dia a ${rs(cplENE)} — a LAC deixa de construir ` +
     `base a um custo de mídia de cerca de ${rs0(eneL.spend / 3)} por dia. Não existe tag <code>LAC</code> em ` +
     `<code>lead_conversion</code>, nem LP de cadastro: é ausência de campanha, não falha de rastreio.`;
@@ -546,6 +606,16 @@ function initCharts(D) {
       return `<tr class="tot"><td>Total entregue</td><td class="num">${nf(e)}</td><td class="num">${nf(l)}</td><td class="num">${razao(l, e)}</td></tr>`;
     })();
 
+  const casa = D.crm_casa;
+  const topCasa = j => casa.filter(r => r.janela.startsWith(j)).sort((a, b) => b.qt_entregues - a.qt_entregues)
+                           .slice(0, 3).map(r => `${r.sigla} (${r.qt_entregues >= 1e6 ? br(r.qt_entregues / 1e6, 1) + ' mi' : nf(Math.round(r.qt_entregues / 1000)) + ' mil'})`).join(', ');
+  document.getElementById('notaCrmContexto').innerHTML =
+    `Na ENE o CRM dos primeiros dias era <strong>jornada 1:1</strong> para quem acabava de se cadastrar; na LAC é ` +
+    `<strong>broadcast na base</strong>. <strong>Mas isso não é escolha de uma campanha só — a régua de e-mail da casa ` +
+    `estava ocupada:</strong> em julho os maiores disparos foram ${topCasa('jul')}; em setembro, ${topCasa('set')}. ` +
+    `A ENE nasceu sem espaço na régua; a LAC nasceu com. ⚠️ App push não tem telemetria de abertura ou clique no ` +
+    `warehouse — entra como volume entregue, não como engajamento medido.`;
+
   /* ── 6. LP ────────────────────────────────────────────────────────────── */
   const lpDia = (s, tipo, dia) => D.lp.filter(r => r.sigla === s && r.tipo === tipo && r.dia === dia)
                                       .reduce((a, r) => a + r.pageviews, 0);
@@ -577,7 +647,7 @@ function initCharts(D) {
     `<strong>Conversão de sessão em venda:</strong> ${pc(convLAC, 2)} na LAC contra ${pc(convENE, 2)} na ENE — ` +
     `${br(convENE / convLAC, 1)}× pior. Ou seja: além de chegar menos gente, quem chega compra menos. ` +
     `⚠️ O numerador da ENE inclui vendas que vieram também da LP de cadastro e do CRM, então a vantagem dela ` +
-    `está um pouco superestimada; a ordem de grandeza se mantém.`;
+    `está um pouco superestimada; a ordem de grandeza se mantém.<br><br>⚠️ <strong>A LP da LAC está em teste A/B desde 21/09</strong> (variante da campanha × estrutura da vencedora padrão, 50/50) — a conversão acima é a média das duas.`;
 
   /* ── 7. vendas ────────────────────────────────────────────────────────── */
   const vRow = (s, d) => D.vendas.find(r => r.sigla === s && r.dia === d && r.dt);

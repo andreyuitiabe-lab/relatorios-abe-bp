@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-22T15:10:39",
+  "updated_at": "2026-09-22T15:19:27",
   "janelas": {
     "ENE": {
       "d1": "2026-07-28",
@@ -487,6 +487,320 @@
       "qt_descadastros": 74,
       "qt_spam": 2,
       "vl_receita": 0.0
+    }
+  ],
+  "curva_ene": [
+    {
+      "dt": "2026-07-28",
+      "dia": 1,
+      "qt_transacoes": 19,
+      "vl_receita": 5108.0
+    },
+    {
+      "dt": "2026-07-29",
+      "dia": 2,
+      "qt_transacoes": 30,
+      "vl_receita": 5832.0
+    },
+    {
+      "dt": "2026-07-30",
+      "dia": 3,
+      "qt_transacoes": 57,
+      "vl_receita": 14611.0
+    },
+    {
+      "dt": "2026-07-31",
+      "dia": 4,
+      "qt_transacoes": 42,
+      "vl_receita": 19706.0
+    },
+    {
+      "dt": "2026-08-01",
+      "dia": 5,
+      "qt_transacoes": 71,
+      "vl_receita": 13797.0
+    },
+    {
+      "dt": "2026-08-02",
+      "dia": 6,
+      "qt_transacoes": 60,
+      "vl_receita": 11277.0
+    },
+    {
+      "dt": "2026-08-03",
+      "dia": 7,
+      "qt_transacoes": 29,
+      "vl_receita": 4608.0
+    },
+    {
+      "dt": "2026-08-04",
+      "dia": 8,
+      "qt_transacoes": 34,
+      "vl_receita": 10381.0
+    },
+    {
+      "dt": "2026-08-05",
+      "dia": 9,
+      "qt_transacoes": 54,
+      "vl_receita": 13447.0
+    },
+    {
+      "dt": "2026-08-06",
+      "dia": 10,
+      "qt_transacoes": 100,
+      "vl_receita": 98818.0
+    },
+    {
+      "dt": "2026-08-07",
+      "dia": 11,
+      "qt_transacoes": 143,
+      "vl_receita": 48116.0
+    },
+    {
+      "dt": "2026-08-08",
+      "dia": 12,
+      "qt_transacoes": 240,
+      "vl_receita": 52136.0
+    },
+    {
+      "dt": "2026-08-09",
+      "dia": 13,
+      "qt_transacoes": 216,
+      "vl_receita": 44185.0
+    },
+    {
+      "dt": "2026-08-10",
+      "dia": 14,
+      "qt_transacoes": 132,
+      "vl_receita": 36506.0
+    },
+    {
+      "dt": "2026-08-11",
+      "dia": 15,
+      "qt_transacoes": 117,
+      "vl_receita": 33116.0
+    },
+    {
+      "dt": "2026-08-12",
+      "dia": 16,
+      "qt_transacoes": 175,
+      "vl_receita": 55908.0
+    },
+    {
+      "dt": "2026-08-13",
+      "dia": 17,
+      "qt_transacoes": 212,
+      "vl_receita": 71185.0
+    },
+    {
+      "dt": "2026-08-14",
+      "dia": 18,
+      "qt_transacoes": 221,
+      "vl_receita": 48733.0
+    },
+    {
+      "dt": "2026-08-15",
+      "dia": 19,
+      "qt_transacoes": 237,
+      "vl_receita": 56758.0
+    },
+    {
+      "dt": "2026-08-16",
+      "dia": 20,
+      "qt_transacoes": 204,
+      "vl_receita": 43766.0
+    },
+    {
+      "dt": "2026-08-17",
+      "dia": 21,
+      "qt_transacoes": 170,
+      "vl_receita": 43655.0
+    },
+    {
+      "dt": "2026-08-18",
+      "dia": 22,
+      "qt_transacoes": 205,
+      "vl_receita": 62451.0
+    },
+    {
+      "dt": "2026-08-19",
+      "dia": 23,
+      "qt_transacoes": 435,
+      "vl_receita": 108087.0
+    },
+    {
+      "dt": "2026-08-20",
+      "dia": 24,
+      "qt_transacoes": 207,
+      "vl_receita": 45457.0
+    },
+    {
+      "dt": "2026-08-21",
+      "dia": 25,
+      "qt_transacoes": 223,
+      "vl_receita": 59606.0
+    },
+    {
+      "dt": "2026-08-22",
+      "dia": 26,
+      "qt_transacoes": 264,
+      "vl_receita": 62686.0
+    },
+    {
+      "dt": "2026-08-23",
+      "dia": 27,
+      "qt_transacoes": 307,
+      "vl_receita": 67432.0
+    },
+    {
+      "dt": "2026-08-24",
+      "dia": 28,
+      "qt_transacoes": 147,
+      "vl_receita": 59119.0
+    },
+    {
+      "dt": "2026-08-25",
+      "dia": 29,
+      "qt_transacoes": 127,
+      "vl_receita": 36796.0
+    },
+    {
+      "dt": "2026-08-26",
+      "dia": 30,
+      "qt_transacoes": 123,
+      "vl_receita": 66390.0
+    },
+    {
+      "dt": "2026-08-27",
+      "dia": 31,
+      "qt_transacoes": 74,
+      "vl_receita": 25828.0
+    },
+    {
+      "dt": "2026-08-28",
+      "dia": 32,
+      "qt_transacoes": 100,
+      "vl_receita": 39799.0
+    },
+    {
+      "dt": "2026-08-29",
+      "dia": 33,
+      "qt_transacoes": 83,
+      "vl_receita": 29683.0
+    },
+    {
+      "dt": "2026-08-30",
+      "dia": 34,
+      "qt_transacoes": 122,
+      "vl_receita": 34532.0
+    },
+    {
+      "dt": "2026-08-31",
+      "dia": 35,
+      "qt_transacoes": 96,
+      "vl_receita": 48737.0
+    },
+    {
+      "dt": "2026-09-01",
+      "dia": 36,
+      "qt_transacoes": 68,
+      "vl_receita": 15983.0
+    },
+    {
+      "dt": "2026-09-02",
+      "dia": 37,
+      "qt_transacoes": 47,
+      "vl_receita": 17086.0
+    },
+    {
+      "dt": "2026-09-03",
+      "dia": 38,
+      "qt_transacoes": 43,
+      "vl_receita": 21268.0
+    },
+    {
+      "dt": "2026-09-04",
+      "dia": 39,
+      "qt_transacoes": 84,
+      "vl_receita": 29453.0
+    },
+    {
+      "dt": "2026-09-05",
+      "dia": 40,
+      "qt_transacoes": 101,
+      "vl_receita": 25679.0
+    }
+  ],
+  "crm_casa": [
+    {
+      "janela": "jul (D1-D3 ENE)",
+      "sigla": "BP10",
+      "qt_entregues": 6906531
+    },
+    {
+      "janela": "jul (D1-D3 ENE)",
+      "sigla": "ELB26",
+      "qt_entregues": 2526974
+    },
+    {
+      "janela": "jul (D1-D3 ENE)",
+      "sigla": "ODI",
+      "qt_entregues": 2435637
+    },
+    {
+      "janela": "jul (D1-D3 ENE)",
+      "sigla": "MEC",
+      "qt_entregues": 963551
+    },
+    {
+      "janela": "jul (D1-D3 ENE)",
+      "sigla": "RBP",
+      "qt_entregues": 365226
+    },
+    {
+      "janela": "jul (D1-D3 ENE)",
+      "sigla": "CSM",
+      "qt_entregues": 254529
+    },
+    {
+      "janela": "jul (D1-D3 ENE)",
+      "sigla": "TLR",
+      "qt_entregues": 149408
+    },
+    {
+      "janela": "set (D1-D3 LAC)",
+      "sigla": "TEC",
+      "qt_entregues": 5780076
+    },
+    {
+      "janela": "set (D1-D3 LAC)",
+      "sigla": "FRE",
+      "qt_entregues": 2891908
+    },
+    {
+      "janela": "set (D1-D3 LAC)",
+      "sigla": "CBR",
+      "qt_entregues": 1300510
+    },
+    {
+      "janela": "set (D1-D3 LAC)",
+      "sigla": "REC",
+      "qt_entregues": 1036879
+    },
+    {
+      "janela": "set (D1-D3 LAC)",
+      "sigla": "LAC",
+      "qt_entregues": 697333
+    },
+    {
+      "janela": "set (D1-D3 LAC)",
+      "sigla": "TLR",
+      "qt_entregues": 578979
+    },
+    {
+      "janela": "set (D1-D3 LAC)",
+      "sigla": "RBP",
+      "qt_entregues": 361031
     }
   ],
   "cpm_conta": [
