@@ -13,10 +13,24 @@
 -- Rateio da verba: POR RECEITA (convenção oficial, decisão do André em 17/09).
 --   custo_faixa = verba × (receita da faixa ÷ receita total da campanha)
 --
--- ⚠️ O rateio é escolha, não dado: a mídia não é comprada por faixa de preço. E esta convenção
---    torna o ROAS idêntico em todas as faixas por construção (receita ÷ [verba × receita/total]
---    = ROAS da campanha) — só o CAC diferencia. Por isso a query devolve também o CAC sob rateio
---    por comprador, onde o oposto acontece.
+-- 🚨 NÃO COMPARAR FAIXAS DENTRO DE UMA MESMA CAMPANHA COM ESTE NÚMERO. O rateio por receita
+--    implica, algebricamente:
+--        CAC_faixa = verba × (receita_faixa/receita_total) ÷ n_faixa = ticket_faixa ÷ ROAS_campanha
+--    Verificado em 21/09/2026: CAC_faixa ÷ ticket_faixa dá exatamente 1/ROAS nas três faixas de
+--    todas as campanhas, até a 4ª casa. Ou seja, o "CAC por faixa" É o ticket da faixa reescalado
+--    por uma constante — ele mede preço, não custo de aquisição. Dizer "adquirir alto ticket custa
+--    mais caro" a partir daqui é ler a convenção de volta, não um fato.
+--    O gráfico que mostrava as três faixas lado a lado foi removido do relatório por isso.
+--
+-- ✅ O QUE ESTE NÚMERO SERVE PARA RESPONDER: comparar a MESMA faixa ENTRE campanhas. Aí o que
+--    varia é o ROAS de cada campanha, que é desempenho, não regra de divisão. É de onde sai o
+--    "R$ 277 no BNO24 → R$ 674 no BP10 (+143%)" do relatório.
+--
+-- ⚠️ Pelo mesmo motivo o ROAS fica idêntico em todas as faixas por construção. Por isso a query
+--    devolve também o CAC sob rateio por comprador, onde o oposto acontece.
+--
+-- ⚠️ Responder "quanto custa adquirir um comprador caro contra um barato" exigiria atribuição por
+--    produto, que não existe: a campanha compra mídia uma vez e vende de tudo.
 
 WITH win AS (
   SELECT 'TRA'   AS sigla, 1 AS ord UNION ALL SELECT 'TRA2', 2 UNION ALL

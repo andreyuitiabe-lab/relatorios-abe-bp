@@ -1,7 +1,8 @@
 # High-ticket: por que o CAC subiu — Travessia (2023) → BP10 (2026)
 
-**Data:** 2026-09-17 | **Status:** concluída (relatório vivo) · **revisado por agente independente
-em 17/09** — 6 erros corrigidos e 2 testes de robustez incorporados (ver §Revisão independente)
+**Data:** 2026-09-17 · **última revisão:** 2026-09-21 | **Status:** concluída (relatório vivo) ·
+**revisado por agente independente em 17/09** — 6 erros corrigidos e 2 testes de robustez
+incorporados (ver §Revisão independente)
 **Relatório:** [index.html](index.html) — reescrito em 18/09 para leitura de negócio: resultado na
 frente, método no fim, sem jargão. **Este memo é o documento técnico**: todo o detalhe de método,
 as ressalvas, a revisão independente e o histórico de correções ficam aqui, não na página.
@@ -10,7 +11,28 @@ com CAC baixo e alta eficiência de CRM; ultimamente dependemos mais de anúncio
 Entender se **(1)** fizemos algo diferente, **(2)** o perfil do público está saturando, ou
 **(3)** tínhamos demanda reprimida que está se esgotando.
 
-Campanhas: Travessia, Travessia relançamento, BNO24, Bitcoin 1, Bitcoin 2, BNO25, CDL, ODI, BP10.
+Campanhas pedidas: Travessia, Travessia relançamento, BNO24, Bitcoin 1, Bitcoin 2, BNO25, CDL,
+ODI, BP10.
+
+> ⚠️ **ESCOPO PUBLICADO: 8 campanhas — o BNO25 saiu em 21/09/2026** (decisão do André a pedido da
+> Bárbara; razão e contexto em §Decisões de abordagem). **Seções escritas antes dessa data ainda
+> listam o BNO25 nas tabelas** — elas ficam como registro do que foi medido, mas os totais delas
+> não batem com o relatório publicado, que soma R$ 111,4 mi de receita e R$ 22,7 mi de mídia.
+> Ao reusar qualquer número daqui, conferir a data da seção.
+
+> 📌 **Correções de 21/09, todas apontadas pelo André.** Estão registradas na seção de cada achado,
+> e a lição de método de cada uma foi para a wiki:
+> 1. **Comparação de campanhas misturando universos** (achado 2b) — BNO24 em `janela` × BP10 em
+>    `rastro` dava −87% de volume no Black Vitalício quando o certo é −43%.
+> 2. **"Metade das abordagens por dia"** (achado 3) — era média sobre janelas de duração
+>    diferente; o Comercial **não** foi desmobilizado. Derrubou a ação nº 2 do relatório.
+> 3. **`COUNT(DISTINCT nm_campaign)` como contagem de peça de CRM** (achado 5b) — contava variante
+>    de segmentação; **a conclusão inverteu** (o BP10 produziu mais peças, não menos).
+> 4. **Gráfico de CAC por faixa era tautológico** (achado 7a) — com rateio por receita,
+>    `CAC_faixa = ticket_faixa ÷ ROAS`.
+>
+> **O padrão comum:** número publicado sem olhar o dado por trás. As três primeiras teriam sido
+> pegas por uma amostra de 12 linhas ou por uma conferência de régua.
 
 ---
 
@@ -677,41 +699,57 @@ que é exatamente a decomposição do enquadramento descida ao nível de decisã
 
 ---
 
-### 7a. CAC por faixa de valor da venda — o corte que o André pediu duas vezes
+### 7a. CAC por faixa de valor — e por que a comparação ENTRE faixas não significa nada
 
-⚠️ **Falha minha, registrada:** o André pediu isso em 17/09 ("no BNO24 tinham outros produtos
+⚠️ **Falha minha, registrada:** o André pediu este corte em 17/09 ("no BNO24 tinham outros produtos
 sendo vendidos, atribuir todo o custo ao CAC do vitalício é injusto") e de novo em 18/09. Eu
 calculei por família de produto (achado 7) mas, ao reescrever a página para legibilidade, **removi
-a seção** — ela ficou só neste memo. Refeito em 18/09 por faixa de valor, que é o corte mais direto.
+a seção**. Refeito em 18/09 por faixa de valor.
 
-Faixas pelo maior ticket do comprador: alto > R$ 1.000 (46% dos compradores, 88% da receita) ·
-médio R$ 200–1.000 (25% / 8%) · entrada < R$ 200 (29% / 4%). Rateio por receita (convenção oficial).
+Faixas pelo maior ticket do comprador: alto > R$ 1.000 · médio R$ 200–1.000 · entrada < R$ 200.
+Rateio da verba **por receita** (convenção oficial).
 
-| | CAC blendado | **CAC alto ticket** | diferença | ticket alto |
+| | CAC de todos | **CAC alto ticket** | diferença | ticket alto |
 |---|---|---|---|---|
 | TRA | R$ 179 | **R$ 182** | 1,0× | R$ 1.679 |
 | TRA2 | R$ 482 | **R$ 631** | 1,3× | R$ 1.666 |
 | BNO24 | R$ 186 | **R$ 277** | 1,5× | R$ 2.045 |
 | BIT | R$ 828 | **R$ 1.413** | 1,7× | R$ 2.872 |
-| **BNO25** | **R$ 104** | **R$ 878** | **8,5×** | R$ 2.923 |
 | **DBI** | **R$ 146** | **R$ 2.008** | **13,8×** | R$ 2.638 |
 | CDL | R$ 198 | **R$ 214** | 1,1× | R$ 1.475 |
 | BP10 | R$ 426 | **R$ 674** | 1,6× | R$ 1.587 |
 | ODI | R$ 339 | **R$ 404** | 1,2× | R$ 1.484 |
 
-**O que muda na conclusão:**
+🚨 **A comparação ENTRE faixas dentro de uma campanha é tautológica — descoberto em 21/09 quando o
+André disse que o gráfico estava estranho.** Com rateio por receita:
+
+```
+CAC_faixa = verba × (receita_faixa / receita_total) / n_faixa = ticket_faixa ÷ ROAS_campanha
+```
+
+Verificado: `CAC_faixa ÷ ticket_faixa` dá exatamente `1/ROAS` nas três faixas de todas as
+campanhas, até a 4ª casa decimal. **O "CAC por faixa" é o ticket da faixa reescalado por uma
+constante** — não mede custo de aquisição por faixa, mede preço. O gráfico que mostrava as três
+faixas lado a lado foi removido da página por isso; ficou o contraste *todo mundo × alto ticket*
+**entre campanhas**, que é onde o que varia é desempenho e não a regra de divisão.
+
+Pela mesma razão, a coluna "diferença" (CAC alto ÷ CAC de todos) é a razão entre o ticket do alto
+ticket e o ticket geral. **Ela é útil** — diz o quanto o CAC blendado engana em cada campanha — mas
+não é medida de eficiência.
+
+**O que a tabela sustenta, e que continua válido:**
 1. **A alta do CAC do produto caro é maior que a do blendado:** BNO24 → BP10 vai de R$ 277 para
-   R$ 674 (**+143%**), contra +129% no blendado.
-2. **O BNO25 e o DBI eram ilusão de mistura.** Tinham os melhores CACs da série (R$ 104 e R$ 146)
-   porque 94% e 97% dos compradores levaram produto de entrada. No alto ticket são o 2º e o 1º
-   **piores** do estudo. A diferença de 8,5× e 13,8× é o tamanho do engano.
-3. **O CDL segue sendo a melhor campanha da série por qualquer corte** — R$ 214 de CAC de alto
-   ticket, praticamente igual ao blendado, porque 96% da receita dele já era alto ticket.
+   R$ 674 (**+143%**), contra +129% no blendado. Comparação da *mesma faixa entre campanhas* —
+   legítima.
+2. **O DBI era ilusão de mistura:** melhor CAC aparente da série (R$ 146) porque quase todo
+   comprador levou entrada. No alto ticket é o pior — mas com **n=31**, serve de alerta, não de
+   conclusão.
+3. **O CDL é a melhor campanha da série por qualquer corte** — R$ 214 de CAC de alto ticket, quase
+   igual ao blendado, porque 96% da receita dele já era alto ticket.
 
-⚠️ O rateio por receita torna o **retorno idêntico em todas as faixas por construção** — entre
-faixas de preço, só o CAC diferencia. Não citar "retorno da faixa X".
-
----
+⚠️ **Para responder "quanto custa adquirir um comprador caro contra um barato" seria preciso
+atribuição por produto**, que não existe: a campanha compra mídia uma vez e vende de tudo.
+Qualquer resposta com rateio é a convenção falando, não o dado.
 
 ### 7b. Universo: o relatório conta TODOS os compradores, não só os de alto ticket
 
@@ -943,40 +981,59 @@ BP10/ODI/CDL.
 
 ## Pendências / próximos passos
 
-- [ ] **Piso de ROAS — a recomendação mais acionável do dataset, e ela já é respondível.** Com
-      margem digital 0,75 (`midia-paga/MARGEM.md`) o piso é **1,33×**. O ROAS do canal mídia por
-      campanha (achado 6) fica entre 0,13× e 2,31×: **só o CDL passa**. Levar essa tabela para a
-      decisão de desligar/manter mídia por campanha.
-- [ ] **Por que o Comercial não foi mobilizado como em nov/2024** — é a pergunta que o teste 2 do
-      achado 1 abre e a única com dono e alavanca clara. Cruzar com `dtm_seller_conversion_rate`
-      (Pipedrive), que não entrou nesta análise.
-- [ ] **Intervalo de confiança**: campanhas pequenas (TRA2 n=371, DBI n=1.167, BIT n=1.549) aparecem
-      nas mesmas tabelas que o BNO25 (n=54.211) sem sinalização de precisão. O CAC de mídia da TRA2
-      (R$ 4.254) sai de **42 compradores**.
-- [ ] **Ticket do próprio vitalício caiu 20%** (BNO24 R$ 2.027 → BP10 R$ 1.625) — parte do "ticket
-      caiu de 1.374 para 1.003" é preço do mesmo produto, não mix. Alavanca de oferta, com dono.
-- [ ] **Gasto prévio médio do comprador** já está calculado (`vl_gasto_previo_medio`, query 03) e não
-      foi usado: ODI R$ 4.305 e CDL R$ 2.322 contra BNO25 R$ 373 e BP10 R$ 634. É o teste direto de
-      "girar a mesma carteira".
-- [ ] **Incrementalidade**: nada aqui separa venda que a mídia causou da que ela só registrou.
-      O caminho é holdout geográfico (o MMM já tem o instrumento — ver `relatorios/midia-paga`).
-- [ ] **Piso de ROAS acordado com o negócio**: a lição do DOM/ELS (`aquecimento-vendas`) se repete —
-      sem piso, cada campanha decide desligar mídia no feeling. Com ROAS 2,35× no BP10 e margem
-      digital m=0,75 (`midia-paga/MARGEM.md`), vale checar se o BP10 ainda estava acima do piso.
+**Com dono e respondíveis já:**
+
+- [ ] 🔑 **Piso de ROAS acordado com o negócio.** Com margem digital 0,75 (`midia-paga/MARGEM.md`)
+      o piso é **1,33×**. O retorno do canal mídia por campanha fica entre 0,13× e 2,31× e **só o
+      CDL passa**. Sem piso acordado, cada campanha decide desligar mídia no feeling — é a mesma
+      lição do DOM/ELS em `aquecimento-vendas`. Levar a tabela do achado 6 para a decisão.
+- [ ] 🔑 **Por que a abordagem do Comercial deixou de ser respondida.** ⚠️ *Substituiu a pendência
+      anterior, "por que o Comercial não foi mobilizado de novo", cuja premissa caiu em 21/09: o
+      time aborda tanto quanto em 2024 (achado 3).* A pergunta certa é sobre a resposta, que caiu
+      de 73,8% para 32,0%. Investigar: qualidade e repetição da lista abordada, canal, horário, e
+      quantas dessas pessoas já tinham sido abordadas em campanha anterior. Cruzar com
+      `dtm_seller_conversion_rate` (Pipedrive), que não entrou nesta análise.
+- [ ] **Segmentação do CRM.** O que caiu não foi produção de peça, foi tamanho de lista: 117 mil
+      pessoas por disparo no BNO24 contra 270 mil no BP10 (achado 5b). Testar o inverso — mesma
+      produção, listas menores — é a leitura acionável do canal que rendeu R$ 107 por mil.
 - [ ] **Custo real do Comercial**: pedir folha + ferramenta ao Financeiro para trocar a comissão de
-      9% (piso) por custo total do canal. Sem isso, toda comparação mídia × Comercial é enviesada.
+      9% (piso) por custo total do canal. Sem isso, toda comparação mídia × Comercial é enviesada
+      a favor do Comercial.
+
+**Bloqueadas por acesso:**
+
 - [ ] 🔑 **Renovar o token da Meta** (`~/meu_projeto/BigQuery/meta_api/.env`) — invalidado em
-      18/09/2026 (erro 190/460). Já **não bloqueia a contagem de anúncios** (resolvida pela planilha),
-      mas ainda destrava o CAC e ticket por criativo. Migrar para System User, que não morre com
-      troca de senha.
+      18/09/2026 (erro 190/460, troca de senha do dono). Não bloqueia mais a contagem de anúncios
+      (resolvida pela planilha), mas destrava **CAC e ticket por criativo**. Migrar para System
+      User, que não morre com troca de senha.
 - [ ] **Escopo de Drive na ADC** para ler as planilhas de mídia direto do BigQuery (external table,
       mesmo padrão dos marts Adveronix) em vez de depender de XLSX baixado. DDL pronto em
       `queries/13_external_tables_planilhas.sql`; a autenticação de 18/09 não pegou os escopos.
-- [ ] **CAC e ticket por criativo**: com o token renovado, `level=ad` nas 9 janelas cruzado com
-      `nm_pptc_utm_content` das transações. É a decomposição do enquadramento no nível em que a
-      mídia decide — e a versão respondível de "qual anúncio traz gente que compra caro".
-- [ ] **Reincidência como alerta operacional**: ODI vendeu 54% para quem já havia comprado no CDL.
-      Vale medir canibalização entre lançamentos de livro antes do próximo.
+- [ ] **CAC e ticket por criativo**: com o token renovado, `level=ad` nas 8 janelas cruzado com
+      `nm_pptc_utm_content` das transações. É a versão respondível de "qual anúncio traz gente que
+      compra caro".
+
+**Limites de método, para quem for usar os números:**
+
+- [ ] **Incrementalidade**: nada aqui separa venda que a mídia causou da que ela só registrou por
+      último. O caminho é holdout geográfico — o MMM já tem o instrumento (`relatorios/midia-paga`).
+- [ ] **Intervalo de confiança**: campanhas pequenas (TRA2 n=371, BIT n=1.549, DBI n=1.167) aparecem
+      nas mesmas tabelas que o BNO24 (n=29.313) sem sinalização de precisão. O CAC de mídia da TRA2
+      (R$ 4.254) sai de **42 compradores**, e o alto ticket do DBI, de **31**. Só o DBI está
+      marcado na página.
+- [ ] **Gasto prévio médio do comprador** já calculado (`vl_gasto_previo_medio`, query 03) e não
+      usado: ODI R$ 4.305 e CDL R$ 2.322 contra BP10 R$ 634. É o teste direto de "girar a mesma
+      carteira" e fecha com o achado 4b (vitalício como comprador principal).
+- [ ] **Reincidência como alerta operacional**: a ODI vendeu 50,7% para quem já havia comprado em
+      campanha anterior, sendo 40,8% especificamente do CDL. Vale medir canibalização entre
+      lançamentos de livro antes do próximo.
+
+**Resolvido, não reabrir:**
+
+- ✅ *"Ticket do vitalício caiu 20%"* — respondido pelo achado 2b: é reprecificação deliberada do
+  Premium (−32% de preço, +77% de volume, receita estável), não perda de valor.
+- ✅ *"O CRM perdeu eficiência"* — refutado (achado 5); o que mudou foi segmentação (achado 5b).
+- ✅ *"O Comercial foi desmobilizado"* — refutado em 21/09 (achado 3).
 
 ## Queries
 
@@ -993,6 +1050,7 @@ BP10/ODI/CDL.
 | [queries/09_testes_atribuicao.sql](queries/09_testes_atribuicao.sql) | Os 2 testes de robustez: universo rastro×janela e série mensal de canal da casa |
 | [queries/10_conversao_comercial.sql](queries/10_conversao_comercial.sql) | Funil do Comercial: abordagem → conversa → venda em 14d |
 | [queries/11_qtd_anuncios.sql](queries/11_qtd_anuncios.sql) | (superada pela 14) Qtd. de anúncios só pelo warehouse |
+| [queries/12_pecas_criadas.sql](queries/12_pecas_criadas.sql) | Produção: anúncios e peças de CRM por campanha — ⚠️ separa **disparo** de **peça criativa**, ver cabeçalho |
 | [queries/13_external_tables_planilhas.sql](queries/13_external_tables_planilhas.sql) | DDL das external tables sobre as planilhas — ⚠️ requer escopo de Drive na ADC |
 | [queries/14_qtd_anuncios_v2.sql](queries/14_qtd_anuncios_v2.sql) | Qtd. de anúncios pelas duas fontes, com a definição de cada uma |
 | [queries/15_cac_por_faixa_valor.sql](queries/15_cac_por_faixa_valor.sql) | CAC separado por faixa de valor da venda (alto / médio / entrada) |
@@ -1007,16 +1065,50 @@ BP10/ODI/CDL.
 
 ## Wiki atualizada
 
-- `wiki-bp/pages/meta-insider-ads.md` — como recuperar spend Meta anterior a ago/2025 pela Marketing API
-- `wiki-bp/pages/metricas-referencia.md` — CAC/ROAS das 9 campanhas high-ticket + decomposição do CAC
-- `wiki-brasil-paralelo/pages/campanhas-contexto.md` — oferta e resultado de BNO24 vs BNO25
+**`wiki-bp/pages/metricas-referencia.md`** — seção High-ticket, com:
+- CAC, ROAS e mix de canal por campanha + decomposição do CAC (mix × ticket × preço do canal)
+- Economia por canal e custo por real de receita (Comercial 9% · CRM 9–13% · mídia 43–100%)
+- Custo de aquisição total e quanto sobra — com o bloco 🚫 **não é margem**
+- CAC por faixa de valor e por família de produto
+- Vitalício: preço e volume por degrau (BNO24 × BP10)
+- Membro comprador: vitalício × assinante corrente
+- Recorte campanha × alto ticket (de onde vem o comprador caro)
+- Produção de CRM e de anúncios + 🚨 gotcha do `COUNT(DISTINCT nm_campaign)`
+- Esforço do Comercial normalizado + 🚨 gotcha de comparar abordagens/dia entre campanhas
+- ⚠️ aviso de que o relatório publicado tem 8 campanhas e os números do BNO25 não somam com ele
+
+**`wiki-brasil-paralelo/pages/regras-negocio.md`** — §Atribuição de venda a campanha: toda venda no
+período conta (venda do Comercial muitas vezes não tem rastreio); tabela de qual universo usar por
+pergunta; alerta de nunca comparar campanhas pelo universo principal de cada uma.
+
+**`wiki-bp/pages/meta-insider-ads.md`** — como recuperar spend Meta anterior a ago/2025 pela
+Marketing API; invalidação do token e recomendação de System User.
+
+**`wiki-brasil-paralelo/pages/campanhas-contexto.md`** — oferta e resultado do BNO24; estrutura das
+planilhas de mídia paga (correção da descrição anterior).
+
+Todas as edições estão registradas em `wiki-bp/log.md`.
 
 ## Checklist de revisão
 
+**Dados e método**
 - [x] `nm_status='approved'`, `bl_is_renovation=FALSE` em todas as queries
 - [x] Universo validado contra 5 referências independentes (planilha, aquecimento-vendas, wiki, cbo_daily_members)
 - [x] Whitelist de membership aplicada (sem ela, comprador de livro vira "membro")
 - [x] Fonte de mídia validada: API × warehouse com 0,0% de diferença em 13 meses
 - [x] Canal separado (Comercial vs Digital vs CRM) em todas as tabelas
 - [x] Métrica principal correta para o contexto (ROAS, não CAC, entre tickets diferentes)
+
+**Aprendido em 21/09 — verificar sempre antes de publicar**
+- [x] **Régua fixada** em toda comparação campanha × campanha (não usar o universo principal de
+      cada uma)
+- [x] **Amostra dos valores** olhada antes de publicar qualquer `COUNT(DISTINCT <campo de nome>)`
+- [x] **Duração normalizada** antes de comparar qualquer métrica "por dia" entre campanhas
+- [x] **Tautologia checada**: a métrica varia por desempenho ou pela convenção de rateio?
+- [x] Números de amostra pequena marcados na página (DBI, n=31)
+
+**Publicação**
 - [x] Paleta dos gráficos validada com `validate_palette.js`
+- [x] Página renderizada e **console do navegador sem erro** (contar linhas de tabela não basta)
+- [x] Página sem referência a versões anteriores dela mesma (histórico fica neste memo)
+- [x] Sem PII no `data.json` (repo é público)
