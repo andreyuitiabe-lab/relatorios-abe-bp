@@ -244,6 +244,23 @@
     <p class="dek">O tráfego da LP acompanha o tamanho da mídia, não o do CRM. E quem chega converte
       bem pior que na ENE, o que aponta para oferta e página, não só para criativo.</p>
     <div class="card">
+      <div class="stats" style="margin-bottom:4px">
+        <div class="bigstat">
+          <div class="bs-num" id="convEne" style="color:var(--s1)">—</div>
+          <div class="bs-cap">Enéas — de cada 100 sessões na LP de venda, quantas viraram compra</div>
+        </div>
+        <div class="bigstat">
+          <div class="bs-num" id="convLac" style="color:var(--s2)">—</div>
+          <div class="bs-cap">Carlos Lacerda — <span id="convGap">—</span> a conversão da Enéas</div>
+        </div>
+      </div>
+      <div class="tscroll"><table>
+        <thead><tr><th>Da LP até a venda (D1–D3)</th><th class="num">Enéas</th><th class="num">Lacerda</th></tr></thead>
+        <tbody id="tabFunil"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
       <p class="label">Pageviews na LP de venda, por dia</p>
       <canvas id="chartLp" height="180"></canvas>
     </div>
@@ -642,7 +659,20 @@ function initCharts(D) {
     const r = D.vendas.find(x => x.sigla === s && x.dia === d && x.dt);
     return { tx: a.tx + (r?.qt_transacoes ?? 0), rec: a.rec + (r?.vl_receita ?? 0) };
   }, { tx: 0, rec: 0 });
-  const convENE = vD3('ENE').tx / lpSess('ENE', 'venda') * 100, convLAC = vD3('LAC').tx / lpSess('LAC', 'venda') * 100;
+  const convENE = vD3('ENE').tx / lpSess('ENE', 'venda') * 100,
+        convLAC = vD3('LAC').tx / lpSess('LAC', 'venda') * 100;
+  document.getElementById('convEne').textContent = pc(convENE, 2);
+  document.getElementById('convLac').textContent = pc(convLAC, 2);
+  document.getElementById('convGap').textContent = br(convENE / convLAC, 1) + '× pior que';
+  document.getElementById('tabFunil').innerHTML = [
+    ['Sessões na LP de venda', nf(lpSess('ENE', 'venda')), nf(lpSess('LAC', 'venda'))],
+    ['Transações (rastro)', nf(vD3('ENE').tx), nf(vD3('LAC').tx)],
+    ['<strong>Conversão sessão → venda</strong>', '<strong>' + pc(convENE, 2) + '</strong>',
+     '<strong>' + pc(convLAC, 2) + '</strong>'],
+    ['Sessões por venda', nf(Math.round(lpSess('ENE', 'venda') / vD3('ENE').tx)),
+                          nf(Math.round(lpSess('LAC', 'venda') / vD3('LAC').tx))]
+  ].map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join('');
+
   document.getElementById('notaConversao').innerHTML =
     `<strong>Conversão de sessão em venda:</strong> ${pc(convLAC, 2)} na LAC contra ${pc(convENE, 2)} na ENE — ` +
     `${br(convENE / convLAC, 1)}× pior. Ou seja: além de chegar menos gente, quem chega compra menos. ` +
