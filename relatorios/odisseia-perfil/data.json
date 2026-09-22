@@ -1,234 +1,234 @@
 {
-  "updated_at": "2026-08-25T10:09:34",
+  "updated_at": "2026-09-22T14:13:32",
   "totais": {
-    "compradores": 2829,
-    "receita_total": 3446948,
-    "ticket_medio": 1218,
+    "compradores": 3771,
+    "receita_total": 4580485,
+    "ticket_medio": 1215,
     "periodo_inicio": "2026-07-17",
-    "periodo_fim": "2026-08-25"
+    "periodo_fim": "2026-09-21"
   },
   "status": [
     {
       "label": "Vitalício",
-      "qt": 1307,
-      "pct": 46.2
+      "qt": 1802,
+      "pct": 47.8
     },
     {
       "label": "Membro Ativo",
-      "qt": 889,
-      "pct": 31.4
+      "qt": 1147,
+      "pct": 30.4
     },
     {
       "label": "Nunca foi Membro",
-      "qt": 367,
-      "pct": 13.0
+      "qt": 497,
+      "pct": 13.2
     },
     {
       "label": "Ex-Membro",
-      "qt": 266,
-      "pct": 9.4
+      "qt": 325,
+      "pct": 8.6
     }
   ],
   "antiguidade": [
     {
       "label": "Odisseia como 1ª compra",
-      "qt": 290,
-      "pct": 10.3,
+      "qt": 398,
+      "pct": 10.6,
       "media_dias": 0
     },
     {
       "label": "< 6 meses",
-      "qt": 278,
-      "pct": 9.8,
-      "media_dias": 54
+      "qt": 387,
+      "pct": 10.3,
+      "media_dias": 52
     },
     {
       "label": "6–12 meses",
-      "qt": 88,
-      "pct": 3.1,
-      "media_dias": 286
+      "qt": 112,
+      "pct": 3.0,
+      "media_dias": 282
     },
     {
       "label": "1–2 anos",
-      "qt": 270,
-      "pct": 9.5,
-      "media_dias": 588
+      "qt": 365,
+      "pct": 9.7,
+      "media_dias": 587
     },
     {
       "label": "2–4 anos",
-      "qt": 582,
-      "pct": 20.6,
-      "media_dias": 1229
+      "qt": 771,
+      "pct": 20.4,
+      "media_dias": 1227
     },
     {
       "label": "Mais de 4 anos",
-      "qt": 1321,
-      "pct": 46.7,
-      "media_dias": 2106
+      "qt": 1738,
+      "pct": 46.1,
+      "media_dias": 2098
     }
   ],
   "produtos_antes": [
     {
       "plano": "Clube Do Livro",
-      "compradores": 1521,
-      "pct": 53.8
+      "compradores": 2015,
+      "pct": 53.4
     },
     {
       "plano": "Básico",
-      "compradores": 1120,
-      "pct": 39.6
+      "compradores": 1474,
+      "pct": 39.1
     },
     {
       "plano": "Premium GBB",
-      "compradores": 1036,
-      "pct": 36.6
-    },
-    {
-      "plano": "Núcleo",
-      "compradores": 681,
-      "pct": 24.1
+      "compradores": 1360,
+      "pct": 36.1
     },
     {
       "plano": "Patriota",
-      "compradores": 667,
-      "pct": 23.6
+      "compradores": 898,
+      "pct": 23.8
     },
     {
       "plano": "Black Vitalício",
-      "compradores": 666,
-      "pct": 23.5
-    },
-    {
-      "plano": "Acesso Total",
-      "compradores": 663,
-      "pct": 23.4
+      "compradores": 889,
+      "pct": 23.6
     },
     {
       "plano": "Premium GBB Vitalício",
-      "compradores": 649,
-      "pct": 22.9
+      "compradores": 873,
+      "pct": 23.2
+    },
+    {
+      "plano": "Núcleo",
+      "compradores": 869,
+      "pct": 23.0
+    },
+    {
+      "plano": "Acesso Total",
+      "compradores": 861,
+      "pct": 22.8
     },
     {
       "plano": "Ebooks Audiolivros Clube Do Livro",
-      "compradores": 412,
-      "pct": 14.6
-    },
-    {
-      "plano": "Mecenas",
-      "compradores": 377,
-      "pct": 13.3
+      "compradores": 534,
+      "pct": 14.2
     },
     {
       "plano": "Apoiador",
-      "compradores": 363,
-      "pct": 12.8
+      "compradores": 496,
+      "pct": 13.2
+    },
+    {
+      "plano": "Mecenas",
+      "compradores": 485,
+      "pct": 12.9
     },
     {
       "plano": "Teller",
-      "compradores": 348,
-      "pct": 12.3
+      "compradores": 447,
+      "pct": 11.9
     },
     {
       "plano": "Básico Vitalício",
-      "compradores": 284,
-      "pct": 10.0
+      "compradores": 416,
+      "pct": 11.0
     },
     {
       "plano": "Travessia",
-      "compradores": 257,
-      "pct": 9.1
+      "compradores": 350,
+      "pct": 9.3
     },
     {
       "plano": "Intermediário",
-      "compradores": 162,
-      "pct": 5.7
+      "compradores": 209,
+      "pct": 5.5
     },
     {
       "plano": "Sociedade Do Livro",
-      "compradores": 157,
+      "compradores": 207,
       "pct": 5.5
     },
     {
       "plano": "Black",
-      "compradores": 106,
-      "pct": 3.7
+      "compradores": 150,
+      "pct": 4.0
     },
     {
       "plano": "Clube Da Musica",
-      "compradores": 89,
-      "pct": 3.1
-    },
-    {
-      "plano": "Escola Da Familia",
-      "compradores": 60,
-      "pct": 2.1
+      "compradores": 107,
+      "pct": 2.8
     },
     {
       "plano": "Ciencia Politica",
-      "compradores": 59,
-      "pct": 2.1
+      "compradores": 83,
+      "pct": 2.2
+    },
+    {
+      "plano": "Funil Bitcoin",
+      "compradores": 77,
+      "pct": 2.0
     }
   ],
   "canal": [
     {
       "canal": "Digital",
-      "qt": 2042,
-      "pct": 72.2,
-      "ticket_medio": 1234,
-      "receita": 2519207
+      "qt": 2427,
+      "pct": 64.4,
+      "ticket_medio": 1232,
+      "receita": 2991127
     },
     {
       "canal": "Comercial",
-      "qt": 787,
-      "pct": 27.8,
-      "ticket_medio": 1179,
-      "receita": 927741
+      "qt": 1344,
+      "pct": 35.6,
+      "ticket_medio": 1183,
+      "receita": 1589358
     }
   ],
   "consumo": {
-    "gasto_medio": 6170,
-    "mediana_gasto": 3177,
+    "gasto_medio": 6243,
+    "mediana_gasto": 3234,
     "media_planos": 3.9,
-    "com_historico": 2517
+    "com_historico": 3326
   },
   "tipo": [
     {
       "label": "Livro físico",
-      "qt": 2633,
-      "pct": 93.1,
-      "ticket_medio": 1272,
-      "receita": 3349242
+      "qt": 3523,
+      "pct": 93.4,
+      "ticket_medio": 1265,
+      "receita": 4458135
     },
     {
       "label": "Só digital (curso/ebook)",
-      "qt": 196,
-      "pct": 6.9,
-      "ticket_medio": 498,
-      "receita": 97705
+      "qt": 248,
+      "pct": 6.6,
+      "ticket_medio": 493,
+      "receita": 122350
     }
   ],
   "interseccao": {
     "grupos": [
       {
         "label": "Só Clube do Livro",
-        "qt": 23170,
-        "pct": 89.1,
-        "receita": 29720289,
+        "qt": 22732,
+        "pct": 85.8,
+        "receita": 29159086,
         "ticket_medio": 1283
       },
       {
         "label": "Comprou os dois",
-        "qt": 1583,
-        "pct": 6.1,
-        "receita": 3983959,
-        "ticket_medio": 2517
+        "qt": 2107,
+        "pct": 8.0,
+        "receita": 5288109,
+        "ticket_medio": 2510
       },
       {
         "label": "Só Odisseia",
-        "qt": 1246,
-        "pct": 4.8,
-        "receita": 1502556,
-        "ticket_medio": 1206
+        "qt": 1664,
+        "pct": 6.3,
+        "receita": 1996560,
+        "ticket_medio": 1200
       }
     ]
   },
@@ -236,19 +236,19 @@
     "grupos": [
       {
         "label": "Comprou o CDL antes",
-        "qt": 1569,
-        "pct": 55.5,
-        "ticket_medio": 1229
+        "qt": 2090,
+        "pct": 55.4,
+        "ticket_medio": 1226
       },
       {
         "label": "Não comprou o CDL",
-        "qt": 1260,
-        "pct": 44.5,
-        "ticket_medio": 1205
+        "qt": 1681,
+        "pct": 44.6,
+        "ticket_medio": 1200
       }
     ],
-    "base_cdl": 24753,
-    "veio_do_cdl": 1569,
-    "taxa_recompra": 6.34
+    "base_cdl": 24839,
+    "veio_do_cdl": 2090,
+    "taxa_recompra": 8.41
   }
 }

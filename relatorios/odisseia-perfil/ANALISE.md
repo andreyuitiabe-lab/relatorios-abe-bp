@@ -31,77 +31,79 @@ entre as duas bases (quantos compraram os dois), que é o número que informa a 
 
 ## Achados principais
 
-**Odisseia (17/07–25/08/2026):** 2.829 compradores · R$ 3,45M · ticket R$ 1.218 · 93,1% levam o livro impresso.
+**Odisseia (17/07–21/09/2026):** 3.771 compradores · R$ 4,58M · ticket R$ 1.215 · 93,4% levam o livro impresso.
 
-**Status no momento da compra — 87,0% já eram clientes BP:**
+_Atualizado em 22/09/2026._
+
+**Status no momento da compra — 86,8% já eram clientes BP:**
 
 | Status | Odisseia | Clube do Livro |
 |---|---|---|
-| Vitalício | **46,2%** (1.307) | 30,5% (7.539) |
-| Membro Ativo | 31,4% (889) | 36,5% (9.028) |
-| Ex-Membro | 9,4% (266) | 15,4% (3.817) |
-| Nunca foi Membro | 13,0% (367) | 17,7% (4.369) |
+| Vitalício | **47,8%** (1.802) | 30,5% (7.569) |
+| Membro Ativo | 30,4% (1.147) | 36,4% (9.053) |
+| Ex-Membro | 8,6% (325) | 15,4% (3.826) |
+| Nunca foi Membro | 13,2% (497) | 17,7% (4.391) |
 
-→ A Odisseia é **muito mais dependente do vitalício** (46% vs 30%). Faz sentido: quem já pagou pelo acesso
+→ A Odisseia é **muito mais dependente do vitalício** (48% vs 30%). Faz sentido: quem já pagou pelo acesso
 máximo não tem próximo passo na assinatura — o objeto físico é o upgrade possível.
 
 **Interseção CDL × Odisseia (por `id_person`):**
 
 | Grupo | Pessoas | % | Receita em livros |
 |---|---|---|---|
-| Só Clube do Livro | 23.170 | 89,1% | R$ 29,7M |
-| **Comprou os dois** | **1.583** | **6,1%** | R$ 4,0M |
-| Só Odisseia | 1.246 | 4,8% | R$ 1,5M |
-| **Total de pessoas** | **25.999** | 100% | R$ 35,2M |
+| Só Clube do Livro | 22.732 | 85,8% | R$ 29,2M |
+| **Comprou os dois** | **2.107** | **8,0%** | R$ 5,3M |
+| Só Odisseia | 1.664 | 6,3% | R$ 2,0M |
+| **Total de pessoas** | **26.503** | 100% | R$ 36,4M |
 
-- **Recompra CDL → Odisseia: 6,3%** (1.569 dos 24.753 compradores do CDL compraram a Odisseia depois).
-  Sobe dos 4,0% medidos em 12/08 — a curva ainda estava rodando.
-- **55,5% dos compradores da Odisseia vieram do CDL.** Metade da demanda do 2º livro é a base do 1º.
-- Quem comprou os dois gasta **R$ 2.517 em livros** por pessoa, contra R$ 1.283 de quem só comprou o CDL.
+- **Recompra CDL → Odisseia: 8,4%** (2.090 dos 24.839 compradores do CDL compraram a Odisseia depois).
+  Sobe dos 6,3% medidos em 25/08 e dos 4,0% de 12/08 — a curva segue rodando.
+- **55,4% dos compradores da Odisseia vieram do CDL.** Metade da demanda do 2º livro é a base do 1º.
+- Quem comprou os dois gasta **R$ 2.510 em livros** por pessoa, contra R$ 1.283 de quem só comprou o CDL.
 
 **Antiguidade — a Odisseia vende para quem tem mais casa:**
-- 2+ anos de BP: 67,3% (CDL: 62,2%) · mais de 4 anos: 46,7% (CDL: 39,3%)
-- Entrou na BP pela Odisseia: 10,3% (290) — no CDL foram 17,7%. **Livro caro capta menos gente nova.**
+- 2+ anos de BP: 66,5% (CDL: 62,2%) · mais de 4 anos: 46,1% (CDL: 39,3%)
+- Entrou na BP pela Odisseia: 10,6% (398) — no CDL foram 17,7%. **Livro caro capta menos gente nova.**
 
 **Produtos que tinham antes (% da base Odisseia):**
-- **Clube do Livro 53,8%** (1.521) — mais frequente que qualquer plano de assinatura
-- Básico 39,6% · Premium GBB 36,6% · Núcleo 24,1% · Patriota 23,6% · Black Vitalício 23,5%
-- Acesso Total 23,4% · Premium GBB Vitalício 22,9% · Ebooks/Audiolivros CDL 14,6% · Mecenas 13,3%
+- **Clube do Livro 53,4%** (2.015) — mais frequente que qualquer plano de assinatura
+- Básico 39,1% · Premium GBB 36,1% · Patriota 23,8% · Black Vitalício 23,6% · Premium GBB Vitalício 23,2%
+- Núcleo 23,0% · Acesso Total 22,8% · Ebooks/Audiolivros CDL 14,2% · Mecenas 12,9%
 
 **Consumo histórico — comprador da Odisseia é 2× mais valioso que o do CDL:**
-- Gasto médio antes: **R$ 6.170** (mediana R$ 3.177) vs R$ 3.072 (mediana R$ 1.200) do CDL
-- 3,9 planos distintos por pessoa (CDL: 2,8) · 89% tinham histórico de compra anterior
+- Gasto médio antes: **R$ 6.243** (mediana R$ 3.234) vs R$ 3.067 (mediana R$ 1.200) do CDL
+- 3,9 planos distintos por pessoa (CDL: 2,8) · 88% tinham histórico de compra anterior
 
-**Canal:** Digital 72,2% (2.042) · Comercial 27,8% (787) — invertido em relação ao CDL (51,2% Comercial).
+**Canal:** Digital 64,4% (2.427) · Comercial 35,6% (1.344) — invertido em relação ao CDL (51,3% Comercial). O Comercial ganhou peso desde 25/08 (era 27,8%).
 Consistente com o diagnóstico do `odisseia-lancamento`: o Comercial nunca recebeu a Odisseia como pauta fixa.
 
 **Ofertas e comportamento** (detalhe em `bq-planos.md` §Odisseia e §Clube do Livro):
 - CDL: lotes, order bumps e bundles (Black, audiobook), 18x — ticket médio R$ 1.274, 51% via Comercial.
 - Odisseia: 3 tiers de preço (R$ 1.500 não-membro / R$ 1.350 vitalício-mecenas / R$ 1.200 comprador CDL),
   sem lotes; combo com Travessia (R$ 1.548) desde 26/07; tiers do Comercial Bronze/Prata/Ouro;
-  curso avulso desde 05/08. O pacote **só-digital é 6,9% dos compradores a ticket R$ 498** — existe
+  curso avulso desde 05/08. O pacote **só-digital é 6,6% dos compradores a ticket R$ 493** — existe
   demanda por versão barata, mas ela não é o produto.
 
 ## O que isso diz sobre o Box A Última Cruzada
 
 1. **A carteira de "compradores de livro caro" é pequena e se repete.** 26 mil pessoas ao todo nos dois
-   livros, e a recompra de um para o outro roda a 6,3%. Um terceiro livro disputa majoritariamente a
-   mesma base — o forecast do SSR (~7.000) precisa dessa régua: seria 4,4× o volume da Odisseia.
+   livros, e a recompra de um para o outro roda a 8,4%. Um terceiro livro disputa majoritariamente a
+   mesma base — o forecast do SSR (~7.000) precisa dessa régua: seria 1,9× o volume da Odisseia.
 2. **O núcleo é vitalício + antiguidade + alto LTV**, não "leitor". A oferta mais eficiente é a mesma
    lista de sempre; o que muda é o preço.
 3. **Preço é a alavanca de ampliação.** O Box a R$ 850 fica abaixo do teto da média renda (R$ 800 no PSM
    — ainda acima, mas muito mais perto que os R$ 1.200–1.500 da Odisseia), e o IP é de massa. É a chance
    de sair da carteira de 26 mil — mas isso é hipótese do SSR, não dado observado.
-4. **Captação de público novo por livro é baixa** (10,3% na Odisseia). Se o objetivo do Box for aquisição,
+4. **Captação de público novo por livro é baixa** (10,6% na Odisseia). Se o objetivo do Box for aquisição,
    a régua tem que ser outra; se for monetizar base, o histórico dos dois livros sustenta.
 
 ## Pendências / próximos passos
 
-- A recompra de 6,3% ainda não estabilizou (Odisseia vende há 5 semanas) — remedir em out/2026 para ter
+- A recompra de 8,4% ainda não estabilizou (Odisseia vende há 9 semanas) — remedir em out/2026 para ter
   a taxa madura antes de fechar o forecast do Box.
 - Não medido aqui: **quantos dos compradores compraram por causa da oferta CDL a R$ 1.200** (o desconto
   de recompra) vs preço cheio — sai de `nm_gateway_offer`, vale se a discussão do Box for de precificação.
-- Perfil de renda/cartão dos 1.583 que compraram os dois: insumo natural para o lookalike do Box
+- Perfil de renda/cartão dos 2.107 que compraram os dois: insumo natural para o lookalike do Box
   (padrão em `personas_ssr/`, usa `dim_card_bin_details`).
 
 ## Queries

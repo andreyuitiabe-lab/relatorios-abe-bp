@@ -1,15 +1,17 @@
 # Coleção Brasil: A Última Cruzada — perfil do comprador e abordagem do Comercial
 
-**Data da análise:** 04/09/2026 · **Atualizado:** 08/09/2026 · **Janela:** 01–08/09/2026 (lançamento 01/09)
+**Data da análise:** 04/09/2026 · **Atualizado:** 22/09/2026 · **Janela:** 01–22/09/2026 (lançamento 01/09)
 
-> Números do fechamento de **08/09/2026 10h30**. **A versão viva é o relatório HTML** — `python refresh.py`
+> Números do fechamento de **22/09/2026 14h15**. **A versão viva é o relatório HTML** — `python refresh.py`
 > regera `data.json` e a página inteira a partir das queries de `queries/`.
 >
-> ⚠️ **A leitura mudou entre 04 e 08/09** e a mudança é de mix de canal, não de comportamento.
-> Na primeira semana o Comercial fazia 66% do volume; com a mídia escalando, caiu para
-> 40,4%. Como os dois canais vendem para públicos diferentes, todo agregado se moveu
-> (vitalícios 52,2% hoje contra 70% em 04/09). **O comprador de cada canal não mudou** —
-> mudou quanto cada canal pesa. Ver §"Comercial e digital vendem para pessoas diferentes".
+> ⚠️ **O mix de canal se estabilizou.** Na primeira semana o Comercial fazia 66% do volume,
+> caiu para 40,4% em 08/09 e voltou a 47,3% com a operação comercial rodando em ritmo pleno —
+> os dois canais hoje vendem quase o mesmo (1.621 × 1.804 compradores, receita praticamente
+> empatada). Como vendem para públicos diferentes, todo agregado depende do mix.
+> **O comprador de cada canal não mudou.** Ver §"Comercial e digital vendem para pessoas diferentes".
+>
+> ⚠️ **A leitura do disparo em massa mudou entre 08 e 22/09** — ver §"Abordagem do Comercial".
 
 ## Pergunta original
 
@@ -22,7 +24,7 @@ Quem está comprando a Coleção Brasil: A Última Cruzada — membros ou não? 
   A wiki documentava só 2 planos; existem **4** (`-fisico`, `-completo`, `-completo-cursos`,
   `-digital`) + bundles em `nm_gateway_plan = 'black'` (`Última Cruzada + Black Vitalício/Anual`).
   Filtrar só pelos 2 documentados perderia ~30% das vendas.
-- **Chave de pessoa**: e-mail normalizado (cobre multi-conta). 1.012 compradores aprovados no fechamento de 08/09.
+- **Chave de pessoa**: e-mail normalizado (cobre multi-conta). 3.425 compradores aprovados no fechamento de 22/09.
 - **Membership**: whitelist de tiers de `bq-regras.md`, **excluindo os planos do próprio livro**
   (produto físico gera assinatura-fantasma — sem isso, 100% viraria "membro ativo").
 - **Vitalício**: `bl_lifetime_offer` restrito a planos GBB/produto com "Vitalício", excluindo
@@ -40,7 +42,7 @@ Quem está comprando a Coleção Brasil: A Última Cruzada — membros ou não? 
 - **Detector de script**: a assinatura da abertura pula os 40 primeiros caracteres — quase todo
   script começa com o primeiro nome do cliente, e comparar o início faz disparo de massa parecer
   mensagem única (media 13% de script onde o real é 98%).
-- Benchmark de renda/cartão calculado sobre os 603k membros ativos, para não ler nível de cartão
+- Benchmark de renda/cartão calculado sobre os 604k membros ativos, para não ler nível de cartão
   em absoluto (gotcha de `bq-acesso.md`: Black+ sozinho não é sinal de elite).
 - **Corte por canal em vez de por "fase" da campanha** (decisão de 08/09): a tentação era comparar
   semana 1 × semana 2, mas 05–06/09 é fim de semana e 07/09 é feriado — o Comercial não vende nesses
@@ -49,137 +51,143 @@ Quem está comprando a Coleção Brasil: A Última Cruzada — membros ou não? 
 
 ## Achados principais
 
-### Resultado em 8 dias
-- **1.012 compradores / R$ 1.015.275** (ticket médio R$ 1.003).
-- **Comercial 409 (40,4%) / R$ 404.123**;
-  Digital 603 / R$ 611.151.
-- Curva diária (compradores, Comercial|Digital): 01/09 0|3 · 02/09 76|9 · 03/09 108|68 · 04/09 119|78 · 05/09 22|130* · 06/09 8|157* · 07/09 53|137* · 08/09 23|21
+### Resultado em 22 dias
+- **3.425 compradores / R$ 3.564.068** (ticket médio R$ 1.040).
+- **Comercial 1.621 (47,3%) / R$ 1.785.079**;
+  Digital 1.804 / R$ 1.778.989 — receita praticamente empatada entre os canais.
+- Curva diária (compradores, Comercial|Digital): 01/09 0|3 · 02/09 76|8 · 03/09 107|68 · 04/09 121|75 · 05/09 23|128* · 06/09 9|155* · 07/09 54|134* · 08/09 129|86 · 09/09 103|93 · 10/09 160|59 · 11/09 109|55 · 12/09 25|58* · 13/09 23|75* · 14/09 104|60 · 15/09 76|36 · 16/09 121|84 · 17/09 117|65 · 18/09 109|116 · 19/09 12|140* · 20/09 17|160* · 21/09 91|91 · 22/09 35|55
   — `*` = fim de semana ou feriado (o Comercial não vende nesses dias; o digital não para).
   ⚠️ O último dia é parcial.
-- **Inversão de mix na virada da semana**: o digital passou de 9 compradores (02/09) para 157 (06/09).
-  O Comercial oscila com o calendário, então **não se pode concluir que ele desacelerou** — a queda de
-  119 (sex 04) para 22 (sáb 05) e 8 (dom 06) é operacional.
-- Mix de produto: Físico 721 (ticket R$ 942),
-  Completo 264 (R$ 1.198),
-  Digital 25 (R$ 414), Bundle Black 2.
-- **Recusa/abandono**: 376 pessoas (488 tentativas) —
-  ~37% do número de compradores, sem fluxo de recuperação aparente.
+- **A venda não desacelerou na 3ª semana**: o pico do Comercial é 10/09 (160) e o do digital 20/09 (160).
+  O padrão semanal é nítido — Comercial cai para 9–25 em fins de semana e feriado, o digital sobe.
+  Quem lê o dia isolado lê calendário, não desempenho.
+- Mix de produto: Físico 2.369 (ticket R$ 956),
+  Completo 927 (R$ 1.260),
+  Digital 109 (R$ 379), Bundle Black 15 (R$ 4.364).
+- **Recusa/abandono**: 1.448 pessoas (1.931 tentativas) —
+  42% do número de compradores, sem fluxo de recuperação aparente. O volume cresceu junto com a venda.
 
 ### Comercial e digital vendem para pessoas diferentes
 O mesmo produto, dois públicos. É isso que explica a diluição do agregado.
 
 | Indicador | Comercial | Digital | Razão |
 |---|---:|---:|---:|
-| Compradores | 409 | 603 | ÷1,5 |
-| Ticket médio | R$ 988 | R$ 1.013 | ~1× |
-| Membro ativo | 82,15% | 57,38% | 1,4× |
-| Vitalício | 73,59% | 37,65% | **2,0×** |
-| Comprou o CDL | 54,77% | 42,45% | 1,3× |
-| 1ª compra na BP | 4,65% | 12,44% | ÷2,7 |
-| LTV anterior (mediana) | R$ 6.190 | R$ 2.490 | **2,5×** |
-| Cartão premium | 85,82% | 84,64% | ~1× |
-| Sem sessão em 90d | 36,92% | 61,69% | ÷1,7 |
+| Compradores | 1.621 | 1.804 | ÷1,1 |
+| Ticket médio | R$ 1.101 | R$ 986 | 1,1× |
+| Membro ativo | 76,8% | 59,3% | 1,3× |
+| Vitalício | 62,6% | 35,8% | **1,7×** |
+| Comprou o CDL | 49,6% | 37,2% | 1,3× |
+| 1ª compra na BP | 6,4% | 14,4% | ÷2,3 |
+| LTV anterior (mediana) | R$ 4.960 | R$ 2.472 | **2,0×** |
+| Cartão premium | 82,9% | 83,4% | ~1× |
+| Sem sessão em 90d | 38,5% | 61,3% | ÷1,6 |
 
 - O Comercial vende para a base fiel; o digital para um público **muito mais frio em vínculo**
-  (37,65% de vitalícios contra 73,59%, LTV 2,5× menor).
-- ✅ **Mas o poder de compra é o mesmo**: cartão premium 85,82% × 84,64%
-  e ticket praticamente igual. A mídia não desceu de faixa econômica — está alcançando o mesmo tipo de
+  (35,8% de vitalícios contra 62,6%, LTV 2,0× menor). A distância encolheu com o tempo, mas se mantém.
+- ✅ **Mas o poder de compra é o mesmo**: cartão premium 82,9% × 83,4%
+  e ticket na mesma faixa. A mídia não desceu de faixa econômica — está alcançando o mesmo tipo de
   gente com dinheiro que ainda não tem vínculo forte com a BP. Canais complementares, não substitutos.
 
 ### Vínculo com a base (agregado — ler junto com o corte por canal acima)
-- **90,7% já eram clientes**; 94 pessoas fizeram a 1ª compra na BP
-  (eram 13 em 04/09 — o crescimento é quase todo do digital).
-- **67,4% membros ativos · 52,2% vitalícios ·
-  15,1% Mecenas · 47,4% compraram o CDL ·
-  20,9% a Odisseia.**
-- **LTV anterior mediano R$ 4.061**; 50,9% já gastou R$ 4 mil+.
-- **Tempo de casa mediano 3,98 anos.**
-- **Penetração de 1,93% entre os 24,9k compradores do CDL** —
-  o público natural da carteira segue longe de saturado.
+- **89,4% já eram clientes**; 363 pessoas fizeram a 1ª compra na BP
+  (eram 13 em 04/09 e 94 em 08/09 — o crescimento é quase todo do digital).
+- **67,6% membros ativos · 48,5% vitalícios ·
+  13,3% Mecenas · 43,1% compraram o CDL ·
+  17,8% a Odisseia.**
+- **LTV anterior mediano R$ 3.402**; 45,9% já gastou R$ 4 mil+.
+- **Tempo de casa mediano 3,98 anos** (média 3,79).
+- **Penetração de 5,9% entre os 24,9k compradores do CDL** (1.475 pessoas; era 1,93% em 08/09) —
+  o público natural da carteira ainda tem folga, mas está sendo consumido rápido.
 
 ### Perfil socioeconômico (acima da base, com folga)
 | Indicador | Compradores UC | Base membros ativos | Lift |
 |---|---:|---:|---:|
-| Cartão premium (Black/Amex/Platinum) | 85,1% | 57,2% | **1,5×** |
-| Cartão nível Black | 64,9% | 30,5% | **2,1×** |
-| Renda (decil 8–10 do CEP) | 58,4% | 31,7% | **1,8×** |
+| Cartão premium (Black/Amex/Platinum) | 83,1% | 57,4% | **1,4×** |
+| Cartão nível Black | 60,9% | 30,7% | **2,0×** |
+| Renda (decil 8–10 do CEP) | 54,4% | 31,8% | **1,7×** |
 
-- Gênero inferido: 69% masculino.
-- Idade (dado em 533 de 1012): **68% tem 45 anos ou mais**.
-- Geografia: SP 30%, RJ 12%, RS 10%, PR 7%, MG 7%, DF 6%.
-- Pagamento: 86% cartão (12x é o padrão de todas as ofertas), 12% Pix.
+- Gênero inferido: 64% masculino.
+- Idade (dado em 1.823 de 3.425): **74% tem 45 anos ou mais**.
+- Geografia: SP 30%, RJ 11%, MG 10%, RS 8%, PR 7%, SC 6%, DF 5%.
+- Pagamento: 84% cartão (12x é o padrão de todas as ofertas), 14% Pix.
 
 ### Engajamento: compra sem consumo
-- **51,7% dos compradores não teve nenhuma sessão na plataforma nos últimos 90 dias** (era 43% em 04/09 — subiu com o peso do digital, que tem 61,69%).
-  Só 15% são usuários de alto engajamento (11+ dias ativos em 90d).
+- **50,5% dos compradores não teve nenhuma sessão na plataforma nos últimos 90 dias** (era 43% em 04/09 — subiu com o peso do digital, que tem 61,3%).
+  Só 8% são usuários de alto engajamento (11+ dias ativos em 90d).
 - O produto físico vende para quem **tem vínculo mas não consome** — colecionador, não espectador.
-- O Comercial converte melhor exatamente na faixa engajada leve/média (73–74% das vendas dessas
-  faixas são comerciais) e pior nos totalmente inativos (57%).
+- O Comercial converte melhor exatamente na faixa engajada leve/média (56–68% das vendas dessas
+  faixas são comerciais) e pior nos totalmente inativos (36%).
 
-### Abordagem do Comercial: o disparo frio não abre conversa
-**13.414 prospects abordados** desde o lançamento. Grupos mutuamente exclusivos.
+### Abordagem do Comercial: o disparo abre conversa, mas não vende
+**20.201 prospects abordados** desde o lançamento. Grupos mutuamente exclusivos.
 
 | Tipo de abordagem | Prospects | Respondeu | Comprou | Conversão | Receita | Abertura scriptada |
 |---|---:|---:|---:|---:|---:|---:|
-| Disparo em massa (só a peça) | 6.027 | **0,23%** | 16 | **0,265%** | R$ 15.985 | 99% |
-| Disparo + atendimento de vendedor | 457 | 80,74% | 31 | 6,783% | R$ 27.782 | 99% |
-| Abordagem do vendedor (sem disparo) | 6.930 | **25,76%** | 326 | **4,704%** | R$ 330.897 | 77% |
+| Disparo em massa (só a peça) | 2.583 | **13,55%** | 43 | **1,67%** | R$ 49.625 | 88% |
+| Disparo + atendimento de vendedor | 23 | 73,91% | 3 | 13,04% | R$ 2.854 | 87% |
+| Abordagem do vendedor (sem disparo) | 17.595 | **31,44%** | 744 | **4,23%** | R$ 837.647 | 54% |
 
-- **A peça de disparo, sozinha, segue quase inerte**: 6.027 prospects, 0,23% de
-  resposta, 16 vendas, R$ 15.985. Quem foi atendido por vendedor converte
-  18× mais e trouxe R$ 330.897.
-- ⚠️ **O disparo não aquece — ele seleciona** (conclusão mantida com 4 dias a mais de dados).
-  Controlando pela etapa `carteiraMecenas`: disparo puro 0,3% · disparo + atendimento
-  7,52% · **vendedor sem disparo 8,02%**. Quem recebeu a peça antes de falar com o
-  vendedor continua convertendo **menos** que quem nunca recebeu.
-- ⚠️ **O mecanismo segue não testado.** 77% das "abordagens de vendedor" abrem com
-  texto repetido em 20+ conversas — os dois lados são disparo scriptado. A diferença de
-  0,23% para 25,76% na resposta é real, mas não é personalização.
-- `carteiraMecenas` concentra a operação: 8.932 prospects,
-  330 vendas (3,69%).
-- Vendas entre **29 vendedores** (líder com 68).
+⚠️ **A leitura do disparo mudou entre 08 e 22/09.** Em 08/09 a peça de disparo parecia inerte
+(0,23% de resposta, 16 vendas). Com a base completa ela responde a **13,55%** e converte a 1,67%.
+O que não mudou é a comparação: **quem é atendido por vendedor sem disparo converte 2,5× mais**
+(4,23% × 1,67%) e traz 17× mais receita.
+
+- ⚠️ **O disparo não aquece — ele seleciona** (conclusão mantida, com margem menor).
+  Controlando pela etapa `carteiraMecenas`: disparo puro **1,8%** · disparo + atendimento 13,6% ·
+  **vendedor sem disparo 9,87%**. Quem recebeu a peça antes de falar com o vendedor
+  continua convertendo bem menos que quem nunca recebeu.
+- ⚠️ **O mecanismo segue não testado.** 54% das "abordagens de vendedor" abrem com
+  texto repetido em 20+ conversas (era 77% em 08/09 — caiu conforme o atendimento humano
+  ganhou volume). A diferença na taxa de resposta é real, mas ainda não é personalização medida.
+- `carteiraMecenas` concentra a operação: 8.847 prospects,
+  695 vendas (7,86%). As etapas `tentativa1`/`tentativa2`/`contatoNegociacao` somam
+  10.629 prospects e apenas 54 vendas (~0,5%) — é onde o esforço se perde.
+- Vendas entre **35 vendedores** (líder com 181).
+- 332 pessoas compraram **antes** de serem abordadas — já descontadas da atribuição.
 
 ### Dentro das conversas: o que o cliente escreve
-Base: **2.160 prospects que responderam** (7.296 mensagens), 15,0% compraram.
+Base: **5.875 prospects que responderam** (24.422 mensagens), 12,3% compraram.
 
-- **44,8% nunca escreveram nada** — só clicaram no botão do WhatsApp ou
-  mandaram "sim/ok" (10,0% de conversão).
-- Conversão por profundidade: só clique 10,0% → 1 fala 10,9% →
-  2–3 17,4% → **4+ falas 37,2%**. ⚠️ Parte é causalidade reversa:
+- **37,7% nunca escreveram nada** — só clicaram no botão do WhatsApp ou
+  mandaram "sim/ok" (6,1% de conversão).
+- Conversão por profundidade: só clique 6,1% → 1 fala 9,0% →
+  2–3 13,7% → **4+ falas 29,9%**. ⚠️ Parte é causalidade reversa:
   frete/endereço e "paguei" são temas **pós-decisão**.
-- ⚠️ **"Quanto custa" é o tema mais comum (496 pessoas) e converte
-  16,7% — abaixo da média de 19,0% de quem escreve.**
-  Pergunta sobre o produto em si (226) converte 29,6%.
+- ⚠️ **"Quanto custa" é o tema mais comum (1.197 pessoas) e converte
+  17,2% — abaixo da média de 16,1% de quem escreve… e bem abaixo de
+  parcelamento (31,0%) e "o que é / conteúdo" (27,9%).**
+  Quem pergunta preço está comparando; quem pergunta como pagar já decidiu.
 
 **Pedir desconto não é objeção — é sinal de compra** (conclusão mantida):
 
 | Sinal na fala | Prospects | Conversão |
 |---|---:|---:|
-| ✅ Pediu desconto ou condição melhor | 88 | **34,1%** |
-| ✅ Citou ser cliente fiel (vitalício / CDL / Odisseia) | 63 | **41,3%** |
-| ❌ Declarou restrição financeira | 64 | 7,8% |
-| ❌ Achou caro (juízo de valor) | 39 | 7,7% |
-| ❌ Clicou por engano / curiosidade | 26 | 7,7% |
-| ❌ Ainda pagando o vitalício | 10 | 0,0% |
+| ✅ Pediu desconto ou condição melhor | 287 | **29,6%** |
+| ✅ Citou ser cliente fiel (vitalício / CDL / Odisseia) | 187 | **28,9%** |
+| ❌ Declarou restrição financeira | 191 | 8,4% |
+| ❌ Achou caro (juízo de valor) | 124 | 12,9% |
+| ❌ Clicou por engano / curiosidade | 73 | 2,7% |
+| ❌ Ainda pagando o vitalício | 11 | 9,1% |
 
-Base 15,0%. Dois clientes diferentes na mesma frase sobre dinheiro — quem negocia e quem
+Base 12,3%. Dois clientes diferentes na mesma frase sobre dinheiro — quem negocia e quem
 não tem — e o roteiro não os separa.
 
 **Fricções operacionais:**
 
 | Fricção | Prospects | Conversão |
 |---|---:|---:|
-| Pediu condição citando fidelidade | 104 | 23,1% |
-| Travou no campo de cupom do checkout | 17 | 58,8% |
-| Esperando entrega de CDL / Odisseia | 19 | 26,3% |
-| Confundiu com a série de 2018 ou com o CDL | 3 | 0,0% |
-| Não sabe onde acessar o que comprou | 4 | 75,0% |
+| Pediu condição citando fidelidade | 279 | 20,8% |
+| Travou no campo de cupom do checkout | 51 | 60,8% |
+| Esperando entrega de CDL / Odisseia | 54 | 22,2% |
+| Confundiu com a série de 2018 ou com o CDL | 9 | 22,2% |
+| Não sabe onde acessar o que comprou | 31 | 25,8% |
+| Achava que já estava incluído no plano | 6 | 33,3% |
 
-- **Não há política de fidelidade**: 104 pessoas pediram condição citando ser
+- **Não há política de fidelidade**: 279 pessoas pediram condição citando ser
   vitalício/CDL/Odisseia. Resposta do vendedor (83 conversas):
   vai verificar / consegue 18 · passa um cupom 6 · nega — preço fechado 6 · cita a fidelidade do cliente 7 — cada um decide na hora.
 - **Campo de cupom sem código divulgado** trava a compra no último passo.
-- **19 pessoas em abordagem esperam um produto físico anterior** — risco evitável
+- **54 pessoas em abordagem esperam um produto físico anterior** — risco evitável
   com cruzamento de lista.
 - O nome reaproveita a **série "A Última Cruzada" de 2018–2019** (~13k transações antigas na fct).
 
@@ -192,24 +200,29 @@ abordados só depois de já ter comprado** (higiene de lista).
 
 | Origem | n | Ticket | Membro | Vitalício | LTV mediana |
 |---|---:|---:|---:|---:|---:|
-| Abordado → venda Comercial | 307 | R$ 997 | 82% | 76% | R$ 6.390 |
-| Abordado → venda Digital | 66 | R$ 1.034 | 77% | 67% | R$ 5.422 |
-| Comercial sem abordagem prévia | 102 | R$ 958 | 81% | 67% | R$ 5.842 |
-| **Digital sem abordagem prévia** | **537** | R$ 1.010 | **55%** | **34%** | **R$ 2.298** |
+| Abordado → venda Comercial | 651 | R$ 1.150 | 75% | 54% | R$ 3.751 |
+| Abordado → venda Digital | 139 | R$ 1.014 | 76% | 53% | R$ 3.057 |
+| Comercial sem abordagem prévia | 970 | R$ 1.067 | 78% | 69% | R$ 5.830 |
+| **Digital sem abordagem prévia** | **1.665** | R$ 983 | **58%** | **34%** | **R$ 2.302** |
 
-- **37% dos compradores foram abordados antes de comprar** (era 60% em 04/09 — caiu porque o
-  digital cresceu, não porque o Comercial abordou menos).
-- Crédito ambíguo: 66 vendas (R$ 68.288) no digital com abordagem prévia.
-- **O grupo majoritário virou o digital sem abordagem nenhuma**: 537 pessoas
-  (53,1% dos compradores), com 34% de vitalícios contra
-  76% e LTV mediano 64% menor.
+- **23% dos compradores foram abordados antes de comprar** (60% em 04/09, 37% em 08/09 — cai
+  porque o digital cresce, não porque o Comercial abordou menos).
+- Crédito ambíguo: 139 vendas (R$ 140.978) no digital com abordagem prévia.
+- **O grupo majoritário é o digital sem abordagem nenhuma**: 1.665 pessoas
+  (48,6% dos compradores), com 34% de vitalícios contra
+  69% do Comercial espontâneo e LTV mediano 60% menor.
+- ⚠️ **O Comercial espontâneo tem o melhor perfil da campanha** (LTV mediano R$ 5.830, 69%
+  vitalícios): é a carteira comprando por conta própria, sem custo de abordagem.
 
 ### Preço: o Comercial vende mais barato que o site
-- **Físico**: Comercial ticket médio **R$ 904** vs Digital
-  **R$ 977**.
-- **Completo**: Comercial R$ 1.181 vs Digital R$ 1.211.
-- **6 faixas de preço simultâneas** na versão física (compradores Comercial/Digital):
-  R$ 719 (106C/7D) · R$ 948 (111C/0D) · R$ 959 (55C/361D) · R$ 1.068 (7C/54D) · R$ 1.199 (9C/3D) · R$ 1.918 (1C/3D). A faixa mais barata segue quase exclusiva do Comercial.
+⚠️ **Essa leitura se inverteu com a campanha madura.**
+- **Físico**: ticket médio **igual nos dois canais (R$ 960)**.
+- **Completo**: Comercial **R$ 1.330** vs Digital R$ 1.186 — agora o Comercial vende *mais caro*,
+  puxado pelo mix (ele empurra a versão com cursos).
+- **Faixas simultâneas** na versão física (compradores Comercial/Digital):
+  R$ 719 (121C/7D) · R$ 901 (50C/0D) · R$ 911 (7C/121D) · R$ 948 (610C/0D) · R$ 959 (151C/984D) ·
+  R$ 1.068 (7C/53D). A faixa mais barata segue quase exclusiva do Comercial, mas o grosso de cada
+  canal se concentra em preços vizinhos (R$ 948 × R$ 959).
 - Pendente confirmar com o time se a dispersão é teste controlado ou desconto discricionário.
 
 ## Pendências / próximos passos
@@ -226,9 +239,9 @@ abordados só depois de já ter comprado** (higiene de lista).
 - [ ] **Higiene da lista**: compradores estão sendo abordados depois de já ter comprado.
 - [ ] Pedir **etiqueta/etapa própria do CBR no Zenvia** — a medição depende de regex no texto.
 - [ ] Lista de reabordagem das recusas (limite/cartão), com perfil idêntico a quem comprou.
-- [ ] **Revisitar com a campanha madura**: 8 dias ainda não medem maturação, churn de parcelamento
-      nem CAC do digital (falta cruzar com custo de mídia para saber se o comprador frio do digital
-      se paga).
+- [ ] **CAC do digital**: com 22 dias e 1.804 compradores digitais, já dá para cruzar com o custo de
+      mídia e saber se o comprador frio do digital se paga. É a pendência mais relevante hoje.
+- [ ] **Churn de parcelamento** ainda não medido (12x é o padrão de todas as ofertas).
 
 ## Queries
 

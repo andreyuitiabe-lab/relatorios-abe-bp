@@ -1,6 +1,6 @@
 # Análise: Perfil de Compra — Clube do Livro
 
-_Atualizado em 25/08/2026 (janela original era mai–jun/2026; agora cobre a campanha inteira até 24/08)._
+_Atualizado em 22/09/2026 (janela original era mai–jun/2026; agora cobre a campanha inteira até 18/09)._
 
 ## Pergunta original
 Quem são os compradores do CDL? Quantos são membros, ex-membros e não-membros. Há quanto tempo são clientes BP. Perfil de consumo.
@@ -16,29 +16,29 @@ Quem são os compradores do CDL? Quantos são membros, ex-membros e não-membros
 
 ## Achados principais
 
-**Base:** 24.753 compradores físicos (05/05–24/08/2026) · R$ 31,5M · ticket médio R$ 1.274
+**Base:** 24.839 compradores físicos (05/05–18/09/2026) · R$ 31,6M · ticket médio R$ 1.274
 
 **Status no momento da compra:**
-- Membro Ativo: 36,5% (9.028)
-- Vitalício: 30,5% (7.539)
-- Nunca foi Membro: 17,7% (4.369)
-- Ex-Membro: 15,4% (3.817)
+- Membro Ativo: 36,4% (9.053)
+- Vitalício: 30,5% (7.569)
+- Nunca foi Membro: 17,7% (4.391)
+- Ex-Membro: 15,4% (3.826)
 → 82,3% já eram clientes BP no momento da compra
 
 **Antiguidade na BP:**
-- Mais de 4 anos: 39,3% (9.735) — base fiel e consolidada
-- 2–4 anos: 22,9% (5.673)
-- CDL como 1ª compra: 17,7% (4.369)
+- Mais de 4 anos: 39,3% (9.761) — base fiel e consolidada
+- 2–4 anos: 22,9% (5.681)
+- CDL como 1ª compra: 17,7% (4.391)
 → 62,2% compraram com mais de 2 anos de casa
 
 **Canal:**
-- Comercial: 51,2% (12.682) · ticket R$ 1.248
-- Digital: 48,8% (12.071) · ticket R$ 1.302
+- Comercial: 51,3% (12.746) · ticket R$ 1.247
+- Digital: 48,7% (12.093) · ticket R$ 1.303
 
 **Consumo histórico (antes do CDL):**
-- Gasto médio: R$ 3.072 (mediana R$ 1.199)
+- Gasto médio: R$ 3.067 (mediana R$ 1.200)
 - Média de planos adquiridos: 2,8
-- 20.191 compradores (82%) tinham histórico de compra antes do CDL
+- 20.253 compradores (82%) tinham histórico de compra antes do CDL
 
 **Produtos mais frequentes antes do CDL:**
 - Básico: 41,9% · Premium GBB: 32,8% · Patriota: 22,9% · Núcleo: 18,0% · Acesso Total: 16,6%
@@ -54,7 +54,7 @@ nova (1ª compra 14,2% → 17,7%) e menos vitalício (34,8% → 30,5%), coerente
 com lotes e order bumps depois do D14.
 
 ## Pendências / próximos passos
-- Comparar com o perfil do 2º livro: ver [`odisseia-perfil/`](../odisseia-perfil/ANALISE.md) — inclui a interseção das duas bases (1.583 pessoas compraram os dois; recompra de 6,3%).
+- Comparar com o perfil do 2º livro: ver [`odisseia-perfil/`](../odisseia-perfil/ANALISE.md) — inclui a interseção das duas bases (2.107 pessoas compraram os dois; recompra de 8,4%).
 
 ## Queries
 | Query | Arquivo | Status |

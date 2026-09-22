@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-09-09 14:25",
+  "updated_at": "2026-09-22 14:14",
   "periodo": {
     "inicio": "2026-09-01",
-    "fim": "2026-09-09"
+    "fim": "2026-09-22"
   },
   "totais": {
-    "compradores": 1247,
-    "receita": 1251129,
-    "ticket": 1003,
-    "comercial": 546,
-    "digital": 701,
-    "receita_comercial": 544310,
-    "receita_digital": 706819,
-    "pc_comercial": 43.8,
-    "ja_era_cliente": 1123,
-    "pc_ja_era_cliente": 90.1,
-    "primeira_compra": 124,
-    "recusa_pessoas": 434,
-    "recusa_tx": 566
+    "compradores": 3425,
+    "receita": 3564068,
+    "ticket": 1040,
+    "comercial": 1621,
+    "digital": 1804,
+    "receita_comercial": 1785079,
+    "receita_digital": 1778989,
+    "pc_comercial": 47.3,
+    "ja_era_cliente": 3062,
+    "pc_ja_era_cliente": 89.4,
+    "primeira_compra": 363,
+    "recusa_pessoas": 1448,
+    "recusa_tx": 1931
   },
   "dia": [
     {
@@ -40,824 +40,1084 @@
       "dia": "2026-09-03",
       "dow": "Thu",
       "nao_util": false,
-      "comercial": 108,
+      "comercial": 107,
       "digital": 68,
-      "receita": 171688
+      "receita": 171928
     },
     {
       "dia": "2026-09-04",
       "dow": "Fri",
       "nao_util": false,
-      "comercial": 119,
-      "digital": 79,
-      "receita": 205234
+      "comercial": 121,
+      "digital": 75,
+      "receita": 207121
     },
     {
       "dia": "2026-09-05",
       "dow": "Sat",
       "nao_util": true,
-      "comercial": 24,
-      "digital": 130,
-      "receita": 163084
+      "comercial": 23,
+      "digital": 128,
+      "receita": 160830
     },
     {
       "dia": "2026-09-06",
       "dow": "Sun",
       "nao_util": true,
-      "comercial": 8,
-      "digital": 157,
-      "receita": 162579
+      "comercial": 9,
+      "digital": 155,
+      "receita": 165916
     },
     {
       "dia": "2026-09-07",
       "dow": "Mon",
       "nao_util": true,
       "comercial": 54,
-      "digital": 136,
-      "receita": 188831
+      "digital": 134,
+      "receita": 189770
     },
     {
       "dia": "2026-09-08",
       "dow": "Tue",
       "nao_util": false,
       "comercial": 129,
-      "digital": 87,
-      "receita": 219183
+      "digital": 86,
+      "receita": 220684
     },
     {
       "dia": "2026-09-09",
       "dow": "Wed",
       "nao_util": false,
-      "comercial": 28,
-      "digital": 33,
-      "receita": 61782
+      "comercial": 103,
+      "digital": 93,
+      "receita": 202127
+    },
+    {
+      "dia": "2026-09-10",
+      "dow": "Thu",
+      "nao_util": false,
+      "comercial": 160,
+      "digital": 59,
+      "receita": 246350
+    },
+    {
+      "dia": "2026-09-11",
+      "dow": "Fri",
+      "nao_util": false,
+      "comercial": 109,
+      "digital": 55,
+      "receita": 175859
+    },
+    {
+      "dia": "2026-09-12",
+      "dow": "Sat",
+      "nao_util": true,
+      "comercial": 25,
+      "digital": 58,
+      "receita": 89635
+    },
+    {
+      "dia": "2026-09-13",
+      "dow": "Sun",
+      "nao_util": true,
+      "comercial": 23,
+      "digital": 75,
+      "receita": 93955
+    },
+    {
+      "dia": "2026-09-14",
+      "dow": "Mon",
+      "nao_util": false,
+      "comercial": 104,
+      "digital": 60,
+      "receita": 174844
+    },
+    {
+      "dia": "2026-09-15",
+      "dow": "Tue",
+      "nao_util": false,
+      "comercial": 76,
+      "digital": 36,
+      "receita": 123720
+    },
+    {
+      "dia": "2026-09-16",
+      "dow": "Wed",
+      "nao_util": false,
+      "comercial": 121,
+      "digital": 84,
+      "receita": 215056
+    },
+    {
+      "dia": "2026-09-17",
+      "dow": "Thu",
+      "nao_util": false,
+      "comercial": 117,
+      "digital": 65,
+      "receita": 199958
+    },
+    {
+      "dia": "2026-09-18",
+      "dow": "Fri",
+      "nao_util": false,
+      "comercial": 109,
+      "digital": 116,
+      "receita": 241527
+    },
+    {
+      "dia": "2026-09-19",
+      "dow": "Sat",
+      "nao_util": true,
+      "comercial": 12,
+      "digital": 140,
+      "receita": 153277
+    },
+    {
+      "dia": "2026-09-20",
+      "dow": "Sun",
+      "nao_util": true,
+      "comercial": 17,
+      "digital": 160,
+      "receita": 169976
+    },
+    {
+      "dia": "2026-09-21",
+      "dow": "Mon",
+      "nao_util": false,
+      "comercial": 91,
+      "digital": 91,
+      "receita": 189336
+    },
+    {
+      "dia": "2026-09-22",
+      "dow": "Tue",
+      "nao_util": false,
+      "comercial": 35,
+      "digital": 55,
+      "receita": 93446
     }
   ],
   "canal": [
     {
       "canal": "Comercial",
-      "n": 546,
-      "receita": 544310,
-      "ticket": 996,
-      "pc_membro": 80.22,
-      "pc_vitalicio": 68.5,
-      "pc_cdl": 54.4,
-      "pc_novo_na_bp": 5.49,
-      "ltv_mediana": 6016,
-      "pc_cartao_premium": 84.41,
-      "pc_sem_sessao_90d": 36.63
+      "n": 1621,
+      "receita": 1785079,
+      "ticket": 1101,
+      "pc_membro": 76.8,
+      "pc_vitalicio": 62.62,
+      "pc_cdl": 49.6,
+      "pc_novo_na_bp": 6.35,
+      "ltv_mediana": 4960,
+      "pc_cartao_premium": 82.88,
+      "pc_sem_sessao_90d": 38.49
     },
     {
       "canal": "Digital",
-      "n": 701,
-      "receita": 706819,
-      "ticket": 1008,
-      "pc_membro": 57.35,
-      "pc_vitalicio": 37.09,
-      "pc_cdl": 40.66,
-      "pc_novo_na_bp": 13.41,
-      "ltv_mediana": 2496,
-      "pc_cartao_premium": 83.9,
-      "pc_sem_sessao_90d": 59.34
+      "n": 1804,
+      "receita": 1778989,
+      "ticket": 986,
+      "pc_membro": 59.26,
+      "pc_vitalicio": 35.81,
+      "pc_cdl": 37.2,
+      "pc_novo_na_bp": 14.41,
+      "ltv_mediana": 2472,
+      "pc_cartao_premium": 83.38,
+      "pc_sem_sessao_90d": 61.25
     }
   ],
   "vinculo": [
     {
       "label": "Membro ativo hoje",
-      "n": 840,
-      "pc": 67.4
+      "n": 2314,
+      "pc": 67.6
     },
     {
       "label": "Vitalício",
-      "n": 634,
-      "pc": 50.8
+      "n": 1661,
+      "pc": 48.5
     },
     {
       "label": "Comprou o Clube do Livro",
-      "n": 582,
-      "pc": 46.7
+      "n": 1475,
+      "pc": 43.1
     },
     {
       "label": "Mecenas (atual ou ex)",
-      "n": 184,
-      "pc": 14.8
+      "n": 457,
+      "pc": 13.3
     },
     {
       "label": "Comprou a Odisseia",
-      "n": 262,
-      "pc": 21.0
+      "n": 611,
+      "pc": 17.8
     },
     {
       "label": "Tem certificação",
-      "n": 142,
-      "pc": 11.4
+      "n": 306,
+      "pc": 8.9
     },
     {
       "label": "Assinante Teller",
-      "n": 132,
-      "pc": 10.6
+      "n": 354,
+      "pc": 10.3
     }
   ],
   "consumo": {
-    "ltv_mediana": 3911,
-    "ltv_medio": 6950,
+    "ltv_mediana": 3402,
+    "ltv_medio": 6301,
     "compras_mediana": 5,
-    "anos_casa_medio": 3.81,
-    "anos_casa_mediana": 3.97,
-    "pc_ltv_4k_mais": 50.2
+    "anos_casa_medio": 3.79,
+    "anos_casa_mediana": 3.98,
+    "pc_ltv_4k_mais": 45.9
   },
   "casa": [
     {
       "faixa": "Novo",
-      "n": 124,
-      "pc": 9.9,
+      "n": 363,
+      "pc": 10.6,
       "ltv_mediana": 0
     },
     {
       "faixa": "< 1 ano",
-      "n": 200,
-      "pc": 16.0,
+      "n": 509,
+      "pc": 14.9,
       "ltv_mediana": 1548
     },
     {
       "faixa": "1–2 anos",
-      "n": 115,
-      "pc": 9.2,
-      "ltv_mediana": 2376
+      "n": 337,
+      "pc": 9.8,
+      "ltv_mediana": 2020
     },
     {
       "faixa": "2–4 anos",
-      "n": 251,
-      "pc": 20.1,
-      "ltv_mediana": 4048
+      "n": 699,
+      "pc": 20.4,
+      "ltv_mediana": 3270
     },
     {
       "faixa": "4–6 anos",
-      "n": 338,
-      "pc": 27.1,
-      "ltv_mediana": 5640
+      "n": 954,
+      "pc": 27.9,
+      "ltv_mediana": 4618
     },
     {
       "faixa": "6+ anos",
-      "n": 219,
-      "pc": 17.6,
-      "ltv_mediana": 6902
+      "n": 563,
+      "pc": 16.4,
+      "ltv_mediana": 6276
     }
   ],
   "perfil": {
-    "pc_cartao_premium": 84.1,
-    "pc_cartao_black": 63.5,
-    "pc_decil_8mais": 56.0,
-    "base_cartao": 1128,
-    "base_renda": 1027,
-    "pc_masculino": 68.7,
-    "pc_idade_45mais": 67.7,
-    "base_idade": 656,
-    "pc_pg_cartao": 86.0,
-    "pc_pg_pix": 12.2
+    "pc_cartao_premium": 83.1,
+    "pc_cartao_black": 60.9,
+    "pc_decil_8mais": 54.4,
+    "base_cartao": 3107,
+    "base_renda": 2885,
+    "pc_masculino": 64.1,
+    "pc_idade_45mais": 73.5,
+    "base_idade": 1823,
+    "pc_pg_cartao": 83.9,
+    "pc_pg_pix": 13.8
   },
   "benchmark": {
-    "n": 604309,
-    "pc_cartao_premium": 57.3,
-    "pc_cartao_black": 30.5,
-    "pc_decil_8mais": 31.7
+    "n": 604544,
+    "pc_cartao_premium": 57.4,
+    "pc_cartao_black": 30.7,
+    "pc_decil_8mais": 31.8
   },
   "renda": [
     {
       "decil": 1,
-      "n": 39
+      "n": 94
     },
     {
       "decil": 2,
-      "n": 52
+      "n": 141
     },
     {
       "decil": 3,
-      "n": 62
+      "n": 172
     },
     {
       "decil": 4,
-      "n": 61
+      "n": 181
     },
     {
       "decil": 5,
-      "n": 73
+      "n": 198
     },
     {
       "decil": 6,
-      "n": 64
+      "n": 223
     },
     {
       "decil": 7,
-      "n": 101
+      "n": 307
     },
     {
       "decil": 8,
-      "n": 136
+      "n": 355
     },
     {
       "decil": 9,
-      "n": 170
+      "n": 482
     },
     {
       "decil": 10,
-      "n": 269
+      "n": 732
     }
   ],
   "cartao": [
     {
       "nivel": "6_black",
-      "n": 716
+      "n": 1891
     },
     {
       "nivel": "5_amex",
-      "n": 23
+      "n": 48
     },
     {
       "nivel": "4_platinum",
-      "n": 210
+      "n": 644
     },
     {
       "nivel": "3_gold",
-      "n": 110
+      "n": 317
     },
     {
       "nivel": "2_standard",
-      "n": 57
+      "n": 180
     },
     {
       "nivel": "1_business",
-      "n": 10
+      "n": 23
     },
     {
       "nivel": "0_debit",
-      "n": 2
+      "n": 4
     }
   ],
   "uf": [
     {
       "uf": "SP",
-      "n": 374,
-      "pc": 30.0
+      "n": 1039,
+      "pc": 30.3
     },
     {
       "uf": "RJ",
-      "n": 144,
-      "pc": 11.5
+      "n": 388,
+      "pc": 11.3
     },
     {
       "uf": "MG",
-      "n": 120,
-      "pc": 9.6
+      "n": 331,
+      "pc": 9.7
     },
     {
       "uf": "RS",
-      "n": 98,
-      "pc": 7.9
+      "n": 278,
+      "pc": 8.1
     },
     {
       "uf": "PR",
-      "n": 75,
-      "pc": 6.0
+      "n": 236,
+      "pc": 6.9
     },
     {
       "uf": "SC",
-      "n": 73,
-      "pc": 5.9
+      "n": 195,
+      "pc": 5.7
     },
     {
       "uf": "DF",
-      "n": 58,
-      "pc": 4.7
+      "n": 164,
+      "pc": 4.8
     },
     {
       "uf": "PE",
-      "n": 39,
-      "pc": 3.1
+      "n": 93,
+      "pc": 2.7
     }
   ],
   "engajamento": [
     {
       "faixa": "Nenhuma sessão",
-      "n": 616,
-      "pc": 49.4,
+      "n": 1729,
+      "pc": 50.5,
       "hr_90d": 0.0,
-      "pc_comercial": 32.47
+      "pc_comercial": 36.09
     },
     {
       "faixa": "1–3 dias",
-      "n": 326,
-      "pc": 26.1,
-      "hr_90d": 1.28,
-      "pc_comercial": 50.61
+      "n": 863,
+      "pc": 25.2,
+      "hr_90d": 1.13,
+      "pc_comercial": 56.08
     },
     {
       "faixa": "4–10 dias",
-      "n": 192,
-      "pc": 15.4,
+      "n": 558,
+      "pc": 16.3,
       "hr_90d": 5.44,
-      "pc_comercial": 53.65
+      "pc_comercial": 58.6
     },
     {
       "faixa": "11–30 dias",
-      "n": 92,
-      "pc": 7.4,
-      "hr_90d": 15.86,
-      "pc_comercial": 69.57
+      "n": 231,
+      "pc": 6.7,
+      "hr_90d": 16.1,
+      "pc_comercial": 68.4
     },
     {
       "faixa": "30+ dias",
-      "n": 21,
-      "pc": 1.7,
-      "hr_90d": 56.59,
-      "pc_comercial": 66.67
+      "n": 44,
+      "pc": 1.3,
+      "hr_90d": 53.39,
+      "pc_comercial": 63.64
     }
   ],
   "produto": [
     {
       "produto": "Físico",
-      "n": 835,
-      "ticket": 941,
-      "receita": 786277,
-      "comercial": 396
+      "n": 2369,
+      "ticket": 956,
+      "receita": 2265740,
+      "comercial": 1111
     },
     {
       "produto": "Completo (livro + cursos)",
-      "n": 318,
-      "ticket": 1193,
-      "receita": 379512,
-      "comercial": 145
-    },
-    {
-      "produto": "Outro",
-      "n": 66,
-      "ticket": 931,
-      "receita": 61480,
-      "comercial": 1
+      "n": 927,
+      "ticket": 1260,
+      "receita": 1168232,
+      "comercial": 476
     },
     {
       "produto": "Digital",
-      "n": 25,
-      "ticket": 414,
-      "receita": 10366,
-      "comercial": 1
+      "n": 109,
+      "ticket": 379,
+      "receita": 41321,
+      "comercial": 14
     },
     {
       "produto": "Bundle Black",
-      "n": 3,
-      "ticket": 4497,
-      "receita": 13492,
-      "comercial": 3
+      "n": 15,
+      "ticket": 4364,
+      "receita": 65464,
+      "comercial": 15
+    },
+    {
+      "produto": "Outro",
+      "n": 5,
+      "ticket": 4662,
+      "receita": 23310,
+      "comercial": 5
     }
   ],
   "preco": [
     {
       "produto": "Completo",
       "canal": "Comercial",
-      "n": 145,
-      "ticket": 1192
+      "n": 476,
+      "ticket": 1330
     },
     {
       "produto": "Completo",
       "canal": "Digital",
-      "n": 173,
-      "ticket": 1194
+      "n": 451,
+      "ticket": 1186
     },
     {
       "produto": "Físico",
       "canal": "Comercial",
-      "n": 397,
-      "ticket": 909
+      "n": 1114,
+      "ticket": 960
     },
     {
       "produto": "Físico",
       "canal": "Digital",
-      "n": 439,
-      "ticket": 978
+      "n": 1258,
+      "ticket": 960
     }
   ],
   "faixas_preco": [
     {
-      "valor": 719,
-      "n": 124,
-      "comercial": 117,
-      "digital": 7
-    },
-    {
-      "valor": 948,
-      "n": 192,
-      "comercial": 192,
+      "valor": 708,
+      "n": 7,
+      "comercial": 7,
       "digital": 0
     },
     {
-      "valor": 959,
-      "n": 435,
-      "comercial": 64,
-      "digital": 371
+      "valor": 719,
+      "n": 128,
+      "comercial": 121,
+      "digital": 7
     },
     {
-      "valor": 1068,
-      "n": 61,
+      "valor": 781,
+      "n": 8,
+      "comercial": 8,
+      "digital": 0
+    },
+    {
+      "valor": 822,
+      "n": 10,
+      "comercial": 10,
+      "digital": 0
+    },
+    {
+      "valor": 828,
+      "n": 25,
+      "comercial": 25,
+      "digital": 0
+    },
+    {
+      "valor": 901,
+      "n": 50,
+      "comercial": 50,
+      "digital": 0
+    },
+    {
+      "valor": 909,
+      "n": 6,
+      "comercial": 6,
+      "digital": 0
+    },
+    {
+      "valor": 911,
+      "n": 128,
       "comercial": 7,
-      "digital": 54
+      "digital": 121
     },
     {
-      "valor": 1199,
-      "n": 12,
-      "comercial": 9,
-      "digital": 3
+      "valor": 912,
+      "n": 5,
+      "comercial": 5,
+      "digital": 0
     },
     {
-      "valor": 1918,
+      "valor": 916,
+      "n": 7,
+      "comercial": 7,
+      "digital": 0
+    },
+    {
+      "valor": 919,
+      "n": 11,
+      "comercial": 1,
+      "digital": 10
+    },
+    {
+      "valor": 920,
+      "n": 3,
+      "comercial": 3,
+      "digital": 0
+    },
+    {
+      "valor": 923,
+      "n": 10,
+      "comercial": 1,
+      "digital": 9
+    },
+    {
+      "valor": 924,
+      "n": 4,
+      "comercial": 4,
+      "digital": 0
+    },
+    {
+      "valor": 927,
+      "n": 14,
+      "comercial": 0,
+      "digital": 14
+    },
+    {
+      "valor": 931,
+      "n": 14,
+      "comercial": 0,
+      "digital": 14
+    },
+    {
+      "valor": 935,
+      "n": 18,
+      "comercial": 1,
+      "digital": 17
+    },
+    {
+      "valor": 936,
+      "n": 4,
+      "comercial": 4,
+      "digital": 0
+    },
+    {
+      "valor": 939,
       "n": 5,
       "comercial": 1,
       "digital": 4
+    },
+    {
+      "valor": 940,
+      "n": 5,
+      "comercial": 5,
+      "digital": 0
+    },
+    {
+      "valor": 947,
+      "n": 5,
+      "comercial": 0,
+      "digital": 5
+    },
+    {
+      "valor": 948,
+      "n": 610,
+      "comercial": 610,
+      "digital": 0
+    },
+    {
+      "valor": 951,
+      "n": 12,
+      "comercial": 1,
+      "digital": 11
+    },
+    {
+      "valor": 959,
+      "n": 1135,
+      "comercial": 151,
+      "digital": 984
+    },
+    {
+      "valor": 1068,
+      "n": 60,
+      "comercial": 7,
+      "digital": 53
+    },
+    {
+      "valor": 1199,
+      "n": 18,
+      "comercial": 15,
+      "digital": 3
+    },
+    {
+      "valor": 1609,
+      "n": 5,
+      "comercial": 5,
+      "digital": 0
+    },
+    {
+      "valor": 1656,
+      "n": 21,
+      "comercial": 21,
+      "digital": 0
+    },
+    {
+      "valor": 1896,
+      "n": 15,
+      "comercial": 15,
+      "digital": 0
+    },
+    {
+      "valor": 1907,
+      "n": 5,
+      "comercial": 5,
+      "digital": 0
+    },
+    {
+      "valor": 1918,
+      "n": 7,
+      "comercial": 2,
+      "digital": 5
     }
   ],
   "abordagem": {
-    "total_prospects": 6782,
-    "total_respondeu": 1560,
-    "total_comprou": 206,
-    "comprou_antes_da_abordagem": 79,
-    "pc_resposta_geral": 23.0,
-    "n_vendedores": 29,
-    "top_vendas": 106,
+    "total_prospects": 20201,
+    "total_respondeu": 5899,
+    "total_comprou": 790,
+    "comprou_antes_da_abordagem": 332,
+    "pc_resposta_geral": 29.2,
+    "n_vendedores": 35,
+    "top_vendas": 181,
     "buckets": [
       {
         "bucket": "Disparo em massa (só a peça)",
-        "prospects": 1083,
-        "respondeu": 124,
-        "comprou": 13,
-        "receita": 12388,
-        "pc_resposta": 11.45,
-        "pc_conversao": 1.2,
-        "pc_conv_respondeu": 5.65,
-        "pc_scriptado": 73.31
+        "prospects": 2583,
+        "respondeu": 350,
+        "comprou": 43,
+        "receita": 49625,
+        "pc_resposta": 13.55,
+        "pc_conversao": 1.665,
+        "pc_conv_respondeu": 8.86,
+        "pc_scriptado": 88.0
       },
       {
         "bucket": "Disparo + atendimento de vendedor",
-        "prospects": 2,
-        "respondeu": 2,
-        "comprou": 0,
-        "receita": 0,
-        "pc_resposta": 100.0,
-        "pc_conversao": 0.0,
-        "pc_conv_respondeu": 0.0,
-        "pc_scriptado": 100.0
+        "prospects": 23,
+        "respondeu": 17,
+        "comprou": 3,
+        "receita": 2854,
+        "pc_resposta": 73.91,
+        "pc_conversao": 13.043,
+        "pc_conv_respondeu": 17.65,
+        "pc_scriptado": 86.96
       },
       {
         "bucket": "Abordagem do vendedor (sem disparo)",
-        "prospects": 5697,
-        "respondeu": 1434,
-        "comprou": 193,
-        "receita": 201935,
-        "pc_resposta": 25.17,
-        "pc_conversao": 3.388,
-        "pc_conv_respondeu": 12.76,
-        "pc_scriptado": 39.51
+        "prospects": 17595,
+        "respondeu": 5532,
+        "comprou": 744,
+        "receita": 837647,
+        "pc_resposta": 31.44,
+        "pc_conversao": 4.228,
+        "pc_conv_respondeu": 12.51,
+        "pc_scriptado": 53.76
       }
     ],
     "carteira": [
       {
         "bucket": "Disparo em massa (só a peça)",
-        "prospects": 815,
-        "comprou": 13,
-        "pc": 1.6
+        "prospects": 2217,
+        "comprou": 40,
+        "pc": 1.8
       },
       {
         "bucket": "Disparo + atendimento de vendedor",
-        "prospects": 2,
-        "comprou": 0,
-        "pc": 0.0
+        "prospects": 22,
+        "comprou": 3,
+        "pc": 13.64
       },
       {
         "bucket": "Abordagem do vendedor (sem disparo)",
-        "prospects": 3118,
-        "comprou": 168,
-        "pc": 5.39
+        "prospects": 6608,
+        "comprou": 652,
+        "pc": 9.87
       }
     ],
     "etapas": [
       {
         "etapa": "linkEnviado",
-        "prospects": 68,
-        "comprou": 5,
-        "pc": 7.35
+        "prospects": 311,
+        "comprou": 26,
+        "pc": 8.36
       },
       {
         "etapa": "carteiraMecenas",
-        "prospects": 3935,
-        "comprou": 181,
-        "pc": 4.6
+        "prospects": 8847,
+        "comprou": 695,
+        "pc": 7.86
       },
       {
-        "etapa": "tentativa2",
-        "prospects": 1223,
-        "comprou": 11,
-        "pc": 0.9
-      },
-      {
-        "etapa": "contatoNegociacao",
-        "prospects": 622,
-        "comprou": 3,
-        "pc": 0.48
+        "etapa": "mensagemAutomatica",
+        "prospects": 105,
+        "comprou": 6,
+        "pc": 5.71
       },
       {
         "etapa": "tentativa1",
-        "prospects": 787,
-        "comprou": 2,
-        "pc": 0.25
+        "prospects": 3162,
+        "comprou": 19,
+        "pc": 0.6
+      },
+      {
+        "etapa": "tentativa2",
+        "prospects": 5483,
+        "comprou": 28,
+        "pc": 0.51
+      },
+      {
+        "etapa": "contatoNegociacao",
+        "prospects": 1984,
+        "comprou": 7,
+        "pc": 0.35
       }
     ]
   },
   "atribuicao": [
     {
       "origem": "Abordado → Comercial",
-      "n": 178,
-      "pc": 14.3,
-      "receita": 185547,
-      "ticket": 1042,
-      "pc_membro": 82.02,
-      "pc_vitalicio": 60.67,
-      "ltv_mediana": 4266,
-      "pc_cartao_premium": 85.54
+      "n": 651,
+      "pc": 19.0,
+      "receita": 749148,
+      "ticket": 1150,
+      "pc_membro": 75.12,
+      "pc_vitalicio": 53.61,
+      "ltv_mediana": 3751,
+      "pc_cartao_premium": 81.19
     },
     {
       "origem": "Abordado → Digital",
-      "n": 28,
-      "pc": 2.2,
-      "receita": 28777,
-      "ticket": 1027,
-      "pc_membro": 82.14,
-      "pc_vitalicio": 75.0,
-      "ltv_mediana": 4827,
-      "pc_cartao_premium": 75.0
+      "n": 139,
+      "pc": 4.1,
+      "receita": 140978,
+      "ticket": 1014,
+      "pc_membro": 75.54,
+      "pc_vitalicio": 52.52,
+      "ltv_mediana": 3057,
+      "pc_cartao_premium": 79.85
     },
     {
       "origem": "Comercial sem abordagem prévia",
-      "n": 368,
-      "pc": 29.5,
-      "receita": 358762,
-      "ticket": 974,
-      "pc_membro": 79.35,
-      "pc_vitalicio": 72.28,
-      "ltv_mediana": 6420,
-      "pc_cartao_premium": 83.86
+      "n": 970,
+      "pc": 28.3,
+      "receita": 1035930,
+      "ticket": 1067,
+      "pc_membro": 77.94,
+      "pc_vitalicio": 68.66,
+      "ltv_mediana": 5830,
+      "pc_cartao_premium": 83.97
     },
     {
       "origem": "Digital sem abordagem prévia",
-      "n": 673,
-      "pc": 54.0,
-      "receita": 678042,
-      "ticket": 1007,
-      "pc_membro": 56.32,
-      "pc_vitalicio": 35.51,
-      "ltv_mediana": 2388,
-      "pc_cartao_premium": 84.33
+      "n": 1665,
+      "pc": 48.6,
+      "receita": 1638010,
+      "ticket": 983,
+      "pc_membro": 57.9,
+      "pc_vitalicio": 34.41,
+      "ltv_mediana": 2361,
+      "pc_cartao_premium": 83.7
     }
   ],
   "conversas": {
-    "respondentes": 1553,
-    "comprou": 190,
-    "pc_base": 12.2,
-    "turnos": 5774,
+    "respondentes": 5875,
+    "comprou": 724,
+    "pc_base": 12.3,
+    "turnos": 24422,
     "natureza": [
       {
         "tipo": "fala substantiva",
-        "n": 2767,
-        "pc": 47.9
+        "n": 11416,
+        "pc": 46.7
       },
       {
         "tipo": "curta",
-        "n": 1669,
-        "pc": 28.9
+        "n": 7448,
+        "pc": 30.5
       },
       {
         "tipo": "resposta mínima",
-        "n": 953,
-        "pc": 16.5
+        "n": 4511,
+        "pc": 18.5
       },
       {
         "tipo": "clique em botão",
-        "n": 255,
-        "pc": 4.4
+        "n": 641,
+        "pc": 2.6
       },
       {
         "tipo": "template automático",
-        "n": 130,
-        "pc": 2.3
+        "n": 406,
+        "pc": 1.7
       }
     ],
     "so_clique": {
       "pc_do_total": 37.7,
-      "prospects": 586,
-      "comprou": 46,
-      "pc": 7.8
+      "prospects": 2217,
+      "comprou": 135,
+      "pc": 6.1
     },
     "com_fala": {
-      "prospects": 967,
-      "comprou": 144,
-      "pc": 14.9,
+      "prospects": 3658,
+      "comprou": 589,
+      "pc": 16.1,
       "pc_do_total": 62.3
     },
     "profundidade": [
       {
         "faixa": "Só clique ou “sim/ok”",
-        "prospects": 586,
-        "comprou": 46,
-        "pc": 7.8
+        "prospects": 2217,
+        "comprou": 135,
+        "pc": 6.1
       },
       {
         "faixa": "1 fala escrita",
-        "prospects": 399,
-        "comprou": 36,
+        "prospects": 1481,
+        "comprou": 134,
         "pc": 9.0
       },
       {
         "faixa": "2 a 3 falas",
-        "prospects": 347,
-        "comprou": 41,
-        "pc": 11.8
+        "prospects": 1211,
+        "comprou": 166,
+        "pc": 13.7
       },
       {
         "faixa": "4 ou mais falas",
-        "prospects": 221,
-        "comprou": 67,
-        "pc": 30.3
+        "prospects": 966,
+        "comprou": 289,
+        "pc": 29.9
       }
     ],
     "temas": [
       {
         "tema": "Preço / quanto custa",
         "pos_decisao": false,
-        "prospects": 370,
-        "comprou": 54,
-        "pc": 14.6
+        "prospects": 1197,
+        "comprou": 206,
+        "pc": 17.2
       },
       {
         "tema": "Não quer / não agora",
         "pos_decisao": false,
-        "prospects": 263,
-        "comprou": 19,
-        "pc": 7.2
+        "prospects": 1001,
+        "comprou": 90,
+        "pc": 9.0
       },
       {
         "tema": "Membro / minha assinatura",
         "pos_decisao": false,
-        "prospects": 256,
-        "comprou": 45,
-        "pc": 17.6
+        "prospects": 1214,
+        "comprou": 246,
+        "pc": 20.3
       },
       {
         "tema": "O que é / conteúdo",
         "pos_decisao": false,
-        "prospects": 186,
-        "comprou": 46,
-        "pc": 24.7
+        "prospects": 678,
+        "comprou": 189,
+        "pc": 27.9
       },
       {
         "tema": "Parcelamento / forma de pagar",
         "pos_decisao": false,
-        "prospects": 151,
-        "comprou": 46,
-        "pc": 30.5
+        "prospects": 675,
+        "comprou": 209,
+        "pc": 31.0
       },
       {
         "tema": "Já tem CDL / Odisseia",
         "pos_decisao": false,
-        "prospects": 52,
-        "comprou": 19,
-        "pc": 36.5
+        "prospects": 187,
+        "comprou": 54,
+        "pc": 28.9
       },
       {
         "tema": "Desconto / condição",
         "pos_decisao": false,
-        "prospects": 73,
-        "comprou": 22,
-        "pc": 30.1
+        "prospects": 286,
+        "comprou": 85,
+        "pc": 29.7
       },
       {
         "tema": "Frete / entrega / endereço",
         "pos_decisao": true,
-        "prospects": 104,
-        "comprou": 42,
-        "pc": 40.4
+        "prospects": 402,
+        "comprou": 157,
+        "pc": 39.1
       },
       {
         "tema": "Fechou / pagou",
         "pos_decisao": true,
-        "prospects": 56,
-        "comprou": 37,
-        "pc": 66.1
+        "prospects": 268,
+        "comprou": 143,
+        "pc": 53.4
       }
     ],
     "sinais": [
       {
         "sentido": "positivo",
         "sinal": "Pediu desconto ou condição melhor",
-        "prospects": 73,
-        "comprou": 22,
-        "pc": 30.1
+        "prospects": 287,
+        "comprou": 85,
+        "pc": 29.6
       },
       {
         "sentido": "positivo",
         "sinal": "Citou ser cliente fiel (vitalício / CDL / Odisseia)",
-        "prospects": 52,
-        "comprou": 19,
-        "pc": 36.5
+        "prospects": 187,
+        "comprou": 54,
+        "pc": 28.9
       },
       {
         "sentido": "negativo",
         "sinal": "Achou caro (juízo explícito de valor)",
-        "prospects": 39,
-        "comprou": 4,
-        "pc": 10.3
+        "prospects": 124,
+        "comprou": 16,
+        "pc": 12.9
       },
       {
         "sentido": "negativo",
         "sinal": "Declarou restrição financeira",
-        "prospects": 57,
-        "comprou": 5,
-        "pc": 8.8
+        "prospects": 191,
+        "comprou": 16,
+        "pc": 8.4
       },
       {
         "sentido": "negativo",
         "sinal": "Clicou por engano ou só curiosidade",
-        "prospects": 26,
-        "comprou": 1,
-        "pc": 3.8
+        "prospects": 73,
+        "comprou": 2,
+        "pc": 2.7
       },
       {
         "sentido": "negativo",
         "sinal": "Ainda pagando o vitalício / plano",
-        "prospects": 8,
-        "comprou": 0,
-        "pc": 0.0
+        "prospects": 11,
+        "comprou": 1,
+        "pc": 9.1
       }
     ],
     "friccoes": [
       {
         "friccao": "Travou no campo de cupom do checkout",
-        "prospects": 17,
-        "comprou": 11,
-        "pc": 64.7
+        "prospects": 51,
+        "comprou": 31,
+        "pc": 60.8
       },
       {
         "friccao": "Esperando entrega de CDL / Odisseia",
-        "prospects": 11,
-        "comprou": 1,
-        "pc": 9.1
+        "prospects": 54,
+        "comprou": 12,
+        "pc": 22.2
       },
       {
         "friccao": "Pediu condição por fidelidade",
-        "prospects": 70,
-        "comprou": 11,
-        "pc": 15.7
+        "prospects": 279,
+        "comprou": 58,
+        "pc": 20.8
       },
       {
         "friccao": "Confundiu com a série de 2018 ou com o CDL",
-        "prospects": 3,
-        "comprou": 1,
-        "pc": 33.3
+        "prospects": 9,
+        "comprou": 2,
+        "pc": 22.2
       },
       {
         "friccao": "Achava que já estava incluído no plano",
-        "prospects": 2,
-        "comprou": 0,
-        "pc": 0.0
+        "prospects": 6,
+        "comprou": 2,
+        "pc": 33.3
       },
       {
         "friccao": "Não sabe onde acessar o que comprou",
-        "prospects": 8,
-        "comprou": 4,
-        "pc": 50.0
+        "prospects": 31,
+        "comprou": 8,
+        "pc": 25.8
       }
     ],
     "resposta_desconto": {
-      "conversas": 70,
+      "conversas": 281,
       "tipos": [
         {
           "tipo": "vai verificar / consegue",
-          "n": 18
+          "n": 83
         },
         {
           "tipo": "passa um cupom",
-          "n": 9
+          "n": 29
         },
         {
           "tipo": "nega — preço fechado",
-          "n": 6
+          "n": 34
         },
         {
           "tipo": "cita a fidelidade do cliente",
-          "n": 8
+          "n": 38
         }
       ]
     }
   },
   "penetracao_cdl": {
-    "base": 24903,
-    "converteu": 582,
-    "pc": 2.34
+    "base": 24898,
+    "converteu": 1475,
+    "pc": 5.92
   }
 }
