@@ -102,6 +102,17 @@
   </section>
 
   <section>
+    <h2>As cinco perguntas, respondidas</h2>
+    <p class="dek">Cada linha leva à seção com o detalhe.</p>
+    <div class="card">
+      <div class="tscroll"><table>
+        <thead><tr><th>Pergunta</th><th>Resposta curta</th><th class="num">Enéas</th><th class="num">Lacerda</th></tr></thead>
+        <tbody id="tabPerguntas"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section>
     <h2>Antes de comparar: estamos olhando a largada, não a campanha inteira</h2>
     <p class="dek">Os 3 primeiros dias da ENE são o arranque dela — a estreia só veio 22 dias depois,
       no Ticaracaticast (19/08), e a campanha mudou de patamar no 10º dia. A ENE que ficou na memória é
@@ -114,7 +125,7 @@
   </section>
 
   <section>
-    <h2>1. O CPM subiu porque o leilão subiu — e dá para provar</h2>
+    <h2 id="sec-cpm">1. O CPM subiu porque o leilão subiu — e dá para provar</h2>
     <p class="dek">Duas checagens independentes. Primeiro, cada campanha contra a <em>conta Meta inteira</em>
       no mesmo dia. Depois, o teste que elimina a dúvida de composição: as campanhas que rodaram
       <strong>nos dois meses</strong>, comparadas com elas mesmas.</p>
@@ -160,7 +171,7 @@
   </section>
 
   <section>
-    <h2>2. O vídeo prende a atenção — e perde no meio</h2>
+    <h2 id="sec-criativo">2. O vídeo prende a atenção — e perde no meio</h2>
     <p class="dek">O <em>hook rate</em> mede quantos param para ver 3 segundos; o <em>hold rate</em>,
       quantos desses assistem até o fim. A LAC ganha no primeiro e perde feio no segundo.</p>
     <div class="card">
@@ -200,7 +211,7 @@
   </section>
 
   <section>
-    <h2>4. São dois modelos de lançamento — e a LAC não capta ninguém</h2>
+    <h2 id="sec-volumetria">4. São dois modelos de lançamento — e a LAC não capta ninguém</h2>
     <p class="dek">A ENE rodava captação e venda ao mesmo tempo. A LAC roda só venda, e compensa com CRM
       na base própria.</p>
     <div class="card">
@@ -213,7 +224,7 @@
   </section>
 
   <section>
-    <h2>5. O e-mail não está saturado: está com abertura baixa</h2>
+    <h2 id="sec-email">5. O e-mail não está saturado: está com abertura baixa</h2>
     <p class="dek">697 mil e-mails em três dias parecem fadiga de lista. Os números dizem outra coisa:
       pouca gente abre, mas quem abre clica muito acima da média da casa — e quase ninguém descadastra.</p>
     <div class="grid-2">
@@ -240,7 +251,7 @@
   </section>
 
   <section>
-    <h2>6. A LP recebe menos gente — e converte um terço</h2>
+    <h2 id="sec-lp">6. A LP recebe menos gente — e converte um terço</h2>
     <p class="dek">O tráfego da LP acompanha o tamanho da mídia, não o do CRM. E quem chega converte
       bem pior que na ENE, o que aponta para oferta e página, não só para criativo.</p>
     <div class="card">
@@ -429,6 +440,29 @@ function initCharts(D) {
   const cplENE = eneL.spend / leadsMetaENE;
   document.getElementById('statCpl').textContent = rs(cplENE);
 
+  const mid = (s_, c) => D.midia.find(r => r.sigla === s_ && r.canal === c) || {};
+  const totalMidia = s_ => ['meta', 'pmax', 'google'].reduce((a, c) => a + (mid(s_, c).vl_spend ?? 0), 0);
+  const adsDist = (s_, f) => (D.ads_distintos.find(r => r.sigla === s_ && r.fase === f) || {}).qt_ads_distintos ?? 0;
+  const adsDistTot = s_ => adsDist(s_, 'VENDA') + adsDist(s_, 'LEAD');
+  const crm = (s_, canal) => D.crm.filter(r => r.sigla === s_ && r.canal === canal && r.dia <= 3)
+                                  .reduce((a, r) => a + r.qt_entregues, 0);
+  const lpSess = (s_, tipo) => D.lp.filter(r => r.sigla === s_ && r.tipo === tipo && r.dia <= 3)
+                                   .reduce((a, r) => a + r.sessions, 0);
+
+  /* ── as 5 perguntas ───────────────────────────────────────────────────── */
+  const linha = (perg, resp, e, l, anc) =>
+    `<tr><td><a href="#${anc}" style="color:inherit"><strong>${perg}</strong></a></td>` +
+    `<td style="color:var(--muted)">${resp}</td><td class="num">${e}</td><td class="num">${l}</td></tr>`;
+  document.getElementById('tabPerguntas').innerHTML = [
+    linha('CPM', 'mais caro, mas menos que a média da conta em setembro', rs(eneV.cpm), rs(lacV.cpm), 'sec-cpm'),
+    linha('Volumetria de ads', 'a LAC roda 1/4 dos anúncios e 1/3 da verba', nf(adsDistTot('ENE')) + ' ads · ' + rs0(totalMidia('ENE')), nf(adsDistTot('LAC')) + ' ads · ' + rs0(totalMidia('LAC')), 'sec-volumetria'),
+    linha('E-mails disparados', 'a ENE não fez broadcast: a régua da casa estava ocupada', nf(crm('ENE', 'email')), nf(crm('LAC', 'email')), 'sec-email'),
+    linha('Visitas em LP', 'acompanha o tamanho da mídia, não o do CRM', nf(lpSess('ENE', 'venda')) + ' sessões', nf(lpSess('LAC', 'venda')) + ' sessões', 'sec-lp'),
+    linha('Engajamento nos ads', 'prende mais no início e perde no meio do vídeo',
+          'hook ' + pc(eneC.hook_rate_video_pct, 0) + ' · hold ' + pc(eneC.hold_rate_video_pct, 0),
+          'hook ' + pc(lacC.hook_rate_video_pct, 0) + ' · hold ' + pc(lacC.hold_rate_video_pct, 0), 'sec-criativo')
+  ].join('');
+
   /* ── curva da ENE ─────────────────────────────────────────────────────── */
   const curva = D.curva_ene;
   const marcos = {
@@ -556,8 +590,6 @@ function initCharts(D) {
   document.getElementById('cpvEne').textContent = rs0(eneC.custo_por_venda);
   document.getElementById('cpvLac').textContent = rs0(lacC.custo_por_venda);
 
-  const mid = (s, c) => D.midia.find(r => r.sigla === s && r.canal === c) || {};
-  const totalMidia = s => ['meta', 'pmax', 'google'].reduce((a, c) => a + (mid(s, c).vl_spend ?? 0), 0);
   document.getElementById('tabMidia').innerHTML = [
     ['Meta', rs0(mid('ENE', 'meta').vl_spend), rs0(mid('LAC', 'meta').vl_spend)],
     ['Google PMax', rs0(mid('ENE', 'pmax').vl_spend), rs0(mid('LAC', 'pmax').vl_spend)],
@@ -567,9 +599,8 @@ function initCharts(D) {
     `<tr><td>Custo por venda (Meta)</td><td class="num">${rs0(eneC.custo_por_venda)}</td><td class="num">${rs0(lacC.custo_por_venda)}</td></tr>`;
 
   /* ── 4. volumetria ────────────────────────────────────────────────────── */
-  const adsDist = (s_, f) => (D.ads_distintos.find(r => r.sigla === s_ && r.fase === f) || {}).qt_ads_distintos ?? 0;
   document.getElementById('tabVolume').innerHTML = [
-    ['Anúncios ativos', nf(adsDist('ENE', 'VENDA') + adsDist('ENE', 'LEAD')) + ' (venda + captação)', nf(adsDist('LAC', 'VENDA'))],
+    ['Anúncios ativos', nf(adsDistTot('ENE')) + ' (venda + captação)', nf(adsDist('LAC', 'VENDA'))],
     ['Investimento Meta', rs0(eneV.spend + eneL.spend), rs0(lacV.spend)],
     ['Impressões', nf(eneV.impr + eneL.impr), nf(lacV.impr)],
     ['CPM', rs((eneV.spend + eneL.spend) / (eneV.impr + eneL.impr) * 1000), rs(lacV.cpm)],
@@ -609,8 +640,6 @@ function initCharts(D) {
     ['Denúncias de spam', nf(totLac('qt_spam')), '—']
   ].map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num" style="color:var(--soft)">${r[2]}</td></tr>`).join('');
 
-  const crm = (s, canal) => D.crm.filter(r => r.sigla === s && r.canal === canal && r.dia <= 3)
-                                 .reduce((a, r) => a + r.qt_entregues, 0);
   const canais = [['E-mail', 'email'], ['App push', 'app_push'], ['WhatsApp', 'whatsapp']];
   const razao = (l, e) => e > 0 ? (l / e >= 10 ? nf(Math.round(l / e)) + '×' : br(l / e, 1) + '×') : (l > 0 ? '— (ENE não usou)' : '—');
   document.getElementById('tabCrm').innerHTML =
@@ -636,8 +665,6 @@ function initCharts(D) {
   /* ── 6. LP ────────────────────────────────────────────────────────────── */
   const lpDia = (s, tipo, dia) => D.lp.filter(r => r.sigla === s && r.tipo === tipo && r.dia === dia)
                                       .reduce((a, r) => a + r.pageviews, 0);
-  const lpSess = (s, tipo) => D.lp.filter(r => r.sigla === s && r.tipo === tipo && r.dia <= 3)
-                                  .reduce((a, r) => a + r.sessions, 0);
   new Chart(chartLp, {
     type: 'bar',
     data: { labels: labelsDia, datasets: [
