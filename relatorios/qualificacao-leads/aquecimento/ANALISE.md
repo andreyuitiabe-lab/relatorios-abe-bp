@@ -43,9 +43,63 @@ CPQL > CPL e fechar o loop com a plataforma (value-based bidding = CAPI com valo
 - **JOM**: 10.826 leads desde 25/07 · CPL R$ 3,56 · A+/A 29,1% (41,4% entre respondentes) · RPL R$ 8,45 **sem âncora** (`ev_iql`, ±35% — a tag reusada não fecha janela) · retorno 2,4× · pacing 70% (abaixo do esperado, dentro da faixa min) · ROAS realizado 0,38× — venda não abriu.
 - Curva de referência: R$ 0,90/lead no dia 0 → R$ 1,89 (D+9) → R$ 2,95 (D+29) → platô R$ 3,05 (D+40+), pré-abertura.
 
+## Especificação de métricas do dashboard (04/09/2026 — pergunta do André, revisada pela auditoria do IQL)
+
+Pergunta: "quais as métricas para orientar o dashboard do time de marketing? (cpl, rpl/cpl, tx de resposta,
+distribuição do IQL, IQL referência)". A camada Decidir **já entrega** quase toda essa lista
+(`vl_cpl`, `retorno_esperado`, `pc_survey`, `mix`, `faixas`+EV). O que faltava é **hierarquia**
+(o que decide × o que vigia × o que alerta) e **referência para comparar**. Revisões vindas da
+auditoria de set/2026 (`../auditoria-set2026.html`):
+
+### Nível 1 — a única métrica que decide (mídia, diário)
+**Retorno esperado = RPL projetado ÷ CPL.** Já é o hero. ⚠️ **Mudança:** a meta de 1,5× não separa nada —
+13 de 13 campanhas do regime novo passam por 2–16× (mediana **5,64×**). O hero precisa de **referência
+relativa** (percentil contra o histórico) além do absoluto: p25 ≈ 4,0× · **mediana 5,64×** · p75 ≈ 8,2×.
+"Verde" deve significar "acima da mediana da casa", não "acima de 1,5×".
+Manter: régua CPL → CPL máximo (RPL ÷ 1,5) → RPL, e o teto comparável quando cobertura < 90%.
+
+### Nível 2 — inputs controláveis, com alvo (gestão, semanal) = a camada Vigiar
+| Métrica | Por que | Referência medida |
+|---|---|---|
+| **Taxa de resposta do formulário** | gargalo nº 1 do modelo **e** preditor por si (IV 0,256; responder = 3,5× conversão) | 50–71% nas tags com pesquisa; **0% em ~78% do volume de 2026** |
+| **% A+/A entre respondentes** (não o bruto) | o bruto mistura ausência de sinal com qualidade e **inverte o ranking** | EVG 21,9% · BP10 28,2% · ELB26 27,0% · ENE 41,0% · JOM 29,3% |
+| **NM-A/R$** (não-membro faixa A por real) | guardrail anti-recaptura: mix de base engana (ρ +0,804 falso vs **+0,013** real) | por campanha, tendência própria |
+| **Cobertura de atribuição por anúncio** | abaixo dela a leitura por criativo é ficção | EVG 79,6% · ELB26 73,3% · **BP10 56,0%** (macro `ad_c__creative_` não expandida) |
+| **% do spend acima da meta** + share do budget em "escalar" | liga decisão a dinheiro movido | — |
+| **Pacing realizado × esperado** | já existe | curva canônica de 4 tags, pré-abertura |
+
+### Nível 3 — saúde do dado (analytics, alerta; novo — a auditoria mostrou que tudo isto quebra em silêncio)
+| Alerta | Caso real |
+|---|---|
+| Resposta crua sem de-para (anti-join dtm × `dim_iql_mapping`) | `qtd_streaming` não mapeada → **~89k leads** perderam `paga_conteudo` |
+| Evento de engajamento renomeado | `cart_page_view` morreu 13/08, `paywall_viewed` nasceu no mesmo dia |
+| CPL de tag reusada / always-on | `vw_cpl_lead_campanha` divide spend da janela pelos leads de sempre (JOM, ELS, RBP) |
+| Estimador e âncora do RPL | exibir `nm_estimator` + `bl_capi_value_eligible` ao lado da projeção |
+
+### Distribuição do IQL — como exibir
+Sempre **em par**: observada e comparável (só respondentes). Referências:
+- **Alvo de desenho** (percentis dos NM in-funnel): A+ 1,5% · A acum. 15% · B acum. 50% · C acum. 85%
+- **EV de tabela** (o que a mídia pode ver — D20): A+ R$ 20,74 · A 11,25 · B 9,53 · C 4,80 · D 2,47
+- **Observado a D+30** (conversão): A+ 4,9–5,7% · A 1,8–2,8% · B 1,1–1,5% · C 0,25–0,58% · D 0,11–0,49%
+- ⚠️ **C e D não separam** (razão 1,02–1,19× em 3 de 4 tags) — não criar ação que dependa dessa distinção
+- ⚠️ **A+ é 85–92% base conhecida** — em qualquer leitura de aquisição, olhar A+/A **entre NM**
+
+### O que NÃO colocar (medido e descartado)
+- **CPLq** — é `CPL ÷ share de A+/A` por construção; não mede custo, reexpressa o mix (D52 + álgebra)
+- **CPL por faixa/cluster** — calculável, mas 13–17% de variação sem direção estável (ELB26 sai invertido)
+- **Volume de leads e CPL como indicadores de saúde** — anticorrelacionam com valor por lead
+  (ρ −0,35 e −0,42); só com qualidade ao lado
+- **Mix de base conhecida como métrica de qualidade** — é composição (ρ +0,013 contra RPL de NM)
+- **Distribuição bruta do IQL sozinha** — sem a leitura comparável, o ranking entre campanhas inverte
+
+### Candidata a entrar depois
+**Faixa × engajamento D+7** (matriz da auditoria): A+/A × quente = 3–5% dos leads e 42–69% da receita,
+com 60–73% do grupo já visível em D+7. É ferramenta de **CRM/Comercial**, não de bid — vai na página do
+Comercial, não nesta.
+
 ## Pendências / próximos passos
 
-1. **Passo 2 — camada Vigiar** (ver plano). Banda de controle XmR sobre `serie[].vl_retorno_esp` e `pacing[]`; bloco de inputs com alvo; leitura piso–teto por anúncio; seção "cadência" (mídia diário / gestão segunda-feira / analytics no fechamento).
+1. **Passo 2 — camada Vigiar** (ver plano + a especificação acima, que substitui a lista original de inputs). Banda de controle XmR sobre `serie[].vl_retorno_esp` e `pacing[]`; bloco de inputs com alvo; leitura piso–teto por anúncio; seção "cadência" (mídia diário / gestão segunda-feira / analytics no fechamento).
 2. ~~Publicar no portal~~ ✅ 26/08 (card na seção IQL); atualizado 27/08 com 5 campanhas.
 3. Spend da ENE parou em 06/08 nas planilhas Adveronix — confirmar com a mídia se a campanha foi pausada ou se é lacuna de dado.
 4. JOM: PMax `[LAN] [JOM] [LEAD] [PMAX] Junho` clonada com URL da ENE (meta-insider-ads.md) — parte do spend JOM gerou leads ENE; CPL JOM levemente superestimado e ENE subestimado. Não corrigido aqui.

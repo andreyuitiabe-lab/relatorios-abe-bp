@@ -1,8 +1,8 @@
 {
- "updated_at": "2026-08-27T11:52:29",
+ "updated_at": "2026-09-03T16:17:49",
  "config": {
-  "ini": "2026-06-29",
-  "fim": "2026-08-26",
+  "ini": "2026-07-06",
+  "fim": "2026-09-02",
   "produtos": [
    "CDL físico",
    "CDL ebook/audio",
@@ -27,104 +27,37 @@
  },
  "semanas": [
   {
-   "semana": "2026-06-29",
-   "abordagens": 82548,
-   "contatos": 48664,
-   "vendedores": 58,
-   "respondidas": 12271,
-   "temas": {
-    "vitalicio": 5625,
-    "black": 3089,
-    "cdl": 55492,
-    "odisseia": 276,
-    "mecenas": 205,
-    "bp10": 4189,
-    "cabral": 139
-   },
-   "temas_resp": {
-    "vitalicio": 2902,
-    "black": 1982,
-    "cdl": 6789,
-    "odisseia": 54,
-    "mecenas": 90,
-    "bp10": 1334,
-    "cabral": 31
-   },
-   "vendas": {
-    "CDL físico": {
-     "vendas": 1488,
-     "receita": 2044290.0
-    },
-    "CDL ebook/audio": {
-     "vendas": 691,
-     "receita": 349390.0
-    },
-    "Black Vitalício": {
-     "vendas": 102,
-     "receita": 335070.0
-    },
-    "Premium Vitalício": {
-     "vendas": 3,
-     "receita": 7043.0
-    },
-    "Básico/outros Vitalício": {
-     "vendas": 1,
-     "receita": 1188.0
-    },
-    "Odisseia": {
-     "vendas": 0,
-     "receita": 0.0
-    },
-    "Mecenas": {
-     "vendas": 13,
-     "receita": 45384.0
-    },
-    "Eventos high-ticket": {
-     "vendas": 0,
-     "receita": 0.0
-    },
-    "Black/Premium recorrente": {
-     "vendas": 101,
-     "receita": 50041.0
-    },
-    "Assinaturas entrada/outros": {
-     "vendas": 678,
-     "receita": 124994.0
-    }
-   }
-  },
-  {
    "semana": "2026-07-06",
-   "abordagens": 64527,
-   "contatos": 41153,
-   "vendedores": 59,
-   "respondidas": 9363,
+   "abordagens": 58939,
+   "contatos": 38012,
+   "vendedores": 52,
+   "respondidas": 7112,
    "temas": {
-    "vitalicio": 7016,
-    "black": 3925,
-    "cdl": 32816,
-    "odisseia": 63,
-    "mecenas": 127,
-    "bp10": 5221,
-    "cabral": 134
+    "vitalicio": 6678,
+    "black": 3702,
+    "cdl": 32165,
+    "odisseia": 92,
+    "mecenas": 116,
+    "bp10": 5009,
+    "cabral": 131
    },
    "temas_resp": {
-    "vitalicio": 2711,
-    "black": 1556,
-    "cdl": 2718,
-    "odisseia": 29,
-    "mecenas": 69,
-    "bp10": 2043,
-    "cabral": 41
+    "vitalicio": 2508,
+    "black": 1441,
+    "cdl": 2541,
+    "odisseia": 31,
+    "mecenas": 61,
+    "bp10": 1903,
+    "cabral": 40
    },
    "vendas": {
     "CDL físico": {
-     "vendas": 227,
-     "receita": 333202.0
+     "vendas": 226,
+     "receita": 331534.0
     },
     "CDL ebook/audio": {
-     "vendas": 114,
-     "receita": 65668.0
+     "vendas": 113,
+     "receita": 65092.0
     },
     "Black Vitalício": {
      "vendas": 91,
@@ -162,27 +95,27 @@
   },
   {
    "semana": "2026-07-13",
-   "abordagens": 113923,
-   "contatos": 61162,
-   "vendedores": 57,
-   "respondidas": 13275,
+   "abordagens": 106915,
+   "contatos": 57458,
+   "vendedores": 51,
+   "respondidas": 10549,
    "temas": {
-    "vitalicio": 29036,
-    "black": 15236,
-    "cdl": 29081,
-    "odisseia": 197,
-    "mecenas": 933,
-    "bp10": 46078,
-    "cabral": 161
+    "vitalicio": 28326,
+    "black": 14925,
+    "cdl": 28407,
+    "odisseia": 248,
+    "mecenas": 886,
+    "bp10": 45029,
+    "cabral": 159
    },
    "temas_resp": {
-    "vitalicio": 6350,
-    "black": 4403,
-    "cdl": 4002,
-    "odisseia": 122,
-    "mecenas": 389,
-    "bp10": 5144,
-    "cabral": 32
+    "vitalicio": 5990,
+    "black": 4195,
+    "cdl": 3755,
+    "odisseia": 124,
+    "mecenas": 366,
+    "bp10": 4817,
+    "cabral": 30
    },
    "vendas": {
     "CDL físico": {
@@ -229,32 +162,32 @@
   },
   {
    "semana": "2026-07-20",
-   "abordagens": 106752,
-   "contatos": 57819,
-   "vendedores": 60,
-   "respondidas": 13280,
+   "abordagens": 100480,
+   "contatos": 54472,
+   "vendedores": 57,
+   "respondidas": 11038,
    "temas": {
-    "vitalicio": 37167,
-    "black": 16638,
-    "cdl": 21847,
-    "odisseia": 3624,
-    "mecenas": 1159,
-    "bp10": 44744,
+    "vitalicio": 36399,
+    "black": 16443,
+    "cdl": 21433,
+    "odisseia": 3667,
+    "mecenas": 1125,
+    "bp10": 43966,
     "cabral": 104
    },
    "temas_resp": {
-    "vitalicio": 7041,
-    "black": 3604,
-    "cdl": 3838,
-    "odisseia": 1088,
-    "mecenas": 436,
-    "bp10": 5504,
+    "vitalicio": 6793,
+    "black": 3510,
+    "cdl": 3677,
+    "odisseia": 1067,
+    "mecenas": 412,
+    "bp10": 5340,
     "cabral": 33
    },
    "vendas": {
     "CDL físico": {
-     "vendas": 406,
-     "receita": 480347.0
+     "vendas": 404,
+     "receita": 478451.0
     },
     "CDL ebook/audio": {
      "vendas": 39,
@@ -269,8 +202,8 @@
      "receita": 314209.0
     },
     "Básico/outros Vitalício": {
-     "vendas": 423,
-     "receita": 505733.0
+     "vendas": 422,
+     "receita": 504545.0
     },
     "Odisseia": {
      "vendas": 104,
@@ -296,32 +229,32 @@
   },
   {
    "semana": "2026-07-27",
-   "abordagens": 133949,
-   "contatos": 72098,
-   "vendedores": 57,
-   "respondidas": 12462,
+   "abordagens": 127371,
+   "contatos": 68569,
+   "vendedores": 55,
+   "respondidas": 10037,
    "temas": {
-    "vitalicio": 30027,
-    "black": 7370,
-    "cdl": 25364,
-    "odisseia": 9337,
-    "mecenas": 4342,
-    "bp10": 52568,
-    "cabral": 321
+    "vitalicio": 29545,
+    "black": 7894,
+    "cdl": 24838,
+    "odisseia": 9175,
+    "mecenas": 4274,
+    "bp10": 51841,
+    "cabral": 313
    },
    "temas_resp": {
-    "vitalicio": 5348,
-    "black": 2512,
-    "cdl": 3310,
-    "odisseia": 1673,
-    "mecenas": 507,
-    "bp10": 3660,
-    "cabral": 119
+    "vitalicio": 5084,
+    "black": 2435,
+    "cdl": 3078,
+    "odisseia": 1608,
+    "mecenas": 471,
+    "bp10": 3531,
+    "cabral": 114
    },
    "vendas": {
     "CDL físico": {
-     "vendas": 305,
-     "receita": 357065.0
+     "vendas": 304,
+     "receita": 355877.0
     },
     "CDL ebook/audio": {
      "vendas": 30,
@@ -336,8 +269,8 @@
      "receita": 428732.0
     },
     "Básico/outros Vitalício": {
-     "vendas": 425,
-     "receita": 503419.0
+     "vendas": 424,
+     "receita": 502231.0
     },
     "Odisseia": {
      "vendas": 284,
@@ -363,27 +296,27 @@
   },
   {
    "semana": "2026-08-03",
-   "abordagens": 61531,
-   "contatos": 43304,
-   "vendedores": 59,
-   "respondidas": 9234,
+   "abordagens": 56405,
+   "contatos": 40341,
+   "vendedores": 54,
+   "respondidas": 7104,
    "temas": {
-    "vitalicio": 14770,
-    "black": 3475,
-    "cdl": 8160,
+    "vitalicio": 14457,
+    "black": 3491,
+    "cdl": 7968,
     "odisseia": 3035,
-    "mecenas": 5963,
-    "bp10": 8081,
-    "cabral": 394
+    "mecenas": 5897,
+    "bp10": 8014,
+    "cabral": 373
    },
    "temas_resp": {
-    "vitalicio": 4125,
-    "black": 1915,
-    "cdl": 1398,
-    "odisseia": 593,
-    "mecenas": 818,
-    "bp10": 2040,
-    "cabral": 82
+    "vitalicio": 3940,
+    "black": 1864,
+    "cdl": 1268,
+    "odisseia": 566,
+    "mecenas": 803,
+    "bp10": 2008,
+    "cabral": 80
    },
    "vendas": {
     "CDL físico": {
@@ -411,8 +344,8 @@
      "receita": 165509.0
     },
     "Mecenas": {
-     "vendas": 88,
-     "receita": 293265.0
+     "vendas": 87,
+     "receita": 293085.0
     },
     "Eventos high-ticket": {
      "vendas": 0,
@@ -430,32 +363,32 @@
   },
   {
    "semana": "2026-08-10",
-   "abordagens": 88962,
-   "contatos": 59369,
-   "vendedores": 58,
-   "respondidas": 12205,
+   "abordagens": 82549,
+   "contatos": 55643,
+   "vendedores": 56,
+   "respondidas": 9521,
    "temas": {
-    "vitalicio": 27226,
-    "black": 9396,
-    "cdl": 5438,
-    "odisseia": 2210,
-    "mecenas": 7559,
-    "bp10": 20827,
-    "cabral": 2950
+    "vitalicio": 27382,
+    "black": 9861,
+    "cdl": 5218,
+    "odisseia": 2274,
+    "mecenas": 7459,
+    "bp10": 20956,
+    "cabral": 2921
    },
    "temas_resp": {
-    "vitalicio": 5614,
-    "black": 3052,
-    "cdl": 1865,
-    "odisseia": 588,
-    "mecenas": 1039,
-    "bp10": 2628,
-    "cabral": 255
+    "vitalicio": 5356,
+    "black": 2975,
+    "cdl": 1678,
+    "odisseia": 575,
+    "mecenas": 1012,
+    "bp10": 2571,
+    "cabral": 245
    },
    "vendas": {
     "CDL físico": {
-     "vendas": 47,
-     "receita": 55572.0
+     "vendas": 46,
+     "receita": 54384.0
     },
     "CDL ebook/audio": {
      "vendas": 8,
@@ -466,8 +399,8 @@
      "receita": 499953.0
     },
     "Premium Vitalício": {
-     "vendas": 301,
-     "receita": 489639.0
+     "vendas": 300,
+     "receita": 488091.0
     },
     "Básico/outros Vitalício": {
      "vendas": 175,
@@ -486,38 +419,38 @@
      "receita": 43005.0
     },
     "Black/Premium recorrente": {
-     "vendas": 283,
-     "receita": 113519.0
+     "vendas": 282,
+     "receita": 113012.0
     },
     "Assinaturas entrada/outros": {
-     "vendas": 925,
-     "receita": 187429.0
+     "vendas": 919,
+     "receita": 186148.0
     }
    }
   },
   {
    "semana": "2026-08-17",
-   "abordagens": 66136,
-   "contatos": 44771,
-   "vendedores": 59,
-   "respondidas": 10792,
+   "abordagens": 60094,
+   "contatos": 41025,
+   "vendedores": 55,
+   "respondidas": 8406,
    "temas": {
-    "vitalicio": 23178,
-    "black": 13193,
-    "cdl": 3320,
-    "odisseia": 2213,
-    "mecenas": 7374,
-    "bp10": 8385,
-    "cabral": 2237
+    "vitalicio": 23553,
+    "black": 13652,
+    "cdl": 3185,
+    "odisseia": 2416,
+    "mecenas": 7337,
+    "bp10": 9015,
+    "cabral": 2226
    },
    "temas_resp": {
-    "vitalicio": 4809,
-    "black": 2893,
-    "cdl": 1782,
-    "odisseia": 593,
-    "mecenas": 1161,
-    "bp10": 1714,
-    "cabral": 116
+    "vitalicio": 4888,
+    "black": 2948,
+    "cdl": 1662,
+    "odisseia": 632,
+    "mecenas": 1179,
+    "bp10": 1993,
+    "cabral": 117
    },
    "vendas": {
     "CDL físico": {
@@ -553,285 +486,460 @@
      "receita": 75000.0
     },
     "Black/Premium recorrente": {
-     "vendas": 333,
-     "receita": 129702.0
+     "vendas": 331,
+     "receita": 128521.0
     },
     "Assinaturas entrada/outros": {
-     "vendas": 827,
-     "receita": 159407.0
+     "vendas": 817,
+     "receita": 157342.0
     }
    }
   },
   {
    "semana": "2026-08-24",
-   "abordagens": 56559,
-   "contatos": 38668,
-   "vendedores": 57,
-   "respondidas": 6986,
+   "abordagens": 90729,
+   "contatos": 54848,
+   "vendedores": 52,
+   "respondidas": 10237,
    "temas": {
-    "vitalicio": 20526,
-    "black": 12107,
-    "cdl": 2879,
-    "odisseia": 1801,
-    "mecenas": 5077,
-    "bp10": 6289,
-    "cabral": 128
+    "vitalicio": 34031,
+    "black": 20579,
+    "cdl": 4942,
+    "odisseia": 10133,
+    "mecenas": 6741,
+    "bp10": 10998,
+    "cabral": 198
    },
    "temas_resp": {
-    "vitalicio": 2711,
-    "black": 1738,
-    "cdl": 948,
-    "odisseia": 334,
-    "mecenas": 447,
-    "bp10": 805,
-    "cabral": 32
+    "vitalicio": 5256,
+    "black": 3453,
+    "cdl": 1955,
+    "odisseia": 1371,
+    "mecenas": 688,
+    "bp10": 2047,
+    "cabral": 81
    },
    "vendas": {
     "CDL físico": {
-     "vendas": 20,
-     "receita": 23267.0
+     "vendas": 45,
+     "receita": 51300.0
     },
     "CDL ebook/audio": {
-     "vendas": 9,
-     "receita": 3620.0
+     "vendas": 11,
+     "receita": 4820.0
     },
     "Black Vitalício": {
-     "vendas": 107,
-     "receita": 377345.0
+     "vendas": 201,
+     "receita": 694939.0
     },
     "Premium Vitalício": {
-     "vendas": 121,
-     "receita": 187072.0
+     "vendas": 218,
+     "receita": 338168.0
     },
     "Básico/outros Vitalício": {
-     "vendas": 71,
-     "receita": 84234.0
+     "vendas": 212,
+     "receita": 243236.0
     },
     "Odisseia": {
-     "vendas": 109,
-     "receita": 125839.0
+     "vendas": 268,
+     "receita": 310711.0
     },
     "Mecenas": {
-     "vendas": 42,
-     "receita": 124106.0
+     "vendas": 78,
+     "receita": 219340.0
     },
     "Eventos high-ticket": {
-     "vendas": 2,
-     "receita": 30000.0
+     "vendas": 3,
+     "receita": 45000.0
     },
     "Black/Premium recorrente": {
-     "vendas": 217,
-     "receita": 82947.0
+     "vendas": 333,
+     "receita": 129596.0
     },
     "Assinaturas entrada/outros": {
-     "vendas": 423,
-     "receita": 82433.0
+     "vendas": 822,
+     "receita": 184550.0
+    }
+   }
+  },
+  {
+   "semana": "2026-08-31",
+   "abordagens": 58309,
+   "contatos": 35327,
+   "vendedores": 47,
+   "respondidas": 4276,
+   "temas": {
+    "vitalicio": 14348,
+    "black": 5428,
+    "cdl": 949,
+    "odisseia": 9984,
+    "mecenas": 165,
+    "bp10": 10252,
+    "cabral": 96
+   },
+   "temas_resp": {
+    "vitalicio": 1726,
+    "black": 1088,
+    "cdl": 543,
+    "odisseia": 879,
+    "mecenas": 55,
+    "bp10": 479,
+    "cabral": 40
+   },
+   "vendas": {
+    "CDL físico": {
+     "vendas": 22,
+     "receita": 24182.0
+    },
+    "CDL ebook/audio": {
+     "vendas": 11,
+     "receita": 4548.0
+    },
+    "Black Vitalício": {
+     "vendas": 78,
+     "receita": 270850.0
+    },
+    "Premium Vitalício": {
+     "vendas": 102,
+     "receita": 158063.0
+    },
+    "Básico/outros Vitalício": {
+     "vendas": 152,
+     "receita": 174008.0
+    },
+    "Odisseia": {
+     "vendas": 248,
+     "receita": 285431.0
+    },
+    "Mecenas": {
+     "vendas": 38,
+     "receita": 121941.0
+    },
+    "Eventos high-ticket": {
+     "vendas": 0,
+     "receita": 0.0
+    },
+    "Black/Premium recorrente": {
+     "vendas": 150,
+     "receita": 59127.0
+    },
+    "Assinaturas entrada/outros": {
+     "vendas": 505,
+     "receita": 195516.0
     }
    }
   }
  ],
  "total": {
-  "abordagens": 774887,
-  "respondidas": 99868,
-  "vendedores_max": 60,
+  "abordagens": 741791,
+  "respondidas": 78280,
+  "vendedores_max": 57,
   "temas": {
-   "vitalicio": 194571,
-   "black": 84429,
-   "cdl": 184397,
-   "odisseia": 22756,
-   "mecenas": 32739,
-   "bp10": 196382,
-   "cabral": 6568
+   "vitalicio": 214719,
+   "black": 95975,
+   "cdl": 129105,
+   "odisseia": 41024,
+   "mecenas": 34000,
+   "bp10": 205080,
+   "cabral": 6521
   },
   "temas_resp": {
-   "vitalicio": 41611,
-   "black": 23655,
-   "cdl": 26650,
-   "odisseia": 5074,
-   "mecenas": 4956,
-   "bp10": 24872,
-   "cabral": 741
+   "vitalicio": 41541,
+   "black": 23909,
+   "cdl": 20157,
+   "odisseia": 6853,
+   "mecenas": 5047,
+   "bp10": 24689,
+   "cabral": 780
   },
   "vendas": {
-   "CDL físico": 2823,
-   "CDL ebook/audio": 986,
-   "Black Vitalício": 1099,
-   "Premium Vitalício": 1228,
-   "Básico/outros Vitalício": 1496,
-   "Odisseia": 887,
-   "Mecenas": 507,
-   "Eventos high-ticket": 15,
-   "Black/Premium recorrente": 1336,
-   "Assinaturas entrada/outros": 6428
+   "CDL físico": 1377,
+   "CDL ebook/audio": 307,
+   "Black Vitalício": 1169,
+   "Premium Vitalício": 1423,
+   "Básico/outros Vitalício": 1786,
+   "Odisseia": 1294,
+   "Mecenas": 567,
+   "Eventos high-ticket": 16,
+   "Black/Premium recorrente": 1498,
+   "Assinaturas entrada/outros": 6638
   },
   "receita": {
-   "CDL físico": 3736305.0,
-   "CDL ebook/audio": 509866.0,
-   "Black Vitalício": 3972122.0,
-   "Premium Vitalício": 2040879.0,
-   "Básico/outros Vitalício": 1780133.0,
-   "Odisseia": 1031685.0,
-   "Mecenas": 1767538.0,
-   "Eventos high-ticket": 342005.0,
-   "Black/Premium recorrente": 568130.0,
-   "Assinaturas entrada/outros": 1225044.0
+   "CDL físico": 1738290.0,
+   "CDL ebook/audio": 165648.0,
+   "Black Vitalício": 4225496.0,
+   "Premium Vitalício": 2341447.0,
+   "Básico/outros Vitalício": 2109579.0,
+   "Odisseia": 1501988.0,
+   "Mecenas": 1939149.0,
+   "Eventos high-ticket": 357005.0,
+   "Black/Premium recorrente": 622177.0,
+   "Assinaturas entrada/outros": 1394337.0
   },
-  "vendas_total": 16805,
-  "receita_total": 16973707.0
+  "vendas_total": 16075,
+  "receita_total": 16395116.0
  },
  "conversao": {
   "cdl": {
-   "conversas": 26650,
-   "pessoas": 23479,
-   "com_venda": 3561,
-   "pct_venda": 13.4,
-   "com_venda_alvo": 1824,
-   "pct_venda_alvo": 6.8,
-   "receita_14d": 6598406.0
-  },
-  "todas": {
-   "conversas": 99868,
-   "pessoas": 76763,
-   "com_venda": 9936,
-   "pct_venda": 9.9,
-   "com_venda_alvo": 9936,
-   "pct_venda_alvo": 9.9,
-   "receita_14d": 13189567.0
-  },
-  "black": {
-   "conversas": 23655,
-   "pessoas": 21675,
-   "com_venda": 2955,
-   "pct_venda": 12.5,
-   "com_venda_alvo": 953,
-   "pct_venda_alvo": 4.0,
-   "receita_14d": 6244898.0
-  },
-  "cabral": {
-   "conversas": 741,
-   "pessoas": 729,
-   "com_venda": 77,
-   "pct_venda": 10.4,
-   "com_venda_alvo": 1,
-   "pct_venda_alvo": 0.1,
-   "receita_14d": 171071.0
+   "conversas": 20157,
+   "pessoas": 18268,
+   "com_venda": 2751,
+   "pct_venda": 13.6,
+   "com_venda_alvo": 861,
+   "pct_venda_alvo": 4.3,
+   "pessoas_com_venda": 2634,
+   "cart_conversas": 9263,
+   "cart_pct_alvo": 8.3,
+   "cart_pct_venda": 26.1,
+   "fora_pct_alvo": 0.9,
+   "fora_pct_venda": 3.0,
+   "receita_14d": 5207787.0
   },
   "odisseia": {
-   "conversas": 5074,
-   "pessoas": 4692,
-   "com_venda": 960,
-   "pct_venda": 18.9,
-   "com_venda_alvo": 723,
-   "pct_venda_alvo": 14.2,
-   "receita_14d": 1664165.0
-  },
-  "bp10": {
-   "conversas": 24872,
-   "pessoas": 23417,
-   "com_venda": 2624,
-   "pct_venda": 10.6,
-   "com_venda_alvo": 2624,
-   "pct_venda_alvo": 10.6,
-   "receita_14d": 4638550.0
+   "conversas": 6853,
+   "pessoas": 6281,
+   "com_venda": 1380,
+   "pct_venda": 20.1,
+   "com_venda_alvo": 1042,
+   "pct_venda_alvo": 15.2,
+   "pessoas_com_venda": 1296,
+   "cart_conversas": 4517,
+   "cart_pct_alvo": 21.9,
+   "cart_pct_venda": 28.3,
+   "fora_pct_alvo": 2.0,
+   "fora_pct_venda": 4.0,
+   "receita_14d": 2164687.0
   },
   "vitalicio": {
-   "conversas": 41611,
-   "pessoas": 37175,
-   "com_venda": 4911,
-   "pct_venda": 11.8,
-   "com_venda_alvo": 3228,
-   "pct_venda_alvo": 7.8,
-   "receita_14d": 8471932.0
+   "conversas": 41541,
+   "pessoas": 36917,
+   "com_venda": 5091,
+   "pct_venda": 12.3,
+   "com_venda_alvo": 3540,
+   "pct_venda_alvo": 8.5,
+   "pessoas_com_venda": 4902,
+   "cart_conversas": 12396,
+   "cart_pct_alvo": 26.6,
+   "cart_pct_venda": 32.3,
+   "fora_pct_alvo": 0.8,
+   "fora_pct_venda": 3.7,
+   "receita_14d": 8509023.0
+  },
+  "todas": {
+   "conversas": 78280,
+   "pessoas": 63375,
+   "com_venda": 8727,
+   "pct_venda": 11.1,
+   "com_venda_alvo": 8727,
+   "pct_venda_alvo": 11.1,
+   "pessoas_com_venda": 7856,
+   "cart_conversas": 25602,
+   "cart_pct_alvo": 22.5,
+   "cart_pct_venda": 22.5,
+   "fora_pct_alvo": 5.4,
+   "fora_pct_venda": 5.4,
+   "receita_14d": 11500601.0
+  },
+  "cabral": {
+   "conversas": 780,
+   "pessoas": 766,
+   "com_venda": 100,
+   "pct_venda": 12.8,
+   "com_venda_alvo": 1,
+   "pct_venda_alvo": 0.1,
+   "pessoas_com_venda": 100,
+   "cart_conversas": 526,
+   "cart_pct_alvo": 0.2,
+   "cart_pct_venda": 16.3,
+   "fora_pct_alvo": 0.0,
+   "fora_pct_venda": 4.5,
+   "receita_14d": 208816.0
+  },
+  "bp10": {
+   "conversas": 24689,
+   "pessoas": 23146,
+   "com_venda": 2654,
+   "pct_venda": 10.7,
+   "com_venda_alvo": 2654,
+   "pct_venda_alvo": 10.7,
+   "pessoas_com_venda": 2604,
+   "cart_conversas": 6053,
+   "cart_pct_alvo": 35.1,
+   "cart_pct_venda": 35.1,
+   "fora_pct_alvo": 2.8,
+   "fora_pct_venda": 2.8,
+   "receita_14d": 4760749.0
   },
   "mecenas": {
-   "conversas": 4956,
-   "pessoas": 4680,
-   "com_venda": 682,
-   "pct_venda": 13.8,
-   "com_venda_alvo": 314,
-   "pct_venda_alvo": 6.3,
-   "receita_14d": 1768275.0
+   "conversas": 5047,
+   "pessoas": 4739,
+   "com_venda": 740,
+   "pct_venda": 14.7,
+   "com_venda_alvo": 341,
+   "pct_venda_alvo": 6.8,
+   "pessoas_com_venda": 723,
+   "cart_conversas": 3280,
+   "cart_pct_alvo": 9.9,
+   "cart_pct_venda": 21.2,
+   "fora_pct_alvo": 0.9,
+   "fora_pct_venda": 2.5,
+   "receita_14d": 1887351.0
+  },
+  "black": {
+   "conversas": 23909,
+   "pessoas": 21786,
+   "com_venda": 3051,
+   "pct_venda": 12.8,
+   "com_venda_alvo": 1009,
+   "pct_venda_alvo": 4.2,
+   "pessoas_com_venda": 2978,
+   "cart_conversas": 9704,
+   "cart_pct_alvo": 10.1,
+   "cart_pct_venda": 26.5,
+   "fora_pct_alvo": 0.2,
+   "fora_pct_venda": 3.4,
+   "receita_14d": 6329763.0
   }
  },
  "venda_conversa": {
+  "Black/Premium recorrente": {
+   "vendas": 1498,
+   "receita": 622175.0,
+   "com_conversa": 260,
+   "lambda": 411,
+   "mencoes": {
+    "vitalicio": 164,
+    "black": 123,
+    "cdl": 63,
+    "odisseia": 22,
+    "mecenas": 6,
+    "bp10": 86,
+    "cabral": 1
+   }
+  },
+  "CDL ebook/audio": {
+   "vendas": 307,
+   "receita": 165648.0,
+   "com_conversa": 222,
+   "lambda": 18,
+   "mencoes": {
+    "vitalicio": 86,
+    "black": 67,
+    "cdl": 214,
+    "odisseia": 14,
+    "mecenas": 8,
+    "bp10": 37,
+    "cabral": 2
+   }
+  },
+  "CDL físico": {
+   "vendas": 1377,
+   "receita": 1738292.0,
+   "com_conversa": 903,
+   "lambda": 62,
+   "mencoes": {
+    "vitalicio": 318,
+    "black": 238,
+    "cdl": 847,
+    "odisseia": 59,
+    "mecenas": 41,
+    "bp10": 210,
+    "cabral": 7
+   }
+  },
+  "Odisseia": {
+   "vendas": 1294,
+   "receita": 1501989.0,
+   "com_conversa": 1025,
+   "lambda": 41,
+   "mencoes": {
+    "vitalicio": 318,
+    "black": 234,
+    "cdl": 467,
+    "odisseia": 987,
+    "mecenas": 96,
+    "bp10": 114,
+    "cabral": 69
+   }
+  },
   "Black Vitalício": {
-   "vendas": 1099,
-   "receita": 3972122.0,
-   "com_conversa": 1007,
-   "lambda": 1,
+   "vendas": 1169,
+   "receita": 4225495.0,
+   "com_conversa": 1025,
+   "lambda": 3,
    "mencoes": {
-    "vitalicio": 994,
-    "black": 986,
-    "cdl": 733,
-    "odisseia": 130,
-    "mecenas": 79,
-    "bp10": 557,
-    "cabral": 13
-   }
-  },
-  "Premium Vitalício": {
-   "vendas": 1228,
-   "receita": 2040879.0,
-   "com_conversa": 1072,
-   "lambda": 38,
-   "mencoes": {
-    "vitalicio": 1038,
-    "black": 524,
-    "cdl": 262,
-    "odisseia": 35,
-    "mecenas": 86,
-    "bp10": 626,
-    "cabral": 4
-   }
-  },
-  "Mecenas": {
-   "vendas": 507,
-   "receita": 1767537.0,
-   "com_conversa": 379,
-   "lambda": 65,
-   "mencoes": {
-    "vitalicio": 158,
-    "black": 128,
-    "cdl": 54,
-    "odisseia": 30,
-    "mecenas": 310,
-    "bp10": 64,
-    "cabral": 6
-   }
-  },
-  "Assinaturas entrada/outros": {
-   "vendas": 6428,
-   "receita": 1225044.0,
-   "com_conversa": 2963,
-   "lambda": 2987,
-   "mencoes": {
-    "vitalicio": 798,
-    "black": 340,
-    "cdl": 224,
-    "odisseia": 18,
-    "mecenas": 16,
-    "bp10": 402,
-    "cabral": 5
+    "vitalicio": 1013,
+    "black": 1010,
+    "cdl": 723,
+    "odisseia": 164,
+    "mecenas": 88,
+    "bp10": 611,
+    "cabral": 14
    }
   },
   "Básico/outros Vitalício": {
-   "vendas": 1496,
-   "receita": 1780133.0,
-   "com_conversa": 1222,
-   "lambda": 23,
+   "vendas": 1786,
+   "receita": 2109580.0,
+   "com_conversa": 1330,
+   "lambda": 26,
    "mencoes": {
-    "vitalicio": 1169,
-    "black": 472,
-    "cdl": 262,
-    "odisseia": 35,
-    "mecenas": 92,
-    "bp10": 645,
+    "vitalicio": 1285,
+    "black": 525,
+    "cdl": 269,
+    "odisseia": 60,
+    "mecenas": 101,
+    "bp10": 678,
     "cabral": 5
    }
   },
+  "Premium Vitalício": {
+   "vendas": 1423,
+   "receita": 2341447.0,
+   "com_conversa": 1179,
+   "lambda": 47,
+   "mencoes": {
+    "vitalicio": 1144,
+    "black": 603,
+    "cdl": 285,
+    "odisseia": 51,
+    "mecenas": 89,
+    "bp10": 653,
+    "cabral": 4
+   }
+  },
+  "Assinaturas entrada/outros": {
+   "vendas": 6638,
+   "receita": 1394336.0,
+   "com_conversa": 2193,
+   "lambda": 2980,
+   "mencoes": {
+    "vitalicio": 768,
+    "black": 336,
+    "cdl": 190,
+    "odisseia": 43,
+    "mecenas": 17,
+    "bp10": 351,
+    "cabral": 8
+   }
+  },
+  "Mecenas": {
+   "vendas": 567,
+   "receita": 1939149.0,
+   "com_conversa": 404,
+   "lambda": 68,
+   "mencoes": {
+    "vitalicio": 181,
+    "black": 147,
+    "cdl": 63,
+    "odisseia": 40,
+    "mecenas": 333,
+    "bp10": 72,
+    "cabral": 6
+   }
+  },
   "Eventos high-ticket": {
-   "vendas": 15,
-   "receita": 342005.0,
+   "vendas": 16,
+   "receita": 357005.0,
    "com_conversa": 2,
    "lambda": 0,
    "mencoes": {
@@ -843,490 +951,468 @@
     "bp10": 0,
     "cabral": 1
    }
-  },
-  "CDL físico": {
-   "vendas": 2823,
-   "receita": 3736306.0,
-   "com_conversa": 2270,
-   "lambda": 155,
-   "mencoes": {
-    "vitalicio": 762,
-    "black": 612,
-    "cdl": 2181,
-    "odisseia": 62,
-    "mecenas": 50,
-    "bp10": 306,
-    "cabral": 9
-   }
-  },
-  "Odisseia": {
-   "vendas": 887,
-   "receita": 1031686.0,
-   "com_conversa": 727,
-   "lambda": 31,
-   "mencoes": {
-    "vitalicio": 259,
-    "black": 194,
-    "cdl": 402,
-    "odisseia": 690,
-    "mecenas": 84,
-    "bp10": 110,
-    "cabral": 46
-   }
-  },
-  "Black/Premium recorrente": {
-   "vendas": 1336,
-   "receita": 568129.0,
-   "com_conversa": 381,
-   "lambda": 395,
-   "mencoes": {
-    "vitalicio": 205,
-    "black": 153,
-    "cdl": 87,
-    "odisseia": 19,
-    "mecenas": 8,
-    "bp10": 105,
-    "cabral": 4
-   }
-  },
-  "CDL ebook/audio": {
-   "vendas": 986,
-   "receita": 509866.0,
-   "com_conversa": 842,
-   "lambda": 39,
-   "mencoes": {
-    "vitalicio": 253,
-    "black": 225,
-    "cdl": 822,
-    "odisseia": 17,
-    "mecenas": 13,
-    "bp10": 73,
-    "cabral": 4
-   }
   }
  },
  "tema_produto": {
-  "vitalicio": {
-   "Black Vitalício": {
-    "vendas": 946,
-    "receita": 3427372.0
-   },
-   "Premium Vitalício": {
-    "vendas": 1034,
-    "receita": 1719754.0
-   },
-   "Assinaturas entrada/outros": {
-    "vendas": 727,
-    "receita": 153362.0
-   },
-   "Mecenas": {
-    "vendas": 156,
-    "receita": 360332.0
-   },
-   "Básico/outros Vitalício": {
-    "vendas": 1144,
-    "receita": 1363061.0
-   },
-   "CDL físico": {
-    "vendas": 543,
-    "receita": 709715.0
-   },
-   "CDL ebook/audio": {
-    "vendas": 173,
-    "receita": 91256.0
-   },
-   "Odisseia": {
-    "vendas": 250,
-    "receita": 290092.0
-   },
-   "Black/Premium recorrente": {
-    "vendas": 163,
-    "receita": 84308.0
-   }
-  },
   "black": {
-   "Black Vitalício": {
-    "vendas": 939,
-    "receita": 3403338.0
-   },
-   "Assinaturas entrada/outros": {
-    "vendas": 305,
-    "receita": 59791.0
-   },
-   "Mecenas": {
-    "vendas": 126,
-    "receita": 300883.0
-   },
-   "Premium Vitalício": {
-    "vendas": 518,
-    "receita": 872282.0
-   },
-   "Básico/outros Vitalício": {
-    "vendas": 453,
-    "receita": 541402.0
-   },
-   "CDL físico": {
-    "vendas": 436,
-    "receita": 568525.0
-   },
    "CDL ebook/audio": {
-    "vendas": 158,
-    "receita": 84612.0
+    "vendas": 55,
+    "receita": 31068.0
    },
    "Odisseia": {
-    "vendas": 188,
-    "receita": 217600.0
+    "vendas": 234,
+    "receita": 270355.0
    },
    "Black/Premium recorrente": {
-    "vendas": 123,
-    "receita": 70052.0
-   }
-  },
-  "cdl": {
-   "CDL físico": {
-    "vendas": 1669,
-    "receita": 2200674.0
-   },
-   "Assinaturas entrada/outros": {
-    "vendas": 186,
-    "receita": 37286.0
-   },
-   "Premium Vitalício": {
-    "vendas": 257,
-    "receita": 435936.0
+    "vendas": 119,
+    "receita": 71344.0
    },
    "Black Vitalício": {
-    "vendas": 685,
-    "receita": 2464965.0
-   },
-   "Básico/outros Vitalício": {
-    "vendas": 249,
-    "receita": 297737.0
-   },
-   "Black/Premium recorrente": {
-    "vendas": 69,
-    "receita": 37404.0
-   },
-   "CDL ebook/audio": {
-    "vendas": 586,
-    "receita": 304522.0
-   },
-   "Odisseia": {
-    "vendas": 399,
-    "receita": 463329.0
-   },
-   "Mecenas": {
-    "vendas": 52,
-    "receita": 173744.0
-   }
-  },
-  "odisseia": {
-   "Mecenas": {
-    "vendas": 29,
-    "receita": 127000.0
-   },
-   "Odisseia": {
-    "vendas": 684,
-    "receita": 795428.0
-   },
-   "Black Vitalício": {
-    "vendas": 130,
-    "receita": 472187.0
+    "vendas": 986,
+    "receita": 3565364.0
    },
    "Assinaturas entrada/outros": {
-    "vendas": 18,
-    "receita": 3046.0
-   },
-   "Black/Premium recorrente": {
-    "vendas": 18,
-    "receita": 11937.0
-   },
-   "CDL físico": {
-    "vendas": 59,
-    "receita": 69476.0
-   },
-   "CDL ebook/audio": {
-    "vendas": 16,
-    "receita": 7776.0
-   },
-   "Premium Vitalício": {
-    "vendas": 34,
-    "receita": 57700.0
+    "vendas": 345,
+    "receita": 151259.0
    },
    "Básico/outros Vitalício": {
-    "vendas": 34,
-    "receita": 40532.0
+    "vendas": 523,
+    "receita": 624140.0
+   },
+   "Premium Vitalício": {
+    "vendas": 605,
+    "receita": 1002215.0
+   },
+   "Mecenas": {
+    "vendas": 146,
+    "receita": 349026.0
+   },
+   "CDL físico": {
+    "vendas": 208,
+    "receita": 264992.0
    }
   },
   "mecenas": {
    "Mecenas": {
-    "vendas": 309,
-    "receita": 1043924.0
+    "vendas": 332,
+    "receita": 1127305.0
    },
    "Odisseia": {
-    "vendas": 81,
-    "receita": 93564.0
-   },
-   "CDL físico": {
-    "vendas": 45,
-    "receita": 53760.0
-   },
-   "Black Vitalício": {
-    "vendas": 79,
-    "receita": 288256.0
-   },
-   "Premium Vitalício": {
-    "vendas": 87,
-    "receita": 144585.0
+    "vendas": 96,
+    "receita": 111024.0
    },
    "Básico/outros Vitalício": {
-    "vendas": 92,
-    "receita": 109312.0
+    "vendas": 101,
+    "receita": 119405.0
    },
-   "Assinaturas entrada/outros": {
-    "vendas": 15,
-    "receita": 8332.0
+   "Black Vitalício": {
+    "vendas": 88,
+    "receita": 321378.0
+   },
+   "CDL físico": {
+    "vendas": 38,
+    "receita": 42924.0
    },
    "CDL ebook/audio": {
-    "vendas": 8,
-    "receita": 4296.0
+    "vendas": 9,
+    "receita": 4536.0
    },
    "Black/Premium recorrente": {
-    "vendas": 5,
-    "receita": 2465.0
+    "vendas": 6,
+    "receita": 2972.0
+   },
+   "Premium Vitalício": {
+    "vendas": 89,
+    "receita": 147327.0
+   },
+   "Assinaturas entrada/outros": {
+    "vendas": 19,
+    "receita": 10480.0
+   }
+  },
+  "vitalicio": {
+   "Odisseia": {
+    "vendas": 318,
+    "receita": 368339.0
+   },
+   "Básico/outros Vitalício": {
+    "vendas": 1279,
+    "receita": 1522213.0
+   },
+   "Premium Vitalício": {
+    "vendas": 1148,
+    "receita": 1886548.0
+   },
+   "Mecenas": {
+    "vendas": 180,
+    "receita": 405161.0
+   },
+   "Black Vitalício": {
+    "vendas": 989,
+    "receita": 3576166.0
+   },
+   "Assinaturas entrada/outros": {
+    "vendas": 777,
+    "receita": 270147.0
+   },
+   "Black/Premium recorrente": {
+    "vendas": 162,
+    "receita": 86259.0
+   },
+   "CDL físico": {
+    "vendas": 282,
+    "receita": 352382.0
+   },
+   "CDL ebook/audio": {
+    "vendas": 76,
+    "receita": 41808.0
+   }
+  },
+  "bp10": {
+   "Odisseia": {
+    "vendas": 114,
+    "receita": 132895.0
+   },
+   "Básico/outros Vitalício": {
+    "vendas": 675,
+    "receita": 802234.0
+   },
+   "Premium Vitalício": {
+    "vendas": 655,
+    "receita": 1086821.0
+   },
+   "Assinaturas entrada/outros": {
+    "vendas": 346,
+    "receita": 114231.0
+   },
+   "Black Vitalício": {
+    "vendas": 603,
+    "receita": 2213287.0
+   },
+   "Black/Premium recorrente": {
+    "vendas": 86,
+    "receita": 43492.0
+   },
+   "Mecenas": {
+    "vendas": 71,
+    "receita": 113585.0
+   },
+   "CDL ebook/audio": {
+    "vendas": 29,
+    "receita": 16644.0
+   },
+   "CDL físico": {
+    "vendas": 189,
+    "receita": 237560.0
+   }
+  },
+  "cdl": {
+   "CDL físico": {
+    "vendas": 760,
+    "receita": 949540.0
+   },
+   "Básico/outros Vitalício": {
+    "vendas": 268,
+    "receita": 319816.0
+   },
+   "CDL ebook/audio": {
+    "vendas": 170,
+    "receita": 90452.0
+   },
+   "Odisseia": {
+    "vendas": 467,
+    "receita": 541893.0
+   },
+   "Assinaturas entrada/outros": {
+    "vendas": 178,
+    "receita": 81201.0
+   },
+   "Black/Premium recorrente": {
+    "vendas": 58,
+    "receita": 33755.0
+   },
+   "Premium Vitalício": {
+    "vendas": 286,
+    "receita": 478803.0
+   },
+   "Black Vitalício": {
+    "vendas": 698,
+    "receita": 2511775.0
+   },
+   "Mecenas": {
+    "vendas": 62,
+    "receita": 200552.0
+   }
+  },
+  "odisseia": {
+   "Odisseia": {
+    "vendas": 988,
+    "receita": 1146787.0
+   },
+   "Assinaturas entrada/outros": {
+    "vendas": 46,
+    "receita": 29875.0
+   },
+   "CDL ebook/audio": {
+    "vendas": 13,
+    "receita": 6336.0
+   },
+   "Black Vitalício": {
+    "vendas": 164,
+    "receita": 586577.0
+   },
+   "Básico/outros Vitalício": {
+    "vendas": 60,
+    "receita": 71060.0
+   },
+   "Mecenas": {
+    "vendas": 40,
+    "receita": 156597.0
+   },
+   "Black/Premium recorrente": {
+    "vendas": 22,
+    "receita": 15181.0
+   },
+   "Premium Vitalício": {
+    "vendas": 51,
+    "receita": 83866.0
+   },
+   "CDL físico": {
+    "vendas": 58,
+    "receita": 68408.0
    }
   },
   "cabral": {
-   "Mecenas": {
-    "vendas": 6,
-    "receita": 11843.0
-   },
    "Odisseia": {
-    "vendas": 45,
-    "receita": 52720.0
-   },
-   "Black/Premium recorrente": {
-    "vendas": 3,
-    "receita": 1884.0
-   },
-   "Assinaturas entrada/outros": {
-    "vendas": 5,
-    "receita": 772.0
-   },
-   "Básico/outros Vitalício": {
-    "vendas": 4,
-    "receita": 4633.0
-   },
-   "Black Vitalício": {
-    "vendas": 12,
-    "receita": 45109.0
-   },
-   "CDL ebook/audio": {
-    "vendas": 3,
-    "receita": 1200.0
-   },
-   "CDL físico": {
-    "vendas": 8,
-    "receita": 10439.0
+    "vendas": 69,
+    "receita": 80656.0
    },
    "Premium Vitalício": {
-    "vendas": 3,
-    "receita": 5472.0
+    "vendas": 4,
+    "receita": 6865.0
+   },
+   "Black Vitalício": {
+    "vendas": 14,
+    "receita": 49123.0
+   },
+   "CDL físico": {
+    "vendas": 7,
+    "receita": 8411.0
+   },
+   "Assinaturas entrada/outros": {
+    "vendas": 8,
+    "receita": 5599.0
+   },
+   "CDL ebook/audio": {
+    "vendas": 2,
+    "receita": 960.0
+   },
+   "Mecenas": {
+    "vendas": 6,
+    "receita": 13913.0
+   },
+   "Básico/outros Vitalício": {
+    "vendas": 5,
+    "receita": 5821.0
    },
    "Eventos high-ticket": {
     "vendas": 1,
     "receita": 37000.0
+   },
+   "Black/Premium recorrente": {
+    "vendas": 1,
+    "receita": 468.0
    }
   }
  },
  "stages": [
   {
    "stage": "carteiraMecenas",
-   "conversas": 26155,
-   "vitalicio": 12330,
-   "black": 9522,
-   "cdl": 11331,
-   "odisseia": 3281,
-   "mecenas": 3085,
-   "bp10": 5995,
-   "cabral": 479
+   "conversas": 25602,
+   "vitalicio": 12396,
+   "black": 9704,
+   "cdl": 9263,
+   "odisseia": 4517,
+   "mecenas": 3280,
+   "bp10": 6053,
+   "cabral": 526
   },
   {
    "stage": "tentativa2",
-   "conversas": 21173,
-   "vitalicio": 10966,
-   "black": 4928,
-   "cdl": 5127,
-   "odisseia": 669,
-   "mecenas": 939,
-   "bp10": 7892,
-   "cabral": 69
+   "conversas": 19040,
+   "vitalicio": 11021,
+   "black": 4922,
+   "cdl": 3717,
+   "odisseia": 939,
+   "mecenas": 942,
+   "bp10": 7878,
+   "cabral": 77
   },
   {
    "stage": "contatoNegociacao",
-   "conversas": 18026,
-   "vitalicio": 9241,
-   "black": 4609,
-   "cdl": 5137,
-   "odisseia": 425,
-   "mecenas": 299,
-   "bp10": 5548,
-   "cabral": 69
+   "conversas": 16110,
+   "vitalicio": 9356,
+   "black": 4722,
+   "cdl": 3857,
+   "odisseia": 639,
+   "mecenas": 311,
+   "bp10": 5647,
+   "cabral": 71
   },
   {
    "stage": "tentativa1",
-   "conversas": 9156,
-   "vitalicio": 4783,
-   "black": 2545,
-   "cdl": 2193,
-   "odisseia": 301,
-   "mecenas": 293,
-   "bp10": 3413,
-   "cabral": 39
+   "conversas": 7504,
+   "vitalicio": 4655,
+   "black": 2663,
+   "cdl": 1677,
+   "odisseia": 373,
+   "mecenas": 288,
+   "bp10": 3011,
+   "cabral": 34
   },
   {
    "stage": "linkEnviado",
-   "conversas": 7032,
-   "vitalicio": 2994,
-   "black": 1236,
-   "cdl": 1676,
-   "odisseia": 168,
-   "mecenas": 99,
-   "bp10": 1587,
-   "cabral": 37
+   "conversas": 6375,
+   "vitalicio": 3132,
+   "black": 1263,
+   "cdl": 1166,
+   "odisseia": 233,
+   "mecenas": 94,
+   "bp10": 1607,
+   "cabral": 41
   },
   {
    "stage": "(sem etapa)",
-   "conversas": 5080,
-   "vitalicio": 286,
-   "black": 151,
-   "cdl": 186,
-   "odisseia": 56,
-   "mecenas": 14,
-   "bp10": 158,
-   "cabral": 15
+   "conversas": 1333,
+   "vitalicio": 225,
+   "black": 137,
+   "cdl": 73,
+   "odisseia": 36,
+   "mecenas": 9,
+   "bp10": 164,
+   "cabral": 7
   },
   {
-   "stage": "garantia_retencao",
-   "conversas": 3242,
-   "vitalicio": 123,
-   "black": 129,
-   "cdl": 17,
-   "odisseia": 11,
-   "mecenas": 5,
-   "bp10": 22,
-   "cabral": 6
+   "stage": "mensagemAutomatica",
+   "conversas": 461,
+   "vitalicio": 299,
+   "black": 254,
+   "cdl": 143,
+   "odisseia": 26,
+   "mecenas": 34,
+   "bp10": 86,
+   "cabral": 7
   },
   {
-   "stage": "informacoesDaAssinatura",
-   "conversas": 1889,
-   "vitalicio": 177,
-   "black": 58,
-   "cdl": 70,
-   "odisseia": 22,
-   "mecenas": 68,
-   "bp10": 39,
-   "cabral": 2
+   "stage": "engajado",
+   "conversas": 262,
+   "vitalicio": 96,
+   "black": 42,
+   "cdl": 3,
+   "odisseia": 1,
+   "mecenas": 42,
+   "bp10": 108,
+   "cabral": 5
   }
  ],
  "motivos": [
   {
    "motivo": "(sem motivo)",
-   "conversas": 56371,
-   "vitalicio": 25155,
-   "black": 16028,
-   "cdl": 17918,
-   "odisseia": 3653,
-   "mecenas": 3676,
-   "bp10": 15107,
-   "cabral": 504
+   "conversas": 43914,
+   "vitalicio": 23948,
+   "black": 15594,
+   "cdl": 13202,
+   "odisseia": 5009,
+   "mecenas": 3586,
+   "bp10": 14460,
+   "cabral": 524
   },
   {
    "motivo": "semContato",
-   "conversas": 11089,
-   "vitalicio": 5098,
-   "black": 1200,
-   "cdl": 1469,
-   "odisseia": 238,
-   "mecenas": 236,
-   "bp10": 2877,
+   "conversas": 10274,
+   "vitalicio": 5206,
+   "black": 1326,
+   "cdl": 1222,
+   "odisseia": 279,
+   "mecenas": 256,
+   "bp10": 2806,
    "cabral": 44
   },
   {
-   "motivo": "faltaDeInteresse",
-   "conversas": 7569,
-   "vitalicio": 2349,
-   "black": 1157,
-   "cdl": 1397,
-   "odisseia": 148,
-   "mecenas": 149,
-   "bp10": 1511,
-   "cabral": 16
+   "motivo": "archivedUntilSchedule",
+   "conversas": 6121,
+   "vitalicio": 4166,
+   "black": 3092,
+   "cdl": 2557,
+   "odisseia": 875,
+   "mecenas": 558,
+   "bp10": 2393,
+   "cabral": 111
   },
   {
-   "motivo": "archivedUntilSchedule",
-   "conversas": 6792,
-   "vitalicio": 4281,
-   "black": 3112,
-   "cdl": 3009,
-   "odisseia": 718,
-   "mecenas": 548,
-   "bp10": 2455,
-   "cabral": 106
+   "motivo": "faltaDeInteresse",
+   "conversas": 6097,
+   "vitalicio": 2555,
+   "black": 1193,
+   "cdl": 1052,
+   "odisseia": 219,
+   "mecenas": 148,
+   "bp10": 1639,
+   "cabral": 19
   },
   {
    "motivo": "faltaDeDinheiro",
-   "conversas": 6232,
-   "vitalicio": 2725,
-   "black": 1240,
-   "cdl": 1667,
-   "odisseia": 139,
-   "mecenas": 119,
-   "bp10": 1855,
-   "cabral": 9
+   "conversas": 5568,
+   "vitalicio": 2933,
+   "black": 1283,
+   "cdl": 1210,
+   "odisseia": 238,
+   "mecenas": 139,
+   "bp10": 1919,
+   "cabral": 14
   },
   {
-   "motivo": "retido",
-   "conversas": 2460,
-   "vitalicio": 103,
-   "black": 40,
-   "cdl": 82,
-   "odisseia": 14,
-   "mecenas": 6,
-   "bp10": 10,
-   "cabral": 0
+   "motivo": "falEncerradaPorAdmin",
+   "conversas": 2320,
+   "vitalicio": 1343,
+   "black": 762,
+   "cdl": 373,
+   "odisseia": 90,
+   "mecenas": 264,
+   "bp10": 699,
+   "cabral": 18
   },
   {
    "motivo": "ganho",
-   "conversas": 1817,
-   "vitalicio": 479,
-   "black": 260,
-   "cdl": 138,
-   "odisseia": 8,
-   "mecenas": 12,
-   "bp10": 217,
+   "conversas": 1636,
+   "vitalicio": 489,
+   "black": 252,
+   "cdl": 114,
+   "odisseia": 14,
+   "mecenas": 13,
+   "bp10": 206,
    "cabral": 5
   },
   {
    "motivo": "teste",
-   "conversas": 872,
-   "vitalicio": 294,
-   "black": 63,
-   "cdl": 128,
-   "odisseia": 13,
-   "mecenas": 31,
-   "bp10": 224,
-   "cabral": 23
+   "conversas": 762,
+   "vitalicio": 332,
+   "black": 83,
+   "cdl": 92,
+   "odisseia": 35,
+   "mecenas": 33,
+   "bp10": 230,
+   "cabral": 25
   }
  ],
  "odisseia": {
   "coocorrencia": {
-   "total": 22756,
-   "com_cdl": 8011,
-   "com_black": 2573,
-   "com_vit": 3381,
-   "com_mec": 350,
-   "sozinha": 13475
+   "total": 41024,
+   "com_cdl": 8616,
+   "com_black": 3218,
+   "com_vit": 4217,
+   "com_mec": 615,
+   "sozinha": 30292
   },
   "ofertas": [
    {
@@ -1361,33 +1447,33 @@
    },
    {
     "mes": "2026-07",
-    "oferta": "Livro Odisseia - Edição Colecionador - Por: 12x de 160",
-    "vendas": 1,
-    "receita": 1920.0
-   },
-   {
-    "mes": "2026-07",
     "oferta": "Livro Odisseia - Edição Colecionador - R$ 1200",
     "vendas": 1,
     "receita": 1200.0
    },
    {
+    "mes": "2026-07",
+    "oferta": "Livro Odisseia - Edição Colecionador - Por: 12x de 160",
+    "vendas": 1,
+    "receita": 1920.0
+   },
+   {
     "mes": "2026-08",
     "oferta": "Livro Odisseia - Edição Colecionador - Por: 12x de 97",
-    "vendas": 362,
-    "receita": 419937.0
+    "vendas": 548,
+    "receita": 636324.0
    },
    {
     "mes": "2026-08",
     "oferta": "Odisseia - Prata",
-    "vendas": 98,
-    "receita": 113210.0
+    "vendas": 262,
+    "receita": 303006.0
    },
    {
     "mes": "2026-08",
     "oferta": "Livro Odisseia - R$1200",
-    "vendas": 23,
-    "receita": 27601.0
+    "vendas": 31,
+    "receita": 37201.0
    },
    {
     "mes": "2026-08",
@@ -1397,9 +1483,9 @@
    },
    {
     "mes": "2026-08",
-    "oferta": "Livro Odisseia - Edição Colecionador - Por: 18x de 75",
-    "vendas": 3,
-    "receita": 4050.0
+    "oferta": "Odisseia - Curso da Obra - R$ 468",
+    "vendas": 4,
+    "receita": 1872.0
    },
    {
     "mes": "2026-08",
@@ -1409,9 +1495,15 @@
    },
    {
     "mes": "2026-08",
-    "oferta": "Odisseia + cursos digital + Clube digital + Travessia.",
-    "vendas": 2,
-    "receita": 2640.0
+    "oferta": "Livro Odisseia - Edição Colecionador - Por: 18x de 75",
+    "vendas": 3,
+    "receita": 4050.0
+   },
+   {
+    "mes": "2026-08",
+    "oferta": "Odisseia - Bronze",
+    "vendas": 3,
+    "receita": 1916.0
    },
    {
     "mes": "2026-08",
@@ -1421,9 +1513,9 @@
    },
    {
     "mes": "2026-08",
-    "oferta": "Odisseia - Bronze",
+    "oferta": "Odisseia + cursos digital + Clube digital + Travessia.",
     "vendas": 2,
-    "receita": 1448.0
+    "receita": 2640.0
    },
    {
     "mes": "2026-08",
@@ -1433,31 +1525,43 @@
    },
    {
     "mes": "2026-08",
-    "oferta": "Odisseia - Curso da Obra - R$ 948",
-    "vendas": 1,
-    "receita": 468.0
-   },
-   {
-    "mes": "2026-08",
     "oferta": "Livro Odisseia - R$984",
     "vendas": 1,
     "receita": 984.0
    },
    {
     "mes": "2026-08",
-    "oferta": "Odisseia - Curso da Obra - R$ 468",
+    "oferta": "Upsell pós compra - Livro Odisseia + Curso da Obra + Travessia + Clube do Livro Digital por 12x de R$129",
+    "vendas": 1,
+    "receita": 1548.0
+   },
+   {
+    "mes": "2026-08",
+    "oferta": "Odisseia - Curso da Obra - R$ 948",
     "vendas": 1,
     "receita": 468.0
+   },
+   {
+    "mes": "2026-09",
+    "oferta": "Livro Odisseia - Edição Colecionador - Por: 12x de 97",
+    "vendas": 24,
+    "receita": 27936.0
+   },
+   {
+    "mes": "2026-09",
+    "oferta": "Odisseia - Prata",
+    "vendas": 20,
+    "receita": 23164.0
    }
   ]
  },
  "vendedores": {
-  "vendedores": 47.0,
-  "receita_humanos": 15748555.0,
-  "top10": 6000303.0,
-  "mediana_vendedor": 414894.0,
-  "lambda_vendas": 3734.0,
-  "lambda_receita": 1070778.0,
-  "sem_vendedor": 154374.0
+  "vendedores": 48.0,
+  "receita_humanos": 15272456.0,
+  "top10": 5856145.0,
+  "mediana_vendedor": 399685.0,
+  "lambda_vendas": 3656.0,
+  "lambda_receita": 968113.0,
+  "sem_vendedor": 154546.0
  }
 }

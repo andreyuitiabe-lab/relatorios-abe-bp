@@ -122,6 +122,82 @@
 
   footer { margin-top:3.5rem; border-top:1px solid var(--rule); padding-top:1.2rem; font-family:var(--sans); font-size:.82rem; color:var(--ink-3); line-height:1.55; }
   footer b { color:var(--ink-2); }
+
+  p.nota { font-family:var(--sans); font-size:.82rem; color:var(--ink-3); line-height:1.5; margin:-.6rem 0 1.4rem; }
+  .debate { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin:1.5rem 0; }
+  @media (max-width:760px) { .debate { grid-template-columns:1fr; } }
+  .lado { border:1px solid var(--rule); background:var(--surface); padding:1.1rem 1.2rem; }
+  .lado.pro { border-top:4px solid var(--pos); }
+  .lado.contra { border-top:4px solid var(--ink-3); }
+  .lado > h4 { font-family:var(--sans); font-size:.92rem; font-weight:600; margin:0 0 .8rem;
+    line-height:1.35; padding-bottom:.5rem; border-bottom:1px solid var(--rule-soft); }
+  .lado ol { list-style:none; counter-reset:d; padding:0; margin:0; }
+  .lado li { counter-increment:d; padding:.6rem 0; border-top:1px solid var(--rule-soft); }
+  .lado li:first-child { border-top:0; padding-top:0; }
+  .lado .arg { display:block; font-weight:600; font-size:.94rem; line-height:1.35; margin-bottom:.2rem; }
+  .lado .det { font-size:.88rem; line-height:1.55; color:var(--ink-2); }
+  .empate { border-left:3px solid var(--ink); background:var(--sunk); padding:1rem 1.2rem;
+    margin:1.4rem 0; line-height:1.6; }
+  .decide { border:1px solid var(--rule); padding:1rem 1.2rem; margin:1.2rem 0; line-height:1.6; }
+  .teste { border-top:1px solid var(--rule-soft); padding:.9rem 0; }
+  .teste:first-child { border-top:1px solid var(--rule); }
+  .teste h4 { font-family:var(--sans); font-size:.95rem; font-weight:600; margin:0 0 .3rem; }
+  .teste .oq { margin:0 0 .35rem; font-size:.94rem; line-height:1.55; color:var(--ink-2); }
+  .teste .res { margin:0; font-size:.92rem; line-height:1.5; padding-left:.8rem; border-left:2px solid var(--rule); }
+  .revg { margin:1.6rem 0; }
+  .revg > h3 { font-family:var(--sans); font-size:.95rem; font-weight:600; margin:0 0 .6rem;
+    padding-bottom:.35rem; border-bottom:1px solid var(--rule); }
+  p.concl { border-left:3px solid var(--ink); background:var(--surface); padding:.9rem 1.1rem;
+    font-size:.98rem; line-height:1.6; margin:1.6rem 0; }
+  /* ---- gráficos ---- */
+  .fig { margin:1.4rem 0 1.6rem; }
+  .fig .cap { font-family:var(--sans); font-size:.78rem; color:var(--ink-3); line-height:1.45; margin-top:.6rem; }
+  .fig .ttl { font-family:var(--sans); font-size:.82rem; font-weight:600; color:var(--ink-2); margin-bottom:.9rem; }
+
+  /* forest plot */
+  .forest { font-family:var(--sans); font-size:.85rem; }
+  .forest .row { display:grid; grid-template-columns:14.5rem 1fr; align-items:center; gap:.9rem; padding:.42rem 0; }
+  .forest .lab { color:var(--ink-2); line-height:1.3; }
+  .forest .lab .v { font-family:var(--mono); font-size:.92em; color:var(--ink); font-weight:500; display:block; }
+  .forest .track { position:relative; height:1.5rem; }
+  .forest .zero { position:absolute; top:-.1rem; bottom:-.1rem; width:1px; background:var(--rule); }
+  .forest .whisk { position:absolute; top:50%; height:2px; transform:translateY(-50%); background:var(--ink-3); opacity:.55; border-radius:1px; }
+  .forest .dot { position:absolute; top:50%; width:9px; height:9px; border-radius:50%; transform:translate(-50%,-50%); }
+  .forest .cap-l, .forest .cap-r { position:absolute; top:50%; width:1px; height:8px; transform:translateY(-50%); background:var(--ink-3); opacity:.55; }
+  .forest .sig .dot { background:var(--pos); } .forest .sig .whisk { background:var(--pos); opacity:.45; }
+  .forest .ns .dot { background:var(--ink-3); }
+  .forest .axis { display:grid; grid-template-columns:14.5rem 1fr; gap:.9rem; margin-top:.3rem; }
+  .forest .axis .t { position:relative; height:1.1rem; font-family:var(--mono); font-size:.66rem; color:var(--ink-3); }
+  .forest .axis .t span { position:absolute; transform:translateX(-50%); white-space:nowrap; }
+  @media (max-width:560px) {
+    .forest .row, .forest .axis { grid-template-columns:1fr; gap:.1rem; }
+    .forest .row { padding:.7rem 0; border-top:1px solid var(--rule-soft); }
+  }
+
+  /* barras horizontais */
+  .bars { font-family:var(--sans); font-size:.85rem; }
+  .bars .row { display:grid; grid-template-columns:12rem 1fr; gap:.9rem; align-items:center; padding:.3rem 0; }
+  .bars .lab { color:var(--ink-2); line-height:1.25; }
+  .bars .b { position:relative; height:1.15rem; background:var(--sunk); }
+  .bars .b i { position:absolute; left:0; top:0; bottom:0; background:var(--ink-3); opacity:.5; }
+  .bars .b i.hi { background:var(--ink-2); opacity:.9; }  /* destaque = maior valor; verde fica reservado a significância */
+  .bars .b em { position:absolute; top:50%; transform:translateY(-50%); left:.45rem; font-style:normal; font-family:var(--mono); font-size:.72rem; color:var(--ink); }
+  .bars .b em.out { left:auto; }
+  .bars .lab .sub { display:block; font-family:var(--mono); font-size:.76em; color:var(--ink-3); margin-top:.1rem; }
+  .bars .row.eixo { padding-top:.15rem; }
+  .bars .row.eixo .t { position:relative; height:1rem; }
+  .bars .row.eixo .t span { position:absolute; transform:translateX(-50%); font-family:var(--mono); font-size:.66rem; color:var(--ink-3); }
+  .duo { display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; }
+  @media (max-width:640px) { .duo { grid-template-columns:1fr; gap:.4rem; } .bars .row { grid-template-columns:9rem 1fr; } }
+
+  /* scatter */
+  .scat svg { width:100%; height:auto; display:block; overflow:visible; }
+  .scat text { font-family:var(--sans); fill:var(--ink-3); font-size:11px; }
+  .scat .pt { fill:var(--ink-3); } .scat .pt.sig { fill:var(--pos); }
+  .scat .nm { fill:var(--ink-2); font-size:10.5px; }
+  .scat .ref { stroke:var(--rule); stroke-dasharray:3 3; }
+  .scat .ax { stroke:var(--rule); }
+  .scat .whisk { stroke:var(--ink-3); opacity:.4; }
   @media (prefers-reduced-motion:reduce){ *{transition:none!important} }
 </style>
 </head>
@@ -145,9 +221,11 @@
 
   <h2 id="h-bloco1"></h2>
   <div id="bloco1"></div>
+  <div class="fig" id="g-funil"></div>
 
   <h2 id="h-bloco2"></h2>
   <p>Efeito de dias de audiência orgânica alta, comparados a dias de audiência baixa com o mesmo investimento de mídia, no mesmo dia da semana e na mesma fase de campanha.</p>
+  <div class="fig" id="g-bloco2"></div>
   <div class="scroll"><table id="t-bloco2"></table></div>
 
   <h3 id="h-canais"></h3>
@@ -159,14 +237,69 @@
 
   <h3>Notoriedade no YouTube não prevê ativação da base</h3>
   <p>As nove sabatinas, com o lift medido em 14 dias na plataforma ao lado das views no YouTube. Os dois entrevistados de maior projeção são os únicos sem efeito.</p>
+  <div class="fig" id="g-sab"></div>
   <div class="scroll"><table id="t-sabatinas"></table></div>
 
   <h2 id="h-cn"></h2>
   <p id="cn-texto"></p>
+  <div class="fig" id="g-cn"></div>
   <div class="scroll"><table id="t-cn"></table></div>
   <p id="cn-conclusao"></p>
   <p>Três leituras que este dado não separa:</p>
   <ul class="lista" id="cn-leituras"></ul>
+
+  <h2 id="h-deb"></h2>
+  <p id="deb-texto"></p>
+  <div class="debate" id="debate"></div>
+  <p class="empate" id="deb-empate"></p>
+
+  <h2 id="h-mp"></h2>
+  <p id="mp-texto"></p>
+  <div class="scroll"><table id="t-mp"></table></div>
+  <h3 id="h-mpp"></h3>
+  <div class="scroll"><table id="t-mpp"></table></div>
+  <p id="mpp-nota" class="nota"></p>
+  <h3 id="h-mpe"></h3>
+  <div class="scroll"><table id="t-mpe"></table></div>
+  <p id="mpe-leitura" class="concl"></p>
+  <ul class="lista" id="mp-leituras"></ul>
+
+  <h2 id="h-rev"></h2>
+  <p id="rev-texto"></p>
+  <div id="revisao"></div>
+  <p id="rev-concl" class="concl"></p>
+
+  <h2 id="h-tb"></h2>
+  <p id="tb-texto"></p>
+  <h3 id="h-tbc"></h3>
+  <div class="scroll"><table id="t-tbc"></table></div>
+  <p id="tbc-concl"></p>
+  <h3>Efeito por canal, nos três recortes</h3>
+  <div class="scroll"><table id="t-tb"></table></div>
+  <ul class="lista" id="tb-leituras"></ul>
+
+  <h2 id="h-aa"></h2>
+  <p id="aa-texto"></p>
+  <div class="scroll"><table id="t-aa"></table></div>
+  <ul class="lista" id="aa-leituras"></ul>
+
+  <h2 id="h-sens"></h2>
+  <p id="sens-texto"></p>
+  <div class="fig" id="g-sens"></div>
+  <ul class="lista" id="sens-leituras"></ul>
+
+  <h2 id="h-lps"></h2>
+  <p id="lps-texto"></p>
+  <div class="scroll"><table id="t-lps"></table></div>
+  <div class="fig" id="g-lps"></div>
+  <ul class="lista" id="lps-leituras"></ul>
+
+  <h2 id="h-ins"></h2>
+  <p id="ins-texto"></p>
+  <ol class="insights" id="insights"></ol>
+
+  <h2 id="h-pts"></h2>
+  <div id="pontos"></div>
 
   <h2>O que precisa acontecer</h2>
   <ol class="acoes" id="acoes"></ol>
@@ -178,6 +311,29 @@
   <p><b>O que este estudo não resolve:</b></p>
   <ul class="lista" id="m-lim"></ul>
 
+<style>
+.insights{list-style:none;padding:0;margin:1.4rem 0;counter-reset:i}
+.insights li{counter-increment:i;padding:1rem 0 1rem 2.6rem;border-top:1px solid var(--rule-soft);position:relative}
+.insights li::before{content:counter(i);position:absolute;left:0;top:1rem;width:1.7rem;height:1.7rem;border-radius:50%;
+  background:var(--ink);color:var(--ground);font-size:.72rem;font-weight:600;display:flex;align-items:center;justify-content:center}
+.insights .t{display:block;font-weight:650;font-size:1.02rem;margin-bottom:.35rem;line-height:1.3}
+.insights .d{color:var(--ink-2);line-height:1.6}
+.insights .acao{display:block;margin-top:.5rem;font-size:.86rem;color:var(--ink-2)}
+.insights .acao::before{content:"O que fazer · ";font-weight:600;color:var(--ink)}
+.grupo{margin:1.6rem 0}
+.grupo>h3{font-family:var(--mono);font-size:.7rem;font-weight:500;margin-top:0;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-2);
+  border-bottom:2px solid var(--ink);padding-bottom:.4rem;margin-bottom:0}
+.grupo dl{margin:0}
+.grupo dt{font-weight:600;padding:.85rem 0 .25rem;border-top:1px solid var(--rule-soft);line-height:1.4;padding-right:5.5rem;position:relative}
+.grupo dt:first-of-type{border-top:0}
+.grupo dd{margin:0 0 .85rem;color:var(--ink-2);line-height:1.6}
+.sel{position:absolute;right:0;top:.85rem;font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;
+  font-weight:600;padding:.12rem .45rem;border-radius:3px}
+.sel.ok{background:#e8f0e6;color:#3d6b34}
+.sel.pc{background:#f6efdc;color:#8a6b1f}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .sel.ok{background:#22331f;color:#9dc294}:root:not([data-theme="light"]) .sel.pc{background:#332c18;color:#d4b86a}}
+@media(max-width:560px){.grupo dt{padding-right:0}.sel{position:static;display:inline-block;margin-left:.4rem}}
+</style>
   <footer id="foot"></footer>
 </div>
 
@@ -261,6 +417,214 @@ fetch('./data.json').then(r => r.json()).then(D => {
   $('m-desenho').textContent = D.metodo.desenho;
   $('m-val').innerHTML = D.metodo.validacoes.map(v => `<li>${v.replace(/^([^:]+):/, '<b>$1:</b>')}</li>`).join('');
   $('m-lim').innerHTML = D.metodo.limites.map(v => `<li>${v}</li>`).join('');
+
+
+  const L = D.lps;
+  $('h-lps').textContent = L.titulo; $('lps-texto').innerHTML = L.texto;
+  $('t-lps').innerHTML =
+    `<thead><tr>` + L.colunas.map((c,i) => `<th${i?' class="n"':''}>${c}</th>`).join('') + `</tr></thead><tbody>` +
+    L.linhas.map(r => `<tr>` + r.map((c,i) => i===0 ? `<td>${c}</td>` : `<td class="n${i>=6?'':' nil'}">${i>=6?`<b>${c}</b>`:c}</td>`).join('') + `</tr>`).join('') +
+    `</tbody><caption>Links das descrições dos vídeos, 674 links específicos em 1.114 vídeos. Classificação feita pelo padrão da URL antes de olhar o resultado.</caption>`;
+  $('lps-leituras').innerHTML = L.leituras.map(l => `<li>${l}</li>`).join('');
+
+  const I = D.insights;
+  $('h-ins').textContent = I.titulo; $('ins-texto').textContent = I.texto;
+  $('insights').innerHTML = I.itens.map(x =>
+    `<li><span class="t">${x.t}</span><div class="d">${x.d}</div><span class="acao">${x.acao}</span></li>`).join('');
+
+  const P = D.pontos;
+  $('h-pts').textContent = P.titulo;
+  $('pontos').innerHTML = P.grupos.map(g => `
+    <div class="grupo"><h3>${g.quem}</h3><dl>` +
+    g.itens.map(i => `<dt>${i.p}<span class="sel ${i.s==='respondido'?'ok':'pc'}">${i.s==='respondido'?'respondido':'parcial'}</span></dt><dd>${i.r}</dd>`).join('') +
+    `</dl></div>`).join('');
+
+
+  // ---------- gráficos ----------
+  const nf = (v,d=1) => v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}).replace('-','\u2212');
+
+  /** Forest plot: estimativa + intervalo, com linha de referência. */
+  function forest(el, rows, o) {
+    const ref = o.ref ?? 0;
+    const vals = rows.flatMap(r => [r.n, ...(r.ic || [])]).filter(v => v != null).concat([ref]);
+    let lo = Math.min(...vals), hi = Math.max(...vals);
+    const pad = (hi - lo) * 0.10 || 1; lo -= pad; hi += pad;
+    const pc = v => ((v - lo) / (hi - lo) * 100);
+    const ticks = o.ticks || [lo, ref, hi].map(v => +v.toFixed(o.dec ?? 0));
+    $(el).innerHTML =
+      `<div class="ttl">${o.titulo}</div><div class="forest">` +
+      rows.map(r => {
+        const sig = r.ic ? (r.ic[0] > ref || r.ic[1] < ref) : false;
+        const w = r.ic ? `<div class="whisk" style="left:${pc(r.ic[0])}%;width:${pc(r.ic[1])-pc(r.ic[0])}%"></div>
+             <div class="cap-l" style="left:${pc(r.ic[0])}%"></div><div class="cap-r" style="left:${pc(r.ic[1])}%"></div>` : '';
+        return `<div class="row ${sig?'sig':'ns'}">
+          <div class="lab">${r.c}<span class="v">${r.e}${r.ic ? ` · ${o.fmtIC ? o.fmtIC(r.ic) : ''}` : ' · sem intervalo'}</span></div>
+          <div class="track"><div class="zero" style="left:${pc(ref)}%"></div>${w}
+            <div class="dot" style="left:${pc(r.n)}%"></div></div></div>`;
+      }).join('') +
+      `<div class="axis"><div></div><div class="t">` +
+        ticks.map(t => `<span style="left:${pc(t)}%">${o.fmtT ? o.fmtT(t) : t}</span>`).join('') +
+      `</div></div></div><div class="cap">${o.cap}</div>`;
+  }
+
+  forest('g-bloco2', D.bloco2.linhas.map(l => ({c:l.c.replace(' (checagem do pareamento)',''), e:l.e, n:l.n, ic:l.ic_n})),
+    {titulo:'Efeito de audiência alta, por indicador', ref:0, dec:0,
+     ticks:[-25,0,25,50], fmtT:t=>String(t).replace('-','\u2212')+'%', fmtIC:ic=>`IC95 ${nf(ic[0])} a ${nf(ic[1])}`,
+     cap:'Ponto = efeito estimado; barra = intervalo de 95% por bootstrap de bloco. Em verde, os intervalos que não cruzam o zero. Spend está no gráfico como checagem: ele <b>deve</b> cruzar o zero, e cruza — é o que garante que os dois grupos gastaram o mesmo.'});
+
+  const cn2 = D.controle_negativo;
+  forest('g-cn', cn2.linhas.map(l => ({c:l.c.replace(' (o desfecho do estudo)','').replace(' automática no cartão',' no cartão'), e:l.e, n:l.n, ic:l.ic_n})),
+    {titulo:'Elasticidade à audiência: o que sobe junto', ref:0, dec:2,
+     ticks:[-0.1,0,0.1,0.2], fmtT:t=>nf(t,2), fmtIC:ic=>`IC95 ${nf(ic[0],3)} a ${nf(ic[1],3)}`,
+     cap:'A renovação automática no cartão <b>não pode</b> ser causada por um vídeo de hoje, e ainda assim sobe quase tanto quanto a venda nova. A terceira linha é a que decide: a razão entre as duas cruza o zero com folga, ou seja, a parte do efeito específica de venda nova não se distingue de zero.'});
+
+  // Taxa de passagem: cada barra é a fração que avança, todas no MESMO eixo linear.
+  // Barra em escala log foi descartada — comprimento de barra é lido como proporção,
+  // e o log fazia 0,054% parecer metade do total.
+  (function(){
+    const fn = D.bloco1.funil_n;               // [views, sessões, leads, vendas]
+    const MAX = 10;                            // eixo 0% a 10%
+    const N = v => v.toLocaleString('pt-BR');
+    const etapas = [
+      {t:'Das views, chegam à landing page', n:fn[1], de:fn[0], dec:3},
+      {t:'Das sessões, viram lead',          n:fn[2], de:fn[1], dec:1},
+      {t:'Das sessões, viram venda',         n:fn[3], de:fn[1], dec:1}
+    ].map(e => ({...e, pct: e.n / e.de * 100}));
+    const ticks = [0, 2.5, 5, 7.5, 10];
+    $('g-funil').innerHTML =
+      `<div class="ttl">Taxa de passagem em cada etapa, 01/08 a 13/09</div><div class="bars">` +
+      etapas.map(e => {
+        const w = Math.max(e.pct / MAX * 100, 0.3);
+        return `<div class="row"><div class="lab">${e.t}<span class="sub">${N(e.n)} de ${N(e.de)}</span></div>
+          <div class="b"><i class="${e.pct > 1 ? 'hi' : ''}" style="width:${w}%"></i>
+          <em class="out" style="left:calc(${w}% + .45rem)">${nf(e.pct, e.dec)}%</em></div></div>`;
+      }).join('') +
+      `<div class="row eixo"><div></div><div class="t">` +
+        ticks.map((t,k) => {
+          // primeiro e último encostam na borda: alinha por dentro para não cortar
+          const tx = k === 0 ? '0' : k === ticks.length - 1 ? '-100%' : '-50%';
+          return `<span style="left:${t / MAX * 100}%;transform:translateX(${tx})">${nf(t, t % 1 ? 1 : 0)}%</span>`;
+        }).join('') +
+      `</div></div></div>` +
+      `<div class="cap">As três barras dividem o mesmo eixo, de 0% a 10%, para o comprimento significar a mesma coisa nas três.
+       <b>A primeira é um risco fino porque o número é 0,054%, não porque o gráfico quebrou.</b>
+       De cada 1.844 pessoas que assistem, uma chega à página — e quem chega compra a 5,8%, taxa alta para uma landing page.
+       É daí que sai a leitura de que o gargalo é o clique, não a página. Os totais de cada etapa estão à esquerda das barras.</div>`;
+  })();
+
+  // scatter sabatinas
+  (function(){
+    const pts = D.sabatinas.filter(s => s.v > 0);
+    const W=660,H=300,mL=42,mR=108,mT=14,mB=40;
+    const xs = pts.map(p=>Math.log10(p.v)), x0=Math.min(...xs)-.2, x1=Math.max(...xs)+.2;
+    const ys = pts.flatMap(p=>p.ic_n||[p.lift_n]), y0=Math.min(0.2,...ys), y1=Math.max(...ys)+.15;
+    const X = v => mL + (Math.log10(v)-x0)/(x1-x0)*(W-mL-mR);
+    const Y = v => H-mB - (v-y0)/(y1-y0)*(H-mT-mB);
+    const xt = [10000,50000,100000,500000,1000000].filter(t=>Math.log10(t)>=x0&&Math.log10(t)<=x1);
+    const yt = [0.5,1,1.5,2,2.5].filter(t=>t>=y0&&t<=y1);
+    $('g-sab').innerHTML = `<div class="ttl">Views no YouTube × ativação da base</div><div class="scat">
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Dispersão: views das sabatinas contra o lift de compra em 14 dias. As duas de maior audiência têm o menor lift.">
+      ${yt.map(t=>`<line class="${t===1?'ref':'ax'}" x1="${mL}" x2="${W-mR}" y1="${Y(t)}" y2="${Y(t)}" stroke-width="1" ${t===1?'':'opacity=".35"'}/>
+        <text x="${mL-7}" y="${Y(t)+4}" text-anchor="end">${nf(t,1)}×</text>`).join('')}
+      <text class="nm" x="${W-mR+6}" y="${Y(1)+4}" style="fill:var(--ink-3)">sem efeito</text>
+      ${xt.map(t=>`<text x="${X(t)}" y="${H-mB+18}" text-anchor="middle">${t>=1e6?(t/1e6)+' mi':(t/1000)+' mil'}</text>`).join('')}
+      <text x="${(mL+W-mR)/2}" y="${H-4}" text-anchor="middle">views no YouTube (escala log)</text>
+      ${(() => {
+        // coloca o rótulo ao lado do ponto; se colidir com um já colocado, empurra para baixo
+        const postos = [];
+        return pts.map(p => {
+          const px = X(p.v), py = Y(p.lift_n);
+          const dir = px > W-mR-90 ? 'end' : 'start', dx = dir==='end' ? -9 : 9;
+          let ty = py + 3.5;
+          while (postos.some(q => Math.abs(q.x-px) < 95 && Math.abs(q.y-ty) < 12)) ty += 12;
+          postos.push({x:px, y:ty});
+          const wk = p.ic_n ? `<line class="whisk" x1="${px}" x2="${px}" y1="${Y(p.ic_n[0])}" y2="${Y(p.ic_n[1])}" stroke-width="1.5"/>` : '';
+          const guia = Math.abs(ty - (py+3.5)) > 2
+            ? `<line class="whisk" x1="${px+dx*0.5}" x2="${px+dx*0.8}" y1="${py}" y2="${ty-3.5}" stroke-width="1"/>` : '';
+          return `${wk}<circle class="pt ${p.sig?'sig':''}" cx="${px}" cy="${py}" r="4.5"/>${guia}
+            <text class="nm" x="${px+dx}" y="${ty}" text-anchor="${dir}">${p.n}</text>`;
+        }).join('');
+      })()}
+      </svg></div>
+      <div class="cap">Cada ponto é uma sabatina; a barra vertical é o intervalo de 95%. Em verde, as que superam a linha de "sem efeito". <b>Marçal e Renan têm 10 a 90 vezes mais audiência que as demais e são as duas sem efeito medido.</b> Caroline de Toni estreou depois da janela de views e ficou de fora.</div>`;
+  })();
+
+  // lps
+  (function(){
+    const rows = D.lps.n.filter(r => /Venda|Campanha|lead/.test(r.classe));
+    const mxL = Math.max(...rows.map(r=>r.leads1m)), mxR = Math.max(...rows.map(r=>r.rec1m));
+    const col = (t, key, mx, fmt, hiKey) => `<div><div class="ttl">${t}</div><div class="bars">` +
+      rows.map(r => `<div class="row"><div class="lab">${r.classe.replace(' (oferta e planos)','').replace(' (oferta com prazo)','')}</div>
+        <div class="b"><i class="${r[key]===mx?'hi':''}" style="width:${r[key]/mx*100}%"></i>
+        <em ${r[key]/mx>.5?'':'class="out"'} style="${r[key]/mx>.5?'':`left:calc(${r[key]/mx*100}% + .45rem)`}">${fmt(r[key])}</em></div></div>`).join('') +
+      `</div></div>`;
+    $('g-lps').innerHTML = `<div class="duo">` +
+      col('Leads por 1 milhão de views','leads1m',mxL,v=>v.toLocaleString('pt-BR')) +
+      col('Receita por 1 milhão de views','rec1m',mxR,v=>'R$ '+nf(v,1)+' mil') +
+      `</div><div class="cap">As duas escalas são independentes, porque as unidades são diferentes. A leitura é o contraste: <b>a página de captação lidera em leads e é a última em receita</b>. WhatsApp e "outro" ficaram de fora do gráfico por serem uma LP e um agrupamento heterogêneo; estão na tabela.</div>`;
+  })();
+
+  const MP = D.midia_paga;
+  $('h-mp').textContent = MP.titulo; $('mp-texto').innerHTML = MP.texto;
+  $('t-mp').innerHTML = `<thead><tr>` + MP.colunas.map((c,i)=>`<th${i?' class="n"':''}>${c}</th>`).join('') + `</tr></thead><tbody>` +
+    MP.linhas.map(r => {
+      const cls = r[4]==='ok' ? 'pos' : 'nil';
+      return `<tr><td>${r[0]}</td><td class="n ${cls}"><b>${r[1]}</b></td><td class="n ${cls}">${r[2]}</td><td class="n ${cls}">${r[3]}</td></tr>`;
+    }).join('') + `</tbody><caption>${MP.nota}</caption>`;
+  $('h-mpp').textContent = MP.pratico.titulo;
+  $('t-mpp').innerHTML = `<tbody>` + MP.pratico.linhas.map(([k,v]) =>
+    `<tr><td>${k}</td><td class="n"><b>${v}</b></td></tr>`).join('') + `</tbody>`;
+  $('mpp-nota').textContent = MP.pratico.nota;
+  $('h-mpe').textContent = MP.especificidade.titulo;
+  $('t-mpe').innerHTML = `<thead><tr><th>Medida de audiência usada</th><th class="n">Efeito em Ads</th><th class="n">p</th></tr></thead><tbody>` +
+    MP.especificidade.linhas.map(([k,e,pp]) =>
+      `<tr><td>${k}</td><td class="n"><b>${e}</b></td><td class="n ${parseFloat(pp.replace(',','.'))<0.05?'pos':'nil'}">${pp}</td></tr>`).join('') + `</tbody>`;
+  $('mpe-leitura').innerHTML = MP.especificidade.leitura;
+  $('mp-leituras').innerHTML = MP.leituras.map(l => `<li>${l}</li>`).join('');
+
+  const CF = D.confianca;
+  $('h-rev').textContent = CF.titulo; $('rev-texto').innerHTML = CF.texto;
+  $('revisao').innerHTML = CF.testes.map(t => `
+    <div class="teste"><h4>${t.t}</h4><p class="oq">${t.d}</p><p class="res">${t.r}</p></div>`).join('');
+  $('rev-concl').innerHTML = CF.fecho;
+
+  const TB = D.transbordamento;
+  $('h-tb').textContent = TB.titulo; $('tb-texto').innerHTML = TB.texto;
+  $('h-tbc').textContent = TB.confundimento.titulo;
+  $('t-tbc').innerHTML = `<thead><tr><th>Indicador</th><th class="n">Audiência alta</th><th class="n">Audiência baixa</th><th>Leitura</th></tr></thead><tbody>` +
+    TB.confundimento.linhas.map(([k,a,b,o]) =>
+      `<tr><td>${k}</td><td class="n"><b>${a}</b></td><td class="n">${b}</td><td class="nil" style="white-space:normal">${o}</td></tr>`).join('') + `</tbody>`;
+  $('tbc-concl').innerHTML = TB.confundimento.conclusao;
+  $('t-tb').innerHTML = `<thead><tr>` + TB.colunas.map((c,i)=>`<th${i?' class="n"':''}>${c}</th>`).join('') + `</tr></thead><tbody>` +
+    TB.linhas.map(r => {
+      const ult = r[0] === 'Dias no recorte';
+      return `<tr>` + r.map((c,i) => i===0 ? `<td>${ult?`<span class="nil">${c}</span>`:c}</td>`
+        : `<td class="n ${/ns$/.test(c)||ult ? 'nil' : 'pos'}">${ult?c:`<b>${c}</b>`}</td>`).join('') + `</tr>`;
+    }).join('') +
+    `</tbody><caption>Efeito sobre transações em dias de audiência alta contra baixa, pareado por quintil de investimento, fim de semana e fase. “ns” = o intervalo de 95% cruza o zero. Em verde, os que não cruzam.</caption>`;
+  $('tb-leituras').innerHTML = TB.leituras.map(l => `<li>${l}</li>`).join('');
+
+  const AA = D.audiencia_alta;
+  $('h-aa').textContent = AA.titulo; $('aa-texto').innerHTML = AA.texto;
+  $('t-aa').innerHTML = `<tbody>` + AA.linhas.map(([k,v,o],i) =>
+    `<tr><td>${k}</td><td class="n"${i===4?' style="font-weight:600"':''}>${v}</td><td class="n nil">${o}</td></tr>`).join('') + `</tbody>`;
+  $('aa-leituras').innerHTML = AA.leituras.map(l => `<li>${l}</li>`).join('');
+
+  const S = D.sensibilidade;
+  $('h-sens').textContent = S.titulo; $('sens-texto').innerHTML = S.texto;
+  forest('g-sens', S.linhas.map(l => ({c:`${l.c} <span class="nil">· ${l.n_dias} dias</span>`, e:l.e, n:l.n, ic:l.ic_n})),
+    {titulo:'Mesmo estimador, recortes cada vez mais restritos', ref:0, dec:0,
+     ticks:[0,25,50,75,100], fmtT:t=>t+'%', fmtIC:ic=>`IC95 ${nf(ic[0])} a ${nf(ic[1])}`,
+     cap:'Ponto = efeito sobre transações; barra = intervalo de 95% por bootstrap de bloco. Em verde, os intervalos que não cruzam o zero. A linha destacada em “Publicado” é a que aparece no resto do relatório.'});
+  $('sens-leituras').innerHTML = S.leituras.map(l => `<li>${l}</li>`).join('');
+
+  const DB = D.debate;
+  $('h-deb').textContent = DB.titulo; $('deb-texto').innerHTML = DB.texto;
+  $('debate').innerHTML = DB.lados.map(l =>
+    `<div class="lado ${l.cor}"><h4>${l.t}</h4><ol>` +
+    l.itens.map(i => `<li><span class="arg">${i.a}</span><span class="det">${i.d}</span></li>`).join('') +
+    `</ol></div>`).join('');
+  $('deb-empate').innerHTML = DB.empate;
 
   $('foot').innerHTML = `Análise viva, queries e scripts em <code>relatorios/relevancia-marca/</code>. Gerado em ${m.gerado.split('-').reverse().join('/')} a partir de <code>data.json</code> (<code>refresh.py</code>). Fontes: YouTube Analytics API, YouTube Data API, Instagram Graph API, GA4, <code>fct_transactions</code>, <code>dtm_analytics_lead_conversion</code> e os marts de mídia.`;
 });

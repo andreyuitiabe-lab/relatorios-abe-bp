@@ -30,7 +30,7 @@
       --c-premium:  #8d55d9;
       --c-basico:   #d9541f;
       --c-outros:   #9b9a92;
-      --c-vitalicio:#2a78d6;   /* tema "vitalício" herda o azul do Black Vitalício */
+      --c-vitalicio:#8d55d9;   /* tema "vitalício" usa o violeta (≠ Black no mesmo gráfico) */
       --c-bp10:     #d9541f;   /* tema "aniversário" = oferta Aniv26 de vitalício básico/premium */
       --c-cabral:   #5f6b78;
       --tt-bg: #17181a; --tt-ink: #fdfdfb;
@@ -42,7 +42,7 @@
         --grid: #2b2f34; --line: #2b2f34; --border: rgba(236,235,230,0.10); --deemph: #3a3e44; --hl: #2d2711;
         --good: #5fc282; --bad: #ef7b7b;
         --c-cdl: #22b57d; --c-black: #4b8fe0; --c-odisseia: #d2a12b; --c-mecenas: #e06aa3;
-        --c-premium: #a476e6; --c-basico: #ea7a4c; --c-outros: #6f7076; --c-vitalicio: #4b8fe0; --c-bp10: #ea7a4c; --c-cabral: #8b98a6;
+        --c-premium: #a476e6; --c-basico: #ea7a4c; --c-outros: #6f7076; --c-vitalicio: #a476e6; --c-bp10: #ea7a4c; --c-cabral: #8b98a6;
         --tt-bg: #ecebe6; --tt-ink: #15171a;
       }
     }
@@ -52,7 +52,7 @@
       --grid: #2b2f34; --line: #2b2f34; --border: rgba(236,235,230,0.10); --deemph: #3a3e44; --hl: #2d2711;
       --good: #5fc282; --bad: #ef7b7b;
       --c-cdl: #22b57d; --c-black: #4b8fe0; --c-odisseia: #d2a12b; --c-mecenas: #e06aa3;
-      --c-premium: #a476e6; --c-basico: #ea7a4c; --c-outros: #6f7076; --c-vitalicio: #4b8fe0; --c-bp10: #ea7a4c; --c-cabral: #8b98a6;
+      --c-premium: #a476e6; --c-basico: #ea7a4c; --c-outros: #6f7076; --c-vitalicio: #a476e6; --c-bp10: #ea7a4c; --c-cabral: #8b98a6;
       --tt-bg: #ecebe6; --tt-ink: #15171a;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -127,7 +127,7 @@
   <p class="eyebrow">Brasil Paralelo · Comercial · <span class="js-range">—</span></p>
   <h1>Abordagens do Comercial: o que o time oferece e o que fecha</h1>
   <p class="lede" id="lede">—</p>
-  <p class="sub">Zenvia (transcrições das conversas) × vendas do canal Comercial. "Conversa real" = abordagem em que o cliente respondeu; o tema é lido por menção na transcrição; a conversão é medida ligando a conversa à compra da mesma pessoa em até 14 dias. Atualizado: <span id="updated">—</span>.</p>
+  <p class="sub">Zenvia (transcrições das conversas, somente contatos do grupo Comercial — Retenção/Suporte/CS ficam fora) × vendas do canal Comercial. "Conversa real" = abordagem em que o cliente respondeu; o tema é lido por menção na transcrição; a conversão é medida ligando a conversa à compra da mesma pessoa em até 14 dias (transações distintas). Atualizado: <span id="updated">—</span>.</p>
 </header>
 
 <main>
@@ -178,7 +178,7 @@
 
   <section>
     <h2>Conversão real por tema</h2>
-    <p class="para">De cada 100 conversas reais que mencionam o tema, quantas terminaram em compra da mesma pessoa em até 14 dias — no <strong>produto ofertado</strong> (cor) e em <strong>qualquer produto</strong> do Comercial (cinza). Corrige a aproximação usada até aqui (vendas ÷ menções), que inflava a Odisseia.</p>
+    <p class="para">De cada 100 conversas reais que mencionam o tema, quantas terminaram em compra da mesma pessoa em até 14 dias — no <strong>produto ofertado</strong> (cor) e em <strong>qualquer produto</strong> do Comercial (cinza). <strong>A etapa domina a taxa:</strong> a mesma conversa converte ~4× mais na carteira Mecenas do que fora — por isso cada tema mostra também a taxa dentro/fora da carteira. Corrige a aproximação anterior (vendas ÷ menções).</p>
     <div class="card"><div id="convBars"></div></div>
     <div class="card tbl-wrap">
       <p class="label">Ofertado × comprado — vendas em 14 dias após conversa que menciona o tema (linha) por produto (coluna)</p>
@@ -231,7 +231,7 @@
     <div class="card"><ul class="clean">
       <li><strong>Menção ≠ oferta formal.</strong> A regex pega qualquer citação do tema (inclusive o cliente perguntando). "Aniversário" tem falsos positivos pontuais.</li>
       <li><strong>Conversa → compra em 14 dias não é causalidade.</strong> A pessoa pode ter sido trabalhada também por outro vendedor, telefone, e-mail ou mídia no mesmo intervalo; o match é por telefone/e-mail do contato Zenvia × cadastro da compra.</li>
-      <li><strong>Só canal Comercial</strong> (<code>bl_is_commercial_channel</code>), sem renovações. Vendas Lambda não passam pelo Zenvia — aparecem em "vendas" mas não em "conversas".</li>
+      <li><strong>Só canal Comercial</strong> (<code>bl_is_commercial_channel</code>), sem renovações, e só contatos do grupo Comercial no Zenvia (<code>TRIM(nm_group)</code> — Retenção, Suporte e CS ficam fora do denominador). Vendas Lambda não passam pelo Zenvia — aparecem em "vendas" mas não em "conversas".</li>
       <li><strong>Última semana parcial</strong> (até ontem). Janela móvel: os números mudam a cada refresh.</li>
     </ul></div>
   </section>
@@ -292,10 +292,12 @@ function boot(D) {
     'Em ' + S.length + ' semanas o Comercial disparou ' + fmtInt(T.abordagens) + ' abordagens, conversou de fato com ' + fmtInt(D.conversao.todas.pessoas) +
     ' pessoas e fechou ' + fmtBRL(T.receita_total) + '. O script está no Vitalício (' + fmtPct(T.temas_resp.vitalicio, T.respondidas) + ' das conversas reais, ' +
     fmtPct(vit, T.receita_total) + ' da receita); a Odisseia é nicho (' + fmtPct(T.temas_resp.odisseia, T.respondidas, 1) + ' das conversas) com a melhor conversão do portfólio.';
+  const TD = D.conversao.todas;
   document.getElementById('nota-resumo').innerHTML =
-    '<strong>Uma em cada dez conversas reais vira venda em 14 dias</strong> (' + D.conversao.todas.pct_venda.toLocaleString('pt-BR') + '%, ' + fmtInt(D.conversao.todas.com_venda) +
-    ' conversas, ' + fmtBRL(D.conversao.todas.receita_14d) + '). Vitalício vendeu ' + fmtInt(vitV) + ' unidades / ' + fmtBRL(vit) + '; o Clube do Livro, ' + fmtBRL(cdlR) +
-    ', concentrado no fechamento do Lote 2/3 no início da janela; a Odisseia, ' + fmtInt(T.vendas['Odisseia']) + ' / ' + fmtBRL(T.receita['Odisseia']) + '.';
+    '<strong>' + TD.pct_venda.toLocaleString('pt-BR') + '% das conversas reais viram venda em 14 dias</strong> (' + fmtInt(TD.com_venda) + ' conversas; por pessoa, ' +
+    fmtPct(TD.pessoas_com_venda, TD.pessoas, 1) + '; ' + fmtBRL(TD.receita_14d) + ' em transações distintas). A taxa é dominada pela etapa: ' + TD.cart_pct_venda.toLocaleString('pt-BR') +
+    '% na carteira Mecenas vs ' + TD.fora_pct_venda.toLocaleString('pt-BR') + '% fora. Vitalício vendeu ' + fmtInt(vitV) + ' unidades / ' + fmtBRL(vit) + '; a Odisseia, ' +
+    fmtInt(T.vendas['Odisseia']) + ' / ' + fmtBRL(T.receita['Odisseia']) + '.';
 
   // ---------- ritmo ----------
   new Chart(document.getElementById('chartRitmo'), { type: 'bar',
@@ -305,11 +307,15 @@ function boot(D) {
     options: { plugins: { tooltip: { callbacks: { footer: it => { const s = S[it[0].dataIndex]; return fmtInt(s.abordagens) + ' abordagens · ' + fmtInt(s.contatos) + ' contatos · ' + s.vendedores + ' vendedores · ' + fmtPct(s.respondidas, s.abordagens, 1) + ' respondidas'; } } } },
       scales: { y: yAxis({ stacked: true }), x: { stacked: true, grid: { display: false } } } } });
   const pico = S.reduce((a, b) => b.abordagens > a.abordagens ? b : a);
-  const respMin = Math.min(...S.slice(0, lastPartial ? -1 : S.length).map(s => s.respondidas)), respMax = Math.max(...S.map(s => s.respondidas));
+  const Sc = lastPartial ? S.slice(0, -1) : S;
+  const xs = Sc.map(s => s.abordagens), ys = Sc.map(s => s.respondidas);
+  const mx = sum(xs)/xs.length, my = sum(ys)/ys.length;
+  const corr = sum(xs.map((x,i)=>(x-mx)*(ys[i]-my))) / Math.sqrt(sum(xs.map(x=>(x-mx)**2)) * sum(ys.map(y=>(y-my)**2)));
+  const txMin = Math.min(...Sc.map(s => s.respondidas/s.abordagens)), txMax = Math.max(...Sc.map(s => s.respondidas/s.abordagens));
   document.getElementById('nota-ritmo').innerHTML =
-    '<strong>O volume enviado oscila 2×; o de conversas, muito menos.</strong> Pico de ' + fmtInt(pico.abordagens) + ' abordagens na semana de ' + fmtDM(pico.semana) +
-    ' (Odisseia entra no Comercial + oferta Aniv26), mas as conversas reais ficaram entre ' + fmtInt(respMin) + ' e ' + fmtInt(respMax) + ' por semana completa. ' +
-    'Disparar mais não abriu mais conversas — a taxa de resposta cai quando o volume sobe.' + (lastPartial ? ' Última semana parcial.' : '');
+    '<strong>Disparar mais abre mais conversas, mas com retorno decrescente.</strong> A correlação semanal entre disparos e respostas é ' + corr.toFixed(2).replace('.', ',') +
+    ', e a taxa de resposta cai de ~' + (100*txMax).toFixed(0) + '% nas semanas leves para ~' + (100*txMin).toFixed(0) + '% no pico de ' + fmtInt(pico.abordagens) +
+    ' (semana de ' + fmtDM(pico.semana) + ') — o retorno marginal do disparo extra é cerca de 1/3 do médio, e o teto passa a ser a capacidade de atendimento.' + (lastPartial ? ' Última semana parcial.' : '');
 
   // ---------- temas ----------
   const temasChart = new Chart(document.getElementById('chartTemas'), { type: 'line',
@@ -366,7 +372,7 @@ function boot(D) {
   ordem.forEach(t => { const c = D.conversao[t]; const wA = 100 * c.pct_venda_alvo / maxP, wQ = 100 * c.pct_venda / maxP;
     cb.insertAdjacentHTML('beforeend', '<div class="bar-row" style="grid-template-columns:170px 1fr 150px"><div><span class="swatch" style="background:' + cor(t) + '"></span>' + TEMA[t] + '<div style="font-size:11.5px;color:var(--muted)">' + fmtInt(c.conversas) + ' conversas</div></div>' +
       '<div class="bar" style="height:22px" role="img" aria-label="' + TEMA[t] + ': ' + c.pct_venda_alvo + '% no produto, ' + c.pct_venda + '% em qualquer"><i style="width:' + wQ + '%;background:var(--deemph)"></i><i style="width:' + wA + '%;background:' + cor(t) + '"></i></div>' +
-      '<div class="v" style="text-align:left"><span>' + c.pct_venda_alvo.toLocaleString('pt-BR') + '%</span> <span style="color:var(--muted);font-weight:400">' + ALVO_LABEL[t] + '</span><div style="font-size:11.5px;color:var(--muted);font-weight:400">' + c.pct_venda.toLocaleString('pt-BR') + '% qualquer produto</div></div></div>'); });
+      '<div class="v" style="text-align:left"><span>' + c.pct_venda_alvo.toLocaleString('pt-BR') + '%</span> <span style="color:var(--muted);font-weight:400">' + ALVO_LABEL[t] + '</span><div style="font-size:11.5px;color:var(--muted);font-weight:400">' + c.pct_venda.toLocaleString('pt-BR') + '% qualquer · carteira ' + (c.cart_pct_alvo ?? 0).toLocaleString('pt-BR') + '% / fora ' + (c.fora_pct_alvo ?? 0).toLocaleString('pt-BR') + '% no produto</div></div></div>'); });
   cb.insertAdjacentHTML('beforeend', '<div class="bar-row" style="grid-template-columns:170px 1fr 150px;border-top:1px solid var(--line);margin-top:6px;padding-top:10px"><div><strong>Todas as conversas reais</strong><div style="font-size:11.5px;color:var(--muted)">' + fmtInt(D.conversao.todas.conversas) + ' conversas</div></div>' +
     '<div class="bar" style="height:22px"><i style="width:' + (100 * D.conversao.todas.pct_venda / maxP) + '%;background:var(--ink-2)"></i></div><div class="v" style="text-align:left">' + D.conversao.todas.pct_venda.toLocaleString('pt-BR') + '% <span style="color:var(--muted);font-weight:400">qualquer produto</span></div></div>');
 
@@ -379,18 +385,20 @@ function boot(D) {
     tm.insertAdjacentHTML('beforeend', '<tr><td><span class="swatch" style="background:' + cor(t) + '"></span>' + TEMA[t] + '</td>' + colsM.map(p => { const v = row[p] ? row[p].vendas : 0; const a = mx ? (0.08 + 0.72 * v / mx) : 0;
       return '<td class="cell" style="background:' + (v ? 'color-mix(in oklab, ' + cor(t) + ' ' + Math.round(100 * a) + '%, var(--surface))' : 'transparent') + '">' + (v ? fmtInt(v) : '·') + '<div style="font-size:10.5px;color:var(--muted)">' + (v ? fmtPct(v, tot) : '') + '</div></td>'; }).join('') + '<td class="num"><strong>' + fmtInt(tot) + '</strong></td></tr>'); });
   const tpO = D.tema_produto.odisseia, tpC = D.tema_produto.cdl, tpB = D.tema_produto.black;
+  const cO = D.conversao.odisseia;
   document.getElementById('nota-conv').innerHTML =
-    '<strong>A Odisseia converte ' + D.conversao.odisseia.pct_venda_alvo.toLocaleString('pt-BR') + '% no próprio livro e ' + D.conversao.odisseia.pct_venda.toLocaleString('pt-BR') + '% em qualquer produto — o dobro da média do canal</strong> (' + D.conversao.todas.pct_venda.toLocaleString('pt-BR') + '%). ' +
-    'A leitura anterior (24%, vendas ÷ menções) estava inflada; a taxa real por conversa é esta. O Black aparece em ' + fmtPct(T.temas_resp.black, T.respondidas) + ' das conversas mas só ' + D.conversao.black.pct_venda_alvo.toLocaleString('pt-BR') +
-    '% fecham Black — a conversa costuma descer para Premium/Básico Vitalício (' + fmtInt(tpB['Premium Vitalício'].vendas + tpB['Básico/outros Vitalício'].vendas) + ' vendas). ' +
-    'A conversa de Clube do Livro puxa Black Vitalício (' + fmtInt(tpC['Black Vitalício'].vendas) + ', oferta Ouro) e Odisseia (' + fmtInt(tpC['Odisseia'].vendas) + '); a de Odisseia puxa Black (' + fmtInt(tpO['Black Vitalício'].vendas) + ' vendas, ' + fmtBRL(tpO['Black Vitalício'].receita) + ' — bundle "Black Vitalício + Odisseia").';
+    '<strong>A vantagem da Odisseia é real, mas quase toda dentro da carteira:</strong> lá ela fecha ' + cO.cart_pct_alvo.toLocaleString('pt-BR') + '% no livro (vs ' + D.conversao.todas.cart_pct_venda.toLocaleString('pt-BR') +
+    '% de qualquer conversa de carteira); fora da carteira, ' + cO.fora_pct_alvo.toLocaleString('pt-BR') + '% — mencionar Odisseia fora da base quente não move a taxa. O agregado (' + cO.pct_venda_alvo.toLocaleString('pt-BR') +
+    '%) é efeito de mix de etapa, não do produto. O Black aparece em ' + fmtPct(T.temas_resp.black, T.respondidas) + ' das conversas mas só ' + D.conversao.black.pct_venda_alvo.toLocaleString('pt-BR') +
+    '% fecham Black — a conversa desce para Premium/Básico Vitalício (' + fmtInt(tpB['Premium Vitalício'].vendas + tpB['Básico/outros Vitalício'].vendas) + ' vendas). ' +
+    'A conversa de Clube do Livro puxa Black Vitalício (' + fmtInt(tpC['Black Vitalício'].vendas) + ', oferta Ouro) e Odisseia (' + fmtInt(tpC['Odisseia'].vendas) + '); a de Odisseia puxa Black (' + fmtInt(tpO['Black Vitalício'].vendas) + ' vendas, ' + fmtBRL(tpO['Black Vitalício'].receita) + ').';
 
   // ---------- Odisseia ----------
   const oc = D.odisseia.coocorrencia, co = D.conversao.odisseia; const stO = D.stages.find(s => s.stage === 'carteiraMecenas');
   document.getElementById('o-conv').textContent = fmtInt(co.conversas);
   document.getElementById('o-conv-s').textContent = fmtInt(co.pessoas) + ' pessoas · ' + fmtPct(T.temas_resp.odisseia, T.respondidas, 1) + ' das conversas reais · ' + fmtInt(T.temas.odisseia) + ' menções incluindo disparos';
-  document.getElementById('o-taxa').textContent = co.pct_venda_alvo.toLocaleString('pt-BR') + '%';
-  document.getElementById('o-taxa-s').textContent = fmtInt(co.com_venda_alvo) + ' conversas viraram Odisseia; ' + co.pct_venda.toLocaleString('pt-BR') + '% viraram alguma venda (' + fmtBRL(co.receita_14d) + ')';
+  document.getElementById('o-taxa').textContent = (co.cart_pct_alvo ?? 0).toLocaleString('pt-BR') + '%';
+  document.getElementById('o-taxa-s').textContent = 'no livro, dentro da carteira Mecenas; fora dela, ' + (co.fora_pct_alvo ?? 0).toLocaleString('pt-BR') + '%. ' + fmtInt(co.com_venda_alvo) + ' conversas viraram Odisseia (' + fmtBRL(co.receita_14d) + ' em qualquer produto)';
   document.getElementById('o-cart').textContent = fmtPct(stO ? stO.odisseia : 0, co.conversas);
   document.getElementById('o-cdl').textContent = fmtPct(oc.com_cdl, oc.total);
   const to = document.querySelector('#tblOdiOfertas tbody');
@@ -399,8 +407,9 @@ function boot(D) {
   entO.filter(([, v]) => v.vendas >= 10).forEach(([p, v]) => oCompras.insertAdjacentHTML('beforeend', '<div class="bar-row" style="grid-template-columns:150px 1fr 110px"><div style="font-size:13px">' + p + '</div><div class="bar" role="img" aria-label="' + p + ' ' + v.vendas + '"><i style="width:' + (100 * v.vendas / mxO) + '%;background:' + cor(p) + '"></i></div><div class="v">' + fmtInt(v.vendas) + ' <span style="color:var(--muted);font-weight:400;font-size:11.5px">' + fmtBRL(v.receita) + '</span></div></div>'));
   const prata = D.odisseia.ofertas.filter(o => /prata|bronze|ouro/i.test(o.oferta));
   document.getElementById('nota-odi').innerHTML =
-    '<strong>A Odisseia nunca virou pauta do time: é vendida por dentro da carteira Mecenas e da conversa de Clube do Livro.</strong> ' + fmtPct(oc.sozinha, oc.total) + ' das menções são só Odisseia; ' + fmtPct(oc.com_cdl, oc.total) + ' vêm coladas ao CDL e ' + fmtPct(oc.com_black, oc.total) + ' ao Black. ' +
-    'A oferta padrão segue "12x de 97" (~R$ 1.160); os tiers Bronze/Prata/Ouro criados em agosto somam ' + fmtInt(sum(prata.map(o => o.vendas))) + ' vendas. Quem conversa sobre Odisseia e não compra o livro compra sobretudo Black Vitalício — o livro funciona como porta de entrada para o upsell.';
+    '<strong>A Odisseia funciona na base quente: dentro da carteira fecha ' + (co.cart_pct_alvo ?? 0).toLocaleString('pt-BR') + '% no livro; fora, ' + (co.fora_pct_alvo ?? 0).toLocaleString('pt-BR') + '% — escalar fora da carteira exige piloto com expectativa de ~2–3%, não os ~15% do agregado.</strong> ' +
+    fmtPct(oc.sozinha, oc.total) + ' das menções são só Odisseia; ' + fmtPct(oc.com_cdl, oc.total) + ' vêm coladas ao CDL e ' + fmtPct(oc.com_black, oc.total) + ' ao Black. ' +
+    'A oferta padrão segue "12x de 97" (~R$ 1.160); os tiers Bronze/Prata/Ouro somam ' + fmtInt(sum(prata.map(o => o.vendas))) + ' vendas no período. Quem conversa sobre Odisseia e não leva o livro compra sobretudo Black Vitalício.';
 
   // ---------- etapas e motivos ----------
   const ts = document.querySelector('#tblStages tbody');
@@ -425,10 +434,10 @@ function boot(D) {
   // ---------- leitura ----------
   const L = document.getElementById('leitura');
   [
-    '<strong>O canal é um funil de WhatsApp com ~13% de resposta.</strong> ' + fmtInt(T.abordagens) + ' disparos → ' + fmtInt(T.respondidas) + ' conversas reais → ' + fmtInt(D.conversao.todas.com_venda) + ' com venda em 14 dias (' + D.conversao.todas.pct_venda.toLocaleString('pt-BR') + '%). Aumentar disparos não aumentou conversas; o gargalo é resposta, não volume.',
+    '<strong>O canal é um funil de WhatsApp com ~' + fmtPct(T.respondidas, T.abordagens) + ' de resposta.</strong> ' + fmtInt(T.abordagens) + ' disparos (grupo Comercial) → ' + fmtInt(T.respondidas) + ' conversas reais → ' + fmtInt(D.conversao.todas.com_venda) + ' com venda em 14 dias (' + D.conversao.todas.pct_venda.toLocaleString('pt-BR') + '% das conversas; ' + fmtPct(D.conversao.todas.pessoas_com_venda, D.conversao.todas.pessoas, 1) + ' das pessoas). Disparar mais abre mais conversas (corr ' + corr.toFixed(2).replace('.', ',') + '), com retorno marginal ~1/3 do médio — o teto é a capacidade de atendimento.',
     '<strong>O que se tenta vender: Vitalício</strong> (' + fmtPct(T.temas_resp.vitalicio, T.respondidas) + ' das conversas reais), com Black como oferta-âncora (' + fmtPct(T.temas_resp.black, T.respondidas) + ') que desce para Premium/Básico. <strong>O que se vende: Vitalício</strong> — ' + fmtPct(vit, T.receita_total) + ' da receita (' + fmtBRL(vit) + '), Black sozinho ' + fmtBRL(T.receita['Black Vitalício']) + '.',
-    '<strong>Clube do Livro saiu do script</strong> com o fim do Lote 3 (' + fmtT('cdl') + ' nas conversas): R$ ' + (T.receita['CDL físico'] / 1e6).toFixed(1).replace('.', ',') + ' M no período, mas quase tudo nas 2 primeiras semanas. A oferta Ouro (CDL + Black Vitalício) foi a ponte que levou conversa de livro a venda de Black.',
-    '<strong>Odisseia é o melhor tema em conversão (' + D.conversao.odisseia.pct_venda_alvo.toLocaleString('pt-BR') + '% no livro, ' + D.conversao.odisseia.pct_venda.toLocaleString('pt-BR') + '% em qualquer produto) e o menor em volume</strong> (' + fmtPct(T.temas_resp.odisseia, T.respondidas, 1) + ' das conversas reais). Roda dentro da carteira Mecenas (' + fmtPct(stO.odisseia, co.conversas) + ') e colada ao CDL; ' + fmtInt(T.vendas['Odisseia']) + ' vendas / ' + fmtBRL(T.receita['Odisseia']) + ' no canal. Há espaço: cada conversa de Odisseia gera ' + fmtBRL(co.receita_14d / co.conversas) + ' em 14 dias vs ' + fmtBRL(D.conversao.todas.receita_14d / D.conversao.todas.conversas) + ' na média.',
+    '<strong>Clube do Livro está saindo do script</strong> com o fim do Lote 3 (' + fmtT('cdl') + ' nas conversas na 2ª metade da janela): ' + fmtBRL(T.receita['CDL físico'] + T.receita['CDL ebook/audio']) + ' no período, concentrado no início. A oferta Ouro (CDL + Black Vitalício) é a ponte que leva conversa de livro a venda de Black.',
+    '<strong>Odisseia rende na carteira Mecenas (' + (D.conversao.odisseia.cart_pct_alvo ?? 0).toLocaleString('pt-BR') + '% no livro, contra ' + D.conversao.todas.cart_pct_venda.toLocaleString('pt-BR') + '% da conversa média de carteira) e não move fora dela (' + (D.conversao.odisseia.fora_pct_alvo ?? 0).toLocaleString('pt-BR') + '%).</strong> É ' + fmtPct(T.temas_resp.odisseia, T.respondidas, 1) + ' das conversas reais, ' + fmtPct(stO.odisseia, co.conversas) + ' delas na carteira; ' + fmtInt(T.vendas['Odisseia']) + ' vendas / ' + fmtBRL(T.receita['Odisseia']) + ' no canal. O espaço claro é a carteira ainda sem a oferta (' + fmtInt(D.conversao.todas.cart_conversas - co.cart_conversas) + ' conversas de carteira sem menção à Odisseia); fora da carteira, só com piloto controlado.',
     '<strong>Mecenas e eventos são relacionamento, não script:</strong> Mecenas ' + fmtInt(T.vendas['Mecenas']) + ' vendas / ' + fmtBRL(T.receita['Mecenas']) + ' (' + D.conversao.mecenas.pct_venda_alvo.toLocaleString('pt-BR') + '% por conversa); Imersão Cabral e Retiro ' + fmtInt(T.vendas['Eventos high-ticket']) + ' vendas / ' + fmtBRL(T.receita['Eventos high-ticket']) + ' quase sem rastro no Zenvia — a Imersão Cabral aparece em ' + fmtInt(D.conversao.cabral.conversas) + ' conversas e fechou ' + D.conversao.cabral.com_venda_alvo + ' evento por elas.',
     '<strong>Higiene de CRM:</strong> ' + fmtPct(semM.conversas, T.respondidas) + ' das conversas reais sem motivo de fechamento e "ganho" subregistrado 5×. Sem isso, a taxa de conversão só existe por cruzamento com a base de vendas (como aqui).',
   ].forEach(li => L.insertAdjacentHTML('beforeend', '<li>' + li + '</li>'));

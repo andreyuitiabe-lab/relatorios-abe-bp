@@ -15,6 +15,9 @@
     --warn-bg: rgba(245,158,11,0.18); --warn-fg: #b45309;
     --bad-bg: rgba(239,68,68,0.14); --bad-fg: #b91c1c;
     --grid: #ececec;
+    /* categóricos: slots 1 e 2 da paleta de referência (validados p/ CVD nesta superfície) */
+    --s1: #2a78d6; --s2: #eb6834;
+    --bar-soft: rgba(42,120,214,0.14);
   }
   @media (prefers-color-scheme: dark) {
     :root:where(:not([data-theme="light"])) {
@@ -27,6 +30,8 @@
       --warn-bg: rgba(245,158,11,0.16); --warn-fg: #fcd34d;
       --bad-bg: rgba(239,68,68,0.16); --bad-fg: #fca5a5;
       --grid: #2b2b2b;
+      --s1: #3987e5; --s2: #d95926;
+      --bar-soft: rgba(57,135,229,0.20);
     }
   }
   * { box-sizing: border-box; }
@@ -90,6 +95,23 @@
   #tip b { color: var(--ink); }
   #tip .r { display: flex; justify-content: space-between; gap: 14px; font-variant-numeric: tabular-nums; }
 
+  /* aba semanal */
+  .hero { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .hero .n { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .hero .t { font-size: 13.5px; color: var(--ink-2); max-width: 62ch; }
+  .win-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700;
+               padding: 2px 9px; border-radius: 999px; background: var(--good-bg); color: var(--good-fg);
+               text-transform: uppercase; letter-spacing: .04em; }
+  .lead { font-size: 14.5px; color: var(--ink-2); margin: 0 0 2px; }
+  .lead b { color: var(--ink); }
+  .cards-txt { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .finding { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; background: var(--card); }
+  .finding b { display: block; font-size: 13.5px; margin-bottom: 4px; }
+  .finding p { margin: 0; font-size: 13px; color: var(--ink-2); }
+  .finding.alertf { border-left: 4px solid var(--warn-fg); }
+  .finding.goodf { border-left: 4px solid var(--good-fg); }
+  .swatch { display: inline-block; width: 9px; height: 9px; border-radius: 2px; vertical-align: baseline; }
+
   /* abas */
   .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); }
   .tab { appearance: none; background: none; border: none; padding: 10px 16px; font: inherit;
@@ -114,6 +136,8 @@
   table.lf { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
   table.lf th, table.lf td { padding: 10px 16px; border-bottom: 1px solid var(--soft); font-size: 14px;
                              text-align: right; white-space: normal; }
+  table.lf td.v { white-space: nowrap; }
+  table.lf td.na { background-image: var(--gap-bg); color: var(--muted); font-weight: 400; cursor: help; }
   table.lf thead th { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); background: var(--soft); }
   table.lf thead th:first-child { text-align: left; }
   table.lf td.m { text-align: left; color: var(--ink-2); }
@@ -134,16 +158,56 @@
 <div class="wrap">
   <header>
     <h1>Testes de campanha — JOM</h1>
-    <p>Campanha JOM (Um Menino Chamado Brenda). Duas leituras: os <b>braços de teste</b> por qualidade do
-       lead e retorno esperado, e a comparação <b>LP × formulário nativo</b> por mercado.</p>
+    <p>Campanha JOM (Um Menino Chamado Brenda). Três leituras: a <b>semana fechada</b> braço a braço,
+       os <b>braços de teste</b> na janela cheia por qualidade do lead e retorno esperado, e a comparação
+       <b>LP × formulário nativo</b> por mercado. A captação roda em três contas — Meta, Google Ads e PMax.</p>
   </header>
 
   <nav class="tabs" role="tablist" aria-label="Visões do relatório">
-    <button class="tab active" data-tab="bracos" role="tab" aria-selected="true">Braços de teste</button>
+    <button class="tab active" data-tab="semana" role="tab" aria-selected="true">Semana</button>
+    <button class="tab" data-tab="bracos" role="tab" aria-selected="false">Braços de teste</button>
     <button class="tab" data-tab="lpform" role="tab" aria-selected="false">LP × Form por mercado</button>
   </nav>
 
-  <section id="tab-bracos" class="panel" role="tabpanel">
+  <section id="tab-semana" class="panel" role="tabpanel">
+    <p class="meta" id="sem-meta"></p>
+    <div class="kpis" id="sem-kpis"></div>
+    <div class="card mkt">
+      <h2 class="mkt">Comparação das configurações <span class="flag" id="sem-mx-janela"></span></h2>
+      <p class="hint">As seis métricas pedidas, lado a lado. Cada linha é uma métrica: <b class="win" style="padding:1px 5px;border-radius:4px">verde</b> = melhor configuração naquela métrica, <b class="lose" style="padding:1px 5px;border-radius:4px">vermelho</b> = pior. O orgânico entra como régua de comparação, não como braço de teste — ele não custa mídia. <b>n/c</b> = não comparável: braço sem coleta de pesquisa não tem faixa de lead legível (o score fica cego, não ruim).</p>
+      <div class="tbl"><table class="lf" id="sem-matriz"></table></div>
+    </div>
+
+    <div class="cards-txt" id="sem-achados"></div>
+
+    <div class="card">
+      <h2>Retorno esperado e CPL por braço</h2>
+      <p class="hint" id="sem-hint-ret"></p>
+      <div class="body charts">
+        <div class="chart-scroll"><svg id="sem-ret" role="img" aria-label="Barras do retorno esperado por braço"></svg></div>
+        <div class="chart-scroll"><svg id="sem-cpl" role="img" aria-label="Barras do CPL por braço"></svg></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>O realizado está no ponto da curva?</h2>
+      <p class="hint" id="sem-hint-roas"></p>
+      <div class="body"><div class="chart-scroll"><svg id="sem-roas" role="img" aria-label="Barras do índice de ritmo de maturação por braço"></svg></div></div>
+    </div>
+
+    <div class="card">
+      <h2>Mix de faixas do lead (A+ a D)</h2>
+      <p class="hint" id="sem-hint-mix"></p>
+      <div class="body">
+        <div class="legend" id="sem-legend"></div>
+        <div class="chart-scroll"><svg id="sem-mix" role="img" aria-label="Barras empilhadas do mix de faixas por braço"></svg></div>
+      </div>
+    </div>
+
+    <footer id="sem-rodape"></footer>
+  </section>
+
+  <section id="tab-bracos" class="panel" role="tabpanel" hidden>
   <p class="meta" id="meta"></p>
 
   <div class="kpis" id="kpis"></div>
@@ -410,6 +474,281 @@ loadJSON('data-inline', './data.json').then(d => {
     ['Otimizado por lead qualificado', 'Evento só para leads A+/A — otimização por conversão, não por valor. Mesma dependência da ponte.'],
     ['Evento de pesquisa respondida', 'Já validado em EVG/BP10: +9–10pp de taxa de resposta com custo por respondente igual ou menor.'],
   ].map(([t, s]) => `<div class="plan"><b>${t}</b><span>${s}</span></div>`).join('');
+
+
+  // ══ ABA SEMANA ══════════════════════════════════════════════════════════════
+  (() => {
+    const S = d.semana;
+    if (!S) return;
+    const pagos = S.bracos.filter(b => b.pago);
+    const org = S.bracos.find(b => !b.pago);
+    const nome = a => a.replace(' (Meta)', '').replace(' [PMAX]', '').replace(' [KW]', '');
+    const sum = xs => xs.reduce((a, b) => a + (b || 0), 0);
+
+    document.getElementById('sem-meta').textContent =
+      `Janela ${S.ini} a ${S.fim} — últimos 7 dias completos · ${pagos.length} braços com investimento · dados de ${d.gerado_em}`;
+
+    // ── KPIs ──
+    const k = S.kpis;
+    document.getElementById('sem-kpis').innerHTML = [
+      ['Investido na semana', 'R$ ' + FMT.format(Math.round(k.spend)), `${k.bracos_pagos} braços · Meta + Google + PMax`],
+      ['Leads captados', FMT.format(k.leads), `${FMT.format(k.leads_pagos)} de mídia paga`],
+      ['CPL blendado', BRL(k.cpl), 'gasto ÷ leads de mídia'],
+      ['Receita observada', 'R$ ' + FMT.format(Math.round(k.receita_obs)), `${k.vendas} vendas — leads de 1 a 7 dias`],
+    ].map(([l, v, sub]) =>
+      `<div class="kpi"><div class="lbl">${l}</div><div class="val">${v}</div><div class="sub">${sub}</div></div>`).join('');
+
+    // ── achados, derivados do dado ──
+    const melhorRet = [...pagos].sort((a, b) => (b.retorno_esp || 0) - (a.retorno_esp || 0))[0];
+    const melhorRoas = [...pagos].sort((a, b) => (b.roas_obs || 0) - (a.roas_obs || 0))[0];
+    const semPesq = pagos.filter(b => b.pc_resposta === 0);
+    const achados = [];
+    if (melhorRet) achados.push(['goodf', `${nome(melhorRet.arm)} lidera o retorno esperado`,
+      `${MULT(melhorRet.retorno_esp)} contra a meta de ${MULT(META)}. CPL ${BRL(melhorRet.cpl)}, ` +
+      `${PCT(melhorRet.mix[0] + melhorRet.mix[1])} dos leads em A+/A e ${PCT(melhorRet.pc_abertura)} de abertura de e-mail. ` +
+      `⚠️ ${S.ini}–${S.fim} é janela de aprendizado — reler depois de 15 dias no ar.`]);
+    const jaPagos = pagos.filter(b => (b.roas_obs || 0) >= 1);
+    if (melhorRoas && melhorRoas.roas_obs >= 1) achados.push(['goodf',
+      `${nome(melhorRoas.arm)} já se pagou em caixa` + (jaPagos.length > 1 ? ` (com mais ${jaPagos.length - 1})` : ' — sozinho'),
+      `ROAS realizado ${MULT(melhorRoas.roas_obs)} (R$ ${FMT.format(Math.round(melhorRoas.receita_obs))} sobre ` +
+      `R$ ${FMT.format(Math.round(melhorRoas.spend))}) contra um retorno <i>esperado</i> de apenas ${MULT(melhorRoas.retorno_esp)}. ` +
+      `O scorecard não tem atributo de intenção de busca — quem procura a marca no Google já está decidido, ` +
+      `e o modelo não sabe pontuar isso.`]);
+    semPesq.forEach(b => achados.push(['alertf', `${nome(b.arm)} está sem coleta de pesquisa`,
+      `Taxa de resposta 0% na semana e ${PCT(b.mix[3])} dos leads em faixa C, com zero em B e zero em D — ` +
+      `assinatura de score sem pesquisa, não de público ruim. O retorno de ${MULT(b.retorno_esp)} é piso, ` +
+      `sem teto medível: não comparar a qualidade deste braço com a dos outros.`]));
+    if (org) {
+      const rplPago = sum(pagos.map(b => b.receita_obs)) / sum(pagos.map(b => b.leads));
+      achados.push(['', 'O lead sem mídia segue caro de bater em qualidade',
+        `${FMT.format(org.leads)} leads orgânicos/CRM com ${PCT(org.mix[0] + org.mix[1])} em A+/A ` +
+        `(o melhor mix da semana), ${PCT(org.pc_abertura)} de abertura de e-mail e RPL observado de ` +
+        `${BRL(org.rpl_obs)} — ${(org.rpl_obs / rplPago).toFixed(1)}× o RPL médio da mídia paga ` +
+        `(${BRL(rplPago)}), sem custar CPL.`]);
+    }
+    document.getElementById('sem-achados').innerHTML = achados.map(([cls, t, txt]) =>
+      `<div class="finding ${cls}"><b>${t}</b><p>${txt}</p></div>`).join('');
+
+    // ── barras horizontais reutilizáveis ──
+    const barrasH = (svgId, itens, o) => {
+      const svg = document.getElementById(svgId);
+      const rowH = 30, m = {t: o.meta ? 22 : 8, r: 60, b: 6, l: 146};
+      const W = o.W || 520, H = m.t + itens.length * rowH + m.b;
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      const iw = W - m.l - m.r;
+      const hi = Math.max(...itens.map(i => i.v), o.meta || 0) * 1.06 || 1;
+      if (o.meta) {  // linha de meta atrás das barras
+        const x = m.l + (o.meta / hi) * iw;
+        svg.appendChild(el('line', {x1: x, x2: x, y1: m.t, y2: H - m.b, stroke: 'var(--muted)', 'stroke-dasharray': '4 4', 'stroke-width': 1.2}));
+        const t = el('text', {x: x + 4, y: 11}); t.textContent = 'meta ' + MULT(o.meta); svg.appendChild(t);
+      }
+      itens.forEach((it, i) => {
+        const y = m.t + i * rowH + 5, h = 18;
+        const lbl = el('text', {x: m.l - 9, y: y + 13, 'text-anchor': 'end', fill: 'var(--ink-2)'});
+        lbl.textContent = it.arm.length > 23 ? it.arm.slice(0, 22) + '…' : it.arm;
+        svg.appendChild(lbl);
+        const w = Math.max((it.v / hi) * iw, 2);
+        const cor = o.cor ? o.cor(it) : 'var(--s1)';
+        const g = el('g', {cursor: 'pointer'});
+        g.appendChild(el('rect', {x: m.l, y, width: w, height: h, fill: cor, rx: 4}));
+        const val = el('text', {x: m.l + w + 7, y: y + 13, fill: 'var(--ink)'});
+        val.textContent = o.fmt(it.v); val.setAttribute('font-weight', '600');
+        g.appendChild(val);
+        g.addEventListener('mousemove', e => showTip(o.tip(it), e));
+        g.addEventListener('mouseleave', hideTip);
+        svg.appendChild(g);
+      });
+    };
+
+    const tipBase = b =>
+      `<b>${b.arm}</b>` +
+      `<div class="r"><span>Gasto</span><span>R$ ${FMT.format(Math.round(b.spend || 0))}</span></div>` +
+      `<div class="r"><span>Leads</span><span>${FMT.format(b.leads)}</span></div>` +
+      `<div class="r"><span>CPL</span><span>${b.cpl != null ? BRL(b.cpl) : '—'}</span></div>` +
+      `<div class="r"><span>Taxa de resposta</span><span>${PCT(b.pc_resposta)}</span></div>` +
+      `<div class="r"><span>A+/A</span><span>${PCT(b.mix[0] + b.mix[1])}</span></div>` +
+      `<div class="r"><span>Abertura de e-mail</span><span>${PCT(b.pc_abertura)}</span></div>`;
+
+    // retorno esperado — abaixo da meta sai em cor de alerta
+    barrasH('sem-ret', pagos.map(b => ({...b, v: b.retorno_esp || 0})), {
+      meta: META, fmt: MULT, tip: tipBase,
+      cor: it => it.v >= META ? 'var(--s1)' : 'var(--warn-fg)',
+    });
+    barrasH('sem-cpl', pagos.map(b => ({...b, v: b.cpl || 0})), {
+      fmt: BRL, tip: tipBase, cor: () => 'var(--bar-soft)',
+    });
+    document.getElementById('sem-hint-ret').innerHTML =
+      `<b>Retorno esperado = RPL esperado ÷ CPL</b> (métrica-mestra, meta ${MULT(META)}). ` +
+      'A mesma ordem de braços nos dois gráficos: a barra curta à direita é lead barato, a barra longa à esquerda é lead que se paga. ' +
+      'Barra âmbar = abaixo da meta.';
+
+    // ── ritmo de maturação ──
+    // ⚠️ Este gráfico já foi "esperado × realizado" e estava ERRADO: comparava o RPL de
+    // D+240 com receita de leads de 1-7 dias, então toda barra realizada aparecia ~10x
+    // menor por construção e a página sugeria catástrofe onde não havia. Agora o
+    // denominador é o esperado PARA A IDADE de cada lead (curva medida em 24 campanhas
+    // maduras), e 1,00x = exatamente no ritmo histórico.
+    (() => {
+      const svg = document.getElementById('sem-roas');
+      const itens = pagos.filter(b => b.ritmo && b.ritmo.indice != null);
+      if (!itens.length) return;
+      const CAP = 3;  // barras acima disso ficam cheias; o rótulo carrega o valor real
+      const rowH = 34, m = {t: 22, r: 96, b: 6, l: 230}, W = 1040;
+      const H = m.t + itens.length * rowH + m.b;
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      const iw = W - m.l - m.r;
+      const px = v => m.l + (Math.min(v, CAP) / CAP) * iw;
+
+      const xRef = px(1);  // linha do "no ritmo"
+      svg.appendChild(el('line', {x1: xRef, x2: xRef, y1: m.t - 6, y2: H - m.b,
+        stroke: 'var(--muted)', 'stroke-dasharray': '4 4', 'stroke-width': 1.2}));
+      const rot = el('text', {x: xRef + 5, y: 11}); rot.textContent = 'no ritmo (1,00×)';
+      svg.appendChild(rot);
+
+      itens.forEach((b, i) => {
+        const y = m.t + i * rowH + 6, h = 20, v = b.ritmo.indice;
+        const lbl = el('text', {x: m.l - 10, y: y + 14, 'text-anchor': 'end', fill: 'var(--ink-2)'});
+        lbl.textContent = b.arm; svg.appendChild(lbl);
+        const w = Math.max(px(v) - m.l, 2);
+        const g = el('g', {cursor: 'pointer'});
+        g.appendChild(el('rect', {x: m.l, y, width: w, height: h, rx: 4,
+          fill: v >= 1 ? 'var(--s1)' : 'var(--warn-fg)'}));
+        if (v > CAP) {  // marca de barra estourada, para não fingir que o valor é 3x
+          g.appendChild(el('path', {d: `M${m.l + w - 9} ${y} l9 ${h / 2} l-9 ${h / 2} z`,
+            fill: 'var(--card)', opacity: 0.55}));
+        }
+        const t = el('text', {x: m.l + w + 7, y: y + 14, fill: 'var(--ink)'});
+        t.textContent = MULT(v) + (v > CAP ? ' ↑' : ''); t.setAttribute('font-weight', '600');
+        g.appendChild(t);
+        g.addEventListener('mousemove', e => showTip(
+          `<b>${b.arm}</b>` +
+          `<div class="r"><span>Idade média do lead</span><span>${b.ritmo.idade} dias</span></div>` +
+          `<div class="r"><span>Já deveria ter entrado</span><span>${b.ritmo.pc_curva}% do RPL final</span></div>` +
+          `<div class="r"><span>Esperado até hoje</span><span>${BRL(b.ritmo.esp_hoje)}/lead</span></div>` +
+          `<div class="r"><span>Observado</span><span><b>${BRL(b.rpl_obs)}/lead</b></span></div>` +
+          `<div class="r" style="margin-top:5px"><span>Ritmo</span><span><b>${MULT(v)}</b></span></div>` +
+          `<div class="r"><span>RPL esperado final (D+240)</span><span>${BRL(b.rpl_esp)}</span></div>`, e));
+        g.addEventListener('mouseleave', hideTip);
+        svg.appendChild(g);
+      });
+      document.getElementById('sem-hint-roas').innerHTML =
+        '<b>Índice de ritmo = receita já realizada ÷ receita esperada para a idade que o lead tem hoje.</b> ' +
+        'O RPL esperado vale para D+240; leads de 1 a 7 dias só deveriam ter entregue ' +
+        `<b>${itens[0].ritmo.pc_curva}%</b> dele — comparar com o valor cheio faria todo braço parecer um desastre. ` +
+        'A curva vem da mediana de 24 campanhas maduras (≥15k leads, 240 dias de vida). ' +
+        `<b>1,00× = no ritmo histórico</b> · barra âmbar = abaixo · ↑ = passa de ${MULT(CAP)} (eixo cortado). ` +
+        'A mídia paga da semana está em <b>' + MULT(S.ritmo_pago) + '</b> no agregado. ' +
+        '⚠️ A JOM ainda não abriu venda e a curva mediana inclui campanhas que já vendiam desde o dia 0 — ' +
+        'use o índice para <i>comparar braços entre si</i>, não para julgar o nível absoluto.';
+    })();
+
+    // ── mix de faixas (ordinal → rampa de um hue) ──
+    document.getElementById('sem-legend').innerHTML = d.faixas.map((f, i) =>
+      `<span><i style="background:var(--f${i + 1})"></i>${f}</span>`).join('');
+    (() => {
+      const svg = document.getElementById('sem-mix');
+      const rowH = 32, m = {t: 8, r: 14, b: 6, l: 230}, W = 1040;
+      const H = m.t + S.bracos.length * rowH + m.b;
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      const iw = W - m.l - m.r;
+      S.bracos.forEach((b, i) => {
+        const y = m.t + i * rowH + 6;
+        const lbl = el('text', {x: m.l - 10, y: y + 14, 'text-anchor': 'end', fill: 'var(--ink-2)'});
+        lbl.textContent = b.arm;
+        svg.appendChild(lbl);
+        let x = m.l;
+        b.mix.forEach((pc, j) => {
+          const w = Math.max(iw * pc / 100 - 2, 0);
+          if (w <= 0) { x += iw * pc / 100 + 2; return; }
+          const g = el('g', {cursor: 'pointer'});
+          g.appendChild(el('rect', {x, y, width: w, height: 20, fill: `var(--f${j + 1})`, rx: 2}));
+          g.addEventListener('mousemove', e => showTip(
+            `<b>${b.arm}</b><div class="r"><span>Faixa ${d.faixas[j]}</span><span><b>${PCT(pc)}</b></span></div>` +
+            `<div class="r"><span>Taxa de resposta</span><span>${PCT(b.pc_resposta)}</span></div>` +
+            (b.pc_qual_resp != null ? `<div class="r"><span>A+/A entre respondentes</span><span>${PCT(b.pc_qual_resp)}</span></div>` : ''), e));
+          g.addEventListener('mouseleave', hideTip);
+          svg.appendChild(g);
+          x += iw * pc / 100 + 2;
+        });
+      });
+      document.getElementById('sem-hint-mix').innerHTML =
+        'Share de cada faixa dentro do braço. ⚠️ <b>Mix não é comparável entre braços de cobertura de pesquisa diferente</b>: ' +
+        'sem pesquisa o lead cai em faixa baixa por ausência de sinal, não por ser pior. Braço com <b>zero em B e zero em D</b> ' +
+        'não tem pesquisa chegando — a coluna "A+/A entre respondentes" no tooltip é a leitura justa.';
+    })();
+
+    // ── matriz de comparação (o pedido original: 6 métricas x configurações) ──
+    // Métricas nas LINHAS e campanhas nas COLUNAS porque a pergunta é "qual configuração
+    // é melhor em cada métrica" — a leitura útil é horizontal. Mesmo padrão da aba LP × Form.
+    (() => {
+      document.getElementById('sem-mx-janela').textContent = `${S.ini} a ${S.fim}`;
+      const cols = [...pagos, ...(org ? [org] : [])];
+      const idxOrg = org ? cols.length - 1 : -1;
+
+      // cmp: 'maior' ou 'menor' = qual direção é melhor. null = sem julgamento.
+      const LINHAS = [
+        {g: 'Investimento'},
+        {t: 'Valor gasto', v: b => b.spend, f: v => 'R$ ' + FMT.format(Math.round(v))},
+        {t: 'Leads captados', sub: 'atribuídos no warehouse', v: b => b.leads, f: v => FMT.format(v)},
+        {t: 'CPL', v: b => b.cpl, f: BRL, cmp: 'menor'},
+        {g: 'Qualidade do lead'},
+        {t: 'Não membros', sub: 'ainda não é cliente', v: b => b.pc_nao_membro, f: PCT},
+        {t: 'Taxa de resposta', sub: 'pesquisa de qualificação', v: b => b.pc_resposta, f: PCT, cmp: 'maior'},
+        {t: 'Faixa A+', v: b => b.mix[0], f: PCT, cmp: 'maior', qual: true},
+        {t: 'Faixa A', v: b => b.mix[1], f: PCT, cmp: 'maior', qual: true},
+        {t: 'Faixa B', v: b => b.mix[2], f: PCT, qual: true},
+        {t: 'Faixa C', v: b => b.mix[3], f: PCT, qual: true},
+        {t: 'Faixa D', v: b => b.mix[4], f: PCT, cmp: 'menor', qual: true},
+        {t: 'A+/A somados', sub: 'o que o time chama de lead bom', v: b => b.mix[0] + b.mix[1], f: PCT, cmp: 'maior', forte: true, qual: true},
+        {g: 'Retorno'},
+        {t: 'RPL observado', sub: 'receita já atribuída ÷ leads', v: b => b.rpl_obs, f: BRL, cmp: 'maior'},
+        {t: 'RPL esperado', sub: 'valor do lead em D+240 (scorecard)', v: b => b.rpl_esp, f: BRL, cmp: 'maior', qual: true},
+        {t: 'Ritmo de maturação', sub: '1,00× = no ponto da curva', v: b => b.ritmo && b.ritmo.indice, f: MULT, cmp: 'maior'},
+        {g: 'E-mail'},
+        {t: 'Abertura de e-mail', sub: 'sobre entregues, abertura humana', v: b => b.pc_abertura, f: PCT, cmp: 'maior', forte: true},
+        {t: 'Clique no e-mail', sub: 'sobre entregues', v: b => b.pc_clique, f: PCT, cmp: 'maior'},
+      ];
+
+      const thead = '<thead><tr><th>Métrica</th>' + cols.map((b, i) =>
+        `<th${i === idxOrg ? ' style="opacity:.75"' : ''}>${b.arm}${i === idxOrg ? '<br><span style="font-weight:400;text-transform:none">sem mídia</span>' : ''}</th>`).join('') + '</tr></thead>';
+
+      const corpo = LINHAS.map(L => {
+        if (L.g) return `<tr class="sep"><td colspan="${cols.length + 1}">${L.g}</td></tr>`;
+        // O melhor/pior é decidido só entre os braços PAGOS — o orgânico venceria quase
+        // tudo e esconderia a comparação que interessa (qual configuração de mídia ganha).
+        // E linha de QUALIDADE exclui braço sem pesquisa: sem ela o lead cai em faixa baixa
+        // por ausência de sinal, então "0,0% em D" seria lido como o melhor mix quando é
+        // só um score cego. Essas células saem hachuradas, não zeradas.
+        const semPesquisa = b => L.qual && b.pc_resposta === 0;
+        const vals = pagos.filter(b => !semPesquisa(b)).map(L.v)
+                          .filter(v => v != null && !Number.isNaN(v));
+        const melhor = L.cmp === 'maior' ? Math.max(...vals) : L.cmp === 'menor' ? Math.min(...vals) : null;
+        const pior = L.cmp === 'maior' ? Math.min(...vals) : L.cmp === 'menor' ? Math.max(...vals) : null;
+        const tds = cols.map((b, i) => {
+          const v = L.v(b);
+          if (v == null || Number.isNaN(v)) return '<td class="v gap">—</td>';
+          if (semPesquisa(b)) return `<td class="v na" title="Este braço não coleta pesquisa (taxa de resposta 0%), então a faixa do lead reflete ausência de sinal, não qualidade. Valor bruto: ${L.f(v)}">n/c</td>`;
+          let cls = '';
+          if (i !== idxOrg && L.cmp && vals.length > 1) {
+            if (v === melhor) cls = ' win';
+            else if (v === pior) cls = ' lose';
+          }
+          const op = i === idxOrg ? ' style="opacity:.75"' : '';
+          return `<td class="v${cls}"${op}>${L.f(v)}</td>`;
+        }).join('');
+        return `<tr${L.forte ? ' style="font-weight:600"' : ''}>
+          <td class="m"><b>${L.t}</b>${L.sub ? `<span>${L.sub}</span>` : ''}</td>${tds}</tr>`;
+      }).join('');
+
+      document.getElementById('sem-matriz').innerHTML = thead + '<tbody>' + corpo + '</tbody>';
+    })();
+
+    document.getElementById('sem-rodape').innerHTML =
+      'Escopo BR (tags <code>JOM</code> e <code>JOM-BR-FORMS</code>). O mercado EUA fica fora: a conta ' +
+      '<code>[BIG]</code> não está no warehouse, então esses leads não têm gasto. ' +
+      'Atribuição do lead ao braço em <code>queries/_atribuicao.md</code> — Meta por id de anúncio, ' +
+      'Google e PMax por <code>utm_source</code>.';
+  })();
 
   document.getElementById('rodape').innerHTML =
     `Fonte: <code>fct_lead_iql</code> + <code>dtm_analytics_lead_conversion</code> + <code>dtm_analytics_facebook_ads_funnel</code> (produção). ` +

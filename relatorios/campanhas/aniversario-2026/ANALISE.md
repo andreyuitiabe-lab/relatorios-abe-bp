@@ -159,5 +159,14 @@ Pedido do Comercial (Slack, prazo 13h): lista de compra negada e abandono de car
 |---|---|
 | [13_lista_negada_abandono_vitalicio.sql](queries/13_lista_negada_abandono_vitalicio.sql) | Lista completa com todas as exclusões — 1 linha/pessoa, plano+valor+parcelas+motivo da recusa |
 
+## Refresh 17/09/2026 (2º pedido do Gustavo, mesmo escopo)
+- Query 13 ganhou corte `dt_ordered_at <= DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)` ("até ontem", pedido recorrente do Comercial).
+- Blacklist revalidada: planilha "Remover das comunicações" com `modifiedTime` 25/08/2026 → snapshot de 26/08 (858 linhas) segue válido.
+- **1.230 pessoas** (era 642 em 02/09): 642 abandono (R$ 921k) · 278 negada (R$ 394k) · 310 pix/boleto não pago (R$ 449k) — **R$ 1,76M tentados**. O salto veio do fechamento da campanha (15/09 sozinho: 329 abandonos + 183 negadas + 52 boletos).
+- Dedup extra por e-mail na entrega (3 pessoas com 2 telefones diferentes passavam pela triple-key).
+- Validação: há 16 pessoas com tentativa em 16/09 e nenhuma entrou na lista — 15 têm Zenvia aberto/carteira e 10 já compraram vitalício. Corte de data está correto.
+- Planos tentados: Premium GBB Vitalício 637 · Básico Vitalício 306 · Apoiador (Originais Vitalício) 290.
+
 ## Pendências
-- Output tem PII → CSV/XLSX entregues fora do repo (scratchpad da sessão). Se pedirem refresh, re-rodar a query 13 (tentativas de hoje entram; quem comprar depois sai sozinho pela exclusão de vitalício aprovado).
+- Output tem PII → CSV/XLSX entregues fora do repo (Drive `Meu Drive/Listas BQ/2026-09-17 BP10 compra negada e abandono vitalicio`). Se pedirem refresh, re-rodar a query 13 (tentativas novas entram; quem comprar depois sai sozinho pela exclusão de vitalício aprovado).
+- Pedido não mencionou excluir quem já foi entregue em 02/09 — não há snapshot daquela lista, então há sobreposição esperada com as 642 de então. Se o Comercial quiser só o incremento, materializar o snapshot antes do próximo refresh (`listas-comercial.md` §6).

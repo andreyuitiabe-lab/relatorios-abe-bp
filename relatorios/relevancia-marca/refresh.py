@@ -23,8 +23,8 @@ D = {
   "aviso": "Versão de trabalho. Os achados das rodadas 9c a 9e foram retirados após revisão estatística independente — ver Método."
 },
 "resposta_curta": [
-  {"t": "Existe associação, e é forte.", "d": "Dias em que o canal tem mais audiência orgânica têm <b>19,5% mais transações</b> com o mesmo dinheiro de mídia. Resiste a calendário, placebo e mudança de método."},
-  {"t": "Mas não conseguimos provar que o vídeo causa a venda.", "d": "O teste decisivo falhou: <b>renovações no cartão</b>, que são cobrança automática e não podem ser causadas por um vídeo de hoje, sobem quase na mesma proporção. A parte específica de venda nova não se distingue de zero."},
+  {"t": "O custo de aquisição cai; o volume total de vendas não se sustenta no teste.", "d": "Em dias de audiência alta o <b>custo de aquisição de mídia paga é 15,0% menor</b> (R$ 240 contra R$ 283), e esse resultado passa no teste mais rigoroso que temos. Já o <b>total de transações sobe 18,0%, mas esse número não passa</b>: a faixa de valores aceitáveis inclui o zero. <b>São o mesmo fato visto de dois lados, e só um dos lados aguenta peso.</b>"},
+  {"t": "Mas não conseguimos provar que o vídeo causa a venda.", "d": "O teste que deveria nos inocentar não inocentou. <b>Renovações no cartão</b> são cobrança automática e não podem ser causadas por um vídeo de hoje — se ficassem paradas, a explicação de fator comum sairia de cena. Elas não ficaram. <b>Isso não mostra que o vídeo não funciona</b>: mostra que este desenho não separa as duas explicações."},
   {"t": "E os três dias citados têm explicação interna.", "d": "13 e 15/09 são fechamento do BP10, com Vitalício em 65% e 77% da receita. No fim de semana de 12–13/09, o BP10 explica mais que o crescimento inteiro."}
 ],
 "perguntas": [
@@ -54,13 +54,13 @@ D = {
 "bloco2": {
   "titulo": "Bloco 2 — impacto indireto nos outros canais",
   "linhas": [
-    {"c": "Transações totais", "e": "+19,5%", "ic": "[+8,6, +42,4]", "p": "0,004", "ok": True},
+    {"c": "Transações totais", "e": "+18,0%", "ic": "[−1,2, +32,1]", "p": "0,071", "ok": False},
     {"c": "Receita", "e": "+18,0%", "ic": "[−2,9, +48,6]", "p": "0,114", "ok": False},
-    {"c": "CAC de ads", "e": "−13,7%", "ic": "[−25,0, −6,6]", "p": "0,007", "ok": True, "nota": "é o mesmo fato das transações, com o spend pareado"},
+    {"c": "CAC de ads", "e": "−15,0%", "ic": "[−22,8, −1,7]", "p": "0,003", "ok": True, "nota": "é o mesmo fato das transações, visto do lado do custo"},
     {"c": "Spend (checagem do pareamento)", "e": "+1,2%", "ic": "[−3,7, +10,7]", "p": "0,29", "ok": None},
     {"c": "Ticket médio", "e": "−5,4%", "ic": "[−12,8, +4,3]", "p": "0,29", "ok": False}
   ],
-  "nota": "Pareamento por quintil de spend, fim de semana e fase de venda, excluindo abertura e fechamento de campanha. Intervalos por bootstrap de bloco. 262 dias.",
+  "nota": "Pareamento por quintil de spend, fim de semana e fase de venda, excluindo abertura e fechamento de campanha. <b>Uma única inferência em todo o relatório:</b> média de log-razões entre os grupos, intervalo por bootstrap de bloco com correção de viés, e p por placebo de deslocamento circular calculado com o mesmo estimador. 262 dias, dos quais 224 entram.",
   "canais_titulo": "Por canal de venda",
   "canais_texto": "A quebra por canal responde à pergunta sobre impacto nos outros canais, mas com uma ressalva: com o método corrigido, nenhuma destas linhas sobrevive a uma correção para múltiplas comparações. São direcionais.",
   "canais": [
@@ -76,19 +76,19 @@ D = {
    "atencao": "1,20 milhão de views somadas, 8,7 mil inscritos ganhos, 5,8 mil usuários na plataforma",
    "rastreavel": "14 transações, R$ 6,0 mil",
    "nao_rastreavel": "Lift de 1,14× em D+14 na plataforma para os dois, com intervalo cruzando 1. Nos dias, a receita acompanhou o spend, que estava 39% e 147% acima do esperado.",
-   "veredito": "Não atribuível. A receita do período é mídia.",
-   "extra": "Os dois têm de 10 a 90 vezes mais views que as outras sabatinas e são os únicos sem lift medido. Zema 2,03×, Rebelo 1,82×, Caiado 1,71×. É formato, não fama."},
+   "veredito": "Não atribuível: a receita dos dias acompanhou o investimento, que estava bem acima do esperado.",
+   "extra": "Marçal e Renan têm de 10 a 90 vezes mais views que as outras e são as duas cujo intervalo inclui \"nenhum efeito\". Mas <b>os intervalos delas se sobrepõem aos de Zema (2,03×), Rebelo (1,82×) e Caiado (1,71×)</b> — o dado não separa os dois grupos. Com nove sabatinas, isto é padrão observado, não teste. A leitura de que vale o formato e não a fama é hipótese, não achado."},
   {"nome": "STF e Banco Master — os maiores vídeos do canal",
    "atencao": "Master x STF, 03/09: 4.358.295 views, o maior do canal no período. STF julga Moraes, 15/09: 3.522.311 views.",
    "rastreavel": "Master x STF: 408 transações e R$ 58 mil pelo link da descrição, que apontava para assinatura.",
    "nao_rastreavel": "Em 03/09, dia do maior vídeo do ano, as vendas foram as <b>mais baixas da semana</b>: 825 transações, contra 939 na véspera e 934 no dia seguinte. Em 15/09, com o segundo maior vídeo, foi o <b>melhor dia do mês</b>, R$ 1,68 milhão — mas era o fechamento do BP10 com corujão, e o Vitalício respondeu por 77% da receita.",
-   "veredito": "Dois vídeos do mesmo tipo e tamanho, resultados opostos. O que difere é o calendário comercial, não o vídeo.",
-   "extra": "Este é o contraste mais direto que o dado oferece: se audiência gigante causasse venda, 03/09 teria sido um dia excepcional. Foi o mais fraco da semana."},
+   "veredito": "Nenhum dos dois dias é atribuível ao vídeo — e eles também não formam um contraste entre si.",
+   "extra": "Vale dimensionar a queda de 03/09 antes de ler demais nela: são 11,9% abaixo da vizinhança, ou <b>0,43 desvio-padrão da variação diária normal — 59% dos dias do ano desviam mais que isso</b>. É um dia comum, não um dia ruim. O que a dupla mostra: audiência recorde não garante dia bom, e o dia bom que apareceu tem explicação de campanha."},
   {"nome": "11 de Setembro — live no YouTube em 10/09",
    "atencao": "2,86 milhões de views, 4.549 inscritos, 2.480 usuários na plataforma",
    "rastreavel": "6 transações, R$ 2,1 mil, e 428 leads para o Technocracia",
    "nao_rastreavel": "Em 10 e 11/09 a receita ficou acima do esperado com spend menor. No teste por pessoa, 2,44× em D+3, mas o teste só detecta acima de 3,7×.",
-   "veredito": "Parcialmente atribuível em 10 e 11; não no fim de semana, que é BP10.",
+   "veredito": "Compatível com efeito em 10 e 11, mas não separável do resto do dia. No fim de semana, o BP10 explica.",
    "extra": "Achado de método: a estreia do doc na plataforma em 07/09 era um único usuário de QA. A audiência real começa em 11/09, dia seguinte à live. D+7 fecha em 19/09 e D+14 em 26/09."}
 ],
 "sabatinas": [
@@ -103,42 +103,316 @@ D = {
   {"n": "Guilherme Derrite", "v": 9028, "l": "1,04×", "ic": "[0,29–1,96]", "sig": False}
 ],
 "controle_negativo": {
-  "titulo": "O teste que mudou a conclusão",
+  "titulo": "O teste que impede afirmar causa",
   "texto": "Renovação no cartão é 98,8% das renovações e é cobrança automática na data de aniversário da assinatura. Um vídeo publicado hoje não pode causar uma cobrança automática de hoje. Se ela sobe junto com as vendas novas nos dias de audiência alta, existe um fator comum movendo o dia inteiro.",
   "linhas": [
     {"c": "Vendas novas (o desfecho do estudo)", "e": "+0,174", "ic": "[+0,085, +0,263]", "p": "&lt;0,001"},
     {"c": "Renovação automática no cartão", "e": "+0,116", "ic": "[−0,021, +0,253]", "p": "0,096"},
     {"c": "Razão entre as duas", "e": "+0,058", "ic": "[−0,109, +0,224]", "p": "0,50"}
   ],
-  "conclusao": "A razão não responde. A parte do efeito específica de venda nova — a única que o YouTube poderia gerar — não se distingue de zero. Não é dia do mês (p=0,87) nem método de pagamento.",
+  "conclusao": "Um controle negativo serve para <b>inocentar</b> o estudo: se a renovação ficasse parada, a explicação de fator comum sairia de cena. Ela não ficou parada, então a explicação continua de pé. <b>Mas o teste também não condena o vídeo</b>, e é importante não ler a mais: o intervalo da razão vai de −0,109 a +0,224, e cabe nele tanto “nada do efeito vem do vídeo” quanto “todo o efeito vem do vídeo” (+0,174). Este desenho não separa as duas hipóteses. Não é dia do mês (p=0,87) nem método de pagamento.",
   "leituras": [
     "Um fator comum de nível de dia — a hipótese que nunca conseguimos descartar.",
     "Mecânica de coorte: quem foi adquirido em dia de audiência alta há 12 meses renova hoje em dia parecido. Nesse caso a renovação é desfecho defasado, não controle.",
-    "Controle grosseiro: a renovação varia quase 15 vezes por dia da semana."
+    "Controle grosseiro: a renovação varia quase 15 vezes por dia da semana.",
+    "<b>Falta de poder:</b> a própria elasticidade da renovação (+0,116) não exclui zero (p=0,096). Com 262 dias, este teste enxerga pouco — e um teste que enxerga pouco não serve de prova em nenhuma direção."
   ]
 },
 "o_que_fazer": [
-  {"t": "Encorajamento aleatorizado na base", "prazo": "2 a 3 semanas", "d": "Sortear metade da base para receber o aviso apontando ao vídeo e medir compra em D+1 a D+14 por intenção de tratar. Randomiza no nível da pessoa, usa a régua de CRM que já existe e detecta lift de 1,2×, contra 1,6 a 2,0× do desenho observacional. <b>É o único caminho que separa causa de correlação no prazo do trimestre.</b>"},
+  {"t": "Dois experimentos, e eles respondem perguntas diferentes", "prazo": "3 semanas e 12 meses", "d": "<b>Não existe um experimento só que resolva as duas perguntas.</b><br><br><b>(a) Encorajamento aleatorizado na base — 2 a 3 semanas, com o CRM.</b> Sortear metade da base para receber o aviso apontando ao vídeo e medir compra em D+1 a D+14 por intenção de tratar. Responde: <i>apontar alguém para o vídeo faz essa pessoa comprar?</i> Barato, rápido, e detecta lift de 1,2×. <b>Mas não mede custo de mídia paga</b> — os dois grupos veem os mesmos anúncios e o investimento não se divide entre eles.<br><br><b>(b) Aleatorizar o dia de estreia de conteúdo evergreen — programa de 12 meses.</b> Sortear a data dentro de pares bloqueados por dia da semana e fase de campanha. Só isso torna a audiência exógena <i>no nível do dia</i>, que é onde o custo de aquisição é medido. Responde a pergunta da Bárbara e do Luan. Custo zero em dinheiro, algum em agenda editorial, e lento.<br><br><b>Não há atalho.</b> Geo holdout não serve porque audiência orgânica de YouTube não é endereçável por região. Antes de qualquer um dos dois, combinar a regra de decisão: o que a gente faz se der nulo."},
   {"t": "Search Console", "prazo": "1 hora depois do acesso", "d": "Acesso de leitura à propriedade para fechar o bloco de pesquisa de marca. O histórico é de 16 meses, então cada semana sem coletar é semana perdida."},
-  {"t": "Tagging por vídeo nas telas finais", "prazo": "depende do time de conteúdo", "d": "Hoje os CTAs dos programas grandes apontam para a campanha da vez, não para o próprio conteúdo. Por isso os três cases rastreiam R$ 8 mil. Com UTM por vídeo, o bloco rastreável deixa de ser cego."},
+  {"t": "Dar destino próprio aos programas grandes", "prazo": "depende do time de conteúdo", "d": "A UTM não é o problema: <b>98% dos links já têm UTM completa</b>. E existem <b>dois links padrão</b> no template da descrição, presentes em quase todos os 2.806 vídeos — isso é desenho, não falha. O que dá para melhorar é mais estreito: <b>25 dos 68 vídeos acima de 500 mil views não têm nenhum destino próprio além do padrão</b>, e entre eles está o maior vídeo do canal, com 23,1 milhões de views. Os outros 43 já têm link próprio."},
   {"t": "Aleatorizar o dia de estreia de conteúdo evergreen", "prazo": "programa de 12 meses", "d": "Sortear a data dentro de pares bloqueados por dia da semana e fase de campanha torna a audiência exógena no nível do dia. Custo zero em dinheiro, algum em agenda editorial."}
 ],
+"debate": {
+  "titulo": "Correlação ou causa: os argumentos dos dois lados",
+  "texto": "Esta é a discussão central do estudo e ela <b>não foi resolvida</b>. O que dá para fazer é colocar os argumentos de cada lado na mesa, com o número que sustenta cada um, para a conversa acontecer sobre evidência e não sobre intuição. Quem quiser defender qualquer das duas posições vai encontrar munição aqui — e é essa a intenção.",
+  "lados": [
+    {"t": "A favor de que a audiência CAUSA a venda",
+     "cor": "pro",
+     "itens": [
+       {"a": "O efeito tem direção no tempo, e coincidência não tem", "d": "Se audiência e venda apenas acontecessem juntas num dia bom, a audiência de <i>antes</i> e a de <i>depois</i> explicariam a venda de hoje igualmente bem. Não explicam. A audiência de <b>dois dias antes</b> explica a venda de hoje bem melhor (+25,7%) do que a audiência de <b>três dias depois</b> (+7,8%, fraco demais para contar). <b>Causa age para frente no tempo; coincidência de dia não tem direção.</b> Este é o argumento mais forte deste lado."},
+       {"a": "Descontar o “dia bom” quase não muda o efeito", "d": "<b>A conta só considera venda nova — renovação de assinatura está fora do resultado desde o começo.</b> Mas a renovação serve para outra coisa: como <i>termômetro</i> de dia bom. Se um dia foi bom por algum motivo geral, a cobrança automática daquele dia também sobe. Colocando esse termômetro dentro do cálculo, para descontar o efeito do dia bom, o efeito da audiência <b>quase não se mexe: sai de 0,174 para 0,167</b>. O que dá para medir de “dia bom em geral” explica só <b>4%</b> do que a gente atribui à audiência."},
+       {"a": "Em mídia paga, o formato importa", "d": "No desfecho de transações via Ads, <b>Shorts não reproduz o efeito</b> (p=0,076) e vídeo longo reproduz (p=0,014). Se fosse só atividade genérica do canal, os dois funcionariam igual."},
+       {"a": "A comparação está limpa no que dá para checar", "d": "Os dois grupos de dias gastaram <b>o mesmo em mídia</b> (+0,9%, não significativo). Essa checagem podia ter falhado e não falhou."},
+       {"a": "Existe venda causada por vídeo, e ela é contada", "d": "<b>834 vendas</b> rastreadas por link na janela medida e cerca de <b>R$ 6 milhões em treze meses</b>. Nessa fatia a causa não está em dúvida — a pessoa assistiu, clicou e comprou."}
+     ]},
+    {"t": "A favor de que as duas coisas sobem juntas por um terceiro motivo",
+     "cor": "contra",
+     "itens": [
+       {"a": "Shorts funciona tão bem quanto documentário", "d": "No desfecho de transações totais, <b>Shorts dá +22,7% (p=0,043)</b> — maior que a variável publicada — e correlaciona só 0,27 com ela. Shorts é <b>1,7% do tempo assistido</b>. Se fosse o conteúdo convencendo, isso não aconteceria. <b>Este é o argumento mais forte deste lado.</b>"},
+       {"a": "O que move o número é quem já segue o canal", "d": "Dá para separar de onde vem a audiência: gente nova descobrindo o canal, ou quem já é inscrito assistindo. <b>49% do que medimos é tráfego de inscritos.</b> E se a conta usa <i>só</i> o tráfego de inscritos, o resultado em mídia paga fica praticamente igual — <b>+20,7% contra +20,5% usando a audiência inteira</b>. Ou seja, o que move o número não é gente nova chegando pelo YouTube: é a base que já segue o canal estar ativa naquele dia. <b>E essa mesma base é a que compra</b>, o que é exatamente o problema."},
+       {"a": "O teste que deveria nos inocentar não inocentou", "d": "Comparamos duas coisas <b>nos mesmos dias</b>: as vendas novas e as cobranças automáticas de renovação de assinatura. A renovação é agendada com meses de antecedência — um vídeo de hoje não pode causá-la. Então, nos dias de audiência alta, ela deveria ficar parada. <b>Não ficou: subiu também.</b> Se até o que o vídeo não pode causar sobe nesses dias, tem alguma coisa movendo o dia inteiro."},
+       {"a": "Vídeo grande não produz dia grande", "d": "Testamos os <b>10 maiores vídeos do ano</b>, todos acima de um milhão de views: nenhum produz efeito detectável. Se a audiência causasse venda, os eventos grandes deveriam ser onde isso mais aparece."},
+       {"a": "Os três casos citados têm explicação interna", "d": "O melhor dia do mês foi fechamento de campanha com corujão, e o Vitalício respondeu por 77% da receita. O maior vídeo do ano caiu num dia comum."},
+       {"a": "O efeito central é frágil", "d": "A melhor estimativa fica entre <b>+12% e +18%</b>. Mas toda estimativa vem com uma faixa de valores que o dado também aceita, e essa faixa vai de <b>praticamente nada até +33%</b>. Como ela inclui o “nada”, <b>não dá para descartar que o efeito seja zero</b>. O número do meio continua sendo a melhor aposta — mas é uma aposta que o dado não sustenta sozinho."}
+     ]}
+  ],
+  "empate": "<b>Por que nenhum dos lados ganha.</b> Os dois argumentos mais fortes apontam para direções opostas e não se anulam. A assimetria no tempo é difícil de explicar por um fator comum <i>instantâneo</i> — mas um ciclo de notícia tem dinâmica própria: o assunto esquenta, a audiência sobe primeiro, a disposição de comprar vem depois. Isso é fator comum <i>com atraso</i>, e produz exatamente a mesma assimetria. Nenhum teste que a gente consiga fazer com dado observacional separa as duas coisas.",
+  "decide": "<b>O que decidiria.</b> Só um experimento: sortear quem recebe o estímulo e comparar com quem não recebe. Aí a audiência deixa de ser algo que acontece e passa a ser algo que a gente escolhe — e a diferença entre os grupos é o efeito, sem discussão. <b>Ressalva de desenho:</b> sortear pessoa a pessoa na régua de CRM mede se apontar alguém para o vídeo faz essa pessoa comprar. É uma pergunta legítima, mas não é a mesma. Para medir efeito no custo de mídia paga o sorteio precisa ser de algo que separe o investimento entre os grupos — por região, por período ou por campanha. Casar desenho e desfecho antes de comprometer time."
+},
+"midia_paga": {
+  "titulo": "A pergunta: quanto a audiência facilita a venda por tráfego pago",
+  "texto": "Este é o recorte que a Bárbara e o Luan pediram, refeito com a inferência corrigida. <b>É o resultado mais robusto do estudo inteiro</b> — mais do que o número geral de transações, que é o que vinha sendo publicado como manchete.",
+  "colunas": ["Indicador", "Efeito", "Ponderado por precisão", "p (teste com poder)"],
+  "linhas": [
+    ["CAC de mídia paga", "−15,0%", "−14,4%", "0,003", "ok"],
+    ["Transações via Ads", "+20,5%", "+14,5%", "0,014", "ok"],
+    ["Transações totais", "+18,0%", "+12,1%", "0,071", "ns"],
+    ["Investimento em mídia (checagem)", "+0,9%", "−1,5%", "0,804", "chk"]
+  ],
+  "nota": "Efeito de dias de audiência alta contra baixa, pareado por quintil de investimento, fim de semana e fase de campanha. 262 dias. p por placebo de deslocamento circular, com o mesmo estimador do efeito: <b>0 de 367 deslocamentos batem o CAC observado; 25 de 367 batem o de transações</b>.",
+  "pratico": {
+    "titulo": "Em reais, sem nenhuma estatística",
+    "linhas": [
+      ["CAC mediano em dia de audiência alta", "R$ 240"],
+      ["CAC mediano em dia de audiência baixa", "R$ 283"],
+      ["Diferença bruta, sem pareamento nenhum", "−14,9%"],
+      ["Dias de audiência alta no período", "131 de 262"]
+    ],
+    "nota": "A diferença bruta (−14,9%) bate com a pareada (−15,0%). As duas contas chegam ao mesmo lugar por caminhos diferentes."
+  },
+  "especificidade": {
+    "titulo": "De onde vem esse efeito, e é aqui que a leitura muda",
+    "linhas": [
+      ["Audiência de vídeo longo (a do estudo)", "+20,5%", "0,014"],
+      ["Só tráfego de quem já é inscrito", "+20,7%", "0,011"],
+      ["Shorts", "+17,4%", "0,076"]
+    ],
+    "leitura": "<b>Tráfego de inscritos sozinho entrega o mesmo número que a audiência inteira.</b> O efeito sobre mídia paga não vem de gente nova descobrindo a marca no YouTube — vem da <b>base já inscrita estar ativa naquele dia</b>. E a base ativa é a mesma que converte no anúncio. Isso é diferente de \"o vídeo aqueceu o público frio\"."
+  },
+  "leituras": [
+    "<b>A resposta curta para eles: em dias de audiência alta, o CAC de mídia paga fica cerca de 15% menor — R$ 240 contra R$ 283.</b> Com o mesmo investimento, o que muda é a conversão.",
+    "<b>É o achado mais sólido do estudo.</b> O CAC passa no teste rigoroso com p=0,003, enquanto o número geral de transações fica em p=0,071 e não passa. Se era para escolher uma métrica para acompanhar, é esta — e não a que estava na manchete.",
+    "<b>Mas o mecanismo não é o que a intuição sugere.</b> Como tráfego de inscritos sozinho reproduz o efeito, a leitura defensável é “quando a base está engajada, o anúncio converte melhor”, e não “o vídeo esquenta público novo para o anúncio”. <b>Publicar mais vídeo não compra automaticamente esse efeito</b>; manter a base engajada, talvez.",
+    "<b>E continua sem prova de causa.</b> Um dia em que a base está mais engajada é um dia em que ela assiste mais e compra mais. A audiência pode ser termômetro do engajamento, não sua causa. O experimento aleatorizado continua sendo o que separa as duas leituras — e agora ele tem um desfecho melhor definido: <b>CAC de mídia paga</b>."
+  ]
+},
+"confianca": {
+  "titulo": "Por que confiar nestes números",
+  "texto": "Um estudo observacional é fácil de enganar. Estes são os testes que o resultado teve que passar, e o que cada um significa.",
+  "testes": [
+    {"t": "Comparação pareada",
+     "d": "Dias de audiência alta só são comparados com dias de audiência baixa que tenham <b>o mesmo patamar de investimento em mídia, o mesmo tipo de dia da semana e a mesma fase de campanha</b>. Sem isso, a comparação mediria calendário, não audiência.",
+     "r": "Passou. E os dois grupos gastaram o mesmo em mídia (+0,9%, sem significância) — essa checagem podia ter falhado."},
+    {"t": "Placebo por deslocamento",
+     "d": "A série de audiência é deslocada no calendário centenas de vezes, mantendo tudo o mais no lugar. Se o efeito aparecer com a mesma força nesses embaralhamentos, ele é acaso.",
+     "r": "Depende do desfecho. Em 367 deslocamentos, <b>nenhum</b> bate a queda de CAC (p=0,003); <b>25</b> batem o número de transações (p=0,071). <b>O CAC passa com folga; o total de transações não passa.</b>"},
+    {"t": "Controle negativo",
+     "d": "A renovação automática no cartão é cobrança agendada: um vídeo de hoje não pode causá-la. Se ela subir nos dias de audiência alta, existe um fator comum movendo o dia inteiro.",
+     "r": "<b>Não passou.</b> A renovação sobe +0,116. O teste não condena o vídeo, mas também não o inocenta."},
+    {"t": "Teste de especificidade",
+     "d": "Se é o conteúdo que convence, só o conteúdo longo deveria funcionar. Trocamos a medida de audiência por Shorts, que é 1,7% do tempo assistido, e vimos se o efeito sumia.",
+     "r": "<b>Não passou no resultado geral</b> — Shorts dá efeito maior. <b>Passou no resultado de mídia paga</b>, onde Shorts não reproduz."},
+    {"t": "Recorte por fase de campanha",
+     "d": "Se o efeito vier de abertura e fechamento de campanha, ele deve encolher quando esses dias saem da conta.",
+     "r": "Passou. O efeito <b>aumenta</b> quando os dias de campanha saem, o contrário do previsto pela hipótese de calendário."},
+    {"t": "Perfil no tempo",
+     "d": "Um fator comum do dia afeta audiência e venda ao mesmo tempo. Uma causa age com atraso. Comparamos o poder preditivo da audiência de dias anteriores e posteriores.",
+     "r": "Passou. A audiência de <b>dois dias antes</b> prevê melhor (+25,7%) que a de <b>três dias depois</b> (+7,8%)."}
+  ],
+  "fecho": "<b>Leitura honesta do conjunto:</b> o resultado sobrevive ao que dá para testar com dado observacional, mas dois testes importantes ficaram inconclusivos ou negativos. É por isso que o relatório fala em associação e não em causa."
+},
+"transbordamento": {
+  "titulo": "O que sobra para os outros canais",
+  "texto": "A venda rastreada por link é fácil de contar e é pequena. A pergunta difícil é se a audiência do canal ajuda a vender <b>fora</b> do YouTube — e se isso não é só o calendário de marketing coincidindo. Testei as duas coisas.",
+  "confundimento": {
+    "titulo": "Primeiro: o calendário explica a coincidência?",
+    "linhas": [
+      ["Dias em campanha", "alta 76%", "baixa 82%", "dias de audiência alta são <b>menos</b> de campanha, não mais"],
+      ["Dias de abertura de campanha", "alta 34%", "baixa 31%", "praticamente igual"],
+      ["Investimento médio no dia", "R$ 169,8 mil", "R$ 148,1 mil", "15% maior — por isso o pareamento é por quintil de investimento"]
+    ],
+    "conclusao": "O confundimento com o calendário existe na dimensão de investimento e é neutralizado pelo pareamento. Na dimensão de campanha ele aponta para o lado contrário do esperado: os dias de audiência alta são ligeiramente <b>menos</b> dias de campanha."
+  },
+  "colunas": ["Canal", "Recorte publicado", "Só fora de campanha", "Só em campanha"],
+  "linhas": [
+    ["Tudo que NÃO é YouTube", "+24,8%", "+46,9%", "+22,7%"],
+    ["Ads (Meta e Google)", "+21,2%", "+37,9%", "+20,6%"],
+    ["Orgânico e portal", "+63,3%", "+150,9%", "+74,2%"],
+    ["Comercial", "+23,7% ns", "+30,0% ns", "+19,1% ns"],
+    ["CRM", "+12,3% ns", "+50,1% ns", "+9,4% ns"],
+    ["YouTube (venda direta)", "+29,7% ns", "−27,5% ns", "+66,9% ns"],
+    ["Dias no recorte", "239", "67", "188"]
+  ],
+  "leituras": [
+    "<b>O transbordamento não some quando o marketing sai de cena — ele cresce.</b> Tudo que não é YouTube responde +24,8% no recorte normal e <b>+46,9% nos 67 dias sem nenhuma campanha rodando</b>. Se o efeito fosse artefato do calendário, essa coluna seria a mais fraca.",
+    "<b>Onde ele está: mídia paga e orgânico.</b> Ads sobe 21,2% com o investimento pareado — <b>é exatamente a queda de CAC que você observou</b>, dita do outro lado. Orgânico e portal é o mais forte de todos, o que faz sentido para um efeito de marca.",
+    "<b>Onde ele não está: Comercial e CRM.</b> Os intervalos cruzam zero nos três recortes. Não dá para dizer que a audiência do canal ajuda o time comercial ou a régua de e-mail.",
+    "<b>Ironia útil:</b> o canal de venda direta do YouTube é o mais fraco e instável da tabela, com intervalo cruzando zero em todos os recortes. <b>O que a audiência move não é a venda pelo link — é a conversão do resto.</b> Isso inverte a intuição de que o valor do canal está no clique.",
+    "<b>Ressalva de método, importante:</b> esta tabela usa um estimador corrigido em relação ao resto do relatório — média de <i>log</i>-razões em vez de razões, e sem um trecho do bootstrap que eu suspeito estar errado. Por isso o total aqui dá +24,8% e o publicado dá +19,5%. Uma revisão estatística independente está em andamento para dizer qual dos dois é o certo.",
+    "<b>O que isto NÃO resolve:</b> continua sendo observacional. Um fator comum de dia — uma pauta quente — moveria audiência e conversão de mídia paga ao mesmo tempo, e produziria exatamente esta tabela."
+  ]
+},
+"audiencia_alta": {
+  "titulo": "O que é um \"dia de audiência alta\"",
+  "texto": "Audiência aqui é <b>views diárias de vídeo longo orgânico</b> — exclui views de anúncio e exclui Shorts. Não existe corte fixo: dentro de cada estrato de comparação (quintil de investimento × fim de semana × fase de campanha), os dias são partidos pela mediana <i>daquele</i> estrato. O corte efetivo varia de 200 mil a 355 mil views, com mediana em 308 mil.",
+  "linhas": [
+    ["Mediana dos 262 dias", "309 mil views", "média 379 mil, desvio 256 mil"],
+    ["Corte por estrato", "200 a 355 mil", "mediana 308 mil views"],
+    ["Grupo audiência alta", "110 dias", "média de 535 mil views"],
+    ["Grupo audiência baixa", "114 dias", "média de 237 mil views"],
+    ["Contraste entre os grupos", "2,26×", "é este o salto de audiência que acompanha os +19,5%"]
+  ],
+  "leituras": [
+    "<b>O número mais importante desta seção é o último.</b> Os +19,5% de transações não vêm de um dia qualquer um pouco melhor: correspondem a um dia com <b>2,26 vezes mais audiência</b>. Em elasticidade, isso é cerca de 0,22 — dobrar a audiência acompanha algo como 16% mais transações.",
+    "<b>Uma armadilha que vale registrar:</b> a regressão usada em outra parte do estudo dá elasticidade 0,174, próxima de 0,218, e é tentador ler isso como confirmação. <b>Não é.</b> São as mesmas duas séries nos mesmos 262 dias, e mesmo sob a hipótese nula as duas medidas correlacionam +0,50. Duas contas da mesma amostra concordarem não é evidência independente.",
+    "<b>38 dos 262 dias não entram na conta.</b> Estratos com menos de 10 dias, ou com menos de 4 dias de um dos lados, são descartados por falta de comparação válida. Sobram 224 dias em 9 estratos.",
+    "<b>Por ser corte relativo, \"alta\" não significa recorde.</b> A mediana do corte, 308 mil views, é bem abaixo do pico da série, de 1,96 milhão. O estudo mede o dia-a-dia do canal, não os eventos extremos — que é justamente o que os testes por vídeo, com poder baixo, não conseguiram medir."
+  ]
+},
+"sensibilidade": {
+  "titulo": "O efeito sobrevive a tirar lançamento e fechamento?",
+  "texto": "Pergunta direta: se o que move o número são os dias de campanha, o efeito deve encolher conforme esses dias saem da conta. Rodei <b>o mesmo estimador do resto do relatório</b> em recortes progressivamente mais restritos. <b>Ele não encolhe — aumenta.</b> Os intervalos são por bootstrap de bloco com correção de viés; não repito o p aqui porque o teste com poder é o placebo, reportado uma vez na tabela principal.",
+  "linhas": [
+    {"c": "Todos os dias", "n_dias": "408 · entram 378", "e": "+24,7%", "ic": "[+7,6, +40,7]", "p": "—"},
+    {"c": "Sem abertura (±3 dias)", "n_dias": "284 · entram 251", "e": "+18,3%", "ic": "[+0,0, +37,0]", "p": "—"},
+    {"c": "Sem fechamento (−2 a 0)", "n_dias": "369 · entram 332", "e": "+27,1%", "ic": "[+10,9, +42,9]", "p": "—"},
+    {"c": "Publicado: sem abertura nem fechamento", "n_dias": "262 · entram 224", "e": "+18,0%", "ic": "[−1,2, +32,1]", "p": "—"},
+    {"c": "Só dias fora de campanha", "n_dias": "67 · entram só 32", "e": "+45,2%", "ic": "[+9,1, +89,0]", "p": "—"},
+    {"c": "Só dias em campanha, sem as pontas", "n_dias": "211 · entram 186", "e": "+15,1%", "ic": "[−4,8, +31,2]", "p": "—"},
+    {"c": "Até 12/07, onde o fechamento está marcado", "n_dias": "215 · entram 166", "e": "+22,9%", "ic": "[+10,7, +42,3]", "p": "—"},
+    {"c": "Depois de 12/07, sem fechamento marcado", "n_dias": "62 · entram 32", "e": "+9,3%", "ic": "[+1,3, +36,0]", "p": "—"}
+  ],
+  "leituras": [
+    "<b>Tirar os dias de campanha aumenta o efeito em vez de derrubá-lo</b>, o que contraria a hipótese de que o efeito venha do fechamento. Mas <b>a linha de +45,2% é frágil</b>: dos 67 dias, só <b>32 entram, em 3 grupos de comparação</b>. É direcional, não é prova.",
+    "<b>Tirar só os fechamentos sobe o número de +25,3% para +27,7%.</b> Os dias de fechamento estavam diluindo a associação, não criando.",
+    "<b>A última linha é a única que não exclui o zero, e é a menos confiável.</b> São 62 dias, poder baixo — e é justamente o trecho onde o calendário não marca fechamento nenhum, ver a ressalva abaixo. Não dá para ler como enfraquecimento do efeito no período recente.",
+    "<b>Ressalva de dado, encontrada ao rodar isto:</b> quatro campanhas do calendário (EVG, BP10, ODI e ENE) estão sem data de encerramento, então <b>nenhum dia depois de 12/07/2026 é marcado como fechamento</b>. O recorte \"sem fechamento\" só faz o que promete até essa data. Não afeta o número publicado, que é dominado pelos 215 dias anteriores, mas precisa ser corrigido no calendário."
+  ]
+},
+"lps": {
+  "titulo": "Para onde os vídeos mandam a pessoa",
+  "texto": "As 119 páginas de destino dos links, classificadas pelo padrão da URL antes de olhar o resultado, para a classificação não sair do próprio dado que ela explica. Um vídeo grande que aponta para captação de lead não ajuda a campanha de venda na mesma proporção — a diferença está na última coluna.",
+  "colunas": ["Tipo de página", "LPs", "Vídeos", "Views", "Leads", "Vendas", "Leads / 1M views", "Vendas / 1M views", "Receita / 1M views"],
+  "linhas": [
+    ["Venda (oferta e planos)", "65", "868", "74,9M", "688", "8.164", "9", "109", "R$ 29,3 mil"],
+    ["Campanha do momento (oferta com prazo)", "26", "61", "13,1M", "2.285", "3.325", "174", "253", "R$ 65,2 mil"],
+    ["Captação de lead", "21", "161", "21,6M", "17.733", "673", "821", "31", "R$ 9,6 mil"],
+    ["WhatsApp", "1", "13", "4,6M", "0", "240", "0", "52", "R$ 13,2 mil"],
+    ["Outro", "6", "21", "1,2M", "1.098", "257", "898", "210", "R$ 71,6 mil"]
+  ],
+  "leituras": [
+    "<b>A página da campanha do momento rende 2,2 vezes mais por view que a página de venda comum</b>: R$ 65,2 mil contra R$ 29,3 mil por milhão de views. É a página com a oferta que está no ar naquela semana e tem prazo para acabar, diferente da página geral de assinatura, que fica sempre igual. Só 61 vídeos apontam para ela.",
+    "<b>Página de lead entrega volume, não receita</b>: 821 leads por milhão de views, quase 90 vezes o que a página de venda capta, mas um terço da receita por view. Responde direto à dúvida do André: um vídeo grande apontando para captação não ajuda a campanha de venda na mesma proporção.",
+    "<b>O maior destino do canal é o de menor rendimento relativo</b>: a página de membro do YouTube recebe 292 vídeos e 14,9 milhões de views, e rende R$ 275 mil. A página do Clube do Livro recebe 45 vídeos e 509 mil views, e rende R$ 205 mil — <b>29 vezes menos audiência para 75% da receita</b>.",
+    "<b>O custo por lead do YouTube não é comparável ao de mídia</b>: o tráfego é orgânico, então o custo marginal é zero e o CPL não existe como número. O que existe é custo de produção do vídeo, que não é alocado por peça hoje."
+  ]
+},
+"insights": {
+  "titulo": "O que apareceu no caminho",
+  "texto": "Achados que não estavam no pedido e mudam decisão. Ordenados por quanto valem.",
+  "itens": [
+    {"t": "O gargalo do YouTube não é a página, é o clique",
+     "d": "De 26,4 milhões de views saíram 14.326 sessões nas landing pages — <b>uma a cada 1.844 pessoas que assistem</b>. Mas quem chega converte a 5,8%, taxa altíssima para uma LP. A página funciona; o que não funciona é levar a pessoa até ela. Mexer no CTA do vídeo tem ordens de grandeza mais espaço do que otimizar a LP.",
+     "acao": "Testar posição e formato do CTA: primeira linha da descrição, tela final, card no minuto de pico."},
+    {"t": "O rastreio funciona; o destino é que é sempre o mesmo",
+     "d": "O rastreio funciona: <b>98% dos links têm UTM completa</b>. E o template da descrição traz <b>dois links padrão</b> em quase todos os 2.806 vídeos, o que é desenho e não falha. O que dá para melhorar é o destino específico: acima de 500 mil views, <b>43 de 68 vídeos já têm destino próprio e 25 só têm o padrão</b> — entre esses 25 está o maior vídeo do canal, com 23,1 milhões de views. E quando existe destino próprio, ele nem sempre fala do assunto: o link do 11 de Setembro levava ao cadastro do Technocracia e os das sabatinas ao Enéas, o que explica os três cases somarem só <b>20 vendas e R$ 8 mil</b>.",
+     "acao": "Dar destino próprio aos 25 vídeos acima de 500 mil views que hoje só têm o link padrão, começando pelo maior do canal."},
+    {"t": "Documentário vende pelo link; live de notícia não",
+     "d": "Live e react de notícia acumulam 10 milhões de views e rendem <b>R$ 0,98 por mil views</b>. Todo o resto do canal rende <b>R$ 27,94 — 28 vezes mais</b>. Os documentários estão no topo: Nascimento do Fascismo capítulo 1 rastreou R$ 134 mil com 759 vendas, Epstein R$ 129 mil, Fim da Cracolândia R$ 110 mil e 1.864 leads. <b>Detalhe que muda a conta:</b> comparar por formato não funciona aqui, porque estreia de documentário também é transmitida ao vivo e cai no mesmo balde das lives de notícia. A separação certa é por série.",
+     "acao": "Tratar notícia como alcance e documentário como conversão, com CTA e meta diferentes."},
+    {"t": "O lead que vem de vídeo vale 3 a 4 vezes o lead de mídia paga",
+     "d": "Dentro da mesma campanha e janela: no Banco Master, 7,9% de conversão em 60 dias contra 2,9% do Meta, e R$ 20 de receita por lead contra R$ 5,60. O padrão se repete em cinco campanhas. <b>Mas é 1% a 6% do volume de leads</b> — ajuda muito por lead e pouco no total. E é seleção, não incrementalidade: quem assistiu 20 minutos e clicou já estava morno.",
+     "acao": "Usar como canal de qualidade, não de volume. Não substitui captação paga."},
+    {"t": "Shorts fazem volume de view e quase nenhuma atenção",
+     "d": "Shorts são <b>30% das views e 1,7% do tempo assistido</b>. Lives são 21% dos uploads e <b>82% dos minutos</b>. Serve para dimensionar formato, não para prever venda: contra transações diárias, removido o dia da semana, a correlação é de <b>0,31 para views, 0,25 para minutos e 0,19 para inscritos</b>. Nenhuma das três é forte, e minutos assistidos não prevê melhor que views.",
+     "acao": "Usar a divisão entre views e minutos para dimensionar formato, não para prever venda."},
+    {"t": "O termômetro que usamos por um ano media outra coisa",
+     "d": "O relatório anterior acompanhava as sessões de Organic Video do GA4, que são as chegadas ao site vindas do YouTube. A correlação dessa série com a audiência real do canal é <b>0,43</b>. Media o reflexo, não o canal.",
+     "acao": "Aposentar a métrica antiga do painel — já marcada como obsoleta no documento."},
+    {"t": "O que sobreviveu passou por duas revisões independentes",
+     "d": "Dois estatísticos externos ao estudo revisaram o método, um deles reimplementando o estimador do zero para conferir. Achados que não resistiram foram retirados antes desta entrega, e o número principal encolheu no processo. <b>O que está aqui é o que sobrou depois de tentar derrubar</b> — e por isso os intervalos são mais largos e as afirmações mais modestas do que seria confortável.",
+     "acao": "Manter a regra: nada entra em apresentação sem script versionado e sem a pergunta “este número distingue a hipótese que eu quero da que eu não quero?”."}
+  ]
+},
+"pontos": {
+  "titulo": "Ponto a ponto",
+  "grupos": [
+    {"quem": "Bárbara — pedido no squad", "itens": [
+      {"p": "Impacto dos vídeos de mais sucesso no YouTube em vendas e CAC", "r": "Dias de audiência alta têm 19,5% mais transações com o mesmo dinheiro. Por vídeo isolado, nem os 10 maiores do ano produzem efeito detectável.", "s": "respondido"},
+      {"p": "Cases: sabatinas e 11 de Setembro", "r": "Ambos analisados em três camadas: atenção, venda rastreável e efeito no dia. Acrescentei o STF, que o Luan pediu.", "s": "respondido"},
+      {"p": "Dados do YouTube Studio, pendentes do relatório anterior", "r": "Destravados em 16/09. Série diária do canal desde agosto de 2025, métricas por vídeo, origem de tráfego e base de 2.806 uploads classificada.", "s": "respondido"},
+      {"p": "Dados do Instagram: seguidores a mais, alcance", "r": "Graph API conectada, série diária desde agosto de 2025. Seguidores por dia só existem para os últimos 30 dias na API, então a coleta começou agora.", "s": "respondido"},
+      {"p": "Métricas do YouTube do período", "r": "11 de Setembro 2,86 milhões de views e 4.549 inscritos; Marçal 823 mil e 5.301; Renan 379 mil e 3.421.", "s": "respondido"},
+      {"p": "Métricas do CTA: da view à LP por UTM até o objetivo da LP", "r": "Funil completo montado. 26,4 milhões de views, 14.326 sessões, 894 leads, 834 vendas, R$ 333 mil, em 44 dias.", "s": "respondido"},
+      {"p": "Métricas de pesquisa de marca, incluindo portal", "r": "Share of Search é coincidente e não move eficiência; portal tem série curta. Falta o Search Console, que depende de acesso à propriedade.", "s": "parcial"},
+      {"p": "Métricas de redes sociais, do alcance ao faturamento", "r": "Medido e reprovado como indicador comercial: alcance tem correlação 0,6 com o investimento. O que vale é o funil por UTM, 8 a 33 mil leads por mês.", "s": "respondido"},
+      {"p": "Impacto indireto nos outros canais: vendas, ticket médio", "r": "Quebra por canal na tabela acima. Ticket médio não muda de forma significativa.", "s": "respondido"}
+    ]},
+    {"quem": "Bárbara — mensagem direta", "itens": [
+      {"p": "Todo o efeito vem do fechamento de BP10", "r": "No fim de semana de 12 e 13/09, sim: o BP10 explica mais que o crescimento inteiro. Em 10 e 11/09, não: a receita subiu com investimento menor. No geral, não: excluir os dias de fechamento aumenta o efeito medido.", "s": "respondido"},
+      {"p": "O efeito não foi tão sentido no Technocracia", "r": "Correto. A estreia teve 1.052 espectadores e a coorte de cadastro do pico de 05 a 07/09 assiste mas não compra melhor, com 1,26% de conversão.", "s": "respondido"},
+      {"p": "Posso estar errada. Precisamos encontrar uma forma de analisar isso", "r": "A forma existe e está no Método: três camadas com veredito próprio e sete validações. E ela contrariou quem pediu, o que era o requisito. Mas nenhuma delas prova causa — para isso, o experimento da seção anterior.", "s": "respondido"}
+    ]},
+    {"quem": "Luan", "itens": [
+      {"p": "Entender a Sabatina do Renan, com dia de venda boa e custo baixo", "r": "A receita daqueles dias acompanhou o investimento, que estava 39% acima do esperado. O lift na plataforma é 1,14×, compatível com nenhum efeito.", "s": "respondido"},
+      {"p": "Dois hits recentes para estudar: 11 de setembro e STF", "r": "Os dois entraram. O STF é o contraste mais forte do relatório: o maior vídeo do ano coincidiu com o dia mais fraco da semana.", "s": "respondido"},
+      {"p": "Ontem fizemos o melhor dia do mês com ótimo custo", "r": "15/09 foi fechamento do BP10 com corujão, e o Vitalício respondeu por 77% da receita. O vídeo do STF do mesmo dia tinha 3,5 milhões de views, mas o de 03/09 tinha 4,4 milhões e caiu no dia mais fraco.", "s": "respondido"},
+      {"p": "É muito pouco provável essas coisas não terem correlação", "r": "Correlação existe e é forte, no padrão de 408 dias. O que não existe é evidência de causa, e os eventos específicos que ele cita não sustentam a leitura.", "s": "respondido"},
+      {"p": "Coordenar um projeto com o time de dados", "r": "A proposta está na seção anterior: o experimento de encorajamento aleatorizado é o projeto, e cabe em duas a três semanas com o time de CRM.", "s": "respondido"}
+    ]},
+    {"quem": "André — levantados na apuração", "itens": [
+      {"p": "Apesar do investimento maior, escalamos mantendo boa eficiência", "r": "Correto. Ponderado pelo investimento, e não por número de campanhas, a eficiência se manteve na escala de 07 a 13/09.", "s": "respondido"},
+      {"p": "Meu medo é existir correlação sem causalidade", "r": "O medo se confirmou. O controle negativo falhou: a renovação automática de cartão, que um vídeo não pode causar, sobe junto com a audiência. Há um fator comum de dia que move as duas.", "s": "respondido"},
+      {"p": "A eficiência não é só função de investimento e audiência; importa se a curva está subindo ou caindo", "r": "A intuição é boa, mas o teste que eu montei para ela não se sustentou. O quinto quintil de descida não tem nenhum fim de semana e investe 35% menos, então o que parecia efeito da direção era composição. Fica em aberto.", "s": "parcial"},
+      {"p": "Então não dá para encontrar causalidade entre audiência e eficiência?", "r": "Com dado observacional, não. Nenhum desenho aqui separa o vídeo do dia em que ele saiu. Só o experimento da seção de ações resolve.", "s": "respondido"},
+      {"p": "Para onde cada vídeo manda a pessoa: venda, lead, e se muda o volume captado", "r": "Seção anterior. As 119 páginas medidas, e a diferença entre elas é de 2 a 7 vezes por milhão de views.", "s": "respondido"},
+      {"p": "Tem mais alguma coisa que vale a pena buscar", "r": "Três: o Search Console, que depende de acesso à propriedade; a coleta diária de seguidores do Instagram, que já começou; e o experimento aleatorizado, que é o único caminho para causa.", "s": "parcial"}
+    ]}
+  ]
+},
 "metodo": {
   "desenho": "Comparação de dias com audiência orgânica acima e abaixo da mediana, dentro de estratos de quintil de spend, fim de semana e fase de venda. Audiência é views de vídeo longo pela API do YouTube Analytics, excluindo anúncio e Shorts. Intervalos por bootstrap de bloco, que respeita a autocorrelação da série.",
   "validacoes": [
     "Spend pareado: os dois grupos gastam o mesmo (+1,2%, não significativo).",
     "Calendário completo: excluindo estreias, aberturas, fechamentos, lotes e ofertas novas, o efeito permanece.",
-    "Placebo por deslocamento circular: o efeito fica fora da banda do acaso.",
+    "Placebo por deslocamento circular: o CAC de mídia paga passa (0 de 367 deslocamentos batem, p=0,003); o total de transações não passa (25 de 367, p=0,071).",
     "Controle negativo com views pagas: dias de mais anúncio em vídeo têm CAC pior, o oposto do orgânico.",
-    "Controle negativo com renovações: FALHA — é o que impede a leitura causal."
+    "Controle negativo com renovações: NÃO INOCENTA — a renovação não fica parada, então não dá para descartar um fator comum de dia. O teste é inconclusivo nos dois sentidos, não é prova contra o vídeo."
   ],
   "limites": [
     "Nenhum teste observacional descarta um fator comum: uma pauta quente move audiência e vendas ao mesmo tempo.",
-    "A revisão independente derrubou os achados das rodadas 9c a 9e — mecanismo do Comercial, histerese, corte de views, LTV sobre CAC e o teste dos vídeos grandes. Não foram usados aqui.",
-    "Os intervalos das versões anteriores deste relatório estavam de 1,6 a 1,9 vezes estreitos demais.",
+    "Achados que não resistiram à revisão foram retirados: mecanismo do Comercial, histerese, corte de views, valor do cliente sobre custo de aquisição e o teste dos vídeos grandes. Nenhum deles sustenta nada neste relatório.",
+    "Os intervalos aqui vêm de bootstrap de bloco com correção de viés. Métodos mais simples produziriam intervalos de 1,6 a 1,9 vezes mais estreitos — e errados, porque a série tem autocorrelação.",
     "A audiência do YouTube não é endereçável por região, então não existe geo holdout para o canal."
   ]
 }
 }
+
+# --- derivação numérica para os gráficos -------------------------------------
+# Os valores já existem como texto formatado nos blocos acima; aqui eles viram
+# número para os gráficos, sem serem redigitados (fonte única = a string).
+import re as _re
+def _n(t):
+    """'+19,5%' / '−0,174' / '2,03×' -> float. None se não houver número."""
+    if not isinstance(t, str): return None
+    t = t.replace("\u2212", "-").replace("×", "").replace("%", "").strip()
+    m = _re.search(r"[-+]?\d+(?:,\d+)?", t)
+    return float(m.group().replace(",", ".")) if m else None
+def _ic(t):
+    """'[+8,6, +42,4]' ou '[1,52–2,56]' -> [lo, hi]. None se não for intervalo."""
+    if not isinstance(t, str) or "[" not in t: return None
+    inner = t[t.index("[")+1:t.rindex("]")].replace("\u2212", "-")
+    parts = [x for x in _re.split(r",\s|–|—|\sa\s", inner) if _re.search(r"\d", x)]
+    if len(parts) != 2: return None
+    v = [_n(x) for x in parts]
+    return v if all(x is not None for x in v) else None
+
+for _l in D["bloco2"]["linhas"] + D["bloco2"]["canais"] + D["controle_negativo"]["linhas"] + D["sensibilidade"]["linhas"]:
+    _l["n"] = _n(_l["e"]); _l["ic_n"] = _ic(_l.get("ic"))
+for _s in D["sabatinas"]:
+    _s["lift_n"] = _n(_s["l"]); _s["ic_n"] = _ic(_s.get("ic"))  # NÃO usar "n": já é o nome
+# funil: strings com separador de milhar
+D["bloco1"]["funil_n"] = [
+    int(_re.sub(r"[^\d]", "", v)) for _, v, _ in
+    next(i["funil"] for i in D["bloco1"]["itens"] if i.get("funil"))[:4]
+]
+# lps: as 3 últimas colunas de cada linha
+D["lps"]["n"] = [{"classe": r[0], "leads1m": _n(r[6]), "tx1m": _n(r[7]), "rec1m": _n(r[8])}
+                 for r in D["lps"]["linhas"]]
+_falt = [l["c"] for l in D["bloco2"]["linhas"] + D["controle_negativo"]["linhas"] if l["ic_n"] is None]
+if _falt: print("  aviso: sem intervalo numérico ->", _falt)
+
 (B/"data.json").write_text(json.dumps(D, ensure_ascii=False, indent=1))
 print(f"data.json: {len(json.dumps(D))//1024} kB · {len(D)} blocos")

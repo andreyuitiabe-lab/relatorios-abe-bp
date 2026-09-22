@@ -40,7 +40,7 @@ CAMPANHAS = [
     ("CDL",   "2026-05-17", "2026-06-01"),
     ("ELS",   "2026-05-20", "2026-07-12"),
     ("EVG",   "2026-07-08", None),
-    ("BP10",  "2026-07-16", None),
+    ("BP10",  "2026-07-16", "2026-09-15"),   # fim de venda (marketing) — wiki campanhas-calendario 18/09; comercial segue até 30/09
     ("ODI",   "2026-07-17", None),
     ("ENE",   "2026-07-28", None),
 ]

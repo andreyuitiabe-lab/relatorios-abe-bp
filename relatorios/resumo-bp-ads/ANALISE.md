@@ -150,7 +150,8 @@ Mockup navegável com dados reais: artifact `99bbc54b`.
 
 ## Pendências / próximos passos
 
-- **Cadastrar no marketing-bp:** com o PR #152 mergeado (16/09), `allugator.com` (anunciante, marca "Allugator") e `stf.jus.br` (fonte externa) precisam entrar no seed/tabela `resumo_bp_dominios` do Supabase — senão a Allugator sai como domínio cru e o STF vira anunciante falso na página nova. Hoje só estão cadastrados no `refresh.py` deste relatório.
+- **Cadastrar a Allugator no marketing-bp:** o seed da migration `resumo_bp_dominios` é de 28/08 e traz 4 anunciantes (Vimansca, Sendflow, Lídio Carraro, Insider Store) — `allugator.com` **não** está lá. Como a página nova é **fail-closed** (domínio ausente não vira anunciante, vai para a fila de pendências de `/admin/resumo-bp-anunciantes`), a Allugator só aparece no dash depois de cadastrada por lá. `stf.jus.br` já está no seed como `fonte_externa` — não precisa de nada.
+- **Status do deploy (21/09):** ✅ passo 2 feito — `fetch-bigquery-resumo-bp` e `fetch-bigquery-bp-ads-funil` respondem 401 (no ar, exigindo auth). ❓ passo 1 (migration no Supabase) não dá para conferir daqui; o sintoma de não ter rodado é a fila de pendências vir cheia.
 - **Link esquecido no template (16/set):** ✅ resolvido no template (sem cliques de Vimansca desde 15/09); avisar Nicolas para conferir o template do Resumo BP; decidir com Elias se as edições 08–14/09 devem sair do relatório da Vimansca (hoje o filtro é só por domínio). No cadastro de anunciantes do marketing-bp, considerar registrar **dias contratados** por anunciante, não só o domínio.
 - Validar dash com Nicolas/Elias (mensagem na thread do #performance-e-bi).
 - Avaliar se a janela de 120 dias basta a longo prazo: quando o BP Ads tiver mais de 4 meses de

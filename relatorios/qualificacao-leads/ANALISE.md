@@ -71,6 +71,228 @@ Implementação da frente 2 revisada: em vez de mart novo isolado, **estender a 
 
 ---
 
+## Auditoria de set/2026 — os 4 pilares remedidos do zero (03/09, pedido do André)
+
+**Entrega:** `auditoria-set2026.html` (artifact `bdc060db`) — relatório de insights, HTML autocontido
+(dados inline, não `data.json`: é snapshot de estudo, não painel vivo; converter para o padrão template
+se virar página recorrente). 10 queries novas em `queries/` (`rpl_*`, `faixas_*`, `icp_*`,
+`matriz_iql_engajamento_d7_d30.sql`).
+
+**Pergunta:** (1) o que caracteriza um bom lead / ICP; (2) como validamos a projeção de RPL — racional,
+matriz RPL D+7/30/60/90 × CPL, distribuição do RPL, o que muda o RPL entre campanhas; (3) a separação
+A+/A/B/C/D faz sentido e faz sentido excluir os leads D da contagem; (4) como aplicar a matriz
+engajamento × IQL.
+
+### Decisões de abordagem
+- **Idade fixa em toda comparação.** Campanha nova tem menos tempo para converter — conversão e RPL
+  entre tags só comparáveis restringindo à mesma idade (D+30 nas faixas, D+45 na matriz de engajamento,
+  D+240 no universo maduro) e contando só leads que completaram a janela.
+- **Always-on e venda direta fora do universo maduro** (LPs, HUB, GDC, ODI, VIT, RBP, FREE, CDL, TLR12,
+  JOM, ELS): mistura de coortes e spend parcial distorcem multiplicador e CPL. As conclusões valem para
+  **campanhas com janela definida** — foi ao checar isso que apareceu o bug do CPL.
+- **Atributos de pesquisa medidos só entre respondentes**, e só nas 5 tags com pesquisa in-funnel.
+- **Receita observada, nunca EV** (o EV é circular: "respondeu" é atributo pontuado).
+
+### Achados principais
+1. **Projetor validado out-of-sample — a limitação nº 2 fechou.** GOD, HID e NTL25 completaram 240d.
+   Trecho D+90→D+240 do regime novo = **1,77** vs 1,69 do config (CV 0,06, era 0,31 no antigo).
+   Projeção cega: **+1,4% / +9,9% / −7,3%** (mediana 7,3% vs 15% declarado). **A extrapolação estava
+   conservadora, não errada.** → manter multiplicadores, **reduzir o erro declarado** (15%→~10% D+30,
+   23%→~14% D+7), que afrouxa a trava do CAPI. Ranking de preditores replicou dentro de 0,01.
+2. **A cauda explica o erro do D+7:** capar o top 0,1% derruba o RPL D+7 em **10–34%**; um lead
+   high-ticket vale até 5% do RPL D+7 de uma campanha de 72k leads. → **winsorizar a p99,9** na v2.
+3. **O RPL muda entre campanhas por CONVERSÃO (73%), não por ticket (19%).** Dois eixos: RPL_NM
+   (ρ 0,789) e recaptura da base (ρ 0,560). **7,4% dos leads (base conhecida) = 47,8% da receita**,
+   múltiplo **11,0×** — replica a D28 com 45 tags em vez de 3. Dentro do NM, 90% é conversão.
+4. **Confirmação numérica da D35:** 30 das 34 tags ≥15k leads têm score de NM numa faixa de **1,7 ponto**,
+   0% de A+/A, EV fixo R$ 9,53 — enquanto o RPL_NM real varia **12,6×**. Sem pesquisa o IQL não
+   distingue campanhas: **a âncora observada não é refinamento, é o que sustenta o nível.**
+5. **ICP:** o status domina (membro 7,8× o NM; vitalício 57× em RPL; 14,7% dos leads = 71,7% da receita).
+   Entre NM, `tempo_conhece` é o melhor atributo (IV **0,397**, estável) e **"respondeu" é o 3º melhor
+   de todos** (IV 0,256; 3,5× conversão). **O ganho está na exclusão:** "primeiro contato + nunca ouviu"
+   = 1.615 leads e **1 venda**.
+6. **Faixas: ordenação ok, granularidade de 5 não se sustenta.** C÷D = **1,02–1,19× em 3 de 4 tags**
+   (degrau real entre B e C, 2,6–4,6×). **A+ é a base conhecida disfarçada** (8–15% de NM; 10–17% dos
+   leads, 55–86% da receita). **A faixa C mistura dois públicos** — quem não responde cai 100% em C, e
+   lá dentro respondentes convertem 2,5× os não-respondentes. → tornar "respondeu" **dimensão explícita**
+   da régua em vez de deixá-la colapsada em C.
+7. **Excluir os leads D: não.** Se pagam em 4 de 5 tags (margem +R$ 0,62 a +R$ 2,95 sobre o custo de
+   régua de R$ 0,61); convertem **igual aos C que não responderam** (0,301% vs 0,337%), e há 2,6× mais
+   destes; e excluí-los da contagem é **dupla penalização** (+8–25% no CPL — o RPL esperado já os
+   desconta pelo numerador). **O corte certo é por engajamento:** C/D em silêncio/frio = 34–60% da base
+   e 0,3–1,2% da receita, saldo **+R$ 21k por campanha grande no pior caso**.
+8. **Engajamento × IQL:** confirmado (A+/A × quente = 3–5% dos leads e 42–69% da receita) e o eixo
+   **discrimina mais que o score** (20× dentro de A+ vs 2,4× entre faixas no quente; D-quente converte
+   45× o A-silêncio). **Antecipável a D+7**: 60–73% do grupo já visível, com conversão *maior* que em
+   D+30. → acionar em D+7 e re-scorar semanalmente.
+
+9. **Curva de maturação (puxada em 03/09, complemento pedido pelo André).** (a) A tabela de vendas na
+   confirmação **antecipou** receita, não aumentou: venda fechada no D0 foi de 4,20% → **11,85%** das vendas
+   de 240d (2,8×), as curvas convergem em D+180 e em D+365 o regime novo está *abaixo* do antigo — é o
+   mecanismo do CV 0,31→0,06 sem o nível maduro se mover. (b) A **forma** da curva varia **3,8× entre
+   campanhas em D+7** e só 1,7× em D+90: o erro do projetor vem de ritmo de maturação diferente, não de
+   calibração. Extremos: BNO24 **89,7%** e BF22 74,3% da receita de 240d já em D+30 (campanha de data) vs
+   MBP 11,1% e NTL23 16,0% — o que separa é **quando a oferta abre**, calendário conhecido *ex ante*, o que
+   reforça o desenho da `dim_rpl_date_anchored_tags`. (c) **O alvo D+240 captura só 25,3% da receita de 3
+   anos** do lead, e a curva é quase linear depois de D+90 (~0,08 pp/dia). Não medido se a cauda é
+   renovação/recompra (receita real, mas não atribuível ao anúncio) ou conversão tardia (aí o horizonte
+   subestimaria o CAC aceitável em ~4×) — **é a pergunta que decide se o alvo é conservador ou correto**.
+   (d) Os multiplicadores implícitos da curva pooled (2,80× em D+30, 5,87× em D+7) concordam com os medidos
+   tag a tag, o que não era garantido.
+10. **Correção de magnitude na D31:** os parâmetros de maturação por cluster são **específicos de
+   RIO/MST/TPV** (restringindo ao universo dela, batem: membro 18,1%, vitalício 17,0%). Na base ampla
+   membro matura **22,4%** e vitalício **29,2%** até D+30 (vs 13–17% registrado); NM 43,0% e ex 40,6%
+   (vs 43–48%). O forecast por composição de clusters herda o viés: **subestima a receita precoce de
+   membro/vitalício e superestima a de não-membro**. A ordenação qualitativa da D31 segue certa.
+
+11. **Matriz de retorno recortada para o regime novo (out/2025+, 13 campanhas com CPL confiável).**
+   Mediana: CPL R$ 2,18 · projeção R$ 15,86 · **retorno 5,64×** (média simples 7,23× · ponderada por leads
+   5,92× · sem CDL 5,56×). Faixa 2,56× (DBI) a 24,10× (CDL) — **nenhuma campanha abaixo da meta de 1,5×**.
+   O corte elimina justamente as campanhas cujo CPL cobria janela parcial (TLR 25×, TPV 24×, BIT 12,7×),
+   que eram artefato. ⚠️ Com todas passando por 2–16× de folga, vale decidir se a meta de 1,5× é sobre
+   receita bruta ÷ spend de mídia (o que ela mede hoje) ou sobre contribuição — do jeito atual ela não
+   separa campanha boa de ótima. Fora por CPL não confiável: JOM (gap 269d), ELS (148d), TLR12; corrigir a
+   view recupera as três. D+240 só tem 3 campanhas.
+
+12. **CPL por cluster do IQL (pergunta do André, 04/09): dá para calcular, e é quase plano.** Alocando
+   spend por anúncio × dia, o CPL por faixa varia **13–17%** dentro da campanha e **sem direção estável**
+   (EVG: C mais barato, D mais caro · BP10: quase monotônico · ELB26: **invertido**, A+ é o mais caro).
+   Não é imprecisão do método: o spend não é rastreável por lead, então a diferença entre faixas só poderia
+   vir de elas se distribuírem diferente entre anúncios — e não se distribuem o suficiente.
+   **Corolário algébrico: `CPLq = CPL ÷ share de A+/A`** — o CPLq não mede custo, reexpressa o mix
+   (a álgebra confirma o que a D52 decidiu por argumento de negócio). Na pergunta de negócio por trás
+   ("pagar mais compra lead melhor?") **não há relação estável**: ρ(CPL do ad, %A+/A) = −0,004 no EVG,
+   −0,245 no BP10, **+0,384** no ELB26 — o sinal troca. O único padrão consistente é o lado ruim: ρ com %D
+   é **positivo** em EVG (+0,333) e BP10 (+0,267). ⚠️ **Armadilha do ELB26:** lá o CPL alto correlaciona
+   **−0,448 com % de não-membro** — os anúncios caros compram **recaptura de base**, e é isso que infla o
+   A+ deles; a correlação "positiva com qualidade" é em boa parte o efeito que o guardrail NM-A/R$ existe
+   para impedir. **Todo mix de faixas por anúncio precisa da versão NM-only ao lado.** Custo *marginal* só
+   sai de experimento — o protocolo de A/B do CAPI já desenhado produz exatamente isso.
+   **Recomendação: não construir métrica de CPL por faixa**; reportar mix de faixas por anúncio (varia
+   5,7%–43,4% no EVG, 5,2%–71,6% no BP10) e retorno esperado por anúncio.
+13. **⚠️ Cobertura da atribuição lead→anúncio quantificada, e o gargalo não é o regex:** EVG **79,6%** ·
+   ELB26 **73,3%** · BP10 **56,0%** dos leads do canal Anúncios chegam a um anúncio com spend no dia.
+   O que se perde é `utm_content` = `ad_c__creative_` / `ad_m__creative_` — **macro do Meta não expandida**:
+   **20,2% no EVG, 26,7% no ELB26, 43,8% no BP10**. Corrigir na configuração dos anúncios é pré-requisito
+   do mart `cbo_ads_iql_daily` e de qualquer análise por criativo; o viés não é necessariamente aleatório
+   entre formatos.
+
+14. **O aquecimento prevê a fase de vendas? (pergunta do André, 04/09) — o paradoxo é real e nenhum
+   preditor sobrevive ao teste correto.** Desenho: fronteira = `venda_start` do calendário curado,
+   preditores medidos estritamente antes e outcome depois (sem circularidade), 35 campanhas maduras.
+   (a) **Captar mais e mais rápido anticorrelaciona com valor por lead:** volume ρ **−0,350** · leads/dia
+   ρ **−0,418** com o RPL da venda — mas volume dá ρ **+0,658** com receita total. Não é artefato de
+   divisão (a conversão, que não tem volume no denominador, também cai: ρ −0,349): é diluição de audiência.
+   **Mais leads = mais receita total e menos valor por lead, ao mesmo tempo** — a origem da sensação de
+   "captação foi bem, venda não tracionou". (b) **Três candidatos a preditor morrem no teste NM-only:**
+   mix de base ρ +0,528 (era 2024+: **+0,804**!) contra RPL total mas **+0,013** contra RPL de não-membro;
+   engajamento morno/quente pré-abertura +0,394 → **−0,006**. Era **composição de audiência**, não
+   qualidade — a base vale 11,3× por lead, então campanha com mais base tem RPL maior por composição.
+   **Uma campanha que "vende bem" pode estar só revendendo para a própria base.** (c) A **pré-venda**
+   sobrevive parcialmente (ρ +0,617 total / +0,413 NM; parcial controlando o mix: +0,454), **ordena**
+   (6 dos 10 primeiros) mas **não prevê nível** (erro LOO 47%, 66% na era 2024+; 10/35 dentro de ±25%) e
+   **mudou de regime**: multiplicador 14,3× (2021) → 4,5× (2025), com os 6 piores erros todos em 2025 e
+   todos superestimando. (d) ⚠️ **A pergunta certa não é respondível hoje:** "potencial de uma produção" é
+   pergunta sobre **recepção do conteúdo**, e isso não é instrumentado por lead — a
+   `obt_kafka__view_sessions` cobre **0,28–0,78% dos não-membros** do aquecimento porque mede assinante
+   logado na plataforma (as 2 campanhas com maior cobertura são as de maior % de base). Volume, CPL, mix e
+   abertura de e-mail são métricas de **distribuição**, não de recepção.
+   ⚠️ Limite: n=35 amplo, 17 na era 2024+, 10 no teste de engajamento — confiáveis são os negativos com
+   margem grande (+0,013 e −0,006) e o sinal invertido do volume (3 métricas, 2 outcomes).
+
+15. **Planilha pergunta × resposta × conversão (pedido do André, 04/09 — formato inspirado numa
+   planilha de outra empresa).** `~/Downloads/perguntas_pesquisa_x_conversao.xlsx` (3 abas, fora do repo).
+   Duas bases: **histórica madura** (RIO/MST/TLR/TPV, 2025, 342k respostas — janela D+240) e **campanhas
+   atuais** (EVG/BP10/ELB26/ENE/JOM — janela D+30, ainda vai maturar). **20 perguntas, 112 níveis.**
+   Decisões metodológicas que mudam o resultado:
+   - **Lift intra-campanha ponderado**, não lift contra a média global. Sem isso, "Casado / Em união
+     estável" (RIO/MST) aparecia com 5,01% de conversão e "Casado(a)" (TLR/TPV) com 18,42% — a diferença
+     era **campanha**, não perfil (base rate e mix de base diferentes). É o erro que a planilha de
+     referência provavelmente comete.
+   - **Variantes de texto normalizadas** (`Casado` = `Casado(a)`, `60+` = `60 ou mais`, `Outro: …`
+     colapsado) — os formulários mudaram os rótulos entre campanhas.
+   - **Dedup por (lead, tag, pergunta, resposta)**: o `arr_survey_responses` anexa respostas de campanhas
+     anteriores, o que inflava o denominador (havia células com % de não-membro >100%).
+   - Coluna NM ao lado de tudo: **as perguntas mais discriminantes também são as mais correlacionadas com
+     status**, então a leitura de aquisição exige a versão NM-only.
+   **Poder discriminatório (amplitude do lift NM, melhor ÷ pior nível):** relacao_bp 11,0× · renda atual
+   6,8× · midia_tradicional 5,9× · renda histórica 5,0× · escolaridade 3,9× · tempo_conhece 3,7× ·
+   idade 3,8× · ocupacao 3,1× · fonte_confianca 3,0× · conhece_bp 2,7× · relevancia 2,4× ·
+   assina_streaming 2,5× · motivacao 2,3× · religiao 2,1× · estado_civil 1,9× · qtd_streaming 1,9× ·
+   streaming 1,6× · filhos 1,4× · **genero 1,04× (nulo)**.
+   **Achados novos:** (a) **`escolaridade` discrimina 3,9× e não existe no formulário atual** —
+   Pós-Graduação 1,95× vs Ensino Médio incompleto 0,50×; candidata a voltar. (b) **`motivacao`, hoje em
+   modo coleta, tem amplitude 2,3×** — avaliar promoção. (c) **`genero` é inútil** (1,04×) e
+   **`filhos` é fraco** (1,35×) — não gastar slot. (d) `religiao` tem amplitude 2,14× mas IV 0,015: os
+   extremos separam, só têm pouca gente ("Prefiro não informar" 0,63× em 2,4k leads contra Evangélico
+   1,10× em 64,5k) — amplitude alta com IV baixo é exatamente isso. (e) `qtd_streaming` (a não mapeada)
+   mostra **gradação monotônica** — Nenhum 0,86× → 1 lead 1,42× → 2 leads 1,43× → 3 leads 1,61× —
+   confirmando que o fix bom é o nível ordinal, não o binário.
+
+### Pendências / próximos passos
+1. 🚨 **Corrigir `dim_iql_mapping`: `qtd_streaming` não está mapeada.** EVG 42.652 + BP10 38.880
+   respondentes de julho + JOM 7.587 = **~89k leads** perderam `paga_conteudo` silenciosamente
+   (−4 pontos de score para quem paga streaming). É o que derrubou o IV de 0,098 → 0,031 — **o número
+   mede o bug, não o atributo**. Fix mínimo: `Nenhum`→`nao_paga`, `1`/`2`/`3`/`3 +`→`paga_algum`.
+   Fix bom: nível ordinal (0/1/2+) — `qtd_streaming` é pergunta melhor que a antiga. **Instituir a
+   auditoria** (anti-join distinct (pergunta, resposta) × mapping no job diário): 2º caso em 2 semanas.
+2. **Corrigir a `vw_cpl_lead_campanha`** — mesmo bug de era de tag da MR !2486, agora no denominador da
+   métrica-mestra. Restringir aos leads da janela de spend + expor coluna de cobertura. Se é o 2º caso
+   do padrão, promover a config-as-data.
+3. **Atualizar o erro declarado do projetor** (`dim_rpl_projector`) e adotar RPL winsorizado no D+7.
+4. **Régua de CRM:** trocar o critério de supressão de "faixa D" para "faixa × engajamento".
+5. **Pesquisa nas campanhas sem cobertura** — segue a maior alavanca disponível (~78% do volume de 2026).
+6. Remedir o IV de `paga_conteudo` e o nº ideal de faixas **depois** do fix 1.
+7. **Decompor a cauda pós-D+240** (renovação/recompra vs conversão tardia do lead original) — decide se o
+   alvo D+240 do projetor é conservador ou apenas correto, e se o CAC aceitável está subestimado.
+8. 🎯 **Instrumentar a recepção do conteúdo de aquecimento por lead** — é o único caminho para responder
+   "esta produção vai vender?", e a estrutura já existe (`vl_max_checkpoint`, `vl_watch_time_seconds` por
+   e-mail na plataforma). O que falta é o conteúdo de aquecimento passar por um **player que identifique o
+   lead**: entregá-lo dentro da plataforma com login (o freemium já cria esse login) faz a instrumentação
+   atual cobrir o público certo sem construir nada novo. Métrica-alvo: **% dos leads que assistiram ≥X% do
+   conteúdo antes da abertura** × conversão de não-membro na venda.
+9. **Testar o mix de faixas IQL dos NM como preditor de aquecimento** — candidato natural que ainda não pôde
+   ser testado (as 5 tags com pesquisa in-funnel não têm 240d). Disponível no 1º refit.
+10. **Corrigir a macro do `utm_content` nos anúncios** (20–44% dos leads de anúncio sem id resolvível) —
+   destrava atribuição por criativo, o `cbo_ads_iql_daily` e a leitura de mix por anúncio. É configuração
+   de mídia, não de dados.
+9. **Definir o numerador da meta de 1,5×** (receita bruta ÷ spend de mídia vs contribuição) — com 13 de 13
+   campanhas acima da meta por 2–16×, ela não está separando nada. Decisão de negócio, não de modelo.
+9. **Re-medir as curvas de maturação por cluster da D31** em base ampla (achado 10) — o forecast por
+   composição de clusters usa parâmetros de 3 tags.
+
+### Queries
+| Arquivo | O quê |
+|---|---|
+| `queries/rpl_matriz_janelas_x_cpl.sql` | matriz RPL D+7/30/60/90/240 × CPL por tag (+ diagnóstico do bug de CPL) |
+| `queries/rpl_decomposicao_por_status.sql` | RPL por status, múltiplo base/NM, decomposição conversão×ticket |
+| `queries/rpl_concentracao_por_lead.sql` | concentração da receita entre leads (top 0,1% / 1% / 5%) |
+| `queries/rpl_winsorizado_cauda.sql` | RPL bruto vs winsorizado a p99,9 por janela |
+| `queries/iql_score_medio_por_tag.sql` | score/faixa/EV médios de NM por tag (base do achado 4) |
+| `queries/iql_leitura_comparavel_respondentes.sql` | leitura comparável (só respondentes) por tag |
+| `queries/faixas_desempenho_d30.sql` | conversão/RPL/receita por faixa × tag a idade fixa D+30 |
+| `queries/faixas_x_nivel_resposta.sql` | faixa × nível de resposta (base do achado 6) |
+| `queries/icp_atributos_lift.sql` | tabela mestra de atributos × níveis (conversão, RPL, lift) |
+| `queries/matriz_iql_engajamento_d7_d30.sql` | matriz faixa × engajamento nas janelas D+7 e D+30 |
+| `queries/rpl_curva_maturacao.sql` | curva de maturação: % da receita por idade (vitalícia 1095d, por regime, por status) |
+| `queries/rpl_curva_forma_por_campanha.sql` | dispersão da forma da curva entre campanhas |
+| `queries/cpl_por_faixa_iql.sql` | CPL por faixa via alocação de spend por anúncio × dia |
+| `queries/cpl_anuncio_vs_mix_faixas.sql` | CPL do anúncio × mix de faixas (within campanha) |
+| `queries/cpl_cobertura_atribuicao_anuncio.sql` | cobertura lead→anúncio→spend e diagnóstico da macro |
+| `queries/aquecimento_preditores_vs_venda.sql` | preditores de aquecimento × resultado na fase de vendas |
+| `queries/aquecimento_preditores_nm_only.sql` | o mesmo com outcome NM-only (o teste que mata os candidatos) |
+| `queries/aquecimento_consumo_conteudo.sql` | cobertura de sessões de vídeo entre leads do aquecimento |
+| `queries/aquecimento_engajamento_pre_abertura.sql` | engajamento de CRM pré-abertura × venda |
+| `queries/pesquisa_celulas_historico.sql` | células pergunta × resposta × campanha, pesquisas maduras (D+240) |
+| `queries/pesquisa_celulas_atual.sql` | idem, campanhas em curso (D+30), respostas cruas |
+
+### Wiki atualizada
+`wiki-bp/pages/iql.md` (seção "Auditoria de set/2026" + gotcha do `qtd_streaming` + régua de IV remedida
++ matriz de engajamento com D+7 e o gotcha do `paywall_viewed`) · `bq-leads.md` (bug do CPL) ·
+`metricas-referencia.md` (2 seções novas: validação out-of-sample do projetor; RPL entre campanhas).
+
+---
+
 ## Pergunta original
 
 O time de mídia otimizava por CPL. A hipótese era que CPL e qualidade de lead são anticorrelacionados em algumas campanhas — e que falta um sistema de qualificação que funcione no momento do registro, antes da compra.

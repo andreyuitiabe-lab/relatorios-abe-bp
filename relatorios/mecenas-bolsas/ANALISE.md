@@ -49,6 +49,13 @@ situação atual?
   48,5k (54%). Exceção: Travessia da Família distribuiu mais do que vendeu (12 → 23, provisionada
   à parte).
 
+## Entregas derivadas
+
+- **16/09/2026 — planilha de detalhe (2 abas)**: `Transacoes` (26.185 tx Mecenas, grain
+  `id_transaction`, com categoria das 3 populações) + `Bolsas ativadas` (49.097 assinaturas).
+  Entregue em `Meu Drive/Listas BQ/mecenas_historico_2026-09-16.xlsx` — ⚠️ contém e-mail/nome,
+  não entra no repo.
+
 ## Pendências / próximos passos
 
 - Engajamento dos bolsistas vigentes (`obt_kafka__view_sessions` por e-mail) — a planilha tem
@@ -67,6 +74,8 @@ situação atual?
 | [04_instituicoes.sql](queries/04_instituicoes.sql) | Instituições extraídas do nm_reason (Caverna) |
 | [05_totais.sql](queries/05_totais.sql) | KPIs distintos (doadores, beneficiários, vigentes, cobertura de instituição) |
 | [06_por_produto.sql](queries/06_por_produto.sql) | Vendido × distribuído por produto entregue (Premium / cada certificação) |
+| [07_tx_detalhe.sql](queries/07_tx_detalhe.sql) | Detalhe por transação de TODA compra Mecenas (categoria BOLSA/SOLIDARIO/ORDER_BUMP, produto, qt_bolsas, id_transaction, dt_ordered_at) — base da planilha de 16/09 |
+| [08_bolsas_ativadas_detalhe.sql](queries/08_bolsas_ativadas_detalhe.sql) | Detalhe por assinatura das bolsas ativadas (produto, sistema, datas, status, vigente, instituição) — base da planilha de 16/09 |
 
 ## Wiki atualizada
 

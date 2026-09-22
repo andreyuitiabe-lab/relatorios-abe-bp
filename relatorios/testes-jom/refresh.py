@@ -18,6 +18,7 @@ Uso: python3 refresh.py   (usa o bqq — ver wiki-bp/pages/bq-acesso.md)
 import csv
 import datetime
 import json
+import re
 import subprocess
 import tempfile
 from pathlib import Path
@@ -36,12 +37,30 @@ ORD_FAIXA = ["A+", "A", "B", "C", "D"]
 # janela do briefing (usada na visão LP x form por mercado)
 JANELA_INI, JANELA_FIM = "2026-08-12", "2026-08-23"
 
+# A aba "Semana" mostra os últimos 7 dias COMPLETOS (termina ontem — o dia corrente
+# está sempre parcial em gasto e em receita, e entraria como queda falsa).
+SEMANA_FIM = datetime.date.today() - datetime.timedelta(days=1)
+SEMANA_INI = SEMANA_FIM - datetime.timedelta(days=6)
 
-def bq(sql_file):
-    """Roda um .sql pelo bqq e devolve list[dict] (via CSV completo)."""
+
+def bq(sql_file, params=None):
+    """Roda um .sql pelo bqq e devolve list[dict] (via CSV completo).
+
+    `params` reescreve os DECLARE de data do arquivo — é assim que a aba semanal
+    rola sozinha sem editar o .sql (que continua rodável à mão com seus defaults).
+    """
+    alvo = sql_file
+    if params:
+        sql = sql_file.read_text()
+        for nome, valor in params.items():
+            sql = re.sub(rf"(DECLARE {nome} DATE DEFAULT ')[^']+(')",
+                         rf"\g<1>{valor}\g<2>", sql)
+        tmp_sql = Path(tempfile.mkdtemp()) / sql_file.name
+        tmp_sql.write_text(sql)
+        alvo = tmp_sql
     with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as tmp:
         destino = tmp.name
-    r = subprocess.run([str(BQQ), str(sql_file), "-o", destino],
+    r = subprocess.run([str(BQQ), str(alvo), "-o", destino],
                        capture_output=True, text=True)
     if r.returncode != 0:
         raise RuntimeError(f"bqq falhou em {sql_file.name}: {r.stderr.strip()[-300:]}")
@@ -65,6 +84,12 @@ def main():
     mix_raw = bq(QUERIES / "mix_faixas.sql")
     print("LP x form por mercado...", flush=True)
     lpform = bq(QUERIES / "lp_vs_form_mercado.sql")
+    print(f"semana {SEMANA_INI} a {SEMANA_FIM}...", flush=True)
+    semana_raw = bq(QUERIES / "resumo_semanal.sql",
+                    {"dt_ini": SEMANA_INI.isoformat(), "dt_fim": SEMANA_FIM.isoformat()})
+    print("ritmo de maturação...", flush=True)
+    ritmo_raw = bq(QUERIES / "ritmo_maturacao.sql",
+                   {"dt_ini": SEMANA_INI.isoformat(), "dt_fim": SEMANA_FIM.isoformat()})
 
     # ── braços: normaliza tipos e deriva o que a página precisa ────────────────
     bracos = []
@@ -118,6 +143,48 @@ def main():
         "pc_survey": num(r.get("pc_survey")),
     } for r in serie]
 
+    # ── semana: os mesmos braços, na janela de 7 dias ─────────────────────────
+    ORD_SEM = ["pc_a_mais", "pc_a", "pc_b", "pc_c", "pc_d"]
+    semana = []
+    for r in semana_raw:
+        spend = num(r.get("vl_spend")) or None
+        semana.append({
+            "arm": r["nm_arm"],
+            "pago": spend is not None,
+            "leads": int(num(r["qt_leads"])),
+            "spend": spend,
+            "cpl": num(r.get("vl_cpl")) or None,
+            "pc_resposta": num(r.get("pc_resposta")),
+            "pc_nao_membro": num(r.get("pc_nao_membro")),
+            "mix": [num(r.get(k)) for k in ORD_SEM],
+            "pc_qual_resp": num(r.get("pc_qual_resp")) or None,
+            "rpl_obs": num(r.get("vl_rpl_obs")),
+            "rpl_esp": num(r.get("vl_rpl_esp")),
+            "retorno_esp": num(r.get("vl_retorno_esp")) or None,
+            "roas_obs": num(r.get("vl_roas_obs")) or None,
+            "vendas": int(num(r.get("qt_vendas"))),
+            "receita_obs": num(r.get("vl_receita_obs")),
+            "email_entregue": int(num(r.get("qt_email_entregue"))),
+            "pc_abertura": num(r.get("pc_abertura")),
+            "pc_clique": num(r.get("pc_clique")),
+        })
+    # ritmo de maturação: realizado ÷ esperado PARA A IDADE do lead (1,00 = no ritmo).
+    # Sem isto a página comparava RPL de D+240 com receita de 1-7 dias e toda barra
+    # "realizado" parecia catástrofe — ver ANALISE.md, correção de 08/09.
+    ritmo = {r["nm_arm"]: {
+        "idade": num(r.get("idade_media_dias")),
+        "pc_curva": num(r.get("pc_curva_esperado")),
+        "esp_hoje": num(r.get("vl_rpl_esp_hoje")),
+        "indice": num(r.get("vl_indice_ritmo")) or None,
+    } for r in ritmo_raw}
+    for b in semana:
+        b["ritmo"] = ritmo.get(b["arm"])
+
+    semana.sort(key=lambda b: -(b["spend"] or 0))
+    sem_pagos = [b for b in semana if b["pago"]]
+    sem_spend = sum(b["spend"] for b in sem_pagos)
+    sem_leads_pagos = sum(b["leads"] for b in sem_pagos)
+
     pagos = [b for b in bracos if b["pago"]]
     total_leads = sum(b["leads"] for b in bracos)
     total_spend = sum(b["spend"] or 0 for b in pagos)
@@ -140,6 +207,26 @@ def main():
         "bracos": bracos,
         "mix": mix_out,
         "serie": serie_out,
+        "semana": {
+            "ini": SEMANA_INI.strftime("%d/%m"),
+            "fim": SEMANA_FIM.strftime("%d/%m/%Y"),
+            "kpis": {
+                "spend": round(sem_spend, 2),
+                "leads": sum(b["leads"] for b in semana),
+                "leads_pagos": sem_leads_pagos,
+                "cpl": round(sem_spend / sem_leads_pagos, 2) if sem_leads_pagos else None,
+                "receita_obs": round(sum(b["receita_obs"] for b in semana), 0),
+                "vendas": sum(b["vendas"] for b in semana),
+                "bracos_pagos": len(sem_pagos),
+            },
+            "bracos": semana,
+            "ritmo_pago": (
+                lambda tot_obs, tot_esp: round(tot_obs / tot_esp, 2) if tot_esp else None
+            )(
+                sum(b["receita_obs"] for b in sem_pagos),
+                sum((b.get("ritmo") or {}).get("esp_hoje", 0) * b["leads"] for b in sem_pagos),
+            ),
+        },
     }
 
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=1))

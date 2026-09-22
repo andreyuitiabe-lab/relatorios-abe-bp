@@ -7,14 +7,17 @@ Usage:
   python refresh.py --push   # atualiza + git add/commit/push
 
 Janela dinâmica: da segunda-feira de 8 semanas atrás até ontem (9 semanas, a última parcial).
-Método:
-  * "O que o time oferece" = menção ao tema na transcrição (masterdata.dim_zenvia_approaches.nm_conversation,
-    regex). Uma conversa pode citar vários temas. Validado na análise odisseia-lancamento.
-  * "Conversa real" = abordagem com resposta do cliente (qt_prospect_interactions > 0). ~85% das linhas
-    são disparo sem resposta (nm_lead_source FLOW/N8N).
-  * Conversão real por tema = conversa respondida que menciona o tema → a mesma pessoa (telefone OU e-mail,
-    joins separados + UNION DISTINCT) compra no canal Comercial em até 14 dias.
-As queries canônicas estão em queries/*.sql — manter em sincronia.
+Método (revisado em 03/09/2026 após auditoria — ver ANALISE.md §Decisões):
+  * Só contatos do grupo Comercial: TRIM(dim_zenvia_contacts.nm_group) = 'Comercial'
+    (Retenção/Suporte/CS 8D eram ~21% das conversas e poluíam taxa e temas).
+  * "O que o time oferece" = menção ao tema na transcrição (dim_zenvia_approaches.nm_conversation,
+    regex). Uma conversa pode citar vários temas.
+  * "Conversa real" = abordagem com resposta do cliente (qt_prospect_interactions > 0).
+  * Conversão real por tema = conversa real que menciona o tema → a mesma pessoa (telefone OU e-mail,
+    joins separados + UNION DISTINCT) compra no canal Comercial em até 14 dias — reportada no total
+    e estratificada por etapa (carteiraMecenas vs fora), porque a etapa domina a taxa.
+  * Receita em 14d por transação DISTINTA (uma venda ligada a 2 conversas conta uma vez).
+As queries canônicas estão em queries/*.sql — geradas deste arquivo.
 """
 
 import json, subprocess, sys, datetime, warnings
@@ -69,12 +72,15 @@ vendas AS (
   WHERE t.nm_status='approved' AND t.bl_is_renovation=FALSE AND t.bl_is_commercial_channel=TRUE
     AND DATE(t.dt_ordered_at) BETWEEN '{INI}' AND '{{fim_venda}}')"""
 
+# Conversas reais do grupo Comercial (cart = etapa carteiraMecenas)
 CONV_CTE = f"""
 conv AS (
   SELECT a.id_approach, a.id_prospect, DATETIME(a.dt_approach_start) dt_ini, LOWER(a.nm_conversation) c,
+         a.nm_stage = 'carteiraMecenas' cart,
          REGEXP_REPLACE(z.cd_cleaned_phone_number, r'[^0-9]','') fone, LOWER(z.nm_contact_email) email
   FROM masterdata.dim_zenvia_approaches a JOIN masterdata.dim_zenvia_contacts z USING (id_prospect)
-  WHERE DATE(a.dt_approach_start) BETWEEN '{{ini_conv}}' AND '{FIM}' AND a.qt_prospect_interactions > 0)"""
+  WHERE DATE(a.dt_approach_start) BETWEEN '{{ini_conv}}' AND '{FIM}' AND a.qt_prospect_interactions > 0
+    AND TRIM(z.nm_group) = 'Comercial')"""
 
 TEMA_FLAGS = ", ".join(f"REGEXP_CONTAINS(c, r'{rx}') t_{k}" for k, rx in TEMAS.items())
 TEMA_COUNTIF = ",\n ".join(
@@ -99,10 +105,10 @@ def ff(v):
 
 Q_SEMANA = f"""
 WITH a AS (
-  SELECT DATE_TRUNC(DATE(dt_approach_start), WEEK(MONDAY)) semana, id_prospect, id_seller,
-         LOWER(nm_conversation) c, qt_prospect_interactions > 0 resp
-  FROM masterdata.dim_zenvia_approaches
-  WHERE DATE(dt_approach_start) BETWEEN '{INI}' AND '{FIM}')
+  SELECT DATE_TRUNC(DATE(a.dt_approach_start), WEEK(MONDAY)) semana, a.id_prospect, a.id_seller,
+         LOWER(a.nm_conversation) c, a.qt_prospect_interactions > 0 resp
+  FROM masterdata.dim_zenvia_approaches a JOIN masterdata.dim_zenvia_contacts z USING (id_prospect)
+  WHERE DATE(a.dt_approach_start) BETWEEN '{INI}' AND '{FIM}' AND TRIM(z.nm_group) = 'Comercial')
 SELECT semana, COUNT(*) abordagens, COUNT(DISTINCT id_prospect) contatos, COUNT(DISTINCT id_seller) vendedores,
  COUNTIF(resp) respondidas,
  {TEMA_COUNTIF}
@@ -116,47 +122,52 @@ WHERE t.nm_status='approved' AND t.bl_is_renovation=FALSE AND t.bl_is_commercial
   AND DATE(t.dt_ordered_at) BETWEEN '{INI}' AND '{FIM}'
 GROUP BY 1,2 ORDER BY 1,2"""
 
-# conversa respondida (tema) → compra em 14d
+# conversa real (tema) → compra em 14d, estratificada por carteiraMecenas vs fora
 Q_CONVERSAO = f"""
 WITH {CONV_CTE.format(ini_conv=INI)},
 tema AS (SELECT *, {TEMA_FLAGS} FROM conv),
 {VENDAS_CTE.format(fim_venda=FIM_VENDA)},
 m AS (
-  SELECT tm.id_approach, v.id_transaction, v.produto, v.vl FROM tema tm JOIN vendas v ON tm.fone = v.fone AND LENGTH(tm.fone) >= 10
+  SELECT tm.id_approach, v.id_transaction, v.produto FROM tema tm JOIN vendas v ON tm.fone = v.fone AND LENGTH(tm.fone) >= 10
   WHERE v.dt_ordered_at BETWEEN tm.dt_ini AND DATETIME_ADD(tm.dt_ini, INTERVAL 14 DAY)
   UNION DISTINCT
-  SELECT tm.id_approach, v.id_transaction, v.produto, v.vl FROM tema tm JOIN vendas v ON tm.email = v.email AND tm.email LIKE '%@%'
+  SELECT tm.id_approach, v.id_transaction, v.produto FROM tema tm JOIN vendas v ON tm.email = v.email AND tm.email LIKE '%@%'
   WHERE v.dt_ordered_at BETWEEN tm.dt_ini AND DATETIME_ADD(tm.dt_ini, INTERVAL 14 DAY)),
 por_conv AS (
-  SELECT id_approach, COUNT(id_transaction) n_tx, SUM(vl) rec,
+  SELECT id_approach, COUNT(id_transaction) n_tx,
          LOGICAL_OR(produto='Odisseia') odi, LOGICAL_OR(produto LIKE 'CDL%') cdl,
          LOGICAL_OR(produto LIKE '%Vitalício') vit, LOGICAL_OR(produto='Black Vitalício') black,
          LOGICAL_OR(produto='Mecenas') mec, LOGICAL_OR(produto='Eventos high-ticket') evt
   FROM m GROUP BY 1),
 u AS (
   { " UNION ALL ".join(
-      f"SELECT '{k}' tema, tm.id_prospect, p.n_tx, p.rec, p.{ALVO.get(k,'n_tx>0') if k in ALVO else 'n_tx>0'} alvo FROM tema tm LEFT JOIN por_conv p USING(id_approach) WHERE t_{k}"
+      f"SELECT '{k}' tema, tm.id_prospect, tm.cart, p.n_tx, p.{ALVO[k]} alvo FROM tema tm LEFT JOIN por_conv p USING(id_approach) WHERE t_{k}"
       if k in ALVO else
-      f"SELECT '{k}' tema, tm.id_prospect, p.n_tx, p.rec, p.n_tx>0 alvo FROM tema tm LEFT JOIN por_conv p USING(id_approach) WHERE t_{k}"
+      f"SELECT '{k}' tema, tm.id_prospect, tm.cart, p.n_tx, p.n_tx>0 alvo FROM tema tm LEFT JOIN por_conv p USING(id_approach) WHERE t_{k}"
       for k in TEMAS) }
   UNION ALL
-  SELECT 'todas' tema, tm.id_prospect, p.n_tx, p.rec, p.n_tx>0 alvo FROM tema tm LEFT JOIN por_conv p USING(id_approach))
+  SELECT 'todas' tema, tm.id_prospect, tm.cart, p.n_tx, p.n_tx>0 alvo FROM tema tm LEFT JOIN por_conv p USING(id_approach))
 SELECT tema, COUNT(*) conversas, COUNT(DISTINCT id_prospect) pessoas,
        COUNTIF(n_tx>0) com_venda, ROUND(100*COUNTIF(n_tx>0)/COUNT(*),1) pct_venda,
        COUNTIF(alvo) com_venda_alvo, ROUND(100*COUNTIF(alvo)/COUNT(*),1) pct_venda_alvo,
-       ROUND(SUM(rec)) receita_14d
+       COUNT(DISTINCT IF(n_tx>0, id_prospect, NULL)) pessoas_com_venda,
+       COUNTIF(cart) cart_conversas,
+       ROUND(100*COUNTIF(cart AND alvo)/NULLIF(COUNTIF(cart),0),1) cart_pct_alvo,
+       ROUND(100*COUNTIF(cart AND n_tx>0)/NULLIF(COUNTIF(cart),0),1) cart_pct_venda,
+       ROUND(100*COUNTIF(NOT cart AND alvo)/NULLIF(COUNTIF(NOT cart),0),1) fora_pct_alvo,
+       ROUND(100*COUNTIF(NOT cart AND n_tx>0)/NULLIF(COUNTIF(NOT cart),0),1) fora_pct_venda
 FROM u GROUP BY 1"""
 
-# venda ← teve conversa respondida nos 14 dias anteriores? qual tema?
+# venda ← teve conversa real (Comercial) nos 14 dias anteriores? qual tema?
 Q_VENDA_CONVERSA = f"""
 WITH {CONV_CTE.format(ini_conv=INI - datetime.timedelta(days=14))},
 {VENDAS_CTE.format(fim_venda=FIM)},
 m AS (
   SELECT v.id_transaction, cv.c FROM vendas v JOIN conv cv ON v.fone = cv.fone AND LENGTH(v.fone) >= 10
-  WHERE cv.dt_ini BETWEEN DATETIME_SUB(v.dt_ordered_at, INTERVAL 14 DAY) AND DATETIME_ADD(v.dt_ordered_at, INTERVAL 1 DAY)
+  WHERE cv.dt_ini BETWEEN DATETIME_SUB(v.dt_ordered_at, INTERVAL 14 DAY) AND v.dt_ordered_at
   UNION DISTINCT
   SELECT v.id_transaction, cv.c FROM vendas v JOIN conv cv ON v.email = cv.email AND cv.email LIKE '%@%'
-  WHERE cv.dt_ini BETWEEN DATETIME_SUB(v.dt_ordered_at, INTERVAL 14 DAY) AND DATETIME_ADD(v.dt_ordered_at, INTERVAL 1 DAY)),
+  WHERE cv.dt_ini BETWEEN DATETIME_SUB(v.dt_ordered_at, INTERVAL 14 DAY) AND v.dt_ordered_at),
 por_tx AS (
   SELECT id_transaction, {", ".join(f"LOGICAL_OR(REGEXP_CONTAINS(c, r'{rx}')) {k}" for k, rx in TEMAS.items())}
   FROM m GROUP BY 1)
@@ -167,7 +178,7 @@ SELECT v.produto, COUNT(*) vendas, ROUND(SUM(v.vl)) receita,
 FROM vendas v LEFT JOIN por_tx p USING (id_transaction)
 GROUP BY 1"""
 
-# matriz tema ofertado → produto comprado (14d)
+# matriz tema ofertado → produto comprado (14d), por transação DISTINTA (inclui linha 'todas')
 Q_TEMA_PRODUTO = f"""
 WITH {CONV_CTE.format(ini_conv=INI)},
 {VENDAS_CTE.format(fim_venda=FIM_VENDA)},
@@ -179,27 +190,31 @@ m AS (
   WHERE v.dt_ordered_at BETWEEN cv.dt_ini AND DATETIME_ADD(cv.dt_ini, INTERVAL 14 DAY)),
 x AS (
   SELECT DISTINCT tema, produto, id_transaction, vl FROM m, UNNEST([
-    {", ".join(f"IF(REGEXP_CONTAINS(c, r'{rx}'), '{k}', NULL)" for k, rx in TEMAS.items() if k in ALVO)}]) tema
+    {", ".join(f"IF(REGEXP_CONTAINS(c, r'{rx}'), '{k}', NULL)" for k, rx in TEMAS.items())}, 'todas']) tema
   WHERE tema IS NOT NULL)
 SELECT tema, produto, COUNT(*) vendas, ROUND(SUM(vl)) receita FROM x GROUP BY 1,2"""
 
 Q_STAGES = f"""
-WITH a AS (SELECT COALESCE(nm_stage,'(sem etapa)') stage, LOWER(nm_conversation) c
-  FROM masterdata.dim_zenvia_approaches
-  WHERE DATE(dt_approach_start) BETWEEN '{INI}' AND '{FIM}' AND qt_prospect_interactions > 0)
+WITH a AS (SELECT COALESCE(a.nm_stage,'(sem etapa)') stage, LOWER(a.nm_conversation) c
+  FROM masterdata.dim_zenvia_approaches a JOIN masterdata.dim_zenvia_contacts z USING (id_prospect)
+  WHERE DATE(a.dt_approach_start) BETWEEN '{INI}' AND '{FIM}' AND a.qt_prospect_interactions > 0
+    AND TRIM(z.nm_group) = 'Comercial')
 SELECT stage, COUNT(*) conversas, {", ".join(f"COUNTIF(REGEXP_CONTAINS(c, r'{rx}')) {k}" for k, rx in TEMAS.items())}
 FROM a GROUP BY 1 ORDER BY 2 DESC LIMIT 8"""
 
 Q_MOTIVOS = f"""
-WITH a AS (SELECT COALESCE(nm_closing_reason,'(sem motivo)') motivo, LOWER(nm_conversation) c
-  FROM masterdata.dim_zenvia_approaches
-  WHERE DATE(dt_approach_start) BETWEEN '{INI}' AND '{FIM}' AND qt_prospect_interactions > 0)
+WITH a AS (SELECT COALESCE(a.nm_closing_reason,'(sem motivo)') motivo, LOWER(a.nm_conversation) c
+  FROM masterdata.dim_zenvia_approaches a JOIN masterdata.dim_zenvia_contacts z USING (id_prospect)
+  WHERE DATE(a.dt_approach_start) BETWEEN '{INI}' AND '{FIM}' AND a.qt_prospect_interactions > 0
+    AND TRIM(z.nm_group) = 'Comercial')
 SELECT motivo, COUNT(*) conversas, {", ".join(f"COUNTIF(REGEXP_CONTAINS(c, r'{rx}')) {k}" for k, rx in TEMAS.items())}
 FROM a GROUP BY 1 ORDER BY 2 DESC LIMIT 8"""
 
 Q_ODI_CO = f"""
-WITH a AS (SELECT LOWER(nm_conversation) c FROM masterdata.dim_zenvia_approaches
-  WHERE DATE(dt_approach_start) BETWEEN '{INI}' AND '{FIM}' AND REGEXP_CONTAINS(LOWER(nm_conversation), r'odiss[eé]ia'))
+WITH a AS (SELECT LOWER(a.nm_conversation) c FROM masterdata.dim_zenvia_approaches a
+  JOIN masterdata.dim_zenvia_contacts z USING (id_prospect)
+  WHERE DATE(a.dt_approach_start) BETWEEN '{INI}' AND '{FIM}' AND TRIM(z.nm_group) = 'Comercial'
+    AND REGEXP_CONTAINS(LOWER(a.nm_conversation), r'odiss[eé]ia'))
 SELECT COUNT(*) total, COUNTIF(REGEXP_CONTAINS(c,r'clube do livro')) com_cdl, COUNTIF(REGEXP_CONTAINS(c,r'black')) com_black,
   COUNTIF(REGEXP_CONTAINS(c,r'vital[ií]cio')) com_vit, COUNTIF(REGEXP_CONTAINS(c,r'mecenas')) com_mec,
   COUNTIF(NOT REGEXP_CONTAINS(c,r'clube do livro|black|vital[ií]cio|mecenas')) sozinha FROM a"""
@@ -227,7 +242,7 @@ SELECT (SELECT COUNT(*) FROM h) vendedores, (SELECT ROUND(SUM(r)) FROM h) receit
 
 
 def build() -> dict:
-    print("  série semanal (abordagens + temas)...", flush=True)
+    print("  série semanal (abordagens + temas, grupo Comercial)...", flush=True)
     semanas = []
     for r in bq(Q_SEMANA):
         row = {"semana": r["semana"][:10], "abordagens": ii(r["abordagens"]), "contatos": ii(r["contatos"]),
@@ -244,21 +259,29 @@ def build() -> dict:
         if s and r["produto"] in s["vendas"]:
             s["vendas"][r["produto"]] = {"vendas": ii(r["vendas"]), "receita": float(r["receita"] or 0)}
 
-    print("  conversão real por tema (conversa → compra 14d)...", flush=True)
+    print("  conversão real por tema (carteira vs fora)...", flush=True)
     conversao = {r["tema"]: {"conversas": ii(r["conversas"]), "pessoas": ii(r["pessoas"]),
                              "com_venda": ii(r["com_venda"]), "pct_venda": ff(r["pct_venda"]),
                              "com_venda_alvo": ii(r["com_venda_alvo"]), "pct_venda_alvo": ff(r["pct_venda_alvo"]),
-                             "receita_14d": float(r["receita_14d"] or 0)} for r in bq(Q_CONVERSAO)}
+                             "pessoas_com_venda": ii(r["pessoas_com_venda"]),
+                             "cart_conversas": ii(r["cart_conversas"]),
+                             "cart_pct_alvo": ff(r["cart_pct_alvo"]), "cart_pct_venda": ff(r["cart_pct_venda"]),
+                             "fora_pct_alvo": ff(r["fora_pct_alvo"]), "fora_pct_venda": ff(r["fora_pct_venda"])}
+                 for r in bq(Q_CONVERSAO)}
 
     print("  vendas ← conversa prévia...", flush=True)
     venda_conversa = {r["produto"]: {"vendas": ii(r["vendas"]), "receita": float(r["receita"] or 0),
                                      "com_conversa": ii(r["com_conversa"]), "lambda": ii(r["lambda"]),
                                      "mencoes": {k: ii(r[f"m_{k}"]) for k in TEMAS}} for r in bq(Q_VENDA_CONVERSA)}
 
-    print("  matriz tema → produto...", flush=True)
+    print("  matriz tema → produto (tx distintas)...", flush=True)
     tema_produto = {}
     for r in bq(Q_TEMA_PRODUTO):
         tema_produto.setdefault(r["tema"], {})[r["produto"]] = {"vendas": ii(r["vendas"]), "receita": float(r["receita"] or 0)}
+    # receita 14d por tema = soma das transações distintas da matriz (sem dupla contagem)
+    for t, cv in conversao.items():
+        cv["receita_14d"] = sum(x["receita"] for x in tema_produto.get(t, {}).values())
+    tema_produto.pop("todas", None)  # linha 'todas' serve só para a receita distinta do canal
 
     print("  etapas, motivos, Odisseia...", flush=True)
     stages = [{"stage": r["stage"], "conversas": ii(r["conversas"]), **{k: ii(r[k]) for k in TEMAS}} for r in bq(Q_STAGES)]
@@ -268,8 +291,6 @@ def build() -> dict:
                    for r in bq(Q_ODI_OFERTAS)]
     vend = {k: (float(v) if v is not None else 0) for k, v in bq(Q_VENDEDORES)[0].items()}
 
-    # agregados: total e por mês-calendário (com base nas semanas; mês pela segunda-feira é impreciso →
-    # usa a série semanal só para totais; mensal vem das mesmas linhas agregadas por semana)
     tot = {
         "abordagens": sum(s["abordagens"] for s in semanas),
         "respondidas": sum(s["respondidas"] for s in semanas),

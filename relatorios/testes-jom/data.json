@@ -1,5 +1,5 @@
 {
- "gerado_em": "25/08/2026 19:12",
+ "gerado_em": "08/09/2026 18:54",
  "faixas": [
   "A+",
   "A",
@@ -10,250 +10,366 @@
  "meta_retorno": 1.5,
  "dias_aprendizado": 14,
  "kpis": {
-  "leads": 12551,
-  "spend": 31172.89,
-  "cpl": 3.0,
-  "retorno_esp": 2.65,
-  "bracos_pagos": 5,
-  "receita_obs": 14024.0,
-  "vendas": 80
+  "leads": 28555,
+  "spend": 97220.04,
+  "cpl": 3.58,
+  "retorno_esp": 2.15,
+  "bracos_pagos": 9,
+  "receita_obs": 48720.0,
+  "vendas": 217
  },
  "bracos": [
   {
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "pago": true,
-   "leads": 4504,
-   "spend": 16153.920000000024,
-   "cpl": 3.59,
-   "pc_qual": 26.8,
-   "score": -13.8,
-   "ev": 8.1,
-   "pc_survey": 58.6,
-   "qt_resp": 2641,
-   "pc_qual_resp": 39.3,
-   "score_resp": -9.3,
-   "ev_resp": 9.45,
-   "retorno_esp": 2.26,
-   "retorno_ajust": 2.64,
-   "receita_obs": 5078.0,
-   "vendas": 32,
+   "leads": 10231,
+   "spend": 38449.16000000004,
+   "cpl": 3.76,
+   "pc_qual": 26.3,
+   "score": -14.1,
+   "ev": 8.05,
+   "pc_survey": 59.5,
+   "qt_resp": 6087,
+   "pc_qual_resp": 37.7,
+   "score_resp": -9.9,
+   "ev_resp": 9.26,
+   "retorno_esp": 2.14,
+   "retorno_ajust": 2.47,
+   "receita_obs": 12733.0,
+   "vendas": 68,
    "dt_ini": "2026-08-08",
-   "dt_fim": "2026-08-24",
-   "dias": 17
+   "dt_fim": "2026-09-08",
+   "dias": 32
   },
   {
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Form nativo (Meta)",
+   "pago": true,
+   "leads": 4899,
+   "spend": 10873.770000000006,
+   "cpl": 2.22,
+   "pc_qual": 11.6,
+   "score": -19.5,
+   "ev": 6.43,
+   "pc_survey": 9.0,
+   "qt_resp": 439,
+   "pc_qual_resp": 44.9,
+   "score_resp": -3.8,
+   "ev_resp": 10.15,
+   "retorno_esp": 2.9,
+   "retorno_ajust": 4.57,
+   "receita_obs": 4481.0,
+   "vendas": 10,
+   "dt_ini": "2026-08-17",
+   "dt_fim": "2026-09-08",
+   "dias": 23
+  },
+  {
+   "arm": "Junho",
    "pago": true,
    "leads": 3224,
-   "spend": 9331.190000000006,
+   "spend": 9331.190000000008,
    "cpl": 2.89,
-   "pc_qual": 31.5,
-   "score": -9.5,
-   "ev": 8.99,
-   "pc_survey": 54.8,
-   "qt_resp": 1766,
-   "pc_qual_resp": 45.2,
-   "score_resp": -3.1,
-   "ev_resp": 10.52,
-   "retorno_esp": 3.1,
-   "retorno_ajust": 3.64,
-   "receita_obs": 5031.0,
-   "vendas": 25,
+   "pc_qual": 32.3,
+   "score": -9.0,
+   "ev": 9.07,
+   "pc_survey": 57.4,
+   "qt_resp": 1850,
+   "pc_qual_resp": 45.6,
+   "score_resp": -2.8,
+   "ev_resp": 10.56,
+   "retorno_esp": 3.13,
+   "retorno_ajust": 3.65,
+   "receita_obs": 7055.0,
+   "vendas": 31,
    "dt_ini": "2026-07-25",
    "dt_fim": "2026-08-13",
    "dias": 20
   },
   {
-   "arm": "Sem atribuição (orgânico/CRM/UTM ausente)",
+   "arm": "Agosto | ROAS 3",
+   "pago": true,
+   "leads": 2285,
+   "spend": 8305.98000000001,
+   "cpl": 3.64,
+   "pc_qual": 17.9,
+   "score": -19.8,
+   "ev": 6.83,
+   "pc_survey": 57.3,
+   "qt_resp": 1309,
+   "pc_qual_resp": 27.2,
+   "score_resp": -17.8,
+   "ev_resp": 7.7,
+   "retorno_esp": 1.88,
+   "retorno_ajust": 2.12,
+   "receita_obs": 2256.0,
+   "vendas": 12,
+   "dt_ini": "2026-08-22",
+   "dt_fim": "2026-09-08",
+   "dias": 18
+  },
+  {
+   "arm": "Agosto | Exclusao Insider",
+   "pago": true,
+   "leads": 2176,
+   "spend": 8566.99000000001,
+   "cpl": 3.94,
+   "pc_qual": 9.7,
+   "score": -26.0,
+   "ev": 5.61,
+   "pc_survey": 58.3,
+   "qt_resp": 1269,
+   "pc_qual_resp": 14.9,
+   "score_resp": -27.2,
+   "ev_resp": 5.94,
+   "retorno_esp": 1.43,
+   "retorno_ajust": 1.51,
+   "receita_obs": 865.0,
+   "vendas": 4,
+   "dt_ini": "2026-08-22",
+   "dt_fim": "2026-09-08",
+   "dias": 18
+  },
+  {
+   "arm": "Google PMax [PMAX]",
+   "pago": true,
+   "leads": 1916,
+   "spend": 10612.82,
+   "cpl": 5.54,
+   "pc_qual": 34.1,
+   "score": -8.8,
+   "ev": 9.17,
+   "pc_survey": 58.6,
+   "qt_resp": 1122,
+   "pc_qual_resp": 50.1,
+   "score_resp": -1.1,
+   "ev_resp": 11.0,
+   "retorno_esp": 1.66,
+   "retorno_ajust": 1.99,
+   "receita_obs": 4661.0,
+   "vendas": 22,
+   "dt_ini": "2026-07-28",
+   "dt_fim": "2026-09-08",
+   "dias": 43
+  },
+  {
+   "arm": "Sem atribuição (orgânico/CRM)",
    "pago": false,
-   "leads": 2171,
+   "leads": 1436,
    "spend": null,
    "cpl": null,
-   "pc_qual": 31.6,
-   "score": -9.0,
-   "ev": 8.96,
-   "pc_survey": 44.4,
-   "qt_resp": 965,
-   "pc_qual_resp": 61.5,
-   "score_resp": 7.0,
-   "ev_resp": 12.69,
+   "pc_qual": 56.5,
+   "score": 5.1,
+   "ev": 12.21,
+   "pc_survey": 74.6,
+   "qt_resp": 1071,
+   "pc_qual_resp": 67.2,
+   "score_resp": 11.3,
+   "ev_resp": 13.46,
    "retorno_esp": null,
    "retorno_ajust": null,
-   "receita_obs": 3545.0,
-   "vendas": 21,
+   "receita_obs": 7720.0,
+   "vendas": 29,
    "dt_ini": "",
    "dt_fim": "",
    "dias": null
   },
   {
-   "arm": "Form nativo Meta",
+   "arm": "Setembro | Lead Qualificado Event",
    "pago": true,
-   "leads": 1896,
-   "spend": 3008.4800000000023,
-   "cpl": 1.59,
-   "pc_qual": 14.1,
-   "score": -18.3,
-   "ev": 6.7,
-   "pc_survey": 17.6,
-   "qt_resp": 333,
-   "pc_qual_resp": 43.8,
-   "score_resp": -3.4,
-   "ev_resp": 10.14,
-   "retorno_esp": 4.22,
-   "retorno_ajust": 6.39,
-   "receita_obs": 239.0,
-   "vendas": 1,
-   "dt_ini": "2026-08-17",
-   "dt_fim": "2026-08-24",
+   "leads": 1161,
+   "spend": 3480.899999999999,
+   "cpl": 3.0,
+   "pc_qual": 30.1,
+   "score": -11.5,
+   "ev": 8.63,
+   "pc_survey": 59.1,
+   "qt_resp": 686,
+   "pc_qual_resp": 39.9,
+   "score_resp": -7.3,
+   "ev_resp": 9.68,
+   "retorno_esp": 2.88,
+   "retorno_ajust": 3.23,
+   "receita_obs": 1430.0,
+   "vendas": 8,
+   "dt_ini": "2026-09-01",
+   "dt_fim": "2026-09-08",
    "dias": 8
   },
   {
-   "arm": "[ADVANTAGE] Agosto | ROAS 3",
+   "arm": "Agosto | Em breve",
    "pago": true,
-   "leads": 402,
-   "spend": 1389.06,
-   "cpl": 3.46,
-   "pc_qual": 9.5,
-   "score": -25.9,
-   "ev": 5.55,
-   "pc_survey": 54.0,
-   "qt_resp": 217,
-   "pc_qual_resp": 16.1,
-   "score_resp": -27.1,
-   "ev_resp": 5.97,
-   "retorno_esp": 1.61,
-   "retorno_ajust": 1.73,
-   "receita_obs": 131.0,
-   "vendas": 1,
-   "dt_ini": "2026-08-22",
-   "dt_fim": "2026-08-24",
-   "dias": 3
+   "leads": 1032,
+   "spend": 3996.5699999999993,
+   "cpl": 3.87,
+   "pc_qual": 24.9,
+   "score": -15.6,
+   "ev": 7.78,
+   "pc_survey": 58.8,
+   "qt_resp": 607,
+   "pc_qual_resp": 34.8,
+   "score_resp": -12.6,
+   "ev_resp": 8.79,
+   "retorno_esp": 2.01,
+   "retorno_ajust": 2.27,
+   "receita_obs": 1001.0,
+   "vendas": 6,
+   "dt_ini": "2026-08-31",
+   "dt_fim": "2026-09-08",
+   "dias": 9
   },
   {
-   "arm": "[ADVANTAGE] Agosto | Exclusao Insider",
+   "arm": "Google Ads [KW]",
    "pago": true,
-   "leads": 354,
-   "spend": 1290.2399999999996,
-   "cpl": 3.64,
-   "pc_qual": 11.9,
-   "score": -23.3,
-   "ev": 6.02,
-   "pc_survey": 54.5,
-   "qt_resp": 193,
-   "pc_qual_resp": 19.7,
-   "score_resp": -22.4,
-   "ev_resp": 6.71,
-   "retorno_esp": 1.65,
-   "retorno_ajust": 1.84,
-   "receita_obs": 0.0,
-   "vendas": 0,
-   "dt_ini": "2026-08-22",
-   "dt_fim": "2026-08-24",
-   "dias": 3
+   "leads": 195,
+   "spend": 3602.6600000000003,
+   "cpl": 18.48,
+   "pc_qual": 41.5,
+   "score": -3.8,
+   "ev": 10.36,
+   "pc_survey": 68.7,
+   "qt_resp": 134,
+   "pc_qual_resp": 45.5,
+   "score_resp": -1.6,
+   "ev_resp": 10.65,
+   "retorno_esp": 0.56,
+   "retorno_ajust": 0.58,
+   "receita_obs": 6518.0,
+   "vendas": 27,
+   "dt_ini": "2026-08-25",
+   "dt_fim": "2026-09-08",
+   "dias": 15
   }
  ],
  "mix": {
-  "Form nativo Meta": [
-   10.0,
-   4.1,
-   3.3,
-   77.6,
-   5.0
+  "Agosto": [
+   14.5,
+   11.9,
+   13.1,
+   41.5,
+   19.1
   ],
-  "Sem atribuição (orgânico/CRM/UTM ausente)": [
-   19.2,
-   12.4,
-   9.3,
-   53.2,
-   5.9
-  ],
-  "[ADVANTAGE] Agosto": [
-   14.6,
-   12.3,
-   13.2,
-   41.4,
-   18.6
-  ],
-  "[ADVANTAGE] Agosto | Exclusao Insider": [
-   5.4,
-   6.5,
+  "Agosto | Em breve": [
+   14.4,
+   10.5,
    11.3,
-   51.7,
-   25.1
+   41.1,
+   22.7
   ],
-  "[ADVANTAGE] Agosto | ROAS 3": [
+  "Agosto | Exclusao Insider": [
    3.7,
-   5.7,
-   10.2,
-   50.5,
-   29.9
+   6.0,
+   11.7,
+   48.1,
+   30.6
   ],
-  "[ADVANTAGE] Junho": [
-   19.1,
-   12.4,
+  "Agosto | ROAS 3": [
+   9.4,
+   8.6,
+   11.7,
+   46.0,
+   24.4
+  ],
+  "Form nativo (Meta)": [
+   9.2,
+   2.3,
+   1.5,
+   84.3,
+   2.6
+  ],
+  "Google Ads [KW]": [
+   29.7,
+   11.8,
+   10.3,
+   29.7,
+   18.5
+  ],
+  "Google PMax [PMAX]": [
+   20.5,
    13.6,
-   42.0,
-   12.9
+   11.7,
+   40.1,
+   14.1
+  ],
+  "Junho": [
+   19.3,
+   13.1,
+   14.1,
+   40.0,
+   13.5
+  ],
+  "Sem atribuição (orgânico/CRM)": [
+   36.2,
+   20.3,
+   11.7,
+   22.1,
+   9.6
+  ],
+  "Setembro | Lead Qualificado Event": [
+   18.8,
+   11.3,
+   11.6,
+   39.2,
+   19.1
   ]
  },
  "serie": [
   {
    "dt": "25/07",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 136,
    "cpl": 2.27,
-   "pc_qual": 39.0,
-   "retorno_esp": 4.76,
-   "pc_survey": 16.9
+   "pc_qual": 43.4,
+   "retorno_esp": 4.95,
+   "pc_survey": 25.0
   },
   {
    "dt": "26/07",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 113,
    "cpl": 2.53,
-   "pc_qual": 30.1,
-   "retorno_esp": 3.53,
-   "pc_survey": 14.2
+   "pc_qual": 31.0,
+   "retorno_esp": 3.58,
+   "pc_survey": 21.2
   },
   {
    "dt": "27/07",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 60,
    "cpl": 4.99,
    "pc_qual": 20.0,
    "retorno_esp": 1.58,
-   "pc_survey": 11.7
+   "pc_survey": 15.0
   },
   {
    "dt": "28/07",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 232,
    "cpl": 2.77,
-   "pc_qual": 24.6,
-   "retorno_esp": 2.89,
-   "pc_survey": 41.4
+   "pc_qual": 25.9,
+   "retorno_esp": 2.91,
+   "pc_survey": 44.0
   },
   {
    "dt": "29/07",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 170,
    "cpl": 2.88,
-   "pc_qual": 28.2,
-   "retorno_esp": 2.84,
-   "pc_survey": 64.1
+   "pc_qual": 30.0,
+   "retorno_esp": 2.92,
+   "pc_survey": 66.5
   },
   {
    "dt": "30/07",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 252,
    "cpl": 2.6,
-   "pc_qual": 25.4,
-   "retorno_esp": 2.99,
-   "pc_survey": 58.7
+   "pc_qual": 25.8,
+   "retorno_esp": 3.01,
+   "pc_survey": 59.9
   },
   {
    "dt": "31/07",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 161,
    "cpl": 3.08,
    "pc_qual": 28.6,
@@ -262,70 +378,70 @@
   },
   {
    "dt": "01/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 233,
    "cpl": 2.7,
    "pc_qual": 31.3,
-   "retorno_esp": 3.38,
-   "pc_survey": 53.2
+   "retorno_esp": 3.37,
+   "pc_survey": 55.8
   },
   {
    "dt": "02/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 201,
    "cpl": 2.86,
-   "pc_qual": 29.9,
-   "retorno_esp": 2.99,
-   "pc_survey": 57.7
+   "pc_qual": 30.3,
+   "retorno_esp": 3.01,
+   "pc_survey": 60.2
   },
   {
    "dt": "03/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 184,
    "cpl": 2.87,
-   "pc_qual": 40.8,
-   "retorno_esp": 3.57,
-   "pc_survey": 52.7
+   "pc_qual": 42.4,
+   "retorno_esp": 3.61,
+   "pc_survey": 57.1
   },
   {
    "dt": "04/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 142,
    "cpl": 2.81,
    "pc_qual": 40.1,
-   "retorno_esp": 3.68,
-   "pc_survey": 63.4
+   "retorno_esp": 3.69,
+   "pc_survey": 66.2
   },
   {
    "dt": "05/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 181,
    "cpl": 2.86,
    "pc_qual": 32.0,
-   "retorno_esp": 3.19,
-   "pc_survey": 63.0
+   "retorno_esp": 3.18,
+   "pc_survey": 63.5
   },
   {
    "dt": "06/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 152,
    "cpl": 3.19,
    "pc_qual": 38.2,
    "retorno_esp": 3.12,
-   "pc_survey": 65.8
+   "pc_survey": 67.1
   },
   {
    "dt": "07/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 161,
    "cpl": 2.82,
-   "pc_qual": 31.7,
-   "retorno_esp": 3.21,
-   "pc_survey": 54.0
+   "pc_qual": 32.3,
+   "retorno_esp": 3.25,
+   "pc_survey": 56.5
   },
   {
    "dt": "08/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 47,
    "cpl": 5.01,
    "pc_qual": 46.8,
@@ -334,16 +450,16 @@
   },
   {
    "dt": "08/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 156,
    "cpl": 3.48,
-   "pc_qual": 41.0,
-   "retorno_esp": 2.95,
-   "pc_survey": 65.4
+   "pc_qual": 41.7,
+   "retorno_esp": 2.98,
+   "pc_survey": 66.7
   },
   {
    "dt": "09/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 137,
    "cpl": 3.82,
    "pc_qual": 54.0,
@@ -352,79 +468,79 @@
   },
   {
    "dt": "09/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 204,
    "cpl": 2.94,
-   "pc_qual": 31.4,
-   "retorno_esp": 2.97,
-   "pc_survey": 70.6
+   "pc_qual": 31.9,
+   "retorno_esp": 2.99,
+   "pc_survey": 72.5
   },
   {
    "dt": "10/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 114,
    "cpl": 3.38,
-   "pc_qual": 52.6,
-   "retorno_esp": 3.57,
-   "pc_survey": 71.9
+   "pc_qual": 53.5,
+   "retorno_esp": 3.58,
+   "pc_survey": 74.6
   },
   {
    "dt": "10/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 160,
    "cpl": 3.0,
-   "pc_qual": 29.4,
-   "retorno_esp": 3.04,
-   "pc_survey": 66.9
+   "pc_qual": 30.6,
+   "retorno_esp": 3.06,
+   "pc_survey": 69.4
   },
   {
    "dt": "11/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 141,
    "cpl": 3.47,
    "pc_qual": 40.4,
    "retorno_esp": 2.97,
-   "pc_survey": 66.0
+   "pc_survey": 67.4
   },
   {
    "dt": "11/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 168,
    "cpl": 2.72,
-   "pc_qual": 29.2,
-   "retorno_esp": 3.1,
-   "pc_survey": 55.4
+   "pc_qual": 31.0,
+   "retorno_esp": 3.19,
+   "pc_survey": 60.7
   },
   {
    "dt": "12/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 125,
    "cpl": 3.84,
-   "pc_qual": 40.0,
-   "retorno_esp": 2.51,
-   "pc_survey": 64.8
+   "pc_qual": 40.8,
+   "retorno_esp": 2.54,
+   "pc_survey": 66.4
   },
   {
    "dt": "12/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 156,
    "cpl": 2.97,
-   "pc_qual": 28.8,
-   "retorno_esp": 2.85,
-   "pc_survey": 62.8
+   "pc_qual": 29.5,
+   "retorno_esp": 2.86,
+   "pc_survey": 63.5
   },
   {
    "dt": "13/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 171,
    "cpl": 4.41,
-   "pc_qual": 44.4,
-   "retorno_esp": 2.47,
-   "pc_survey": 61.4
+   "pc_qual": 45.0,
+   "retorno_esp": 2.49,
+   "pc_survey": 63.2
   },
   {
    "dt": "13/08",
-   "arm": "[ADVANTAGE] Junho",
+   "arm": "Junho",
    "leads": 2,
    "cpl": 11.29,
    "pc_qual": 0.0,
@@ -433,97 +549,124 @@
   },
   {
    "dt": "14/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 224,
    "cpl": 4.47,
-   "pc_qual": 38.8,
-   "retorno_esp": 2.08,
-   "pc_survey": 62.5
+   "pc_qual": 39.7,
+   "retorno_esp": 2.1,
+   "pc_survey": 63.8
   },
   {
    "dt": "15/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 198,
    "cpl": 4.59,
    "pc_qual": 26.3,
-   "retorno_esp": 1.71,
-   "pc_survey": 55.1
+   "retorno_esp": 1.72,
+   "pc_survey": 55.6
   },
   {
    "dt": "16/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 277,
    "cpl": 3.8,
-   "pc_qual": 19.9,
-   "retorno_esp": 1.91,
-   "pc_survey": 53.1
+   "pc_qual": 20.2,
+   "retorno_esp": 1.92,
+   "pc_survey": 54.5
   },
   {
    "dt": "17/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 335,
    "cpl": 3.28,
    "pc_qual": 22.1,
-   "retorno_esp": 2.32,
-   "pc_survey": 49.6
+   "retorno_esp": 2.33,
+   "pc_survey": 50.4
   },
   {
    "dt": "18/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 273,
    "cpl": 3.46,
    "pc_qual": 16.8,
-   "retorno_esp": 2.02,
-   "pc_survey": 55.3
+   "retorno_esp": 2.03,
+   "pc_survey": 57.1
   },
   {
    "dt": "19/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 382,
    "cpl": 3.54,
-   "pc_qual": 20.2,
-   "retorno_esp": 1.98,
-   "pc_survey": 58.6
-  },
-  {
-   "dt": "20/08",
-   "arm": "[ADVANTAGE] Agosto",
-   "leads": 389,
-   "cpl": 3.73,
-   "pc_qual": 24.7,
-   "retorno_esp": 2.11,
-   "pc_survey": 61.4
-  },
-  {
-   "dt": "21/08",
-   "arm": "[ADVANTAGE] Agosto",
-   "leads": 413,
-   "cpl": 3.72,
-   "pc_qual": 22.8,
-   "retorno_esp": 1.96,
-   "pc_survey": 54.2
-  },
-  {
-   "dt": "22/08",
-   "arm": "[ADVANTAGE] Agosto",
-   "leads": 384,
-   "cpl": 3.45,
-   "pc_qual": 22.4,
-   "retorno_esp": 2.07,
-   "pc_survey": 60.4
-  },
-  {
-   "dt": "22/08",
-   "arm": "[ADVANTAGE] Agosto | Exclusao Insider",
-   "leads": 50,
-   "cpl": 5.81,
-   "pc_qual": 22.0,
-   "retorno_esp": 1.2,
+   "pc_qual": 20.7,
+   "retorno_esp": 2.01,
    "pc_survey": 62.0
   },
   {
+   "dt": "19/08",
+   "arm": "Google PMax [PMAX]",
+   "leads": 22,
+   "cpl": 11.13,
+   "pc_qual": 77.3,
+   "retorno_esp": 1.4,
+   "pc_survey": 77.3
+  },
+  {
+   "dt": "20/08",
+   "arm": "Agosto",
+   "leads": 389,
+   "cpl": 3.73,
+   "pc_qual": 26.0,
+   "retorno_esp": 2.14,
+   "pc_survey": 63.0
+  },
+  {
+   "dt": "20/08",
+   "arm": "Google PMax [PMAX]",
+   "leads": 75,
+   "cpl": 3.27,
+   "pc_qual": 52.0,
+   "retorno_esp": 3.61,
+   "pc_survey": 60.0
+  },
+  {
+   "dt": "21/08",
+   "arm": "Agosto",
+   "leads": 413,
+   "cpl": 3.72,
+   "pc_qual": 23.2,
+   "retorno_esp": 1.97,
+   "pc_survey": 55.4
+  },
+  {
+   "dt": "21/08",
+   "arm": "Google PMax [PMAX]",
+   "leads": 81,
+   "cpl": 3.03,
+   "pc_qual": 45.7,
+   "retorno_esp": 3.56,
+   "pc_survey": 69.1
+  },
+  {
    "dt": "22/08",
-   "arm": "[ADVANTAGE] Agosto | ROAS 3",
+   "arm": "Agosto",
+   "leads": 384,
+   "cpl": 3.45,
+   "pc_qual": 22.9,
+   "retorno_esp": 2.08,
+   "pc_survey": 61.5
+  },
+  {
+   "dt": "22/08",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 50,
+   "cpl": 5.81,
+   "pc_qual": 22.0,
+   "retorno_esp": 1.19,
+   "pc_survey": 66.0
+  },
+  {
+   "dt": "22/08",
+   "arm": "Agosto | ROAS 3",
    "leads": 52,
    "cpl": 4.96,
    "pc_qual": 15.4,
@@ -531,85 +674,1217 @@
    "pc_survey": 73.1
   },
   {
+   "dt": "22/08",
+   "arm": "Google PMax [PMAX]",
+   "leads": 120,
+   "cpl": 2.02,
+   "pc_qual": 43.3,
+   "retorno_esp": 5.06,
+   "pc_survey": 65.0
+  },
+  {
    "dt": "23/08",
-   "arm": "[ADVANTAGE] Agosto",
+   "arm": "Agosto",
    "leads": 434,
    "cpl": 3.4,
-   "pc_qual": 21.9,
-   "retorno_esp": 2.22,
-   "pc_survey": 60.1
+   "pc_qual": 22.1,
+   "retorno_esp": 2.24,
+   "pc_survey": 61.1
   },
   {
    "dt": "23/08",
-   "arm": "[ADVANTAGE] Agosto | Exclusao Insider",
+   "arm": "Agosto | Exclusao Insider",
    "leads": 168,
    "cpl": 3.63,
-   "pc_qual": 8.3,
-   "retorno_esp": 1.57,
-   "pc_survey": 50.0
+   "pc_qual": 8.9,
+   "retorno_esp": 1.58,
+   "pc_survey": 51.8
   },
   {
    "dt": "23/08",
-   "arm": "[ADVANTAGE] Agosto | ROAS 3",
+   "arm": "Agosto | ROAS 3",
    "leads": 174,
    "cpl": 3.36,
-   "pc_qual": 11.5,
+   "pc_qual": 12.1,
    "retorno_esp": 1.83,
-   "pc_survey": 51.1
+   "pc_survey": 53.4
   },
   {
-   "dt": "24/08",
-   "arm": "[ADVANTAGE] Agosto",
-   "leads": 437,
-   "cpl": 2.61,
-   "pc_qual": 23.6,
-   "retorno_esp": 2.92,
-   "pc_survey": 56.3
-  },
-  {
-   "dt": "24/08",
-   "arm": "[ADVANTAGE] Agosto | Exclusao Insider",
+   "dt": "23/08",
+   "arm": "Google PMax [PMAX]",
    "leads": 127,
-   "cpl": 3.07,
-   "pc_qual": 13.4,
-   "retorno_esp": 1.98,
-   "pc_survey": 56.7
+   "cpl": 1.87,
+   "pc_qual": 40.2,
+   "retorno_esp": 5.28,
+   "pc_survey": 76.4
   },
   {
    "dt": "24/08",
-   "arm": "[ADVANTAGE] Agosto | ROAS 3",
+   "arm": "Agosto",
+   "leads": 437,
+   "cpl": 3.76,
+   "pc_qual": 24.3,
+   "retorno_esp": 2.04,
+   "pc_survey": 59.0
+  },
+  {
+   "dt": "24/08",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 127,
+   "cpl": 4.02,
+   "pc_qual": 14.2,
+   "retorno_esp": 1.53,
+   "pc_survey": 59.1
+  },
+  {
+   "dt": "24/08",
+   "arm": "Agosto | ROAS 3",
    "leads": 153,
-   "cpl": 3.57,
+   "cpl": 3.58,
    "pc_qual": 6.5,
    "retorno_esp": 1.41,
-   "pc_survey": 50.3
+   "pc_survey": 52.9
+  },
+  {
+   "dt": "24/08",
+   "arm": "Google PMax [PMAX]",
+   "leads": 114,
+   "cpl": 2.0,
+   "pc_qual": 35.1,
+   "retorno_esp": 4.4,
+   "pc_survey": 73.7
   },
   {
    "dt": "25/08",
-   "arm": "[ADVANTAGE] Agosto",
-   "leads": 23,
-   "cpl": null,
-   "pc_qual": 21.7,
-   "retorno_esp": null,
-   "pc_survey": 73.9
+   "arm": "Agosto",
+   "leads": 331,
+   "cpl": 3.82,
+   "pc_qual": 22.7,
+   "retorno_esp": 2.01,
+   "pc_survey": 60.7
   },
   {
    "dt": "25/08",
-   "arm": "[ADVANTAGE] Agosto | Exclusao Insider",
-   "leads": 9,
-   "cpl": null,
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 107,
+   "cpl": 3.9,
+   "pc_qual": 4.7,
+   "retorno_esp": 1.32,
+   "pc_survey": 62.6
+  },
+  {
+   "dt": "25/08",
+   "arm": "Agosto | ROAS 3",
+   "leads": 137,
+   "cpl": 3.4,
+   "pc_qual": 8.8,
+   "retorno_esp": 1.59,
+   "pc_survey": 49.6
+  },
+  {
+   "dt": "25/08",
+   "arm": "Google Ads [KW]",
+   "leads": 4,
+   "cpl": 63.78,
+   "pc_qual": 50.0,
+   "retorno_esp": 0.21,
+   "pc_survey": 75.0
+  },
+  {
+   "dt": "25/08",
+   "arm": "Google PMax [PMAX]",
+   "leads": 81,
+   "cpl": 2.74,
+   "pc_qual": 34.6,
+   "retorno_esp": 3.42,
+   "pc_survey": 65.4
+  },
+  {
+   "dt": "26/08",
+   "arm": "Agosto",
+   "leads": 290,
+   "cpl": 4.61,
+   "pc_qual": 26.9,
+   "retorno_esp": 1.73,
+   "pc_survey": 61.4
+  },
+  {
+   "dt": "26/08",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 77,
+   "cpl": 5.5,
+   "pc_qual": 11.7,
+   "retorno_esp": 1.07,
+   "pc_survey": 63.6
+  },
+  {
+   "dt": "26/08",
+   "arm": "Agosto | ROAS 3",
+   "leads": 116,
+   "cpl": 4.31,
+   "pc_qual": 11.2,
+   "retorno_esp": 1.34,
+   "pc_survey": 60.3
+  },
+  {
+   "dt": "26/08",
+   "arm": "Google Ads [KW]",
+   "leads": 3,
+   "cpl": 85.24,
    "pc_qual": 0.0,
-   "retorno_esp": null,
+   "retorno_esp": 0.06,
    "pc_survey": 66.7
   },
   {
-   "dt": "25/08",
-   "arm": "[ADVANTAGE] Agosto | ROAS 3",
-   "leads": 23,
-   "cpl": null,
-   "pc_qual": 0.0,
-   "retorno_esp": null,
-   "pc_survey": 56.5
+   "dt": "26/08",
+   "arm": "Google PMax [PMAX]",
+   "leads": 60,
+   "cpl": 3.55,
+   "pc_qual": 36.7,
+   "retorno_esp": 2.77,
+   "pc_survey": 61.7
+  },
+  {
+   "dt": "27/08",
+   "arm": "Agosto",
+   "leads": 427,
+   "cpl": 4.32,
+   "pc_qual": 23.9,
+   "retorno_esp": 1.77,
+   "pc_survey": 54.1
+  },
+  {
+   "dt": "27/08",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 143,
+   "cpl": 4.15,
+   "pc_qual": 7.0,
+   "retorno_esp": 1.22,
+   "pc_survey": 52.4
+  },
+  {
+   "dt": "27/08",
+   "arm": "Agosto | ROAS 3",
+   "leads": 109,
+   "cpl": 4.09,
+   "pc_qual": 11.9,
+   "retorno_esp": 1.38,
+   "pc_survey": 62.4
+  },
+  {
+   "dt": "27/08",
+   "arm": "Google Ads [KW]",
+   "leads": 4,
+   "cpl": 65.72,
+   "pc_qual": 75.0,
+   "retorno_esp": 0.15,
+   "pc_survey": 75.0
+  },
+  {
+   "dt": "27/08",
+   "arm": "Google PMax [PMAX]",
+   "leads": 70,
+   "cpl": 3.11,
+   "pc_qual": 38.6,
+   "retorno_esp": 3.08,
+   "pc_survey": 64.3
+  },
+  {
+   "dt": "28/08",
+   "arm": "Agosto",
+   "leads": 339,
+   "cpl": 4.12,
+   "pc_qual": 25.7,
+   "retorno_esp": 1.99,
+   "pc_survey": 58.7
+  },
+  {
+   "dt": "28/08",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 119,
+   "cpl": 3.85,
+   "pc_qual": 10.9,
+   "retorno_esp": 1.57,
+   "pc_survey": 65.5
+  },
+  {
+   "dt": "28/08",
+   "arm": "Agosto | ROAS 3",
+   "leads": 137,
+   "cpl": 3.77,
+   "pc_qual": 10.9,
+   "retorno_esp": 1.6,
+   "pc_survey": 56.9
+  },
+  {
+   "dt": "28/08",
+   "arm": "Google Ads [KW]",
+   "leads": 8,
+   "cpl": 31.16,
+   "pc_qual": 12.5,
+   "retorno_esp": 0.24,
+   "pc_survey": 75.0
+  },
+  {
+   "dt": "28/08",
+   "arm": "Google PMax [PMAX]",
+   "leads": 86,
+   "cpl": 2.36,
+   "pc_qual": 20.9,
+   "retorno_esp": 3.05,
+   "pc_survey": 46.5
+  },
+  {
+   "dt": "29/08",
+   "arm": "Agosto",
+   "leads": 427,
+   "cpl": 3.59,
+   "pc_qual": 26.0,
+   "retorno_esp": 2.26,
+   "pc_survey": 58.3
+  },
+  {
+   "dt": "29/08",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 124,
+   "cpl": 3.91,
+   "pc_qual": 9.7,
+   "retorno_esp": 1.39,
+   "pc_survey": 53.2
+  },
+  {
+   "dt": "29/08",
+   "arm": "Agosto | ROAS 3",
+   "leads": 118,
+   "cpl": 3.71,
+   "pc_qual": 15.3,
+   "retorno_esp": 1.69,
+   "pc_survey": 55.9
+  },
+  {
+   "dt": "29/08",
+   "arm": "Google Ads [KW]",
+   "leads": 15,
+   "cpl": 16.68,
+   "pc_qual": 33.3,
+   "retorno_esp": 0.56,
+   "pc_survey": 46.7
+  },
+  {
+   "dt": "29/08",
+   "arm": "Google PMax [PMAX]",
+   "leads": 64,
+   "cpl": 3.18,
+   "pc_qual": 25.0,
+   "retorno_esp": 2.77,
+   "pc_survey": 56.3
+  },
+  {
+   "dt": "30/08",
+   "arm": "Agosto",
+   "leads": 596,
+   "cpl": 3.23,
+   "pc_qual": 21.6,
+   "retorno_esp": 2.26,
+   "pc_survey": 54.5
+  },
+  {
+   "dt": "30/08",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 164,
+   "cpl": 3.87,
+   "pc_qual": 7.3,
+   "retorno_esp": 1.36,
+   "pc_survey": 59.1
+  },
+  {
+   "dt": "30/08",
+   "arm": "Agosto | ROAS 3",
+   "leads": 211,
+   "cpl": 2.77,
+   "pc_qual": 20.4,
+   "retorno_esp": 2.73,
+   "pc_survey": 57.8
+  },
+  {
+   "dt": "30/08",
+   "arm": "Google Ads [KW]",
+   "leads": 16,
+   "cpl": 15.25,
+   "pc_qual": 37.5,
+   "retorno_esp": 0.72,
+   "pc_survey": 62.5
+  },
+  {
+   "dt": "30/08",
+   "arm": "Google PMax [PMAX]",
+   "leads": 87,
+   "cpl": 2.54,
+   "pc_qual": 35.6,
+   "retorno_esp": 3.6,
+   "pc_survey": 52.9
+  },
+  {
+   "dt": "31/08",
+   "arm": "Agosto",
+   "leads": 450,
+   "cpl": 3.15,
+   "pc_qual": 21.1,
+   "retorno_esp": 2.3,
+   "pc_survey": 58.9
+  },
+  {
+   "dt": "31/08",
+   "arm": "Agosto | Em breve",
+   "leads": 48,
+   "cpl": 6.44,
+   "pc_qual": 31.3,
+   "retorno_esp": 1.31,
+   "pc_survey": 68.8
+  },
+  {
+   "dt": "31/08",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 136,
+   "cpl": 3.22,
+   "pc_qual": 7.4,
+   "retorno_esp": 1.69,
+   "pc_survey": 41.2
+  },
+  {
+   "dt": "31/08",
+   "arm": "Agosto | ROAS 3",
+   "leads": 163,
+   "cpl": 3.37,
+   "pc_qual": 23.3,
+   "retorno_esp": 2.24,
+   "pc_survey": 58.9
+  },
+  {
+   "dt": "31/08",
+   "arm": "Google Ads [KW]",
+   "leads": 12,
+   "cpl": 19.41,
+   "pc_qual": 58.3,
+   "retorno_esp": 0.59,
+   "pc_survey": 75.0
+  },
+  {
+   "dt": "31/08",
+   "arm": "Google PMax [PMAX]",
+   "leads": 95,
+   "cpl": 2.28,
+   "pc_qual": 20.0,
+   "retorno_esp": 3.24,
+   "pc_survey": 45.3
+  },
+  {
+   "dt": "01/09",
+   "arm": "Agosto",
+   "leads": 427,
+   "cpl": 3.09,
+   "pc_qual": 24.4,
+   "retorno_esp": 2.47,
+   "pc_survey": 61.4
+  },
+  {
+   "dt": "01/09",
+   "arm": "Agosto | Em breve",
+   "leads": 72,
+   "cpl": 6.5,
+   "pc_qual": 19.4,
+   "retorno_esp": 1.12,
+   "pc_survey": 65.3
+  },
+  {
+   "dt": "01/09",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 158,
+   "cpl": 2.68,
+   "pc_qual": 8.2,
+   "retorno_esp": 2.05,
+   "pc_survey": 57.6
+  },
+  {
+   "dt": "01/09",
+   "arm": "Agosto | ROAS 3",
+   "leads": 193,
+   "cpl": 2.54,
+   "pc_qual": 25.4,
+   "retorno_esp": 3.1,
+   "pc_survey": 59.6
+  },
+  {
+   "dt": "01/09",
+   "arm": "Google Ads [KW]",
+   "leads": 16,
+   "cpl": 15.92,
+   "pc_qual": 50.0,
+   "retorno_esp": 0.77,
+   "pc_survey": 75.0
+  },
+  {
+   "dt": "01/09",
+   "arm": "Google PMax [PMAX]",
+   "leads": 121,
+   "cpl": 2.65,
+   "pc_qual": 15.7,
+   "retorno_esp": 2.59,
+   "pc_survey": 37.2
+  },
+  {
+   "dt": "01/09",
+   "arm": "Setembro | Lead Qualificado Event",
+   "leads": 34,
+   "cpl": 5.32,
+   "pc_qual": 38.2,
+   "retorno_esp": 1.97,
+   "pc_survey": 61.8
+  },
+  {
+   "dt": "02/09",
+   "arm": "Agosto",
+   "leads": 451,
+   "cpl": 3.44,
+   "pc_qual": 29.0,
+   "retorno_esp": 2.45,
+   "pc_survey": 60.1
+  },
+  {
+   "dt": "02/09",
+   "arm": "Agosto | Em breve",
+   "leads": 88,
+   "cpl": 6.58,
+   "pc_qual": 28.4,
+   "retorno_esp": 1.28,
+   "pc_survey": 61.4
+  },
+  {
+   "dt": "02/09",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 129,
+   "cpl": 3.94,
+   "pc_qual": 10.1,
+   "retorno_esp": 1.42,
+   "pc_survey": 55.0
+  },
+  {
+   "dt": "02/09",
+   "arm": "Agosto | ROAS 3",
+   "leads": 153,
+   "cpl": 3.28,
+   "pc_qual": 22.9,
+   "retorno_esp": 2.19,
+   "pc_survey": 60.8
+  },
+  {
+   "dt": "02/09",
+   "arm": "Google Ads [KW]",
+   "leads": 13,
+   "cpl": 19.61,
+   "pc_qual": 23.1,
+   "retorno_esp": 0.32,
+   "pc_survey": 69.2
+  },
+  {
+   "dt": "02/09",
+   "arm": "Google PMax [PMAX]",
+   "leads": 100,
+   "cpl": 2.93,
+   "pc_qual": 21.0,
+   "retorno_esp": 2.59,
+   "pc_survey": 37.0
+  },
+  {
+   "dt": "02/09",
+   "arm": "Setembro | Lead Qualificado Event",
+   "leads": 109,
+   "cpl": 6.19,
+   "pc_qual": 29.4,
+   "retorno_esp": 1.32,
+   "pc_survey": 63.3
+  },
+  {
+   "dt": "03/09",
+   "arm": "Agosto",
+   "leads": 355,
+   "cpl": 3.52,
+   "pc_qual": 27.9,
+   "retorno_esp": 2.41,
+   "pc_survey": 53.2
+  },
+  {
+   "dt": "03/09",
+   "arm": "Agosto | Em breve",
+   "leads": 69,
+   "cpl": 5.72,
+   "pc_qual": 31.9,
+   "retorno_esp": 1.51,
+   "pc_survey": 59.4
+  },
+  {
+   "dt": "03/09",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 116,
+   "cpl": 3.53,
+   "pc_qual": 10.3,
+   "retorno_esp": 1.57,
+   "pc_survey": 56.9
+  },
+  {
+   "dt": "03/09",
+   "arm": "Agosto | ROAS 3",
+   "leads": 124,
+   "cpl": 3.87,
+   "pc_qual": 25.0,
+   "retorno_esp": 2.04,
+   "pc_survey": 47.6
+  },
+  {
+   "dt": "03/09",
+   "arm": "Google Ads [KW]",
+   "leads": 15,
+   "cpl": 16.93,
+   "pc_qual": 46.7,
+   "retorno_esp": 0.62,
+   "pc_survey": 66.7
+  },
+  {
+   "dt": "03/09",
+   "arm": "Google PMax [PMAX]",
+   "leads": 102,
+   "cpl": 2.82,
+   "pc_qual": 23.5,
+   "retorno_esp": 2.65,
+   "pc_survey": 44.1
+  },
+  {
+   "dt": "03/09",
+   "arm": "Setembro | Lead Qualificado Event",
+   "leads": 68,
+   "cpl": 5.43,
+   "pc_qual": 25.0,
+   "retorno_esp": 1.38,
+   "pc_survey": 50.0
+  },
+  {
+   "dt": "04/09",
+   "arm": "Agosto",
+   "leads": 424,
+   "cpl": 3.77,
+   "pc_qual": 26.7,
+   "retorno_esp": 2.14,
+   "pc_survey": 61.6
+  },
+  {
+   "dt": "04/09",
+   "arm": "Agosto | Em breve",
+   "leads": 70,
+   "cpl": 7.16,
+   "pc_qual": 32.9,
+   "retorno_esp": 1.23,
+   "pc_survey": 68.6
+  },
+  {
+   "dt": "04/09",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 138,
+   "cpl": 3.92,
+   "pc_qual": 6.5,
+   "retorno_esp": 1.33,
+   "pc_survey": 61.6
+  },
+  {
+   "dt": "04/09",
+   "arm": "Agosto | ROAS 3",
+   "leads": 100,
+   "cpl": 3.84,
+   "pc_qual": 24.0,
+   "retorno_esp": 2.0,
+   "pc_survey": 60.0
+  },
+  {
+   "dt": "04/09",
+   "arm": "Google Ads [KW]",
+   "leads": 22,
+   "cpl": 12.16,
+   "pc_qual": 45.5,
+   "retorno_esp": 0.9,
+   "pc_survey": 81.8
+  },
+  {
+   "dt": "04/09",
+   "arm": "Google PMax [PMAX]",
+   "leads": 87,
+   "cpl": 3.25,
+   "pc_qual": 29.9,
+   "retorno_esp": 2.68,
+   "pc_survey": 42.5
+  },
+  {
+   "dt": "04/09",
+   "arm": "Setembro | Lead Qualificado Event",
+   "leads": 279,
+   "cpl": 2.14,
+   "pc_qual": 31.2,
+   "retorno_esp": 4.15,
+   "pc_survey": 55.6
+  },
+  {
+   "dt": "05/09",
+   "arm": "Agosto",
+   "leads": 331,
+   "cpl": 4.31,
+   "pc_qual": 29.9,
+   "retorno_esp": 1.97,
+   "pc_survey": 65.3
+  },
+  {
+   "dt": "05/09",
+   "arm": "Agosto | Em breve",
+   "leads": 144,
+   "cpl": 3.12,
+   "pc_qual": 25.7,
+   "retorno_esp": 2.64,
+   "pc_survey": 56.3
+  },
+  {
+   "dt": "05/09",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 132,
+   "cpl": 4.12,
+   "pc_qual": 9.1,
+   "retorno_esp": 1.36,
+   "pc_survey": 65.2
+  },
+  {
+   "dt": "05/09",
+   "arm": "Agosto | ROAS 3",
+   "leads": 99,
+   "cpl": 4.43,
+   "pc_qual": 23.2,
+   "retorno_esp": 1.76,
+   "pc_survey": 54.5
+  },
+  {
+   "dt": "05/09",
+   "arm": "Google Ads [KW]",
+   "leads": 18,
+   "cpl": 13.22,
+   "pc_qual": 55.6,
+   "retorno_esp": 0.93,
+   "pc_survey": 66.7
+  },
+  {
+   "dt": "05/09",
+   "arm": "Google PMax [PMAX]",
+   "leads": 137,
+   "cpl": 2.08,
+   "pc_qual": 40.9,
+   "retorno_esp": 4.79,
+   "pc_survey": 69.3
+  },
+  {
+   "dt": "05/09",
+   "arm": "Setembro | Lead Qualificado Event",
+   "leads": 142,
+   "cpl": 2.46,
+   "pc_qual": 31.7,
+   "retorno_esp": 3.37,
+   "pc_survey": 62.7
+  },
+  {
+   "dt": "06/09",
+   "arm": "Agosto",
+   "leads": 416,
+   "cpl": 4.15,
+   "pc_qual": 25.7,
+   "retorno_esp": 1.99,
+   "pc_survey": 59.9
+  },
+  {
+   "dt": "06/09",
+   "arm": "Agosto | Em breve",
+   "leads": 245,
+   "cpl": 2.46,
+   "pc_qual": 22.9,
+   "retorno_esp": 3.02,
+   "pc_survey": 54.7
+  },
+  {
+   "dt": "06/09",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 123,
+   "cpl": 4.36,
+   "pc_qual": 14.6,
+   "retorno_esp": 1.36,
+   "pc_survey": 67.5
+  },
+  {
+   "dt": "06/09",
+   "arm": "Agosto | ROAS 3",
+   "leads": 66,
+   "cpl": 4.71,
+   "pc_qual": 22.7,
+   "retorno_esp": 1.61,
+   "pc_survey": 69.7
+  },
+  {
+   "dt": "06/09",
+   "arm": "Google Ads [KW]",
+   "leads": 26,
+   "cpl": 11.35,
+   "pc_qual": 34.6,
+   "retorno_esp": 0.81,
+   "pc_survey": 69.2
+  },
+  {
+   "dt": "06/09",
+   "arm": "Google PMax [PMAX]",
+   "leads": 85,
+   "cpl": 2.23,
+   "pc_qual": 44.7,
+   "retorno_esp": 4.71,
+   "pc_survey": 62.4
+  },
+  {
+   "dt": "06/09",
+   "arm": "Setembro | Lead Qualificado Event",
+   "leads": 260,
+   "cpl": 2.39,
+   "pc_qual": 25.8,
+   "retorno_esp": 3.51,
+   "pc_survey": 54.6
+  },
+  {
+   "dt": "07/09",
+   "arm": "Agosto",
+   "leads": 423,
+   "cpl": 3.93,
+   "pc_qual": 29.3,
+   "retorno_esp": 2.13,
+   "pc_survey": 61.9
+  },
+  {
+   "dt": "07/09",
+   "arm": "Agosto | Em breve",
+   "leads": 264,
+   "cpl": 2.03,
+   "pc_qual": 22.0,
+   "retorno_esp": 3.6,
+   "pc_survey": 58.3
+  },
+  {
+   "dt": "07/09",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 131,
+   "cpl": 4.17,
+   "pc_qual": 10.7,
+   "retorno_esp": 1.36,
+   "pc_survey": 61.8
+  },
+  {
+   "dt": "07/09",
+   "arm": "Agosto | ROAS 3",
+   "leads": 139,
+   "cpl": 3.58,
+   "pc_qual": 25.9,
+   "retorno_esp": 2.27,
+   "pc_survey": 56.8
+  },
+  {
+   "dt": "07/09",
+   "arm": "Google Ads [KW]",
+   "leads": 21,
+   "cpl": 12.31,
+   "pc_qual": 42.9,
+   "retorno_esp": 0.93,
+   "pc_survey": 61.9
+  },
+  {
+   "dt": "07/09",
+   "arm": "Google PMax [PMAX]",
+   "leads": 178,
+   "cpl": 1.12,
+   "pc_qual": 36.5,
+   "retorno_esp": 8.48,
+   "pc_survey": 64.6
+  },
+  {
+   "dt": "07/09",
+   "arm": "Setembro | Lead Qualificado Event",
+   "leads": 245,
+   "cpl": 2.23,
+   "pc_qual": 33.9,
+   "retorno_esp": 4.06,
+   "pc_survey": 66.1
+  },
+  {
+   "dt": "08/09",
+   "arm": "Agosto",
+   "leads": 63,
+   "cpl": 8.36,
+   "pc_qual": 25.4,
+   "retorno_esp": 0.94,
+   "pc_survey": 55.6
+  },
+  {
+   "dt": "08/09",
+   "arm": "Agosto | Em breve",
+   "leads": 32,
+   "cpl": 4.86,
+   "pc_qual": 21.9,
+   "retorno_esp": 1.34,
+   "pc_survey": 46.9
+  },
+  {
+   "dt": "08/09",
+   "arm": "Agosto | Exclusao Insider",
+   "leads": 34,
+   "cpl": 5.74,
+   "pc_qual": 11.8,
+   "retorno_esp": 1.13,
+   "pc_survey": 67.6
+  },
+  {
+   "dt": "08/09",
+   "arm": "Agosto | ROAS 3",
+   "leads": 41,
+   "cpl": 7.57,
+   "pc_qual": 14.6,
+   "retorno_esp": 0.91,
+   "pc_survey": 56.1
+  },
+  {
+   "dt": "08/09",
+   "arm": "Google Ads [KW]",
+   "leads": 2,
+   "cpl": 14.88,
+   "pc_qual": 50.0,
+   "retorno_esp": 0.86,
+   "pc_survey": 100.0
+  },
+  {
+   "dt": "08/09",
+   "arm": "Google PMax [PMAX]",
+   "leads": 24,
+   "cpl": 6.2,
+   "pc_qual": 29.2,
+   "retorno_esp": 1.54,
+   "pc_survey": 75.0
+  },
+  {
+   "dt": "08/09",
+   "arm": "Setembro | Lead Qualificado Event",
+   "leads": 24,
+   "cpl": 5.85,
+   "pc_qual": 20.8,
+   "retorno_esp": 1.41,
+   "pc_survey": 58.3
   }
- ]
+ ],
+ "semana": {
+  "ini": "01/09",
+  "fim": "07/09/2026",
+  "kpis": {
+   "spend": 31237.63,
+   "leads": 9494,
+   "leads_pagos": 9128,
+   "cpl": 3.42,
+   "receita_obs": 16458.0,
+   "vendas": 72,
+   "bracos_pagos": 8
+  },
+  "bracos": [
+   {
+    "arm": "Agosto",
+    "pago": true,
+    "leads": 2827,
+    "spend": 10538.76,
+    "cpl": 3.73,
+    "pc_resposta": 60.5,
+    "pc_nao_membro": 87.0,
+    "mix": [
+     15.8,
+     11.7,
+     12.7,
+     40.8,
+     19.0
+    ],
+    "pc_qual_resp": null,
+    "rpl_obs": 0.5,
+    "rpl_esp": 8.23,
+    "retorno_esp": 2.21,
+    "roas_obs": 0.13,
+    "vendas": 9,
+    "receita_obs": 1408.0,
+    "email_entregue": 2139,
+    "pc_abertura": 7.9,
+    "pc_clique": 0.8,
+    "ritmo": {
+     "idade": 4.0,
+     "pc_curva": 8.4,
+     "esp_hoje": 0.69,
+     "indice": 0.72
+    }
+   },
+   {
+    "arm": "Agosto | Em breve",
+    "pago": true,
+    "leads": 952,
+    "spend": 3532.08,
+    "cpl": 3.71,
+    "pc_resposta": 58.7,
+    "pc_nao_membro": 87.5,
+    "mix": [
+     14.5,
+     10.2,
+     11.7,
+     41.2,
+     22.5
+    ],
+    "pc_qual_resp": null,
+    "rpl_obs": 1.05,
+    "rpl_esp": 7.8,
+    "retorno_esp": 2.1,
+    "roas_obs": 0.28,
+    "vendas": 6,
+    "receita_obs": 1001.0,
+    "email_entregue": 734,
+    "pc_abertura": 7.1,
+    "pc_clique": 1.0,
+    "ritmo": {
+     "idade": 3.0,
+     "pc_curva": 7.0,
+     "esp_hoje": 0.55,
+     "indice": 1.9
+    }
+   },
+   {
+    "arm": "Form nativo (Meta)",
+    "pago": true,
+    "leads": 1470,
+    "spend": 3531.03,
+    "cpl": 2.4,
+    "pc_resposta": 0.0,
+    "pc_nao_membro": 91.6,
+    "mix": [
+     7.8,
+     0.5,
+     0.0,
+     91.6,
+     0.0
+    ],
+    "pc_qual_resp": null,
+    "rpl_obs": 0.45,
+    "rpl_esp": 6.08,
+    "retorno_esp": 2.53,
+    "roas_obs": 0.19,
+    "vendas": 4,
+    "receita_obs": 656.0,
+    "email_entregue": 1195,
+    "pc_abertura": 6.1,
+    "pc_clique": 1.0,
+    "ritmo": {
+     "idade": 3.9,
+     "pc_curva": 8.3,
+     "esp_hoje": 0.51,
+     "indice": 0.88
+    }
+   },
+   {
+    "arm": "Agosto | Exclusao Insider",
+    "pago": true,
+    "leads": 927,
+    "spend": 3509.63,
+    "cpl": 3.79,
+    "pc_resposta": 60.7,
+    "pc_nao_membro": 97.4,
+    "mix": [
+     3.6,
+     6.3,
+     11.4,
+     47.0,
+     31.7
+    ],
+    "pc_qual_resp": null,
+    "rpl_obs": 0.28,
+    "rpl_esp": 5.57,
+    "retorno_esp": 1.47,
+    "roas_obs": 0.07,
+    "vendas": 2,
+    "receita_obs": 255.0,
+    "email_entregue": 779,
+    "pc_abertura": 6.9,
+    "pc_clique": 1.3,
+    "ritmo": {
+     "idade": 4.1,
+     "pc_curva": 8.5,
+     "esp_hoje": 0.47,
+     "indice": 0.58
+    }
+   },
+   {
+    "arm": "Setembro | Lead Qualificado Event",
+    "pago": true,
+    "leads": 1137,
+    "spend": 3340.42,
+    "cpl": 2.94,
+    "pc_resposta": 59.1,
+    "pc_nao_membro": 83.4,
+    "mix": [
+     18.8,
+     11.4,
+     11.4,
+     39.2,
+     19.1
+    ],
+    "pc_qual_resp": null,
+    "rpl_obs": 1.26,
+    "rpl_esp": 8.63,
+    "retorno_esp": 2.94,
+    "roas_obs": 0.43,
+    "vendas": 8,
+    "receita_obs": 1430.0,
+    "email_entregue": 847,
+    "pc_abertura": 8.7,
+    "pc_clique": 1.7,
+    "ritmo": {
+     "idade": 3.1,
+     "pc_curva": 7.2,
+     "esp_hoje": 0.62,
+     "indice": 2.02
+    }
+   },
+   {
+    "arm": "Agosto | ROAS 3",
+    "pago": true,
+    "leads": 874,
+    "spend": 3104.97,
+    "cpl": 3.55,
+    "pc_resposta": 57.9,
+    "pc_nao_membro": 89.9,
+    "mix": [
+     13.2,
+     11.2,
+     12.4,
+     43.9,
+     19.3
+    ],
+    "pc_qual_resp": null,
+    "rpl_obs": 1.01,
+    "rpl_esp": 7.75,
+    "retorno_esp": 2.18,
+    "roas_obs": 0.29,
+    "vendas": 4,
+    "receita_obs": 886.0,
+    "email_entregue": 668,
+    "pc_abertura": 7.0,
+    "pc_clique": 0.6,
+    "ritmo": {
+     "idade": 4.4,
+     "pc_curva": 8.9,
+     "esp_hoje": 0.69,
+     "indice": 1.47
+    }
+   },
+   {
+    "arm": "Google PMax [PMAX]",
+    "pago": true,
+    "leads": 810,
+    "spend": 1857.87,
+    "cpl": 2.29,
+    "pc_resposta": 52.7,
+    "pc_nao_membro": 83.7,
+    "mix": [
+     18.5,
+     12.2,
+     9.9,
+     46.4,
+     13.0
+    ],
+    "pc_qual_resp": null,
+    "rpl_obs": 3.6,
+    "rpl_esp": 8.71,
+    "retorno_esp": 3.8,
+    "roas_obs": 1.57,
+    "vendas": 11,
+    "receita_obs": 2918.0,
+    "email_entregue": 625,
+    "pc_abertura": 7.5,
+    "pc_clique": 1.9,
+    "ritmo": {
+     "idade": 3.8,
+     "pc_curva": 8.1,
+     "esp_hoje": 0.67,
+     "indice": 5.35
+    }
+   },
+   {
+    "arm": "Google Ads [KW]",
+    "pago": true,
+    "leads": 131,
+    "spend": 1822.87,
+    "cpl": 13.92,
+    "pc_resposta": 70.2,
+    "pc_nao_membro": 71.0,
+    "mix": [
+     30.5,
+     12.2,
+     10.7,
+     26.7,
+     19.8
+    ],
+    "pc_qual_resp": null,
+    "rpl_obs": 37.64,
+    "rpl_esp": 10.5,
+    "retorno_esp": 0.75,
+    "roas_obs": 2.7,
+    "vendas": 18,
+    "receita_obs": 4930.0,
+    "email_entregue": 111,
+    "pc_abertura": 17.1,
+    "pc_clique": 2.7,
+    "ritmo": {
+     "idade": 3.7,
+     "pc_curva": 8.0,
+     "esp_hoje": 0.83,
+     "indice": 45.12
+    }
+   },
+   {
+    "arm": "Sem atribuição (orgânico/CRM)",
+    "pago": false,
+    "leads": 366,
+    "spend": null,
+    "cpl": null,
+    "pc_resposta": 73.2,
+    "pc_nao_membro": 71.0,
+    "mix": [
+     39.9,
+     16.4,
+     10.4,
+     22.1,
+     11.2
+    ],
+    "pc_qual_resp": null,
+    "rpl_obs": 8.13,
+    "rpl_esp": 12.45,
+    "retorno_esp": null,
+    "roas_obs": null,
+    "vendas": 10,
+    "receita_obs": 2974.0,
+    "email_entregue": 279,
+    "pc_abertura": 15.8,
+    "pc_clique": 6.1,
+    "ritmo": {
+     "idade": 3.2,
+     "pc_curva": 7.2,
+     "esp_hoje": 0.85,
+     "indice": 9.52
+    }
+   }
+  ],
+  "ritmo_pago": 2.4
+ }
 }
