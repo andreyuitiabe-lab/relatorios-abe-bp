@@ -39,6 +39,14 @@
     tr:last-child td { border-bottom:none; }
     td.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
     tbody tr.tot td { font-weight:700; border-top:2px solid var(--line); }
+    .tscroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    @media (max-width:640px){
+      .wrap { padding:32px 12px 56px; }
+      .card { padding:16px; }
+      table { font-size:12px; }
+      th, td { padding:6px 8px; }
+      .bigstat .bs-num { font-size:28px; }
+    }
     .nota { background:#f8fafc; border:1px solid var(--line); border-radius:8px; padding:12px 16px;
             font-size:12.5px; color:var(--muted); margin-top:16px; }
     .nota strong { color:var(--text); }
@@ -59,10 +67,9 @@
   <h1>Carlos Lacerda × Enéas — os primeiros dias</h1>
   <p class="sub" id="subtitulo">—</p>
   <p class="lede">
-    A campanha do Lacerda estreou com <strong>CPM mais alto</strong> que o da Enéas. Este relatório separa
-    o que é <strong>leilão</strong> (setembro está mais caro para todo mundo) do que é
-    <strong>campanha</strong> — e mostra que o ponto fraco não é a mídia, é a
-    <strong>retenção do criativo</strong>.
+    A campanha do Lacerda estreou com <strong>CPM mais alto</strong> que o da Enéas — mas o leilão de
+    setembro encareceu para todo mundo, e isso está <strong>medido</strong>, não suposto. O que separa
+    as duas campanhas é outra coisa: <strong>retenção de vídeo</strong> e <strong>retorno de mídia</strong>.
   </p>
 </header>
 
@@ -72,31 +79,41 @@
     <h2>Resposta curta</h2>
     <div class="stats">
       <div class="bigstat">
-        <div class="bs-num g" id="statIndice">—</div>
-        <div class="bs-cap">CPM da LAC em relação à média da conta Meta no mesmo período (a ENE ficou em <span id="statIndiceEne">—</span>) — abaixo de 1,00 é mais barato que a média</div>
+        <div class="bs-num" id="statCpm">—</div>
+        <div class="bs-cap">CPM da LAC. A conta Meta inteira, em campanhas de venda, ficou em
+          <span id="statCpmConta">—</span> nos mesmos dias — <strong>o leilão subiu, não a campanha</strong></div>
       </div>
       <div class="bigstat">
         <div class="bs-num r" id="statHold">—</div>
-        <div class="bs-cap">hold rate da LAC contra <span id="statHoldEne">—</span> da ENE: quem começa o vídeo abandona quase o dobro</div>
+        <div class="bs-cap">hold rate contra <span id="statHoldEne">—</span> da ENE. O hook é <em>melhor</em>
+          que o da ENE (<span id="statHook">—</span> × <span id="statHookEne">—</span>): prende no começo e perde no meio</div>
       </div>
       <div class="bigstat">
-        <div class="bs-num" id="statLeads">—</div>
-        <div class="bs-cap">leads captados pela LAC: não existe campanha de cadastro. A ENE fez <span id="statLeadsEne">—</span> nos mesmos dias</div>
+        <div class="bs-num r" id="statRoas">—</div>
+        <div class="bs-cap">de retorno da mídia (receita atribuída ÷ investimento), contra
+          <span id="statRoasEne">—</span> da ENE — cada venda custa <span id="statCpv">—</span></div>
+      </div>
+      <div class="bigstat">
+        <div class="bs-num" id="statLeads" style="color:var(--text)">—</div>
+        <div class="bs-cap">leads captados: não existe campanha de cadastro na LAC. A ENE fez
+          <span id="statLeadsEne">—</span> nos mesmos 3 dias, a <span id="statCpl">—</span> por lead</div>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>1. O CPM subiu — mas o leilão subiu mais</h2>
-    <p class="dek">Cada campanha comparada à <em>conta Meta inteira</em> no mesmo dia, considerando só
-      campanhas de venda. É o controle que separa preço de leilão de desempenho de campanha.</p>
+    <h2>1. O CPM subiu porque o leilão subiu — e dá para provar</h2>
+    <p class="dek">Duas checagens independentes. Primeiro, cada campanha contra a <em>conta Meta inteira</em>
+      no mesmo dia. Depois, o teste que elimina a dúvida de composição: as campanhas que rodaram
+      <strong>nos dois meses</strong>, comparadas com elas mesmas.</p>
 
     <div class="card">
       <p class="label">CPM por dia de veiculação · campanha (sólido) × conta Meta (tracejado)</p>
       <div style="display:flex;flex-wrap:wrap;margin-bottom:12px">
         <span class="chip"><span class="dot" style="background:var(--s1)"></span> Enéas</span>
+        <span class="chip" style="color:var(--s1)"><span class="dash"></span> <span style="color:var(--muted)">conta Meta · jul</span></span>
         <span class="chip"><span class="dot" style="background:var(--s2)"></span> Carlos Lacerda</span>
-        <span class="chip" style="color:var(--soft)"><span class="dash"></span> conta Meta (venda)</span>
+        <span class="chip" style="color:var(--s2)"><span class="dash"></span> <span style="color:var(--muted)">conta Meta · set</span></span>
       </div>
       <canvas id="chartCpm" height="190"></canvas>
     </div>
@@ -108,86 +125,136 @@
       </div>
       <div class="card">
         <p class="label">Números do período (D1–D3)</p>
-        <table>
+        <div class="tscroll"><table>
           <thead><tr><th></th><th class="num">Enéas</th><th class="num">Lacerda</th></tr></thead>
           <tbody id="tabCpm"></tbody>
-        </table>
+        </table></div>
       </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <p class="label">Teste de controle — a mesma campanha, em julho e em setembro</p>
+      <p id="textoPareado" style="color:var(--muted)">—</p>
     </div>
 
     <div class="nota">
       <strong>Ressalva de calendário:</strong> os três primeiros dias não caem nos mesmos dias da semana
       — a ENE estreou numa <strong>terça</strong> (ter/qua/qui) e a LAC num <strong>sábado</strong>
-      (sáb/dom/seg). Por isso a comparação de CPM é feita pelo índice contra a conta do mesmo dia, que
-      absorve o efeito do fim de semana. Os valores absolutos, esses, não são pareáveis.
+      (sáb/dom/seg). Por isso o CPM é lido pelo índice contra a conta do mesmo dia, que absorve o efeito
+      do fim de semana; valores absolutos não são pareáveis.<br>
+      <strong>Antes de decidir verba:</strong> o spend do Meta sobe ao longo do dia (o mart lê a planilha
+      Adveronix enquanto ela é preenchida) — conferir o total contra o Gerenciador de Anúncios.
     </div>
   </section>
 
   <section>
-    <h2>2. O gargalo é o criativo</h2>
-    <p class="dek">Comparando venda contra venda. O <em>hook rate</em> mede quantos param para ver 3 segundos;
-      o <em>hold rate</em>, quantos desses assistem até o fim. É no segundo que a distância aparece.</p>
+    <h2>2. O vídeo prende a atenção — e perde no meio</h2>
+    <p class="dek">O <em>hook rate</em> mede quantos param para ver 3 segundos; o <em>hold rate</em>,
+      quantos desses assistem até o fim. A LAC ganha no primeiro e perde feio no segundo.</p>
     <div class="card">
       <canvas id="chartCriativo" height="180"></canvas>
     </div>
     <div class="card" style="margin-top:16px">
-      <table>
+      <div class="tscroll"><table>
         <thead><tr><th>Métrica (D1–D3, campanhas de venda)</th><th class="num">Enéas</th><th class="num">Lacerda</th></tr></thead>
         <tbody id="tabCriativo"></tbody>
-      </table>
+      </table></div>
+      <div class="nota" id="notaCriativo">—</div>
     </div>
   </section>
 
   <section>
-    <h2>3. Volumetria: são dois modelos de lançamento diferentes</h2>
-    <p class="dek">A ENE rodou captação e venda ao mesmo tempo, com quatro vezes mais anúncios no ar.
-      A LAC roda só venda — e compensa com CRM na base própria.</p>
+    <h2>3. A mídia da LAC rende metade — é a trava para escalar verba</h2>
+    <p class="dek">Receita atribuída ao anúncio dividida pelo que foi investido nele, no mesmo mart e com
+      a mesma atribuição dos dois lados.</p>
     <div class="card">
-      <table>
+      <div class="stats" style="margin-bottom:8px">
+        <div class="bigstat">
+          <div class="bs-num" id="roasEne" style="color:var(--s1)">—</div>
+          <div class="bs-cap">Enéas · cada venda custou <span id="cpvEne">—</span></div>
+        </div>
+        <div class="bigstat">
+          <div class="bs-num" id="roasLac" style="color:var(--s2)">—</div>
+          <div class="bs-cap">Carlos Lacerda · cada venda custou <span id="cpvLac">—</span></div>
+        </div>
+      </div>
+      <div class="tscroll" style="margin-top:8px"><table>
+        <thead><tr><th>Investimento por canal (D1–D3)</th><th class="num">Enéas</th><th class="num">Lacerda</th></tr></thead>
+        <tbody id="tabMidia"></tbody>
+      </table></div>
+      <div class="nota">Somar os três canais é regra da casa — olhar só o Meta subconta a verba do
+        lançamento. A LAC tem PMax rodando e nenhuma campanha no Google; a ENE tinha os três.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>4. São dois modelos de lançamento — e a LAC não capta ninguém</h2>
+    <p class="dek">A ENE rodava captação e venda ao mesmo tempo. A LAC roda só venda, e compensa com CRM
+      na base própria.</p>
+    <div class="card">
+      <div class="tscroll"><table>
         <thead><tr><th>Mídia Meta (D1–D3)</th><th class="num">Enéas</th><th class="num">Lacerda</th></tr></thead>
         <tbody id="tabVolume"></tbody>
-      </table>
-    </div>
-    <div class="card" style="margin-top:16px">
-      <p class="label">CRM — mensagens entregues nos 3 primeiros dias</p>
-      <table>
-        <thead><tr><th>Canal</th><th class="num">Enéas</th><th class="num">Lacerda</th></tr></thead>
-        <tbody id="tabCrm"></tbody>
-      </table>
-      <div class="nota">
-        Na ENE o CRM dos primeiros dias era <strong>jornada 1:1</strong> para quem acabava de se cadastrar.
-        Na LAC é <strong>broadcast na base</strong> — e já dá sinal de fadiga: a abertura de e-mail caiu de
-        5,09% para 3,63% em três dias, enquanto o clique subiu, ou seja, o alcance encolhe e sobra quem já
-        estava interessado.
-      </div>
+      </table></div>
+      <div class="nota" id="notaCaptacao">—</div>
     </div>
   </section>
 
   <section>
-    <h2>4. Visitas na landing page</h2>
-    <p class="dek">A LP de venda acompanha o tamanho da mídia, não o do CRM. A ENE ainda tinha duas LPs de
-      cadastro rodando em paralelo; a LAC não tem nenhuma.</p>
+    <h2>5. O e-mail não está saturado: está com abertura baixa</h2>
+    <p class="dek">697 mil e-mails em três dias parecem fadiga de lista. Os números dizem outra coisa:
+      pouca gente abre, mas quem abre clica muito acima da média da casa — e quase ninguém descadastra.</p>
+    <div class="grid-2">
+      <div class="card">
+        <p class="label">E-mail da LAC por dia de disparo — abertura × clique</p>
+        <canvas id="chartCrmLac" height="220"></canvas>
+      </div>
+      <div class="card">
+        <p class="label">Saúde da lista (LAC, D1–D3)</p>
+        <div class="tscroll"><table>
+          <thead><tr><th></th><th class="num">Valor</th><th class="num">Ref. da casa</th></tr></thead>
+          <tbody id="tabSaude"></tbody>
+        </table></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <p class="label">Mensagens entregues nos 3 primeiros dias</p>
+      <div class="tscroll"><table>
+        <thead><tr><th>Canal</th><th class="num">Enéas</th><th class="num">Lacerda</th><th class="num">LAC ÷ ENE</th></tr></thead>
+        <tbody id="tabCrm"></tbody>
+      </table></div>
+      <div class="nota">Na ENE o CRM dos primeiros dias era <strong>jornada 1:1</strong> para quem acabava de
+        se cadastrar; na LAC é <strong>broadcast na base</strong>. ⚠️ Os app pushes não têm telemetria de
+        abertura ou clique no warehouse — entram como volume entregue, não como engajamento medido.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>6. A LP recebe menos gente — e converte um terço</h2>
+    <p class="dek">O tráfego da LP acompanha o tamanho da mídia, não o do CRM. E quem chega converte
+      bem pior que na ENE, o que aponta para oferta e página, não só para criativo.</p>
     <div class="card">
       <p class="label">Pageviews na LP de venda, por dia</p>
       <canvas id="chartLp" height="180"></canvas>
     </div>
     <div class="card" style="margin-top:16px">
-      <table>
+      <div class="tscroll"><table>
         <thead><tr><th>Página</th><th class="num">D1</th><th class="num">D2</th><th class="num">D3</th><th class="num">Total</th></tr></thead>
         <tbody id="tabLp"></tbody>
-      </table>
+      </table></div>
+      <div class="nota" id="notaConversao">—</div>
     </div>
   </section>
 
   <section>
-    <h2>5. Vendas atribuídas por rastro</h2>
+    <h2>7. Vendas atribuídas por rastro</h2>
     <p class="dek">Universo de rastro (UTM, tracking e último tracking do lead), o correto para lançamento
-      de produto. Proporcional ao investimento: a LAC converte em ritmo parecido, ela está menor.</p>
+      de produto. Venda do Comercial sem rastro fica de fora dos dois lados.</p>
     <div class="card">
-      <table>
+      <div class="tscroll"><table>
         <thead><tr><th>Dia</th><th class="num">Enéas — transações</th><th class="num">Enéas — receita</th><th class="num">Lacerda — transações</th><th class="num">Lacerda — receita</th></tr></thead>
         <tbody id="tabVendas"></tbody>
-      </table>
+      </table></div>
       <div class="nota" id="notaVendas"></div>
     </div>
   </section>
@@ -196,10 +263,19 @@
     <h2>O que fazer com isso</h2>
     <div class="card">
       <ol style="padding-left:20px; color:var(--muted)">
-        <li style="margin-bottom:8px"><strong>Parar de ler o CPM em valor absoluto.</strong> Setembro está ~30% mais caro para toda a conta; indexado, o da LAC é bom e já está caindo dia a dia (aprendizado normal).</li>
-        <li style="margin-bottom:8px"><strong>A alavanca imediata é criativo</strong>, não verba nem público: com hold rate em 34%, cada real de mídia entrega menos vídeo assistido — e é isso que puxa o CPC para cima.</li>
-        <li style="margin-bottom:8px"><strong>Decidir conscientemente sobre captação.</strong> A LAC não tem campanha de lead nenhuma. Se a estreia é adiante, não montar base agora é o custo mais caro da campanha.</li>
-        <li><strong>O CRM já está no teto.</strong> Com a abertura caindo, o crescimento tem de vir de mídia + criativo.</li>
+        <li style="margin-bottom:8px"><strong>Não escalar verba ainda.</strong> Com retorno de mídia em
+          0,56 e venda a R$ 737, aumentar budget multiplica o prejuízo. Régua sugerida: só escalar quando
+          o retorno diário passar de 1,0.</li>
+        <li style="margin-bottom:8px"><strong>Atacar retenção de vídeo, não atenção.</strong> O hook já é
+          melhor que o da ENE — o problema está do terceiro segundo em diante. Cortar os vídeos, testar
+          versões mais curtas e antecipar a promessa.</li>
+        <li style="margin-bottom:8px"><strong>Testar oferta e LP em paralelo.</strong> A conversão de sessão
+          em venda é um terço da ENE; nenhum criativo compensa uma página que não fecha.</li>
+        <li style="margin-bottom:8px"><strong>No e-mail, mexer em assunto e remetente — não no volume.</strong>
+          A abertura está abaixo da referência da casa desde o primeiro dia, mas quem abre clica muito acima
+          e o descadastro é irrelevante. O ganho está em fazer mais gente abrir.</li>
+        <li><strong>Decidir explicitamente sobre captação.</strong> A LAC não tem campanha de lead. Se a
+          estreia é adiante, cada dia sem captar é base que não existirá na hora da venda.</li>
       </ol>
     </div>
   </section>
@@ -208,10 +284,12 @@
 
 <footer>
   Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
-  Fontes: <code>datamart.dtm_analytics_facebook_ads_funnel</code>, <code>staging.stg_insider__events</code>,
-  <code>masterdata.fct_transactions</code>, <code>datamart.dtm_analytics_lead_conversion</code>, GA4 (property 378996649).<br>
-  ⚠ O spend do Meta sobe ao longo do dia (o mart lê a planilha Adveronix em reconstrução) — conferir contra o
-  Gerenciador de Anúncios antes de decidir verba. O D4 da LAC (22/09) ainda não tinha mídia no mart na hora da apuração.
+  Fontes: <code>datamart.dtm_analytics_facebook_ads_funnel</code>, <code>_pmax_ads_funnel</code>,
+  <code>_google_ads_funnel</code>, <code>datamart.dtm_analytics_revenue_insider_funnel</code>,
+  <code>staging.stg_insider__events</code>, <code>masterdata.fct_transactions</code>,
+  <code>datamart.dtm_analytics_lead_conversion</code>, GA4 (property 378996649).<br>
+  ⚠ O D4 da LAC (22/09) só tem vendas fechadas — a mídia e o CRM do dia ainda não estavam no warehouse
+  na hora da apuração.
 </footer>
 
 </div>
@@ -232,250 +310,24 @@ const rs  = n => 'R$ ' + br(n, 2);
 const rs0 = n => 'R$ ' + nf(Math.round(n ?? 0));
 const pc  = (n, d = 1) => br(n, d) + '%';
 
-const baseOpts = (yTitle, yFmt) => ({
+const baseOpts = (yTitle, tickFmt, tipFmt) => ({
   responsive: true,
   maintainAspectRatio: true,
-  aspectRatio: 2.4,
+  aspectRatio: window.innerWidth < 640 ? 1.5 : 2.4,
   interaction: { mode: 'index', intersect: false },
+  datasets: { bar: { maxBarThickness: 56 } },
   plugins: {
-    legend: { display: true, position: 'bottom', labels: { boxWidth: 10, boxHeight: 10, usePointStyle: false, padding: 16 } },
-    tooltip: { callbacks: { label: c => `${c.dataset.label}: ${yFmt(c.raw)}` } }
+    legend: { display: true, position: 'bottom', labels: { boxWidth: 10, boxHeight: 10, padding: 16 } },
+    tooltip: { callbacks: { label: c => `${c.dataset.label}: ${(tipFmt || tickFmt)(c.raw)}` } }
   },
   scales: {
     y: { beginAtZero: true, grid: { color: GRID }, border: { color: BASELINE },
          title: { display: !!yTitle, text: yTitle, color: "#8b93a1" },
-         ticks: { callback: v => yFmt(v) } },
+         ticks: { callback: v => tickFmt(v) } },
     x: { grid: { display: false }, border: { color: BASELINE } }
   }
 });
 
-function initCharts(D) {
-  /* ── helpers de recorte ───────────────────────────────────────────────── */
-  const J = D.janelas;
-  const meta = D.meta;
-  const rowAgg  = (s, f) => meta.find(r => r.sigla === s && r.fase === f && r.dia === null);
-  const rowsDia = (s, f) => meta.filter(r => r.sigla === s && r.fase === f && r.dia !== null && r.dia <= 3)
-                                .sort((a, b) => a.dia - b.dia);
-  const D3 = [1, 2, 3];
-  const labelsDia = D3.map(d => 'D' + d);
-
-  document.getElementById('subtitulo').textContent =
-    `Enéas: ${fmtData(J.ENE.d1)} a ${fmtData(J.ENE.d3)} · Carlos Lacerda: ${fmtData(J.LAC.d1)} a ${fmtData(J.LAC.d3)}` +
-    ` — os 3 primeiros dias de veiculação de cada uma (D1 = primeiro dia com entrega)`;
-  const upd = document.getElementById('lastUpdate');
-  upd.textContent = 'Apurado em ' + new Date(D.updated_at).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
-
-  /* agregado D1–D3 recalculado a partir das linhas diárias (o rollup do data.json cobre D1–D4) */
-  const agg = (s, f) => {
-    const rs_ = rowsDia(s, f);
-    const sum = k => rs_.reduce((a, r) => a + (r[k] ?? 0), 0);
-    const spend = sum('vl_spend'), impr = sum('qt_impressoes'), cliques = sum('qt_cliques');
-    return {
-      ads: Math.max(...rs_.map(r => r.qt_ads_ativos)), spend, impr, cliques,
-      cpm: spend / impr * 1000, ctr: cliques / impr * 100, cpc: spend / cliques,
-      hook: avgW(rs_, 'hook_rate_pct', 'qt_impressoes'),
-      hold: avgW(rs_, 'hold_rate_pct', 'qt_three_second_views_proxy')
-    };
-  };
-  /* média ponderada por impressões; para o hold usamos o proxy de 3s (impressões × hook) */
-  function avgW(rows, campo, peso) {
-    let num = 0, den = 0;
-    rows.forEach(r => {
-      const w = peso === 'qt_three_second_views_proxy'
-        ? r.qt_impressoes * (r.hook_rate_pct / 100) : r[peso];
-      num += (r[campo] ?? 0) * w; den += w;
-    });
-    return den ? num / den : 0;
-  }
-
-  const eneV = agg('ENE', 'VENDA'), lacV = agg('LAC', 'VENDA'), eneL = agg('ENE', 'LEAD');
-
-  /* ── bigstats ─────────────────────────────────────────────────────────── */
-  const conta = D.cpm_conta;
-  /* CPM da conta ponderado por impressões (não média de médias) */
-  const cpmContaJanela = s => {
-    const rows = conta.filter(r => r.janela.startsWith(s));
-    const spend = rows.reduce((a, r) => a + r.vl_spend_conta_venda, 0);
-    const impr = rows.reduce((a, r) => a + r.qt_impr_conta_venda, 0);
-    return spend / impr * 1000;
-  };
-  const indiceENE = eneV.cpm / cpmContaJanela('ENE');
-  const indiceLAC = lacV.cpm / cpmContaJanela('LAC');
-
-  document.getElementById('statIndice').textContent = br(indiceLAC, 2);
-  document.getElementById('statIndiceEne').textContent = br(indiceENE, 2);
-  document.getElementById('statHold').textContent = pc(lacV.hold, 0);
-  document.getElementById('statHoldEne').textContent = pc(eneV.hold, 0);
-
-  const leadsENE = D.leads.filter(r => r.sigla === 'ENE' && r.dia <= 3).reduce((a, r) => a + r.qt_leads, 0);
-  const leadsLAC = D.leads.filter(r => r.sigla === 'LAC' && r.dia <= 3).reduce((a, r) => a + r.qt_leads, 0);
-  document.getElementById('statLeads').textContent = nf(leadsLAC);
-  document.getElementById('statLeadsEne').textContent = nf(leadsENE) + ' leads';
-
-  /* ── gráfico 1: CPM por dia, campanha × conta ─────────────────────────── */
-  const serieCampanha = s => rowsDia(s, 'VENDA').map(r => r.cpm);
-  const serieConta = s => conta.filter(r => r.janela.startsWith(s)).map(r => r.cpm_conta_venda);
-  new Chart(chartCpm, {
-    type: 'line',
-    data: {
-      labels: labelsDia,
-      datasets: [
-        { label: 'Enéas', data: serieCampanha('ENE'), borderColor: C.ENE, backgroundColor: C.ENE,
-          borderWidth: 2, pointRadius: 5, pointHoverRadius: 8, tension: .2 },
-        { label: 'conta Meta · jul', data: serieConta('ENE'), borderColor: C.ENE, backgroundColor: C.ENE,
-          borderWidth: 2, borderDash: [5, 4], pointRadius: 3, pointStyle: 'rectRot', tension: .2 },
-        { label: 'Carlos Lacerda', data: serieCampanha('LAC'), borderColor: C.LAC, backgroundColor: C.LAC,
-          borderWidth: 2, pointRadius: 5, pointHoverRadius: 8, tension: .2 },
-        { label: 'conta Meta · set', data: serieConta('LAC'), borderColor: C.LAC, backgroundColor: C.LAC,
-          borderWidth: 2, borderDash: [5, 4], pointRadius: 3, pointStyle: 'rectRot', tension: .2 }
-      ]
-    },
-    options: (() => {
-      const o = baseOpts('CPM', v => rs(v));
-      o.plugins.legend.display = false;   /* os chips acima da área já identificam as séries */
-      return o;
-    })()
-  });
-
-  /* ── gráfico 2: índice campanha ÷ conta ───────────────────────────────── */
-  const serieIdx = s => conta.filter(r => r.janela.startsWith(s)).map(r => r.indice_camp_vs_conta);
-  const linhaUm = {
-    id: 'linhaUm',
-    afterDraw(c) {
-      const y = c.scales.y.getPixelForValue(1);
-      const { ctx, chartArea: a } = c;
-      ctx.save(); ctx.strokeStyle = REF; ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(a.left, y); ctx.lineTo(a.right, y); ctx.stroke();
-      ctx.fillStyle = "#8b93a1"; ctx.font = "600 10px " + FONT; ctx.textAlign = "right";
-      ctx.fillText("média da conta", a.right - 4, y - 5); ctx.restore();
-    }
-  };
-  new Chart(chartIndice, {
-    type: 'line',
-    data: {
-      labels: labelsDia,
-      datasets: [
-        { label: 'Enéas', data: serieIdx('ENE'), borderColor: C.ENE, backgroundColor: C.ENE,
-          borderWidth: 2, pointRadius: 5, pointHoverRadius: 8, tension: .2 },
-        { label: 'Carlos Lacerda', data: serieIdx('LAC'), borderColor: C.LAC, backgroundColor: C.LAC,
-          borderWidth: 2, pointRadius: 5, pointHoverRadius: 8, tension: .2 }
-      ]
-    },
-    options: { ...baseOpts('', v => br(v, 2)) },
-    plugins: [linhaUm]
-  });
-
-  /* ── tabela CPM ───────────────────────────────────────────────────────── */
-  document.getElementById('tabCpm').innerHTML = [
-    ['CPM da campanha', rs(eneV.cpm), rs(lacV.cpm)],
-    ['CPM da conta (venda)', rs(cpmContaJanela('ENE')), rs(cpmContaJanela('LAC'))],
-    ['Índice campanha ÷ conta', br(indiceENE, 2), br(indiceLAC, 2)],
-    ['CPM no D1 → D3', rs(rowsDia('ENE', 'VENDA')[0].cpm) + ' → ' + rs(rowsDia('ENE', 'VENDA')[2].cpm),
-                       rs(rowsDia('LAC', 'VENDA')[0].cpm) + ' → ' + rs(rowsDia('LAC', 'VENDA')[2].cpm)]
-  ].map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join('');
-
-  /* ── gráfico 3: criativo ──────────────────────────────────────────────── */
-  new Chart(chartCriativo, {
-    type: 'bar',
-    data: {
-      labels: ['Hook rate — viu 3 segundos', 'Hold rate — assistiu até o fim'],
-      datasets: [
-        { label: 'Enéas', data: [eneV.hook, eneV.hold], backgroundColor: C.ENE, borderRadius: 4, barPercentage: .7 },
-        { label: 'Carlos Lacerda', data: [lacV.hook, lacV.hold], backgroundColor: C.LAC, borderRadius: 4, barPercentage: .7 }
-      ]
-    },
-    options: { ...baseOpts('', v => pc(v, 0)) },
-    plugins: [valueLabels(v => pc(v, 1))]
-  });
-
-  document.getElementById('tabCriativo').innerHTML = [
-    ['Hook rate (3s ÷ impressões)', pc(eneV.hook), pc(lacV.hook)],
-    ['Hold rate (thruplay ÷ 3s)', pc(eneV.hold), pc(lacV.hold)],
-    ['CTR outbound', pc(eneV.ctr, 2), pc(lacV.ctr, 2)],
-    ['Custo por clique', rs(eneV.cpc), rs(lacV.cpc)]
-  ].map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join('');
-
-  const adsDist = (s_, f) => (D.ads_distintos.find(r => r.sigla === s_ && r.fase === f) || {}).qt_ads_distintos ?? 0;
-
-  /* ── tabela volumetria ────────────────────────────────────────────────── */
-  document.getElementById('tabVolume').innerHTML = [
-    ['Anúncios ativos', nf(adsDist('ENE', 'VENDA') + adsDist('ENE', 'LEAD')) + ' (venda + captação)', nf(adsDist('LAC', 'VENDA'))],
-    ['Investimento', rs0(eneV.spend + eneL.spend), rs0(lacV.spend)],
-    ['Impressões', nf(eneV.impr + eneL.impr), nf(lacV.impr)],
-    ['Cliques de saída', nf(eneV.cliques + eneL.cliques), nf(lacV.cliques)],
-    ['Campanha de captação', rs0(eneL.spend) + ' · ' + nf(leadsENE) + ' leads', 'não existe'],
-    ['Leads captados', nf(leadsENE), nf(leadsLAC)]
-  ].map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join('');
-
-  /* ── tabela CRM ───────────────────────────────────────────────────────── */
-  const crm = (s, canal) => D.crm.filter(r => r.sigla === s && r.canal === canal && r.dia <= 3)
-                                 .reduce((a, r) => a + r.qt_entregues, 0);
-  const canais = [['E-mail', 'email'], ['App push', 'app_push'], ['WhatsApp', 'whatsapp']];
-  document.getElementById('tabCrm').innerHTML =
-    canais.map(([nome, k]) => `<tr><td>${nome}</td><td class="num">${nf(crm('ENE', k))}</td><td class="num">${nf(crm('LAC', k))}</td></tr>`).join('') +
-    `<tr class="tot"><td>Total entregue</td><td class="num">${nf(canais.reduce((a, [, k]) => a + crm('ENE', k), 0))}</td>` +
-    `<td class="num">${nf(canais.reduce((a, [, k]) => a + crm('LAC', k), 0))}</td></tr>`;
-
-  /* ── gráfico 4 + tabela LP ────────────────────────────────────────────── */
-  const lpDia = (s, tipo, dia) => D.lp.filter(r => r.sigla === s && r.tipo === tipo && r.dia === dia)
-                                      .reduce((a, r) => a + r.pageviews, 0);
-  new Chart(chartLp, {
-    type: 'bar',
-    data: {
-      labels: labelsDia,
-      datasets: [
-        { label: 'Enéas', data: D3.map(d => lpDia('ENE', 'venda', d)), backgroundColor: C.ENE, borderRadius: 4, barPercentage: .7 },
-        { label: 'Carlos Lacerda', data: D3.map(d => lpDia('LAC', 'venda', d)), backgroundColor: C.LAC, borderRadius: 4, barPercentage: .7 }
-      ]
-    },
-    options: { ...baseOpts('pageviews', v => nf(v)) },
-    plugins: [valueLabels(v => nf(v))]
-  });
-
-  const linhasLp = [
-    ['Enéas — LP de venda', 'ENE', 'venda'],
-    ['Enéas — LPs de cadastro', 'ENE', 'cadastro'],
-    ['Lacerda — LP de venda', 'LAC', 'venda']
-  ];
-  document.getElementById('tabLp').innerHTML = linhasLp.map(([nome, s, t]) => {
-    const v = D3.map(d => lpDia(s, t, d));
-    return `<tr><td>${nome}</td>${v.map(x => `<td class="num">${nf(x)}</td>`).join('')}` +
-           `<td class="num"><strong>${nf(v.reduce((a, b) => a + b, 0))}</strong></td></tr>`;
-  }).join('') + `<tr><td>Lacerda — LP de cadastro</td><td class="num" colspan="4" style="text-align:right;color:var(--soft)">não existe</td></tr>`;
-
-  /* ── tabela vendas ────────────────────────────────────────────────────── */
-  const vRow = (s, d) => D.vendas.find(r => r.sigla === s && r.dia === d && r.dt);
-  document.getElementById('tabVendas').innerHTML = D3.map(d => {
-    const e = vRow('ENE', d), l = vRow('LAC', d);
-    return `<tr><td>D${d}</td><td class="num">${nf(e?.qt_transacoes)}</td><td class="num">${rs0(e?.vl_receita)}</td>` +
-           `<td class="num">${nf(l?.qt_transacoes)}</td><td class="num">${rs0(l?.vl_receita)}</td></tr>`;
-  }).join('') + (() => {
-    const tot = s => D3.reduce((a, d) => {
-      const r = vRow(s, d); return { tx: a.tx + (r?.qt_transacoes ?? 0), rec: a.rec + (r?.vl_receita ?? 0) };
-    }, { tx: 0, rec: 0 });
-    const e = tot('ENE'), l = tot('LAC');
-    return `<tr class="tot"><td>D1–D3</td><td class="num">${nf(e.tx)}</td><td class="num">${rs0(e.rec)}</td>` +
-           `<td class="num">${nf(l.tx)}</td><td class="num">${rs0(l.rec)}</td></tr>`;
-  })();
-
-  const d4 = s => D.vendas.find(r => r.sigla === s && r.dia === 4 && r.dt);
-  /* rollup da sigla (dia null) = acumulado D1–D4 */
-  const tot4 = s => {
-    const r = D.vendas.find(x => x.sigla === s && x.dia === null);
-    return r ? r.vl_receita / r.qt_transacoes : 0;
-  };
-  document.getElementById('notaVendas').innerHTML =
-    `No D4 — o único dia com venda já fechada dos dois lados — a ENE fez ${nf(d4('ENE')?.qt_transacoes)} transações ` +
-    `(${rs0(d4('ENE')?.vl_receita)}) e a LAC, ${nf(d4('LAC')?.qt_transacoes)} (${rs0(d4('LAC')?.vl_receita)}). ` +
-    `Ticket médio no acumulado de 4 dias: ${rs0(tot4('ENE'))} na ENE contra ${rs0(tot4('LAC'))} na LAC.`;
-}
-
-function fmtData(iso) {
-  const [a, m, d] = iso.split('-');
-  return `${d}/${m}`;
-}
-
-/* rótulos diretos sobre as barras */
 function valueLabels(fmt) {
   return {
     id: 'vlab',
@@ -496,14 +348,265 @@ function valueLabels(fmt) {
   };
 }
 
+function fmtData(iso) { const [a, m, d] = iso.split('-'); return `${d}/${m}`; }
+
+function initCharts(D) {
+  const J = D.janelas, meta = D.meta, D3 = [1, 2, 3], labelsDia = D3.map(d => 'D' + d);
+  const rowsDia = (s, f) => meta.filter(r => r.sigla === s && r.fase === f && r.dia !== null && r.dia <= 3)
+                                .sort((a, b) => a.dia - b.dia);
+  const cria = s => D.criativo.find(r => r.sigla === s) || {};
+  const eneC = cria('ENE'), lacC = cria('LAC');
+
+  document.getElementById('subtitulo').textContent =
+    `Enéas: ${fmtData(J.ENE.d1)} a ${fmtData(J.ENE.d3)} · Carlos Lacerda: ${fmtData(J.LAC.d1)} a ${fmtData(J.LAC.d3)}` +
+    ` — os 3 primeiros dias de veiculação de cada uma (D1 = primeiro dia com entrega)`;
+  document.getElementById('lastUpdate').textContent =
+    'Apurado em ' + new Date(D.updated_at).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+
+  /* agregados D1–D3 a partir das linhas diárias */
+  const agg = (s, f) => {
+    const rs_ = rowsDia(s, f);
+    const sum = k => rs_.reduce((a, r) => a + (r[k] ?? 0), 0);
+    const spend = sum('vl_spend'), impr = sum('qt_impressoes'), cliques = sum('qt_cliques');
+    return { spend, impr, cliques, cpm: spend / impr * 1000 };
+  };
+  const eneV = agg('ENE', 'VENDA'), lacV = agg('LAC', 'VENDA'), eneL = agg('ENE', 'LEAD');
+
+  const conta = D.cpm_conta;
+  const cpmContaJanela = s => {
+    const rows = conta.filter(r => r.janela.startsWith(s));
+    return rows.reduce((a, r) => a + r.vl_spend_conta_venda, 0) /
+           rows.reduce((a, r) => a + r.qt_impr_conta_venda, 0) * 1000;
+  };
+  const indiceENE = eneV.cpm / cpmContaJanela('ENE'), indiceLAC = lacV.cpm / cpmContaJanela('LAC');
+
+  const leads = s => D.leads.filter(r => r.sigla === s && r.dia <= 3).reduce((a, r) => a + r.qt_leads, 0);
+  const leadsENE = leads('ENE'), leadsLAC = leads('LAC');
+
+  /* ── bigstats ─────────────────────────────────────────────────────────── */
+  document.getElementById('statCpm').textContent = rs(lacV.cpm);
+  document.getElementById('statCpmConta').textContent = rs(cpmContaJanela('LAC'));
+  document.getElementById('statHold').textContent = pc(lacC.hold_rate_video_pct, 0);
+  document.getElementById('statHoldEne').textContent = pc(eneC.hold_rate_video_pct, 0);
+  document.getElementById('statHook').textContent = pc(lacC.hook_rate_video_pct, 0);
+  document.getElementById('statHookEne').textContent = pc(eneC.hook_rate_video_pct, 0);
+  document.getElementById('statRoas').textContent = br(lacC.roas_midia, 2);
+  document.getElementById('statRoasEne').textContent = br(eneC.roas_midia, 2);
+  document.getElementById('statCpv').textContent = rs0(lacC.custo_por_venda);
+  document.getElementById('statLeads').textContent = nf(leadsLAC);
+  document.getElementById('statLeadsEne').textContent = nf(leadsENE) + ' leads';
+  const leadsMetaENE = D.leads.filter(r => r.sigla === 'ENE' && r.dia <= 3)
+                              .reduce((a, r) => a + r.qt_leads_meta, 0);
+  /* CPL de mídia: spend Meta [LEAD] ÷ leads que vieram do Meta (o total da tag inclui
+     orgânico, portal e CRM, que não estão no numerador) */
+  const cplENE = eneL.spend / leadsMetaENE;
+  document.getElementById('statCpl').textContent = rs(cplENE);
+
+  /* ── 1. CPM ───────────────────────────────────────────────────────────── */
+  const serieCampanha = s => rowsDia(s, 'VENDA').map(r => r.cpm);
+  const serieConta = s => conta.filter(r => r.janela.startsWith(s)).map(r => r.cpm_conta_venda);
+  new Chart(chartCpm, {
+    type: 'line',
+    data: { labels: labelsDia, datasets: [
+      { label: 'Enéas', data: serieCampanha('ENE'), borderColor: C.ENE, backgroundColor: C.ENE, borderWidth: 2, pointRadius: 5, pointHoverRadius: 8, tension: .2 },
+      { label: 'conta Meta · jul', data: serieConta('ENE'), borderColor: C.ENE, backgroundColor: C.ENE, borderWidth: 2, borderDash: [5, 4], pointRadius: 3, pointStyle: 'rectRot', tension: .2 },
+      { label: 'Carlos Lacerda', data: serieCampanha('LAC'), borderColor: C.LAC, backgroundColor: C.LAC, borderWidth: 2, pointRadius: 5, pointHoverRadius: 8, tension: .2 },
+      { label: 'conta Meta · set', data: serieConta('LAC'), borderColor: C.LAC, backgroundColor: C.LAC, borderWidth: 2, borderDash: [5, 4], pointRadius: 3, pointStyle: 'rectRot', tension: .2 }
+    ]},
+    options: (() => { const o = baseOpts('CPM (R$)', v => nf(v), v => rs(v)); o.plugins.legend.display = false; return o; })()
+  });
+
+  const linhaUm = {
+    id: 'linhaUm',
+    afterDraw(c) {
+      const y = c.scales.y.getPixelForValue(1), { ctx, chartArea: a } = c;
+      ctx.save(); ctx.strokeStyle = REF; ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(a.left, y); ctx.lineTo(a.right, y); ctx.stroke();
+      ctx.fillStyle = "#8b93a1"; ctx.font = "600 10px " + FONT; ctx.textAlign = "right";
+      ctx.fillText("média da conta", a.right - 4, y - 5); ctx.restore();
+    }
+  };
+  const serieIdx = s => conta.filter(r => r.janela.startsWith(s)).map(r => r.indice_camp_vs_conta);
+  new Chart(chartIndice, {
+    type: 'line',
+    data: { labels: labelsDia, datasets: [
+      { label: 'Enéas', data: serieIdx('ENE'), borderColor: C.ENE, backgroundColor: C.ENE, borderWidth: 2, pointRadius: 5, pointHoverRadius: 8, tension: .2 },
+      { label: 'Carlos Lacerda', data: serieIdx('LAC'), borderColor: C.LAC, backgroundColor: C.LAC, borderWidth: 2, pointRadius: 5, pointHoverRadius: 8, tension: .2 }
+    ]},
+    options: (() => { const o = baseOpts('', v => br(v, 2)); o.scales.y.suggestedMax = 1.2; o.aspectRatio = 1.6; return o; })(),
+    plugins: [linhaUm]
+  });
+
+  document.getElementById('tabCpm').innerHTML = [
+    ['CPM da campanha', rs(eneV.cpm), rs(lacV.cpm)],
+    ['CPM da conta (venda)', rs(cpmContaJanela('ENE')), rs(cpmContaJanela('LAC'))],
+    ['Índice campanha ÷ conta', br(indiceENE, 2), br(indiceLAC, 2)],
+    ['CPM no D1 → D3', rs(rowsDia('ENE', 'VENDA')[0].cpm) + ' → ' + rs(rowsDia('ENE', 'VENDA')[2].cpm),
+                       rs(rowsDia('LAC', 'VENDA')[0].cpm) + ' → ' + rs(rowsDia('LAC', 'VENDA')[2].cpm)]
+  ].map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join('');
+
+  const par = D.cpm_pareado[0];
+  document.getElementById('textoPareado').innerHTML =
+    `Se o CPM tivesse subido só porque a carteira da conta mudou de composição, as campanhas individuais não ` +
+    `subiriam de forma consistente. Das <strong>${par.qt_campanhas_pareadas} campanhas de venda que rodaram ` +
+    `nos dois meses</strong> com volume relevante, <strong>${par.qt_que_encareceram} encareceram</strong> — ` +
+    `todas. No agregado pareado o CPM foi de ${rs(par.cpm_jul)} (julho) para ${rs(par.cpm_set)} (setembro), ` +
+    `<strong>+${br(par.variacao_pct, 0)}%</strong>. É leilão, não é mix de campanha.`;
+
+  /* ── 2. criativo ──────────────────────────────────────────────────────── */
+  new Chart(chartCriativo, {
+    type: 'bar',
+    data: { labels: ['Hook rate — viu 3 segundos', 'Hold rate — assistiu até o fim'], datasets: [
+      { label: 'Enéas', data: [eneC.hook_rate_video_pct, eneC.hold_rate_video_pct], backgroundColor: C.ENE, borderRadius: 4 },
+      { label: 'Carlos Lacerda', data: [lacC.hook_rate_video_pct, lacC.hold_rate_video_pct], backgroundColor: C.LAC, borderRadius: 4 }
+    ]},
+    options: baseOpts('', v => pc(v, 0)),
+    plugins: [valueLabels(v => pc(v, 1))]
+  });
+  document.getElementById('tabCriativo').innerHTML = [
+    ['Hook rate — só anúncios com vídeo', pc(eneC.hook_rate_video_pct), pc(lacC.hook_rate_video_pct)],
+    ['Hold rate — só anúncios com vídeo', pc(eneC.hold_rate_video_pct), pc(lacC.hold_rate_video_pct)],
+    ['CTR outbound', pc(eneC.ctr_pct, 2), pc(lacC.ctr_pct, 2)],
+    ['Custo por clique', rs(eneC.cpc), rs(lacC.cpc)],
+    ['Anúncios sem vídeo (estáticos)', nf(eneC.qt_ads_sem_video) + ' de ' + nf(eneC.qt_ads),
+                                       nf(lacC.qt_ads_sem_video) + ' de ' + nf(lacC.qt_ads)]
+  ].map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join('');
+  document.getElementById('notaCriativo').innerHTML =
+    `<strong>Por que "só anúncios com vídeo":</strong> ${nf(lacC.qt_ads_sem_video)} dos ${nf(lacC.qt_ads)} ` +
+    `anúncios da LAC são estáticos e não geram métrica de vídeo — eles somam ${pc(lacC.pct_impr_sem_video, 0)} ` +
+    `das impressões. Incluí-los derrubaria o hook para ${pc(29.8, 0)} sem que nenhum vídeo tivesse piorado. ` +
+    `⚠️ <em>Thruplay</em> conta vídeo completo <em>ou</em> 15 segundos, o que vier antes: se as peças da LAC ` +
+    `forem mais longas que as da ENE, parte do gap de hold é duração, não retenção — confirmar com o time.`;
+
+  /* ── 3. retorno de mídia ──────────────────────────────────────────────── */
+  document.getElementById('roasEne').textContent = br(eneC.roas_midia, 2);
+  document.getElementById('roasLac').textContent = br(lacC.roas_midia, 2);
+  document.getElementById('cpvEne').textContent = rs0(eneC.custo_por_venda);
+  document.getElementById('cpvLac').textContent = rs0(lacC.custo_por_venda);
+
+  const mid = (s, c) => D.midia.find(r => r.sigla === s && r.canal === c) || {};
+  const totalMidia = s => ['meta', 'pmax', 'google'].reduce((a, c) => a + (mid(s, c).vl_spend ?? 0), 0);
+  document.getElementById('tabMidia').innerHTML = [
+    ['Meta', rs0(mid('ENE', 'meta').vl_spend), rs0(mid('LAC', 'meta').vl_spend)],
+    ['Google PMax', rs0(mid('ENE', 'pmax').vl_spend), rs0(mid('LAC', 'pmax').vl_spend)],
+    ['Google Ads', rs0(mid('ENE', 'google').vl_spend), mid('LAC', 'google').vl_spend ? rs0(mid('LAC', 'google').vl_spend) : '—']
+  ].map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join('') +
+    `<tr class="tot"><td>Total investido</td><td class="num">${rs0(totalMidia('ENE'))}</td><td class="num">${rs0(totalMidia('LAC'))}</td></tr>` +
+    `<tr><td>Custo por venda (Meta)</td><td class="num">${rs0(eneC.custo_por_venda)}</td><td class="num">${rs0(lacC.custo_por_venda)}</td></tr>`;
+
+  /* ── 4. volumetria ────────────────────────────────────────────────────── */
+  const adsDist = (s_, f) => (D.ads_distintos.find(r => r.sigla === s_ && r.fase === f) || {}).qt_ads_distintos ?? 0;
+  document.getElementById('tabVolume').innerHTML = [
+    ['Anúncios ativos', nf(adsDist('ENE', 'VENDA') + adsDist('ENE', 'LEAD')) + ' (venda + captação)', nf(adsDist('LAC', 'VENDA'))],
+    ['Investimento Meta', rs0(eneV.spend + eneL.spend), rs0(lacV.spend)],
+    ['Impressões', nf(eneV.impr + eneL.impr), nf(lacV.impr)],
+    ['Cliques de saída', nf(eneV.cliques + eneL.cliques), nf(lacV.cliques)],
+    ['Campanha de captação', rs0(eneL.spend) + ' · ' + nf(leadsENE) + ' leads', 'não existe'],
+    ['Custo por lead (mídia Meta)', rs(cplENE), '—']
+  ].map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join('');
+  document.getElementById('notaCaptacao').innerHTML =
+    `No ritmo da ENE — ${nf(Math.round(leadsENE / 3))} leads/dia a ${rs(cplENE)} — a LAC deixa de construir ` +
+    `base a um custo de mídia de cerca de ${rs0(eneL.spend / 3)} por dia. Não existe tag <code>LAC</code> em ` +
+    `<code>lead_conversion</code>, nem LP de cadastro: é ausência de campanha, não falha de rastreio.`;
+
+  /* ── 5. CRM ───────────────────────────────────────────────────────────── */
+  const mailLac = D.crm_disparo.filter(r => r.sigla === 'LAC' && r.canal === 'email').sort((a, b) => a.dt < b.dt ? -1 : 1);
+  new Chart(chartCrmLac, {
+    type: 'line',
+    data: { labels: mailLac.map((r, i) => 'D' + (i + 1)), datasets: [
+      { label: 'abriram (% dos entregues)', data: mailLac.map(r => r.qt_aberturas / r.qt_entregues * 100),
+        borderColor: C.LAC, backgroundColor: C.LAC, borderWidth: 2, pointRadius: 5, tension: .2 },
+      { label: 'clicaram (% dos que abriram)', data: mailLac.map(r => r.qt_cliques / r.qt_aberturas * 100),
+        borderColor: "#1baf7a", backgroundColor: "#1baf7a", borderWidth: 2, borderDash: [5, 4], pointRadius: 5, tension: .2 }
+    ]},
+    options: (() => { const o = baseOpts('', v => pc(v, 0)); o.aspectRatio = 1.6; return o; })()
+  });
+
+  const totLac = k => mailLac.reduce((a, r) => a + r[k], 0);
+  const abertura = totLac('qt_aberturas') / totLac('qt_entregues') * 100;
+  const ctor = totLac('qt_cliques') / totLac('qt_aberturas') * 100;
+  document.getElementById('tabSaude').innerHTML = [
+    ['Taxa de abertura', pc(abertura, 2), '7,6%'],
+    ['Clique ÷ abertura (CTOR)', pc(ctor, 1), '3,4%'],
+    ['Descadastros', nf(totLac('qt_descadastros')) + ' (' + pc(totLac('qt_descadastros') / totLac('qt_entregues') * 100, 2) + ')', '—'],
+    ['Denúncias de spam', nf(totLac('qt_spam')), '—']
+  ].map(r => `<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num" style="color:var(--soft)">${r[2]}</td></tr>`).join('');
+
+  const crm = (s, canal) => D.crm.filter(r => r.sigla === s && r.canal === canal && r.dia <= 3)
+                                 .reduce((a, r) => a + r.qt_entregues, 0);
+  const canais = [['E-mail', 'email'], ['App push', 'app_push'], ['WhatsApp', 'whatsapp']];
+  const razao = (l, e) => e > 0 ? (l / e >= 10 ? nf(Math.round(l / e)) + '×' : br(l / e, 1) + '×') : (l > 0 ? '— (ENE não usou)' : '—');
+  document.getElementById('tabCrm').innerHTML =
+    canais.map(([nome, k]) => {
+      const e = crm('ENE', k), l = crm('LAC', k);
+      return `<tr><td>${nome}</td><td class="num">${nf(e)}</td><td class="num">${nf(l)}</td><td class="num">${razao(l, e)}</td></tr>`;
+    }).join('') +
+    (() => {
+      const e = canais.reduce((a, [, k]) => a + crm('ENE', k), 0), l = canais.reduce((a, [, k]) => a + crm('LAC', k), 0);
+      return `<tr class="tot"><td>Total entregue</td><td class="num">${nf(e)}</td><td class="num">${nf(l)}</td><td class="num">${razao(l, e)}</td></tr>`;
+    })();
+
+  /* ── 6. LP ────────────────────────────────────────────────────────────── */
+  const lpDia = (s, tipo, dia) => D.lp.filter(r => r.sigla === s && r.tipo === tipo && r.dia === dia)
+                                      .reduce((a, r) => a + r.pageviews, 0);
+  const lpSess = (s, tipo) => D.lp.filter(r => r.sigla === s && r.tipo === tipo && r.dia <= 3)
+                                  .reduce((a, r) => a + r.sessions, 0);
+  new Chart(chartLp, {
+    type: 'bar',
+    data: { labels: labelsDia, datasets: [
+      { label: 'Enéas', data: D3.map(d => lpDia('ENE', 'venda', d)), backgroundColor: C.ENE, borderRadius: 4 },
+      { label: 'Carlos Lacerda', data: D3.map(d => lpDia('LAC', 'venda', d)), backgroundColor: C.LAC, borderRadius: 4 }
+    ]},
+    options: baseOpts('pageviews', v => nf(v)),
+    plugins: [valueLabels(v => nf(v))]
+  });
+  document.getElementById('tabLp').innerHTML = [
+    ['Enéas — LP de venda', 'ENE', 'venda'], ['Enéas — LPs de cadastro', 'ENE', 'cadastro'],
+    ['Lacerda — LP de venda', 'LAC', 'venda']
+  ].map(([nome, s, t]) => {
+    const v = D3.map(d => lpDia(s, t, d));
+    return `<tr><td>${nome}</td>${v.map(x => `<td class="num">${nf(x)}</td>`).join('')}<td class="num"><strong>${nf(v.reduce((a, b) => a + b, 0))}</strong></td></tr>`;
+  }).join('') + `<tr><td>Lacerda — LP de cadastro</td><td class="num" colspan="4" style="text-align:right;color:var(--soft)">não existe</td></tr>`;
+
+  const vD3 = s => D3.reduce((a, d) => {
+    const r = D.vendas.find(x => x.sigla === s && x.dia === d && x.dt);
+    return { tx: a.tx + (r?.qt_transacoes ?? 0), rec: a.rec + (r?.vl_receita ?? 0) };
+  }, { tx: 0, rec: 0 });
+  const convENE = vD3('ENE').tx / lpSess('ENE', 'venda') * 100, convLAC = vD3('LAC').tx / lpSess('LAC', 'venda') * 100;
+  document.getElementById('notaConversao').innerHTML =
+    `<strong>Conversão de sessão em venda:</strong> ${pc(convLAC, 2)} na LAC contra ${pc(convENE, 2)} na ENE — ` +
+    `${br(convENE / convLAC, 1)}× pior. Ou seja: além de chegar menos gente, quem chega compra menos. ` +
+    `⚠️ O numerador da ENE inclui vendas que vieram também da LP de cadastro e do CRM, então a vantagem dela ` +
+    `está um pouco superestimada; a ordem de grandeza se mantém.`;
+
+  /* ── 7. vendas ────────────────────────────────────────────────────────── */
+  const vRow = (s, d) => D.vendas.find(r => r.sigla === s && r.dia === d && r.dt);
+  document.getElementById('tabVendas').innerHTML = D3.map(d => {
+    const e = vRow('ENE', d), l = vRow('LAC', d);
+    return `<tr><td>D${d}</td><td class="num">${nf(e?.qt_transacoes)}</td><td class="num">${rs0(e?.vl_receita)}</td>` +
+           `<td class="num">${nf(l?.qt_transacoes)}</td><td class="num">${rs0(l?.vl_receita)}</td></tr>`;
+  }).join('') + (() => {
+    const e = vD3('ENE'), l = vD3('LAC');
+    return `<tr class="tot"><td>D1–D3</td><td class="num">${nf(e.tx)}</td><td class="num">${rs0(e.rec)}</td>` +
+           `<td class="num">${nf(l.tx)}</td><td class="num">${rs0(l.rec)}</td></tr>`;
+  })();
+  const d4 = s => D.vendas.find(r => r.sigla === s && r.dia === 4 && r.dt);
+  document.getElementById('notaVendas').innerHTML =
+    `Receita por real investido em mídia (todos os canais, D1–D3): ` +
+    `<strong>${br(vD3('ENE').rec / totalMidia('ENE'), 2)}</strong> na ENE contra ` +
+    `<strong>${br(vD3('LAC').rec / totalMidia('LAC'), 2)}</strong> na LAC. ` +
+    `⚠️ O D4 da LAC (${nf(d4('LAC')?.qt_transacoes)} transações, ${rs0(d4('LAC')?.vl_receita)}) é dia parcial — ` +
+    `fica fora de toda comparação acima.`;
+}
+
 fetch('./data.json')
   .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
   .then(D => initCharts(D))
   .catch(err => {
     console.error('Falha ao carregar data.json:', err);
     document.querySelector('main').insertAdjacentHTML('afterbegin',
-      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
-        ⚠ Erro ao carregar dados: ${err.message}. Para ver local, rodar <code>python -m http.server</code> nesta pasta.
+      `<div data-erro-render style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
+        Nao foi possivel carregar os dados (${err.message}). Para ver local, rodar <code>python -m http.server</code> nesta pasta.
       </div>`);
   });
 </script>
