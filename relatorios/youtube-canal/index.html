@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canal no YouTube — diagnóstico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --paper: #faf8f3; --card: #ffffff; --ink: #1c1b19; --body: #3d3a35; --muted: #6a655b;
+      --rule: #d9d3c6; --line: #e6e0d3; --grid: #ece7dc; --accent: #9c3d1a;
+      --longos: #2a78d6; --shorts: #eb6834; --shorts-ink: #b8501f;
+      --tv: #4a3aa7; --celular: #eda100; --computador: #1baf7a; --outros: #d9d4c9;
+      --yt: #e87ba4; --membros: #008300;
+      --serif: 'Source Serif 4', Georgia, serif;
+      --display: 'Fraunces', Georgia, serif;
+      --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--paper); color: var(--ink); font-family: var(--serif); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 72px 40px 80px; }
+    .k { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    a { color: #1f4f99; text-decoration: none; } a:hover { text-decoration: underline; }
+    code { font-family: var(--mono); font-size: .86em; background: #f0ece3; padding: 1px 5px; border-radius: 3px; }
+
+    header { display: flex; flex-direction: column; gap: 20px; padding-bottom: 44px; border-bottom: 1px solid var(--rule); }
+    .masthead { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    h1 { font-family: var(--display); font-weight: 600; font-size: clamp(38px, 6vw, 68px); line-height: 1.03; letter-spacing: -.02em; max-width: 1000px; }
+    .dek { font-size: 21px; line-height: 1.5; color: var(--body); max-width: 800px; }
+
+    section { margin-top: 88px; display: flex; flex-direction: column; gap: 16px; }
+    .sec-k { display: flex; gap: 16px; align-items: baseline; }
+    .sec-k .n { color: var(--accent); }
+    h2 { font-family: var(--display); font-weight: 600; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -.015em; max-width: 900px; }
+    .lede { font-size: 19px; line-height: 1.55; color: var(--body); max-width: 780px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 26px 28px; margin-top: 12px; }
+    .cap { font-family: var(--mono); font-size: 12.5px; color: var(--muted); margin-top: 12px; line-height: 1.6; }
+    .note { font-size: 15px; color: var(--muted); line-height: 1.55; margin-top: 10px; }
+    .ch { position: relative; width: 100%; }
+    .ch-q { height: 260px; } .ch-j { height: 250px; } .ch-d { height: 380px; } .ch-r { height: 380px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 26px; margin-top: 14px; font-family: var(--mono); font-size: 12.5px; color: var(--muted); align-items: center; }
+    .legend span { display: inline-flex; gap: 8px; align-items: center; }
+    .sw { display: inline-block; width: 14px; height: 12px; border-radius: 2px; }
+    .ln { display: inline-block; width: 26px; height: 0; border-top: 2.25px solid var(--ink); }
+    .ln.d { border-top: 1.5px dashed var(--ink); }
+    .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; }
+
+    .duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 2px solid var(--ink); margin-top: 12px; }
+    .duo > div { padding: 26px 0; display: flex; flex-direction: column; gap: 4px; }
+    .duo > div:first-child { padding-right: 32px; border-right: 1px solid var(--rule); }
+    .duo > div:last-child { padding-left: 32px; }
+    .hero { font-family: var(--display); font-weight: 600; font-size: clamp(72px, 10vw, 112px); line-height: 1; }
+    .sub { font-size: 16px; color: var(--body); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    th { text-align: left; font-family: var(--mono); font-weight: 500; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 10px 12px; border-bottom: 1.5px solid var(--ink); }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    th.num, td.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 14px; }
+    td.rk { font-family: var(--mono); color: var(--muted); width: 36px; }
+    td.win { font-weight: 600; }
+    .tabwrap { overflow-x: auto; }
+
+    .side { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 48px; align-items: start; margin-top: 12px; }
+    .stat { display: flex; flex-direction: column; gap: 4px; }
+    .stat b { font-family: var(--display); font-weight: 600; font-size: 50px; line-height: 1; }
+    .stat span { font-size: 16px; color: var(--body); }
+
+    .bars { display: flex; flex-direction: column; gap: 14px; }
+    .bar-row, .bar-head { display: grid; grid-template-columns: 180px minmax(0, 1fr) 90px; gap: 16px; align-items: center; }
+    .bar-row .lab { font-size: 15px; text-align: right; }
+    .bar-row .track { position: relative; height: 24px; background: var(--grid); border-radius: 3px; }
+    .bar-row .fill { position: absolute; top: 0; bottom: 0; left: 0; background: var(--longos); border-radius: 3px; }
+    .bar-row .pct { position: absolute; top: 3px; font-family: var(--mono); font-size: 13px; font-weight: 600; }
+    .bar-row .mpv { font-family: var(--mono); font-size: 16px; text-align: right; }
+    .bar-row .mpv.forte { font-weight: 700; }
+
+    .todo { margin-top: 88px; padding-top: 40px; border-top: 2px solid var(--ink); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+    .todo div { display: flex; flex-direction: column; gap: 10px; }
+    .todo .n { font-family: var(--display); font-weight: 600; font-size: 44px; color: var(--accent); line-height: 1; }
+    .todo .t { font-family: var(--display); font-weight: 600; font-size: 22px; line-height: 1.2; }
+    .todo p { font-size: 16px; color: var(--body); }
+
+    .parte { margin-top: 120px; padding: 40px 0 8px; border-top: 3px double var(--ink); display: flex; flex-direction: column; gap: 14px; }
+    .pill { display: inline-block; font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: .04em; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+    .p-frente { background: #e3f1e3; color: #1d5e1d; } .p-ritmo { background: #e8eef9; color: #1f4f99; }
+    .p-atras { background: #fbe6dc; color: #8f3413; } .p-oport { background: #f5ecd4; color: #7a5a0b; } .p-sem { background: #eeeae2; color: #6a655b; }
+    .placar td { vertical-align: top; }
+    .placar td.t { font-family: var(--display); font-weight: 600; font-size: 16px; width: 20%; }
+    .placar .fonte { display: block; font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .esforco td .mb { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+    .esforco td .mb i { display: inline-block; height: 10px; background: var(--ink); opacity: .72; border-radius: 2px; }
+    .ciclo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 12px; }
+    .ciclo > div { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 22px; display: flex; flex-direction: column; gap: 8px; }
+    .ciclo > div.destaque { border: 2px solid var(--ink); }
+    .ciclo b.big { font-family: var(--display); font-weight: 600; font-size: 44px; line-height: 1; }
+    .ciclo ul { margin: 6px 0 0 18px; font-size: 14px; color: var(--body); }
+    .melhorar { display: flex; flex-direction: column; margin-top: 12px; border-top: 2px solid var(--ink); }
+    .melhorar > div { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--rule); }
+    .melhorar .n { font-family: var(--display); font-weight: 600; font-size: 40px; color: var(--accent); line-height: 1; }
+    .melhorar .t { font-family: var(--display); font-weight: 600; font-size: 22px; line-height: 1.2; }
+    .melhorar p { font-size: 16px; color: var(--body); margin-top: 6px; }
+    .melhorar .ev { font-family: var(--mono); font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+    .ch-u { height: 300px; } .ch-a { height: 340px; }
+    @media (max-width: 820px) { .ciclo { grid-template-columns: 1fr; } .melhorar > div { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; } }
+    footer { margin-top: 72px; display: flex; flex-direction: column; gap: 6px; }
+
+    @media (max-width: 820px) {
+      .wrap { padding: 44px 16px 60px; }
+      .duo, .side, .todo { grid-template-columns: 1fr; }
+      .duo > div:first-child { padding-right: 0; border-right: none; border-bottom: 1px solid var(--rule); }
+      .duo > div:last-child { padding-left: 0; }
+      .bar-row, .bar-head { grid-template-columns: 110px minmax(0, 1fr) 52px; gap: 10px; }
+      .card { padding: 18px 16px; }
+      .ch-q { height: 220px; } .ch-d { height: 320px; } .ch-r { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="masthead"><span class="k">Brasil Paralelo · diagnóstico de canal</span><span class="k" id="janela">—</span></div>
+  <h1>Dois canais dentro de um — e metade do público assiste onde não dá para clicar</h1>
+  <p class="dek">Shorts e vídeos longos não dividem audiência, aparelho nem capacidade de trazer inscrito. Tratados como um canal só, escondem os dois. Este é o primeiro retrato separando os dois formatos — com a contagem de views que o YouTube acabou de mudar.</p>
+</header>
+
+<main>
+
+<!-- 01 · A régua -->
+<section id="regua">
+  <div class="sec-k"><span class="k n">01</span><span class="k">A régua</span></div>
+  <h2 id="t01">—</h2>
+  <p class="lede" id="l01">—</p>
+  <div class="card">
+    <div class="ch ch-q"><canvas id="chQL" role="img" aria-label="Vídeos longos: views e views engajadas por dia"></canvas></div>
+    <div style="height: 22px"></div>
+    <div class="ch ch-q"><canvas id="chQS" role="img" aria-label="Shorts: views e views engajadas por dia"></canvas></div>
+    <div class="legend">
+      <span><i class="ln"></i>views engajadas</span>
+      <span><i class="ln d"></i>views (contagem nova)</span>
+      <span><i class="sw" style="background:#e3ddd0"></i>diferença = autoplay</span>
+      <span>média móvel de 7 dias · escalas diferentes em cada painel</span>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · Os dois canais -->
+<section id="dois">
+  <div class="sec-k"><span class="k n">02</span><span class="k">Os dois canais</span></div>
+  <h2 id="t02">—</h2>
+  <p class="lede" id="l02">—</p>
+  <div class="duo">
+    <div><span class="k" style="color: var(--longos)">Vídeos longos</span><span class="hero" style="color: var(--longos)" id="heroL">—</span><span class="sub">inscritos a cada mil views</span></div>
+    <div><span class="k" style="color: var(--shorts-ink)">Shorts</span><span class="hero" style="color: var(--shorts)" id="heroS">—</span><span class="sub">inscritos a cada mil views</span></div>
+  </div>
+  <div class="tabwrap">
+    <table id="tbDois">
+      <thead><tr><th>Em 2026</th><th class="num">Vídeos longos</th><th class="num">Shorts</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 03 · A jornada -->
+<section id="jornada">
+  <div class="sec-k"><span class="k n">03</span><span class="k">A jornada</span></div>
+  <h2>Assiste na TV, compra no celular — e esse salto não tem rastro</h2>
+  <p class="lede" id="l03">—</p>
+  <div class="card">
+    <div class="ch ch-j"><canvas id="chJ" role="img" aria-label="Dispositivo em cada etapa: assistir no YouTube, assistir na plataforma, chegar ao site"></canvas></div>
+    <div class="legend">
+      <span><i class="sw" style="background: var(--tv)"></i>TV</span>
+      <span><i class="sw" style="background: var(--celular)"></i>celular</span>
+      <span><i class="sw" style="background: var(--computador)"></i>computador</span>
+      <span><i class="sw" style="background: var(--outros)"></i>tablet e outros</span>
+    </div>
+    <p class="cap">YouTube = % dos minutos assistidos · plataforma = % das horas · site = % das sessões vindas do YouTube.</p>
+    <p class="cap" id="capJ" style="margin-top: 4px">—</p>
+  </div>
+  <p class="note" style="margin-top: 22px">Quem chega do YouTube ao site, por dispositivo:</p>
+  <div class="tabwrap">
+    <table id="tbLp">
+      <thead><tr><th>Dispositivo</th><th class="num">Sessões</th><th class="num">% das sessões</th><th class="num">Engajadas</th><th class="num">Duração média</th><th class="num">Eventos-chave por sessão</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="note" id="notaLp">—</p>
+</section>
+
+<!-- 04 · O público -->
+<section id="publico">
+  <div class="sec-k"><span class="k n">04</span><span class="k">O público</span></div>
+  <h2>Quem assiste não é quem assina</h2>
+  <p class="lede" id="l04">—</p>
+  <div class="side">
+    <div class="card" style="margin-top: 0">
+      <div class="ch ch-d"><canvas id="chIdade" role="img" aria-label="Faixa etária: audiência do YouTube contra membros ativos"></canvas></div>
+      <div class="legend">
+        <span><i class="dot" style="border: 2.5px solid var(--yt); background: #fff"></i>audiência do YouTube (% das views)</span>
+        <span><i class="dot" style="background: var(--membros)"></i>membros ativos (% das pessoas)</span>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 28px; padding-top: 8px;">
+      <div class="stat"><b id="stGen">—</b><span>mulheres na audiência → mulheres entre os membros</span></div>
+      <div class="stat"><b id="stNovos">—</b><span>dos compradores novos de 2026 têm menos de 35 anos — não é estoque antigo</span></div>
+      <p class="note" id="notaIdade">—</p>
+    </div>
+  </div>
+  <div class="tabwrap" style="margin-top: 20px">
+    <table id="tbIdade">
+      <thead><tr><th>Faixa</th><th class="num">Audiência do YouTube</th><th class="num">Membros ativos</th><th class="num">Compradores novos 2026</th><th class="num">Membros ÷ audiência</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 05 · A origem -->
+<section id="origem">
+  <div class="sec-k"><span class="k n">05</span><span class="k">A origem</span></div>
+  <h2 id="t05">—</h2>
+  <p class="lede" id="l05">—</p>
+  <div class="card">
+    <div class="bar-head"><span></span><span class="k">% das views de vídeo longo</span><span class="k" style="text-align: right">min / view</span></div>
+    <div class="bars" id="barsOrigem" style="margin-top: 12px"></div>
+  </div>
+</section>
+
+<!-- 06 · A retenção -->
+<section id="retencao">
+  <div class="sec-k"><span class="k n">06</span><span class="k">A retenção</span></div>
+  <h2>Retemos como a média da plataforma — com uma exceção</h2>
+  <p class="lede">O YouTube entrega a curva de cada vídeo e uma nota de <em>desempenho relativo</em>: quanto retemos contra todos os vídeos de duração parecida na plataforma inteira. 0,50 é a mediana.</p>
+  <div class="card">
+    <div class="ch ch-r"><canvas id="chRet" role="img" aria-label="Curva de retenção dos principais vídeos longos"></canvas></div>
+    <div class="legend" id="legRet"></div>
+    <p class="cap">Eixo horizontal = percentual do vídeo, não tempo. Numa live de 7 horas cada ponto vale ~4 minutos, por isso lives aparecem achatadas.</p>
+  </div>
+  <div class="tabwrap">
+    <table id="tbRet">
+      <thead><tr><th>Vídeo</th><th>Formato</th><th class="num">Duração</th><th class="num">Retenção média</th><th class="num">Desempenho relativo</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="note" id="notaRet">—</p>
+</section>
+
+<!-- 07 · Os vídeos -->
+<section id="videos">
+  <div class="sec-k"><span class="k n">07</span><span class="k">Os vídeos</span></div>
+  <h2 id="t07">—</h2>
+  <p class="lede">Ordenados por views engajadas acumuladas em 2026 — um vídeo publicado antes pode aparecer. Inflação = views ÷ views engajadas.</p>
+  <p class="k" style="color: var(--longos); margin-top: 16px">Vídeos longos</p>
+  <div class="tabwrap"><table id="tbLongos"><thead><tr><th>#</th><th>Vídeo</th><th class="num">Publicado</th><th class="num">Duração</th><th class="num">Views eng.</th><th class="num">Inflação</th><th class="num">Retenção</th><th class="num">Inscr./mil</th></tr></thead><tbody></tbody></table></div>
+  <p class="k" style="color: var(--shorts-ink); margin-top: 28px">Shorts</p>
+  <div class="tabwrap"><table id="tbShorts"><thead><tr><th>#</th><th>Vídeo</th><th class="num">Publicado</th><th class="num">Duração</th><th class="num">Views eng.</th><th class="num">Inflação</th><th class="num">Retenção</th><th class="num">Inscr./mil</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<div class="parte" id="mercado">
+  <span class="k" style="color: var(--accent)">Parte 2</span>
+  <h2 style="font-size: clamp(34px, 4.6vw, 52px)">O mercado e nós</h2>
+  <p class="lede">O que os estrategistas que mais entendem de YouTube hoje dizem que está funcionando — e onde a Brasil Paralelo está em relação a cada ponto. As referências vêm de Paddy Galloway (estrategista de Red Bull e Jesser, mais de 10 bilhões de views) e das entrevistas do Colin and Samir de 2025 e 2026.</p>
+</div>
+
+<!-- 08 · O placar -->
+<section id="placar" style="margin-top: 40px">
+  <div class="sec-k"><span class="k n">08</span><span class="k">O placar</span></div>
+  <h2 id="t08">—</h2>
+  <div class="tabwrap">
+    <table class="placar" id="tbPlacar">
+      <thead><tr><th>Tendência</th><th>O que o mercado mostra</th><th>Onde estamos</th><th>Leitura</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 09 · Mais longo -->
+<section id="duracao">
+  <div class="sec-k"><span class="k n">09</span><span class="k">Vídeos mais longos</span></div>
+  <h2 id="t09">—</h2>
+  <p class="lede" id="l09">—</p>
+  <div class="card">
+    <div class="ch ch-u"><canvas id="chDur" role="img" aria-label="Duração média do vídeo editado por ano, Brasil Paralelo e referência de mercado"></canvas></div>
+    <div class="legend">
+      <span><i class="ln" style="border-color: var(--longos)"></i>Brasil Paralelo · média</span>
+      <span><i class="ln d" style="border-color: var(--longos)"></i>Brasil Paralelo · mediana</span>
+      <span><i class="ln d"></i>mercado hoje: 20 min ou mais (Paddy Galloway; em 2020 eram 12–16)</span>
+    </div>
+    <p class="cap">Vídeo editado = upload comum ou estreia (Premiere), sem Shorts (até 60 s antes de out/2024, até 3 min depois) e sem lives. Live = marcada como live e com "ao vivo", "live", "react" ou nome de série de live no título. Fonte: todos os uploads do canal pela Data API.</p>
+  </div>
+  <div class="card">
+    <p class="k" style="margin-bottom: 10px">Uploads por ano e formato</p>
+    <div class="ch ch-u"><canvas id="chMix" role="img" aria-label="Uploads por ano: Shorts, vídeos editados e lives"></canvas></div>
+    <div class="legend">
+      <span><i class="sw" style="background: var(--shorts)"></i>Shorts</span>
+      <span><i class="sw" style="background: var(--longos)"></i>vídeos editados</span>
+      <span><i class="sw" style="background: #4a3aa7"></i>lives</span>
+    </div>
+    <p class="cap" id="capMix">—</p>
+  </div>
+  <div class="card" id="cardAvd">
+    <p class="k" style="margin-bottom: 10px">Tempo assistido por view — vídeo sob demanda (sem lives e sem Shorts)</p>
+    <div class="ch ch-u"><canvas id="chAvd" role="img" aria-label="Tempo assistido por view por ano, Brasil Paralelo e dois pontos de referência do mercado"></canvas></div>
+    <div class="legend">
+      <span><i class="ln" style="border-color: var(--longos)"></i>Brasil Paralelo</span>
+      <span><i class="dot" style="border: 2.5px solid var(--ink); background: #fff"></i>mercado: 4 min 35 s em 2021 e 8 min em 2025 (Paddy Galloway)</span>
+    </div>
+    <p class="cap" id="capAvd">—</p>
+  </div>
+</section>
+
+<!-- 10 · Onde vai o esforço -->
+<section id="esforco">
+  <div class="sec-k"><span class="k n">10</span><span class="k">Onde vai o esforço</span></div>
+  <h2 id="t10">—</h2>
+  <p class="lede" id="l10">—</p>
+  <div class="tabwrap">
+    <table class="esforco" id="tbEsforco">
+      <thead><tr><th>Formato</th><th class="num">Uploads</th><th class="num">% dos uploads</th><th class="num">% dos minutos</th><th class="num">% dos inscritos</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="note" id="notaEsforco">—</p>
+</section>
+
+<!-- 11 · Programa, não avulso -->
+<section id="programa">
+  <div class="sec-k"><span class="k n">11</span><span class="k">Formato que vira programa</span></div>
+  <h2 id="t11">—</h2>
+  <p class="lede" id="l11">—</p>
+  <div class="duo">
+    <div><span class="k">Vídeo editado de série</span><span class="hero" style="font-size: clamp(52px, 7vw, 80px)" id="serMin">—</span><span class="sub">minutos por vídeo (mediana)</span><span class="sub" id="serSub">—</span></div>
+    <div><span class="k">Vídeo editado avulso</span><span class="hero" style="font-size: clamp(52px, 7vw, 80px); color: var(--muted)" id="avuMin">—</span><span class="sub">minutos por vídeo (mediana)</span><span class="sub" id="avuSub">—</span></div>
+  </div>
+  <p class="note" id="notaSeries">—</p>
+</section>
+
+<!-- 12 · Notícia × atemporal -->
+<section id="ciclo">
+  <div class="sec-k"><span class="k n">12</span><span class="k">Urgente, atemporal ou meio-termo</span></div>
+  <h2 id="t12">—</h2>
+  <p class="lede" id="l12">—</p>
+  <div class="ciclo" id="cardsCiclo"></div>
+  <p class="note" id="notaCiclo">—</p>
+</section>
+
+<!-- 13 · A abertura -->
+<section id="abertura">
+  <div class="sec-k"><span class="k n">13</span><span class="k">Abertura e miolo</span></div>
+  <h2>A abertura já é boa — é no meio do vídeo que perdemos</h2>
+  <p class="lede" id="l13">—</p>
+  <div class="card">
+    <div class="ch ch-a"><canvas id="chAbertura" role="img" aria-label="Retenção relativa à plataforma: primeiros 10% do vídeo contra o resto"></canvas></div>
+    <div class="legend">
+      <span><i class="dot" style="background: var(--longos)"></i>primeiros 10% do vídeo</span>
+      <span><i class="dot" style="border: 2.5px solid var(--longos); background: #fff"></i>resto do vídeo</span>
+      <span><i class="ln d"></i>0,50 = mediana da plataforma para vídeos da mesma duração</span>
+    </div>
+  </div>
+</section>
+
+<!-- 14 · A busca -->
+<section id="busca">
+  <div class="sec-k"><span class="k n">14</span><span class="k">O que as pessoas procuram</span></div>
+  <h2 id="t14">—</h2>
+  <p class="lede" id="l14">—</p>
+  <div class="tabwrap">
+    <table id="tbBusca">
+      <thead><tr><th>#</th><th>Termo buscado no YouTube</th><th>Tipo</th><th class="num">Views em 2026</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="note">Os 25 termos que mais trouxeram views pela busca do YouTube. "Marca" = procura pela Brasil Paralelo ou por um programa do canal; "título nosso" = nome de uma produção original da plataforma (a busca "el salvador" entra aqui, mesmo podendo ser só o país); "tema" = procura por um assunto em que aparecemos.</p>
+</section>
+
+<!-- 15 · Fora do Brasil -->
+<section id="internacional">
+  <div class="sec-k"><span class="k n">15</span><span class="k">Fora do Brasil</span></div>
+  <h2 id="t15">—</h2>
+  <p class="lede" id="l15">—</p>
+  <div class="tabwrap">
+    <table id="tbPaises">
+      <thead><tr><th>Vídeo</th><th class="num">Brasil</th><th class="num">Outros de língua portuguesa</th><th class="num">Países de língua espanhola</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="note">Views engajadas em 2026. Língua portuguesa = Portugal, Angola, Moçambique, Cabo Verde, Guiné-Bissau, São Tomé e Timor-Leste. Língua espanhola = Espanha e os 19 países hispânicos das Américas.</p>
+</section>
+
+<!-- Onde melhorar -->
+<section id="melhorar">
+  <div class="sec-k"><span class="k n">→</span><span class="k">Onde podemos melhorar</span></div>
+  <h2 id="tMelhorar">Frentes em que o dado aponta espaço para melhorar</h2>
+  <div class="melhorar" id="listaMelhorar"></div>
+</section>
+
+</main>
+
+<footer>
+  <span class="k" id="ftFonte">—</span>
+  <span class="note" style="margin-top: 0">Método, decisões e ressalvas em <code>ANALISE.md</code>. Coleta reproduzível com <code>python3 refresh.py</code>.</span>
+</footer>
+
+</div>
+
+<script>
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const C = { longos: css('--longos'), shorts: css('--shorts'), ink: css('--ink'), muted: css('--muted'), grid: css('--grid'),
+            TV: css('--tv'), celular: css('--celular'), computador: css('--computador'), outros: css('--outros'),
+            yt: css('--yt'), membros: css('--membros'), alert: '#b3261e' };
+const MONO = "'IBM Plex Mono', ui-monospace, Menlo, monospace";
+Chart.defaults.font.family = MONO; Chart.defaults.font.size = 11.5; Chart.defaults.color = C.muted;
+
+const br = (n, d = 1) => n.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmt = n => n >= 1e6 ? br(n / 1e6, 1) + ' M' : n >= 1e3 ? br(n / 1e3, 0) + ' mil' : br(n, 0);
+const pct = (x, d = 0) => br(x * 100, d) + '%';
+const dur = s => s >= 3600 ? Math.floor(s / 3600) + 'h' + String(Math.round(s % 3600 / 60)).padStart(2, '0') : s >= 60 ? Math.floor(s / 60) + ' min' : Math.round(s) + ' s';
+const durS = s => Math.floor(s / 60) + ' min ' + String(Math.round(s % 60)).padStart(2, '0') + ' s';
+const dbr = d => d.slice(8, 10) + '/' + d.slice(5, 7) + '/' + d.slice(0, 4);
+const mes = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+const mm = (a, n = 7) => a.map((_, i) => { const s = a.slice(Math.max(0, i - n + 1), i + 1); return s.reduce((x, y) => x + y, 0) / s.length; });
+const set = (id, v) => { document.getElementById(id).textContent = v; };
+const setH = (id, v) => { document.getElementById(id).innerHTML = v; };
+// títulos em CAIXA ALTA viram "Maiúscula Inicial": siglas da lista ficam em caixa alta, partículas em minúscula,
+// e a palavra depois de "-", "|" ou ":" volta a ser maiúscula
+const PART = new Set(['de','da','do','das','dos','e','em','no','na','nos','nas','o','a','os','as','que','um','uma','por','para','com','x','ao','à','se']);
+const SIGLA = new Set(['STF','PF','PT','EUA','MCS','INSS','CPMI','BP','CECOT','PCC','CV','ONU','OTAN','CIA','FBI']);
+const titulo = t => { if (t !== t.toUpperCase()) return t; let novo = true;
+  return t.split(' ').map(w => { const l = w.toLowerCase(), limpo = w.replace(/[^A-ZÀ-Ú]/g, '');
+    let r = SIGLA.has(limpo) ? w : (!novo && PART.has(l)) ? l : l.charAt(0).toUpperCase() + l.slice(1);
+    novo = /[-|:]$/.test(w) || w === '-' || w === '|'; return r; }).join(' '); };
+
+// linha tracejada na data da quebra
+const marca = { id: 'marca', afterDatasetsDraw(ch, _a, o) {
+  if (o.idx == null || o.idx < 0) return;
+  const x = ch.scales.x.getPixelForValue(o.idx), { top, bottom, right } = ch.chartArea, g = ch.ctx;
+  g.save(); g.setLineDash([4, 4]); g.lineWidth = 1.25; g.strokeStyle = C.alert;
+  g.beginPath(); g.moveTo(x, top); g.lineTo(x, bottom); g.stroke(); g.setLineDash([]);
+  if (o.label) { g.font = '600 11.5px ' + MONO; g.fillStyle = C.alert;
+    const w = g.measureText(o.label).width; const left = x + w + 14 > right;
+    g.textAlign = left ? 'right' : 'left'; g.fillText(o.label, x + (left ? -7 : 7), top + 12); }
+  g.restore(); } };
+
+fetch('./data.json').then(r => r.json()).then(render).catch(e => {
+  document.querySelector('main').innerHTML = '<p class="lede">Erro ao carregar data.json: ' + e + '</p>';
+  console.error(e);
+});
+
+function render(D) {
+  const M = D.meta, R = D.resumo, DI = D.diaria;
+  set('janela', 'jan–' + mes[+M.janela.fim.slice(5, 7) - 1] + ' ' + M.janela.fim.slice(0, 4));
+  set('ftFonte', 'Fonte: YouTube Analytics API · BigQuery · GA4 · dados até ' + dbr(M.janela.fim) + ' · gerado em ' + M.gerado);
+
+  // ── 01 · a régua ───────────────────────────────────────────────────
+  const razao = (g, a, b) => { const ds = DI.filter(d => d.d >= a && d.d <= b && d[g + '_v']);
+    return ds.reduce((s, d) => s + d[g + '_e'], 0) / ds.reduce((s, d) => s + d[g + '_v'], 0); };
+  const ant = g => razao(g, '2026-01-01', '2026-08-26'), dep = g => razao(g, M.quebra, '2099-12-31');
+  const auto = Math.round((1 - dep('longos')) * 100);
+  set('t01', 'De cada 100 views de vídeo longo, ' + auto + ' agora são autoplay');
+  set('l01', 'Desde 27/08, autoplay na home conta como view. Nos Shorts sempre foi assim: de cada 100 views, cerca de ' +
+    Math.round(ant('shorts') * 100) + ' eram engajadas. O que mudou foi o vídeo longo — de ' + Math.round(ant('longos') * 100) +
+    ' para ' + Math.round(dep('longos') * 100) + ' a cada 100. Todo número daqui para baixo usa a contagem engajada.');
+  const labels = DI.map(d => d.d), iq = labels.indexOf(M.quebra);
+  const painel = (id, g, cor, tint, nome) => {
+    const v = mm(DI.map(d => d[g + '_v'] || 0)), e = mm(DI.map(d => d[g + '_e'] || 0));
+    new Chart(document.getElementById(id), {
+      type: 'line',
+      data: { labels, datasets: [
+        { label: 'views', data: v, borderColor: cor, borderWidth: 1.5, borderDash: [4, 3], pointRadius: 0, tension: .25 },
+        { label: 'engajadas', data: e, borderColor: cor, borderWidth: 2.25, pointRadius: 0, tension: .25, fill: '-1', backgroundColor: tint },
+      ] },
+      options: {
+        responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        layout: { padding: { top: 6 } },
+        plugins: { legend: { display: false }, marca: { idx: iq, label: g === 'longos' ? '27/08 · a contagem mudou' : null },
+          title: { display: true, text: nome, align: 'start', color: C.ink, font: { family: MONO, size: 12.5, weight: '600' }, padding: { bottom: 10 } },
+          tooltip: { callbacks: {
+            title: it => dbr(it[0].label),
+            label: c => (c.datasetIndex ? 'views engajadas: ' : 'views: ') + fmt(c.parsed.y) + '/dia',
+            afterBody: it => { const a = it[0].dataIndex; return 'autoplay: ' + pct(1 - e[a] / v[a]) + ' das views'; } } } },
+        scales: {
+          x: { grid: { display: false }, border: { color: '#c9c2b3' },
+               ticks: { autoSkip: false, maxRotation: 0, callback: (_v, i) => labels[i].endsWith('-01') ? mes[+labels[i].slice(5, 7) - 1] : null } },
+          y: { beginAtZero: true, grid: { color: C.grid }, border: { display: false }, ticks: { maxTicksLimit: 5, callback: fmt } } } },
+      plugins: [marca] });
+  };
+  painel('chQL', 'longos', C.longos, 'rgba(42,120,214,.16)', 'Vídeos longos');
+  painel('chQS', 'shorts', C.shorts, 'rgba(235,104,52,.16)', 'Shorts');
+
+  // ── 02 · os dois canais ────────────────────────────────────────────
+  const L = R.longos, S = R.shorts, DT = D.device_tipo;
+  const dsh = (g, k) => { const t = Object.values(DT[g]).reduce((s, x) => s + x.e, 0); return (DT[g][k]?.e || 0) / t; };
+  set('t02', 'Vídeo longo traz ' + br(L.subs_por_1k / S.subs_por_1k, 1) + '× mais inscritos por view');
+  set('l02', 'Os Shorts são ' + pct(S.engaged / (S.engaged + L.engaged)) + ' das views engajadas e só ' +
+    pct(S.min / (S.min + L.min), 1) + ' dos minutos. A ideia de que eles alimentam o funil de inscritos não aparece nos números.');
+  set('heroL', br(L.subs_por_1k, 1)); set('heroS', br(S.subs_por_1k, 1));
+  const linhas = [
+    ['Views engajadas', fmt(L.engaged), fmt(S.engaged), L.engaged > S.engaged],
+    ['Minutos assistidos', fmt(L.min), fmt(S.min), L.min > S.min],
+    ['Minutos por view', br(L.min_por_view, 1), br(S.min_por_view, 2), L.min_por_view > S.min_por_view],
+    ['Inscritos a cada mil views', br(L.subs_por_1k, 1), br(S.subs_por_1k, 1), L.subs_por_1k > S.subs_por_1k],
+    ['Views assistidas na TV', pct(dsh('longos', 'TV')), pct(dsh('shorts', 'TV')), null],
+    ['Views no celular', pct(dsh('longos', 'MOBILE')), pct(dsh('shorts', 'MOBILE')), null],
+  ];
+  document.querySelector('#tbDois tbody').innerHTML = linhas.map(([n, a, b, w]) =>
+    '<tr><td>' + n + '</td><td class="num' + (w === true ? ' win' : '') + '">' + a + '</td><td class="num' + (w === false ? ' win' : '') + '">' + b + '</td></tr>').join('');
+
+  // ── 03 · a jornada ─────────────────────────────────────────────────
+  const yt = D.device_ano[D.device_ano.length - 1].dev;
+  const ytDev = { TV: yt.TV?.pm || 0, celular: yt.MOBILE?.pm || 0, computador: yt.DESKTOP?.pm || 0 };
+  ytDev.outros = Math.max(0, 1 - ytDev.TV - ytDev.celular - ytDev.computador);
+  const pl = D.plataforma_device, lpY = D.lp_device.youtube;
+  const lpDev = { TV: lpY['smart tv']?.share || 0, celular: lpY.mobile?.share || 0, computador: lpY.desktop?.share || 0, outros: lpY.tablet?.share || 0 };
+  const etapas = [['Assistem no YouTube', ytDev], ['Assistem na plataforma', pl], ['Chegam ao site', lpDev]];
+  const devs = ['TV', 'celular', 'computador', 'outros'];
+  const rotuloSeg = { id: 'rotuloSeg', afterDatasetsDraw(ch) { const g = ch.ctx; g.save(); g.font = '600 12.5px ' + MONO; g.textBaseline = 'middle'; g.textAlign = 'left';
+    ch.data.datasets.forEach((ds, di) => ch.getDatasetMeta(di).data.forEach((bar, i) => {
+      const w = Math.abs(bar.x - bar.base), txt = ds.label + ' ' + pct(ds.data[i]);
+      if (g.measureText(txt).width + 18 > w) { const cur = pct(ds.data[i]); if (g.measureText(cur).width + 14 > w) return;
+        g.fillStyle = ds.label === 'TV' ? '#ffffff' : C.ink; g.fillText(cur, Math.min(bar.x, bar.base) + 7, bar.y); return; }
+      g.fillStyle = ds.label === 'TV' ? '#ffffff' : C.ink; g.fillText(txt, Math.min(bar.x, bar.base) + 10, bar.y); })); g.restore(); } };
+  new Chart(document.getElementById('chJ'), {
+    type: 'bar',
+    data: { labels: etapas.map(e => e[0]), datasets: devs.map(k => ({ label: k, data: etapas.map(e => e[1][k] || 0),
+      backgroundColor: C[k], borderColor: '#ffffff', borderWidth: { right: 2 }, borderSkipped: false, barPercentage: .62, categoryPercentage: 1 })) },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.dataset.label + ': ' + pct(c.parsed.x, 1) } } },
+      scales: { x: { stacked: true, min: 0, max: 1, grid: { color: C.grid }, border: { display: false }, ticks: { callback: v => pct(v) } },
+                y: { stacked: true, grid: { display: false }, border: { display: false }, afterFit: sc => { sc.width = Math.max(sc.width, 190); },
+                     ticks: { color: C.ink, font: { family: "'Source Serif 4', Georgia, serif", size: 15 } } } } },
+    plugins: [rotuloSeg] });
+  const lpTot = Object.values(lpY).reduce((s, x) => s + x.sessoes, 0);
+  set('l03', 'Metade do tempo assistido, no YouTube (' + pct(ytDev.TV) + ') e na plataforma (' + pct(pl.TV || 0) +
+    '), é na televisão. Na chegada ao site, a TV some. E todo o rastreio de venda do YouTube depende do link na descrição — que ninguém clica da sala.');
+  set('capJ', 'Chegaram ao site vindas do YouTube: ' + br(lpTot, 0) + ' sessões em 2026, das quais ' + br(lpY['smart tv']?.sessoes || 0, 0) +
+    ' em smart TV. Na plataforma, TV inclui Chromecast; celular = Android + iOS; computador = web.');
+  const devNome = { mobile: 'celular', desktop: 'computador', tablet: 'tablet', 'smart tv': 'smart TV' };
+  document.querySelector('#tbLp tbody').innerHTML = Object.entries(lpY).sort((a, b) => b[1].sessoes - a[1].sessoes).map(([k, x]) => {
+    const ok = x.sessoes > 100;
+    return '<tr><td>' + (devNome[k] || k) + '</td><td class="num">' + br(x.sessoes, 0) + '</td><td class="num">' + pct(x.share, 1) +
+      '</td><td class="num">' + (ok ? pct(x.engaj) : '—') + '</td><td class="num">' + (ok ? durS(x.dur_s) : '—') +
+      '</td><td class="num">' + (ok ? br(x.eventos_por_sessao, 2) : '—') + '</td></tr>'; }).join('');
+  const mo = lpY.mobile, de = lpY.desktop;
+  set('notaLp', 'O computador é minoria, mas é onde a decisão acontece: fica ' + pct(de.dur_s / mo.dur_s - 1) + ' mais tempo e dispara ' +
+    pct(de.eventos_por_sessao / mo.eventos_por_sessao - 1) + ' mais eventos-chave por sessão que o celular.');
+
+  // ── 04 · o público ─────────────────────────────────────────────────
+  const fx = D.membros.faixas.map(f => f.faixa);
+  const ytIdade = {}; let ytTot = 0;
+  D.demografia.forEach(d => { const f = d.faixa === '65-' ? '65+' : d.faixa; ytIdade[f] = (ytIdade[f] || 0) + d.pct; ytTot += d.pct; });
+  const ytPct = fx.map(f => (ytIdade[f] || 0) / ytTot), mbPct = D.membros.faixas.map(f => f.ativos), nvPct = D.membros.faixas.map(f => f.novos);
+  const soma = (arr, fs) => fs.reduce((s, f) => s + (fx.includes(f) ? arr[fx.indexOf(f)] : 0), 0);
+  const jov = ['13-17', '18-24', '25-34'], mad = ['45-54', '55-64', '65+'];
+  set('l04', 'Abaixo de 35 anos: ' + pct(soma(ytPct, jov)) + ' da audiência e ' + pct(soma(mbPct, jov)) + ' dos membros. A partir de 45: ' +
+    pct(soma(ytPct, mad)) + ' da audiência e ' + pct(soma(mbPct, mad)) + ' dos membros. O perfil é o mesmo em Shorts e em vídeos longos — cortar Shorts não muda isso.');
+  const fem = D.demografia.filter(d => d.genero === 'female').reduce((s, d) => s + d.pct, 0) / ytTot;
+  set('stGen', pct(fem) + ' → ' + pct(D.membros.pct_feminino));
+  set('stNovos', pct(soma(nvPct, jov), 1));
+  set('notaIdade', 'Idade declarada cobre ' + pct(D.membros.cobertura_idade) + ' dos membros ativos (' + br(D.membros.n_ativos_com_idade, 0) +
+    ' pessoas). O YouTube mede % das views — quem assiste mais pesa mais; a base mede pessoas. Vale para direção, não para a casa decimal.');
+  new Chart(document.getElementById('chIdade'), {
+    data: { labels: fx.map(f => f.replace('-', '–')), datasets: [
+      { type: 'bar', label: 'distância', data: fx.map((_, i) => [Math.min(ytPct[i], mbPct[i]), Math.max(ytPct[i], mbPct[i])]), backgroundColor: '#cfc8b8', barThickness: 2, order: 3 },
+      { type: 'line', label: 'audiência do YouTube', data: ytPct, showLine: false, pointRadius: 7, pointHoverRadius: 9, pointBackgroundColor: '#ffffff', pointBorderColor: C.yt, pointBorderWidth: 2.5, order: 1, clip: false },
+      { type: 'line', label: 'membros ativos', data: mbPct, showLine: false, pointRadius: 7, pointHoverRadius: 9, pointBackgroundColor: C.membros, pointBorderColor: '#ffffff', pointBorderWidth: 2, order: 2, clip: false },
+    ] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, layout: { padding: { left: 8, right: 8 } },
+      plugins: { legend: { display: false }, tooltip: { filter: it => it.dataset.type === 'line', callbacks: { label: c => c.dataset.label + ': ' + pct(c.parsed.x, 1) } } },
+      scales: { x: { min: 0, grid: { color: C.grid }, border: { display: false }, ticks: { callback: v => pct(v), maxTicksLimit: 5 } },
+                y: { grid: { display: false }, border: { display: false }, ticks: { color: C.ink, font: { size: 12.5 } } } } } });
+  document.querySelector('#tbIdade tbody').innerHTML = fx.map((f, i) =>
+    '<tr><td>' + f.replace('-', '–') + '</td><td class="num">' + pct(ytPct[i], 1) + '</td><td class="num">' + pct(mbPct[i], 1) +
+    '</td><td class="num">' + pct(nvPct[i], 1) + '</td><td class="num' + (ytPct[i] && mbPct[i] / ytPct[i] > 1 ? ' win' : '') + '">' +
+    (ytPct[i] ? br(mbPct[i] / ytPct[i], 2) : '—') + '</td></tr>').join('');
+
+  // ── 05 · a origem ──────────────────────────────────────────────────
+  const tl = D.trafego.longos, tlTot = Object.values(tl).reduce((s, x) => s + x.v, 0);
+  const orig = [['SUBSCRIBER', 'feed de inscritos'], ['RELATED_VIDEO', 'vídeos sugeridos'], ['YT_SEARCH', 'busca do YouTube'],
+                ['EXT_URL', 'sites externos'], ['YT_CHANNEL', 'página do canal'], ['PLAYLIST', 'playlists']]
+    .filter(([k]) => tl[k]).map(([k, n]) => ({ n, share: tl[k].v / tlTot, mpv: tl[k].m / tl[k].v }));
+  const maxS = Math.max(...orig.map(o => o.share));
+  setH('barsOrigem', orig.map(o => { const w = o.share / maxS * 86;
+    return '<div class="bar-row" title="' + o.n + ': ' + pct(o.share, 1) + ' das views, ' + br(o.mpv, 1) + ' min por view"><span class="lab">' + o.n +
+      '</span><span class="track"><span class="fill" style="width:' + w + '%"></span><span class="pct" style="left:calc(' + w + '% + 8px)">' + pct(o.share) +
+      '</span></span><span class="mpv' + (o.mpv >= 10 ? ' forte' : '') + '">' + br(o.mpv, 1) + '</span></div>'; }).join(''));
+  const pega = n => orig.find(o => o.n === n);
+  const sug = pega('vídeos sugeridos'), ins = pega('feed de inscritos'), bus = pega('busca do YouTube');
+  const cl = D.ccn.longos, naoInsc = cl.UNSUBSCRIBED.v / (cl.UNSUBSCRIBED.v + cl.SUBSCRIBED.v);
+  set('t05', 'Quem chega por sugestão assiste ' + br(sug.mpv / ins.mpv, 1) + '× mais que quem é inscrito');
+  set('l05', 'O feed de inscritos traz volume (' + pct(ins.share) + ' das views); os vídeos sugeridos trazem tempo (' + br(sug.mpv, 1) +
+    ' min por view, contra ' + br(ins.mpv, 1) + '). A busca do YouTube se comporta parecido e é só ' + pct(bus.share, 1) +
+    ' das views — a maior oportunidade pouco explorada. E ' + pct(naoInsc) + ' das views de vídeo longo vêm de quem não é inscrito.');
+
+  // ── 06 · a retenção ────────────────────────────────────────────────
+  const meta = {}; [...D.top_longos, ...D.top_shorts].forEach(t => meta[t.id] = t);
+  const cores = [C.longos, '#4a3aa7', '#1baf7a', '#eda100', '#e87ba4', '#008300'];
+  const ids = Object.keys(D.retencao).filter(id => meta[id]?.grupo === 'longos').slice(0, 6);
+  const eixo = Array.from({ length: 101 }, (_, i) => i);
+  new Chart(document.getElementById('chRet'), {
+    type: 'line',
+    data: { labels: eixo, datasets: ids.map((id, i) => { const m = {}; D.retencao[id].forEach(p => m[Math.round(p.x * 100)] = p.w);
+      return { label: titulo(meta[id].titulo).slice(0, 40), data: eixo.map(x => m[x] ?? null), borderColor: cores[i], borderWidth: 2, pointRadius: 0, tension: .2, spanGaps: true }; }) },
+    options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { title: it => it[0].label + '% do vídeo', label: c => c.dataset.label + ': ' + pct(c.parsed.y) } } },
+      scales: { x: { grid: { display: false }, border: { color: '#c9c2b3' }, ticks: { maxRotation: 0, autoSkip: false, callback: v => v % 25 === 0 ? v + '%' : null } },
+                y: { beginAtZero: true, grid: { color: C.grid }, border: { display: false }, ticks: { callback: v => pct(v), maxTicksLimit: 6 } } } } });
+  setH('legRet', ids.map((id, i) => '<span><i class="sw" style="background:' + cores[i] + '"></i>' + titulo(meta[id].titulo).slice(0, 40) + '</span>').join(''));
+  const lr = Object.keys(D.retencao).map(id => { const t = meta[id]; if (!t) return null;
+    const r = D.retencao[id].map(p => p.rel).filter(x => x != null).sort((a, b) => a - b); return { t, rel: r.length ? r[Math.floor(r.length / 2)] : null };
+  }).filter(Boolean).sort((a, b) => (a.t.grupo === b.t.grupo ? 0 : a.t.grupo === 'longos' ? -1 : 1) || (b.rel || 0) - (a.rel || 0));  // longos primeiro: Short não se compara nesta nota
+  document.querySelector('#tbRet tbody').innerHTML = lr.map(x => '<tr><td>' + titulo(x.t.titulo) + '</td><td>' + (x.t.grupo === 'longos' ? 'longo' : 'Short') +
+    '</td><td class="num">' + dur(x.t.dur_s) + '</td><td class="num">' + pct(x.t.ret) + '</td><td class="num win">' + (x.rel != null ? br(x.rel, 2) : '—') + '</td></tr>').join('');
+  const rl = lr.filter(x => x.t.grupo === 'longos' && x.rel != null), top = rl[0], med = rl.map(x => x.rel).sort((a, b) => a - b)[Math.floor(rl.length / 2)];
+  set('notaRet', 'Os vídeos longos do topo ficam em torno da mediana da plataforma (' + br(med, 2) + '). O destaque é ' + titulo(top.t.titulo) + ', com ' + br(top.rel, 2) +
+    '. Shorts aparecem com nota alta e retenção acima de 100% porque são reassistidos em loop — não se comparam com longos nesta coluna.');
+
+  // ── 07 · os vídeos ─────────────────────────────────────────────────
+  const linha = (t, i) => '<tr><td class="rk">' + String(i + 1).padStart(2, '0') + '</td><td><a href="https://youtu.be/' + t.id + '" target="_blank" rel="noopener">' + titulo(t.titulo) +
+    '</a></td><td class="num">' + dbr(t.publicado) + '</td><td class="num">' + dur(t.dur_s) + '</td><td class="num">' + fmt(t.e) + '</td><td class="num">' + br(t.v / t.e, 2) +
+    '×</td><td class="num">' + pct(t.ret) + '</td><td class="num">' + br(t.sg / t.e * 1000, 1) + '</td></tr>';
+  document.querySelector('#tbLongos tbody').innerHTML = D.top_longos.slice(0, 10).map(linha).join('');
+  document.querySelector('#tbShorts tbody').innerHTML = D.top_shorts.slice(0, 10).map(linha).join('');
+  const camp = [...D.top_longos].sort((a, b) => b.sg / b.e - a.sg / a.e)[0];
+  set('t07', 'O que mais trouxe inscrito foi o conteúdo mais longo: ' + titulo(camp.titulo).split(' - ')[0].split(' | ')[0] + ', ' + dur(camp.dur_s) +
+    ', com ' + br(camp.sg / camp.e * 1000, 1) + ' inscritos a cada mil views');
+
+  // ══════════ PARTE 2 · O MERCADO E NÓS ══════════════════════════════
+  const MK = D.mercado;
+  if (!MK) { document.getElementById('mercado').insertAdjacentHTML('beforeend', '<p class="note">Bloco de mercado ainda não calculado — rode <code>python3 refresh.py --so-mercado</code>.</p>'); return; }
+  const B = MK.bench, fonte = f => '<a class="fonte" href="' + f.url + '" target="_blank" rel="noopener">' + f.nome + '</a>';
+  const leitura = { frente: ['p-frente', 'à frente'], ritmo: ['p-ritmo', 'no ritmo'], atras: ['p-atras', 'atrás'], oport: ['p-oport', 'oportunidade'], atencao: ['p-atras', 'atenção'], sem: ['p-sem', 'sem dado'] };
+  const tv26 = D.device_ano[D.device_ano.length - 1].dev.TV?.pm || 0, tv21 = (D.device_ano.find(a => a.ano === 2021)?.dev.TV?.pm) || 0;
+  const U = MK.uploads_ano, u21 = U.find(u => u.ano === 2021), uN = U[U.length - 1];
+  const cic = MK.ciclo.classes, SV = MK.series, AB = MK.abertura;
+  const abIni = AB.reduce((s, a) => s + a.rel_inicio, 0) / AB.length, abResto = AB.reduce((s, a) => s + a.rel_resto, 0) / AB.length;
+  const mixF = n => MK.mix.formatos.find(f => f.formato === n) || { p_uploads: 0, p_minutos: 0, p_inscritos: 0, uploads: 0 };
+  const shortsMix = mixF('Shorts'), cortes = mixF('cortes de 1 a 10 min'), lives = mixF('lives'), estreias = mixF('vídeos editados lançados como estreia');
+  const uCheio = [...U].reverse().find(u => u.ano < +M.janela.fim.slice(0, 4)) || uN;   // último ano completo
+  const CAP = MK.tv?.capitulos || {}, PLS = MK.tv?.playlists;
+  const SE = SV.editados;
+  const abMax = [...AB].sort((a, b) => b.rel_resto - a.rel_resto)[0];
+  const avdA = MK.avd_ano || [], avd21 = avdA.find(a => a.ano === 2021), avdN = avdA[avdA.length - 1];
+  const PS = MK.paises, BU = MK.busca;
+  const nES = D.top_shorts.slice(0, 10).filter(t => /salvador|cecot|bukele/i.test(t.titulo)).length;
+  const tlB = D.trafego.longos, tlBT = Object.values(tlB).reduce((s, x) => s + x.v, 0);
+  const pSug = (tlB.RELATED_VIDEO?.v || 0) / tlBT, pBus = (tlB.YT_SEARCH?.v || 0) / tlBT;
+  const placar = [
+    ['A virada para a TV', B.tv, 'TV é ' + pct(tv26) + ' dos minutos do canal em 2026 (' + pct(tv21) + ' em 2021) — mas ~0% das visitas ao site', 'ritmo'],
+    ['Vídeos mais longos', B.duracao, 'vídeo editado médio, incluindo estreias: ' + br(uCheio.media_min, 1) + ' min em ' + uCheio.ano + ' (' + br(uN.media_min, 1) + ' em ' + uN.ano + ' até ' + dbr(M.janela.fim).slice(0, 5) + ')', uCheio.media_min >= B.duracao.ref_hoje_min ? 'ritmo' : 'atras'],
+    MK.avd_ano ? ['Assistem por mais tempo', B.avd, 'vídeo sob demanda: ' + durS(avdN.vod_s) + ' por view em ' + avdN.ano + ' (' + durS(avd21.vod_s) + ' em 2021, ' + (avdN.vod_s >= avd21.vod_s ? '+' : '') + pct(avdN.vod_s / avd21.vod_s - 1) + ') — já estávamos acima, mas o mercado cresceu 77% e está alcançando', avdN.vod_s >= B.avd.ref_2025_s ? 'frente' : 'atras']
+               : ['Assistem por mais tempo', B.avd, 'vídeo editado de 10 min ou mais: ' + durS(MK.avd.editado_10min_s) + ' assistidos em média; lives: ' + durS(MK.avd.live_s), MK.avd.editado_10min_s >= B.avd.ref_2025_s ? 'frente' : 'atras'],
+    ['Formato que vira programa', B.shows, pct(SV.p_avulso_programa) + ' dos vídeos de programa são avulsos; por vídeo, série e avulso rendem parecido (' + fmt(SE.serie.min_video) + ' × ' + fmt(SE.avulso.min_video) + ' min) — o ganho que o mercado descreve é de TV e maratona, que não medimos por vídeo', 'oport'],
+    ...(PLS ? [['Programas e podcasts no app de TV', B.tvapp, 'só ' + PLS.podcast.length + ' das ' + PLS.n + ' playlists estão marcadas como podcast (' + PLS.podcast.slice().sort((a, b) => b.videos - a.videos).slice(0, 2).map(p => p.titulo).join(', ') + '); ' + (PLS.maiores_sem_podcast.find(p => /rasta/i.test(p.titulo)) ? 'Rasta News, com ' + PLS.maiores_sem_podcast.find(p => /rasta/i.test(p.titulo)).videos + ' vídeos, não está' : ''), 'oport']] : []),
+    ...(CAP.upload ? [['Capítulos e busca por IA', B.capitulos, 'têm capítulos: ' + pct(CAP.estreia?.p || 0) + ' das estreias, ' + pct(CAP.upload.p) + ' dos vídeos de 10 min+ publicados direto e ' + pct(CAP.live?.p || 0) + ' das lives (2026)', 'oport']] : []),
+    ['Produção em massa', B.inautentico, 'cortes são ' + pct(cortes.p_uploads) + ' dos nossos uploads; conteúdo nosso, recortado, fica na regra de reutilizado, mas volume alto de molde repetido é exatamente o que a regra mira', 'atencao'],
+    ['Urgente ou atemporal', B.ciclo, 'só ' + pct(cic.atemporal?.p || 0) + ' dos vídeos são atemporais — e trazem ' + br((cic.atemporal?.insc_por_mil || 0) / (cic.noticia?.insc_por_mil || 1), 1) + '× mais inscritos por view que os de notícia', 'oport'],
+    ['Abertura e ritmo', B.abertura, 'primeiros 10% do vídeo: ' + br(abIni, 2) + ' contra a plataforma; resto do vídeo: ' + br(abResto, 2), abIni >= .5 && abResto < abIni ? 'oport' : 'ritmo'],
+    ['Retenção contra a plataforma', B.retencao, 'vídeos longos do topo em torno de ' + br(abResto, 2) + ' no corpo do vídeo; o melhor, ' + titulo(abMax.titulo).split(' - ')[0] + ', chega a ' + br(abMax.rel_resto, 2), abResto >= .55 ? 'frente' : 'ritmo'],
+    ['Shorts × vídeo longo', B.shorts, 'Shorts: ' + pct(shortsMix.p_uploads) + ' dos uploads, ' + pct(shortsMix.p_minutos) + ' dos minutos; recrutam ' + br(R.longos.subs_por_1k / R.shorts.subs_por_1k, 1) + '× menos inscritos por view que vídeo longo', 'atras'],
+    ['Portas de entrada', B.sugeridos, 'sugeridos: ' + pct(pSug) + ' das views de vídeo longo (as que mais retêm); busca do YouTube: ' + pct(pBus, 1) + (BU ? ', e ' + pct(BU.p_marca + BU.p_titulo) + ' da busca é gente procurando a BP ou um título nosso' : ''), 'oport'],
+    ...(PS ? [['Dublagem e audiência internacional', B.dublagem, pct(PS.canal.BR) + ' da audiência é do Brasil; hispânicos: ' + pct(PS.canal.hispanos, 1) + ' — nem o filme de El Salvador passou de ' + pct(Math.max(...PS.videos.filter(v => /salvador|cecot/i.test(v.titulo)).map(v => v.hispanos)), 1), 'oport']] : []),
+    ['Repetir o que funciona', B.repetir, 'El Salvador virou rajada — ' + nES + ' dos 10 maiores Shorts do ano são do tema — mas foi exceção, não método', 'oport'],
+  ];
+  const nAtras = placar.filter(p => p[3] === 'atras').length, nOport = placar.filter(p => p[3] === 'oport').length;
+  const nAt = placar.filter(p => p[3] === 'atencao').length;
+  set('t08', placar.length + ' tendências do mercado: ' + placar.filter(p => ['ritmo', 'frente'].includes(p[3])).length + ' em que estamos no ritmo ou à frente, ' + nAtras + (nAtras === 1 ? ' em que estamos atrás, ' : ' em que estamos atrás, ') + nOport + ' oportunidades abertas' + (nAt ? ' e ' + nAt + (nAt === 1 ? ' ponto de atenção' : ' pontos de atenção') : ''));
+  document.querySelector('#tbPlacar tbody').innerHTML = placar.map(([t, b, nos, l]) =>
+    '<tr><td class="t">' + t + '</td><td>' + b.texto + fonte(b.fonte) + '</td><td>' + nos + '</td><td><span class="pill ' + leitura[l][0] + '">' + leitura[l][1] + '</span></td></tr>').join('');
+
+  // 09 · duração
+  set('t09', uCheio.media_min >= B.duracao.ref_hoje_min ? 'Em duração, o vídeo editado já está no nível do mercado' : 'Em duração, o vídeo editado ainda está abaixo do mercado');
+  set('l09', 'Contando as estreias, que são a maior parte do vídeo editado da BP, a média foi de ' + br(uCheio.media_min, 1) + ' min em ' + uCheio.ano + ' — no mercado passa de ' + B.duracao.ref_hoje_min +
+    '. A mediana é bem menor (' + br(uCheio.mediana_min, 1) + ' min) porque a produção mistura cortes curtos e documentários longos. Enquanto isso, os Shorts saíram de ' + br(u21.short, 0) + ' em 2021 para ' + br(U.find(u => u.ano === 2025)?.short || 0, 0) + ' em 2025.');
+  // a fonte só publica dois pontos (12–16 min em 2020 e 20+ hoje): mostramos só o nível de hoje, sem inventar trajetória
+  const anos = U.map(u => u.ano), mercadoLinha = anos.map(() => B.duracao.ref_hoje_min);
+  new Chart(document.getElementById('chDur'), { type: 'line',
+    data: { labels: anos, datasets: [
+      { label: 'média', data: U.map(u => u.media_min), borderColor: C.longos, borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: C.longos, tension: .2 },
+      { label: 'mediana', data: U.map(u => u.mediana_min), borderColor: C.longos, borderWidth: 1.5, borderDash: [4, 3], pointRadius: 3, pointBackgroundColor: '#fff', tension: .2 },
+      { label: 'mercado hoje (20 min ou mais)', data: mercadoLinha, borderColor: C.ink, borderWidth: 1.25, borderDash: [6, 4], pointRadius: 0 } ] },
+    options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.dataset.label + ': ' + br(c.parsed.y, 1) + ' min' } } },
+      scales: { x: { grid: { display: false }, border: { color: '#c9c2b3' } }, y: { beginAtZero: true, grid: { color: C.grid }, border: { display: false }, ticks: { callback: v => v + ' min' } } } } });
+  new Chart(document.getElementById('chMix'), { type: 'bar',
+    data: { labels: anos, datasets: [
+      { label: 'Shorts', data: U.map(u => u.short), backgroundColor: C.shorts, borderColor: '#fff', borderWidth: { top: 2 } },
+      { label: 'vídeos editados', data: U.map(u => u.editado), backgroundColor: C.longos, borderColor: '#fff', borderWidth: { top: 2 } },
+      { label: 'lives', data: U.map(u => u.live), backgroundColor: '#4a3aa7', borderColor: '#fff', borderWidth: { top: 2 } } ] },
+    options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.dataset.label + ': ' + br(c.parsed.y, 0) } } },
+      scales: { x: { stacked: true, grid: { display: false }, border: { color: '#c9c2b3' } }, y: { stacked: true, grid: { color: C.grid }, border: { display: false } } } } });
+  set('capMix', uN.ano + ' vai até ' + dbr(M.janela.fim) + ' (ano incompleto).');
+  if (avdA.length) {
+    const ref = { 2021: B.avd.ref_2021_s, 2025: B.avd.ref_2025_s };
+    new Chart(document.getElementById('chAvd'), { type: 'line',
+      data: { labels: avdA.map(a => a.ano), datasets: [
+        { label: 'Brasil Paralelo', data: avdA.map(a => a.vod_s / 60), borderColor: C.longos, borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: C.longos, tension: .2 },
+        { label: 'mercado (referência publicada)', data: avdA.map(a => ref[a.ano] ? ref[a.ano] / 60 : null), showLine: false, pointRadius: 7, pointBackgroundColor: '#fff', pointBorderColor: C.ink, pointBorderWidth: 2.5 } ] },
+      options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { display: false }, tooltip: { filter: it => it.parsed.y != null, callbacks: { label: c => c.dataset.label + ': ' + durS(c.parsed.y * 60) } } },
+        scales: { x: { grid: { display: false }, border: { color: '#c9c2b3' } }, y: { beginAtZero: true, grid: { color: C.grid }, border: { display: false }, ticks: { callback: v => v + ' min' } } } } });
+    set('capAvd', 'Tempo assistido ÷ views engajadas, só vídeo sob demanda. O mercado publica dois pontos (2021 e 2025); não ligamos os dois. ' + avdN.ano + ' vai até ' + dbr(M.janela.fim) + '.');
+  } else { document.getElementById('cardAvd').style.display = 'none'; }
+
+  // 10 · esforço
+  set('t10', 'Cortes e Shorts são ' + pct(cortes.p_uploads + shortsMix.p_uploads) + ' dos uploads e rendem ' + pct(cortes.p_minutos + shortsMix.p_minutos) + ' dos minutos');
+  set('l10', 'Entre ' + dbr(MK.mix.janela[0]) + ' e ' + dbr(MK.mix.janela[1]) + ', os cortes de 1 a 10 min foram ' + pct(cortes.p_uploads) + ' dos uploads e trouxeram ' +
+    pct(cortes.p_minutos) + ' dos minutos. Os Shorts, ' + pct(shortsMix.p_uploads) + ' dos uploads e ' + pct(shortsMix.p_minutos) + ' dos minutos. O coração do canal são os vídeos editados lançados como estreia: ' +
+    pct(estreias.p_uploads) + ' dos uploads, ' + pct(estreias.p_minutos) + ' dos minutos e ' + pct(estreias.p_inscritos) + ' dos inscritos. As lives de verdade são ' + pct(lives.p_uploads) + ' dos uploads e ' + pct(lives.p_minutos) + ' dos minutos.');
+  const barra = v => '<span class="mb">' + pct(v) + '<i style="width:' + Math.max(2, v * 120) + 'px"></i></span>';
+  document.querySelector('#tbEsforco tbody').innerHTML = MK.mix.formatos.map(f =>
+    '<tr><td>' + f.formato + '</td><td class="num">' + br(f.uploads, 0) + '</td><td class="num">' + barra(f.p_uploads) + '</td><td class="num">' + barra(f.p_minutos) + '</td><td class="num">' + barra(f.p_inscritos) + '</td></tr>').join('');
+  set('notaEsforco', 'Base: ' + br(MK.mix.n, 0) + ' vídeos publicados desde ' + dbr(MK.mix.janela[0]) + ' com analytics por vídeo (classificação de formato do youtube-vendas). Minutos favorecem formatos longos por natureza — a pergunta não é cortar cortes e Shorts, é se o volume que eles consomem de equipe se paga no que trazem.');
+
+  // 11 · programa
+  const ls = SE.serie, la = SE.avulso;
+  set('t11', pct(SV.p_avulso_programa) + ' dos nossos vídeos de programa são avulsos');
+  set('l11', 'O mercado está migrando de vídeos soltos para programas: formato repetido, com nome, que a pessoa maratona na TV — e o app de TV do YouTube passou a organizar playlists em programas, com temporadas e aba de podcasts. Entre os nossos vídeos editados de programa, ' +
+    br(SE.avulsos, 0) + ' de ' + br(SE.n, 0) + ' são avulsos. Por vídeo, série e avulso rendem parecido — o ganho do formato de programa está na maratona e na TV, que o dado por vídeo não captura. O passo barato é outro: ' +
+    (PLS ? 'só ' + PLS.podcast.length + ' das ' + PLS.n + ' playlists do canal estão marcadas como podcast, e é essa marcação que faz a playlist aparecer como programa na TV.' : 'marcar as séries como podcast/programa no Studio.'));
+  set('serMin', fmt(ls.min_video)); set('avuMin', fmt(la.min_video));
+  set('serSub', br(ls.insc_video, 0) + ' inscritos por vídeo · ' + ls.n + ' vídeos'); set('avuSub', br(la.insc_video, 0) + ' inscritos por vídeo · ' + la.n + ' vídeos');
+  set('notaSeries', 'Séries hoje: ' + SV.series.map(([n, q]) => n + ' (' + q + ')').join(', ') + '. Vídeo editado = estreia, upload de 10 min ou mais. As lives quase todas já são de série (' + SV.lives.serie.n + ' de ' + (SV.lives.serie.n + SV.lives.avulso.n) + ').' +
+    (PLS ? ' Playlists marcadas como podcast: ' + PLS.podcast.map(p => p.titulo + ' (' + p.videos + ')').join(', ') + '.' : ''));
+
+  // 12 · ciclo
+  const ordem = [['noticia', 'Urgente (notícia)', 'mais de 80% das views em 3 dias'], ['meio', 'Meio-termo', 'nem pico nem cauda'], ['atemporal', 'Atemporal', '25% ou mais das views depois do 7º dia']];
+  set('t12', 'Atemporal é o que mais traz inscrito — e é o que menos fazemos');
+  set('l12', 'O mercado diz que conteúdo precisa ser urgente ou atemporal. No nosso canal, os vídeos atemporais são ' + pct(cic.atemporal?.p || 0) + ' dos que avaliamos e trazem ' +
+    br(cic.atemporal?.insc_por_mil || 0, 1) + ' inscritos a cada mil views, contra ' + br(cic.noticia?.insc_por_mil || 0, 1) + ' dos de notícia. O meio-termo não é o pior aqui: fica no meio também na eficiência.');
+  setH('cardsCiclo', ordem.map(([k, n, d]) => { const c = cic[k]; if (!c) return '';
+    return '<div class="' + (k === 'atemporal' ? 'destaque' : '') + '"><span class="k">' + n + '</span><span class="note" style="margin-top:0">' + d + '</span><b class="big">' + pct(c.p) +
+      '</b><span class="sub">dos vídeos</span><span class="sub"><b>' + br(c.insc_por_mil, 1) + '</b> inscritos a cada mil views · ' + fmt(c.min_video) + ' min por vídeo</span><ul>' +
+      c.exemplos.map(e => '<li>' + titulo(e.titulo).slice(0, 60) + '</li>').join('') + '</ul></div>'; }).join(''));
+  set('notaCiclo', br(MK.ciclo.n, 0) + ' vídeos (sem Shorts) com 14 dias completos e pelo menos 30 mil views no período, até ' + dbr(MK.ciclo.dados_ate) + '. Views dos 14 primeiros dias vêm da série vídeo × dia (top 200 por dia); inscritos por mil views usam o acumulado do vídeo.');
+
+  // 13 · abertura
+  set('l13', 'Nos primeiros 10% do vídeo retemos acima da mediana da plataforma (' + br(abIni, 2) + ' em média). No resto do vídeo, caímos para ' + br(abResto, 2) +
+    '. O conselho genérico é "arrume o gancho"; o nosso dado diz que o gancho já funciona e o que falta é o ritmo do meio — um problema novo a cada bloco, como descreve o roteirista George Blackman no Playbook.');
+  const abs = [...AB].sort((a, b) => (b.rel_inicio - b.rel_resto) - (a.rel_inicio - a.rel_resto));
+  const refLinha = { id: 'refLinha', afterDatasetsDraw(ch) { const x = ch.scales.x.getPixelForValue(.5), { top, bottom } = ch.chartArea, g = ch.ctx;
+    g.save(); g.setLineDash([6, 4]); g.strokeStyle = C.ink; g.lineWidth = 1; g.beginPath(); g.moveTo(x, top); g.lineTo(x, bottom); g.stroke(); g.restore(); } };
+  new Chart(document.getElementById('chAbertura'), {
+    data: { labels: abs.map(a => { const t = titulo(a.titulo).split(' | ')[0]; return t.length > 34 ? t.slice(0, 33) + '…' : t; }), datasets: [
+      { type: 'bar', data: abs.map(a => [Math.min(a.rel_inicio, a.rel_resto), Math.max(a.rel_inicio, a.rel_resto)]), backgroundColor: '#cfc8b8', barThickness: 2, order: 3 },
+      { type: 'line', label: 'primeiros 10%', data: abs.map(a => a.rel_inicio), showLine: false, pointRadius: 7, pointBackgroundColor: C.longos, pointBorderColor: '#fff', pointBorderWidth: 2, order: 1, clip: false },
+      { type: 'line', label: 'resto do vídeo', data: abs.map(a => a.rel_resto), showLine: false, pointRadius: 7, pointBackgroundColor: '#fff', pointBorderColor: C.longos, pointBorderWidth: 2.5, order: 2, clip: false } ] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false }, tooltip: { filter: it => it.dataset.type === 'line', callbacks: { label: c => c.dataset.label + ': ' + br(c.parsed.x, 2) } } },
+      scales: { x: { min: .3, max: .8, grid: { color: C.grid }, border: { display: false }, ticks: { callback: v => br(v, 2) } },
+                y: { grid: { display: false }, border: { display: false }, afterFit: sc => { sc.width = Math.max(sc.width, 270); },
+                ticks: { color: C.ink, font: { family: "'Source Serif 4', Georgia, serif", size: 13 } } } } },
+    plugins: [refLinha] });
+
+  // 14 · busca
+  if (BU) {
+    const tema = BU.termos.filter(t => t.tipo === 'tema');
+    set('t14', pct(BU.p_marca + BU.p_titulo) + ' da busca que chega até nós é gente que já conhece a Brasil Paralelo');
+    set('l14', 'A busca do YouTube é ' + pct(pBus, 1) + ' das views de vídeo longo. Entre os termos que mais trazem gente, ' + pct(BU.p_marca) + ' procuram o nome da BP ou de um programa e ' +
+      pct(BU.p_titulo) + ' procuram o nome de uma produção nossa. Só ' + pct(BU.p_tema) + ' chegam por um assunto — ' +
+      tema.slice(0, 3).map(t => '"' + t.termo + '"').join(', ') + ' — e ela só acontece quando temos o vídeo certo no ar na hora em que o assunto é procurado.');
+    document.querySelector('#tbBusca tbody').innerHTML = BU.termos.map((t, i) => '<tr><td class="rk">' + String(i + 1).padStart(2, '0') + '</td><td>' + t.termo +
+      '</td><td><span class="pill ' + ({ marca: 'p-ritmo', titulo: 'p-frente', tema: 'p-oport' })[t.tipo] + '">' + ({ marca: 'marca', titulo: 'título nosso', tema: 'tema' })[t.tipo] + '</span></td><td class="num">' + br(t.views, 0) + '</td></tr>').join('');
+  } else { document.getElementById('busca').style.display = 'none'; }
+  // 15 · fora do Brasil
+  if (PS) {
+    set('t15', 'Fora do Brasil, o canal praticamente não existe — nem nos temas que viajariam');
+    set('l15', pct(PS.canal.BR) + ' das views engajadas de 2026 são do Brasil; outros países de língua portuguesa somam ' + pct(PS.canal.lusofonos, 1) + ' e os de língua espanhola, ' + pct(PS.canal.hispanos, 1) +
+      '. Nem o conteúdo sobre El Salvador, que interessa a toda a América Latina, passou de ' + pct(Math.max(...PS.videos.filter(v => /salvador|cecot/i.test(v.titulo)).map(v => v.hispanos)), 1) +
+      ' de audiência hispânica. O mercado trata dublagem como uma das alavancas mais baratas de alcance; para nós é terreno inteiro por explorar — se fizer sentido para o negócio.');
+    document.querySelector('#tbPaises tbody').innerHTML = [{ titulo: 'Canal inteiro', ...PS.canal }, ...PS.videos].map((v, i) =>
+      '<tr><td' + (i === 0 ? ' style="font-weight:600"' : '') + '>' + titulo(v.titulo) + '</td><td class="num">' + pct(v.BR, 1) + '</td><td class="num">' + pct(v.lusofonos, 1) + '</td><td class="num">' + pct(v.hispanos, 1) + '</td></tr>').join('');
+  } else { document.getElementById('internacional').style.display = 'none'; }
+
+  // → onde melhorar
+  const itens = [
+    ['Fazer mais conteúdo atemporal', 'Documentário, explicação de fundo, história que não vence. É o que mais recruta inscrito e o que menos produzimos. Toda pauta quente pode ganhar também uma versão que dure.',
+      'atemporais: ' + pct(cic.atemporal?.p || 0) + ' dos vídeos · ' + br(cic.atemporal?.insc_por_mil || 0, 1) + ' inscritos/mil views, contra ' + br(cic.noticia?.insc_por_mil || 0, 1) + ' nos de notícia'],
+    ['Transformar formato em programa — começando pelo app de TV', 'O passo mais barato: marcar como podcast as playlists de série que já existem, para elas aparecerem como programa, com temporadas, no app de TV. Depois, escolher formatos que funcionam e dar nome, abertura e periodicidade. O dado por vídeo não mostra ganho de série sobre avulso; o argumento do mercado é a maratona na TV — vale medir depois de marcar.',
+      pct(SV.p_avulso_programa) + ' dos vídeos de programa são avulsos' + (PLS ? ' · ' + PLS.podcast.length + ' de ' + PLS.n + ' playlists marcadas como podcast' : '')],
+    ...(CAP.upload ? [['Colocar capítulos em todo vídeo longo', 'Capítulo é o que mais aumenta a chance de o vídeo ser citado nas respostas de IA do Google, que já têm o YouTube como fonte nº 1. As estreias quase sempre têm; os vídeos publicados direto e as lives, quase nunca. É trabalho de minutos por vídeo.',
+      'com capítulos em 2026: estreias ' + pct(CAP.estreia?.p || 0) + ' · vídeos de 10 min+ publicados direto ' + pct(CAP.upload.p) + ' · lives ' + pct(CAP.live?.p || 0)]] : []),
+    ['Repensar o volume de Shorts e cortes', 'Não é parar, é decidir com o dado. Cortes e Shorts consomem mais da metade dos uploads e devolvem uma fração dos minutos e dos inscritos. O esforço liberado pode ir para o vídeo editado lançado como estreia, que é onde o canal de fato rende.',
+      'cortes + Shorts: ' + pct(cortes.p_uploads + shortsMix.p_uploads) + ' dos uploads, ' + pct(cortes.p_minutos + shortsMix.p_minutos) + ' dos minutos, ' + pct(cortes.p_inscritos + shortsMix.p_inscritos) + ' dos inscritos · estreias: ' + pct(estreias.p_uploads) + ' dos uploads e ' + pct(estreias.p_minutos) + ' dos minutos'],
+    ['Consertar o meio do vídeo, não a abertura', 'Usar a curva de retenção como devolutiva de edição: marcar onde cada vídeo cai abaixo da mediana da plataforma e revisar o roteiro daquele bloco. A abertura já está acima da média.',
+      'retenção relativa: ' + br(abIni, 2) + ' nos primeiros 10% · ' + br(abResto, 2) + ' no resto'],
+    ['Medir o que acontece depois da TV', 'Com metade do consumo numa tela sem clique, o link da descrição sempre vai subestimar o YouTube. O modo companheiro (set/2026) ajuda: quem pega o celular durante o vídeo vê a descrição. O QR nativo da TV só vale para produto marcado no YouTube Shopping. Para o resto: QR code e URL curta em tela, cupom por programa, "como nos conheceu" no checkout e o teste de vendas nos dias seguintes a cada vídeo grande.',
+      'TV: ' + pct(tv26) + ' dos minutos · ' + br(D.lp_device.youtube['smart tv']?.sessoes || 0, 0) + ' sessões de smart TV em ' + br(Object.values(D.lp_device.youtube).reduce((s, x) => s + x.sessoes, 0), 0) + ' vindas do YouTube'],
+    ['Abrir as portas de entrada', 'Sugeridos e busca trazem quem não é inscrito e são as origens que mais retêm. A busca que chega até nós hoje é, na maior parte, de quem já conhece a BP; a descoberta acontece nos temas. Títulos que respondem ao que as pessoas procuram e vídeos que conversam com outros vídeos (sequências, "assista depois") alimentam as duas.',
+      'sugeridos: ' + pct(pSug) + ' das views de vídeo longo · busca: ' + pct(pBus, 1)],
+    ...(PS ? [['Testar outros idiomas no conteúdo que viaja', 'Começar pequeno: faixas de áudio dublado (o YouTube tem o recurso nativo) nos documentários e temas latino-americanos, e medir a audiência hispânica e lusófona antes e depois. Vale só se houver produto para vender a esse público — é uma decisão de negócio, não só de canal.',
+      'hispânicos: ' + pct(PS.canal.hispanos, 1) + ' da audiência · outros lusófonos: ' + pct(PS.canal.lusofonos, 1)]] : []),
+    ['Falar também com quem converte', 'O público que assina é mais velho e mais feminino que a audiência do canal. Não é trocar de público — é ter pautas, convidados e formatos que também falem com esse perfil.',
+      'mulheres: ' + pct(fem) + ' da audiência, ' + pct(D.membros.pct_feminino) + ' dos membros'],
+  ];
+  set('tMelhorar', itens.length + ' frentes em que o dado aponta espaço para melhorar');
+  setH('listaMelhorar', itens.map(([t, p, ev], i) => '<div><span class="n">' + (i + 1) + '</span><div><span class="t">' + t + '</span><p>' + p + '</p><p class="ev">' + ev + '</p></div></div>').join(''));
+
+}
+</script>
+</body>
+</html>
