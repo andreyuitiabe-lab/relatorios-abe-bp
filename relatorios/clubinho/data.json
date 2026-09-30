@@ -1,0 +1,290 @@
+{
+  "updated_at": "2026-09-30T15:43:59",
+  "bracos": {
+    "A": [
+      69.9,
+      79.9,
+      89.9
+    ],
+    "B": [
+      79.9,
+      89.9,
+      99.9
+    ],
+    "C": [
+      89.9,
+      99.9,
+      109.9
+    ]
+  },
+  "planos": [
+    "Desbravador",
+    "Navegante",
+    "Completa"
+  ],
+  "cdl": {
+    "Digital": {
+      "n": [
+        8543,
+        3444,
+        154
+      ],
+      "pct": [
+        70.4,
+        28.4,
+        1.3
+      ],
+      "total": 12141
+    },
+    "Comercial": {
+      "n": [
+        9173,
+        3033,
+        580
+      ],
+      "pct": [
+        71.7,
+        23.7,
+        4.5
+      ],
+      "total": 12786
+    },
+    "Total": {
+      "n": [
+        17716,
+        6477,
+        734
+      ],
+      "pct": [
+        71.1,
+        26.0,
+        2.9
+      ],
+      "total": 24927
+    },
+    "upgrade": {
+      "n": 297,
+      "pct": 1.2
+    }
+  },
+  "ssr": {
+    "n_personas": 60,
+    "n_respostas": 180,
+    "score": {
+      "A": {
+        "alta": 3.15,
+        "media": 2.55,
+        "baixa": 1.7,
+        "total": 2.47
+      },
+      "B": {
+        "alta": 3.05,
+        "media": 2.4,
+        "baixa": 1.85,
+        "total": 2.43
+      },
+      "C": {
+        "alta": 3.0,
+        "media": 2.45,
+        "baixa": 1.6,
+        "total": 2.35
+      }
+    },
+    "top2": {
+      "A": {
+        "alta": 40.0,
+        "media": 5.0,
+        "baixa": 0.0,
+        "total": 15.0
+      },
+      "B": {
+        "alta": 30.0,
+        "media": 5.0,
+        "baixa": 5.0,
+        "total": 13.3
+      },
+      "C": {
+        "alta": 20.0,
+        "media": 10.0,
+        "baixa": 0.0,
+        "total": 10.0
+      }
+    },
+    "mix_decididos": [
+      13.0,
+      34.8,
+      52.2
+    ],
+    "n_decididos": 23,
+    "mix_considera": [
+      51.2,
+      26.2,
+      22.5
+    ],
+    "n_considera": 80,
+    "receita": {
+      "A": {
+        "ticket": 1006,
+        "top2": 15.0,
+        "indice": 151
+      },
+      "B": {
+        "ticket": 1126,
+        "top2": 13.3,
+        "indice": 150
+      },
+      "C": {
+        "ticket": 1246,
+        "top2": 10.0,
+        "indice": 125
+      }
+    },
+    "pareado": [
+      {
+        "par": "B−A",
+        "delta": -0.033,
+        "t": -0.57,
+        "piora": 7,
+        "igual": 48,
+        "melhora": 5
+      },
+      {
+        "par": "C−B",
+        "delta": -0.083,
+        "t": -1.09,
+        "piora": 11,
+        "igual": 42,
+        "melhora": 7
+      },
+      {
+        "par": "C−A",
+        "delta": -0.117,
+        "t": -1.73,
+        "piora": 12,
+        "igual": 43,
+        "melhora": 5
+      }
+    ],
+    "idade": {
+      "18_29": 1.98,
+      "30_44": 2.62,
+      "45_65": 2.76,
+      "66_mais": 2.33
+    },
+    "temas": [
+      {
+        "tema": "Preço / peso do total anual",
+        "pct": 43.3,
+        "top2": 14.1
+      },
+      {
+        "tema": "Cita neto(a) ou presente",
+        "pct": 41.7,
+        "top2": 10.7
+      },
+      {
+        "tema": "Conteúdo: história do Brasil, valores",
+        "pct": 25.6,
+        "top2": 21.7
+      },
+      {
+        "tema": "Sem criança de 4–8 na família",
+        "pct": 24.4,
+        "top2": 0.0
+      },
+      {
+        "tema": "Jogos online = mais tela",
+        "pct": 15.6,
+        "top2": 17.9
+      },
+      {
+        "tema": "Trava de 12 meses / querer ver antes",
+        "pct": 15.6,
+        "top2": 3.6
+      },
+      {
+        "tema": "Audiobook",
+        "pct": 12.2,
+        "top2": 63.6
+      },
+      {
+        "tema": "Livro físico, capa dura, papel",
+        "pct": 9.4,
+        "top2": 58.8
+      }
+    ],
+    "citacoes": [
+      {
+        "rotulo": "Decidido → Completa",
+        "texto": "Tenho uma neta de 6 anos e acho maravilhoso ela aprender sobre a Princesa Isabel, Leopoldina e Dom Pedro com livros bonitos em capa dura. O preço não é problema para mim e o audiobook ajuda quando eu não estiver junto para ler. Provavelmente assinaria a Coleção Completa, ainda mais com o brinde da pré-venda.",
+        "score": 4,
+        "plano": "Completa",
+        "perfil": "renda alta, 45–65 anos, braço B"
+      },
+      {
+        "rotulo": "Em dúvida → Desbravador",
+        "texto": "Gosto da ideia, meu sobrinho de 6 anos adora livro de figura e é melhor que ele aprender Cabral e Dom Pedro por aqui do que pelo celular. Mas R$ 80 por mês, 12 meses amarrado, pesa no meu orçamento de representante, que varia muito de um mês para o outro. Se fosse assinar, seria o Desbravador; jogo online e audiobook eu dispenso.",
+        "score": 3,
+        "plano": "Desbravador",
+        "perfil": "renda alta, 45–65 anos, braço B"
+      },
+      {
+        "rotulo": "Objeção ao Navegante",
+        "texto": "Como advogada e mãe, gosto muito da proposta: capa dura, histórias do Brasil e virtudes sem sermão é exatamente o que falta nas livrarias. Mas quase R$ 1.000 no ano é um valor alto, e jogos online e audiobook não me interessam, prefiro minha filha longe de tela. Se fosse assinar seria o Desbravador, mas ainda quero ver um livro de verdade antes de decidir.",
+        "score": 3,
+        "plano": "Desbravador",
+        "perfil": "renda alta, 30–44 anos, braço B"
+      },
+      {
+        "rotulo": "Trava de 12 meses",
+        "texto": "Tenho um neto de 4 anos e gosto da ideia de ele crescer conhecendo Anchieta, Guararapes e a Independência. O preço até cabe, mas me incomoda o compromisso de 12 meses sem ver o produto antes, e jogos online não me atraem. Talvez assinasse o Desbravador, mas só depois de ver uma amostra do livro.",
+        "score": 3,
+        "plano": "Desbravador",
+        "perfil": "renda alta, 45–65 anos, braço B"
+      },
+      {
+        "rotulo": "Avó, presente",
+        "texto": "Gostei muito, principalmente de ver Princesa Isabel e Leopoldina contadas para criança. Tenho uma neta de 5 anos e seria um presente de avó que ela recebe todo mês, e eu posso ler junto com ela nas visitas. O audiobook ajuda quando eu não estiver por perto, então provavelmente iria na Coleção Completa, ainda mais com o brinde da pré-venda.",
+        "score": 4,
+        "plano": "Completa",
+        "perfil": "renda alta, 45–65 anos, braço B"
+      },
+      {
+        "rotulo": "Fora do público",
+        "texto": "Conteúdo parece bom, mas não tenho filho nem criança dessa idade perto de mim no dia a dia. Com a minha renda, quase mil reais no ano em livro infantil não faz sentido. Talvez comprasse um livro avulso de presente, assinatura não.",
+        "score": 2,
+        "plano": "Nenhum",
+        "perfil": "renda alta, 30–44 anos, braço B"
+      }
+    ],
+    "sem_crianca_pct": 24.4
+  },
+  "mix_pl": [
+    45,
+    30,
+    25
+  ],
+  "banda_pl": [
+    "35–55%",
+    "25–35%",
+    "20–35%"
+  ],
+  "ticket_cenarios": 1055,
+  "cenarios": [
+    {
+      "nome": "Conservador",
+      "assinaturas": 1500,
+      "receita_mi": 1.6
+    },
+    {
+      "nome": "Referência",
+      "assinaturas": 3000,
+      "receita_mi": 3.2
+    },
+    {
+      "nome": "Otimista",
+      "assinaturas": 5000,
+      "receita_mi": 5.3
+    }
+  ]
+}

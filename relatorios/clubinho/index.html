@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clubinho do Livro BP — planos e preços</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* ── tokens ── */
+    :root {
+      --bg:     #f8fafc;
+      --card:   #ffffff;
+      --line:   #e2e8f0;
+      --text:   #1e293b;
+      --muted:  #475569;
+      --soft:   #94a3b8;
+      /* ── SÉRIES (categórico) — ordem FIXA, nunca ciclar ──
+         Paleta validada (skill dataviz, validate_palette.js) contra a superfície
+         real deste template (--card #ffffff): passa banda de luminosidade, piso de
+         croma, separação CVD adjacente (pior ΔE 9,1) e piso de visão normal (19,6).
+         ⚠️ Não trocar hex nem reordenar sem re-rodar o validador:
+            node scripts/validate_palette.js "<hex,...>" --mode light --surface "#ffffff"
+         ⚠️ Formas de todos-os-pares (scatter, bubble, small multiples) usam no
+            máximo os 3 primeiros slots; além disso, agrupar em "Outros" ou facetar.
+         ⚠️ s3/s4/s5 ficam abaixo de 3:1 no branco → exigem rótulo direto visível
+            ou tabela ao lado (regra de relevo). */
+      --s1: #2a78d6;   /* azul     */
+      --s2: #eb6834;   /* laranja  */
+      --s3: #1baf7a;   /* aqua     */
+      --s4: #eda100;   /* amarelo  */
+      --s5: #e87ba4;   /* magenta  */
+      --s6: #008300;   /* verde    */
+      --s7: #4a3aa7;   /* violeta  */
+      --s8: #e34948;   /* vermelho */
+
+      /* ── STATUS (estado) — reservado, NUNCA usar como série ──
+         Sempre acompanhado de ícone/rótulo: a cor nunca carrega o sentido sozinha. */
+      --good:     #0ca30c;
+      --warning:  #fab219;
+      --serious:  #ec835a;
+      --critical: #d03b3b;
+
+      /* ── cromo do gráfico (recessivo) ── */
+      --grid:     #e1e0d9;
+      --baseline: #c3c2b7;
+
+      /* ⚠️ REMOVIDOS: --blue/--green/--red/--amber/--violet.
+         A paleta antiga falhava a validação em dois pontos: o amber #f5a524 caía
+         fora da banda de luminosidade (L 0,78) com contraste 1,99:1, e o par
+         vermelho↔verde (#e23b3b ↔ #16a34a) tinha ΔE 2,7 em deuteranopia — ou seja,
+         indistinguíveis para daltonismo vermelho-verde, o erro clássico. Use --s1..--s8
+         para séries e --good/--critical para estado. */
+    }
+
+    /* ── reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── layout ── */
+    .wrap   { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+    section { margin-bottom: 56px; }
+
+    /* ── tipografia ── */
+    h1      { font-size: 26px; font-weight: 700; color: var(--text); }
+    h2      { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .sub    { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .label  { font-size: 11px; font-weight: 600; text-transform: uppercase;
+              letter-spacing: .06em; color: var(--soft); margin-bottom: 12px; }
+
+    /* ── cards ── */
+    .card   { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    @media (max-width: 640px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+    /* ── bigstats ── */
+    .stats  { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 24px; }
+    .bigstat .bs-num { font-size: 36px; font-weight: 800; color: var(--s1); line-height: 1; }
+    /* .g / .r = estado (bom / crítico), não série — acompanhar de rótulo textual */
+    .bigstat .bs-num.g { color: var(--good); }
+    .bigstat .bs-num.r { color: var(--critical); }
+    .bigstat .bs-cap { font-size: 12px; color: var(--muted); margin-top: 4px; max-width: 180px; }
+
+    /* ── tabelas ── */
+    table   { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th      { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px;
+              text-transform: uppercase; letter-spacing: .05em;
+              border-bottom: 2px solid var(--line); padding: 8px 10px; }
+    td      { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    tr:last-child td { border-bottom: none; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    tr.mut td { opacity: .45; }
+
+    /* ── tags ── */
+    .tag    { display: inline-block; padding: 2px 8px; border-radius: 20px;
+              font-size: 11px; font-weight: 600; }
+    .t-b    { background: #dbeafe; color: #1d4ed8; }
+    .t-g    { background: #d1fae5; color: #065f46; }
+    .t-r    { background: #fee2e2; color: #991b1b; }
+    .t-n    { background: #f1f5f9; color: #475569; }
+
+    /* ── notas ── */
+    .nota   { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px;
+              padding: 12px 16px; font-size: 12.5px; color: var(--muted); margin-top: 16px; }
+
+    /* ── header / footer ── */
+    header  { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+    footer  { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+              font-size: 12px; color: var(--soft); }
+    /* ── específicos deste relatório ── */
+    .tldr li   { margin: 6px 0 6px 18px; }
+    .rec li    { margin: 10px 0 10px 20px; }
+    .rec b     { color: var(--text); }
+    .quote     { background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--line);
+                 border-radius: 8px; padding: 14px 16px; font-size: 13px; }
+    .quote .q-lab { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+    .quote p   { margin: 6px 0; color: var(--text); }
+    .quote .q-meta { font-size: 11.5px; color: var(--soft); }
+    .chartbox  { position: relative; height: 220px; }
+    .tscroll   { overflow-x: auto; }
+    p + p      { margin-top: 10px; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Base &amp; Produtos · Pesquisa sintética (SSR)</p>
+  <h1>Clubinho do Livro BP: planos e preços</h1>
+  <p class="sub">Como a base recebe os 3 planos e as 3 grades de preço antes do lançamento de 05/10, com o Clube do Livro como referência real. Análise de 30/09/2026.</p>
+</header>
+
+<main>
+
+  <!-- ── RESUMO ─────────────────────────────────────────────────────────── -->
+  <section>
+    <h2>Resumo</h2>
+    <div class="stats">
+      <div class="bigstat"><div class="bs-num" id="stAss">—</div><div class="bs-cap">assinaturas no cenário de referência (banda <span id="stBanda">—</span>)</div></div>
+      <div class="bigstat"><div class="bs-num" id="stRec">—</div><div class="bs-cap">receita anual no cenário de referência</div></div>
+      <div class="bigstat"><div class="bs-num">Grade B</div><div class="bs-cap">79,90 / 89,90 / 99,90: mesma receita da A com menos unidades</div></div>
+      <div class="bigstat"><div class="bs-num" id="stMix">—</div><div class="bs-cap">divisão estimada Desbravador / Navegante / Completa</div></div>
+    </div>
+    <div class="card">
+      <ul class="tldr">
+        <li><b>É produto de nicho para renda alta.</b> A nota da renda alta fica em ~3,1 (o Clube do Livro teve 4,5). Renda média e baixa não sustentam R$ 80–110 por mês.</li>
+        <li><b>Preço mexe em quem compra, não na média.</b> A nota média quase não muda entre as grades. Mas, na renda alta, quem diz que assinaria cai de <span id="t2A">—</span> (grade A) para <span id="t2C">—</span> (grade C).</li>
+        <li><b>O decidido vai no Completa; o indeciso vai no Desbravador.</b> O audiobook puxa o plano de cima. "Jogos online" soa como mais tela, e isso deixa o Navegante sem motivo próprio para ser escolhido.</li>
+        <li><b>Os números do Clube do Livro são piso.</b> Lá, <span id="cdlMeio">—</span> ficaram no plano do meio e <span id="cdlTopo">—</span> no mais caro. Mas os degraus de preço eram de +40% e +160%; no Clubinho são de +12%.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── 1. BENCHMARK CDL ───────────────────────────────────────────────── -->
+  <section>
+    <h2>1. O que aconteceu no Clube do Livro</h2>
+    <p>Compradores com compra aprovada, por nível mais alto que têm: só o livro físico (R$ 1.188), físico + digital (ebook e audiobook, de +R$ 216 a +R$ 720) ou Ouro (físico + Black Vitalício, ~R$ 3.100 a R$ 4.200). Total de <b id="cdlTot">—</b> pessoas.</p>
+    <div class="card" style="margin-top:16px">
+      <p class="label">Divisão por nível, % dos compradores</p>
+      <div class="chartbox" style="height:170px"><canvas id="chCdl" role="img" aria-label="Divisão de compradores do Clube do Livro por nível e canal"></canvas></div>
+      <div class="tscroll" style="margin-top:12px"><table>
+        <thead><tr><th>Canal</th><th class="num">Só físico</th><th class="num">Físico + digital</th><th class="num">Ouro</th><th class="num">Pessoas</th></tr></thead>
+        <tbody id="tbCdl"></tbody>
+      </table></div>
+    </div>
+    <div class="nota">Upgrade depois da compra é raro: <span id="cdlUpg">—</span>. Quase todo mundo escolhe o nível no checkout, então a página de planos decide a divisão. O Ouro é quase todo do Comercial.</div>
+  </section>
+
+  <!-- ── 2. PREÇO ───────────────────────────────────────────────────────── -->
+  <section>
+    <h2>2. Recepção por grade de preço</h2>
+    <p>As mesmas <b id="nPers">—</b> personas viram as três grades, sem saber das outras (<span id="nResp">—</span> respostas). Assim a diferença entre as grades vem só do preço.</p>
+    <div class="card" style="margin-top:16px">
+      <div class="tscroll"><table>
+        <thead><tr><th>Grade (Desbravador / Navegante / Completa)</th><th class="num">Nota alta</th><th class="num">média</th><th class="num">baixa</th><th class="num">total</th><th class="num">% assinaria, alta renda</th><th class="num">% assinaria, total</th></tr></thead>
+        <tbody id="tbPreco"></tbody>
+      </table></div>
+      <p class="sub" style="margin-top:8px">Nota de 1 a 5 (1 = definitivamente não; 5 = definitivamente sim). "Assinaria" = nota 4 ou 5.</p>
+    </div>
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card">
+        <p class="label">% da renda alta que assinaria</p>
+        <div class="chartbox"><canvas id="chTop2" role="img" aria-label="Percentual da renda alta que assinaria, por grade"></canvas></div>
+      </div>
+      <div class="card">
+        <p class="label">Receita por 100 respondentes (R$ mil/ano)</p>
+        <div class="chartbox"><canvas id="chRec" role="img" aria-label="Receita esperada por 100 respondentes, por grade"></canvas></div>
+      </div>
+    </div>
+    <div class="nota">Receita = % que assinaria × ticket anual da grade, com a mesma divisão de planos nas três. <b>A e B empatam em receita, e a B chega lá com ~13% menos livros</b> (menos custo de impressão e frete). A C perde cerca de 15%. No teste pareado, a nota média cai pouco de A para C (<span id="parAC">—</span>, não significativo a 5%). O efeito aparece em quem estava decidido a assinar.</div>
+  </section>
+
+  <!-- ── 3. PLANOS ──────────────────────────────────────────────────────── -->
+  <section>
+    <h2>3. Divisão entre os planos</h2>
+    <div class="card">
+      <p class="label">% por plano (nível 1 / 2 / 3)</p>
+      <div class="chartbox" style="height:230px"><canvas id="chMix" role="img" aria-label="Divisão entre planos: Clube do Livro real, SSR e estimativa para o P&L"></canvas></div>
+      <div class="tscroll" style="margin-top:12px"><table>
+        <thead><tr><th>Recorte</th><th class="num">Desbravador</th><th class="num">Navegante</th><th class="num">Completa</th><th class="num">n</th></tr></thead>
+        <tbody id="tbMix"></tbody>
+      </table></div>
+    </div>
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card"><p class="label">Por que o decidido vai no Completa</p>
+        <p>É renda alta, e o degrau de R$ 10 por mês pesa pouco. O <b>audiobook</b> resolve um problema concreto: "ajuda quando eu não estiver junto para ler". Quem cita o audiobook tem <b id="thAudio">—</b> de intenção de assinar.</p></div>
+      <div class="card"><p class="label">Por que o Navegante é o elo fraco</p>
+        <p>"Jogos online" é lido como mais tempo de tela, justo o que esse público quer evitar. Quem cita tela ou jogos online tem só <b id="thTela">—</b> de intenção de assinar. Quem hesita pula o Navegante e vai direto no Desbravador ("jogo online e audiobook eu dispenso").</p></div>
+    </div>
+    <div class="nota"><b>Para o P&amp;L:</b> a estimativa fica entre o "considera" e o "decidido", mais perto do primeiro, porque o SSR costuma exagerar o entusiasmo da renda alta. Bandas: <span id="bandas">—</span>.</div>
+  </section>
+
+  <!-- ── 4. VOLUME ──────────────────────────────────────────────────────── -->
+  <section>
+    <h2>4. Volume</h2>
+    <div class="card">
+      <div class="tscroll"><table>
+        <thead><tr><th>Cenário</th><th class="num">Assinaturas</th><th class="num">Receita anual</th></tr></thead>
+        <tbody id="tbVol"></tbody>
+      </table></div>
+      <p class="sub" style="margin-top:8px">Ticket anual de <span id="ticket">—</span>: a divisão estimada de planos aplicada aos preços da grade B, sem churn nem desconto.</p>
+    </div>
+    <div class="nota">
+      <p>O SSR não mede volume diretamente. A calibração vem de lançamentos reais com nota parecida na renda alta. A <b>Odisseia</b> (nota 3,30) vendeu ~3.800. O <b>Box Última Cruzada</b> (3,55) teve forecast de ~2.700. O Clubinho (~3,1) ainda tem um denominador mais estreito: <b id="semCri">—</b> das personas não têm criança de 4 a 8 anos na família, mesmo com o prompt pedindo para imaginar uma.</p>
+      <p>O otimista depende de a campanha pegar como presente (Dia das Crianças e Natal) e de uma frente de aquisição fora da base. No Clube do Livro, o ticket real saiu 0,82× o de tabela (parcelamento, desconto e bump). Se isso se repetir, aplique o mesmo fator à receita.</p>
+    </div>
+  </section>
+
+  <!-- ── 5. VOZES ───────────────────────────────────────────────────────── -->
+  <section>
+    <h2>5. O que as personas dizem</h2>
+    <div class="card">
+      <p class="label">% das respostas que mencionam o tema</p>
+      <div class="chartbox" style="height:280px"><canvas id="chTemas" role="img" aria-label="Temas mais citados nas respostas"></canvas></div>
+      <div class="tscroll" style="margin-top:12px"><table>
+        <thead><tr><th>Tema</th><th class="num">% das respostas</th><th class="num">% que assinaria, entre quem cita</th></tr></thead>
+        <tbody id="tbTemas"></tbody>
+      </table></div>
+    </div>
+    <div class="grid-2" style="margin-top:16px" id="quotes"></div>
+  </section>
+
+  <!-- ── 6. RECOMENDAÇÕES ───────────────────────────────────────────────── -->
+  <section>
+    <h2>6. Recomendações para 05/10</h2>
+    <div class="card"><ol class="rec">
+      <li><b>Lançar com a grade B (79,90 / 89,90 / 99,90).</b> Tem a receita da grade A com menos unidades. A grade C derruba a conversão justamente da renda alta, que é quem compra.</li>
+      <li><b>Dar ao Navegante um motivo para existir.</b> Trocar "jogos online" por algo físico ou offline (atividades, quebra-cabeça) ou passar o audiobook para ele. Hoje quem hesita pula direto para o Desbravador.</li>
+      <li><b>Deixar ver o livro antes de assinar.</b> Mostrar páginas internas e um vídeo folheando o livro, e considerar uma garantia no 1º livro. A trava de 12 meses sem amostra quase zera a intenção de quem a cita.</li>
+      <li><b>Falar com avós, como presente.</b> A faixa de 45 a 65 anos tem a melhor nota, e "um presente que chega todo mês" aparece nas respostas sem ninguém sugerir.</li>
+      <li><b>Definir o frete.</b> A oferta não diz se está incluso (pergunta aberta do Thomas no thread da oferta).</li>
+      <li><b>Corrigir dois totais em 12x da oferta.</b> Desbravador 89,90 aparece como R$ 718,80 (o certo é R$ 1.078,80). Navegante 99,90 aparece como R$ 838,80 (o certo é R$ 1.198,80).</li>
+    </ol></div>
+  </section>
+
+  <!-- ── 7. MÉTODO ──────────────────────────────────────────────────────── -->
+  <section>
+    <h2>7. Método e limitações</h2>
+    <div class="card">
+      <p><b>SSR (pesquisa sintética):</b> personas montadas com dados reais de assinantes BP (renda do CEP, cartão, idade, região, profissão, tempo de casa), 20 por faixa de renda, de 25 a 75 anos. Cada persona reage em texto livre, dá uma nota de 1 a 5 e escolhe um plano ou nenhum. As três grades usaram as mesmas personas; cada grade foi processada separadamente, para uma não influenciar a outra. A oferta veio da thread da oferta em #receita-planejamento e dos canvases do #clubinho-bp (Coleção Pindorama, especificações).</p>
+      <p><b>Limitações:</b></p>
+      <ul class="tldr">
+        <li>São 60 personas por grade. As diferenças de "assinaria" entre as grades equivalem a 3 a 9 pessoas: leia como direção, não como medida.</li>
+        <li>A divisão entre os decididos se apoia em só <span id="nDec">—</span> respostas.</li>
+        <li>O SSR costuma subestimar produto premium de nicho (Bitcoin e Odisseia foram subestimados antes). O veredicto qualitativo é confiável; o volume é uma banda.</li>
+        <li>O DW não tem dado de filhos, então não dá para medir quantos assinantes têm criança de 4 a 8 anos.</li>
+        <li>As imagens do canal (capas, mockups, referências) não entraram no estímulo.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
+  Fontes: <code>masterdata.fct_transactions</code> + <code>dim_contact</code> (Clube do Livro, <code>queries/cdl_mix_planos.sql</code>) · sessões SSR <code>personas_ssr/output/sessao_20260930_141639</code>, <code>_141640</code>, <code>_141641</code>
+</footer>
+
+</div>
+
+<script>
+const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.family = FONT;
+Chart.defaults.font.size   = 12;
+Chart.defaults.color       = "#6b7689";
+
+const S = ["#2a78d6","#eb6834","#1baf7a","#eda100","#e87ba4","#008300","#4a3aa7","#e34948"];
+const [S1,S2,S3,S4,S5,S6,S7,S8] = S;
+const GRID="#e1e0d9";
+/* entidade → cor fixa: nível 1/2/3 do plano = S1/S2/S3 (vale para CdL e Clubinho); série única = S7 */
+const NIVEL = [S1, S2, S3];
+
+const br  = (v, d=0) => v.toLocaleString('pt-BR', {minimumFractionDigits:d, maximumFractionDigits:d});
+const pct = (v, d=0) => br(v, d) + '%';
+const $   = id => document.getElementById(id);
+
+/* rótulos diretos: barras simples (fora da ponta) e segmentos empilhados ≥ 7% (dentro) */
+const valueLabels = (fmt, inside=false) => ({
+  id: 'vlab',
+  afterDatasetsDraw(c) {
+    const { ctx } = c; ctx.save();
+    ctx.font = "700 11px " + FONT;
+    c.data.datasets.forEach((ds, di) => {
+      const meta = c.getDatasetMeta(di); if (meta.hidden) return;
+      meta.data.forEach((el, i) => {
+        const v = ds.data[i]; if (v == null) return;
+        if (inside) {
+          if (v < 7) return;
+          ctx.fillStyle = "#ffffff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.fillText(fmt(v), (el.x + el.base) / 2, el.y);
+        } else {
+          ctx.fillStyle = "#3a4254";
+          if (c.options.indexAxis === 'y') { ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.fillText(fmt(v), el.x + 8, el.y); }
+          else { ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillText(fmt(v), el.x, el.y - 5); }
+        }
+      });
+    }); ctx.restore();
+  }
+});
+
+function stacked100(el, labels, series, names) {
+  new Chart(el, {
+    type: 'bar',
+    data: { labels, datasets: names.map((n, k) => ({
+      label: n, data: series.map(s => s[k]), backgroundColor: NIVEL[k],
+      borderColor: '#ffffff', borderWidth: {right: 2}, borderSkipped: false, barThickness: 26 })) },
+    options: {
+      indexAxis: 'y', maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', align: 'start', labels: { boxWidth: 12, boxHeight: 12 } },
+                 tooltip: { callbacks: { label: c => `${c.dataset.label}: ${pct(c.raw, 1)}` } } },
+      scales: { x: { stacked: true, max: 100, grid: { color: GRID }, ticks: { callback: v => v + '%' } },
+                y: { stacked: true, grid: { display: false } } }
+    },
+    plugins: [valueLabels(v => pct(v), true)]
+  });
+}
+
+function bars(el, labels, data, fmt, max) {
+  new Chart(el, {
+    type: 'bar',
+    data: { labels, datasets: [{ data, backgroundColor: S7, borderRadius: 4, barThickness: 40 }] },
+    options: {
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => fmt(c.raw) } } },
+      scales: { y: { beginAtZero: true, max, grid: { color: GRID }, ticks: { display: false } }, x: { grid: { display: false } } }
+    },
+    plugins: [valueLabels(fmt)]
+  });
+}
+
+function initCharts(D) {
+  const s = D.ssr, c = D.cdl, B = D.bracos;
+  $('lastUpdate').textContent = 'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
+  const grade = b => `${b} · ${B[b].map(v => br(v, 2)).join(' / ')}`;
+  const ref = D.cenarios.find(x => x.nome === 'Referência');
+
+  /* resumo */
+  $('stAss').textContent = '~' + br(ref.assinaturas / 1000, 0) + ' mil';
+  $('stBanda').textContent = D.cenarios.map(x => br(x.assinaturas / 1000, 1)).filter((_, i) => i !== 1).join(' a ') + ' mil';
+  $('stRec').textContent = 'R$ ' + br(ref.receita_mi, 1) + ' mi';
+  $('stMix').textContent = D.mix_pl.join(' / ');
+  $('t2A').textContent = pct(s.top2.A.alta); $('t2C').textContent = pct(s.top2.C.alta);
+  $('cdlMeio').textContent = pct(c.Total.pct[1]); $('cdlTopo').textContent = pct(c.Total.pct[2]);
+
+  /* 1. CdL */
+  $('cdlTot').textContent = br(c.Total.total);
+  $('cdlUpg').textContent = `${br(c.upgrade.n)} pessoas (${pct(c.upgrade.pct, 1)})`;
+  const canais = ['Digital', 'Comercial', 'Total'];
+  stacked100($('chCdl'), canais, canais.map(k => c[k].pct), ['Só físico', 'Físico + digital', 'Ouro']);
+  $('tbCdl').innerHTML = canais.map(k => `<tr${k==='Total'?' style="font-weight:600"':''}><td>${k}</td>${c[k].pct.map(v => `<td class="num">${pct(v,1)}</td>`).join('')}<td class="num">${br(c[k].total)}</td></tr>`).join('');
+
+  /* 2. preço */
+  $('nPers').textContent = s.n_personas; $('nResp').textContent = s.n_respostas;
+  const bs = ['A', 'B', 'C'], n2 = v => br(v, 2);
+  $('tbPreco').innerHTML = bs.map(b => `<tr${b==='B'?' style="font-weight:600"':''}><td>${grade(b)}${b==='B'?' <span class="tag t-g">recomendada</span>':''}</td>
+    <td class="num">${n2(s.score[b].alta)}</td><td class="num">${n2(s.score[b].media)}</td><td class="num">${n2(s.score[b].baixa)}</td><td class="num">${n2(s.score[b].total)}</td>
+    <td class="num">${pct(s.top2[b].alta)}</td><td class="num">${pct(s.top2[b].total)}</td></tr>`).join('');
+  bars($('chTop2'), bs.map(b => 'Grade ' + b), bs.map(b => s.top2[b].alta), v => pct(v), 50);
+  bars($('chRec'), bs.map(b => 'Grade ' + b), bs.map(b => s.receita[b].indice * 100 / 1000), v => 'R$ ' + br(v, 1) + ' mil', 20);
+  const ac = s.pareado.find(p => p.par === 'C−A');
+  $('parAC').textContent = `Δ ${br(ac.delta, 2)}, t = ${br(ac.t, 2)}`;
+
+  /* 3. planos */
+  const linhas = [
+    ['Clube do Livro (real)', c.Total.pct, br(c.Total.total)],
+    ['SSR: considera algum plano (nota ≥ 3)', s.mix_considera, s.n_considera],
+    ['SSR: decidido (nota 4–5)', s.mix_decididos, s.n_decididos],
+    ['Estimativa para o P&L', D.mix_pl, '—'],
+  ];
+  stacked100($('chMix'), linhas.map(l => l[0]), linhas.map(l => l[1]), D.planos.map((p, i) => ['Nível 1 · Desbravador', 'Nível 2 · Navegante', 'Nível 3 · Completa'][i]));
+  $('tbMix').innerHTML = linhas.map((l, i) => `<tr${i===3?' style="font-weight:600"':''}><td>${l[0]}</td>${l[1].map(v => `<td class="num">${pct(v)}</td>`).join('')}<td class="num">${l[2]}</td></tr>`).join('');
+  const tema = pre => s.temas.find(t => t.tema.startsWith(pre));
+  $('thAudio').textContent = pct(tema('Audiobook').top2); $('thTela').textContent = pct(tema('Jogos online').top2);
+  $('bandas').textContent = D.planos.map((p, i) => `${p} ${D.banda_pl[i]}`).join(' · ');
+  $('nDec').textContent = s.n_decididos;
+
+  /* 4. volume */
+  $('tbVol').innerHTML = D.cenarios.map(x => `<tr${x.nome==='Referência'?' style="font-weight:600"':''}><td>${x.nome}</td><td class="num">~${br(x.assinaturas)}</td><td class="num">~R$ ${br(x.receita_mi, 1)} mi</td></tr>`).join('');
+  $('ticket').textContent = 'R$ ' + br(D.ticket_cenarios);
+  $('semCri').textContent = pct(s.sem_crianca_pct);
+
+  /* 5. vozes */
+  new Chart($('chTemas'), {
+    type: 'bar',
+    data: { labels: s.temas.map(t => t.tema), datasets: [{ data: s.temas.map(t => t.pct), backgroundColor: S7, borderRadius: 4, barThickness: 18 }] },
+    options: { indexAxis: 'y', maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${pct(c.raw)} das respostas` } } },
+      scales: { x: { max: 55, grid: { color: GRID }, ticks: { callback: v => v + '%' } }, y: { grid: { display: false } } } },
+    plugins: [valueLabels(v => pct(v))]
+  });
+  $('tbTemas').innerHTML = s.temas.map(t => `<tr><td>${t.tema}</td><td class="num">${pct(t.pct)}</td><td class="num">${pct(t.top2)}</td></tr>`).join('');
+  $('quotes').innerHTML = s.citacoes.map(q => `<div class="quote"><div class="q-lab">${q.rotulo}</div><p>“${q.texto}”</p>
+    <div class="q-meta">Nota ${q.score} · ${q.plano} · ${q.perfil}</div></div>`).join('');
+}
+
+fetch('./data.json')
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(D => initCharts(D))
+  .catch(err => {
+    console.error('Falha ao carregar data.json:', err);
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
+        ⚠ Erro ao carregar dados: ${err.message}. Para visualização local, usar <code>python -m http.server</code> na pasta do relatório.
+      </div>`);
+  });
+</script>
+</body>
+</html>
