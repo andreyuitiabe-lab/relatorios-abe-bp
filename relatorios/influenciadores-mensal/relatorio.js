@@ -189,7 +189,16 @@ function checa(V) {
 }
 
 REL.init = async function () {
-  D = await (await fetch('./data.json')).json();
+  try {
+    /* no-cache: o Pages manda guardar por 10 min, e página nova com data.json velho quebra */
+    D = await (await fetch('./data.json', {cache: 'no-cache'})).json();
+    if (!D.periodos) throw new Error('data.json desatualizado');
+  } catch (err) {
+    console.error('[influs] falha ao carregar data.json:', err);
+    document.querySelector('.wrap').insertAdjacentHTML('afterbegin',
+      '<p class="vt-per" style="margin-top:20px">Não foi possível carregar os números. Recarregue a página (Ctrl+Shift+R ou Cmd+Shift+R).</p>');
+    return;
+  }
   tip = document.getElementById('tip');
   mountToggles();
   /* #recorrentes, #set, #recorrentes-set */
