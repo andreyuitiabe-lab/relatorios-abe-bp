@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Influenciadores Agosto — versão detalhada</title>
+<title>Influenciadores Ago–Set — versão detalhada</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
 :root {
@@ -278,6 +278,29 @@ footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
+<style>
+/* ── toggle de recorte (todos x recorrentes) ─────────────── */
+.vt { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 3px; background: var(--surface); gap: 2px; }
+.vt button {
+  font: inherit; font-size: 13px; font-weight: 500; color: var(--ink-2); background: transparent;
+  border: 0; border-radius: 999px; padding: 5px 14px; cursor: pointer; line-height: 1.3;
+}
+.vt button:hover { color: var(--ink); }
+.vt button.on { background: var(--accent); color: var(--surface); }
+.vt button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.vt .n { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; opacity: .8; }
+.vt-bar {
+  position: sticky; top: 0; z-index: 5; background: var(--ground);
+  display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between;
+  padding: 12px 0; border-bottom: 1px solid var(--rule);
+}
+.vt-bar .vt-note { font-size: 12.5px; color: var(--ink-2); }
+.vt-bar .vt-per { flex-basis: 100%; font-size: 13px; color: var(--warn-ink); background: var(--warn-wash); border-radius: 2px; padding: 6px 10px; max-width: none; }
+.vt-inline { display: flex; justify-content: flex-end; margin-bottom: 10px; }
+[hidden] { display: none !important; }
+.month-tbl td:first-child { white-space: normal; }
+@media (max-width: 640px) { .wrap { padding: 0 16px 72px; } .vt-bar .vt-note { display: none; } .two-col { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -285,67 +308,77 @@ footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
 <header>
   <div class="head-grid">
     <div>
-      <div class="eyebrow">Resultado do mês &middot; 1 a 31 de agosto de 2026</div>
-      <h1>Influenciadores<br>em agosto</h1>
-      <p class="lede">Quanto gastamos, quanto voltou e o que fazer diferente em setembro.</p>
+      <div class="eyebrow">Resultado do período &middot; 1º de agosto a 30 de setembro de 2026</div>
+      <h1>Influenciadores em<br>agosto e setembro</h1>
+      <p class="lede">Quanto gastamos, quanto voltou, como foram os recorrentes e o que fazer diferente.</p>
     </div>
     <div class="head-meta">
       <div><span class="mono">Brasil Paralelo</span> &middot; Marketing</div>
-      <div>Pedido de Bárbara Olivieri</div>
-      <div>Apurado em <span class="mono">03/set/2026</span></div>
+      <div>Pedido de Bárbara Olivieri e Thais Schönerwald</div>
+      <div>Apurado em <span class="mono">01/out/2026</span></div>
     </div>
   </div>
 
   <div class="tiles">
     <div class="tile">
       <div class="lbl">Gasto do canal</div>
-      <div class="val"><small>R$</small>155.631</div>
-      <div class="note">R$ 143.631 de anúncio + R$ 12.000 de cachê. É 2% de toda a mídia da empresa no mês.</div>
+      <div class="val" data-v="gasto.total" data-f="brl"></div>
+      <div class="note"><span data-v="gasto.midia" data-f="brl"></span> de anúncio + <span data-v="gasto.cache" data-f="brl"></span> de cachê.</div>
     </div>
     <div class="tile">
       <div class="lbl">Cada R$ 1 gasto virou</div>
-      <div class="val"><small>R$</small>1,23</div>
-      <div class="note">Contando só a venda das peças que rodaram em agosto. No caixa do mês entrou R$ 1,54, mas parte veio de peça paga em junho e julho.</div>
+      <div class="val" data-v="retorno.so_pecas_que_rodaram" data-f="ret"></div>
+      <div class="note">Só a venda das peças que rodaram no período. No caixa entrou <span data-v="retorno.caixa" data-f="ret"></span>.</div>
     </div>
     <div class="tile">
-      <div class="lbl">Venda do canal</div>
-      <div class="val"><small>R$</small>275.603</div>
-      <div class="note">862 vendas por três caminhos. 87% vieram de anúncio com peça de influenciador.</div>
+      <div class="lbl">Venda</div>
+      <div class="val" data-v="calc.receita_canal" data-f="brl"></div>
+      <div class="note"><span data-v="calc.vendas_canal" data-f="int"></span> vendas<span data-only="todos">, por três caminhos</span><span data-only="recorrentes" hidden>, todas pelo anúncio</span>.</div>
     </div>
     <div class="tile">
       <div class="lbl">Comparado com a casa</div>
-      <div class="val" style="font-size:24px">R$ 1,33 <span style="color:var(--ink-2);font-weight:400">x</span> R$ 1,40</div>
-      <div class="note">Mesma régua dos dois lados. O canal fica um pouco abaixo da média da empresa.</div>
+      <div class="val" style="font-size:24px"><span data-v="retorno.midia_so_ativas" data-f="ret"></span> <span style="color:var(--ink-2);font-weight:400">x</span> <span data-v="casa.retorno_medio_casa_so_ativas" data-f="ret"></span></div>
+      <div class="note">Mesma régua dos dois lados: só anúncio, só peça que rodou. Abaixo da média da empresa.</div>
     </div>
   </div>
 
   <div class="plain">
-    <h3>O mês em três pontos</h3>
+    <h3>O período em três pontos</h3>
     <ol>
-      <li><span class="bullet"></span><span><strong>O canal se pagou, mas com folga menor do que o caixa mostra.</strong> Gastamos R$ 155.631 em anúncio e cachê, e as peças trouxeram R$ 239.785. Só que R$ 49 mil disso veio de peça que não rodou em agosto — foi paga em junho e julho e continuou vendendo. Descontando, <strong>cada R$ 1 investido em agosto virou R$ 1,23</strong>. Na mesma régua da empresa inteira, o canal fica em R$ 1,33 contra R$ 1,40 da média da casa: um pouco abaixo, não acima.</span></li>
-      <li><span class="bullet"></span><span><strong>Um quinto da venda é atrasada, e 39% dela precisou de um vendedor para fechar.</strong> A venda atrasada é 20,5% no canal contra 3,8% na média da empresa — cinco vezes mais, porque as peças de influenciador são pausadas cedo e continuam vendendo. E boa parte da receita só entrou porque alguém do comercial fechou; essa venda paga comissão, que não está em nenhum número deste relatório.</span></li>
-      <li><span class="bullet"></span><span><strong>Não somos nós que escolhemos onde a verba entra — por isso a conversa é sobre cachê e peça, não sobre verba.</strong> De 164 peças no ar em agosto, o algoritmo da Meta deu dinheiro relevante para 22 e deixou 82 com menos de R$ 1. Ele escalou justamente quem rendeu abaixo de R$ 1,00 e quase não usou quem mais entregou peça. Nossa alavanca é o que negociamos: cachê, contrato e quantidade e qualidade de peça.</span></li>
+      <li><span class="bullet"></span><span><strong>O canal empatou: cada R$ 1 investido virou R$ 1,01.</strong> Gastamos R$ 356.797 em anúncio e cachê em agosto e setembro, e as peças que rodaram no período trouxeram R$ 361.837. Na mesma régua da empresa inteira — só anúncio —, o canal fez R$ 1,20 contra R$ 1,65 da média da casa. Agosto estava perto da casa; setembro abriu a distância, porque a casa teve o melhor mês do ano e o canal concentrou dinheiro no John Money, que é captação de lead e ainda não vendeu.</span></li>
+      <li><span class="bullet"></span><span><strong>Os recorrentes se pagaram por pouco e rendem igual ao resto do canal.</strong> Alam Carrion, Fran Otto, Arthur Schreiber, Josué Aragão e Mayara Ranni devolveram R$ 1,06 por real, contra R$ 0,99 dos demais influenciadores. O cachê é só 14% do que custaram; o que segura o resultado é o anúncio, que rendeu abaixo da média da casa mesmo sem cachê. E das 192 peças que entregaram, o algoritmo escalou 24.</span></li>
+      <li><span class="bullet"></span><span><strong>Não somos nós que escolhemos onde a verba entra — por isso a conversa é sobre cachê, contrato e peça.</strong> De 439 peças no ar, o algoritmo da Meta deu dinheiro relevante para 59 e deixou 212 com menos de R$ 1. A nossa alavanca é o que negociamos e o tipo de peça que pedimos.</span></li>
     </ol>
   </div>
 </header>
 
+<div class="vt-bar">
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><div data-vt></div><div data-vp></div></div>
+  <span class="vt-note">Mostrando: <strong data-vt-label></strong>. Recorrentes = Alam Carrion, Fran Otto, Arthur Schreiber, Josué Aragão e Mayara Ranni.</span>
+  <p class="vt-per" data-per-note hidden></p>
+</div>
+
 <section id="como-ler">
   <div class="sec-head"><span class="num">01</span><h2>Como ler este relatório</h2></div>
-  <p class="sec-sub">Três regras. Elas mudam o significado de quase todo número daqui para baixo.</p>
+  <p class="sec-sub">Quatro regras. Elas mudam o significado de quase todo número daqui para baixo.</p>
 
   <div class="panel">
     <ul class="rules">
       <li>
         <span class="k">1. "Gasto" aqui é anúncio mais cachê</span>
-        <span class="v">Quando falamos <strong>R$ 155.631</strong>, isso é R$ 143.631 de dinheiro colocado em anúncio na Meta mais R$ 12.000 de cachê pago a cinco influenciadores. Sempre que comparamos com a média da empresa, usamos só o dinheiro de anúncio dos dois lados — a empresa não paga cachê nas outras campanhas, e comparar coisas diferentes já produziu conclusão errada aqui antes.</span>
+        <span class="v">Quando falamos <strong>R$ 356.797</strong>, isso é R$ 301.297 de dinheiro colocado em anúncio na Meta mais R$ 55.500 de cachê pago por peça de venda. Sempre que comparamos com a média da empresa, usamos só o dinheiro de anúncio dos dois lados — a empresa não paga cachê nas outras campanhas.</span>
       </li>
       <li>
-        <span class="k">2. Venda atrasada: peça paga em junho que vende em agosto</span>
-        <span class="v">Uma peça pode ser pausada e continuar gerando venda por semanas. Em agosto, <strong>R$ 49.054</strong> vieram de peça que não teve nenhum real de anúncio no mês. É dinheiro real, entrou no caixa, mas não foi agosto que pagou por ele. Por isso mostramos sempre dois números: o que entrou no caixa e o que as peças de agosto de fato produziram.</span>
+        <span class="k">2. Venda atrasada: peça paga antes que vende agora</span>
+        <span class="v">Uma peça pode ser pausada e continuar gerando venda por semanas. No período, <strong>R$ 54.281</strong> vieram de peça que não teve nenhum real de anúncio em agosto nem em setembro. É dinheiro real, mas não foi o período que pagou por ele. Por isso mostramos sempre dois números: o que entrou no caixa e o que as peças do período produziram.</span>
       </li>
       <li>
         <span class="k">3. Quem distribui a verba é o algoritmo</span>
-        <span class="v">Subimos todas as peças e <strong>o algoritmo da Meta decide quanto vai para cada uma</strong>. Consequência prática: quando um influenciador aparece com retorno baixo, muitas vezes é porque recebeu muito dinheiro, não porque a peça é ruim — escalar encarece cada venda. E significa que "colocar mais verba no Fulano" não é uma recomendação que este time consegue executar.</span>
+        <span class="v">Subimos todas as peças e <strong>o algoritmo da Meta decide quanto vai para cada uma</strong>. Quando um influenciador aparece com retorno baixo, muitas vezes é porque recebeu muito dinheiro, não porque a peça é ruim — escalar encarece cada venda. E "colocar mais verba no Fulano" não é uma recomendação que este time consegue executar.</span>
+      </li>
+      <li>
+        <span class="k">4. O botão Todos / Recorrentes</span>
+        <span class="v">No topo da página. <strong>Recorrentes</strong> mostra só os cinco influenciadores com contrato recorrente; <strong>Todos</strong> mostra o canal inteiro. Ele muda todos os gráficos, tabelas e os números marcados no texto. Os parágrafos de análise que valem só para um recorte aparecem só nele.</span>
       </li>
     </ul>
 
@@ -353,160 +386,186 @@ footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
     <dl class="gloss">
       <div><dt>Mídia / anúncio</dt><dd>Dinheiro colocado em anúncio nas plataformas. É diferente do cachê.</dd></div>
       <div><dt>Peça (ou criativo)</dt><dd>O vídeo do influenciador que vai para o anúncio.</dd></div>
-      <div><dt>Peça escalada</dt><dd>Peça que o algoritmo escolheu e em que colocou dinheiro de verdade — aqui, R$ 500 ou mais no mês.</dd></div>
+      <div><dt>Peça escalada</dt><dd>Peça em que o algoritmo colocou dinheiro de verdade — aqui, R$ 500 ou mais no período.</dd></div>
       <div><dt>Cachê</dt><dd>O que pagamos ao influenciador pelo trabalho dele.</dd></div>
+      <div><dt>Recorrente</dt><dd>Influenciador com contrato que se repete mês a mês, e não por campanha: Alam Carrion e os quatro do fluxo contínuo (Fran Otto, Arthur Schreiber, Josué Aragão, Mayara Ranni).</dd></div>
       <div><dt>Venda atrasada</dt><dd>Venda que entra depois de a peça já ter sido pausada.</dd></div>
       <div><dt>Lead</dt><dd>Pessoa que deixou o contato com a gente, mas ainda não comprou.</dd></div>
-      <div><dt>Venda fechada pelo comercial</dt><dd>A pessoa veio pelo anúncio mas não comprou sozinha no site — quem converteu foi o time de vendas. Em agosto foram R$ 93.690 em 137 vendas: R$ 73.472 pelo time sem oportunidade registrada no CRM, R$ 10.246 de recuperação de pagamento (pix ou boleto vencido, carrinho, compra negada), R$ 9.624 de oportunidade de venda e R$ 348 de chat.</dd></div>
+      <div><dt>Venda fechada pelo comercial</dt><dd>A pessoa veio pelo anúncio mas não comprou sozinha no site — quem converteu foi o time de vendas, com ou sem oportunidade registrada no CRM, incluindo recuperação de pagamento.</dd></div>
       <div><dt>Cada R$ 1 virou</dt><dd>Quanto de venda cada real gasto devolveu. Em relatórios de mídia aparece como <strong>ROAS</strong>.</dd></div>
-      <div><dt>ROI</dt><dd>O mesmo número visto como lucro sobre o gasto: R$ 1,55 por real é <strong>+55%</strong>; R$ 0,89 é <strong>−11%</strong>. Não desconta cachê de comissão nem imposto — é receita bruta sobre gasto de mídia mais cachê.</dd></div>
-      <div><dt>Hit rate</dt><dd>Das peças que o influenciador entregou, quantas o algoritmo escalou. Fran Otto entregou 28 e teve 1 escalada: hit rate de 4%.</dd></div>
+      <div><dt>ROI</dt><dd>O mesmo número visto como lucro sobre o gasto: R$ 1,55 por real é <strong>+55%</strong>; R$ 0,89 é <strong>−11%</strong>. É receita bruta sobre anúncio mais cachê.</dd></div>
+      <div><dt>Hit rate</dt><dd>Das peças que o influenciador entregou, quantas o algoritmo escalou. Fran Otto entregou 61 e teve 5 escaladas: hit rate de 8%.</dd></div>
     </dl>
   </div>
 </section>
 
 <section id="gastamos">
   <div class="sec-head"><span class="num">02</span><h2>Quanto gastamos</h2></div>
-  <p class="sec-sub">R$ 155.631 para vender, mais R$ 5.151 de ação de marca que não entra na conta de venda.</p>
+  <p class="sec-sub" data-only="todos">R$ 356.797 para vender, mais R$ 27.633 de ação de marca que não entra na conta de venda.</p>
+  <p class="sec-sub" data-only="recorrentes" hidden>R$ 125.975 nos cinco recorrentes. O cachê é a parte pequena.</p>
 
   <div class="panel">
-    <p>O canal consumiu <strong>R$ 143.631</strong> de anúncio em agosto. Para dar escala: a empresa inteira colocou R$ 7,62 milhões em anúncio na Meta no mês, então influenciadores são <strong>2% de toda a mídia da casa</strong>. Somando os R$ 12.000 de cachê pagos por peça de venda, o gasto do canal para vender foi de <strong>R$ 155.631</strong>.</p>
-    <div class="tbl-scroll" style="margin-top:20px">
-      <table>
-        <thead><tr><th>Cachê por influenciador</th><th>Valor</th></tr></thead>
-        <tbody>
-          <tr><td>Alam Carrion</td><td class="mono">R$ 5.000</td></tr>
-          <tr><td>Fran Otto</td><td class="mono">R$ 2.000</td></tr>
-          <tr><td>Josué Aragão</td><td class="mono">R$ 2.000</td></tr>
-          <tr><td>Arthur Schreiber</td><td class="mono">R$ 1.500</td></tr>
-          <tr><td>Mayara Ranni</td><td class="mono">R$ 1.500</td></tr>
-        </tbody>
-        <tfoot><tr><td>Total</td><td class="mono">R$ 12.000</td></tr></tfoot>
-      </table>
-    </div>
+    <p data-only="todos">O canal consumiu <strong>R$ 301.297</strong> de anúncio em dois meses. A empresa inteira colocou R$ 12,9 milhões em anúncio na Meta no período, então influenciadores são <strong>2,3% de toda a mídia da casa</strong>. Somando os R$ 55.500 de cachê por peça de venda, o gasto do canal para vender foi de <strong>R$ 356.797</strong> — R$ 156.256 em agosto e R$ 200.541 em setembro.</p>
+    <p data-only="recorrentes" hidden>Os cinco recorrentes receberam <strong>R$ 108.475</strong> de anúncio e <strong>R$ 17.500</strong> de cachê — o cachê é <strong>14% do custo</strong>. Em agosto foram R$ 12.000 de cachê (contrato do fluxo contínuo e o contrato do Alam Carrion pela Teller). O fluxo contínuo terminou em 06/09; em setembro só Alam (R$ 3.500) e Fran (R$ 2.000) tiveram cachê, os dois pelo John Money.</p>
+    <div class="vt-inline" style="margin-top:20px"><div data-vt></div></div>
+    <div class="tbl-scroll"><table id="tbl-cache"></table></div>
   </div>
 
-  <div class="panel">
-    <h3 style="margin-bottom:6px">A ponte com a planilha de vocês</h3>
-    <p class="tiny" style="margin-bottom:16px">Da planilha de controle de custo até o número usado aqui, linha a linha.</p>
+  <div class="panel" data-only="todos">
+    <h3 style="margin-bottom:6px">De onde veio o cachê</h3>
+    <p class="tiny" style="margin-bottom:16px">Da aba INFLUENCIADORES da planilha de lançamentos de custo variável do FP&amp;A, linha a linha.</p>
     <div class="tbl-scroll">
       <table>
+        <thead><tr><th>Lançamento</th><th>Agosto</th><th>Setembro</th></tr></thead>
         <tbody>
-          <tr><td>Soma das 10 linhas da planilha</td><td class="mono">R$ 52.431,10</td></tr>
-          <tr><td class="dim">(−) Evento excluído a pedido</td><td class="mono dim">− R$ 35.280,00</td></tr>
-          <tr><td class="dim">(−) Ação de marca (Première John Money)</td><td class="mono dim">− R$ 5.151,10</td></tr>
-          <tr><td><strong>(=) Cachê ligado a peça de venda</strong></td><td class="mono"><strong>R$ 12.000,00</strong></td></tr>
-          <tr><td>(+) Dinheiro de anúncio na Meta com peça de influ</td><td class="mono">+ R$ 143.631,00</td></tr>
+          <tr><td>Cachê de peça de venda, por nome</td><td class="mono">R$ 12.000</td><td class="mono">R$ 18.000</td></tr>
+          <tr><td>"Patrocínio mensal" do John Money <span class="src">dividido entre Morgana Klein, Leomar Segundo, Ben Pontes e Mackenzie</span></td><td class="mono zero">—</td><td class="mono">R$ 25.500</td></tr>
+          <tr><td class="dim">Ação de marca <span class="src">fora da conta de venda</span></td><td class="mono dim">R$ 5.151</td><td class="mono dim">R$ 22.482</td></tr>
+          <tr><td class="dim">Evento excluído a pedido <span class="src">Première JOM, 26/08</span></td><td class="mono dim">R$ 35.280</td><td class="mono zero">—</td></tr>
         </tbody>
-        <tfoot><tr><td>(=) Gasto do canal para vender</td><td class="mono">R$ 155.631,00</td></tr></tfoot>
+        <tfoot><tr><td>Cachê que entra no retorno</td><td class="mono">R$ 12.000</td><td class="mono">R$ 43.500</td></tr></tfoot>
       </table>
     </div>
     <div class="callout" style="margin-top:20px">
       <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.25" fill="none" stroke="var(--warning)" stroke-width="1.5"/><path d="M10 5.75v5" stroke="var(--warning)" stroke-width="1.75" stroke-linecap="round"/><circle cx="10" cy="14" r="1" fill="var(--warning)"/></svg>
-      <p>A planilha declara total de <strong>R$ 46.931,10</strong>, mas as 10 linhas somam <strong>R$ 52.431,10</strong> — há <strong>R$ 5.500 de diferença</strong> entre a soma e o total escrito. Usamos a soma das linhas, que é a que dá para conferir uma a uma. Está na lista da seção 09.</p>
+      <p><strong>Setembro ainda é prévia.</strong> As linhas foram lançadas em 01/out com status aberto e podem mudar no fechamento do FP&amp;A. O "Patrocínio mensal" de R$ 25.500 foi dividido pelos valores do plano de patrocínio do John Money (Morgana R$ 10.000, Leomar R$ 6.500, Ben Pontes R$ 5.000, Mackenzie R$ 5.000), que somam R$ 26.500 — R$ 1.000 a mais que o lançamento. Os dois pontos estão na seção 09.</p>
     </div>
   </div>
 
-  <div class="panel">
+  <div class="panel" data-only="todos">
     <h3 style="margin-bottom:6px">Ação de marca — fora da conta de venda</h3>
-    <p class="tiny" style="margin-bottom:16px">R$ 5.151 foram para a Première do John Money. Conferimos um por um: nenhum dos três tinha anúncio de venda rodando em agosto, então não há venda para atribuir a esse dinheiro.</p>
+    <p class="tiny" style="margin-bottom:16px">R$ 27.633 nos dois meses. Nenhum desses gastos tem anúncio de venda ligado, então não há venda para atribuir a eles.</p>
     <div class="tbl-scroll">
       <table>
-        <thead><tr><th>Gasto</th><th>Valor</th><th>Vendeu em agosto?</th></tr></thead>
+        <thead><tr><th>Gasto</th><th>Mês</th><th>Valor</th></tr></thead>
         <tbody>
-          <tr><td>Bernardo Kuster <span class="src">passagem, presença</span></td><td class="mono">R$ 2.901</td><td class="src">só anúncio de captação de lead, sem venda</td></tr>
-          <tr><td>Ricardo Ventura <span class="src">conteúdo</span></td><td class="mono">R$ 1.000</td><td class="src">nenhum anúncio no mês</td></tr>
-          <tr><td>Gustavo Trevisan <span class="src">conteúdo</span></td><td class="mono">R$ 1.000</td><td class="src">R$ 239, de peça antiga do Clube do Livro</td></tr>
-          <tr><td>Press kit amostra</td><td class="mono">R$ 250</td><td class="src">—</td></tr>
+          <tr><td>Press kit <span class="src">John Money</span></td><td>set</td><td class="mono">R$ 10.000</td></tr>
+          <tr><td>Screening de Tecnocracia</td><td>set</td><td class="mono">R$ 7.816</td></tr>
+          <tr><td>Screening do John Money</td><td>set</td><td class="mono">R$ 4.666</td></tr>
+          <tr><td>Première do John Money <span class="src">Bernardo Kuster, Ricardo Ventura, Gustavo Trevisan, press kit amostra</span></td><td>ago</td><td class="mono">R$ 5.151</td></tr>
         </tbody>
-        <tfoot><tr><td>Total</td><td class="mono">R$ 5.151</td><td></td></tr></tfoot>
+        <tfoot><tr><td>Total</td><td></td><td class="mono">R$ 27.633</td></tr></tfoot>
       </table>
     </div>
-    <p class="tiny" style="margin-top:14px">Se alguém quiser a conta com a ação de marca dentro: o gasto vai para <strong style="color:var(--ink)">R$ 160.782</strong> e cada R$ 1 vira <strong style="color:var(--ink)">R$ 1,49</strong> — a leitura do mês não muda.</p>
+    <p class="tiny" style="margin-top:14px">Com a ação de marca dentro, o gasto vai para <strong style="color:var(--ink)">R$ 384.430</strong> e cada R$ 1 vira <strong style="color:var(--ink)">R$ 1,08</strong> no caixa.</p>
   </div>
 </section>
 
 <section id="voltou">
   <div class="sec-head"><span class="num">03</span><h2>Quanto voltou</h2></div>
-  <p class="sec-sub">R$ 275.603 em 862 vendas, por três caminhos bem desiguais.</p>
+  <p class="sec-sub"><span data-v="calc.receita_canal" data-f="brl"></span> em <span data-v="calc.vendas_canal" data-f="int"></span> vendas.</p>
 
   <div class="panel">
-    <div class="tbl-scroll">
-      <table>
-        <thead><tr><th>Caminho da venda</th><th>Receita</th><th>Vendas</th><th>Peso</th></tr></thead>
-        <tbody>
-          <tr><td><span class="swatch" style="background:var(--s1)"></span>Viu um anúncio com peça de influenciador e comprou</td><td class="mono">R$ 239.785</td><td class="mono">804</td><td class="mono">87%</td></tr>
-          <tr><td><span class="swatch" style="background:var(--s2)"></span>Deixou o contato numa página de parceria e fechou depois com o comercial</td><td class="mono">R$ 34.044</td><td class="mono">54</td><td class="mono">12%</td></tr>
-          <tr><td><span class="swatch" style="background:var(--s3)"></span>Usou o link ou o cupom do próprio influenciador</td><td class="mono">R$ 1.774</td><td class="mono">4</td><td class="mono">1%</td></tr>
-        </tbody>
-        <tfoot><tr><td>Total</td><td class="mono">R$ 275.603</td><td class="mono">862</td><td class="mono">100%</td></tr></tfoot>
-      </table>
-    </div>
-    <p class="tiny" style="margin-top:16px">Não há sobreposição entre os três caminhos — nenhuma venda foi contada duas vezes, e isso foi checado venda a venda.</p>
-    <p class="tiny" style="margin-top:12px"><strong style="color:var(--ink)">Atenção para não dividir errado.</strong> O gasto de R$ 155.631 é só do primeiro caminho — anúncio e cachê. Os outros dois não têm mídia associada: são lead antigo e link próprio, que chegam sem custo novo. Toda conta de retorno neste relatório usa <strong style="color:var(--ink)">R$ 239.785 contra R$ 155.631</strong>.</p>
-    <p class="tiny" style="margin-top:12px">Duas leituras aqui. O canal hoje é essencialmente um <strong style="color:var(--ink)">fornecedor de peça para anúncio</strong> — a cara do influenciador dentro da mídia da empresa. E link ou cupom próprio, com R$ 1.774 e 4 vendas no mês inteiro, é um caminho praticamente extinto: não vale montar operação nem cobrar meta em cima disso.</p>
+    <div class="vt-inline"><div data-vt></div></div>
+    <div class="tbl-scroll"><table id="tbl-caminhos"></table></div>
+    <p class="tiny" style="margin-top:16px">Não há sobreposição entre os caminhos — nenhuma venda foi contada duas vezes, e isso foi checado venda a venda.</p>
+    <p class="tiny" style="margin-top:12px" data-only="todos"><strong style="color:var(--ink)">Atenção para não dividir errado.</strong> O gasto de R$ 356.797 é só do anúncio. Lead de parceria e link próprio não têm mídia associada. Toda conta de retorno neste relatório usa <strong style="color:var(--ink)">R$ 416.118 contra R$ 356.797</strong>. Link próprio voltou a aparecer em setembro (R$ 8.346 em 43 vendas, contra R$ 1.774 em agosto), mas segue pequeno.</p>
+    <p class="tiny" style="margin-top:12px" data-only="recorrentes" hidden>Lead de parceria e link próprio não se ligam a um influenciador específico, por isso ficam fora deste recorte. Toda a venda dos recorrentes aqui é de anúncio com a peça deles.</p>
 
-    <h3 style="margin:30px 0 8px">ROI do canal</h3>
-    <p class="tiny" style="margin-bottom:16px">Quanto sobrou depois de pagar o anúncio e o cachê, em cima dos R$ 155.631 gastos. Segue a mesma cascata da seção 04.</p>
-    <div class="tbl-scroll">
-      <table>
-        <thead><tr><th>Base de cálculo</th><th>Voltou</th><th>Sobrou</th><th>ROI</th></tr></thead>
-        <tbody>
-          <tr><td>Tudo que entrou no caixa em agosto</td><td class="mono">R$ 239.785</td><td class="mono" style="color:var(--good-ink)">+ R$ 84.154</td><td class="mono" style="color:var(--good-ink);font-weight:600">+54%</td></tr>
-          <tr><td>Só as peças que rodaram em agosto</td><td class="mono">R$ 190.731</td><td class="mono" style="color:var(--warn-ink)">+ R$ 35.100</td><td class="mono" style="color:var(--warn-ink);font-weight:600">+23%</td></tr>
-          <tr><td>Só o que o próprio anúncio fechou</td><td class="mono">R$ 138.305</td><td class="mono" style="color:var(--crit-ink)">− R$ 17.326</td><td class="mono" style="color:var(--crit-ink);font-weight:600">−11%</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="tiny" style="margin-top:14px"><strong style="color:var(--ink)">Este ROI é sobre receita bruta.</strong> Desconta anúncio e cachê, mas <strong style="color:var(--ink)">não desconta o custo do produto</strong> (impressão e envio de livro, gateway, imposto) nem a comissão das vendas fechadas pelo comercial. O ROI final da empresa é menor — em agosto o custo total de venda da BP foi 57,5% da venda nova. Aqui o número serve para comparar influenciadores e meses entre si, não para dizer o lucro da operação.</p>
-
+    <h3 style="margin:30px 0 8px">ROI</h3>
+    <p class="tiny" style="margin-bottom:16px">Quanto sobrou depois de pagar o anúncio e o cachê. Segue a mesma cascata da seção 04.</p>
+    <div class="tbl-scroll"><table id="tbl-roi"></table></div>
+    <p class="tiny" style="margin-top:14px"><strong style="color:var(--ink)">Este ROI é sobre receita bruta.</strong> Desconta anúncio e cachê, mas <strong style="color:var(--ink)">não desconta o custo do produto</strong> (impressão e envio de livro, gateway, imposto) nem a comissão das vendas fechadas pelo comercial. Aqui o número serve para comparar influenciadores e meses entre si, não para dizer o lucro da operação.</p>
   </div>
 </section>
 
 <section id="cascata">
   <div class="sec-head"><span class="num">04</span><h2>O que esse dinheiro realmente pagou</h2></div>
-  <p class="sec-sub">Três degraus. O primeiro é o caixa do mês; o terceiro é o que sobra quando se tira tudo que agosto não pagou.</p>
+  <p class="sec-sub">Três degraus. O primeiro é o caixa; o terceiro é o que sobra quando se tira tudo que o período não pagou sozinho.</p>
 
   <div class="panel">
-    <p>Os R$ 239.785 que vieram de anúncio não são todos da mesma natureza. Parte foi gerada por peça que já não estava rodando, e parte só entrou porque um vendedor ligou e fechou. Contra o gasto de R$ 155.631, o número cai a cada corte:</p>
-    <div id="chart-cascata" style="margin-top:22px"></div>
-    <p class="how-to-read" style="margin-top:18px"><strong>Como ler.</strong> De cima para baixo. O primeiro degrau é verdade de caixa: esse dinheiro entrou. O segundo é a pergunta que interessa para decidir setembro — o que o dinheiro de agosto produziu, sem carona do que foi pago antes. O terceiro é o cenário mais duro: se ninguém do comercial tivesse ligado, o canal não teria se pagado no mês.</p>
+    <div class="vt-inline"><div data-vt></div></div>
+    <div id="chart-cascata"></div>
+    <p class="how-to-read" style="margin-top:18px"><strong>Como ler.</strong> De cima para baixo. O primeiro degrau é verdade de caixa: esse dinheiro entrou. O segundo tira a venda de peça que não rodou no período. O terceiro tira também o que o time comercial fechou — é o cenário mais duro, e nele o canal não se paga.</p>
   </div>
 
   <div class="two-col">
     <div class="panel">
-      <h3 style="margin-bottom:10px">A venda atrasada é característica do canal, não acaso</h3>
-      <p class="tiny">Os R$ 49.054 são <strong style="color:var(--ink)">20,5%</strong> de tudo que o canal vendeu por anúncio. Na média da empresa inteira, esse fenômeno é <strong style="color:var(--ink)">3,8%</strong> — influenciadores carregam cinco vezes mais.</p>
-      <p class="tiny" style="margin-top:10px">Duas explicações, as duas reais: as peças de influenciador costumam ser pausadas cedo e continuam vendendo; e junho foi o maior mês do ano no canal, com R$ 703 mil de anúncio — a cauda daquele mês ainda estava chegando em agosto.</p>
-      <p class="tiny" style="margin-top:10px">Não é erro de medição, é como o canal funciona. Só precisa estar visível toda vez que compararmos meses.</p>
+      <h3 style="margin-bottom:10px">Venda atrasada</h3>
+      <p class="tiny"><span data-v="receita.venda_atrasada" data-f="brl"></span> — <strong style="color:var(--ink)"><span data-v="calc.pct_atrasada" data-f="pct"></span></strong> do que veio de anúncio — chegaram por peça sem gasto no período. Na média da empresa, isso é <strong style="color:var(--ink)">3%</strong>.</p>
+      <p class="tiny" style="margin-top:10px">Em agosto a venda atrasada pesava mais (17% do canal), porque ainda chegava a cauda de junho, o maior mês do ano. Em setembro caiu para 9%. Não é erro de medição, é como o canal funciona: peça de influenciador é pausada cedo e continua vendendo.</p>
     </div>
     <div class="panel">
-      <h3 style="margin-bottom:10px">39% da venda dependeu de alguém ligar</h3>
-      <p class="tiny">Somando dentro e fora da venda atrasada, <strong style="color:var(--ink)">39% de toda a receita do canal por anúncio</strong> só existiu porque um vendedor fechou — e <strong style="color:var(--ink)">84% da venda atrasada</strong> especificamente foi fechada pelo comercial.</p>
-      <p class="tiny" style="margin-top:10px">Essa venda paga comissão, e a comissão <strong style="color:var(--ink)">não está</strong> em nenhum número deste relatório. Então o retorno real do canal é um pouco pior do que os R$ 1,23 mostram.</p>
-      <p class="tiny" style="margin-top:10px">Varia muito por pessoa: Pedro Alaer 71%, Fran Otto 63%, Arthur Schreiber 56% — contra Diego Del Rio 9%. Pedir esse custo ao comercial é pendência aberta.</p>
+      <h3 style="margin-bottom:10px"><span data-v="calc.pct_comercial" data-f="pct"></span> da venda precisou do comercial</h3>
+      <p class="tiny">Essa parte da receita por anúncio só entrou porque alguém do time de vendas fechou. Paga comissão, e a comissão <strong style="color:var(--ink)">não está</strong> em nenhum número deste relatório — o retorno real do canal é um pouco pior do que aparece aqui.</p>
+      <p class="tiny" style="margin-top:10px">Varia muito por pessoa: Pedro Alaer 72%, Arthur Schreiber e Mayara Ranni 54%, Fran Otto e Josué Aragão 44% — contra Diego Del Rio 20%. Pedir esse custo ao comercial é pendência aberta.</p>
     </div>
   </div>
 
   <div class="panel">
     <h3 style="margin-bottom:10px">Na mesma régua da empresa</h3>
-    <p>No caixa do mês, o canal parece acima da casa: cada R$ 1 de anúncio virou <strong>R$ 1,67</strong> em influenciadores contra <strong>R$ 1,46</strong> na média da empresa. Mas essa comparação está torta, porque o número de influenciadores inclui a venda atrasada e o da empresa quase não tem.</p>
-    <p style="margin-top:12px">Colocando os dois lados na mesma régua — só dinheiro de anúncio, só peça que rodou no mês — dá <strong>R$ 1,33 em influenciadores contra R$ 1,40 da empresa</strong>. O canal fica ligeiramente abaixo da média, não acima. <strong>A vantagem aparente vinha inteira da venda atrasada.</strong></p>
+    <p>Só dinheiro de anúncio, só peça que rodou, dos dois lados. Mês a mês:</p>
+    <div class="vt-inline" style="margin-top:16px"><div data-vt></div></div>
+    <div class="tbl-scroll"><table id="tbl-mensal" class="month-tbl"></table></div>
+    <p style="margin-top:16px" data-only="todos">Em agosto o canal estava quase junto da casa: R$ 1,33 contra R$ 1,41. Em setembro abriu — <strong>R$ 1,07 contra R$ 1,94</strong>. Dois motivos: a casa teve o melhor mês do ano; e o canal colocou R$ 46,7 mil de anúncio no John Money, que é captação de lead para um filme que ainda não estreou. Mesmo tirando o John Money, setembro fica abaixo da casa.</p>
+    <p style="margin-top:16px" data-only="recorrentes" hidden>Os recorrentes ficaram abaixo da casa nos dois meses: R$ 1,10 contra R$ 1,41 em agosto e R$ 1,36 contra R$ 1,94 em setembro. Mas melhoraram de um mês para o outro, e o cachê caiu de R$ 12.000 para R$ 5.500 — <strong>em setembro as peças do contrato que acabou continuaram vendendo</strong>.</p>
+  </div>
+</section>
+
+<section id="recorrentes">
+  <div class="sec-head"><span class="num">05</span><h2>O modelo recorrente</h2></div>
+  <p class="sec-sub">A pergunta: vale ter influenciadores fixos para várias campanhas? O que os números dos cinco mostram.</p>
+
+  <div class="panel">
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th>Os dois meses</th><th>Recorrentes</th><th>Demais influs</th><th>Canal inteiro</th></tr></thead>
+        <tbody>
+          <tr><td>Gastamos (anúncio + cachê)</td><td class="mono">R$ 125.975</td><td class="mono">R$ 230.822</td><td class="mono">R$ 356.797</td></tr>
+          <tr><td><span class="src">dos quais cachê</span></td><td class="mono">R$ 17.500 · 14%</td><td class="mono">R$ 38.000 · 16%</td><td class="mono">R$ 55.500 · 16%</td></tr>
+          <tr><td>Voltou de peça que rodou</td><td class="mono">R$ 133.439</td><td class="mono">R$ 228.398</td><td class="mono">R$ 361.837</td></tr>
+          <tr><td><strong>Cada R$ 1 virou — só o que rodou</strong></td><td class="mono"><strong>R$ 1,06</strong></td><td class="mono"><strong>R$ 0,99</strong></td><td class="mono"><strong>R$ 1,01</strong></td></tr>
+          <tr><td>Peças no ar · escaladas</td><td class="mono">192 · 24 (13%)</td><td class="mono">247 · 35 (14%)</td><td class="mono">439 · 59 (13%)</td></tr>
+          <tr><td>Fechada pelo comercial</td><td class="mono">43%</td><td class="mono">41%</td><td class="mono">42%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tiny" style="margin-top:14px">Média da casa no período, só anúncio: R$ 1,65. Recorrentes, só anúncio: R$ 1,23.</p>
+  </div>
+
+  <div class="hl-grid" style="margin-top:18px">
+    <div class="hl">
+      <span class="pill mid"><span class="ic">●</span>igual ao resto</span>
+      <div class="fig">R$ 1,06 x R$ 0,99</div>
+      <p>Os recorrentes se pagaram por pouco, e <strong>rendem praticamente o mesmo que os influenciadores contratados por campanha</strong>. O modelo fixo não é o que separa quem vende de quem não vende — quem mais se pagou no período (Murillo Capellozzi e Diego Del Rio) é contrato de campanha.</p>
+    </div>
+    <div class="hl">
+      <span class="pill mid"><span class="ic">●</span>não é o cachê</span>
+      <div class="fig">14% do custo</div>
+      <p>O cachê dos cinco somou R$ 17.500 em dois meses, contra R$ 108.475 de anúncio. Mesmo com cachê zero, as peças deles devolveriam <strong>R$ 1,23 por real, abaixo dos R$ 1,65 da casa</strong>. Baixar o cachê não muda a leitura — o que segura o resultado é o rendimento do anúncio.</p>
+    </div>
+    <div class="hl">
+      <span class="pill bad"><span class="ic">▼</span>volume que não circula</span>
+      <div class="fig">192 peças, 24 usadas</div>
+      <p><span class="who">Fran Otto</span> entregou 61 peças e teve 5 escaladas (8%). <span class="who">Arthur Schreiber</span> 37 e 4; <span class="who">Mayara Ranni</span> 36 e 4. O modelo fixo paga por volume de peça, e o algoritmo usa pouco desse volume. A peça que vende é a que entra em campanha de venda com verba — Enéas e BP 10 anos concentraram R$ 90 mil dos R$ 108 mil de anúncio dos cinco.</p>
+    </div>
+    <div class="hl">
+      <span class="pill ok"><span class="ic">▲</span>o que fica</span>
+      <div class="fig">R$ 0,92 → R$ 1,22</div>
+      <p>Em agosto, com o contrato ativo e R$ 12.000 de cachê, os cinco renderam R$ 0,92 no que rodou. Em setembro, com o contrato encerrado e R$ 5.500 de cachê, R$ 1,22. <strong>O que o contrato deixa é o banco de peças</strong>, que segue vendendo depois que o pagamento para.</p>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:18px">
+    <h3 style="margin-bottom:10px">Um por um</h3>
+    <p class="tiny"><strong style="color:var(--ink)">Mayara Ranni R$ 1,31 e Fran Otto R$ 1,28</strong> são os melhores no que rodou, com pouca verba (R$ 6,7 mil e R$ 17,0 mil de anúncio). <strong style="color:var(--ink)">Arthur Schreiber R$ 1,17</strong> parece o melhor no caixa (R$ 1,78), mas 35% da venda dele é de peça antiga. <strong style="color:var(--ink)">Josué Aragão R$ 1,15</strong> recebeu R$ 40,3 mil de anúncio — vinte vezes o cachê dele — e se pagou. <strong style="color:var(--ink)">Alam Carrion R$ 0,80</strong> é o único abaixo de R$ 1,00: teve o maior cachê dos cinco (R$ 8.500) e o vitalício dele em BP 10 anos levou R$ 26 mil de anúncio para R$ 27 mil de venda.</p>
+    <p class="tiny" style="margin-top:10px">Para ver os gráficos e tabelas só com os cinco, use o botão <strong style="color:var(--ink)">Recorrentes</strong> no topo.</p>
   </div>
 </section>
 
 <section id="quem">
-  <div class="sec-head"><span class="num">05</span><h2>Quem vendeu o quê</h2></div>
-  <p class="sec-sub">Dez influenciadores receberam anúncio em agosto. Outros oito venderam sem um real de mídia no mês.</p>
+  <div class="sec-head"><span class="num">06</span><h2>Quem vendeu o quê</h2></div>
+  <p class="sec-sub" data-only="todos">Vinte e um influenciadores com anúncio ou cachê relevante no período. Outros sete venderam sem um real de mídia.</p>
+  <p class="sec-sub" data-only="recorrentes" hidden>Os cinco recorrentes.</p>
 
   <div class="ruler">
     <h3>Antes de comparar pessoas</h3>
-    <p class="tiny">Comparar pessoas aqui é traiçoeiro. <strong style="color:var(--ink)">Quem recebeu muito dinheiro tende a mostrar retorno menor</strong>, porque escalar encarece cada venda — e não foi o time que decidiu quem receberia mais. Use a coluna <strong style="color:var(--ink)">"só peças que rodaram"</strong> para comparar, não a de caixa: é a que tira a carona da venda antiga.</p>
+    <p class="tiny">Comparar pessoas aqui é traiçoeiro. <strong style="color:var(--ink)">Quem recebeu muito dinheiro tende a mostrar retorno menor</strong>, porque escalar encarece cada venda — e não foi o time que decidiu quem receberia mais. Use a coluna <strong style="color:var(--ink)">"só o que rodou"</strong> para comparar: é a que tira a carona da venda antiga.</p>
     <div class="ruler-rows" style="margin-top:14px">
-      <div class="ruler-row"><span class="k"><span class="pill ok"><span class="ic">▲</span>acima da média</span></span><span class="t">Cada R$ 1 voltou como R$ 1,46 ou mais.</span></div>
-      <div class="ruler-row"><span class="k"><span class="pill mid"><span class="ic">●</span>se pagou</span></span><span class="t">Voltou entre R$ 1,00 e R$ 1,46.</span></div>
+      <div class="ruler-row"><span class="k"><span class="pill ok"><span class="ic">▲</span>acima da média</span></span><span class="t">Cada R$ 1 voltou como <span data-v="casa.retorno_medio_casa_caixa" data-f="ret"></span> ou mais — a média de caixa da casa no período.</span></div>
+      <div class="ruler-row"><span class="k"><span class="pill mid"><span class="ic">●</span>se pagou</span></span><span class="t">Voltou entre R$ 1,00 e a média da casa.</span></div>
       <div class="ruler-row"><span class="k"><span class="pill bad"><span class="ic">▼</span>não se pagou</span></span><span class="t">Voltou menos de R$ 1,00 — a venda não cobriu o que gastamos.</span></div>
-      <div class="ruler-row"><span class="k"><span class="pill none"><span class="ic">○</span>sem gasto no mês</span></span><span class="t">Vendeu sem anúncio nem cachê: é venda atrasada pura.</span></div>
+      <div class="ruler-row"><span class="k"><span class="pill none"><span class="ic">○</span>sem gasto no período</span></span><span class="t">Vendeu sem anúncio nem cachê: é venda atrasada pura.</span></div>
     </div>
   </div>
 
@@ -519,73 +578,72 @@ footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
       </div>
     </div>
     <p class="how-to-read"><strong>Leitura rápida:</strong> a barra de cima é o que gastamos, a de baixo é o que voltou. Quando a laranja é mais comprida, aquele influ trouxe mais do que custou. O número ao lado é o retorno de caixa; passe o mouse para ver também o retorno só das peças que rodaram.</p>
+    <div class="vt-inline"><div data-vt></div></div>
     <div id="chart-influs"></div>
   </div>
 
   <div class="panel">
     <div class="chart-head"><div class="chart-title">A mesma coisa em tabela</div></div>
-    <div class="tbl-scroll">
-      <table id="tbl-influs">
-        <thead><tr><th>Influenciador</th><th>Gasto total</th><th>Voltou</th><th>Venda atrasada</th><th>Fechada pelo Comercial</th><th>Cada R$ 1 (caixa)</th><th>Só peças que rodaram</th><th>Situação</th><th>Peças enviadas</th><th>Escaladas</th><th>Hit rate</th></tr></thead>
-        <tbody></tbody>
-      </table>
+    <div class="vt-inline"><div data-vt></div></div>
+    <div class="tbl-scroll"><table id="tbl-influs"></table></div>
+    <h3 style="margin:24px 0 10px">As leituras que importam</h3>
+    <div data-only="todos">
+      <p class="tiny"><strong style="color:var(--ink)">Murillo Capellozzi e Diego Del Rio seguem como os que mais se pagam</strong> — R$ 1,51 e R$ 1,55, idênticos nas duas colunas: o resultado deles é do período, inteiro. Foram também os mais escalados em proporção ao que entregaram (4 de 5 e 3 de 4). O cachê deles foi pago em julho, R$ 1.500 cada; com ele dentro, o retorno quase não muda.</p>
+      <p class="tiny" style="margin-top:10px"><strong style="color:var(--ink)">Os influenciadores do John Money estão no começo da conta.</strong> Leomar Segundo (R$ 0,45), Morgana Klein (R$ 0,27) e Nine Borges (R$ 0,12) foram contratados em setembro para uma campanha de captação de lead. A venda do filme vem depois do lançamento; medir pela venda de setembro subestima esse grupo.</p>
+      <p class="tiny" style="margin-top:10px"><strong style="color:var(--ink)">Teller ficou no empate.</strong> Lucca Almeida (R$ 0,98), Lara Brenner (R$ 0,57) e Mônica Salgado (R$ 0,77) somaram R$ 37 mil de anúncio sem cachê no período.</p>
     </div>
-    <h3 style="margin:24px 0 10px">As três leituras que importam</h3>
-    <p class="tiny"><strong style="color:var(--ink)">Primeiro, a distância entre as duas colunas de retorno.</strong> Fran Otto sai de R$ 2,67 para R$ 1,47 e Arthur Schreiber de R$ 2,15 para R$ 0,78 — nos dois casos, boa parte do resultado veio de peça antiga, não do que foi pago em agosto. Já Murillo Capellozzi e Diego Del Rio têm o mesmo número nas duas colunas: o resultado deles é de agosto, inteiro.</p>
-    <p class="tiny" style="margin-top:10px"><strong style="color:var(--ink)">Segundo, a coluna de vendedor.</strong> Pedro Alaer (71%), Fran Otto (63%) e Arthur Schreiber (56%) vendem majoritariamente com o comercial fechando. Não invalida o resultado, mas quer dizer que o custo verdadeiro dessas vendas é maior do que a tabela mostra, porque falta a comissão.</p>
-    <p class="tiny" style="margin-top:10px"><strong style="color:var(--ink)">Terceiro, peças entregues contra peças escaladas.</strong> Fran Otto entregou 28 peças e o algoritmo usou 1. Arthur Schreiber entregou 27 e o algoritmo usou 3. Josué Aragão entregou 13, teve 4 usadas e recebeu R$ 25,2 mil de verba — doze vezes o cachê que pagamos a ele. Volume de entrega não está virando volume de investimento, e isso não passa por nós. <strong style="color:var(--ink)">O hit rate é quantas das peças enviadas o algoritmo chegou a escalar</strong> — mede o aproveitamento do que vocês produzem, não a qualidade da venda. No mês fechou em 13% (22 de 164). Murillo Capellozzi teve 80% e Fran Otto 4%.</p>
+    <div data-only="recorrentes" hidden>
+      <p class="tiny"><strong style="color:var(--ink)">Quatro dos cinco se pagaram, nenhum acima da média da casa.</strong> Mayara Ranni (R$ 1,31), Fran Otto (R$ 1,28), Arthur Schreiber (R$ 1,17) e Josué Aragão (R$ 1,15). Alam Carrion ficou em R$ 0,80.</p>
+      <p class="tiny" style="margin-top:10px"><strong style="color:var(--ink)">Hit rate baixo em todos.</strong> Entre 8% (Fran Otto) e 22% (Josué Aragão). O algoritmo usou pouco do volume que o contrato produziu.</p>
+    </div>
   </div>
 
-  <div class="panel">
-    <h3 style="margin-bottom:10px">Venderam sem gasto no mês</h3>
-    <p class="tiny">Oito influenciadores geraram venda em agosto sem um real de anúncio — venda atrasada pura, cauda de peça antiga: <strong style="color:var(--ink)">Tamie Tominaga R$ 7.589</strong>, Math do Colo de Deus R$ 4.517, Leomar Segundo R$ 3.282, Stefano Tony R$ 2.026, Caprine R$ 1.403, Ticaracaticast R$ 1.368, Nine Borges R$ 1.319 e Gustavo Duarte R$ 1.188. Somados, mais de <strong style="color:var(--ink)">R$ 22 mil</strong> que entraram sem custo em agosto — e que também não devem ser lidos como mérito de agosto.</p>
+  <div class="panel" data-only="todos">
+    <h3 style="margin-bottom:10px">Venderam sem gasto no período</h3>
+    <p class="tiny">Sete influenciadores geraram venda sem anúncio em agosto e setembro — venda atrasada pura, cauda de peça antiga: <strong style="color:var(--ink)">Tamie Tominaga R$ 10.800</strong>, Math do Colo de Deus R$ 4.517, Ticaracaticast R$ 2.556, Stefano Tony R$ 2.026, Caprine R$ 1.642, Firmino R$ 1.410 e Gustavo Duarte R$ 1.188. Mais de <strong style="color:var(--ink)">R$ 24 mil</strong> que entraram sem custo no período — e que não devem ser lidos como mérito dele.</p>
   </div>
 </section>
 
 <section id="pecas">
-  <div class="sec-head"><span class="num">06</span><h2>As peças</h2></div>
-  <p class="sec-sub">164 peças no ar. O algoritmo usou 22 de verdade.</p>
+  <div class="sec-head"><span class="num">07</span><h2>As peças</h2></div>
+  <p class="sec-sub"><span data-v="pecas.no_ar" data-f="int"></span> peças no ar. O algoritmo usou <span data-v="pecas.escaladas" data-f="int"></span> de verdade.</p>
 
   <div class="panel">
     <div class="chart-head"><div class="chart-title">Peças entregues x peças que o algoritmo escalou</div></div>
-    <p class="how-to-read">Metade das peças que produzimos praticamente não foi ao ar. Isso não é desperdício no sentido comum — o algoritmo precisa de opções para testar —, mas é o dado que mostra o limite da nossa influência: <strong>entregamos 164 opções e a decisão de usar 22 não foi nossa.</strong></p>
+    <p class="how-to-read">Metade das peças que produzimos praticamente não foi ao ar. O algoritmo precisa de opções para testar, mas é o dado que mostra o limite da nossa influência: <strong>entregamos as opções e a decisão de quais usar não foi nossa.</strong></p>
+    <div class="vt-inline"><div data-vt></div></div>
     <div id="chart-vol"></div>
-    <p class="tiny" style="margin-top:12px">Só influenciadores com 3 peças ou mais. A barra clara é o total de peças no ar; a parte cheia é quanto delas o algoritmo escalou.</p>
+    <p class="tiny" style="margin-top:12px">Só influenciadores com 3 peças ou mais. A barra clara é o total de peças no ar; a parte cheia é quanto delas o algoritmo escalou (R$ 500 ou mais no período).</p>
   </div>
 
   <div class="panel">
-    <div class="chart-head"><div class="chart-title">Os anúncios que mais venderam em agosto</div></div>
-    <div class="tbl-scroll">
-      <table id="tbl-ads">
-        <thead><tr><th>Anúncio</th><th>Anúncio pago</th><th>Receita</th><th>Cada R$ 1</th><th>Situação</th><th>Vendas</th><th>Dias no ar</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <p class="tiny" style="margin-top:14px">Duas linhas não têm retorno porque não tiveram gasto em agosto: a peça <strong style="color:var(--ink)">"últimas horas" da Fran Otto foi paga em julho</strong> (R$ 8.490) e vendeu R$ 10.224 em agosto; a da Tamie Tominaga é a mesma história. São exemplos concretos de venda atrasada — bom dinheiro, mês errado.</p>
-    <p class="tiny" style="margin-top:10px">O melhor retorno do mês foi <strong style="color:var(--ink)">Diego Del Rio 02, com R$ 2,22 por real</strong> — mas em cima de apenas R$ 1.878 de verba. É o padrão que se repete: peça pequena rende mais por real, peça escalada rende menos. Alam Carrion vitalício ficou 31 dias no ar com R$ 20 mil e devolveu R$ 0,99, com só 20 vendas — o produto vitalício tem ticket alto e volume baixo, então uma venda a mais ou a menos mexe muito nesse número.</p>
+    <div class="chart-head"><div class="chart-title">Os anúncios que mais venderam no período</div></div>
+    <div class="vt-inline"><div data-vt></div></div>
+    <div class="tbl-scroll"><table id="tbl-ads"></table></div>
+    <p class="tiny" style="margin-top:14px" data-only="todos">Os três primeiros são de El Salvador e os únicos acima de R$ 30 mil de venda. <strong style="color:var(--ink)">Diego Del Rio 03</strong> ficou 61 dias no ar e fez R$ 54 mil com R$ 1,49 por real — é o raro caso de peça escalada que segura o retorno. O vitalício do Alam Carrion empatou (R$ 1,03) com só 31 vendas: ticket alto e volume baixo, então uma venda a mais ou a menos mexe muito no número.</p>
+    <p class="tiny" style="margin-top:14px" data-only="recorrentes" hidden>Entre os recorrentes, o anúncio de maior retorno com verba relevante é a <strong style="color:var(--ink)">Divina Comédia da Fran Otto</strong> (BP 10 anos): R$ 11.438 de anúncio e R$ 21.032 de venda, R$ 1,84 por real. O do Josué Aragão em Enéas foi o que mais vendeu em volume: 77 vendas.</p>
   </div>
 
   <div class="panel">
     <div class="chart-head"><div class="chart-title">Por campanha</div></div>
-    <div class="tbl-scroll">
-      <table id="tbl-camp">
-        <thead><tr><th>Campanha</th><th>Anúncio pago</th><th>Receita</th><th>Cada R$ 1</th><th>Situação</th><th>Vendas</th><th>Valor médio da venda</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <p class="tiny" style="margin-top:12px">El Salvador levou metade do dinheiro do canal e devolveu bem. Enéas quase empatou (R$ 28,7 mil investidos, R$ 29,2 mil de venda). Clube do Livro aparece com R$ 25,5 mil de venda e zero de investimento: é 100% venda atrasada, cauda de campanha anterior.</p>
+    <div class="vt-inline"><div data-vt></div></div>
+    <div class="tbl-scroll"><table id="tbl-camp"></table></div>
+    <p class="tiny" style="margin-top:12px" data-only="todos">El Salvador levou um terço do dinheiro do canal e devolveu R$ 1,54. Enéas (R$ 1,37) e BP 10 anos (R$ 1,31) se pagaram. Teller empatou e o John Money (Jornada) ficou em R$ 0,65 antes do cachê — é captação de lead. Clube do Livro aparece com R$ 33 mil de venda e quase nenhum anúncio: cauda de campanha anterior.</p>
+    <p class="tiny" style="margin-top:12px" data-only="recorrentes" hidden>Enéas e BP 10 anos são R$ 90 mil dos R$ 108 mil de anúncio dos cinco, e se pagaram (R$ 1,37 e R$ 1,31 antes do cachê). No John Money, os recorrentes ficaram em R$ 0,69.</p>
   </div>
 </section>
 
 <section id="ano">
-  <div class="sec-head"><span class="num">07</span><h2>O canal ao longo de 2026</h2></div>
-  <p class="sec-sub">Oito meses. O canal fica acima da média da casa em quatro deles — e sempre nos meses de verba pequena.</p>
+  <div class="sec-head"><span class="num">08</span><h2>O canal ao longo de 2026</h2></div>
+  <p class="sec-sub">Nove meses. O padrão de verba grande, retorno menor continua.</p>
 
   <div class="two-col">
     <div class="panel">
       <div class="chart-head"><div class="chart-title">Dinheiro de anúncio em influs, mês a mês</div></div>
+      <div class="vt-inline"><div data-vt></div></div>
       <div id="chart-spend"></div>
-      <p class="tiny" style="margin-top:12px">Junho foi o pico do ano — R$ 703 mil, puxado por El Salvador e Domingo sem Deus. Agosto é o dobro de julho, mas ainda um quinto de junho.</p>
+      <p class="tiny" style="margin-top:12px" data-only="todos">Junho segue sendo o pico do ano — R$ 703 mil. Agosto e setembro ficaram parecidos em verba, R$ 144 mil e R$ 157 mil.</p>
+      <p class="tiny" style="margin-top:12px" data-only="recorrentes" hidden>Junho também é o pico dos cinco — R$ 313 mil, puxado por Arthur Schreiber (R$ 152 mil), Mayara Ranni (R$ 77 mil) e Fran Otto (R$ 62 mil), antes do contrato fixo. Agosto e setembro: R$ 60 mil e R$ 49 mil.</p>
     </div>
     <div class="panel">
       <div class="chart-head">
@@ -595,89 +653,93 @@ footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
           <span><i style="background:var(--s2)"></i>Média da empresa</span>
         </div>
       </div>
+      <div class="vt-inline"><div data-vt></div></div>
       <div id="chart-roas"></div>
-      <p class="tiny" style="margin-top:12px">Visão caixa dos dois lados, incluindo venda atrasada.</p>
+      <p class="tiny" style="margin-top:12px">Visão caixa dos dois lados, incluindo venda atrasada. Só anúncio, sem cachê.</p>
     </div>
   </div>
 
   <div class="panel">
-    <p><strong>Compare a altura da barra com a linha do retorno.</strong> Os três meses de maior verba — abril, maio e junho — são exatamente os três em que o canal ficou abaixo da média da empresa. Os meses de retorno alto (janeiro R$ 3,94, março R$ 3,21, julho R$ 3,39) são meses de verba pequena. Não medimos a venda atrasada desses meses, mas é provável que ela pese muito ali, como pesou em agosto: pouco gasto embaixo de uma cauda que vem de trás.</p>
-    <p style="margin-top:12px">A leitura honesta é: <strong>o canal rende muito bem em pequena escala e perde vantagem quando cresce.</strong> Isso não é defeito de influenciador — é o comportamento normal de qualquer canal quando se aumenta a verba. Mas serve de alerta contra a conclusão fácil de que "influenciador rende mais que a média": rende, enquanto for pequeno.</p>
+    <p><strong>Setembro teve a maior distância do ano entre o canal e a casa:</strong> R$ 1,17 contra R$ 2,04. Em 2026 o canal ficou acima da média em quatro meses (janeiro, março, julho e agosto) e abaixo em cinco. Os três meses de retorno mais alto — janeiro, março e julho — são os três de menor verba.</p>
+    <p style="margin-top:12px">A leitura honesta continua: <strong>o canal rende bem em pequena escala e perde vantagem quando cresce.</strong> E serve de alerta contra a conclusão fácil de que "influenciador rende mais que a média" — no período, não rendeu.</p>
   </div>
 </section>
 
 <section id="destaques">
-  <div class="sec-head"><span class="num">08</span><h2>Destaques e o que fazer</h2></div>
+  <div class="sec-head"><span class="num">09</span><h2>Destaques e o que fazer</h2></div>
   <p class="sec-sub">Cinco pontos para a reunião. Nenhuma ação aqui envolve mudar quanto de verba vai para quem — isso não está na nossa mão.</p>
 
   <div class="hl-grid">
     <div class="hl wide">
       <span class="pill ok"><span class="ic">▲</span>funcionou</span>
-      <div class="fig">Murillo Capellozzi e Diego Del Rio: R$ 1,55 por real, sem cachê</div>
-      <p>Juntos receberam <strong>R$ 69.685</strong> de anúncio e devolveram <strong>R$ 107.780</strong>. O que os separa do resto: o retorno deles é <strong>idêntico nos dois cortes</strong> — R$ 1,55 no caixa e R$ 1,55 só com peça que rodou. Não tem carona de venda antiga. E foram os dois mais escalados em proporção às peças entregues: Murillo teve 4 de 5 peças usadas, Diego 3 de 4.</p>
-      <div class="action"><b>O que fazer:</b> garantir peça nova dos dois para a próxima campanha, com prioridade de agenda. E entrar em qualquer conversa de cachê sabendo que o retorno atual deles foi medido <b>sem cachê nenhum</b> — se passar a existir, o número muda.</div>
+      <div class="fig">Murillo Capellozzi e Diego Del Rio: R$ 1,51 e R$ 1,55 por real</div>
+      <p>Juntos receberam <strong>R$ 97.662</strong> de anúncio e devolveram <strong>R$ 148.899</strong>, sem venda atrasada. O cachê deles foi pago em julho (R$ 1.500 cada), por peça de venda de El Salvador — contrato de campanha, não recorrente.</p>
+      <div class="action"><b>O que fazer:</b> garantir peça nova dos dois na próxima campanha de venda, com prioridade de agenda.</div>
     </div>
     <div class="hl">
-      <span class="pill mid"><span class="ic">●</span>atenção</span>
-      <div class="fig">55 peças, 4 usadas</div>
-      <p><span class="who">Fran Otto</span> e <span class="who">Arthur Schreiber</span> entregaram 55 peças em agosto e o algoritmo escalou 4. No caixa parecem os melhores do mês (R$ 2,67 e R$ 2,15), mas na régua do que rodou caem para <strong>R$ 1,47 e R$ 0,78</strong> — o número bonito vem de peça antiga vendendo. Estamos pagando R$ 2.000 e R$ 1.500 de cachê por um volume que quase não entra em circulação.</p>
-      <div class="action"><b>O que fazer:</b> duas conversas. Com a mídia, checar se essas peças estão nas campanhas certas — 55 entregues e 4 usadas pode ser sinal de formato errado, não de qualidade. Com os dois, revisar o cachê por peça no próximo contrato: faz mais sentido pagar por menos peças e melhores do que por volume que não é usado.</div>
+      <span class="pill mid"><span class="ic">●</span>recorrentes</span>
+      <div class="fig">R$ 1,06, igual ao resto</div>
+      <p>Os cinco recorrentes se pagaram por pouco e rendem igual aos influenciadores de campanha. O cachê é 14% do custo; o anúncio com as peças deles rende abaixo da casa mesmo sem cachê. E o algoritmo usou 24 das 192 peças.</p>
+      <div class="action"><b>O que fazer:</b> se o modelo continuar, pagar por menos peças e mais focadas em campanha de venda, em vez de volume. Isolar as melhores peças deles num conjunto próprio com a mídia, para testar se o retorno se sustenta com entrega forçada.</div>
     </div>
     <div class="hl">
-      <span class="pill bad"><span class="ic">▼</span>não se pagou</span>
-      <div class="fig">R$ 0,79 e R$ 0,89</div>
-      <p>Os dois maiores cachês do mês ficaram abaixo de R$ 1,00. <span class="who">Alam Carrion</span> custou R$ 5.000 de cachê mais R$ 20.044 de anúncio e devolveu R$ 0,79 na régua do que rodou. <span class="who">Josué Aragão</span> custou R$ 2.000 de cachê e recebeu R$ 25.223 de anúncio — <strong>doze vezes o cachê</strong> — e devolveu R$ 0,89. O algoritmo apostou alto em quem não pagou a conta.</p>
-      <div class="action"><b>O que fazer:</b> não dá para reduzir a verba deles, então a alavanca é contratual. Na renovação, renegociar valor e exigir peça nova em vez de reaproveitamento — a peça vitalício do Alam ficou 31 dias no ar e fez só 20 vendas. Se a próxima rodada repetir abaixo de R$ 1,00, aí é caso de rever a parceria.</div>
+      <span class="pill bad"><span class="ic">▼</span>setembro</span>
+      <div class="fig">R$ 0,84 por real</div>
+      <p>Setembro caiu de R$ 1,22 para R$ 0,84 no que rodou. O John Money concentrou R$ 46,7 mil de anúncio e R$ 41,5 mil de cachê e trouxe R$ 30,4 mil — mas é captação de lead para um filme que não estreou.</p>
+      <div class="action"><b>O que fazer:</b> medir os influenciadores do John Money pelo lead agora e pela venda depois do lançamento. Voltar a eles na edição do mês da estreia.</div>
     </div>
     <div class="hl">
       <span class="pill mid"><span class="ic">●</span>estrutural</span>
-      <div class="fig">20,5% e 39%</div>
-      <p>Um quinto da venda é atrasada e 39% precisa de vendedor. Não é problema a resolver, é <strong>característica do canal a incorporar</strong>: venda atrasada de 20,5% contra 3,8% na média da casa; e boa parte da receita só entra porque alguém do comercial fecha — venda que paga comissão, e cuja comissão não está em nenhum número aqui.</p>
-      <div class="action"><b>O que fazer:</b> passar a comparar meses sempre pela régua "só peça que rodou", nunca pelo caixa — é o que evita comemorar um mês que foi na verdade cauda do anterior. E pedir ao comercial o custo de comissão das vendas do canal, para entrar na próxima edição.</div>
+      <div class="fig">13% e 42%</div>
+      <p>13% da venda por anúncio é atrasada, contra 3% na média da casa, e 42% precisou do comercial para fechar — venda que paga comissão, que não está em nenhum número aqui.</p>
+      <div class="action"><b>O que fazer:</b> comparar meses sempre pela régua "só o que rodou", nunca pelo caixa. E pedir ao comercial o custo de comissão das vendas do canal.</div>
     </div>
     <div class="hl">
-      <span class="pill none"><span class="ic">○</span>falta informação</span>
-      <div class="fig">R$ 84 mil sem cachê registrado</div>
-      <p>Cinco influenciadores — <span class="who">Murillo Capellozzi, Diego Del Rio, BR Explora, Pedro Alaer e Julliene Salviano</span> — concentraram R$ 84.031 de anúncio e não têm nenhum cachê na planilha. Se alguma dessas pessoas recebeu algo não lançado, o retorno delas neste relatório está melhor que a realidade — <strong>inclusive o do primeiro destaque</strong>.</p>
-      <div class="action"><b>O que fazer:</b> confirmar antes da próxima edição se os cinco foram permuta, contrato anual, banco de peças ou pagamento não lançado. É a única pendência que pode mudar uma conclusão deste relatório.</div>
+      <span class="pill none"><span class="ic">○</span>falta peça</span>
+      <div class="fig">R$ 11.622 sem venda</div>
+      <p><span class="who">Roberto Beijato</span> (R$ 2.000) e <span class="who">Mackenzie</span> (R$ 4.811) receberam cachê em setembro e não tiveram nenhum anúncio no ar. <span class="who">Ben Pontes</span> (R$ 4.811) teve 9 peças e R$ 5 de anúncio.</p>
+      <div class="action"><b>O que fazer:</b> conferir se as peças foram entregues e subidas. Se entraram em outubro, o retorno aparece na próxima edição.</div>
     </div>
   </div>
 </section>
 
 <section id="pendencias">
-  <div class="sec-head"><span class="num">09</span><h2>O que ainda precisa ser confirmado</h2></div>
-  <p class="sec-sub">Quatro pontos abertos. Nenhum muda o resultado geral do mês; um deles pode mudar a leitura de influenciadores específicos.</p>
+  <div class="sec-head"><span class="num">10</span><h2>O que ainda precisa ser confirmado</h2></div>
+  <p class="sec-sub">Seis pontos abertos.</p>
 
   <div class="panel">
     <ul class="ask">
-      <li><span class="v">A planilha de custo não fecha consigo mesma.<small>As 10 linhas somam R$ 52.431,10, mas o total declarado é R$ 46.931,10 — R$ 5.500 de diferença. Usamos a soma das linhas. <strong>Quem resolve:</strong> gestoras do canal.</small></span></li>
-      <li><span class="v">Cinco influenciadores com R$ 84.031 de anúncio não têm cachê registrado.<small>Murillo Capellozzi, Diego Del Rio, BR Explora, Pedro Alaer e Julliene Salviano. Se receberam algo não lançado, o retorno deles está superestimado. <strong>Quem resolve:</strong> gestoras do canal.</small></span></li>
-      <li><span class="v">O valor de anúncio não inclui o acréscimo de 12,15% que algumas planilhas da casa aplicam.<small>Com o acréscimo, o gasto iria para R$ 173,1 mil e cada R$ 1 viraria R$ 1,39. Mas a média da empresa cai junto, para R$ 1,30 — a comparação relativa não muda. É decisão de padronização, não de resultado. <strong>Quem resolve:</strong> marketing e financeiro.</small></span></li>
-      <li><span class="v">A identificação de "anúncio de influenciador" depende do nome do anúncio.<small>Só entram anúncios cujo nome contém o nome do influ ou a marcação "influ". A nomenclatura não é padronizada, então algum anúncio pode ter escapado. O número de venda daqui é <strong>piso, não teto</strong>. <strong>Quem resolve:</strong> padronização com a equipe de mídia.</small></span></li>
+      <li><span class="v">O custo de setembro ainda é prévia.<small>Saiu da planilha de lançamentos do FP&amp;A, lançado em 01/out com status aberto. Pode mudar no fechamento. <strong>Quem resolve:</strong> FP&amp;A.</small></span></li>
+      <li><span class="v">O "Patrocínio mensal" do John Money não bate com o plano.<small>O lançamento é R$ 25.500; o plano de patrocínio soma R$ 26.500 para os quatro contratados (Morgana Klein, Leomar Segundo, Ben Pontes, Mackenzie). Dividimos o lançamento na proporção do plano. <strong>Quem resolve:</strong> gestoras do canal.</small></span></li>
+      <li><span class="v">Comissão das vendas fechadas pelo comercial.<small>42% da receita do canal por anúncio passou pelo time de vendas e paga comissão, que não entra em nenhuma conta aqui. <strong>Quem resolve:</strong> comercial.</small></span></li>
+      <li><span class="v">Os cinco "sem cachê" de agosto eram contrato de julho.<small>Murillo Capellozzi, Diego Del Rio e BR Explora têm cachê de R$ 1.500 cada em julho (Clube do Livro), e Pedro Alaer R$ 500 em abril — as peças de agosto e setembro são desses contratos. Julliene Salviano não aparece em nenhum mês. <strong>Quem resolve:</strong> gestoras do canal.</small></span></li>
+      <li><span class="v">O valor de anúncio não inclui o acréscimo de 12,15% que algumas planilhas da casa aplicam.<small>Com ele o retorno do canal cai, mas a média da casa cai junto — a comparação relativa não muda. É decisão de padronização. <strong>Quem resolve:</strong> marketing e financeiro.</small></span></li>
+      <li><span class="v">A identificação de "anúncio de influenciador" depende do nome do anúncio.<small>Entram anúncios cujo nome tem a marcação "influ" ou o nome completo de um recorrente. A nomenclatura não é padronizada (há "scherieber", "ranny", "canrrion"), então algum anúncio pode ter escapado. O número de venda é <strong>piso, não teto</strong>. <strong>Quem resolve:</strong> padronização com a equipe de mídia.</small></span></li>
     </ul>
   </div>
 </section>
 
 <section id="metodo">
-  <div class="sec-head"><span class="num">10</span><h2>Como o número foi montado</h2></div>
+  <div class="sec-head"><span class="num">11</span><h2>Como o número foi montado</h2></div>
   <p class="sec-sub">Para quem quiser abrir a caixa.</p>
 
   <div class="panel">
-    <p><strong>De onde vem cada número.</strong> O dinheiro de anúncio vem do que foi efetivamente gasto na Meta, filtrando os anúncios que carregam nome de influenciador ou a marcação "influ". O cachê vem da planilha de controle de custo das gestoras, linha a linha. A receita vem da base de vendas da empresa, reconstruída venda a venda e ligada ao anúncio pelo modelo de atribuição da casa.</p>
+    <p><strong>De onde vem cada número.</strong> O dinheiro de anúncio vem do que foi efetivamente gasto na Meta, filtrando os anúncios que carregam a marcação "influ" ou o nome de um recorrente. O cachê vem da aba INFLUENCIADORES da planilha de lançamentos de custo variável do FP&amp;A. A receita vem da base de vendas da empresa, reconstruída venda a venda e ligada ao anúncio pelo modelo de atribuição da casa. A média da casa é calculada sobre toda a mídia Meta do período, pelas mesmas duas réguas.</p>
+    <p style="margin-top:12px"><strong>Agosto foi reapurado.</strong> A edição anterior mostrava R$ 239.786 de receita por anúncio em agosto; hoje são R$ 231.757. A diferença vem de revisão da atribuição na base desde 03/set e da inclusão dos anúncios do Alam Carrion que não tinham a marcação "influ". A leitura de agosto não muda.</p>
     <h3 style="margin:24px 0 12px">O que já foi conferido</h3>
     <div class="tbl-scroll">
       <table>
         <thead><tr><th>Verificação</th><th>Resultado</th></tr></thead>
         <tbody>
-          <tr><td>Alguma venda foi contada em mais de um anúncio?</td><td><span class="pill ok"><span class="ic">✓</span>não — cada venda em 1 anúncio só</span></td></tr>
+          <tr><td>Alguma venda foi contada em mais de um anúncio?</td><td><span class="pill ok"><span class="ic">✓</span>não — 1.104 vendas, cada uma em 1 anúncio só</span></td></tr>
           <tr><td>Entrou renovação de assinatura?</td><td><span class="pill ok"><span class="ic">✓</span>não — é tudo venda nova</span></td></tr>
-          <tr><td>A receita bate quando recalculada venda a venda?</td><td><span class="pill ok"><span class="ic">✓</span>sim — R$ 239.784,65</span></td></tr>
-          <tr><td>Os três caminhos de venda se sobrepõem?</td><td><span class="pill ok"><span class="ic">✓</span>não — zero sobreposição</span></td></tr>
-          <tr><td>Algum anúncio entrou por engano?</td><td><span class="pill ok"><span class="ic">✓</span>nenhum falso positivo</span></td></tr>
+          <tr><td>A receita bate quando recalculada venda a venda?</td><td><span class="pill ok"><span class="ic">✓</span>sim — 1 de 1.392 vendas não encontrada</span></td></tr>
+          <tr><td>Os caminhos de venda se sobrepõem?</td><td><span class="pill ok"><span class="ic">✓</span>não — zero sobreposição</span></td></tr>
+          <tr><td>O bloco do comercial infla por repetição?</td><td><span class="pill ok"><span class="ic">✓</span>não — soma com e sem repetição igual</span></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="tiny" style="margin-top:16px"><strong style="color:var(--ink)">O que não é verificável, por natureza.</strong> Dizer qual venda pertence a qual anúncio é uma decisão do modelo de atribuição da empresa, o mesmo usado por todas as áreas. Ele é uma aproximação, não uma certeza — e vale igual para influenciadores e para o resto da casa. Por isso todas as comparações deste relatório usam o mesmo critério dos dois lados.</p>
+    <p class="tiny" style="margin-top:16px"><strong style="color:var(--ink)">O que não é verificável, por natureza.</strong> Dizer qual venda pertence a qual anúncio é uma decisão do modelo de atribuição da empresa, o mesmo usado por todas as áreas. Ele é uma aproximação — e vale igual para influenciadores e para o resto da casa. Por isso todas as comparações usam o mesmo critério dos dois lados.</p>
   </div>
 </section>
 
@@ -690,479 +752,197 @@ footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
 
 <div class="tip" id="tip" role="status" aria-live="polite"></div>
 
-
+<script src="./relatorio.js"></script>
 <script>
-(async function () {
-const D = await (await fetch('./data.json')).json();
+const {BRL, BRLk, RET} = REL.fmt;
+const el = REL.el;
 
-const BRL = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
-const BRLk = v => v >= 1000 ? 'R$ ' + (v/1000).toFixed(v >= 10000 ? 0 : 1).replace('.', ',') + ' mil' : 'R$ ' + Math.round(v);
-const NUM = v => v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-const RET = v => 'R$ ' + NUM(v);
-/* ROI = retorno sobre o gasto, em %. É o "cada R$ 1" menos 1: R$ 1,55 -> +55%. */
-const ROI = x => (x < 0 ? '\u2212' : '+') + Math.round(Math.abs(x) * 100) + '%';
-/* hit rate = peças escaladas / peças entregues */
-const HIT = (rodou, ads) => ads ? Math.round(rodou / ads * 100) + '%' : '\u2014';
-const MEDIA = 1.46;
+REL.tblCache('tbl-cache');
+REL.tblCaminhos('tbl-caminhos', {
+  direto: 'Viu o anúncio com peça de influenciador e comprou sozinho',
+  comercial: 'Veio do anúncio e fechou com o time comercial'});
+REL.tblRoi('tbl-roi');
+REL.tblMensal('tbl-mensal');
+REL.chartInflus('chart-influs', {padL: 168});
+REL.tblInflus('tbl-influs', true);
+REL.tblAds('tbl-ads');
+REL.tblCamp('tbl-camp');
 
-/* classificação usada em toda a página — a régua está explicada na seção 03 */
-function verdict(custo, r) {
-  if (!custo || custo < 100) return {cls: 'none', ic: '○', txt: 'sem gasto no mês'};
-  const x = r / custo;
-  if (x >= MEDIA) return {cls: 'ok',  ic: '▲', txt: 'acima da média'};
-  if (x >= 1)     return {cls: 'mid', ic: '●', txt: 'se pagou'};
-  return {cls: 'bad', ic: '▼', txt: 'não se pagou'};
-}
-const hit = d => d.ads ? d.rodou / d.ads : null;
-const pill = v => `<span class="pill ${v.cls}"><span class="ic">${v.ic}</span>${v.txt}</span>`;
-
-/* s = anúncio · f = cachê · ra = receita das peças que rodaram · rc = venda atrasada
-   (peça sem gasto no mês) · v = vendas · ads = peças no ar · rodou = peças com R$ 500+ */
-const INFLUS = D.influs;
-INFLUS.forEach(d => { d.r = d.ra + d.rc; });
-
-/* melhores anúncios — dias no ar contados por dia COM veiculação (impressões > 0) */
-const ADS_TOP = D.ads_top;
-
-const MESES = D.serie_2026;
-
-const CAMPS = D.campanhas;
-
-/* ── tooltip ─────────────────────────────────────────────── */
-const tip = document.getElementById('tip');
-function showTip(e, html) {
-  tip.innerHTML = html;
-  tip.style.opacity = '1';
-  const r = tip.getBoundingClientRect();
-  let x = e.clientX + 14, y = e.clientY - r.height - 10;
-  if (x + r.width > window.innerWidth - 8) x = e.clientX - r.width - 14;
-  if (y < 8) y = e.clientY + 18;
-  tip.style.left = x + 'px';
-  tip.style.top = y + 'px';
-}
-function hideTip() { tip.style.opacity = '0'; }
-
-function bindTip(el, html) {
-  el.classList.add('hit');
-  el.setAttribute('tabindex', '0');
-  el.addEventListener('mousemove', e => showTip(e, html));
-  el.addEventListener('mouseleave', hideTip);
-  el.addEventListener('focus', () => {
-    const b = el.getBoundingClientRect();
-    showTip({clientX: b.left + b.width / 2, clientY: b.top}, html);
-  });
-  el.addEventListener('blur', hideTip);
-}
-
-
-/* guarda de consistência: o texto narrativo é escrito à mão a cada fechamento.
-   Se o data.json mudar e o texto não for revisto, isto avisa no console. */
-(function () {
-  const som = (a, k) => a.reduce((t, d) => t + (d[k] || 0), 0);
-  const checa = [
-    ['anúncio',  Math.round(som(D.influs, 's')),               D.gasto.midia],
-    ['cachê',    Math.round(som(D.influs, 'f')),               D.gasto.cache],
-    ['receita',  Math.round(som(D.influs, 'ra') + som(D.influs, 'rc')), D.receita.anuncio_total],
-    ['peças',    som(D.influs, 'ads'),                          D.pecas.no_ar],
-    ['escaladas',som(D.influs, 'rodou'),                        D.pecas.escaladas]
-  ];
-  checa.forEach(([nome, calc, decl]) => {
-    if (Math.abs(calc - decl) > 2) console.warn(`[influs] ${nome}: soma ${calc} x declarado ${decl}`);
-  });
-})();
-
-const SVGNS = 'http://www.w3.org/2000/svg';
-function el(tag, attrs) {
-  const n = document.createElementNS(SVGNS, tag);
-  for (const k in attrs) n.setAttribute(k, attrs[k]);
-  return n;
-}
-
-/* ── 1. barras: gasto (anúncio + cachê) x retorno ────────── */
-(function () {
-  const data = INFLUS.filter(d => d.s > 0 || d.f > 0 || d.r > 0);
-  const rowH = 36, padL = 152, padR = 116, padT = 4, padB = 28;
-  const W = 900, H = padT + data.length * rowH + padB;
-  const max = Math.max(...data.map(d => Math.max(d.s + d.f, d.r)));
-  const x = v => padL + (v / max) * (W - padL - padR);
-
-  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
-    'aria-label': 'Gasto com anúncio e cachê comparado à venda gerada, por influenciador, em agosto de 2026'});
-
-  [0, max / 2, max].forEach(t => {
-    svg.appendChild(el('line', {x1: x(t), x2: x(t), y1: padT, y2: H - padB,
-      stroke: 'var(--rule)', 'stroke-width': 1}));
-    const tx = el('text', {x: x(t), y: H - padB + 17, 'text-anchor': t === 0 ? 'start' : 'middle',
-      fill: 'var(--muted)', 'font-size': 11});
-    tx.textContent = t === 0 ? '0' : BRLk(t);
-    svg.appendChild(tx);
-  });
-
-  data.forEach((d, i) => {
-    const y = padT + i * rowH;
-    const bh = 11, gap = 2;
-    const custo = d.s + d.f;
-    const vd = verdict(custo, d.r);
-
-    const lbl = el('text', {x: padL - 12, y: y + rowH / 2 + (d.f > 0 ? -4 : 1), 'text-anchor': 'end',
-      fill: 'var(--ink)', 'font-size': 12, 'dominant-baseline': 'middle'});
-    lbl.textContent = d.n;
-    svg.appendChild(lbl);
-
-    const ret = custo >= 100 ? (d.r / custo) : null;
-    const html = `<div class="t-name">${d.n}</div>
-      <div class="t-row"><span>Anúncio</span><span>${d.s >= 1 ? BRL(d.s) : '—'}</span></div>
-      <div class="t-row"><span>Cachê</span><span>${d.f ? BRL(d.f) : '—'}</span></div>
-      <div class="t-row"><span>Gasto total</span><span>${custo >= 1 ? BRL(custo) : '—'}</span></div>
-      <div class="t-row"><span>Voltou</span><span>${BRL(d.r)}</span></div>
-      <div class="t-row"><span>&nbsp;&nbsp;de peça que rodou</span><span>${BRL(d.ra)}</span></div>
-      <div class="t-row"><span>&nbsp;&nbsp;venda atrasada</span><span>${BRL(d.rc)}</span></div>
-      <div class="t-row"><span>Cada R$ 1 virou</span><span>${ret === null ? '—' : RET(ret)}</span></div>
-      <div class="t-row"><span>Só peças que rodaram</span><span>${custo >= 100 ? RET(d.ra / custo) : '—'}</span></div>
-      <div class="t-row"><span>Fechada pelo Comercial</span><span>${d.r ? Math.round(d.rcom / d.r * 100) + '%' : '—'}</span></div>
-      <div class="t-row"><span>Vendas</span><span>${d.v}</span></div>
-      <div class="t-row"><span>Peças enviadas</span><span>${d.ads}</span></div>
-      <div class="t-row"><span>Escaladas</span><span>${d.rodou}</span></div>
-      <div class="t-row"><span>Hit rate</span><span>${hit(d) === null ? '—' : Math.round(hit(d) * 100) + '%'}</span></div>
-      <div class="t-row"><span>Que o algoritmo escalou</span><span>${d.rodou}</span></div>
-      <div class="t-row"><span>Hit rate</span><span>${hit(d) === null ? '—' : Math.round(hit(d) * 100) + '%'}</span></div>
-      <div class="t-verdict">${pill(vd)}</div>`;
-
-    const g = el('g', {});
-    g.appendChild(el('rect', {x: 0, y: y, width: W, height: rowH, fill: 'transparent'}));
-
-    /* barra de gasto: anúncio + cachê num único traço — a divisão vive na tabela
-       e no tooltip; dois tons do mesmo azul não se distinguem o suficiente. */
-    const yTop = y + rowH / 2 - bh - gap / 2;
-    if (custo > 0) {
-      g.appendChild(el('rect', {x: padL, y: yTop,
-        width: Math.max(x(custo) - padL, 1.5), height: bh, rx: 3, fill: 'var(--s1)'}));
-    }
-    if (d.f > 0) {
-      const tag = el('text', {x: padL - 12, y: y + rowH / 2 + 12, 'text-anchor': 'end',
-        fill: 'var(--muted)', 'font-size': 9.5});
-      tag.textContent = '+ cachê';
-      svg.appendChild(tag);
-    }
-    if (d.r > 0) {
-      g.appendChild(el('rect', {x: padL, y: y + rowH / 2 + gap / 2,
-        width: Math.max(x(d.r) - padL, 1.5), height: bh, rx: 3, fill: 'var(--s2)'}));
-    }
-
-    if (ret !== null) {
-      const color = vd.cls === 'ok' ? 'var(--good-ink)' : vd.cls === 'bad' ? 'var(--crit-ink)' : 'var(--ink-2)';
-      const rl = el('text', {x: Math.max(x(custo), x(d.r)) + 10, y: y + rowH / 2 + 1,
-        fill: color, 'font-size': 11.5, 'dominant-baseline': 'middle',
-        'font-weight': vd.cls === 'mid' ? 400 : 600});
-      rl.textContent = RET(ret);
-      g.appendChild(rl);
-    }
-
-    bindTip(g, html);
-    svg.appendChild(g);
-  });
-
-  document.getElementById('chart-influs').appendChild(svg);
-})();
-
-/* ── 2. tabela por influ ─────────────────────────────────── */
-(function () {
-  const tb = document.querySelector('#tbl-influs tbody');
-  let ts = 0, tf = 0, tr = 0, tra = 0, tc = 0, tcom = 0, tads = 0, trod = 0;
-  INFLUS.forEach(d => {
-    const custo = d.s + d.f;
-    ts += d.s; tf += d.f; tr += d.r; tra += d.ra; tc += d.rc; tcom += d.rcom;
-    tads += d.ads; trod += d.rodou;
-    const vd = verdict(custo, d.r);
-    const ret = custo >= 100 ? RET(d.r / custo) : '—';
-    const ativo = custo >= 100 ? d.ra / custo : null;
-    const pctCauda = d.r > 0 ? d.rc / d.r : 0;
-    const pctCom = d.r > 0 ? d.rcom / d.r : 0;
-    const h = hit(d);
-    const color = vd.cls === 'ok' ? ' style="color:var(--good-ink);font-weight:600"'
-                : vd.cls === 'bad' ? ' style="color:var(--crit-ink);font-weight:600"' : '';
-    const corHit = h === null ? '' : h < 0.15 ? ' style="color:var(--crit-ink);font-weight:600"'
-                 : h >= 0.5 ? ' style="color:var(--good-ink);font-weight:600"' : '';
-    const row = document.createElement('tr');
-    row.innerHTML =
-      `<td>${d.n}${d.f ? ` <span class="src">+ cachê ${BRL(d.f)}</span>` : ''}</td>` +
-      `<td>${custo >= 1 ? BRL(custo) : '—'}</td>` +
-      `<td>${BRL(d.r)}</td>` +
-      `<td${pctCauda >= 0.3 ? ' style="color:var(--warn-ink);font-weight:600"' : ' class="zero"'}>${d.rc ? BRL(d.rc) + ' · ' + Math.round(pctCauda * 100) + '%' : '—'}</td>` +
-      `<td${pctCom >= 0.5 ? ' style="color:var(--warn-ink);font-weight:600"' : ' class="zero"'}>${d.rcom ? Math.round(pctCom * 100) + '%' : '—'}</td>` +
-      `<td${color}>${ret}</td>` +
-      `<td${ativo !== null && ativo < 1 ? ' style="color:var(--crit-ink);font-weight:600"' : ''}>${ativo === null ? '—' : RET(ativo)}</td>` +
-      `<td>${pill(vd)}</td>` +
-      `<td>${d.ads}</td>` +
-      `<td>${d.rodou}</td>` +
-      `<td${corHit}>${h === null ? '—' : Math.round(h * 100) + '%'}</td>`;
-    tb.appendChild(row);
-  });
-  const foot = document.createElement('tfoot');
-  foot.innerHTML =
-    `<tr><td>Total</td><td>${BRL(ts + tf)}</td><td>${BRL(tr)}</td>` +
-    `<td>${BRL(tc)} · ${Math.round(tc / tr * 100)}%</td>` +
-    `<td>${Math.round(tcom / tr * 100)}%</td>` +
-    `<td>${RET(tr / (ts + tf))}</td><td>${RET(tra / (ts + tf))}</td>` +
-    `<td>${pill(verdict(ts + tf, tr))}</td><td>${tads}</td><td>${trod}</td>` +
-    `<td>${Math.round(trod / tads * 100)}%</td></tr>`;
-  document.getElementById('tbl-influs').appendChild(foot);
-})();
-
-/* ── 3. investimento mensal ──────────────────────────────── */
-(function () {
-  const W = 420, H = 210, padL = 52, padR = 8, padT = 12, padB = 26;
-  const max = 750000;
-  const y = v => H - padB - (v / max) * (H - padT - padB);
-  const bw = (W - padL - padR) / MESES.length;
-
-  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
-    'aria-label': 'Investimento em anúncios com criativo de influenciador, mês a mês, em 2026'});
-
-  [0, 250000, 500000, 750000].forEach(t => {
-    svg.appendChild(el('line', {x1: padL, x2: W - padR, y1: y(t), y2: y(t),
-      stroke: t === 0 ? 'var(--rule)' : 'var(--rule-soft)', 'stroke-width': 1}));
-    const tx = el('text', {x: padL - 8, y: y(t) + 3.5, 'text-anchor': 'end',
-      fill: 'var(--muted)', 'font-size': 10});
-    tx.textContent = t === 0 ? '0' : 'R$ ' + (t / 1000) + 'k';
-    svg.appendChild(tx);
-  });
-
-  MESES.forEach((d, i) => {
-    const cx = padL + i * bw + bw / 2;
-    const g = el('g', {});
-    g.appendChild(el('rect', {x: padL + i * bw, y: padT, width: bw, height: H - padT - padB, fill: 'transparent'}));
-    const h = Math.max(y(0) - y(d.s), 2);
-    g.appendChild(el('rect', {x: cx - bw * 0.3, y: y(d.s), width: bw * 0.6, height: h, rx: 3,
-      fill: d.m === 'ago' ? 'var(--s1)' : 'var(--rule)'}));
-    if (d.m === 'ago' || d.m === 'jun') {
-      const vl = el('text', {x: cx, y: y(d.s) - 7, 'text-anchor': 'middle',
-        fill: 'var(--ink)', 'font-size': 10.5, 'font-weight': 600});
-      vl.textContent = d.m === 'ago' ? 'R$ 144k' : 'R$ 703k';
-      g.appendChild(vl);
-    }
-    const tx = el('text', {x: cx, y: H - padB + 15, 'text-anchor': 'middle',
-      fill: d.m === 'ago' ? 'var(--ink)' : 'var(--muted)', 'font-size': 10,
-      'font-weight': d.m === 'ago' ? 600 : 400});
-    tx.textContent = d.m;
-    g.appendChild(tx);
-    bindTip(g, `<div class="t-name">${d.m}/2026</div>
-      <div class="t-row"><span>Anúncio</span><span>${BRL(d.s)}</span></div>
-      <div class="t-row"><span>Cada R$ 1 virou</span><span>${RET(d.roas)}</span></div>`);
-    svg.appendChild(g);
-  });
-
-  document.getElementById('chart-spend').appendChild(svg);
-})();
-
-/* ── 4. retorno influs x média ───────────────────────────── */
-(function () {
-  const W = 420, H = 210, padL = 42, padR = 12, padT = 16, padB = 26;
-  const max = 4.2;
-  const y = v => H - padB - (v / max) * (H - padT - padB);
-  const x = i => padL + (i / (MESES.length - 1)) * (W - padL - padR);
-
-  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
-    'aria-label': 'Quanto cada real de anúncio devolveu: peças de influenciador comparadas à média da BP, mês a mês em 2026'});
-
-  [0, 1, 2, 3, 4].forEach(t => {
-    svg.appendChild(el('line', {x1: padL, x2: W - padR, y1: y(t), y2: y(t),
-      stroke: t === 0 ? 'var(--rule)' : 'var(--rule-soft)', 'stroke-width': 1}));
-    const tx = el('text', {x: padL - 7, y: y(t) + 3.5, 'text-anchor': 'end',
-      fill: 'var(--muted)', 'font-size': 10});
-    tx.textContent = 'R$ ' + t;
-    svg.appendChild(tx);
-  });
-
-  const line = (key, color) => {
-    const d = MESES.map((m, i) => `${i ? 'L' : 'M'}${x(i)} ${y(m[key])}`).join(' ');
-    svg.appendChild(el('path', {d: d, fill: 'none', stroke: color, 'stroke-width': 2,
-      'stroke-linejoin': 'round', 'stroke-linecap': 'round'}));
-  };
-  line('geral', 'var(--s2)');
-  line('roas', 'var(--s1)');
-
-  MESES.forEach((m, i) => {
-    ['geral', 'roas'].forEach(k => {
-      svg.appendChild(el('circle', {cx: x(i), cy: y(m[k]), r: 4,
-        fill: k === 'roas' ? 'var(--s1)' : 'var(--s2)',
-        stroke: 'var(--surface)', 'stroke-width': 2}));
-    });
-    const tx = el('text', {x: x(i), y: H - padB + 15, 'text-anchor': 'middle',
-      fill: m.m === 'ago' ? 'var(--ink)' : 'var(--muted)', 'font-size': 10,
-      'font-weight': m.m === 'ago' ? 600 : 400});
-    tx.textContent = m.m;
-    svg.appendChild(tx);
-    const g = el('rect', {x: x(i) - (W - padL - padR) / (MESES.length * 2), y: padT,
-      width: (W - padL - padR) / MESES.length, height: H - padT - padB, fill: 'transparent'});
-    bindTip(g, `<div class="t-name">${m.m}/2026 — cada R$ 1 de anúncio devolveu</div>
-      <div class="t-row"><span>Peças de influ</span><span>${RET(m.roas)}</span></div>
-      <div class="t-row"><span>Média da BP</span><span>${RET(m.geral)}</span></div>`);
-    svg.appendChild(g);
-  });
-
-  const lbl = el('text', {x: x(7), y: y(MESES[7].roas) - 11, 'text-anchor': 'end',
-    fill: 'var(--ink)', 'font-size': 10.5, 'font-weight': 600});
-  lbl.textContent = 'R$ 1,67';
-  svg.appendChild(lbl);
-
-  document.getElementById('chart-roas').appendChild(svg);
-})();
-
-/* ── 5. tabela por campanha ──────────────────────────────── */
-(function () {
-  const tb = document.querySelector('#tbl-camp tbody');
-  let ts = 0, tr = 0, tv = 0;
-  CAMPS.forEach(d => {
-    ts += d.s; tr += d.r; tv += d.v;
-    const vd = verdict(d.s, d.r);
-    const color = vd.cls === 'ok' ? ' style="color:var(--good-ink);font-weight:600"'
-                : vd.cls === 'bad' ? ' style="color:var(--crit-ink);font-weight:600"' : '';
-    const row = document.createElement('tr');
-    row.innerHTML = `<td>${d.n}</td><td>${d.s >= 1 ? BRL(d.s) : '—'}</td><td>${BRL(d.r)}</td>` +
-      `<td${color}>${d.s >= 100 ? RET(d.r / d.s) : '—'}</td><td>${pill(vd)}</td>` +
-      `<td>${d.v}</td><td>${d.v ? BRL(d.r / d.v) : '—'}</td>`;
-    tb.appendChild(row);
-  });
-  const foot = document.createElement('tfoot');
-  foot.innerHTML = `<tr><td>Total</td><td>${BRL(ts)}</td><td>${BRL(tr)}</td><td>${RET(tr / ts)}</td>` +
-    `<td>${pill(verdict(ts, tr))}</td><td>${tv}</td><td>${BRL(tr / tv)}</td></tr>`;
-  document.getElementById('tbl-camp').appendChild(foot);
-})();
-/* ── 6. tabela dos melhores anúncios ─────────────────────── */
-(function () {
-  const tb = document.querySelector('#tbl-ads tbody');
-  ADS_TOP.forEach(d => {
-    const vd = verdict(d.s, d.r);
-    const color = vd.cls === 'ok' ? ' style="color:var(--good-ink);font-weight:600"'
-                : vd.cls === 'bad' ? ' style="color:var(--crit-ink);font-weight:600"' : '';
-    const row = document.createElement('tr');
-    row.innerHTML = `<td style="white-space:normal">${d.ad}</td><td>${d.s >= 1 ? BRL(d.s) : '—'}</td>` +
-      `<td>${BRL(d.r)}</td><td${color}>${d.s >= 100 ? RET(d.r / d.s) : '—'}</td>` +
-      `<td>${pill(vd)}</td><td>${d.v}</td>` +
-      `<td${d.d === 0 ? ' class="zero"' : ''}>${d.d === 0 ? 'não rodou' : d.d + ' dias'}</td>`;
-    tb.appendChild(row);
-  });
-})();
-
-/* ── 7. peças entregues x peças escaladas ────────────────── */
-(function () {
-  const data = INFLUS.filter(d => d.ads >= 3 && !d.n.startsWith('Outros'))
-                     .sort((a, b) => b.ads - a.ads);
-  const rowH = 30, padL = 152, padR = 150, padT = 4, padB = 26;
-  const W = 900, H = padT + data.length * rowH + padB;
-  const max = Math.max(...data.map(d => d.ads));
-  const x = v => padL + (v / max) * (W - padL - padR);
-
-  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
-    'aria-label': 'Peças entregues por influenciador e quantas delas o algoritmo escalou, agosto de 2026'});
-
-  [0, max].forEach(t => {
-    svg.appendChild(el('line', {x1: x(t), x2: x(t), y1: padT, y2: H - padB,
-      stroke: 'var(--rule)', 'stroke-width': 1}));
-    const tx = el('text', {x: x(t), y: H - padB + 16, 'text-anchor': t === 0 ? 'start' : 'middle',
-      fill: 'var(--muted)', 'font-size': 10.5});
-    tx.textContent = t === 0 ? '0' : t + ' peças';
-    svg.appendChild(tx);
-  });
-
-  data.forEach((d, i) => {
-    const y = padT + i * rowH, bh = 13;
-    const g = el('g', {});
-    g.appendChild(el('rect', {x: 0, y: y, width: W, height: rowH, fill: 'transparent'}));
-
-    const lbl = el('text', {x: padL - 12, y: y + rowH / 2, 'text-anchor': 'end',
-      fill: 'var(--ink)', 'font-size': 12, 'dominant-baseline': 'middle'});
-    lbl.textContent = d.n;
-    svg.appendChild(lbl);
-
-    /* total entregue: traço claro. escaladas: traço cheio por cima. */
-    g.appendChild(el('rect', {x: padL, y: y + rowH / 2 - bh / 2,
-      width: Math.max(x(d.ads) - padL, 2), height: bh, rx: 3,
-      fill: 'var(--s1)', opacity: 0.22}));
-    if (d.rodou > 0) {
-      g.appendChild(el('rect', {x: padL, y: y + rowH / 2 - bh / 2,
-        width: Math.max(x(d.rodou) - padL, 2), height: bh, rx: 3, fill: 'var(--s1)'}));
-    }
-
-    const pct = d.rodou / d.ads;
-    const t = el('text', {x: x(d.ads) + 10, y: y + rowH / 2,
-      fill: pct <= 0.15 ? 'var(--crit-ink)' : 'var(--ink-2)', 'font-size': 11,
-      'dominant-baseline': 'middle', 'font-weight': pct <= 0.15 ? 600 : 400});
-    t.textContent = `${d.rodou} de ${d.ads} escaladas`;
-    g.appendChild(t);
-
-    bindTip(g, `<div class="t-name">${d.n}</div>
-      <div class="t-row"><span>Peças enviadas</span><span>${d.ads}</span></div>
-      <div class="t-row"><span>Escaladas</span><span>${d.rodou}</span></div>
-      <div class="t-row"><span>Hit rate</span><span>${hit(d) === null ? '—' : Math.round(hit(d) * 100) + '%'}</span></div>
-      <div class="t-row"><span>Escaladas (R$ 500+)</span><span>${d.rodou}</span></div>
-      <div class="t-row"><span>Aproveitamento</span><span>${Math.round(pct * 100)}%</span></div>
-      <div class="t-row"><span>Verba recebida</span><span>${BRL(d.s)}</span></div>
-      <div class="t-row"><span>Voltou</span><span>${BRL(d.r)}</span></div>`);
-    svg.appendChild(g);
-  });
-
-  document.getElementById('chart-vol').appendChild(svg);
-})();
-/* ── 8. cascata: o que o dinheiro realmente pagou ────────── */
-(function () {
-  const GASTO = 155631;
-  const D = [
-    {t: 'Tudo que entrou no caixa em agosto',                       v: 239785, r: 1.54, cls: 'ok'},
-    {t: 'Tirando venda de peça que não rodou em agosto',            v: 190731, r: 1.23, cls: 'mid'},
-    {t: 'Tirando também o que um vendedor do comercial fechou',     v: 138305, r: 0.89, cls: 'bad'}
-  ];
+/* cascata: o que o dinheiro realmente pagou */
+REL.onRender(V => {
+  const GASTO = V.gasto.total, r = V.receita;
+  const cls = x => x >= 1.2 ? 'ok' : x >= 1 ? 'mid' : 'bad';
+  const ROWS = [
+    {t: 'Tudo que entrou no caixa no período',                   v: r.anuncio_total},
+    {t: 'Tirando venda de peça que não rodou no período',        v: r.peca_que_rodou},
+    {t: 'Tirando também o que o time comercial fechou',          v: r.anuncio_direto}
+  ].map(d => ({...d, r: d.v / GASTO, cls: cls(d.v / GASTO)}));
   const COR = {ok: 'var(--good-ink)', mid: 'var(--warn-ink)', bad: 'var(--crit-ink)'};
   const rowH = 74, padL = 8, padR = 8, padT = 6, padB = 34;
-  const W = 900, H = padT + D.length * rowH + padB;
-  const max = D[0].v;
+  const W = 900, H = padT + ROWS.length * rowH + padB;
+  const max = Math.max(ROWS[0].v, GASTO) * 1.08;
   const bw = v => (v / max) * (W - padL - padR);
-
   const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
-    'aria-label': 'Cascata: receita de agosto em três níveis de exigência, do caixa do mês ao que o anúncio vendeu sozinho'});
+    'aria-label': 'Cascata: receita do período em três níveis de exigência, do caixa ao que o anúncio vendeu sozinho'});
 
   /* linha do ponto de equilíbrio: onde a receita iguala o gasto */
   const xEq = padL + bw(GASTO);
   svg.appendChild(el('line', {x1: xEq, x2: xEq, y1: padT, y2: H - padB + 6,
     stroke: 'var(--ink-2)', 'stroke-width': 1, 'stroke-dasharray': '3 3'}));
-  const eq = el('text', {x: xEq, y: H - padB + 22, 'text-anchor': 'middle',
-    fill: 'var(--ink-2)', 'font-size': 10.5});
-  eq.textContent = 'gasto do mês: R$ 155.631';
+  const eq = el('text', {x: xEq, y: H - padB + 22, 'text-anchor': 'middle', fill: 'var(--ink-2)', 'font-size': 10.5});
+  eq.textContent = 'gasto do período: ' + BRL(GASTO);
   svg.appendChild(eq);
 
-  D.forEach((d, i) => {
-    const y = padT + i * rowH;
-    const g = el('g', {});
+  ROWS.forEach((d, i) => {
+    const y = padT + i * rowH, g = el('g', {});
     g.appendChild(el('rect', {x: 0, y: y, width: W, height: rowH, fill: 'transparent'}));
-
     const lbl = el('text', {x: padL, y: y + 14, fill: 'var(--ink)', 'font-size': 12.5});
     lbl.textContent = (i ? '↳ ' : '') + d.t;
     g.appendChild(lbl);
-
     g.appendChild(el('rect', {x: padL, y: y + 24, width: Math.max(bw(d.v), 2), height: 20, rx: 3,
       fill: 'var(--s1)', opacity: i === 0 ? 1 : (i === 1 ? 0.72 : 0.45)}));
-
-    const val = el('text', {x: padL + bw(d.v) + 10, y: y + 38, fill: 'var(--ink)',
-      'font-size': 12.5, 'font-weight': 600});
+    const val = el('text', {x: padL + bw(d.v) + 10, y: y + 38, fill: 'var(--ink)', 'font-size': 12.5, 'font-weight': 600});
     val.textContent = BRL(d.v);
     g.appendChild(val);
-
     const ret = el('text', {x: padL, y: y + 60, fill: COR[d.cls], 'font-size': 12, 'font-weight': 600});
     ret.textContent = `cada R$ 1 virou ${RET(d.r)}`;
     g.appendChild(ret);
-
-    bindTip(g, `<div class="t-name">${d.t}</div>
+    REL.bindTip(g, `<div class="t-name">${d.t}</div>
       <div class="t-row"><span>Receita</span><span>${BRL(d.v)}</span></div>
       <div class="t-row"><span>Gasto</span><span>${BRL(GASTO)}</span></div>
       <div class="t-row"><span>Cada R$ 1 virou</span><span>${RET(d.r)}</span></div>`);
     svg.appendChild(g);
   });
+  document.getElementById('chart-cascata').replaceChildren(svg);
+});
 
-  document.getElementById('chart-cascata').appendChild(svg);
-})();
+/* peças entregues x peças escaladas */
+REL.onRender(V => {
+  const data = V.influs.filter(d => d.ads >= 3 && !d.n.startsWith('Outros')).sort((a, b) => b.ads - a.ads);
+  const rowH = 30, padL = 152, padR = 150, padT = 4, padB = 26;
+  const W = 900, H = padT + data.length * rowH + padB;
+  const max = Math.max(...data.map(d => d.ads));
+  const x = v => padL + (v / max) * (W - padL - padR);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Peças entregues por influenciador e quantas delas o algoritmo escalou'});
+  [0, max].forEach(t => {
+    svg.appendChild(el('line', {x1: x(t), x2: x(t), y1: padT, y2: H - padB, stroke: 'var(--rule)', 'stroke-width': 1}));
+    const tx = el('text', {x: x(t), y: H - padB + 16, 'text-anchor': t === 0 ? 'start' : 'middle', fill: 'var(--muted)', 'font-size': 10.5});
+    tx.textContent = t === 0 ? '0' : t + ' peças';
+    svg.appendChild(tx);
+  });
+  data.forEach((d, i) => {
+    const y = padT + i * rowH, bh = 13, g = el('g', {});
+    g.appendChild(el('rect', {x: 0, y: y, width: W, height: rowH, fill: 'transparent'}));
+    const lbl = el('text', {x: padL - 12, y: y + rowH / 2, 'text-anchor': 'end', fill: 'var(--ink)', 'font-size': 12, 'dominant-baseline': 'middle'});
+    lbl.textContent = d.n;
+    svg.appendChild(lbl);
+    /* total entregue: traço claro. escaladas: traço cheio por cima. */
+    g.appendChild(el('rect', {x: padL, y: y + rowH / 2 - bh / 2, width: Math.max(x(d.ads) - padL, 2), height: bh, rx: 3, fill: 'var(--s1)', opacity: 0.22}));
+    if (d.rodou > 0) g.appendChild(el('rect', {x: padL, y: y + rowH / 2 - bh / 2, width: Math.max(x(d.rodou) - padL, 2), height: bh, rx: 3, fill: 'var(--s1)'}));
+    const pct = d.rodou / d.ads;
+    const t = el('text', {x: x(d.ads) + 10, y: y + rowH / 2, fill: pct <= 0.15 ? 'var(--crit-ink)' : 'var(--ink-2)',
+      'font-size': 11, 'dominant-baseline': 'middle', 'font-weight': pct <= 0.15 ? 600 : 400});
+    t.textContent = `${d.rodou} de ${d.ads} escaladas`;
+    g.appendChild(t);
+    REL.bindTip(g, `<div class="t-name">${d.n}</div>
+      <div class="t-row"><span>Peças enviadas</span><span>${d.ads}</span></div>
+      <div class="t-row"><span>Escaladas (R$ 500+)</span><span>${d.rodou}</span></div>
+      <div class="t-row"><span>Hit rate</span><span>${Math.round(pct * 100)}%</span></div>
+      <div class="t-row"><span>Verba recebida</span><span>${BRL(d.s)}</span></div>
+      <div class="t-row"><span>Voltou</span><span>${BRL(d.r)}</span></div>`);
+    svg.appendChild(g);
+  });
+  document.getElementById('chart-vol').replaceChildren(svg);
+});
 
-})();
+/* investimento mensal no ano — barra cheia nos meses do período */
+REL.onRender((V, view) => {
+  const D = REL.data(), MESES = D.serie_2026, rec = view === 'recorrentes';
+  const sk = rec ? 's_rec' : 's', rk = rec ? 'roas_rec' : 'roas';
+  const noPeriodo = m => REL.mesesSel().some(p => p.slice(-2) === m.m);
+  const W = 420, H = 210, padL = 52, padR = 8, padT = 16, padB = 26;
+  const top = Math.max(...MESES.map(m => m[sk]));
+  const max = Math.ceil(top / 100000) * 100000 || 100000;
+  const y = v => H - padB - (v / max) * (H - padT - padB);
+  const bw = (W - padL - padR) / MESES.length;
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Investimento em anúncios com peça de influenciador, mês a mês, em 2026'});
+  [0, max / 2, max].forEach(t => {
+    svg.appendChild(el('line', {x1: padL, x2: W - padR, y1: y(t), y2: y(t), stroke: t === 0 ? 'var(--rule)' : 'var(--rule-soft)', 'stroke-width': 1}));
+    const tx = el('text', {x: padL - 8, y: y(t) + 3.5, 'text-anchor': 'end', fill: 'var(--muted)', 'font-size': 10});
+    tx.textContent = t === 0 ? '0' : 'R$ ' + Math.round(t / 1000) + 'k';
+    svg.appendChild(tx);
+  });
+  const pico = MESES.reduce((a, b) => b[sk] > a[sk] ? b : a);
+  MESES.forEach((d, i) => {
+    const cx = padL + i * bw + bw / 2, on = noPeriodo(d), g = el('g', {});
+    g.appendChild(el('rect', {x: padL + i * bw, y: padT, width: bw, height: H - padT - padB, fill: 'transparent'}));
+    g.appendChild(el('rect', {x: cx - bw * 0.3, y: y(d[sk]), width: bw * 0.6, height: Math.max(y(0) - y(d[sk]), 2), rx: 3,
+      fill: on ? 'var(--s1)' : 'var(--rule)'}));
+    if (on || d === pico) {
+      const vl = el('text', {x: cx, y: y(d[sk]) - 6, 'text-anchor': 'middle', fill: 'var(--ink)', 'font-size': 10, 'font-weight': 600});
+      vl.textContent = 'R$ ' + Math.round(d[sk] / 1000) + 'k';
+      g.appendChild(vl);
+    }
+    const tx = el('text', {x: cx, y: H - padB + 15, 'text-anchor': 'middle', fill: on ? 'var(--ink)' : 'var(--muted)',
+      'font-size': 10, 'font-weight': on ? 600 : 400});
+    tx.textContent = REL.mesNome(d.m);
+    g.appendChild(tx);
+    REL.bindTip(g, `<div class="t-name">${REL.mesNome(d.m)}/2026</div>
+      <div class="t-row"><span>Anúncio</span><span>${BRL(d[sk])}</span></div>
+      <div class="t-row"><span>Cada R$ 1 virou</span><span>${d[rk] == null ? '—' : RET(d[rk])}</span></div>`);
+    svg.appendChild(g);
+  });
+  document.getElementById('chart-spend').replaceChildren(svg);
+});
+
+/* retorno influs x média da casa, mês a mês */
+REL.onRender((V, view) => {
+  const D = REL.data(), MESES = D.serie_2026, rk = view === 'recorrentes' ? 'roas_rec' : 'roas';
+  const noPeriodo = m => REL.mesesSel().some(p => p.slice(-2) === m.m);
+  const W = 420, H = 210, padL = 42, padR = 12, padT = 16, padB = 26;
+  const top = Math.max(...MESES.map(m => Math.max(m[rk] || 0, m.geral)));
+  const max = Math.min(Math.ceil(top + 0.2), 8);
+  const y = v => H - padB - (Math.min(v, max) / max) * (H - padT - padB);
+  const x = i => padL + (i / (MESES.length - 1)) * (W - padL - padR);
+  const svg = el('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': 'Quanto cada real de anúncio devolveu: peças de influenciador comparadas à média da BP, mês a mês em 2026'});
+  for (let t = 0; t <= max; t += max > 5 ? 2 : 1) {
+    svg.appendChild(el('line', {x1: padL, x2: W - padR, y1: y(t), y2: y(t), stroke: t === 0 ? 'var(--rule)' : 'var(--rule-soft)', 'stroke-width': 1}));
+    const tx = el('text', {x: padL - 7, y: y(t) + 3.5, 'text-anchor': 'end', fill: 'var(--muted)', 'font-size': 10});
+    tx.textContent = 'R$ ' + t;
+    svg.appendChild(tx);
+  }
+  const line = (key, color) => {
+    const pts = MESES.map((m, i) => m[key] == null ? null : [x(i), y(m[key])]);
+    const d = pts.map((p, i) => p ? `${i && pts[i - 1] ? 'L' : 'M'}${p[0]} ${p[1]}` : '').join(' ');
+    svg.appendChild(el('path', {d: d, fill: 'none', stroke: color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round'}));
+  };
+  line('geral', 'var(--s2)');
+  line(rk, 'var(--s1)');
+  MESES.forEach((m, i) => {
+    ['geral', rk].forEach(k => {
+      if (m[k] == null) return;
+      svg.appendChild(el('circle', {cx: x(i), cy: y(m[k]), r: 4, fill: k === 'geral' ? 'var(--s2)' : 'var(--s1)',
+        stroke: 'var(--surface)', 'stroke-width': 2}));
+    });
+    const on = noPeriodo(m);
+    const tx = el('text', {x: x(i), y: H - padB + 15, 'text-anchor': 'middle', fill: on ? 'var(--ink)' : 'var(--muted)',
+      'font-size': 10, 'font-weight': on ? 600 : 400});
+    tx.textContent = REL.mesNome(m.m);
+    svg.appendChild(tx);
+    const g = el('rect', {x: x(i) - (W - padL - padR) / (MESES.length * 2), y: padT,
+      width: (W - padL - padR) / MESES.length, height: H - padT - padB, fill: 'transparent'});
+    REL.bindTip(g, `<div class="t-name">${REL.mesNome(m.m)}/2026 — cada R$ 1 de anúncio devolveu</div>
+      <div class="t-row"><span>Peças de influ</span><span>${m[rk] == null ? '—' : RET(m[rk])}</span></div>
+      <div class="t-row"><span>Média da BP</span><span>${RET(m.geral)}</span></div>`);
+    svg.appendChild(g);
+  });
+  document.getElementById('chart-roas').replaceChildren(svg);
+});
+
+REL.init();
 </script>
 </body>
 </html>

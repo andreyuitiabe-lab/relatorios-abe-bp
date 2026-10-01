@@ -28,9 +28,40 @@
   },
   "pendencias": [
    "A planilha de custo declara total R$ 46.931,10, mas as 10 linhas somam R$ 52.431,10 — R$ 5.500 de diferença. Usada a soma das linhas.",
-   "Murillo Capellozzi, Diego Del Rio, BR Explora, Pedro Alaer e Julliene Salviano somam R$ 84.031 de anúncio sem cachê registrado.",
+   "Murillo Capellozzi, Diego Del Rio, BR Explora, Pedro Alaer e Julliene Salviano somam R$ 84.031 de anúncio em agosto sem cachê no mês. A planilha do FP&A mostra cachê de julho (Clube do Livro) para Murillo, Diego Del Rio e BR Explora — R$ 1.500 cada — e de abril para Pedro Alaer (R$ 500): as peças de agosto são de contratos anteriores. Julliene Salviano não aparece em nenhum mês.",
    "O valor de anúncio não inclui o acréscimo de 12,15% usado em algumas planilhas da casa. Com ele, o retorno vai de R$ 1,23 para R$ 1,10 — e a média da casa cai junto.",
    "A comissão das 137 vendas fechadas pelo time comercial não entra em nenhuma conta de retorno."
+  ]
+ },
+ "_fonte_2026-09": "Aba 'INFLUENCIADORES | INPUT_DADOS' da planilha [FP&A] Lançamentos Custo Variável (1vzcnQodCxrr7zdKFgbJ93AjlB1Ww7MXdT2EooaQRoV8), competência 30/09/2026, lida em 01/out/2026 — linhas 53 a 60, status PRÉVIA/ABERTO (podem mudar até o fechamento do FP&A).",
+ "2026-09": {
+  "cache_peca_venda": {
+   "Nine Borges": 10500,
+   "Alam Carrion": 3500,
+   "Fran Otto": 2000,
+   "Roberto Beijato": 2000,
+   "Morgana Klein": 9623,
+   "Leomar Segundo": 6255,
+   "Ben Pontes": 4811,
+   "Mackenzie": 4811,
+   "_nota": "'Patrocínio mensal' JOM R$ 25.500 rateado pelos valores do [JOM] Plano Patrocínio Influenciadores (aba Setembro, 'Já contratada'): Morgana 10.000, Leomar 6.500, Ben Pontes 5.000, Mackenzie 5.000 = R$ 26.500. O plano soma R$ 1.000 a mais que o lançamento; rateio proporcional ao plano."
+  },
+  "acao_de_marca": {
+   "_nota": "Screenings e press kit — fora do cálculo de retorno",
+   "Press kit (John Money)": 10000,
+   "Screening JOM": 4666.14,
+   "Screening Tecnocracia": 7816.14
+  },
+  "excluido_a_pedido": {},
+  "contexto_bp": {
+   "venda_nova": 20300000,
+   "custo_marginal": 9900000
+  },
+  "pendencias": [
+   "O custo de setembro saiu da planilha do FP&A ainda em prévia (status ABERTO, lançado em 01/out). Pode mudar no fechamento.",
+   "O 'Patrocínio mensal' do John Money (R$ 25.500) foi dividido entre Morgana Klein, Leomar Segundo, Ben Pontes e Mackenzie pelos valores do plano de patrocínio, que somam R$ 26.500 — R$ 1.000 de diferença a confirmar.",
+   "Josué Aragão, Mayara Ranni e Arthur Schreiber não têm cachê em setembro (o contrato fixo terminou em 06/09), mas seguiram com peças no ar.",
+   "Roberto Beijato (R$ 2.000, Enéas) e Mackenzie (R$ 4.811 do patrocínio) têm cachê em setembro mas nenhum anúncio com o nome deles na Meta até 30/09. O cachê entra no gasto do canal sem retorno correspondente."
   ]
  }
 }

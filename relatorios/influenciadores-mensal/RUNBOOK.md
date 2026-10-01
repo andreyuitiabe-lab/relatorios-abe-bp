@@ -19,7 +19,15 @@ Duas delas não têm facilidade com números — a linguagem do relatório é ca
 
 O cachê **não existe no BigQuery**. Sem ele o `refresh.py` para de propósito.
 
-Pedir a **aba INFLUENCIADORES do controle de custo variável** do mês fechado. Quem manda:
+**Fonte direta (desde out/2026):** aba `INFLUENCIADORES |📥 INPUT_DADOS` da planilha
+**[FP&A] Lançamentos Custo Variável** (`1vzcnQodCxrr7zdKFgbJ93AjlB1Ww7MXdT2EooaQRoV8`). Filtrar pela coluna
+`MÊS COMPETÊNCIA` (último dia do mês). O FP&A lança no dia 1 do mês seguinte, com status ABERTO (prévia) —
+registrar isso em `pendencias`. A API do Sheets não aceita o ADC; baixar pelo conector do Drive em xlsx
+(`download_file_content`, o resultado vai para arquivo) e ler com openpyxl.
+⚠️ Linha "Patrocínio mensal" (John Money) não tem nome: ratear pelo `[JOM] Plano Patrocínio Influenciadores`
+(aba do mês, status "Já contratada"). Em set/2026 o plano somava R$ 1.000 a mais que o lançamento.
+
+Se a planilha não tiver o mês, pedir a **aba INFLUENCIADORES do controle de custo variável** do mês fechado. Quem manda:
 Bárbara/Isabella (em agosto veio da Bárbara, com Arthur Victor de Albuquerque Lima e João de Souza
 Luiz em cópia). Pedir por Slack no grupo com as três, ou por e-mail.
 
@@ -46,7 +54,13 @@ anúncio não tinham cachê listado — o retorno deles ficou otimista. Listar e
 ```bash
 cd ~/meu_projeto/relatorios-abe-bp/relatorios/influenciadores-mensal
 python3 refresh.py --mes AAAA-MM
+python3 refresh.py --mes 2026-08 --ate 2026-09   # vários meses juntos (todos precisam estar em custo_manual.json)
 ```
+
+O `data.json` sai com dois recortes em `views` — `todos` e `recorrentes` (lista `RECORRENTES` no
+`refresh.py`) — e um `mensal` com cada mês isolado. As páginas leem tudo pelo `relatorio.js` e o botão
+Todos/Recorrentes troca o recorte de todos os gráficos e tabelas; o link com `#recorrentes` já abre filtrado.
+A média da casa agora é calculada no BQ (`media_casa`) — bateu com os valores manuais de agosto (1,47/1,41).
 
 Usa `bqq` (ADC, não expira). ⚠️ Nunca `bq query`.
 
