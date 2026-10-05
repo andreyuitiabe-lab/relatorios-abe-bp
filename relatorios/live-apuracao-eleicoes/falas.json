@@ -1,0 +1,27 @@
+{
+  "_fonte": "Transcrição automática do YouTube (kvV0ZrqlqF4). Horário = início da live (16:09:13, release_timestamp do vídeo) + minutagem. Conferido pela fala 'acabou de dar 5 horas' em 17:01.",
+  "video": "https://www.youtube.com/watch?v=kvV0ZrqlqF4",
+  "inicio": "16:09",
+  "fim": "23:11",
+  "falas": [
+    {"hora": "16:29", "minutagem": "0:19:34", "preco": false, "audiencia": null,   "frase": "Promoção da Black Friday da Brasil Paralelo, que a gente tá antecipando só hoje até meia-noite."},
+    {"hora": "17:22", "minutagem": "1:13:06", "preco": false, "audiencia": 200000, "frase": "A nossa Black Friday já tá liberada… a melhor oferta da BP no ano para se tornar membro."},
+    {"hora": "18:11", "minutagem": "2:01:53", "preco": false, "audiencia": 465000, "frase": "Liberou aqui a nossa promoção de Black Friday. Link na descrição e QR code na tela."},
+    {"hora": "18:43", "minutagem": "2:34:38", "preco": false, "audiencia": null,   "frase": "Melhor oferta da BP, antecipando de novembro para cá."},
+    {"hora": "19:21", "minutagem": "3:12:18", "preco": false, "audiencia": 528000, "frase": "Nossa Black Friday antecipada até hoje… para se tornar membro com a melhor condição possível."},
+    {"hora": "20:33", "minutagem": "4:24:19", "preco": true,  "audiencia": null,   "frase": "1,90 tá um pouco de… é barato. QR code na tela, link na descrição."},
+    {"hora": "21:42", "minutagem": "5:33:06", "preco": true,  "audiencia": null,   "frase": "Uma promoção incrível para você pagar R$ 1,90."},
+    {"hora": "22:12", "minutagem": "6:02:51", "preco": true,  "audiencia": null,   "frase": "QR code na tela, link na descrição do vídeo. 1,90 por mês."},
+    {"hora": "23:01", "minutagem": "6:52:28", "preco": true,  "audiencia": 71000,  "frase": "Você vai poder pagar R$ 1,90 por mês para assinar a Brasil Paralelo."}
+  ],
+  "outras_falas": [
+    {"hora": "17:00", "frase": "Clubinho do Livro (outro produto) — sem reação na LP da Black."},
+    {"hora": "22:33", "frase": "Clubinho do Livro (outro produto) — sem reação na LP da Black."},
+    {"hora": "22:53", "frase": "Teaser de filme + 'aproveite para ser membro da BP' (menção leve, sem oferta)."}
+  ],
+  "picos_sem_fala": [
+    {"hora": "16:00", "nota": "Antes de a live começar (16:09) — provavelmente o link na descrição."},
+    {"hora": "17:40", "nota": "Subida de 15 min sem fala da oferta."},
+    {"hora": "19:45", "nota": "Pico pequeno sem fala da oferta."}
+  ]
+}

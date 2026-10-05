@@ -1,0 +1,1413 @@
+{
+ "updated_at": "2026-10-05T13:30:56",
+ "live": {
+  "video": "https://www.youtube.com/watch?v=kvV0ZrqlqF4",
+  "inicio": "16:09",
+  "fim": "23:11"
+ },
+ "kpis": {
+  "vendas": 7235,
+  "receita": 463285,
+  "vendas_04": 7130,
+  "compradores": 7098,
+  "vendas_dia_total": 8432,
+  "vendas_dia_mediana_base": 1117,
+  "pct_em_janela_de_fala": 88.4,
+  "lp_usuarios": 33259,
+  "checkout_usuarios": 15545
+ },
+ "serie": [
+  {
+   "t": "15:00",
+   "lp": 19,
+   "lp_live": 2,
+   "checkout": 1,
+   "vendas": 0,
+   "receita": 0.0
+  },
+  {
+   "t": "15:05",
+   "lp": 22,
+   "lp_live": 2,
+   "checkout": 1,
+   "vendas": 0,
+   "receita": 0.0
+  },
+  {
+   "t": "15:10",
+   "lp": 10,
+   "lp_live": 2,
+   "checkout": 0,
+   "vendas": 0,
+   "receita": 0.0
+  },
+  {
+   "t": "15:15",
+   "lp": 21,
+   "lp_live": 6,
+   "checkout": 1,
+   "vendas": 0,
+   "receita": 0.0
+  },
+  {
+   "t": "15:20",
+   "lp": 30,
+   "lp_live": 4,
+   "checkout": 3,
+   "vendas": 0,
+   "receita": 0.0
+  },
+  {
+   "t": "15:25",
+   "lp": 15,
+   "lp_live": 4,
+   "checkout": 1,
+   "vendas": 0,
+   "receita": 0.0
+  },
+  {
+   "t": "15:30",
+   "lp": 20,
+   "lp_live": 3,
+   "checkout": 0,
+   "vendas": 0,
+   "receita": 0.0
+  },
+  {
+   "t": "15:35",
+   "lp": 22,
+   "lp_live": 5,
+   "checkout": 0,
+   "vendas": 0,
+   "receita": 0.0
+  },
+  {
+   "t": "15:40",
+   "lp": 18,
+   "lp_live": 4,
+   "checkout": 4,
+   "vendas": 0,
+   "receita": 0.0
+  },
+  {
+   "t": "15:45",
+   "lp": 15,
+   "lp_live": 6,
+   "checkout": 4,
+   "vendas": 0,
+   "receita": 0.0
+  },
+  {
+   "t": "15:50",
+   "lp": 27,
+   "lp_live": 4,
+   "checkout": 3,
+   "vendas": 0,
+   "receita": 0.0
+  },
+  {
+   "t": "15:55",
+   "lp": 25,
+   "lp_live": 8,
+   "checkout": 4,
+   "vendas": 1,
+   "receita": 22.8
+  },
+  {
+   "t": "16:00",
+   "lp": 287,
+   "lp_live": 249,
+   "checkout": 18,
+   "vendas": 6,
+   "receita": 799.85
+  },
+  {
+   "t": "16:05",
+   "lp": 166,
+   "lp_live": 131,
+   "checkout": 15,
+   "vendas": 6,
+   "receita": 808.8
+  },
+  {
+   "t": "16:10",
+   "lp": 119,
+   "lp_live": 90,
+   "checkout": 12,
+   "vendas": 2,
+   "receita": 45.6
+  },
+  {
+   "t": "16:15",
+   "lp": 84,
+   "lp_live": 47,
+   "checkout": 14,
+   "vendas": 3,
+   "receita": 284.4
+  },
+  {
+   "t": "16:20",
+   "lp": 64,
+   "lp_live": 38,
+   "checkout": 13,
+   "vendas": 2,
+   "receita": 45.6
+  },
+  {
+   "t": "16:25",
+   "lp": 109,
+   "lp_live": 84,
+   "checkout": 12,
+   "vendas": 1,
+   "receita": 22.8
+  },
+  {
+   "t": "16:30",
+   "lp": 463,
+   "lp_live": 284,
+   "checkout": 158,
+   "vendas": 59,
+   "receita": 1345.2
+  },
+  {
+   "t": "16:35",
+   "lp": 102,
+   "lp_live": 59,
+   "checkout": 54,
+   "vendas": 15,
+   "receita": 342.0
+  },
+  {
+   "t": "16:40",
+   "lp": 87,
+   "lp_live": 51,
+   "checkout": 28,
+   "vendas": 6,
+   "receita": 507.47
+  },
+  {
+   "t": "16:45",
+   "lp": 81,
+   "lp_live": 57,
+   "checkout": 22,
+   "vendas": 9,
+   "receita": 359.87
+  },
+  {
+   "t": "16:50",
+   "lp": 122,
+   "lp_live": 85,
+   "checkout": 26,
+   "vendas": 9,
+   "receita": 296.4
+  },
+  {
+   "t": "16:55",
+   "lp": 104,
+   "lp_live": 78,
+   "checkout": 18,
+   "vendas": 6,
+   "receita": 291.47
+  },
+  {
+   "t": "17:00",
+   "lp": 149,
+   "lp_live": 113,
+   "checkout": 18,
+   "vendas": 11,
+   "receita": 699.2
+  },
+  {
+   "t": "17:05",
+   "lp": 152,
+   "lp_live": 126,
+   "checkout": 10,
+   "vendas": 2,
+   "receita": 45.6
+  },
+  {
+   "t": "17:10",
+   "lp": 278,
+   "lp_live": 248,
+   "checkout": 7,
+   "vendas": 8,
+   "receita": 1748.99
+  },
+  {
+   "t": "17:15",
+   "lp": 339,
+   "lp_live": 310,
+   "checkout": 15,
+   "vendas": 3,
+   "receita": 68.4
+  },
+  {
+   "t": "17:20",
+   "lp": 664,
+   "lp_live": 534,
+   "checkout": 109,
+   "vendas": 46,
+   "receita": 1912.8
+  },
+  {
+   "t": "17:25",
+   "lp": 221,
+   "lp_live": 112,
+   "checkout": 107,
+   "vendas": 33,
+   "receita": 2734.8
+  },
+  {
+   "t": "17:30",
+   "lp": 148,
+   "lp_live": 113,
+   "checkout": 35,
+   "vendas": 8,
+   "receita": 854.4
+  },
+  {
+   "t": "17:35",
+   "lp": 112,
+   "lp_live": 89,
+   "checkout": 27,
+   "vendas": 4,
+   "receita": 279.0
+  },
+  {
+   "t": "17:40",
+   "lp": 628,
+   "lp_live": 597,
+   "checkout": 30,
+   "vendas": 12,
+   "receita": 705.6
+  },
+  {
+   "t": "17:45",
+   "lp": 766,
+   "lp_live": 693,
+   "checkout": 52,
+   "vendas": 18,
+   "receita": 2634.48
+  },
+  {
+   "t": "17:50",
+   "lp": 846,
+   "lp_live": 808,
+   "checkout": 33,
+   "vendas": 13,
+   "receita": 1354.8
+  },
+  {
+   "t": "17:55",
+   "lp": 285,
+   "lp_live": 249,
+   "checkout": 25,
+   "vendas": 7,
+   "receita": 591.6
+  },
+  {
+   "t": "18:00",
+   "lp": 268,
+   "lp_live": 236,
+   "checkout": 16,
+   "vendas": 9,
+   "receita": 398.4
+  },
+  {
+   "t": "18:05",
+   "lp": 129,
+   "lp_live": 111,
+   "checkout": 9,
+   "vendas": 1,
+   "receita": 22.8
+  },
+  {
+   "t": "18:10",
+   "lp": 2690,
+   "lp_live": 1947,
+   "checkout": 668,
+   "vendas": 306,
+   "receita": 15407.27
+  },
+  {
+   "t": "18:15",
+   "lp": 948,
+   "lp_live": 617,
+   "checkout": 376,
+   "vendas": 150,
+   "receita": 8816.46
+  },
+  {
+   "t": "18:20",
+   "lp": 185,
+   "lp_live": 117,
+   "checkout": 93,
+   "vendas": 33,
+   "receita": 3118.26
+  },
+  {
+   "t": "18:25",
+   "lp": 175,
+   "lp_live": 120,
+   "checkout": 48,
+   "vendas": 18,
+   "receita": 4287.27
+  },
+  {
+   "t": "18:30",
+   "lp": 206,
+   "lp_live": 156,
+   "checkout": 41,
+   "vendas": 17,
+   "receita": 1641.63
+  },
+  {
+   "t": "18:35",
+   "lp": 156,
+   "lp_live": 114,
+   "checkout": 33,
+   "vendas": 19,
+   "receita": 1437.33
+  },
+  {
+   "t": "18:40",
+   "lp": 244,
+   "lp_live": 208,
+   "checkout": 25,
+   "vendas": 12,
+   "receita": 875.47
+  },
+  {
+   "t": "18:45",
+   "lp": 5497,
+   "lp_live": 3652,
+   "checkout": 1751,
+   "vendas": 770,
+   "receita": 40957.74
+  },
+  {
+   "t": "18:50",
+   "lp": 636,
+   "lp_live": 379,
+   "checkout": 356,
+   "vendas": 126,
+   "receita": 10378.97
+  },
+  {
+   "t": "18:55",
+   "lp": 450,
+   "lp_live": 291,
+   "checkout": 209,
+   "vendas": 56,
+   "receita": 2736.34
+  },
+  {
+   "t": "19:00",
+   "lp": 239,
+   "lp_live": 158,
+   "checkout": 85,
+   "vendas": 40,
+   "receita": 3986.17
+  },
+  {
+   "t": "19:05",
+   "lp": 195,
+   "lp_live": 141,
+   "checkout": 67,
+   "vendas": 23,
+   "receita": 7266.02
+  },
+  {
+   "t": "19:10",
+   "lp": 247,
+   "lp_live": 179,
+   "checkout": 44,
+   "vendas": 15,
+   "receita": 2025.47
+  },
+  {
+   "t": "19:15",
+   "lp": 231,
+   "lp_live": 177,
+   "checkout": 45,
+   "vendas": 22,
+   "receita": 1716.0
+  },
+  {
+   "t": "19:20",
+   "lp": 4008,
+   "lp_live": 2867,
+   "checkout": 984,
+   "vendas": 493,
+   "receita": 28404.74
+  },
+  {
+   "t": "19:25",
+   "lp": 790,
+   "lp_live": 324,
+   "checkout": 574,
+   "vendas": 223,
+   "receita": 17240.13
+  },
+  {
+   "t": "19:30",
+   "lp": 469,
+   "lp_live": 308,
+   "checkout": 205,
+   "vendas": 84,
+   "receita": 5908.83
+  },
+  {
+   "t": "19:35",
+   "lp": 295,
+   "lp_live": 191,
+   "checkout": 124,
+   "vendas": 51,
+   "receita": 5100.4
+  },
+  {
+   "t": "19:40",
+   "lp": 278,
+   "lp_live": 190,
+   "checkout": 97,
+   "vendas": 29,
+   "receita": 2520.36
+  },
+  {
+   "t": "19:45",
+   "lp": 655,
+   "lp_live": 466,
+   "checkout": 164,
+   "vendas": 85,
+   "receita": 7743.8
+  },
+  {
+   "t": "19:50",
+   "lp": 492,
+   "lp_live": 340,
+   "checkout": 137,
+   "vendas": 58,
+   "receita": 5815.72
+  },
+  {
+   "t": "19:55",
+   "lp": 238,
+   "lp_live": 168,
+   "checkout": 53,
+   "vendas": 21,
+   "receita": 7349.45
+  },
+  {
+   "t": "20:00",
+   "lp": 303,
+   "lp_live": 234,
+   "checkout": 47,
+   "vendas": 37,
+   "receita": 4582.16
+  },
+  {
+   "t": "20:05",
+   "lp": 268,
+   "lp_live": 193,
+   "checkout": 59,
+   "vendas": 35,
+   "receita": 4658.26
+  },
+  {
+   "t": "20:10",
+   "lp": 176,
+   "lp_live": 124,
+   "checkout": 38,
+   "vendas": 14,
+   "receita": 2257.06
+  },
+  {
+   "t": "20:15",
+   "lp": 163,
+   "lp_live": 122,
+   "checkout": 20,
+   "vendas": 8,
+   "receita": 611.42
+  },
+  {
+   "t": "20:20",
+   "lp": 197,
+   "lp_live": 149,
+   "checkout": 30,
+   "vendas": 12,
+   "receita": 1567.67
+  },
+  {
+   "t": "20:25",
+   "lp": 216,
+   "lp_live": 139,
+   "checkout": 50,
+   "vendas": 23,
+   "receita": 2915.4
+  },
+  {
+   "t": "20:30",
+   "lp": 990,
+   "lp_live": 937,
+   "checkout": 48,
+   "vendas": 31,
+   "receita": 1837.86
+  },
+  {
+   "t": "20:35",
+   "lp": 6355,
+   "lp_live": 3909,
+   "checkout": 2373,
+   "vendas": 1079,
+   "receita": 48774.66
+  },
+  {
+   "t": "20:40",
+   "lp": 545,
+   "lp_live": 291,
+   "checkout": 406,
+   "vendas": 130,
+   "receita": 9488.87
+  },
+  {
+   "t": "20:45",
+   "lp": 353,
+   "lp_live": 212,
+   "checkout": 186,
+   "vendas": 59,
+   "receita": 4199.51
+  },
+  {
+   "t": "20:50",
+   "lp": 499,
+   "lp_live": 301,
+   "checkout": 204,
+   "vendas": 79,
+   "receita": 6008.63
+  },
+  {
+   "t": "20:55",
+   "lp": 267,
+   "lp_live": 163,
+   "checkout": 123,
+   "vendas": 48,
+   "receita": 4129.02
+  },
+  {
+   "t": "21:00",
+   "lp": 186,
+   "lp_live": 116,
+   "checkout": 68,
+   "vendas": 24,
+   "receita": 3105.3
+  },
+  {
+   "t": "21:05",
+   "lp": 184,
+   "lp_live": 114,
+   "checkout": 70,
+   "vendas": 28,
+   "receita": 3491.87
+  },
+  {
+   "t": "21:10",
+   "lp": 148,
+   "lp_live": 99,
+   "checkout": 46,
+   "vendas": 14,
+   "receita": 3060.0
+  },
+  {
+   "t": "21:15",
+   "lp": 182,
+   "lp_live": 111,
+   "checkout": 57,
+   "vendas": 28,
+   "receita": 3470.87
+  },
+  {
+   "t": "21:20",
+   "lp": 163,
+   "lp_live": 109,
+   "checkout": 45,
+   "vendas": 18,
+   "receita": 1853.83
+  },
+  {
+   "t": "21:25",
+   "lp": 178,
+   "lp_live": 103,
+   "checkout": 53,
+   "vendas": 21,
+   "receita": 2638.1
+  },
+  {
+   "t": "21:30",
+   "lp": 152,
+   "lp_live": 92,
+   "checkout": 51,
+   "vendas": 18,
+   "receita": 1135.8
+  },
+  {
+   "t": "21:35",
+   "lp": 127,
+   "lp_live": 80,
+   "checkout": 34,
+   "vendas": 10,
+   "receita": 783.0
+  },
+  {
+   "t": "21:40",
+   "lp": 2950,
+   "lp_live": 2150,
+   "checkout": 737,
+   "vendas": 381,
+   "receita": 14490.09
+  },
+  {
+   "t": "21:45",
+   "lp": 1123,
+   "lp_live": 422,
+   "checkout": 762,
+   "vendas": 281,
+   "receita": 14022.62
+  },
+  {
+   "t": "21:50",
+   "lp": 321,
+   "lp_live": 151,
+   "checkout": 227,
+   "vendas": 79,
+   "receita": 5976.68
+  },
+  {
+   "t": "21:55",
+   "lp": 242,
+   "lp_live": 138,
+   "checkout": 115,
+   "vendas": 49,
+   "receita": 2846.74
+  },
+  {
+   "t": "22:00",
+   "lp": 245,
+   "lp_live": 120,
+   "checkout": 109,
+   "vendas": 38,
+   "receita": 2683.07
+  },
+  {
+   "t": "22:05",
+   "lp": 157,
+   "lp_live": 93,
+   "checkout": 67,
+   "vendas": 18,
+   "receita": 2340.1
+  },
+  {
+   "t": "22:10",
+   "lp": 1955,
+   "lp_live": 1361,
+   "checkout": 558,
+   "vendas": 288,
+   "receita": 12297.21
+  },
+  {
+   "t": "22:15",
+   "lp": 690,
+   "lp_live": 278,
+   "checkout": 492,
+   "vendas": 186,
+   "receita": 8537.08
+  },
+  {
+   "t": "22:20",
+   "lp": 269,
+   "lp_live": 143,
+   "checkout": 181,
+   "vendas": 52,
+   "receita": 4079.52
+  },
+  {
+   "t": "22:25",
+   "lp": 265,
+   "lp_live": 132,
+   "checkout": 144,
+   "vendas": 56,
+   "receita": 3103.07
+  },
+  {
+   "t": "22:30",
+   "lp": 194,
+   "lp_live": 104,
+   "checkout": 86,
+   "vendas": 43,
+   "receita": 3116.57
+  },
+  {
+   "t": "22:35",
+   "lp": 197,
+   "lp_live": 102,
+   "checkout": 92,
+   "vendas": 47,
+   "receita": 4239.1
+  },
+  {
+   "t": "22:40",
+   "lp": 143,
+   "lp_live": 74,
+   "checkout": 59,
+   "vendas": 22,
+   "receita": 1250.69
+  },
+  {
+   "t": "22:45",
+   "lp": 138,
+   "lp_live": 68,
+   "checkout": 63,
+   "vendas": 27,
+   "receita": 1586.2
+  },
+  {
+   "t": "22:50",
+   "lp": 644,
+   "lp_live": 431,
+   "checkout": 179,
+   "vendas": 93,
+   "receita": 2885.67
+  },
+  {
+   "t": "22:55",
+   "lp": 616,
+   "lp_live": 310,
+   "checkout": 310,
+   "vendas": 127,
+   "receita": 7596.03
+  },
+  {
+   "t": "23:00",
+   "lp": 1558,
+   "lp_live": 988,
+   "checkout": 522,
+   "vendas": 257,
+   "receita": 10636.72
+  },
+  {
+   "t": "23:05",
+   "lp": 896,
+   "lp_live": 482,
+   "checkout": 498,
+   "vendas": 191,
+   "receita": 9509.49
+  },
+  {
+   "t": "23:10",
+   "lp": 374,
+   "lp_live": 187,
+   "checkout": 246,
+   "vendas": 84,
+   "receita": 3633.94
+  },
+  {
+   "t": "23:15",
+   "lp": 190,
+   "lp_live": 89,
+   "checkout": 129,
+   "vendas": 31,
+   "receita": 1848.49
+  },
+  {
+   "t": "23:20",
+   "lp": 131,
+   "lp_live": 68,
+   "checkout": 91,
+   "vendas": 20,
+   "receita": 930.0
+  },
+  {
+   "t": "23:25",
+   "lp": 110,
+   "lp_live": 45,
+   "checkout": 95,
+   "vendas": 22,
+   "receita": 1176.63
+  },
+  {
+   "t": "23:30",
+   "lp": 78,
+   "lp_live": 36,
+   "checkout": 34,
+   "vendas": 11,
+   "receita": 934.07
+  },
+  {
+   "t": "23:35",
+   "lp": 82,
+   "lp_live": 40,
+   "checkout": 34,
+   "vendas": 12,
+   "receita": 755.27
+  },
+  {
+   "t": "23:40",
+   "lp": 63,
+   "lp_live": 36,
+   "checkout": 26,
+   "vendas": 7,
+   "receita": 462.6
+  },
+  {
+   "t": "23:45",
+   "lp": 74,
+   "lp_live": 34,
+   "checkout": 24,
+   "vendas": 15,
+   "receita": 1292.44
+  },
+  {
+   "t": "23:50",
+   "lp": 98,
+   "lp_live": 40,
+   "checkout": 44,
+   "vendas": 11,
+   "receita": 456.0
+  },
+  {
+   "t": "23:55",
+   "lp": 64,
+   "lp_live": 35,
+   "checkout": 54,
+   "vendas": 14,
+   "receita": 494.4
+  }
+ ],
+ "falas": [
+  {
+   "hora": "16:29",
+   "minutagem": "0:19:34",
+   "preco": false,
+   "audiencia": null,
+   "frase": "Promoção da Black Friday da Brasil Paralelo, que a gente tá antecipando só hoje até meia-noite.",
+   "janela": "16:25–16:55",
+   "lp_antes_5min": 89,
+   "lp_pico_5min": 463,
+   "lp_15min": 674,
+   "vendas": 99,
+   "receita": 2874,
+   "vendas_por_100_views": 14.7
+  },
+  {
+   "hora": "17:22",
+   "minutagem": "1:13:06",
+   "preco": false,
+   "audiencia": 200000,
+   "frase": "A nossa Black Friday já tá liberada… a melhor oferta da BP no ano para se tornar membro.",
+   "janela": "17:20–17:50",
+   "lp_antes_5min": 256,
+   "lp_pico_5min": 664,
+   "lp_15min": 1033,
+   "vendas": 121,
+   "receita": 9121,
+   "vendas_por_100_views": 11.7
+  },
+  {
+   "hora": "18:11",
+   "minutagem": "2:01:53",
+   "preco": false,
+   "audiencia": 465000,
+   "frase": "Liberou aqui a nossa promoção de Black Friday. Link na descrição e QR code na tela.",
+   "janela": "18:10–18:40",
+   "lp_antes_5min": 227,
+   "lp_pico_5min": 2690,
+   "lp_15min": 3823,
+   "vendas": 543,
+   "receita": 34708,
+   "vendas_por_100_views": 14.2
+  },
+  {
+   "hora": "18:43",
+   "minutagem": "2:34:38",
+   "preco": false,
+   "audiencia": null,
+   "frase": "Melhor oferta da BP, antecipando de novembro para cá.",
+   "janela": "18:40–19:10",
+   "lp_antes_5min": 179,
+   "lp_pico_5min": 5497,
+   "lp_15min": 6377,
+   "vendas": 1027,
+   "receita": 66201,
+   "vendas_por_100_views": 16.1
+  },
+  {
+   "hora": "19:21",
+   "minutagem": "3:12:18",
+   "preco": false,
+   "audiencia": 528000,
+   "frase": "Nossa Black Friday antecipada até hoje… para se tornar membro com a melhor condição possível.",
+   "janela": "19:20–19:50",
+   "lp_antes_5min": 224,
+   "lp_pico_5min": 4008,
+   "lp_15min": 5267,
+   "vendas": 965,
+   "receita": 66918,
+   "vendas_por_100_views": 18.3
+  },
+  {
+   "hora": "20:33",
+   "minutagem": "4:24:19",
+   "preco": true,
+   "audiencia": null,
+   "frase": "1,90 tá um pouco de… é barato. QR code na tela, link na descrição.",
+   "janela": "20:30–21:00",
+   "lp_antes_5min": 192,
+   "lp_pico_5min": 6355,
+   "lp_15min": 7890,
+   "vendas": 1426,
+   "receita": 74439,
+   "vendas_por_100_views": 18.1
+  },
+  {
+   "hora": "21:42",
+   "minutagem": "5:33:06",
+   "preco": true,
+   "audiencia": null,
+   "frase": "Uma promoção incrível para você pagar R$ 1,90.",
+   "janela": "21:40–22:10",
+   "lp_antes_5min": 152,
+   "lp_pico_5min": 2950,
+   "lp_15min": 4394,
+   "vendas": 846,
+   "receita": 42359,
+   "vendas_por_100_views": 19.3
+  },
+  {
+   "hora": "22:12",
+   "minutagem": "6:02:51",
+   "preco": true,
+   "audiencia": null,
+   "frase": "QR code na tela, link na descrição do vídeo. 1,90 por mês.",
+   "janela": "22:10–22:40",
+   "lp_antes_5min": 215,
+   "lp_pico_5min": 1955,
+   "lp_15min": 2914,
+   "vendas": 672,
+   "receita": 35373,
+   "vendas_por_100_views": 23.1
+  },
+  {
+   "hora": "23:01",
+   "minutagem": "6:52:28",
+   "preco": true,
+   "audiencia": 71000,
+   "frase": "Você vai poder pagar R$ 1,90 por mês para assinar a Brasil Paralelo.",
+   "janela": "23:00–23:30",
+   "lp_antes_5min": 466,
+   "lp_pico_5min": 1558,
+   "lp_15min": 2828,
+   "vendas": 605,
+   "receita": 27735,
+   "vendas_por_100_views": 21.4
+  }
+ ],
+ "outras_falas": [
+  {
+   "hora": "17:00",
+   "frase": "Clubinho do Livro (outro produto) — sem reação na LP da Black."
+  },
+  {
+   "hora": "22:33",
+   "frase": "Clubinho do Livro (outro produto) — sem reação na LP da Black."
+  },
+  {
+   "hora": "22:53",
+   "frase": "Teaser de filme + 'aproveite para ser membro da BP' (menção leve, sem oferta)."
+  }
+ ],
+ "picos_sem_fala": [
+  {
+   "hora": "16:00",
+   "nota": "Antes de a live começar (16:09) — provavelmente o link na descrição."
+  },
+  {
+   "hora": "17:40",
+   "nota": "Subida de 15 min sem fala da oferta."
+  },
+  {
+   "hora": "19:45",
+   "nota": "Pico pequeno sem fala da oferta."
+  }
+ ],
+ "diario": [
+  {
+   "dia": "2026-09-06",
+   "vendas": 1395,
+   "vendas_live": 0,
+   "receita": 647943.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-07",
+   "vendas": 1315,
+   "vendas_live": 0,
+   "receita": 688940.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-08",
+   "vendas": 973,
+   "vendas_live": 0,
+   "receita": 670946.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-09",
+   "vendas": 951,
+   "vendas_live": 0,
+   "receita": 659469.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-10",
+   "vendas": 1032,
+   "vendas_live": 0,
+   "receita": 806211.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-11",
+   "vendas": 1047,
+   "vendas_live": 0,
+   "receita": 808969.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-12",
+   "vendas": 1303,
+   "vendas_live": 0,
+   "receita": 819933.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-13",
+   "vendas": 1423,
+   "vendas_live": 0,
+   "receita": 927238.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-14",
+   "vendas": 1238,
+   "vendas_live": 0,
+   "receita": 1042873.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-15",
+   "vendas": 1489,
+   "vendas_live": 0,
+   "receita": 1671793.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-16",
+   "vendas": 795,
+   "vendas_live": 0,
+   "receita": 548475.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-17",
+   "vendas": 804,
+   "vendas_live": 0,
+   "receita": 400931.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-18",
+   "vendas": 975,
+   "vendas_live": 0,
+   "receita": 647147.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-19",
+   "vendas": 975,
+   "vendas_live": 0,
+   "receita": 352525.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-20",
+   "vendas": 1021,
+   "vendas_live": 0,
+   "receita": 352677.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-21",
+   "vendas": 854,
+   "vendas_live": 0,
+   "receita": 432624.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-22",
+   "vendas": 1014,
+   "vendas_live": 0,
+   "receita": 591918.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-23",
+   "vendas": 1691,
+   "vendas_live": 0,
+   "receita": 654868.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-24",
+   "vendas": 1681,
+   "vendas_live": 0,
+   "receita": 675987.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-25",
+   "vendas": 1248,
+   "vendas_live": 0,
+   "receita": 581112.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-26",
+   "vendas": 1172,
+   "vendas_live": 0,
+   "receita": 602389.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-27",
+   "vendas": 1145,
+   "vendas_live": 0,
+   "receita": 550549.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-28",
+   "vendas": 1117,
+   "vendas_live": 0,
+   "receita": 709802.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-29",
+   "vendas": 1210,
+   "vendas_live": 0,
+   "receita": 808984.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-09-30",
+   "vendas": 1489,
+   "vendas_live": 0,
+   "receita": 1314287.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-10-01",
+   "vendas": 733,
+   "vendas_live": 0,
+   "receita": 283393.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-10-02",
+   "vendas": 884,
+   "vendas_live": 0,
+   "receita": 410888.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-10-03",
+   "vendas": 829,
+   "vendas_live": 0,
+   "receita": 302228.0,
+   "receita_live": 0.0
+  },
+  {
+   "dia": "2026-10-04",
+   "vendas": 8432,
+   "vendas_live": 7130,
+   "receita": 807653.0,
+   "receita_live": 437730.0
+  },
+  {
+   "dia": "2026-10-05",
+   "vendas": 485,
+   "vendas_live": 105,
+   "receita": 154160.0,
+   "receita_live": 25556.0
+  }
+ ],
+ "ofertas": [
+  {
+   "degrau": "Apoiador · 12x R$ 1,90",
+   "vendas": 6168,
+   "receita": 140630.0,
+   "ticket": 22.8
+  },
+  {
+   "degrau": "Comercial (vendedor)",
+   "vendas": 356,
+   "receita": 105904.0,
+   "ticket": 297.48
+  },
+  {
+   "degrau": "Essencial · R$ 238,80",
+   "vendas": 389,
+   "receita": 91986.0,
+   "ticket": 236.47
+  },
+  {
+   "degrau": "Premium · R$ 478,80",
+   "vendas": 179,
+   "receita": 85691.0,
+   "ticket": 478.72
+  },
+  {
+   "degrau": "Order bump · 2º ano",
+   "vendas": 108,
+   "receita": 34430.0,
+   "ticket": 318.8
+  },
+  {
+   "degrau": "Outros",
+   "vendas": 35,
+   "receita": 4644.0,
+   "ticket": 132.69
+  }
+ ],
+ "perfil": [
+  {
+   "seg": "Ex-membro",
+   "cesta": "Apoiador",
+   "pessoas": 1592,
+   "bump_2ano": 0,
+   "via_comercial": 3,
+   "receita": 36808.0
+  },
+  {
+   "seg": "Ex-membro",
+   "cesta": "Black / Vitalício",
+   "pessoas": 3,
+   "bump_2ano": 1,
+   "via_comercial": 3,
+   "receita": 4286.0
+  },
+  {
+   "seg": "Ex-membro",
+   "cesta": "Essencial",
+   "pessoas": 128,
+   "bump_2ano": 25,
+   "via_comercial": 19,
+   "receita": 34917.0
+  },
+  {
+   "seg": "Ex-membro",
+   "cesta": "Premium",
+   "pessoas": 78,
+   "bump_2ano": 11,
+   "via_comercial": 14,
+   "receita": 40976.0
+  },
+  {
+   "seg": "Já comprou, sem assinatura",
+   "cesta": "Apoiador",
+   "pessoas": 10,
+   "bump_2ano": 0,
+   "via_comercial": 0,
+   "receita": 228.0
+  },
+  {
+   "seg": "Membro ativo",
+   "cesta": "Apoiador",
+   "pessoas": 287,
+   "bump_2ano": 0,
+   "via_comercial": 0,
+   "receita": 7480.0
+  },
+  {
+   "seg": "Membro ativo",
+   "cesta": "Black / Vitalício",
+   "pessoas": 5,
+   "bump_2ano": 0,
+   "via_comercial": 5,
+   "receita": 13637.0
+  },
+  {
+   "seg": "Membro ativo",
+   "cesta": "Essencial",
+   "pessoas": 211,
+   "bump_2ano": 15,
+   "via_comercial": 167,
+   "receita": 47265.0
+  },
+  {
+   "seg": "Membro ativo",
+   "cesta": "Outros",
+   "pessoas": 3,
+   "bump_2ano": 0,
+   "via_comercial": 1,
+   "receita": 3814.0
+  },
+  {
+   "seg": "Membro ativo",
+   "cesta": "Premium",
+   "pessoas": 79,
+   "bump_2ano": 8,
+   "via_comercial": 49,
+   "receita": 41862.0
+  },
+  {
+   "seg": "Novo na base",
+   "cesta": "Apoiador",
+   "pessoas": 4312,
+   "bump_2ano": 0,
+   "via_comercial": 11,
+   "receita": 99097.0
+  },
+  {
+   "seg": "Novo na base",
+   "cesta": "Black / Vitalício",
+   "pessoas": 1,
+   "bump_2ano": 1,
+   "via_comercial": 1,
+   "receita": 1379.0
+  },
+  {
+   "seg": "Novo na base",
+   "cesta": "Essencial",
+   "pessoas": 293,
+   "bump_2ano": 30,
+   "via_comercial": 60,
+   "receita": 71271.0
+  },
+  {
+   "seg": "Novo na base",
+   "cesta": "Outros",
+   "pessoas": 1,
+   "bump_2ano": 0,
+   "via_comercial": 1,
+   "receita": 171.0
+  },
+  {
+   "seg": "Novo na base",
+   "cesta": "Premium",
+   "pessoas": 95,
+   "bump_2ano": 17,
+   "via_comercial": 10,
+   "receita": 53905.0
+  }
+ ]
+}

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Live da Apuração</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --ink: #13203a;
+    --muted: #4b5568;
+    --soft: #7d8696;
+    --line: #dfe2e8;
+    --navy: #0f1d3a;
+    --navy-ink: #f2f5fa;
+    --navy-soft: #a9b6cf;
+    --s1: #2a78d6;
+    --s2: #eb6834;
+    --rest: #b9bfca;
+    --marker: #13203a;
+    --grid: #e6e8ec;
+    --tint: #eaf1fb;
+    --chip: #eef0f3;
+    --display: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+    --body: 'Source Sans 3', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0e1422; --card: #151d2e; --ink: #e8ecf3; --muted: #aab3c3; --soft: #808a9d;
+      --line: #263049; --navy: #0a1020; --navy-ink: #f2f5fa; --navy-soft: #8f9cb8;
+      --s1: #4a90e2; --s2: #f07a4a; --rest: #4a546a; --marker: #e8ecf3; --grid: #222b3f;
+      --tint: #1b2a45; --chip: #1e273a;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0e1422; --card: #151d2e; --ink: #e8ecf3; --muted: #aab3c3; --soft: #808a9d;
+    --line: #263049; --navy: #0a1020; --navy-ink: #f2f5fa; --navy-soft: #8f9cb8;
+    --s1: #4a90e2; --s2: #f07a4a; --rest: #4a546a; --marker: #e8ecf3; --grid: #222b3f;
+    --tint: #1b2a45; --chip: #1e273a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; }
+
+  /* faixa de abertura — a tela da transmissão */
+  .hero { background: var(--navy); color: var(--navy-ink); padding-block: 48px 40px; }
+  .eyebrow { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--navy-soft); margin: 0 0 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .aovivo { display: inline-flex; align-items: center; gap: 6px; background: #d93a3a; color: #fff; padding: 3px 9px; border-radius: 3px; letter-spacing: .1em; }
+  .aovivo::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #fff; }
+  h1 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: clamp(30px, 5.4vw, 52px); line-height: 1.02; letter-spacing: -.01em; margin: 0 0 16px; text-wrap: balance; }
+  h1 .plus { color: #4a90e2; }
+  .lede { max-width: 64ch; color: var(--navy-soft); font-size: 17px; margin: 0; }
+  .lede b { color: var(--navy-ink); font-weight: 600; }
+
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #26365a; border: 1px solid #26365a; border-radius: 6px; overflow: hidden; margin-top: 32px; }
+  .kpi { background: var(--navy); padding: 18px 18px 16px; }
+  .kpi .n { font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .kpi .c { color: var(--navy-soft); font-size: 14px; margin-top: 8px; line-height: 1.35; }
+  @media (max-width: 760px) { .kpis { grid-template-columns: 1fr 1fr; } }
+
+  main { padding-block: 48px 72px; }
+  section { margin-bottom: 64px; }
+  h2 { font-family: var(--display); font-weight: 800; font-size: clamp(22px, 3vw, 28px); line-height: 1.15; margin: 0 0 10px; text-wrap: balance; }
+  .intro { color: var(--muted); max-width: 68ch; margin: 0 0 24px; }
+  .intro b { color: var(--ink); font-weight: 600; }
+
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 20px; }
+  .panel + .panel { margin-top: 16px; }
+  .ptitle { font-weight: 700; font-size: 15px; margin: 0 0 2px; }
+  .psub { color: var(--soft); font-size: 13px; margin: 0 0 12px; }
+  .chart { position: relative; height: 240px; }
+  .chart.short { height: 200px; }
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+  .sw.line { height: 0; width: 14px; border-top: 2px dashed var(--marker); border-radius: 0; }
+
+  .tbl { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--soft); border-bottom: 2px solid var(--line); padding: 8px 10px; white-space: nowrap; }
+  td { padding: 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .hora { font-family: var(--display); font-weight: 800; font-size: 15px; white-space: nowrap; }
+  .frase { color: var(--muted); font-style: italic; min-width: 240px; }
+  .chip { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; padding: 2px 7px; border-radius: 3px; background: var(--chip); color: var(--muted); margin-left: 6px; font-style: normal; white-space: nowrap; }
+  .chip.preco { background: var(--tint); color: var(--s1); }
+  .bar { display: block; margin-left: auto; height: 6px; background: var(--s2); border-radius: 0 3px 3px 0; margin-top: 4px; }
+  tr.best td { background: var(--tint); }
+
+  .aviso { border-left: 3px solid var(--s2); background: var(--card); padding: 12px 16px; margin: 0 0 16px; font-size: 14px; color: var(--muted); max-width: 80ch; }
+  .aviso b { color: var(--ink); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+
+  .notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+  @media (max-width: 760px) { .notes { grid-template-columns: 1fr; } }
+  .note { border-top: 2px solid var(--ink); padding-top: 10px; font-size: 14px; color: var(--muted); }
+  .note b { color: var(--ink); display: block; margin-bottom: 4px; }
+
+  .matrix td.cell { text-align: right; font-variant-numeric: tabular-nums; }
+  .matrix td.cell small { display: block; color: var(--soft); font-size: 12px; }
+  .matrix th.r, .matrix td.r { text-align: right; }
+
+  .takeaways { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; }
+  .takeaways li { padding-left: 18px; position: relative; max-width: 72ch; }
+  .takeaways li::before { content: "+"; position: absolute; left: 0; color: var(--s1); font-family: var(--display); font-weight: 800; }
+
+  .method { font-size: 14px; color: var(--muted); }
+  .method li { margin-bottom: 8px; max-width: 80ch; }
+  footer { border-top: 1px solid var(--line); padding-block: 20px 40px; font-size: 13px; color: var(--soft); }
+  a { color: var(--s1); }
+  a:focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow"><span class="aovivo">Ao vivo</span> Black November 2026 · Apuração do 1º turno · 04/10</p>
+    <h1>Nove falas <span class="plus">+</span> <span id="hVendas">—</span> vendas</h1>
+    <p class="lede" id="lede">—</p>
+    <div class="kpis">
+      <div class="kpi"><div class="n" id="kVendas">—</div><div class="c" id="kVendasC">vendas novas com o link da live</div></div>
+      <div class="kpi"><div class="n" id="kMult">—</div><div class="c" id="kMultC">—</div></div>
+      <div class="kpi"><div class="n" id="kJanela">—</div><div class="c">das vendas do dia entraram nos 30 min seguintes a uma fala da oferta</div></div>
+      <div class="kpi"><div class="n" id="kNovos">—</div><div class="c">dos compradores nunca tinham comprado da BP</div></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <h2>Cada fala da oferta virou um pico</h2>
+    <p class="intro" id="introPicos">—</p>
+
+    <p class="aviso"><b>Sem dados de espectadores.</b> Os gráficos não trazem a audiência da live ao longo do tempo: a API do YouTube Analytics não entrega espectadores simultâneos por minuto (só o YouTube Studio mostra) e, quando este relatório foi feito, ainda não tinha os dados da live. A audiência na tabela abaixo é a que o apresentador disse no ar.</p>
+
+    <div class="panel">
+      <div class="legend">
+        <span><i class="sw" style="background:var(--s1)"></i>Views da LP Black November</span>
+        <span><i class="sw line"></i>Fala da oferta na live</span>
+      </div>
+      <p class="ptitle">Views da LP a cada 5 minutos</p>
+      <p class="psub">Todas as origens. Horário de Brasília.</p>
+      <div class="chart"><canvas id="cLP" aria-label="Views da LP a cada 5 minutos, com as falas marcadas"></canvas></div>
+    </div>
+    <div class="panel">
+      <p class="ptitle">Vendas a cada 5 minutos</p>
+      <p class="psub">Vendas novas aprovadas com o link da live (utm_content = apuracao_eleicoes_04out).</p>
+      <div class="chart"><canvas id="cVendas" aria-label="Vendas a cada 5 minutos, com as falas marcadas"></canvas></div>
+    </div>
+
+    <div class="panel">
+      <p class="ptitle">Fala por fala</p>
+      <p class="psub">Views da LP nos 15 min a partir da fala; vendas e receita até 30 min depois (ou até a fala seguinte). Audiência: número dito no ar.</p>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Fala</th><th>O que foi dito</th><th class="num">Audiência</th><th class="num">Views LP</th><th class="num">Vendas</th><th class="num">Receita</th><th class="num">Vendas / 100 views</th></tr></thead>
+          <tbody id="tFalas"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="notes" id="notas"></div>
+  </section>
+
+  <section>
+    <h2>O que as pessoas compraram</h2>
+    <p class="intro" id="introCompra">—</p>
+
+    <div class="grid2">
+      <div class="panel">
+        <p class="ptitle">Vendas por oferta</p>
+        <p class="psub">Quantidade de transações.</p>
+        <div class="chart short"><canvas id="cOfVendas" aria-label="Vendas por oferta"></canvas></div>
+      </div>
+      <div class="panel">
+        <p class="ptitle">Receita por oferta</p>
+        <p class="psub">Valor total da venda (R$).</p>
+        <div class="chart short"><canvas id="cOfReceita" aria-label="Receita por oferta"></canvas></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="ptitle">Quem comprou × o que levou</p>
+      <p class="psub">Uma linha por perfil do comprador antes da compra; cada célula conta pessoas pelo maior plano que levaram. Embaixo, a parcela da linha.</p>
+      <div class="tbl">
+        <table class="matrix">
+          <thead id="mHead"></thead>
+          <tbody id="mBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <ul class="takeaways" id="takeaways"></ul>
+  </section>
+
+  <section>
+    <h2>No contexto do mês</h2>
+    <p class="intro" id="introMes">—</p>
+    <div class="panel">
+      <div class="legend">
+        <span><i class="sw" style="background:var(--s1)"></i>Com o link da live</span>
+        <span><i class="sw" style="background:var(--rest)"></i>Demais vendas novas</span>
+      </div>
+      <p class="ptitle">Vendas novas por dia</p>
+      <p class="psub">Sem renovações.</p>
+      <div class="chart"><canvas id="cDia" aria-label="Vendas novas por dia nas últimas quatro semanas"></canvas></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Como foi medido</h2>
+    <ul class="method">
+      <li><b>Horário das falas:</b> transcrição automática do <a id="linkVideo" href="https://www.youtube.com/watch?v=kvV0ZrqlqF4" target="_blank" rel="noopener">vídeo da live</a>, somando a minutagem ao início da transmissão (16:09). A conversão confere com a fala "acabou de dar 5 horas", que cai às 17:01.</li>
+      <li><b>Views da LP:</b> export do GA4 no BigQuery (page_view em <code>vd.brasilparalelo.com.br/seja-membro/black-november-2026</code>). O GA4 conta menos do que o real (consentimento de cookies, bloqueadores), então as taxas por view ficam acima do real.</li>
+      <li><b>Vendas:</b> <code>fct_transactions</code>, aprovadas e sem renovação, com <code>utm_content = apuracao_eleicoes_04out</code>. Inclui as vendas do Comercial que carregaram a UTM. O canal dessas vendas aparece na base como <code>Adwords Remarketing</code>, o que é um erro de classificação: é orgânico da live.</li>
+      <li><b>Perfil do comprador:</b> por e-mail, 10 min antes da primeira compra. "Membro ativo" tinha assinatura paga vigente; "ex-membro" já teve e venceu; "novo na base" nunca teve compra aprovada.</li>
+      <li><b>Audiência:</b> sem série de espectadores simultâneos (a API do YouTube Analytics não tem esse dado por minuto). Os números de audiência são os ditos no ar pelo apresentador.</li>
+      <li><b>Atribuição por fala:</b> vendas do bloco de 5 min da fala até 30 min depois ou até a fala seguinte, o que vier antes. É janela de tempo, não rastreio individual.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">Brasil Paralelo · Análise gerada com Claude Code · dados de <span id="upd">—</span> · Fontes: GA4 (bp-lake.analytics_378996649), masterdata.fct_transactions, dim_contact, dim_subscriptions, transcrição do YouTube</div>
+</footer>
+
+<script>
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const nf = new Intl.NumberFormat('pt-BR');
+const fmt = n => nf.format(Math.round(n));
+const brl = n => 'R$ ' + (n >= 1e6 ? (n/1e6).toLocaleString('pt-BR',{maximumFractionDigits:2}) + ' mi' : n >= 1e4 ? fmt(n/1000) + ' mil' : fmt(n));
+const pct = (a, b) => Math.round(100 * a / b) + '%';
+const $ = id => document.getElementById(id);
+const mins = h => { const [a,b] = h.split(':').map(Number); return a*60+b; };
+
+fetch('./data.json').then(r => r.json()).then(init).catch(e => {
+  console.error('data.json não carregou', e);
+  $('lede').textContent = 'Não foi possível carregar os dados (data.json).';
+});
+
+function init(D) {
+  const K = D.kpis, F = D.falas;
+  Chart.defaults.font.family = css('--body');
+  Chart.defaults.font.size = 12;
+  Chart.defaults.color = css('--soft');
+
+  /* ── cabeçalho ── */
+  $('hVendas').textContent = fmt(K.vendas_04);
+  const recDia = D.diario.find(d => d.dia === '2026-10-04');
+  const best = F.reduce((a, b) => b.vendas > a.vendas ? b : a);
+  $('lede').innerHTML = `Em sete horas de transmissão, a oferta da Black November foi anunciada nove vezes. O link da live trouxe <b>${fmt(K.vendas_04)} vendas novas</b> no dia (${brl(recDia.receita_live)}) e mais ${fmt(K.vendas - K.vendas_04)} no dia seguinte, somando <b>${brl(K.receita)}</b>.`;
+  $('kVendas').textContent = fmt(K.vendas);
+  $('kVendasC').textContent = `vendas novas com o link da live · ${brl(K.receita)}`;
+  $('kMult').textContent = (K.vendas_dia_total / K.vendas_dia_mediana_base).toLocaleString('pt-BR', {maximumFractionDigits: 1}) + '×';
+  $('kMultC').textContent = `um dia normal: ${fmt(K.vendas_dia_total)} vendas novas no domingo contra mediana de ${fmt(K.vendas_dia_mediana_base)}/dia nas 4 semanas antes`;
+  $('kJanela').textContent = Math.round(K.pct_em_janela_de_fala) + '%';
+  const P = D.perfil, tot = P.reduce((s, r) => s + r.pessoas, 0);
+  const soma = (f) => P.filter(f).reduce((s, r) => s + r.pessoas, 0);
+  const novos = soma(r => r.seg === 'Novo na base');
+  $('kNovos').textContent = pct(novos, tot);
+  $('upd').textContent = new Date(D.updated_at).toLocaleString('pt-BR', {dateStyle: 'short', timeStyle: 'short'});
+
+  /* ── picos ── */
+  const precoPrim = F.find(f => f.preco);
+  const antes = F.filter(f => !f.preco), depois = F.filter(f => f.preco);
+  const taxa = arr => { const v = arr.reduce((s,f)=>s+f.vendas,0), l = arr.reduce((s,f)=>s+f.lp_15min,0); return (100*v/l).toLocaleString('pt-BR',{maximumFractionDigits:0}); };
+  $('introPicos').innerHTML = `Fora das falas, a LP recebia cerca de ${fmt(median(F.map(f=>f.lp_antes_5min)))} views a cada 5 minutos. Em cada fala ela saltou para milhares no mesmo bloco de 5 minutos, e as vendas vieram junto, quase todas nos 15 minutos seguintes. <b>A fala das ${best.hora} foi a que mais vendeu (${fmt(best.vendas)} vendas)</b>. Também foi a primeira em que o apresentador disse o preço, R$ 1,90. A partir dela, cada 100 views da LP renderam ${taxa(depois)} vendas, contra ${taxa(antes)} nas falas anteriores.`;
+
+  const S = D.serie, labels = S.map(s => s.t);
+  const idx = h => (Math.floor(mins(h)/5)*5 - mins(labels[0]))/5;
+  const markerIdx = F.map(f => ({i: idx(f.hora), h: f.hora, p: f.preco}));
+  const markers = {
+    id: 'falas',
+    afterDatasetsDraw(c) {
+      const {ctx, chartArea: a, scales: {x}} = c;
+      ctx.save();
+      ctx.strokeStyle = css('--marker'); ctx.fillStyle = css('--marker');
+      ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+      ctx.font = `700 10px ${css('--body')}`; ctx.textAlign = 'center';
+      markerIdx.forEach(m => {
+        const px = x.getPixelForValue(m.i);
+        ctx.beginPath(); ctx.moveTo(px, a.top + 12); ctx.lineTo(px, a.bottom); ctx.stroke();
+        ctx.fillText(m.h, px, a.top + 8);
+      });
+      ctx.restore();
+    }
+  };
+  const tickCb = function(v, i) { return labels[i].endsWith(':00') ? labels[i].slice(0,2) + 'h' : ''; };
+  const barOpts = (fmtTip) => ({
+    responsive: true, maintainAspectRatio: false, animation: false,
+    layout: {padding: {top: 14}},
+    interaction: {mode: 'index', intersect: false},
+    plugins: {legend: {display: false}, tooltip: {callbacks: {label: c => fmtTip(c.raw)}}},
+    scales: {
+      x: {grid: {display: false}, ticks: {autoSkip: false, maxRotation: 0, callback: tickCb}, border: {color: css('--line')}},
+      y: {beginAtZero: true, grid: {color: css('--grid')}, border: {display: false}, ticks: {callback: v => fmt(v), maxTicksLimit: 5}}
+    }
+  });
+  new Chart($('cLP'), {type: 'bar', data: {labels, datasets: [{data: S.map(s => s.lp), backgroundColor: css('--s1'), borderRadius: 2, barPercentage: 1, categoryPercentage: .85}]},
+    options: barOpts(v => fmt(v) + ' views'), plugins: [markers]});
+  new Chart($('cVendas'), {type: 'bar', data: {labels, datasets: [{data: S.map(s => s.vendas), backgroundColor: css('--s2'), borderRadius: 2, barPercentage: 1, categoryPercentage: .85}]},
+    options: barOpts(v => fmt(v) + ' vendas'), plugins: [markers]});
+
+  const maxV = Math.max(...F.map(f => f.vendas));
+  $('tFalas').innerHTML = F.map(f => `<tr class="${f === best ? 'best' : ''}">
+    <td class="hora">${f.hora}</td>
+    <td class="frase">“${f.frase}”${f.preco ? '<span class="chip preco">diz o preço</span>' : ''}</td>
+    <td class="num">${f.audiencia ? fmt(f.audiencia/1000) + ' mil' : '<span style="color:var(--soft)">—</span>'}</td>
+    <td class="num">${fmt(f.lp_15min)}</td>
+    <td class="num"><b>${fmt(f.vendas)}</b><span class="bar" style="width:${Math.max(4, 100*f.vendas/maxV)}%"></span></td>
+    <td class="num">${brl(f.receita)}</td>
+    <td class="num">${f.vendas_por_100_views.toLocaleString('pt-BR')}</td></tr>`).join('');
+
+  $('notas').innerHTML = [
+    ['Picos sem fala', D.picos_sem_fala.map(p => `${p.hora}: ${p.nota}`).join(' ')],
+    ['Falas de outros produtos', D.outras_falas.map(p => `${p.hora}: ${p.frase}`).join(' ')],
+    ['Audiência × venda', 'As duas primeiras falas (16:29 e 17:22) foram feitas para 150–200 mil pessoas e venderam 100–120 cada. A partir das 18h a live passou de 465 mil e cada fala vendeu de 500 a 1.400.']
+  ].map(([t, x]) => `<div class="note"><b>${t}</b>${x}</div>`).join('');
+
+  /* ── o que compraram ── */
+  const O = D.ofertas;
+  const totO = O.reduce((s,o)=>s+o.vendas,0), recO = O.reduce((s,o)=>s+o.receita,0);
+  const ap = O.find(o => o.degrau.startsWith('Apoiador'));
+  $('introCompra').innerHTML = `O checkout da live abria no Apoiador anual a 12x R$ 1,90, com opção de subir para Essencial ou Premium e um order bump de 2º ano. <b>O Apoiador foi ${pct(ap.vendas, totO)} das vendas, mas só ${pct(ap.receita, recO)} da receita</b>: o dinheiro veio de quem subiu de degrau e do Comercial.`;
+  const ofOpts = (fmtV) => ({
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false,
+    layout: {padding: {right: 56}},
+    plugins: {legend: {display: false}, tooltip: {callbacks: {label: c => fmtV(c.raw)}}},
+    scales: {x: {display: false, beginAtZero: true}, y: {grid: {display: false}, border: {display: false}, ticks: {color: css('--ink'), font: {size: 12}}}}
+  });
+  const vlab = (fmtV) => ({id: 'vl', afterDatasetsDraw(c) {
+    const ctx = c.ctx; ctx.save(); ctx.fillStyle = css('--ink'); ctx.font = `700 12px ${css('--body')}`; ctx.textBaseline = 'middle';
+    c.getDatasetMeta(0).data.forEach((el, i) => ctx.fillText(fmtV(c.data.datasets[0].data[i]), el.x + 6, el.y));
+    ctx.restore(); }});
+  const Os = [...O];
+  new Chart($('cOfVendas'), {type: 'bar', data: {labels: Os.map(o => o.degrau), datasets: [{data: Os.map(o => o.vendas), backgroundColor: css('--s1'), borderRadius: 3, barPercentage: .7}]},
+    options: ofOpts(v => fmt(v)), plugins: [vlab(v => fmt(v))]});
+  new Chart($('cOfReceita'), {type: 'bar', data: {labels: Os.map(o => o.degrau), datasets: [{data: Os.map(o => o.receita), backgroundColor: css('--s1'), borderRadius: 3, barPercentage: .7}]},
+    options: ofOpts(v => brl(v)), plugins: [vlab(v => brl(v))]});
+
+  const segs = ['Novo na base', 'Ex-membro', 'Membro ativo', 'Já comprou, sem assinatura'];
+  const cestas = ['Apoiador', 'Essencial', 'Premium', 'Black / Vitalício', 'Outros'];
+  const get = (s, c) => P.find(r => r.seg === s && r.cesta === c) || {pessoas: 0, receita: 0, via_comercial: 0};
+  $('mHead').innerHTML = `<tr><th>Perfil antes da compra</th>${cestas.map(c => `<th class="r">${c}</th>`).join('')}<th class="r">Total</th><th class="r">Receita</th></tr>`;
+  const maxCell = Math.max(...P.map(r => r.pessoas));
+  $('mBody').innerHTML = segs.map(s => {
+    const rows = P.filter(r => r.seg === s), t = rows.reduce((a,r)=>a+r.pessoas,0), rc = rows.reduce((a,r)=>a+r.receita,0);
+    if (!t) return '';
+    return `<tr><td><b>${s}</b></td>${cestas.map(c => { const v = get(s,c).pessoas;
+      const a = v ? (0.08 + 0.5 * Math.sqrt(v/maxCell)).toFixed(2) : 0;
+      return `<td class="cell" style="background:color-mix(in srgb, var(--s1) ${Math.round(a*100)}%, transparent)">${v ? fmt(v) : '·'}${v ? `<small>${pct(v,t)}</small>` : ''}</td>`; }).join('')}
+      <td class="r"><b>${fmt(t)}</b><small style="display:block;color:var(--soft);font-size:12px">${pct(t,tot)} dos compradores</small></td><td class="r">${brl(rc)}</td></tr>`;
+  }).join('');
+
+  const subiu = s => soma(r => r.seg === s && ['Essencial','Premium','Black / Vitalício'].includes(r.cesta));
+  const segT = s => soma(r => r.seg === s);
+  const ativoAp = get('Membro ativo','Apoiador').pessoas;
+  const ativoCom = P.filter(r => r.seg === 'Membro ativo').reduce((a,r)=>a+r.via_comercial,0);
+  const bump = P.reduce((a,r)=>a+r.bump_2ano,0);
+  $('takeaways').innerHTML = [
+    `<b>A live trouxe gente nova.</b> ${pct(novos, tot)} dos ${fmt(tot)} compradores nunca tinham comprado da BP, e ${pct(segT('Ex-membro'), tot)} eram ex-membros voltando. Só ${pct(segT('Membro ativo'), tot)} já estavam com assinatura ativa.`,
+    `<b>Subir de degrau foi raro, mas pagou a conta.</b> ${pct(subiu('Novo na base'), segT('Novo na base'))} dos novos e ${pct(subiu('Ex-membro'), segT('Ex-membro'))} dos ex-membros levaram Essencial ou mais; ${fmt(bump)} pessoas ainda colocaram o 2º ano no carrinho.`,
+    `<b>Membros ativos compraram por dois caminhos.</b> ${fmt(ativoCom)} fecharam com o Comercial (upgrade para Essencial ou Premium) e ${fmt(ativoAp)} compraram o Apoiador de R$ 1,90 mesmo já tendo assinatura. Esse segundo grupo merece checagem: pode ser renovação antecipada com desconto ou assinatura de outra pessoa da família.`
+  ].map(x => `<li>${x}</li>`).join('');
+
+  /* ── contexto do mês ── */
+  const Dd = D.diario;
+  const dia = Dd.find(d => d.dia === '2026-10-04');
+  $('introMes').innerHTML = `Num dia comum das quatro semanas anteriores entraram ${fmt(K.vendas_dia_mediana_base)} vendas novas. No domingo da apuração foram ${fmt(dia.vendas)}, ${fmt(dia.vendas_live)} delas pelo link da live. As vendas por outros caminhos (${fmt(dia.vendas - dia.vendas_live)}) ficaram na faixa de um domingo normal.`;
+  const dl = Dd.map(d => { const x = new Date(d.dia + 'T12:00:00'); return x.toLocaleDateString('pt-BR', {day: '2-digit', month: '2-digit'}); });
+  new Chart($('cDia'), {type: 'bar',
+    data: {labels: dl, datasets: [
+      {label: 'Demais vendas novas', data: Dd.map(d => d.vendas - d.vendas_live), backgroundColor: css('--rest'), borderRadius: 0, borderSkipped: false, borderColor: css('--card'), borderWidth: {top: 2}},
+      {label: 'Com o link da live', data: Dd.map(d => d.vendas_live), backgroundColor: css('--s1'), borderRadius: {topLeft: 3, topRight: 3}, borderSkipped: false}
+    ]},
+    options: {responsive: true, maintainAspectRatio: false, animation: false,
+      interaction: {mode: 'index', intersect: false},
+      plugins: {legend: {display: false}, tooltip: {callbacks: {label: c => `${c.dataset.label}: ${fmt(c.raw)}`}}},
+      scales: {x: {stacked: true, grid: {display: false}, ticks: {maxRotation: 0, autoSkip: true, maxTicksLimit: 10}, border: {color: css('--line')}},
+               y: {stacked: true, beginAtZero: true, grid: {color: css('--grid')}, border: {display: false}, ticks: {callback: v => fmt(v), maxTicksLimit: 5}}}}});
+
+  /* guarda: soma das janelas não pode passar do total do dia */
+  const somaJ = F.reduce((s,f)=>s+f.vendas,0);
+  if (somaJ > K.vendas_04) console.warn('Janelas das falas somam mais que o dia', somaJ, K.vendas_04);
+}
+function median(a) { const s = [...a].sort((x,y)=>x-y); return s[Math.floor(s.length/2)]; }
+</script>
+</body>
+</html>
