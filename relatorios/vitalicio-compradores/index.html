@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compradores de Vitalício</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:     #f8fafc;
+      --card:   #ffffff;
+      --line:   #e2e8f0;
+      --text:   #1e293b;
+      --muted:  #475569;
+      --soft:   #94a3b8;
+      /* séries — paleta validada do template (validate_palette.js contra #ffffff); ordem fixa */
+      --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
+      --s5: #e87ba4; --s6: #008300; --s7: #4a3aa7; --s8: #e34948;
+      --grid: #e1e0d9; --baseline: #c3c2b7;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+           background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; }
+    .wrap   { max-width: 1000px; margin: 0 auto; padding: 48px 24px 80px; }
+    @media (max-width: 640px) { .wrap { padding: 32px 16px 64px; } }
+    section { margin-bottom: 56px; }
+    h1 { font-size: 26px; font-weight: 700; }
+    h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .sub   { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .lede  { color: var(--muted); font-size: 13.5px; margin-bottom: 16px; max-width: 760px; }
+    .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
+             color: var(--soft); margin-bottom: 12px; }
+    .card  { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; min-width: 0; }
+    .card + .card, .grid-2 + .card, .card + .grid-2, .grid-2 + .grid-2 { margin-top: 16px; }
+    .grid-2 > .card + .card { margin-top: 0; }
+    .grid-2 { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px; }
+    @media (max-width: 720px) { .grid-2 { grid-template-columns: minmax(0,1fr); } }
+    .stats { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 24px; }
+    .bigstat .bs-num { font-size: 34px; font-weight: 800; color: var(--text); line-height: 1; font-variant-numeric: tabular-nums; }
+    .bigstat .bs-cap { font-size: 12px; color: var(--muted); margin-top: 6px; max-width: 200px; }
+    .achados { list-style: none; display: grid; gap: 10px; }
+    .achados li { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--s1);
+                  border-radius: 8px; padding: 12px 16px; font-size: 14px; }
+    .tbl-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px; text-transform: uppercase;
+         letter-spacing: .05em; border-bottom: 2px solid var(--line); padding: 8px 10px; white-space: nowrap; }
+    td { padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    td.num { white-space: nowrap; }
+    td.grp { font-weight: 600; }
+    #tblCruz th, #tblHot th { white-space: normal; vertical-align: bottom; }
+    .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+    .legend i.dash { height: 0; width: 16px; border-top: 2px dashed #898781; border-radius: 0; }
+    details { margin-top: 12px; font-size: 12.5px; }
+    summary { cursor: pointer; color: var(--muted); }
+    details .tbl-wrap { margin-top: 8px; }
+    .chart-box { position: relative; width: 100%; }
+    .nota { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px;
+            font-size: 12.5px; color: var(--muted); margin-top: 16px; }
+    .nota ul { padding-left: 18px; }
+    .nota li + li { margin-top: 4px; }
+    header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+    footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 12px; color: var(--soft); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Base &amp; Produtos</p>
+  <h1>Quem está comprando o vitalício</h1>
+  <p class="sub" id="subtitulo">Black November 2026, comparada aos mesmos dias da BNO25 e ao BP10.</p>
+</header>
+
+<main>
+
+  <section>
+    <h2>Principais achados</h2>
+    <p class="lede">Os textos são gerados a partir dos números a cada atualização.</p>
+    <ul class="achados" id="achados"></ul>
+  </section>
+
+  <section>
+    <h2>Quanto foi vendido</h2>
+    <p class="lede" id="ledeVolume"></p>
+    <div class="stats" id="stats"></div>
+    <div class="card">
+      <p class="label">Vendas de vitalício por canal e janela</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Janela</th><th>Canal</th><th class="num">Vendas</th><th class="num">Compradores</th><th class="num">Receita</th><th class="num">Ticket médio</th></tr></thead>
+        <tbody id="tblVolume"></tbody>
+      </table></div>
+      <div class="nota" id="notaMF"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ritmo diário: BNO26 × BNO25</h2>
+    <p class="lede">Vendas acumuladas por dia do mês. A linha tracejada é a BNO25 nos mesmos dias, sem o Big Picture Membro Fundador.</p>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Comercial</h3>
+        <div class="legend"><span><i style="background:var(--s1)"></i>BNO26</span><span><i class="dash"></i>BNO25</span></div>
+        <div class="chart-box" style="height:220px"><canvas id="cDiaCom"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Digital</h3>
+        <div class="legend"><span><i style="background:var(--s2)"></i>BNO26</span><span><i class="dash"></i>BNO25</span></div>
+        <div class="chart-box" style="height:220px"><canvas id="cDiaDig"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Quem é o comprador</h2>
+    <p class="lede">Composição dos compradores em cada janela e canal (% das vendas). O BP10 cobre a campanha inteira (16/07 a 30/09) e serve como referência de mix, não de volume.</p>
+    <div id="composicoes"></div>
+  </section>
+
+  <section>
+    <h2>BNO26 em detalhe</h2>
+    <p class="lede">Só a Black November 2026, de 01/11 até ontem.</p>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Comercial: campanha no UTM da venda</h3>
+        <p class="sub" style="margin-bottom:12px">Último anúncio ou disparo de CRM clicado antes de falar com o vendedor. "Outras linhas" = CBR, CLU, JOM e BPO dentro da BNO26; "Campanhas anteriores" = CBR, BP10, CLU, ELS e outras de antes de novembro.</p>
+        <div class="chart-box" id="boxUtmCom"><canvas id="cUtmCom"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Digital: canal de tráfego da venda</h3>
+        <p class="sub" style="margin-bottom:12px">Classificação de canal do checkout (<code>tracking_publisher</code>).</p>
+        <div class="chart-box" id="boxPubDig"><canvas id="cPubDig"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Comercial: como começou a conversa na Zenvia</h3>
+        <p class="sub" style="margin-bottom:12px">Pelo que a pessoa mandou ao chatbot na 1ª conversa dos 30 dias antes da compra. "Botão de disparo" = resposta a botão de template ("QUERO MEU VITALÍCIO", "VER COLEÇÃO + BLACK"); "Conversa já aberta" = trocou mensagens com o vendedor numa conversa antiga.</p>
+        <div class="chart-box" id="boxConv"><canvas id="cConv"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Comercial: deal da Pipedrive que levou a venda</h3>
+        <p class="sub" style="margin-bottom:12px">Canal do deal ao qual a venda foi creditada. Hotlead = deal aberto automaticamente a partir de uma transação (compra, abandono, compra negada, renovação que falhou).</p>
+        <div class="chart-box" id="boxDeal"><canvas id="cDeal"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Comercial: hotleads em detalhe</h3>
+      <p class="sub" style="margin-bottom:12px">Vendas creditadas a hotlead, pelo tipo da transação que abriu o deal.</p>
+      <div class="tbl-wrap"><table id="tblHot"></table></div>
+      <p class="sub" style="margin-top:12px">Quando há mais de um deal, a venda fica com o mais recente; um hotlead aberto muito antes da venda (mais de 7 dias) pode estar levando crédito de uma venda que veio de chat ou lista.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Comercial: contato espontâneo e portal</h3>
+        <p class="sub" style="margin-bottom:12px">Conversas que não começaram por botão de disparo, link da LP ou vendedor. Classificado pelo que a pessoa escreveu ao chatbot (o texto não é publicado).</p>
+        <div class="chart-box" id="boxEsp"><canvas id="cEsp"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Leads novos: dias do cadastro à compra</h3>
+        <p class="sub" style="margin-bottom:8px">Compradores com cadastro de lead nos 30 dias antes da compra (fora as capturas em página de venda).</p>
+        <div class="legend"><span><i style="background:var(--s1)"></i>Comercial</span><span><i style="background:var(--s2)"></i>Digital</span></div>
+        <div class="chart-box" style="height:200px"><canvas id="cDias"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Comercial: origem do lead × relação com a BP</h3>
+      <p class="sub" style="margin-bottom:12px">Linhas: último cadastro de lead antes da compra. Colunas: o que a pessoa já era da BP.</p>
+      <div class="tbl-wrap"><table id="tblCruz"></table></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Leads novos: tag do cadastro</h3>
+        <div class="legend" style="margin-top:8px"><span><i style="background:var(--s1)"></i>Comercial</span><span><i style="background:var(--s2)"></i>Digital</span></div>
+        <div class="chart-box" id="boxTags"><canvas id="cTags"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Estados com mais compradores</h3>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>UF</th><th class="num">Comercial</th><th class="num">Digital</th><th class="num">Total</th></tr></thead>
+          <tbody id="tblUf"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Ticket por plano</h3>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Canal</th><th>Plano</th><th class="num">Vendas</th><th class="num">Ticket médio</th><th class="num">Mediana</th><th class="num">Receita</th></tr></thead>
+        <tbody id="tblTicket"></tbody>
+      </table></div>
+      <p class="sub" style="margin-top:12px">No Comercial, parte do Black é vendida no combo Coleção Brasil + Black Vitalício; nesses casos a transação do vitalício pode registrar só a parte do Black.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Como foi medido</h2>
+    <div class="nota"><ul>
+      <li><b>Vitalício</b>: venda aprovada, não renovação, pela regra canônica de vitalício de membership (flag de oferta vitalícia + planos Essencial, Premium, Black, Originais), sem os produtos de 10 anos que não são membership (Odisseia, CDL, Teller).</li>
+      <li><b>Big Picture Membro Fundador</b> fica fora das comparações: foi um lançamento à parte que caiu na 1ª semana da BNO25 e não existe nas outras janelas.</li>
+      <li><b>Canal</b>: Comercial = venda com a flag de canal comercial; Digital = o resto.</li>
+      <li><b>Relação com a BP</b> (no momento da compra, por pessoa no identity graph, juntando todos os e-mails dela), em ordem de prioridade: já tinha vitalício → assinatura de membership paga ativa → assinatura encerrada (ex-assinante) → só comprou produto avulso → nunca comprou.</li>
+      <li><b>Origem do lead</b>: último cadastro de lead antes da compra, em qualquer e-mail da pessoa. "Captura na página de venda" são as tags <code>lp-*</code>. A tag HUB (criação de conta) não conta como lead.</li>
+      <li><b>Conversa na Zenvia</b>: conversa mais antiga iniciada nos 30 dias antes da compra. Pelo chatbot (Zenvia Flow), a 1ª nota guarda o que a pessoa mandou: botão em maiúsculas = resposta a template de disparo; "Olá! Gostaria de saber mais…" = link de WhatsApp de LP ou anúncio. Em ~3/4 das conversas por botão não houve WhatsApp do Insider antes, então o disparo provavelmente é do Attraction (Zenvia), que não está no BigQuery. Sem conversa iniciada na janela: "Conversa já aberta" = trocou mensagens com o vendedor nos 30 dias antes numa conversa iniciada antes (pessoa casada por e-mail e telefone).</li>
+      <li><b>Deal da Pipedrive</b>: deal cuja lista de vendas inclui a venda (<code>dtm_seller_conversion_rate</code>); com mais de um, o mais recente. No hotlead, a transação que abriu o deal vem de <code>id_source_transaction</code>.</li>
+      <li><b>Consumo</b>: horas assistidas na plataforma de D-90 a D-1 da compra, sem sessões acima de 4h. Casado por e-mail: quem assiste com outro e-mail aparece como "Nada".</li>
+      <li><b>Renda</b>: decil de renda per capita do CEP (IBGE). <b>Cartão</b>: maior nível de cartão já usado pela pessoa (inclui o da própria compra). <b>Gênero</b>: inferido pelo primeiro nome.</li>
+    </ul></div>
+  </section>
+
+</main>
+
+<footer>
+  Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
+  Fontes: masterdata.fct_transactions, dim_contact, dim_subscriptions, dim_person_identity, dim_user, dim_zenvia_contacts, dim_zenvia_approaches · datamart.dtm_analytics_lead_conversion, dtm_seller_conversion_rate, obt_kafka__view_sessions, dtm_purchasing_power · staging.int_credit_card_level, int_zenvia_analytics
+</footer>
+
+</div>
+
+<script>
+const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.family = FONT;
+Chart.defaults.font.size   = 12;
+Chart.defaults.color       = "#6b7689";
+
+const S = ["#2a78d6","#eb6834","#1baf7a","#eda100","#e87ba4","#008300","#4a3aa7","#e34948"];
+/* texto dentro do segmento: claro sobre os slots escuros, escuro sobre os claros */
+const INK = ["#fff","#fff","#1e293b","#1e293b","#1e293b","#fff","#fff","#fff"];
+const GRID="#e1e0d9", BASELINE="#c3c2b7", REF="#898781";
+const CANAL_COR = { Comercial: S[0], Digital: S[1] };
+const MIN_VENDAS = 30;  /* linha com menos vendas que isso vira só nota: % de 3 vendas engana */
+
+const nf  = (v, c=0) => Number(v).toLocaleString('pt-BR', {minimumFractionDigits:c, maximumFractionDigits:c});
+const brl = v => 'R$ ' + nf(v);
+const brlK = v => v >= 1e6 ? 'R$ ' + nf(v/1e6, 2) + ' mi' : 'R$ ' + nf(v/1000) + ' mil';
+const dmy = s => s.split('-').reverse().slice(0,2).join('/');
+
+const valueLabels = (fmt) => ({
+  id: 'vlab',
+  afterDatasetsDraw(c) {
+    const { ctx } = c; ctx.save();
+    c.data.datasets.forEach((ds, di) => {
+      const meta = c.getDatasetMeta(di);
+      if (meta.hidden) return;
+      meta.data.forEach((el, i) => {
+        const v = ds.data[i]; if (v == null || v === 0) return;
+        ctx.fillStyle = "#3a4254"; ctx.font = "600 11px " + FONT;
+        if (c.options.indexAxis === 'y') { ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.fillText(fmt(v, i), el.x + 6, el.y); }
+        else { ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillText(fmt(v, i), el.x, el.y - 4); }
+      });
+    }); ctx.restore();
+  }
+});
+
+/* rótulo % dentro dos segmentos empilhados (só segmentos largos o bastante) */
+const segLabels = {
+  id: 'seglab',
+  afterDatasetsDraw(c) {
+    const { ctx } = c; ctx.save(); ctx.font = "600 11px " + FONT;
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    c.data.datasets.forEach((ds, di) => {
+      const meta = c.getDatasetMeta(di); if (meta.hidden) return;
+      meta.data.forEach((el, i) => {
+        const v = ds.data[i]; if (!v || v < 9) return;
+        ctx.fillStyle = ds._ink; ctx.fillText(nf(v) + '%', (el.x + el.base) / 2, el.y);
+      });
+    }); ctx.restore();
+  }
+};
+
+const axisX = (extra={}) => Object.assign({ grid: { color: GRID }, border: { color: BASELINE } }, extra);
+
+const COMPOS = [
+  { dim: 'rel',           titulo: 'Relação com a BP no momento da compra' },
+  { dim: 'tier',          titulo: 'Plano comprado' },
+  { dim: 'lead',          titulo: 'Origem do lead (último cadastro antes da compra)' },
+  { dim: 'tempo_cliente', titulo: 'Tempo desde a primeira compra na BP' },
+  { dim: 'consumo',       titulo: 'Horas assistidas na plataforma nos 90 dias antes' },
+  { dim: 'renda',         titulo: 'Renda do CEP (decil IBGE)' },
+  { dim: 'cartao',        titulo: 'Nível do cartão de crédito' },
+  { dim: 'pagamento',     titulo: 'Forma de pagamento' },
+  { dim: 'genero',        titulo: 'Gênero (inferido pelo nome)' },
+];
+
+function composicao(container, cfg, comp) {
+  const id = 'comp_' + cfg.dim;
+  const rows = comp.linhas.filter(r => r.total >= MIN_VENDAS);
+  const labels = rows.map(r => `${r.periodo} · ${r.canal}`);
+  const legend = comp.cats.map((k, i) => `<span><i style="background:${S[i]}"></i>${k}</span>`).join('');
+  const thead = `<tr><th>Janela · canal</th>${comp.cats.map(k => `<th class="num">${k}</th>`).join('')}<th class="num">Total</th></tr>`;
+  const tbody = rows.map(r => `<tr><td>${r.periodo} · ${r.canal}</td>${r.n.map(v =>
+      `<td class="num">${nf(v)} <span style="color:var(--soft)">(${nf(r.total ? 100*v/r.total : 0)}%)</span></td>`).join('')}<td class="num">${nf(r.total)}</td></tr>`).join('');
+  container.insertAdjacentHTML('beforeend', `
+    <div class="card">
+      <h3>${cfg.titulo}</h3>
+      <div class="legend" style="margin-top:8px">${legend}</div>
+      <div class="chart-box" style="height:${rows.length * 34 + 30}px"><canvas id="${id}"></canvas></div>
+      <details><summary>Ver contagens</summary><div class="tbl-wrap"><table><thead>${thead}</thead><tbody>${tbody}</tbody></table></div></details>
+    </div>`);
+  const datasets = comp.cats.map((k, i) => ({
+    label: k, _ink: INK[i],
+    data: rows.map(r => r.total ? 100 * r.n[i] / r.total : 0),
+    _n: rows.map(r => r.n[i]),
+    backgroundColor: S[i], borderColor: '#ffffff', borderWidth: { left: 1, right: 1 }, borderSkipped: false,
+    barThickness: 20,
+  }));
+  new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: { labels, datasets },
+    options: {
+      indexAxis: 'y', maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${nf(c.raw, 1)}% (${nf(c.dataset._n[c.dataIndex])} vendas)` } } },
+      scales: {
+        x: axisX({ stacked: true, max: 100, ticks: { callback: v => v + '%' } }),
+        y: { stacked: true, grid: { display: false }, border: { display: false } }
+      }
+    },
+    plugins: [segLabels]
+  });
+}
+
+/* barra horizontal simples; com total, o rótulo mostra "n · %" */
+function barH(canvasId, boxId, labels, values, cor, total) {
+  document.getElementById(boxId).style.height = (labels.length * 30 + 24) + 'px';
+  const fmt = total ? (v => `${nf(v)} · ${nf(100 * v / total)}%`) : (v => nf(v));
+  new Chart(document.getElementById(canvasId), {
+    type: 'bar',
+    data: { labels, datasets: [{ data: values, backgroundColor: cor, borderRadius: 4, barThickness: 16 }] },
+    options: {
+      indexAxis: 'y', maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => nf(c.raw) + ' vendas' } } },
+      layout: { padding: { right: total ? 64 : 36 } },
+      scales: { x: { display: false, max: Math.max(...values) * 1.1 },
+                y: { grid: { display: false }, border: { display: false } } }
+    },
+    plugins: [valueLabels(fmt)]
+  });
+}
+
+function acumulado(arr) { let s = 0; return arr.map(v => (s += v)); }
+
+function linhaDiaria(canvasId, D, canal) {
+  const dd = D.diaria;
+  new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { labels: dd.dias.map(d => String(d).padStart(2, '0') + '/11'), datasets: [
+      { label: 'BNO26', data: acumulado(dd['BNO26_' + canal]), borderColor: CANAL_COR[canal], backgroundColor: CANAL_COR[canal],
+        borderWidth: 2, pointRadius: 3, pointHoverRadius: 5, tension: 0 },
+      { label: 'BNO25', data: acumulado(dd['BNO25_' + canal]), borderColor: REF, backgroundColor: REF,
+        borderWidth: 2, borderDash: [5, 4], pointRadius: 0, pointHoverRadius: 4, tension: 0 },
+    ]},
+    options: {
+      maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${nf(c.raw)} vendas acumuladas` } } },
+      scales: { x: { grid: { display: false }, border: { color: BASELINE } }, y: axisX({ beginAtZero: true }) }
+    }
+  });
+}
+
+function hotleads(dl, nCom) {
+  const hot = dl.canal.find(c => c.k === 'Hotlead');
+  let h = `<thead><tr><th>Tipo</th><th class="num">Vendas</th><th class="num">Receita</th><th>Transação que abriu o deal</th><th class="num">Viraram Black</th>
+    <th class="num">Fechou em até 24h</th><th class="num">1 a 7 dias</th><th class="num">Mais de 7 dias</th></tr></thead><tbody>`;
+  const leitura = {
+    'Oportunidade pós-compra': g => `Compra aprovada; o vendedor subiu o plano. Em ${nf(g.origem_reembolsada)} a compra original foi reembolsada (troca).`,
+    'Recuperação de compra nova': g => `Carrinho abandonado ou compra negada; ${nf(g.origem_vitalicio)} já eram tentativa de vitalício.`,
+    'Renovação que falhou': g => `Pix, boleto ou cartão da renovação não passou; o vendedor converteu para vitalício.`,
+  };
+  dl.hotlead.forEach(g => {
+    const orig = g.origem_top.map(o => `${o.k} (${nf(o.n)})`).join(', ');
+    const tipos = g.tipos.map(t => `${t.k}: ${nf(t.n)}`).join(' · ');
+    h += `<tr><td><b>${g.grupo}</b><br><span style="color:var(--soft);font-size:12px">${tipos}</span></td>
+      <td class="num">${nf(g.n)}</td><td class="num">${brlK(g.receita)}</td>
+      <td>${(leitura[g.grupo] || (() => ''))(g)}<br><span style="color:var(--soft);font-size:12px">Mais comum: ${orig}</span></td>
+      <td class="num">${nf(g.destino_black)}</td>${g.prazo.map(v => `<td class="num">${nf(v)}</td>`).join('')}</tr>`;
+  });
+  const tot = key => dl.hotlead.reduce((a, g) => a + g[key], 0);
+  h += `<tr><td><b>Total hotlead</b></td><td class="num"><b>${nf(hot.n)}</b></td><td class="num"><b>${brlK(hot.receita)}</b></td>
+    <td>${nf(100 * hot.n / nCom)}% das vendas do Comercial</td><td class="num"><b>${nf(tot('destino_black'))}</b></td>
+    ${[0, 1, 2].map(i => `<td class="num"><b>${nf(dl.hotlead.reduce((a, g) => a + g.prazo[i], 0))}</b></td>`).join('')}</tr></tbody>`;
+  document.getElementById('tblHot').innerHTML = h;
+}
+
+function initCharts(D) {
+  document.getElementById('lastUpdate').textContent = 'Dados de ' + new Date(D.updated_at).toLocaleDateString('pt-BR');
+  const J = D.janelas;
+  document.getElementById('subtitulo').textContent =
+    `Black November 2026 (01/11 a ${dmy(J.fim_bno26)}), comparada aos mesmos dias da BNO25 e ao BP10 (16/07 a 30/09/2026).`;
+  document.getElementById('achados').innerHTML = D.achados.map(a => `<li>${a}</li>`).join('');
+
+  const k = D.kpi;
+  document.getElementById('ledeVolume').textContent =
+    `BNO26 e BNO25 cobrem os mesmos dias do mês (01 a ${dmy(J.fim_bno26)}). O BP10 é a campanha inteira.`;
+  document.getElementById('stats').innerHTML = [
+    [nf(k.BNO26.Total.vendas), 'vitalícios vendidos na BNO26'],
+    [brlK(k.BNO26.Total.receita), 'receita de vitalício na BNO26'],
+    [brl(k.BNO26.Total.ticket), 'ticket médio (BNO25 mesmos dias: ' + brl(k.BNO25.Total.ticket) + ')'],
+    [nf(100 * k.BNO26.Digital.vendas / k.BNO26.Total.vendas) + '%', 'das vendas vieram do digital'],
+  ].map(([n, c]) => `<div class="bigstat"><div class="bs-num">${n}</div><div class="bs-cap">${c}</div></div>`).join('');
+
+  const lin = [];
+  ['BNO26', 'BNO25', 'BP10'].forEach(p => ['Comercial', 'Digital', 'Total'].forEach(c => {
+    const x = k[p][c];
+    lin.push(`<tr${c === 'Total' ? ' style="background:#f8fafc"' : ''}><td class="grp">${c === 'Comercial' ? p : ''}</td><td${c === 'Total' ? ' class="grp"' : ''}>${c}</td>
+      <td class="num">${nf(x.vendas)}</td><td class="num">${nf(x.pessoas)}</td><td class="num">${brl(x.receita)}</td><td class="num">${brl(x.ticket)}</td></tr>`);
+  }));
+  document.getElementById('tblVolume').innerHTML = lin.join('');
+  const mf = D.membro_fundador_bno25;
+  document.getElementById('notaMF').innerHTML =
+    `Fora da comparação: <b>Big Picture Membro Fundador</b> vendeu ${nf(mf.vendas)} unidades (${brl(mf.receita)}) nos mesmos dias da BNO25. Foi um lançamento à parte e não tem equivalente nas outras janelas.`;
+
+  linhaDiaria('cDiaCom', D, 'Comercial');
+  linhaDiaria('cDiaDig', D, 'Digital');
+
+  const box = document.getElementById('composicoes');
+  const omitidas = D.dims.rel.linhas.filter(r => r.total < MIN_VENDAS);
+  if (omitidas.length) box.insertAdjacentHTML('beforeend', `<p class="lede">Fora dos gráficos por ter menos de ${MIN_VENDAS} vendas: ${
+    omitidas.map(r => `${r.periodo} · ${r.canal} (${nf(r.total)})`).join(', ')}.</p>`);
+  COMPOS.forEach(cfg => composicao(box, cfg, D.dims[cfg.dim]));
+
+  const b = D.bno26, nCom = k.BNO26.Comercial.vendas;
+  barH('cUtmCom', 'boxUtmCom', b.utm_comercial.map(r => r.k), b.utm_comercial.map(r => r.n), S[0], nCom);
+  barH('cPubDig', 'boxPubDig', b.publisher_digital.map(r => r.k), b.publisher_digital.map(r => r.n), S[1]);
+  barH('cConv', 'boxConv', b.conversa.cats, b.conversa.Comercial, S[0], nCom);
+  barH('cDeal', 'boxDeal', b.deals.canal.map(r => r.k), b.deals.canal.map(r => r.n), S[0], nCom);
+  barH('cEsp', 'boxEsp', b.conversa.espontaneo.cats, b.conversa.espontaneo.n, S[0]);
+  hotleads(b.deals, nCom);
+
+  const cz = b.comercial_lead_x_rel;
+  const tot = cz.n.flat().reduce((a, v) => a + v, 0);
+  document.getElementById('tblCruz').innerHTML =
+    `<thead><tr><th>Origem do lead</th>${cz.colunas.map(c => `<th class="num">${c}</th>`).join('')}<th class="num">Total</th></tr></thead><tbody>` +
+    cz.linhas.map((l, i) => `<tr><td>${l}</td>${cz.n[i].map(v => `<td class="num">${v ? nf(v) : '·'}</td>`).join('')}<td class="num"><b>${nf(cz.n[i].reduce((a, v) => a + v, 0))}</b></td></tr>`).join('') +
+    `<tr><td><b>Total</b></td>${cz.colunas.map((_, j) => `<td class="num"><b>${nf(cz.n.reduce((a, r) => a + r[j], 0))}</b></td>`).join('')}<td class="num"><b>${nf(tot)}</b></td></tr></tbody>`;
+
+  document.getElementById('boxTags').style.height = (b.tags_lead_novo.length * 34 + 24) + 'px';
+  new Chart(document.getElementById('cTags'), {
+    type: 'bar',
+    data: { labels: b.tags_lead_novo.map(r => r.k), datasets: ['Comercial', 'Digital'].map(c => ({
+      label: c, data: b.tags_lead_novo.map(r => r[c]), backgroundColor: CANAL_COR[c], borderRadius: 4, barThickness: 12 })) },
+    options: { indexAxis: 'y', maintainAspectRatio: false, layout: { padding: { right: 30 } },
+      plugins: { legend: { display: false } },
+      scales: { x: { display: false }, y: { grid: { display: false }, border: { display: false } } } },
+    plugins: [valueLabels(v => nf(v))]
+  });
+
+  new Chart(document.getElementById('cDias'), {
+    type: 'bar',
+    data: { labels: b.dias_lead_faixas, datasets: ['Comercial', 'Digital'].map(c => ({
+      label: c, data: b.dias_lead[c], backgroundColor: CANAL_COR[c], borderRadius: 4, maxBarThickness: 28 })) },
+    options: { maintainAspectRatio: false, layout: { padding: { top: 16 } },
+      plugins: { legend: { display: false } },
+      scales: { x: { grid: { display: false }, border: { color: BASELINE } }, y: { display: false } } },
+    plugins: [valueLabels(v => nf(v))]
+  });
+
+  document.getElementById('tblTicket').innerHTML = D.tier_ticket.map(r =>
+    `<tr><td>${r.canal}</td><td>${r.tier}</td><td class="num">${nf(r.n)}</td><td class="num">${brl(r.ticket)}</td><td class="num">${brl(r.mediana)}</td><td class="num">${brlK(r.receita)}</td></tr>`).join('');
+  document.getElementById('tblUf').innerHTML = b.uf.map(r =>
+    `<tr><td>${r.k}</td><td class="num">${nf(r.Comercial)}</td><td class="num">${nf(r.Digital)}</td><td class="num">${nf(r.Comercial + r.Digital)}</td></tr>`).join('');
+
+  /* guardas: as somas têm que bater com o total de vendas */
+  ['BNO26', 'BNO25', 'BP10'].forEach(p => {
+    const comp = D.dims.rel.linhas.filter(r => r.periodo === p).reduce((a, r) => a + r.total, 0);
+    if (comp !== k[p].Total.vendas) console.warn(`Composição ${p} (${comp}) ≠ total de vendas (${k[p].Total.vendas})`);
+  });
+  const sConv = b.conversa.Comercial.reduce((a, v) => a + v, 0);
+  if (sConv !== nCom) console.warn(`Conversas (${sConv}) ≠ vendas do Comercial (${nCom})`);
+  const sDeal = b.deals.canal.reduce((a, r) => a + r.n, 0);
+  if (sDeal !== nCom) console.warn(`Deals (${sDeal}) ≠ vendas do Comercial (${nCom})`);
+}
+
+fetch('./data.json')
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(D => initCharts(D))
+  .catch(err => {
+    console.error('Falha ao carregar data.json:', err);
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">
+        ⚠ Erro ao carregar dados: ${err.message}. Para visualização local, usar <code>python -m http.server</code> na pasta do relatório.
+      </div>`);
+  });
+</script>
+</body>
+</html>

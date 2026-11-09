@@ -1,0 +1,1703 @@
+{
+  "updated_at": "2026-11-09T15:29:54",
+  "janelas": {
+    "ini_bno26": "2026-11-01",
+    "fim_bno26": "2026-11-08",
+    "ini_bno25": "2025-11-01",
+    "fim_bno25": "2025-11-08",
+    "ini_bp10": "2026-07-16",
+    "fim_bp10": "2026-09-30",
+    "ini_consumo": "2025-07-01"
+  },
+  "kpi": {
+    "BNO26": {
+      "Comercial": {
+        "vendas": 271,
+        "pessoas": 271,
+        "receita": 505197.97,
+        "ticket": 1864.2
+      },
+      "Digital": {
+        "vendas": 362,
+        "pessoas": 354,
+        "receita": 510280.89,
+        "ticket": 1409.62
+      },
+      "Total": {
+        "vendas": 633,
+        "pessoas": 620,
+        "receita": 1015478.86,
+        "ticket": 1604.23
+      }
+    },
+    "BNO25": {
+      "Comercial": {
+        "vendas": 214,
+        "pessoas": 212,
+        "receita": 636669.72,
+        "ticket": 2975.09
+      },
+      "Digital": {
+        "vendas": 3,
+        "pessoas": 3,
+        "receita": 9876.0,
+        "ticket": 3292.0
+      },
+      "Total": {
+        "vendas": 217,
+        "pessoas": 215,
+        "receita": 646545.72,
+        "ticket": 2979.47
+      }
+    },
+    "BP10": {
+      "Comercial": {
+        "vendas": 5985,
+        "pessoas": 5937,
+        "receita": 11616758.93,
+        "ticket": 1940.98
+      },
+      "Digital": {
+        "vendas": 8778,
+        "pessoas": 8773,
+        "receita": 12982945.88,
+        "ticket": 1479.03
+      },
+      "Total": {
+        "vendas": 14763,
+        "pessoas": 14677,
+        "receita": 24599704.81,
+        "ticket": 1666.31
+      }
+    }
+  },
+  "membro_fundador_bno25": {
+    "vendas": 255,
+    "pessoas": 255,
+    "receita": 926694.24,
+    "ticket": 3634.1
+  },
+  "diaria": {
+    "dias": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "BNO26_Comercial": [
+      14,
+      17,
+      35,
+      38,
+      59,
+      50,
+      43,
+      15
+    ],
+    "BNO26_Digital": [
+      61,
+      48,
+      31,
+      31,
+      45,
+      56,
+      46,
+      44
+    ],
+    "BNO25_Comercial": [
+      0,
+      2,
+      37,
+      46,
+      32,
+      30,
+      37,
+      30
+    ],
+    "BNO25_Digital": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      2
+    ]
+  },
+  "dims": {
+    "rel": {
+      "cats": [
+        "Nunca comprou",
+        "Ex-assinante",
+        "Assinante ativo",
+        "Já tinha vitalício (upgrade)",
+        "Só comprou produto avulso"
+      ],
+      "linhas": [
+        {
+          "periodo": "BNO26",
+          "canal": "Comercial",
+          "total": 271,
+          "n": [
+            47,
+            88,
+            94,
+            28,
+            14
+          ],
+          "receita": [
+            82703.4,
+            151183.18,
+            189185.46,
+            63993.93,
+            18132.0
+          ]
+        },
+        {
+          "periodo": "BNO26",
+          "canal": "Digital",
+          "total": 362,
+          "n": [
+            160,
+            117,
+            64,
+            14,
+            7
+          ],
+          "receita": [
+            224165.12,
+            168550.35,
+            93123.06,
+            15060.45,
+            9381.91
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Comercial",
+          "total": 214,
+          "n": [
+            20,
+            37,
+            123,
+            30,
+            4
+          ],
+          "receita": [
+            71801.76,
+            107701.14,
+            331717.8,
+            107684.82,
+            17764.2
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Digital",
+          "total": 3,
+          "n": [
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "receita": [
+            3168.0,
+            2748.0,
+            3960.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Comercial",
+          "total": 5985,
+          "n": [
+            1020,
+            1540,
+            2887,
+            379,
+            159
+          ],
+          "receita": [
+            1921467.67,
+            2650051.11,
+            5558181.81,
+            1109758.94,
+            377299.4
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Digital",
+          "total": 8778,
+          "n": [
+            4635,
+            2734,
+            1130,
+            103,
+            176
+          ],
+          "receita": [
+            6833417.88,
+            4058914.49,
+            1671380.91,
+            154933.8,
+            264298.8
+          ]
+        }
+      ]
+    },
+    "tier": {
+      "cats": [
+        "Essencial",
+        "Premium",
+        "Black",
+        "Originais/Econômico"
+      ],
+      "linhas": [
+        {
+          "periodo": "BNO26",
+          "canal": "Comercial",
+          "total": 271,
+          "n": [
+            70,
+            85,
+            106,
+            10
+          ],
+          "receita": [
+            82368.79,
+            130322.85,
+            273599.73,
+            18906.6
+          ]
+        },
+        {
+          "periodo": "BNO26",
+          "canal": "Digital",
+          "total": 362,
+          "n": [
+            134,
+            214,
+            6,
+            8
+          ],
+          "receita": [
+            159005.8,
+            322690.49,
+            20020.32,
+            8564.28
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Comercial",
+          "total": 214,
+          "n": [
+            40,
+            15,
+            144,
+            15
+          ],
+          "receita": [
+            60694.2,
+            34953.6,
+            524713.92,
+            16308.0
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Digital",
+          "total": 3,
+          "n": [
+            0,
+            2,
+            1,
+            0
+          ],
+          "receita": [
+            0.0,
+            5916.0,
+            3960.0,
+            0.0
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Comercial",
+          "total": 5985,
+          "n": [
+            1253,
+            2644,
+            1413,
+            674
+          ],
+          "receita": [
+            1510419.82,
+            4205820.35,
+            5122388.47,
+            776222.29
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Digital",
+          "total": 8778,
+          "n": [
+            2214,
+            5734,
+            3,
+            827
+          ],
+          "receita": [
+            2860554.44,
+            9171849.39,
+            13248.0,
+            937294.05
+          ]
+        }
+      ]
+    },
+    "lead": {
+      "cats": [
+        "Lead novo (≤30d)",
+        "Captura na página de venda (≤30d)",
+        "Lead de 31–180d",
+        "Lead de mais de 180d",
+        "Nunca foi lead"
+      ],
+      "linhas": [
+        {
+          "periodo": "BNO26",
+          "canal": "Comercial",
+          "total": 271,
+          "n": [
+            37,
+            35,
+            37,
+            67,
+            95
+          ],
+          "receita": [
+            69378.45,
+            77151.16,
+            76524.28,
+            108186.3,
+            173957.78
+          ]
+        },
+        {
+          "periodo": "BNO26",
+          "canal": "Digital",
+          "total": 362,
+          "n": [
+            111,
+            22,
+            37,
+            44,
+            148
+          ],
+          "receita": [
+            159356.5,
+            29922.88,
+            50919.62,
+            60601.86,
+            209480.03
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Comercial",
+          "total": 214,
+          "n": [
+            8,
+            0,
+            31,
+            82,
+            93
+          ],
+          "receita": [
+            25777.2,
+            0.0,
+            85397.76,
+            237999.06,
+            287495.7
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Digital",
+          "total": 3,
+          "n": [
+            0,
+            0,
+            1,
+            1,
+            1
+          ],
+          "receita": [
+            0.0,
+            0.0,
+            3960.0,
+            3168.0,
+            2748.0
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Comercial",
+          "total": 5985,
+          "n": [
+            901,
+            125,
+            671,
+            2035,
+            2253
+          ],
+          "receita": [
+            1999152.77,
+            279042.62,
+            1250253.4,
+            3667345.75,
+            4420964.39
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Digital",
+          "total": 8778,
+          "n": [
+            2460,
+            54,
+            543,
+            1418,
+            4303
+          ],
+          "receita": [
+            3672957.54,
+            79038.9,
+            798266.37,
+            2092006.48,
+            6340676.59
+          ]
+        }
+      ]
+    },
+    "tempo_cliente": {
+      "cats": [
+        "Cliente novo",
+        "Menos de 1 ano",
+        "1 a 3 anos",
+        "3 anos ou mais"
+      ],
+      "linhas": [
+        {
+          "periodo": "BNO26",
+          "canal": "Comercial",
+          "total": 271,
+          "n": [
+            60,
+            40,
+            59,
+            112
+          ],
+          "receita": [
+            112206.6,
+            72872.82,
+            107884.56,
+            212233.99
+          ]
+        },
+        {
+          "periodo": "BNO26",
+          "canal": "Digital",
+          "total": 362,
+          "n": [
+            165,
+            22,
+            56,
+            119
+          ],
+          "receita": [
+            231543.95,
+            29184.03,
+            75989.4,
+            173563.51
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Comercial",
+          "total": 214,
+          "n": [
+            27,
+            14,
+            45,
+            128
+          ],
+          "receita": [
+            88998.96,
+            52715.76,
+            126264.0,
+            368691.0
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Digital",
+          "total": 3,
+          "n": [
+            1,
+            0,
+            1,
+            1
+          ],
+          "receita": [
+            3168.0,
+            0.0,
+            3960.0,
+            2748.0
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Comercial",
+          "total": 5985,
+          "n": [
+            1360,
+            516,
+            1117,
+            2992
+          ],
+          "receita": [
+            2870634.71,
+            1149642.71,
+            1959635.07,
+            5636846.44
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Digital",
+          "total": 8778,
+          "n": [
+            4701,
+            332,
+            1107,
+            2638
+          ],
+          "receita": [
+            6933224.88,
+            491459.72,
+            1619185.86,
+            3939075.42
+          ]
+        }
+      ]
+    },
+    "consumo": {
+      "cats": [
+        "Nada",
+        "Menos de 1h",
+        "1 a 10h",
+        "10h ou mais"
+      ],
+      "linhas": [
+        {
+          "periodo": "BNO26",
+          "canal": "Comercial",
+          "total": 271,
+          "n": [
+            178,
+            30,
+            53,
+            10
+          ],
+          "receita": [
+            319578.73,
+            57823.9,
+            108398.26,
+            19397.08
+          ]
+        },
+        {
+          "periodo": "BNO26",
+          "canal": "Digital",
+          "total": 362,
+          "n": [
+            304,
+            22,
+            30,
+            6
+          ],
+          "receita": [
+            429641.11,
+            29863.34,
+            43043.84,
+            7732.6
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Comercial",
+          "total": 214,
+          "n": [
+            92,
+            38,
+            58,
+            26
+          ],
+          "receita": [
+            273389.1,
+            111408.6,
+            180503.16,
+            71368.86
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Digital",
+          "total": 3,
+          "n": [
+            3,
+            0,
+            0,
+            0
+          ],
+          "receita": [
+            9876.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Comercial",
+          "total": 5985,
+          "n": [
+            3513,
+            739,
+            1393,
+            340
+          ],
+          "receita": [
+            6700110.76,
+            1434425.4,
+            2747136.24,
+            735086.53
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Digital",
+          "total": 8778,
+          "n": [
+            7678,
+            397,
+            579,
+            124
+          ],
+          "receita": [
+            11347880.43,
+            581133.9,
+            860406.35,
+            193525.2
+          ]
+        }
+      ]
+    },
+    "renda": {
+      "cats": [
+        "Decil 1–6",
+        "Decil 7–8",
+        "Decil 9–10",
+        "Sem dado"
+      ],
+      "linhas": [
+        {
+          "periodo": "BNO26",
+          "canal": "Comercial",
+          "total": 271,
+          "n": [
+            105,
+            39,
+            68,
+            59
+          ],
+          "receita": [
+            179975.81,
+            74432.13,
+            145827.57,
+            104962.46
+          ]
+        },
+        {
+          "periodo": "BNO26",
+          "canal": "Digital",
+          "total": 362,
+          "n": [
+            157,
+            73,
+            64,
+            68
+          ],
+          "receita": [
+            220682.69,
+            106495.82,
+            88608.15,
+            94494.23
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Comercial",
+          "total": 214,
+          "n": [
+            89,
+            46,
+            48,
+            31
+          ],
+          "receita": [
+            252691.56,
+            124206.96,
+            157710.0,
+            102061.2
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Digital",
+          "total": 3,
+          "n": [
+            1,
+            1,
+            1,
+            0
+          ],
+          "receita": [
+            2748.0,
+            3168.0,
+            3960.0,
+            0.0
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Comercial",
+          "total": 5985,
+          "n": [
+            2449,
+            1087,
+            1350,
+            1099
+          ],
+          "receita": [
+            4513852.97,
+            2114679.62,
+            2821729.82,
+            2166496.52
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Digital",
+          "total": 8778,
+          "n": [
+            3192,
+            1632,
+            2423,
+            1531
+          ],
+          "receita": [
+            4719490.54,
+            2423110.62,
+            3579051.48,
+            2261293.24
+          ]
+        }
+      ]
+    },
+    "cartao": {
+      "cats": [
+        "Gold ou inferior",
+        "Black, Amex ou Platinum",
+        "Sem dado"
+      ],
+      "linhas": [
+        {
+          "periodo": "BNO26",
+          "canal": "Comercial",
+          "total": 271,
+          "n": [
+            67,
+            153,
+            51
+          ],
+          "receita": [
+            102212.7,
+            313551.87,
+            89433.4
+          ]
+        },
+        {
+          "periodo": "BNO26",
+          "canal": "Digital",
+          "total": 362,
+          "n": [
+            102,
+            177,
+            83
+          ],
+          "receita": [
+            141273.02,
+            250568.38,
+            118439.49
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Comercial",
+          "total": 214,
+          "n": [
+            55,
+            148,
+            11
+          ],
+          "receita": [
+            141962.4,
+            464314.98,
+            30392.34
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Digital",
+          "total": 3,
+          "n": [
+            0,
+            2,
+            1
+          ],
+          "receita": [
+            0.0,
+            6708.0,
+            3168.0
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Comercial",
+          "total": 5985,
+          "n": [
+            1462,
+            3726,
+            797
+          ],
+          "receita": [
+            2645370.45,
+            7434196.26,
+            1537192.22
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Digital",
+          "total": 8778,
+          "n": [
+            1606,
+            5136,
+            2036
+          ],
+          "receita": [
+            2361527.37,
+            7633052.24,
+            2988366.27
+          ]
+        }
+      ]
+    },
+    "pagamento": {
+      "cats": [
+        "Cartão",
+        "Pix",
+        "NuPay",
+        "Boleto",
+        "Outro"
+      ],
+      "linhas": [
+        {
+          "periodo": "BNO26",
+          "canal": "Comercial",
+          "total": 271,
+          "n": [
+            226,
+            34,
+            8,
+            3,
+            0
+          ],
+          "receita": [
+            429566.17,
+            56157.0,
+            13934.4,
+            5540.4,
+            0.0
+          ]
+        },
+        {
+          "periodo": "BNO26",
+          "canal": "Digital",
+          "total": 362,
+          "n": [
+            315,
+            33,
+            8,
+            6,
+            0
+          ],
+          "receita": [
+            442204.49,
+            48418.0,
+            11106.8,
+            8551.6,
+            0.0
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Comercial",
+          "total": 214,
+          "n": [
+            195,
+            8,
+            10,
+            1,
+            0
+          ],
+          "receita": [
+            596509.62,
+            16510.5,
+            22491.6,
+            1158.0,
+            0.0
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Digital",
+          "total": 3,
+          "n": [
+            3,
+            0,
+            0,
+            0,
+            0
+          ],
+          "receita": [
+            9876.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Comercial",
+          "total": 5985,
+          "n": [
+            5255,
+            427,
+            247,
+            56,
+            0
+          ],
+          "receita": [
+            10300859.55,
+            765965.08,
+            452186.7,
+            97747.6,
+            0.0
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Digital",
+          "total": 8778,
+          "n": [
+            7583,
+            951,
+            77,
+            167,
+            0
+          ],
+          "receita": [
+            11236967.48,
+            1382731.2,
+            109887.0,
+            253360.2,
+            0.0
+          ]
+        }
+      ]
+    },
+    "genero": {
+      "cats": [
+        "Masculino",
+        "Feminino",
+        "Sem dado"
+      ],
+      "linhas": [
+        {
+          "periodo": "BNO26",
+          "canal": "Comercial",
+          "total": 271,
+          "n": [
+            177,
+            87,
+            7
+          ],
+          "receita": [
+            320093.96,
+            174489.41,
+            10614.6
+          ]
+        },
+        {
+          "periodo": "BNO26",
+          "canal": "Digital",
+          "total": 362,
+          "n": [
+            239,
+            108,
+            15
+          ],
+          "receita": [
+            340497.29,
+            149895.39,
+            19888.21
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Comercial",
+          "total": 214,
+          "n": [
+            121,
+            90,
+            3
+          ],
+          "receita": [
+            367033.2,
+            261386.52,
+            8250.0
+          ]
+        },
+        {
+          "periodo": "BNO25",
+          "canal": "Digital",
+          "total": 3,
+          "n": [
+            2,
+            1,
+            0
+          ],
+          "receita": [
+            7128.0,
+            2748.0,
+            0.0
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Comercial",
+          "total": 5985,
+          "n": [
+            3999,
+            1796,
+            190
+          ],
+          "receita": [
+            7934428.45,
+            3328713.36,
+            353617.12
+          ]
+        },
+        {
+          "periodo": "BP10",
+          "canal": "Digital",
+          "total": 8778,
+          "n": [
+            6288,
+            2220,
+            270
+          ],
+          "receita": [
+            9341593.28,
+            3246007.6,
+            395345.0
+          ]
+        }
+      ]
+    }
+  },
+  "tier_ticket": [
+    {
+      "canal": "Comercial",
+      "tier": "Essencial",
+      "n": 70,
+      "ticket": 1176.7,
+      "mediana": 1188.0,
+      "receita": 82368.79
+    },
+    {
+      "canal": "Comercial",
+      "tier": "Premium",
+      "n": 85,
+      "ticket": 1533.21,
+      "mediana": 1548.0,
+      "receita": 130322.85
+    },
+    {
+      "canal": "Comercial",
+      "tier": "Black",
+      "n": 106,
+      "ticket": 2581.13,
+      "mediana": 2064.81,
+      "receita": 273599.73
+    },
+    {
+      "canal": "Comercial",
+      "tier": "Originais/Econômico",
+      "n": 10,
+      "ticket": 1890.66,
+      "mediana": 1188.0,
+      "receita": 18906.6
+    },
+    {
+      "canal": "Digital",
+      "tier": "Essencial",
+      "n": 134,
+      "ticket": 1186.61,
+      "mediana": 1188.0,
+      "receita": 159005.8
+    },
+    {
+      "canal": "Digital",
+      "tier": "Premium",
+      "n": 214,
+      "ticket": 1507.9,
+      "mediana": 1548.0,
+      "receita": 322690.49
+    },
+    {
+      "canal": "Digital",
+      "tier": "Black",
+      "n": 6,
+      "ticket": 3336.72,
+      "mediana": 3736.8,
+      "receita": 20020.32
+    },
+    {
+      "canal": "Digital",
+      "tier": "Originais/Econômico",
+      "n": 8,
+      "ticket": 1070.54,
+      "mediana": 1068.0,
+      "receita": 8564.28
+    }
+  ],
+  "bno26": {
+    "utm_comercial": [
+      {
+        "k": "BNO26 · Vitalício",
+        "n": 75
+      },
+      {
+        "k": "Campanhas anteriores",
+        "n": 68
+      },
+      {
+        "k": "BNO26 · outras linhas",
+        "n": 55
+      },
+      {
+        "k": "Google",
+        "n": 39
+      },
+      {
+        "k": "Sem UTM",
+        "n": 26
+      },
+      {
+        "k": "Disparo CRM",
+        "n": 8
+      }
+    ],
+    "utm_digital": [
+      {
+        "k": "BNO26 · Vitalício",
+        "n": 221
+      },
+      {
+        "k": "BNO26 · outras linhas",
+        "n": 57
+      },
+      {
+        "k": "Campanhas anteriores",
+        "n": 36
+      },
+      {
+        "k": "Disparo CRM",
+        "n": 22
+      },
+      {
+        "k": "Google",
+        "n": 20
+      },
+      {
+        "k": "Sem UTM",
+        "n": 6
+      }
+    ],
+    "publisher_digital": [
+      {
+        "k": "Facebook Ads",
+        "n": 175
+      },
+      {
+        "k": "Message Service",
+        "n": 81
+      },
+      {
+        "k": "Own Site",
+        "n": 37
+      },
+      {
+        "k": "E-mail",
+        "n": 25
+      },
+      {
+        "k": "Adwords",
+        "n": 10
+      },
+      {
+        "k": "YouTube",
+        "n": 9
+      },
+      {
+        "k": "Adwords Remarketing",
+        "n": 8
+      },
+      {
+        "k": "X",
+        "n": 5
+      },
+      {
+        "k": "(vazio)",
+        "n": 5
+      },
+      {
+        "k": "Organic",
+        "n": 5
+      },
+      {
+        "k": "Other",
+        "n": 2
+      }
+    ],
+    "tags_lead_novo": [
+      {
+        "k": "BNO26-VIT-LP",
+        "Comercial": 27,
+        "Digital": 94
+      },
+      {
+        "k": "BNO26-GBB",
+        "Comercial": 4,
+        "Digital": 12
+      },
+      {
+        "k": "JOM",
+        "Comercial": 3,
+        "Digital": 3
+      },
+      {
+        "k": "BNO26",
+        "Comercial": 0,
+        "Digital": 1
+      },
+      {
+        "k": "PAR",
+        "Comercial": 0,
+        "Digital": 1
+      },
+      {
+        "k": "RBP",
+        "Comercial": 1,
+        "Digital": 0
+      },
+      {
+        "k": "CBR",
+        "Comercial": 1,
+        "Digital": 0
+      },
+      {
+        "k": "ELE",
+        "Comercial": 1,
+        "Digital": 0
+      }
+    ],
+    "tags_captura": [
+      {
+        "k": "lp-cbr",
+        "n": 40
+      },
+      {
+        "k": "lp-clu",
+        "n": 17
+      }
+    ],
+    "dias_lead": {
+      "Comercial": [
+        20,
+        11,
+        2,
+        4
+      ],
+      "Digital": [
+        93,
+        15,
+        1,
+        2
+      ]
+    },
+    "dias_lead_faixas": [
+      "Mesmo dia",
+      "1 a 3 dias",
+      "4 a 7 dias",
+      "8 a 30 dias"
+    ],
+    "uf": [
+      {
+        "k": "SP",
+        "Comercial": 90,
+        "Digital": 121
+      },
+      {
+        "k": "RJ",
+        "Comercial": 35,
+        "Digital": 36
+      },
+      {
+        "k": "PR",
+        "Comercial": 24,
+        "Digital": 25
+      },
+      {
+        "k": "MG",
+        "Comercial": 16,
+        "Digital": 32
+      },
+      {
+        "k": "RS",
+        "Comercial": 18,
+        "Digital": 18
+      },
+      {
+        "k": "SC",
+        "Comercial": 14,
+        "Digital": 22
+      },
+      {
+        "k": "DF",
+        "Comercial": 13,
+        "Digital": 11
+      },
+      {
+        "k": "GO",
+        "Comercial": 11,
+        "Digital": 10
+      },
+      {
+        "k": "PA",
+        "Comercial": 2,
+        "Digital": 17
+      },
+      {
+        "k": "BA",
+        "Comercial": 10,
+        "Digital": 9
+      }
+    ],
+    "comercial_lead_x_rel": {
+      "linhas": [
+        "Lead novo (≤30d)",
+        "Captura na página de venda (≤30d)",
+        "Lead de 31–180d",
+        "Lead de mais de 180d",
+        "Nunca foi lead"
+      ],
+      "colunas": [
+        "Nunca comprou",
+        "Ex-assinante",
+        "Assinante ativo",
+        "Já tinha vitalício (upgrade)",
+        "Só comprou produto avulso"
+      ],
+      "n": [
+        [
+          10,
+          8,
+          16,
+          2,
+          1
+        ],
+        [
+          2,
+          9,
+          16,
+          3,
+          5
+        ],
+        [
+          4,
+          10,
+          10,
+          11,
+          2
+        ],
+        [
+          4,
+          33,
+          24,
+          5,
+          1
+        ],
+        [
+          27,
+          28,
+          28,
+          7,
+          5
+        ]
+      ]
+    },
+    "combo_livro_comercial": 12,
+    "conversa": {
+      "cats": [
+        "Botão de disparo",
+        "Link WhatsApp (LP/anúncio)",
+        "Vendedor abriu (hotlead)",
+        "Chatbot sem histórico",
+        "Contato espontâneo",
+        "Botão no portal",
+        "Conversa já aberta",
+        "Sem conversa antes"
+      ],
+      "espontaneo": {
+        "cats": [
+          "Pergunta sobre a oferta",
+          "Só cumprimento",
+          "Veio de outra área da BP",
+          "Resposta ao chatbot",
+          "Botão no portal"
+        ],
+        "n": [
+          4,
+          5,
+          3,
+          4,
+          3
+        ]
+      },
+      "Comercial": [
+        54,
+        36,
+        32,
+        28,
+        16,
+        3,
+        57,
+        45
+      ],
+      "Digital": [
+        10,
+        16,
+        23,
+        9,
+        5,
+        2,
+        40,
+        257
+      ]
+    },
+    "deals": {
+      "canal": [
+        {
+          "k": "Chat",
+          "n": 128,
+          "receita": 240609.7
+        },
+        {
+          "k": "Hotlead",
+          "n": 97,
+          "receita": 163478.93
+        },
+        {
+          "k": "Lista",
+          "n": 25,
+          "receita": 70259.91
+        },
+        {
+          "k": "Sem deal",
+          "n": 21,
+          "receita": 30849.43
+        }
+      ],
+      "hotlead": [
+        {
+          "grupo": "Oportunidade pós-compra",
+          "n": 46,
+          "receita": 83092.31,
+          "tipos": [
+            {
+              "k": "Oportunidade de venda · nova compra",
+              "n": 40
+            },
+            {
+              "k": "Oportunidade de venda · renovação",
+              "n": 6
+            }
+          ],
+          "origem_reembolsada": 27,
+          "origem_vitalicio": 17,
+          "destino_black": 29,
+          "origem_top": [
+            {
+              "k": "Premium Vitalício",
+              "n": 12
+            },
+            {
+              "k": "Coleção Brasil",
+              "n": 11
+            },
+            {
+              "k": "Premium",
+              "n": 7
+            }
+          ],
+          "prazo": [
+            20,
+            13,
+            13
+          ]
+        },
+        {
+          "grupo": "Recuperação de compra nova",
+          "n": 28,
+          "receita": 50156.67,
+          "tipos": [
+            {
+              "k": "Abandono de carrinho · nova compra",
+              "n": 15
+            },
+            {
+              "k": "Compra negada · nova compra",
+              "n": 13
+            }
+          ],
+          "origem_reembolsada": 1,
+          "origem_vitalicio": 14,
+          "destino_black": 11,
+          "origem_top": [
+            {
+              "k": "Premium Vitalício",
+              "n": 11
+            },
+            {
+              "k": "Premium",
+              "n": 8
+            },
+            {
+              "k": "Coleção Brasil",
+              "n": 3
+            }
+          ],
+          "prazo": [
+            8,
+            8,
+            12
+          ]
+        },
+        {
+          "grupo": "Renovação que falhou",
+          "n": 23,
+          "receita": 30229.95,
+          "tipos": [
+            {
+              "k": "Pix expirado · renovação",
+              "n": 15
+            },
+            {
+              "k": "Compra negada · renovação",
+              "n": 5
+            },
+            {
+              "k": "Boleto expirado · renovação",
+              "n": 3
+            }
+          ],
+          "origem_reembolsada": 0,
+          "origem_vitalicio": 11,
+          "destino_black": 5,
+          "origem_top": [
+            {
+              "k": "Outro",
+              "n": 6
+            },
+            {
+              "k": "Essencial Vitalício",
+              "n": 5
+            },
+            {
+              "k": "Premium Vitalício",
+              "n": 4
+            }
+          ],
+          "prazo": [
+            9,
+            4,
+            10
+          ]
+        }
+      ],
+      "prazos": [
+        "Até 24h",
+        "1 a 7 dias",
+        "Mais de 7 dias"
+      ]
+    }
+  },
+  "achados": [
+    "<b>De onde vem a venda de vitalício do Comercial:</b> 28% das vendas vieram com UTM da campanha VIT, mas só 11% eram lead novo da VIT. 77% já eram da base (assinante, ex-assinante ou vitalício). Em cerca de 30% das vendas, a conversa com o vendedor começou com a pessoa respondendo a um botão de disparo de WhatsApp.",
+    "<b>Hotlead leva 36% das vendas do Comercial</b> (97 vendas, R$ 163 mil). O maior grupo é a oportunidade pós-compra (46): a pessoa compra algo no digital, o bot abre o deal e o vendedor sobe o plano. 29 delas viraram Black Vitalício, e em 27 a compra original foi reembolsada (troca).",
+    "<b>633 vitalícios (R$ 1,02 mi)</b> de 01/11 a 08/11, contra 217 (R$ 647 mil) nos mesmos dias da BNO25. O digital passou de 3 para <b>362</b> vendas e hoje é 57% do volume.",
+    "<b>Comercial: mais vendas (+27%) e menos receita (-21%)</b>. O ticket foi de R$ 2.975 para R$ 1.864: o Black era 67% das vendas do Comercial na BNO25 e agora é 39%.",
+    "<b>O digital traz gente nova:</b> 44% dos compradores digitais nunca tinham comprado nada da BP e 32% são ex-assinantes. No Comercial, os mesmos grupos somam 17% e 32%.",
+    "<b>O Comercial converte menos assinante ativo, e esse grupo leva menos Black:</b> assinantes ativos são 35% das vendas do Comercial, contra 57% na BNO25 e 48% no BP10. Entre eles, o Black caiu de 58% para 45% das compras.",
+    "<b>Lead novo compra rápido:</b> 148 vendas vieram de quem cadastrou lead nos 30 dias anteriores (a maioria na LP de vitalício da BNO26), e 94% delas fecharam em até 3 dias do cadastro.",
+    "<b>Pouca gente chega assistindo:</b> 76% dos compradores não têm nenhuma sessão na plataforma nos 90 dias antes da compra. Mesmo entre os assinantes ativos, 39% não assistiram nada."
+  ]
+}
