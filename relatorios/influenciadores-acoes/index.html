@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ações de Influs</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+  :root {
+    color-scheme: light dark;
+    --font-anthropic-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-anthropic-serif: Georgia, 'Times New Roman', serif;
+    --cds-gap-xs: 4px; --cds-gap-sm: 8px; --cds-gap-md: 16px; --cds-gap-xl: 32px;
+    --cds-pad-xs: 4px; --cds-pad-sm: 8px; --cds-pad-md: 16px; --cds-pad-lg: 24px;
+    --cds-font-size-caption: 12.5px; --cds-font-size-body: 14px; --cds-font-size-heading: 17px; --cds-font-size-title: 30px;
+    --cds-font-weight-medium: 600; --cds-radius: 10px; --cds-dur-slow: .3s;
+    --color-bg: #f8fafc; --color-panel: #ffffff; --color-fg: #1e293b; --color-fg-muted: #5b6577;
+    --color-border-line: #e2e8f0;
+    --color-ok: #0a8a0a; --color-warn: #b7791f; --color-bad: #d03b3b;
+    --cds-chart-muted: #b9bfc9; --cds-chart-grid: #e1e0d9; --cds-chart-1: #2a78d6;
+    --cds-surface-popover: #ffffff; --cds-border: #e2e8f0; --cds-shadow-popover: 0 4px 16px rgba(0,0,0,.12);
+    --cds-text-secondary: #5b6577;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-bg: #111418; --color-panel: #1a1e24; --color-fg: #e6e8eb; --color-fg-muted: #9aa3ae;
+      --color-border-line: #2c323a; --color-ok: #4cc26a; --color-warn: #e3a948; --color-bad: #f0716f;
+      --cds-chart-muted: #59616c; --cds-chart-grid: #2c323a; --cds-chart-1: #5b9cf0;
+      --cds-surface-popover: #22272e; --cds-border: #2c323a; --cds-text-secondary: #9aa3ae;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-size: 14px; line-height: 1.5; }
+  .pagina { max-width: 1280px; margin: 0 auto; padding: 40px 16px 80px; }
+  .erro { color: var(--color-bad); }
+  .ai { display: flex; flex-direction: column; gap: var(--cds-gap-xl); font-family: var(--font-anthropic-sans); color: var(--color-fg); }
+  .ai-head { display: flex; flex-direction: column; gap: var(--cds-gap-sm); }
+  .ai-title { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+  .ai-sub { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); margin: 0; }
+  .ai-lead { margin: 0; max-width: 70ch; line-height: 1.5; }
+  .ai b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .ai-filters { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); align-items: center; }
+  .ai-filters span { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); margin-right: var(--cds-gap-xs); }
+  .ai-chip { font: inherit; font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-radius: 999px; border: 1px solid var(--color-border-line); background: transparent; color: var(--color-fg); cursor: pointer; }
+  .ai-chip[aria-pressed="true"] { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+  .ai-chip:focus-visible, .ai-sort:focus-visible, .ai-search:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .ai-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr)); gap: var(--cds-gap-md); }
+  .ai-tile { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); display: flex; flex-direction: column; gap: var(--cds-gap-xs); }
+  .ai-tile-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); letter-spacing: .01em; }
+  .ai-tile-value { font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-title); font-weight: 400; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .ai-tile-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .ai-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-sm); min-width: 0; }
+  .ai-card h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+  .ai-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; max-width: 80ch; line-height: 1.45; }
+  .ai-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-md); }
+  .ai-search { font: inherit; font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); width: min(100%, 18rem); }
+  .ai-tablewrap { overflow: auto; max-height: 34rem; }
+  .ai-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+  .ai-table th { position: sticky; top: 0; background: var(--color-panel); text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); border-bottom: 1px solid var(--color-border-line); padding: 0; white-space: nowrap; z-index: 1; }
+  .ai-table th.num, .ai-table td.num { text-align: right; }
+  .ai-table td.num { white-space: nowrap; }
+  .ai-sort { font: inherit; color: inherit; background: none; border: 0; padding: var(--cds-pad-xs) var(--cds-pad-sm); cursor: pointer; width: 100%; text-align: inherit; }
+  .ai-table td { padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+  .ai-table td.wrap { min-width: 12rem; max-width: 18rem; }
+  .ai-table td.muted { color: var(--color-fg-muted); }
+  .ai-influ { font-weight: var(--cds-font-weight-medium); white-space: nowrap; }
+  .ai-pill { display: inline-block; padding: 1px var(--cds-pad-sm); border-radius: 999px; font-size: var(--cds-font-size-caption); white-space: nowrap; border: 1px solid var(--color-border-line); }
+  .ai-pill.ok { color: var(--color-ok); border-color: currentColor; }
+  .ai-pill.warn { color: var(--color-warn); border-color: currentColor; }
+  .ai-pill.bad { color: var(--color-bad); border-color: currentColor; }
+  .ai-pill.muted { color: var(--color-fg-muted); }
+  .ai-ret.good { color: var(--color-ok); }
+  .ai-ret.badv { color: var(--color-bad); }
+  .ai-chart { position: relative; min-height: 260px; }
+  .ai-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 2; }
+  .ai-tip .t { color: var(--cds-text-secondary); }
+  .ai-legend { display: flex; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); flex-wrap: wrap; }
+  .ai-sw { display: inline-block; width: .7rem; height: .7rem; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+  .ai-bars { display: flex; flex-direction: column; gap: var(--cds-gap-xs); min-height: 8rem; }
+  .ai-barrow { display: grid; grid-template-columns: 8.5rem 1fr 2rem; gap: var(--cds-gap-sm); align-items: center; font-size: var(--cds-font-size-caption); }
+  .ai-bar { height: 12px; border-radius: 2px; }
+  .ai-howto { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: var(--cds-gap-md); }
+  .ai-howto h3 { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); margin: 0 0 var(--cds-gap-xs); }
+  .ai-howto p { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.45; }
+  .ai-seg { display: inline-flex; flex-wrap: wrap; gap: var(--cds-gap-xs); align-items: center; }
+  .ai-seg span { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); margin-right: var(--cds-gap-xs); }
+  .ai-toolbar { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); align-items: center; justify-content: space-between; }
+  .ai-table td.sub { color: var(--color-fg-muted); max-width: 22rem; min-width: 10rem; }
+  .ai-table tfoot td { font-weight: var(--cds-font-weight-medium); border-top: 1px solid var(--color-border-line); position: sticky; bottom: 0; background: var(--color-panel); }
+  [data-dash-source-state=empty] { color: transparent; }
+  [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+</style>
+</head>
+<body>
+<div class="pagina">
+<div class="ai">
+  <header class="ai-head">
+    <h1 class="ai-title" id="topo">Ações de Influs</h1>
+    <p class="ai-sub">Brasil Paralelo · Influenciadores · registro de ações de 01/10 a 04/11/2026 · anúncios e vendas até <span id="dados-ate">—</span> · atualizado em <span id="atualizado">—</span></p>
+    <p class="ai-lead">Estão registradas <b data-draw="lead_acoes" data-source="resumo" data-field="acoes" data-where="filtro=Todas">—</b> ações de influs, com <b data-draw="lead_entregando" data-source="resumo" data-field="entregando" data-where="filtro=Todas">—</b> entregando agora. Os anúncios dessas ações trouxeram <b data-draw="lead_receita" data-source="resumo" data-field="receita_ads" data-where="filtro=Todas">—</b> de receita para <b data-draw="lead_midia" data-source="resumo" data-field="midia" data-where="filtro=Todas">—</b> de mídia, e os links diretos venderam <b data-draw="lead_link" data-source="resumo" data-field="link_receita" data-where="filtro=Todas">—</b>. <b data-draw="lead_semmed" data-source="resumo" data-field="sem_medicao" data-where="filtro=Todas">—</b> ações não têm como medir venda: não têm link nem anúncio.</p>
+    <div class="ai-filters" role="group" aria-label="Campanha">
+      <span>Campanha</span>
+      <button class="ai-chip" type="button" data-filtro="Todas" aria-pressed="true">Todas</button>
+      <button class="ai-chip" type="button" data-filtro="Clubinho" aria-pressed="false">Clubinho</button>
+      <button class="ai-chip" type="button" data-filtro="Brenda (JOM)" aria-pressed="false">Brenda (JOM)</button>
+      <button class="ai-chip" type="button" data-filtro="Outras" aria-pressed="false">Outras</button>
+    </div>
+  </header>
+
+  <section class="ai-tiles" aria-label="Resumo">
+    <div class="ai-tile"><span class="ai-tile-label">Ações entregando agora</span><span class="ai-tile-value" data-draw="k_entregando" data-source="resumo" data-field="entregando" data-where="filtro=Todas">—</span><span class="ai-tile-note">de <span data-draw="k_acoes" data-source="resumo" data-field="acoes" data-where="filtro=Todas">—</span> ações registradas</span></div>
+    <div class="ai-tile"><span class="ai-tile-label">Peças entregues</span><span class="ai-tile-value" data-draw="k_entregas" data-source="resumo" data-field="entregas" data-where="filtro=Todas">—</span><span class="ai-tile-note">ads, reels, stories e collabs citados</span></div>
+    <div class="ai-tile"><span class="ai-tile-label">Mídia nos anúncios das ações</span><span class="ai-tile-value" data-draw="k_midia" data-source="resumo" data-field="midia" data-where="filtro=Todas">—</span><span class="ai-tile-note">investimento no Meta, sem imposto</span></div>
+    <div class="ai-tile"><span class="ai-tile-label">Receita dos anúncios</span><span class="ai-tile-value" data-draw="k_receita" data-source="resumo" data-field="receita_ads" data-where="filtro=Todas">—</span><span class="ai-tile-note">atribuída pelo funil do Meta</span></div>
+    <div class="ai-tile"><span class="ai-tile-label">Retorno por R$ 1 em mídia</span><span class="ai-tile-value" data-draw="k_retorno" data-source="resumo" data-field="retorno" data-where="filtro=Todas">—</span><span class="ai-tile-note">receita ÷ mídia dos anúncios</span></div>
+    <div class="ai-tile"><span class="ai-tile-label">Vendas pelo link do influ</span><span class="ai-tile-value" data-draw="k_link" data-source="resumo" data-field="link_receita" data-where="filtro=Todas">—</span><span class="ai-tile-note"><span data-draw="k_linkv" data-source="resumo" data-field="link_vendas" data-where="filtro=Todas">—</span> vendas com o handle no rastreio</span></div>
+  </section>
+
+  <section class="ai-card" id="acoes">
+    <h2>Ações: combinado, entregue e resultado</h2>
+    <p class="ai-note">Uma linha por influ × campanha. O status e as entregas vêm do Slack e da planilha de curadores e afiliados. O resultado vem do BigQuery: anúncios pelo nome do influ no anúncio e vendas pelo handle no link. Clique no título de uma coluna para ordenar.</p>
+    <input class="ai-search" id="busca-acoes" type="search" placeholder="Buscar influ, tipo, status…" aria-label="Buscar ações">
+    <div class="ai-tablewrap">
+      <table class="ai-table" data-source="acoes_resultado" data-row-key="acao_id">
+        <thead><tr>
+          <th data-field="influ"><button class="ai-sort" type="button" data-sort="influ">Influ</button></th>
+          <th data-field="campanha"><button class="ai-sort" type="button" data-sort="campanha">Campanha</button></th>
+          <th data-field="tipo"><button class="ai-sort" type="button" data-sort="tipo">Tipo</button></th>
+          <th data-field="status"><button class="ai-sort" type="button" data-sort="status">Status</button></th>
+          <th data-field="combinado">Combinado</th>
+          <th class="num" data-field="entregas"><button class="ai-sort" type="button" data-sort="entregas">Entregas</button></th>
+          <th data-field="ultima_entrega"><button class="ai-sort" type="button" data-sort="ultima_entrega">Última</button></th>
+          <th class="num" data-field="anuncios"><button class="ai-sort" type="button" data-sort="anuncios">Anúncios</button></th>
+          <th class="num" data-field="midia"><button class="ai-sort" type="button" data-sort="midia">Mídia</button></th>
+          <th class="num" data-field="receita_ads"><button class="ai-sort" type="button" data-sort="receita_ads">Receita ads</button></th>
+          <th class="num" data-field="retorno"><button class="ai-sort" type="button" data-sort="retorno">Retorno</button></th>
+          <th class="num" data-field="link_receita"><button class="ai-sort" type="button" data-sort="link_receita">Link</button></th>
+          <th data-field="medicao"><button class="ai-sort" type="button" data-sort="medicao">Medição</button></th>
+          <th data-field="observacao">Observação</th>
+        </tr></thead>
+        <tbody data-draw="tabela_acoes"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="ai-card" id="metricas-ads">
+    <h2>Métricas dos anúncios de influ</h2>
+    <p class="ai-note">Todos os anúncios do Meta com influ no nome desde 01/10, inclusive os sem ação registrada. Escolha como agrupar. Mídia sem imposto; receita e vendas atribuídas pelo funil de anúncios (direto + comercial). Hook = views de 3 s ÷ impressões. Custo por venda = mídia ÷ vendas.</p>
+    <div class="ai-toolbar">
+      <div class="ai-seg" role="group" aria-label="Agrupar por">
+        <span>Agrupar por</span>
+        <button class="ai-chip" type="button" data-agrupar="anuncio" aria-pressed="false">Anúncio</button>
+        <button class="ai-chip" type="button" data-agrupar="influ" aria-pressed="true">Influ</button>
+        <button class="ai-chip" type="button" data-agrupar="campanha" aria-pressed="false">Campanha</button>
+        <button class="ai-chip" type="button" data-agrupar="campanha_meta" aria-pressed="false">Campanha no Meta</button>
+      </div>
+      <input class="ai-search" id="busca-ads" type="search" placeholder="Buscar anúncio, influ, campanha…" aria-label="Buscar nos anúncios">
+    </div>
+    <div class="ai-tablewrap">
+      <table class="ai-table" data-source="ads_agrupado" data-row-key="filtro,agrupamento,chave">
+        <thead><tr>
+          <th data-field="nome"><button class="ai-sort" type="button" data-sort3="nome">Nome</button></th>
+          <th data-field="detalhe">Detalhe</th>
+          <th class="num" data-field="anuncios"><button class="ai-sort" type="button" data-sort3="anuncios">Anúncios</button></th>
+          <th class="num" data-field="midia"><button class="ai-sort" type="button" data-sort3="midia">Mídia</button></th>
+          <th class="num" data-field="impressoes"><button class="ai-sort" type="button" data-sort3="impressoes">Impressões</button></th>
+          <th class="num" data-field="cpm"><button class="ai-sort" type="button" data-sort3="cpm">CPM</button></th>
+          <th class="num" data-field="hook"><button class="ai-sort" type="button" data-sort3="hook">Hook 3 s</button></th>
+          <th class="num" data-field="cliques"><button class="ai-sort" type="button" data-sort3="cliques">Cliques</button></th>
+          <th class="num" data-field="ctr"><button class="ai-sort" type="button" data-sort3="ctr">CTR</button></th>
+          <th class="num" data-field="cpc"><button class="ai-sort" type="button" data-sort3="cpc">CPC</button></th>
+          <th class="num" data-field="vendas"><button class="ai-sort" type="button" data-sort3="vendas">Vendas</button></th>
+          <th class="num" data-field="custo_venda"><button class="ai-sort" type="button" data-sort3="custo_venda">Custo/venda</button></th>
+          <th class="num" data-field="receita"><button class="ai-sort" type="button" data-sort3="receita">Receita</button></th>
+          <th class="num" data-field="retorno"><button class="ai-sort" type="button" data-sort3="retorno">Retorno</button></th>
+          <th class="num" data-field="leads"><button class="ai-sort" type="button" data-sort3="leads">Leads</button></th>
+          <th class="num" data-field="dias_no_ar"><button class="ai-sort" type="button" data-sort3="dias_no_ar">Dias no ar</button></th>
+        </tr></thead>
+        <tbody data-draw="tabela_ads"></tbody>
+      </table>
+    </div>
+    <p class="ai-note"><span data-draw="ads_contagem" data-source="ads_agrupado">—</span></p>
+  </section>
+
+  <div class="ai-grid">
+    <section class="ai-card" id="semanal">
+      <h2>Anúncios de influ por semana</h2>
+      <p class="ai-note">Todos os anúncios com influ no nome, inclusive os sem ação registrada. A primeira semana começa em 01/10 e a última pode estar incompleta.</p>
+      <div class="ai-legend"><span><i class="ai-sw" data-draw="sw_midia">—</i>Mídia</span><span><i class="ai-sw" data-draw="sw_receita">—</i>Receita atribuída</span></div>
+      <div class="ai-chart" data-draw="grafico_semanal" data-source="semanal"></div>
+    </section>
+    <section class="ai-card" id="status">
+      <h2>Ações por status</h2>
+      <p class="ai-note">Confirmado sem entrega, sem confirmação e divergente são as ações para cobrar ou corrigir no registro.</p>
+      <div class="ai-bars" data-draw="barras_status" data-source="status_acoes"></div>
+    </section>
+  </div>
+
+  <section class="ai-card" id="sem-acao">
+    <h2>Anúncios de influ no ar sem ação registrada</h2>
+    <p class="ai-note">Gastaram mídia ou trouxeram venda desde 01/10, mas não estão no registro de ações. A maioria são peças de campanhas anteriores (Teller, El Salvador) que seguem rodando, ou influs em campanhas diferentes da ação registrada.</p>
+    <div class="ai-tablewrap">
+      <table class="ai-table" data-source="sem_acao" data-row-key="influ,campanha">
+        <thead><tr>
+          <th data-field="influ"><button class="ai-sort" type="button" data-sort2="influ">Influ</button></th>
+          <th data-field="campanha"><button class="ai-sort" type="button" data-sort2="campanha">Campanha</button></th>
+          <th class="num" data-field="anuncios"><button class="ai-sort" type="button" data-sort2="anuncios">Anúncios</button></th>
+          <th class="num" data-field="midia"><button class="ai-sort" type="button" data-sort2="midia">Mídia</button></th>
+          <th class="num" data-field="receita"><button class="ai-sort" type="button" data-sort2="receita">Receita</button></th>
+          <th class="num" data-field="vendas"><button class="ai-sort" type="button" data-sort2="vendas">Vendas</button></th>
+        </tr></thead>
+        <tbody data-draw="tabela_sem_acao"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="ai-card" id="como-ler">
+    <h2>Como ler</h2>
+    <div class="ai-howto">
+      <div><h3>Ação</h3><p>Um influ numa campanha, com o que foi combinado. Entregas são as peças citadas no Slack (ads, reels, stories, collabs). Nesta versão o registro foi montado à mão a partir das mensagens e da planilha de curadores e afiliados do Clubinho.</p></div>
+      <div><h3>Resultado dos anúncios</h3><p>Anúncios do Meta cujo nome traz o nome do influ, na campanha da ação. Mídia sem o imposto de 12,15%. Receita é a atribuída pelo funil de anúncios, a mesma régua do fechamento mensal de influs.</p></div>
+      <div><h3>Vendas pelo link</h3><p>Vendas aprovadas, sem renovação, desde 01/10, com o handle do influ no rastreio do link (sitebp.la/vd_…_handle). Vendas que vieram de anúncio ficam de fora, para não contar duas vezes.</p></div>
+      <div><h3>Sem medição de venda</h3><p>Ação sem link próprio e sem anúncio, como stories da apuração ou permuta. Aparece no registro, mas não tem receita. Para medir, a entrega precisa de link com o handle.</p></div>
+    </div>
+  </section>
+</div>
+</div>
+<script>
+
+  // Camada mínima no lugar do motor de dashboard do claude.ai: datasets vêm do data.json,
+  // os cálculos (dash.calc) rodam sob demanda e os desenhos (dash.draw) procuram [data-draw].
+  const dash = (() => {
+    const calcs = {}, draws = {}, cache = {};
+    let DATA = null;
+    const api = {
+      colors: ['var(--cds-chart-1)'],
+      calc(name, spec) { calcs[name] = spec; },
+      data(name) {
+        if (!DATA) return {status: 'loading'};
+        if (name in DATA) return {status: 'ok', data: DATA[name]};
+        if (!(name in cache)) { const s = calcs[name]; cache[name] = s.fn(...s.inputs.map((i) => api.data(i).data)); }
+        return {status: 'ok', data: cache[name]};
+      },
+      draw(name, fn) {
+        if (fn) draws[name] = fn;
+        if (!DATA || !draws[name]) return;
+        document.querySelectorAll('[data-draw="' + name + '"]').forEach((el) => draws[name](el));
+      },
+      start(d) { DATA = d; Object.keys(draws).forEach((n) => api.draw(n)); }
+    };
+    return api;
+  })();
+  const brl = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL', maximumFractionDigits: 0});
+  const brlc = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL', notation: 'compact', maximumFractionDigits: 1});
+  const int = new Intl.NumberFormat('pt-BR');
+  const ret = (v) => v == null || !isFinite(v) ? '–' : 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  const num = (x) => Number(x) || 0;
+  const grupo = (c) => (c === 'Clubinho' || c === 'Brenda (JOM)') ? c : 'Outras';
+  window.aiState = {filtro: 'Todas', sort: {key: 'receita_ads', dir: -1}, sort2: {key: 'receita', dir: -1}, sort3: {key: 'midia', dir: -1}, busca: '', buscaAds: '', agrupar: 'influ'};
+
+  dash.calc('acoes_resultado', {
+    title: 'Resultado por ação',
+    description: 'Cada ação somada aos anúncios do mesmo influ na mesma campanha e às vendas do link com o handle dele.',
+    inputs: ['acoes', 'anuncios', 'vendas_link'],
+    fn: (acoes, anuncios, vendas_link) => acoes.map((a) => {
+      const ads = anuncios.filter((x) => a.chave_anuncio && x.chave === a.chave_anuncio && x.campanha === a.campanha);
+      const midia = ads.reduce((s, x) => s + Number(x.gasto || 0), 0);
+      const receita = ads.reduce((s, x) => s + Number(x.receita || 0), 0);
+      const link = vendas_link.find((v) => a.handle_link && v.handle === a.handle_link);
+      const temAds = ads.length > 0;
+      const temLink = !!a.handle_link;
+      return {
+        acao_id: a.acao_id, influ: a.influ, campanha: a.campanha, tipo: a.tipo, status: a.status,
+        responsavel: a.responsavel, combinado: a.combinado, entregas: Number(a.entregas || 0),
+        ultima_entrega: a.ultima_entrega || '', anuncios: ads.length,
+        midia: Math.round(midia), receita_ads: Math.round(receita),
+        retorno: midia > 0 ? Math.round(receita / midia * 100) / 100 : null,
+        link_vendas: link ? Number(link.vendas) : 0, link_receita: link ? Math.round(Number(link.receita)) : 0,
+        medicao: temAds && temLink ? 'Ads + link' : temAds ? 'Ads' : temLink ? 'Link' : 'Sem medição de venda',
+        observacao: a.observacao || ''
+      };
+    })
+  });
+
+  dash.calc('resumo', {
+    title: 'Resumo por campanha',
+    description: 'Totais das ações por filtro de campanha (Todas, Clubinho, Brenda (JOM), Outras).',
+    inputs: ['acoes_resultado'],
+    fn: (acoes_resultado) => ['Todas', 'Clubinho', 'Brenda (JOM)', 'Outras'].map((f) => {
+      const g = (c) => (c === 'Clubinho' || c === 'Brenda (JOM)') ? c : 'Outras';
+      const r = acoes_resultado.filter((a) => f === 'Todas' || g(a.campanha) === f);
+      const midia = r.reduce((s, a) => s + a.midia, 0);
+      const receita = r.reduce((s, a) => s + a.receita_ads, 0);
+      return {
+        filtro: f, acoes: r.length, entregando: r.filter((a) => a.status === 'Entregando').length,
+        entregas: r.reduce((s, a) => s + a.entregas, 0), midia, receita_ads: receita,
+        retorno: midia > 0 ? Math.round(receita / midia * 100) / 100 : null,
+        link_vendas: r.reduce((s, a) => s + a.link_vendas, 0), link_receita: r.reduce((s, a) => s + a.link_receita, 0),
+        sem_medicao: r.filter((a) => a.medicao === 'Sem medição de venda').length
+      };
+    })
+  });
+
+  dash.calc('status_acoes', {
+    title: 'Ações por status',
+    description: 'Quantas ações há em cada status, por filtro de campanha.',
+    inputs: ['acoes'],
+    fn: (acoes) => {
+      const g = (c) => (c === 'Clubinho' || c === 'Brenda (JOM)') ? c : 'Outras';
+      const out = [];
+      for (const f of ['Todas', 'Clubinho', 'Brenda (JOM)', 'Outras']) {
+        const r = acoes.filter((a) => f === 'Todas' || g(a.campanha) === f);
+        for (const s of ['Entregando', 'Entregue', 'Confirmado', 'Em negociação', 'Sem entrega', 'Sem confirmação', 'Divergente', 'Declinou']) {
+          out.push({filtro: f, status: s, acoes: r.filter((a) => a.status === s).length});
+        }
+      }
+      return out;
+    }
+  });
+
+  dash.calc('sem_acao', {
+    title: 'Anúncios sem ação registrada',
+    description: 'Anúncios de influ desde 01/10 que não batem com nenhuma ação (mesmo influ e campanha), somados por influ e campanha.',
+    inputs: ['anuncios', 'acoes'],
+    fn: (anuncios, acoes) => {
+      const tem = new Set(acoes.filter((a) => a.chave_anuncio).map((a) => a.chave_anuncio + '|' + a.campanha));
+      const m = new Map();
+      for (const x of anuncios) {
+        if (x.chave && tem.has(x.chave + '|' + x.campanha)) continue;
+        const k = x.influ + '|' + x.campanha;
+        const o = m.get(k) || {influ: x.influ, campanha: x.campanha, anuncios: 0, midia: 0, receita: 0, vendas: 0};
+        o.anuncios += 1; o.midia += Number(x.gasto || 0); o.receita += Number(x.receita || 0); o.vendas += Number(x.vendas || 0);
+        m.set(k, o);
+      }
+      return [...m.values()].filter((o) => o.midia >= 1 || o.receita > 0)
+        .map((o) => ({...o, midia: Math.round(o.midia), receita: Math.round(o.receita)}));
+    }
+  });
+
+  dash.calc('ads_agrupado', {
+    title: 'Métricas dos anúncios agrupadas',
+    description: 'Anúncios de influ somados por anúncio, influ, campanha ou campanha no Meta, para cada filtro de campanha.',
+    inputs: ['anuncios'],
+    fn: (anuncios) => {
+      const g = (c) => (c === 'Clubinho' || c === 'Brenda (JOM)') ? c : 'Outras';
+      const n = (x) => Number(x) || 0;
+      const out = [];
+      for (const filtro of ['Todas', 'Clubinho', 'Brenda (JOM)', 'Outras']) {
+        const base = anuncios.filter((a) => filtro === 'Todas' || g(a.campanha) === filtro);
+        for (const agrupamento of ['anuncio', 'influ', 'campanha', 'campanha_meta']) {
+          const m = new Map();
+          for (const a of base) {
+            const chave = agrupamento === 'anuncio' ? a.ad_id : a[agrupamento];
+            const o = m.get(chave) || {filtro, agrupamento, chave, nome: agrupamento === 'anuncio' ? a.anuncio : a[agrupamento],
+              influs: new Set(), campanhas: new Set(), metas: new Set(), anuncios: 0, midia: 0, impressoes: 0, cliques: 0,
+              views_3s: 0, vendas: 0, receita: 0, leads: 0, dias_no_ar: 0};
+            o.influs.add(a.influ); o.campanhas.add(a.campanha); o.metas.add(a.campanha_meta);
+            o.anuncios += 1; o.midia += n(a.gasto); o.impressoes += n(a.impressoes); o.cliques += n(a.cliques);
+            o.views_3s += n(a.views_3s); o.vendas += n(a.vendas); o.receita += n(a.receita); o.leads += n(a.leads);
+            o.dias_no_ar = Math.max(o.dias_no_ar, n(a.dias_no_ar));
+            m.set(chave, o);
+          }
+          for (const o of m.values()) {
+            const detalhe = agrupamento === 'anuncio' ? [...o.influs][0] + ' · ' + [...o.metas][0]
+              : agrupamento === 'influ' ? [...o.campanhas].sort().join(', ')
+              : o.influs.size + (o.influs.size === 1 ? ' influ' : ' influs');
+            out.push({filtro, agrupamento, chave: o.chave, nome: o.nome, detalhe, anuncios: o.anuncios,
+              midia: Math.round(o.midia), impressoes: o.impressoes,
+              cpm: o.impressoes ? Math.round(o.midia / o.impressoes * 100000) / 100 : null,
+              hook: o.impressoes ? Math.round(o.views_3s / o.impressoes * 1000) / 1000 : null,
+              cliques: o.cliques, ctr: o.impressoes ? Math.round(o.cliques / o.impressoes * 10000) / 10000 : null,
+              cpc: o.cliques ? Math.round(o.midia / o.cliques * 100) / 100 : null,
+              vendas: o.vendas, custo_venda: o.vendas ? Math.round(o.midia / o.vendas * 100) / 100 : null,
+              receita: Math.round(o.receita), retorno: o.midia ? Math.round(o.receita / o.midia * 100) / 100 : null,
+              leads: o.leads, dias_no_ar: o.dias_no_ar});
+          }
+        }
+      }
+      return out;
+    }
+  });
+
+  const filtroOk = (c) => window.aiState.filtro === 'Todas' || grupo(c) === window.aiState.filtro;
+  const redraw = () => ['lead_acoes','lead_entregando','lead_receita','lead_midia','lead_link','lead_semmed','k_entregando','k_acoes','k_entregas','k_midia','k_receita','k_retorno','k_link','k_linkv','tabela_acoes','tabela_ads','ads_contagem','grafico_semanal','barras_status','tabela_sem_acao'].forEach((n) => dash.draw(n));
+
+  document.querySelectorAll('.ai-chip[data-filtro]').forEach((b) => b.addEventListener('click', () => {
+    window.aiState.filtro = b.dataset.filtro;
+    document.querySelectorAll('.ai-chip[data-filtro]').forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+    redraw();
+  }));
+  document.querySelectorAll('[data-sort]').forEach((b) => b.addEventListener('click', () => {
+    const s = window.aiState.sort;
+    s.dir = s.key === b.dataset.sort ? -s.dir : (['influ','campanha','tipo','status','medicao'].includes(b.dataset.sort) ? 1 : -1);
+    s.key = b.dataset.sort;
+    document.querySelectorAll('[data-sort]').forEach((o) => o.closest('th').setAttribute('aria-sort', o === b ? (s.dir > 0 ? 'ascending' : 'descending') : 'none'));
+    dash.draw('tabela_acoes');
+  }));
+  document.querySelectorAll('[data-sort2]').forEach((b) => b.addEventListener('click', () => {
+    const s = window.aiState.sort2;
+    s.dir = s.key === b.dataset.sort2 ? -s.dir : (['influ','campanha'].includes(b.dataset.sort2) ? 1 : -1);
+    s.key = b.dataset.sort2;
+    document.querySelectorAll('[data-sort2]').forEach((o) => o.closest('th').setAttribute('aria-sort', o === b ? (s.dir > 0 ? 'ascending' : 'descending') : 'none'));
+    dash.draw('tabela_sem_acao');
+  }));
+  document.querySelectorAll('.ai-chip[data-agrupar]').forEach((b) => b.addEventListener('click', () => {
+    window.aiState.agrupar = b.dataset.agrupar;
+    document.querySelectorAll('.ai-chip[data-agrupar]').forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+    dash.draw('tabela_ads'); dash.draw('ads_contagem');
+  }));
+  document.querySelectorAll('[data-sort3]').forEach((b) => b.addEventListener('click', () => {
+    const s = window.aiState.sort3;
+    s.dir = s.key === b.dataset.sort3 ? -s.dir : (b.dataset.sort3 === 'nome' ? 1 : -1);
+    s.key = b.dataset.sort3;
+    document.querySelectorAll('[data-sort3]').forEach((o) => o.closest('th').setAttribute('aria-sort', o === b ? (s.dir > 0 ? 'ascending' : 'descending') : 'none'));
+    dash.draw('tabela_ads');
+  }));
+  document.querySelectorAll('#busca-ads').forEach((i) => i.addEventListener('input', () => { window.aiState.buscaAds = i.value.toLowerCase(); dash.draw('tabela_ads'); dash.draw('ads_contagem'); }));
+  document.querySelectorAll('#busca-acoes').forEach((i) => i.addEventListener('input', () => { window.aiState.busca = i.value.toLowerCase(); dash.draw('tabela_acoes'); }));
+
+  // números do resumo: cada um aponta para a linha do filtro escolhido
+  const kpi = (name, field, fmt) => dash.draw(name, (el) => {
+    el.dataset.where = 'filtro=' + encodeURIComponent(window.aiState.filtro);
+    const d = dash.data('resumo');
+    const row = d.status === 'ok' ? d.data.find((r) => r.filtro === window.aiState.filtro) : null;
+    el.textContent = row ? fmt(row[field]) : '—';
+  });
+  kpi('lead_acoes', 'acoes', (v) => int.format(v));
+  kpi('lead_entregando', 'entregando', (v) => int.format(v));
+  kpi('lead_receita', 'receita_ads', (v) => brl.format(v));
+  kpi('lead_midia', 'midia', (v) => brl.format(v));
+  kpi('lead_link', 'link_receita', (v) => brl.format(v));
+  kpi('lead_semmed', 'sem_medicao', (v) => int.format(v));
+  kpi('k_entregando', 'entregando', (v) => int.format(v));
+  kpi('k_acoes', 'acoes', (v) => int.format(v));
+  kpi('k_entregas', 'entregas', (v) => int.format(v));
+  kpi('k_midia', 'midia', (v) => v >= 10000 ? brlc.format(v) : brl.format(v));
+  kpi('k_receita', 'receita_ads', (v) => v >= 10000 ? brlc.format(v) : brl.format(v));
+  kpi('k_retorno', 'retorno', ret);
+  kpi('k_link', 'link_receita', (v) => brl.format(v));
+  kpi('k_linkv', 'link_vendas', (v) => int.format(v));
+
+  const pill = (s) => ({'Entregando': 'ok', 'Entregue': '', 'Confirmado': 'muted', 'Em negociação': 'muted', 'Sem entrega': 'warn', 'Sem confirmação': 'warn', 'Divergente': 'warn', 'Declinou': 'bad'})[s] ?? '';
+  const fmtData = (d) => d ? d.slice(8, 10) + '/' + d.slice(5, 7) : '–';
+
+  dash.draw('tabela_acoes', (tb) => {
+    const d = dash.data('acoes_resultado');
+    tb.replaceChildren();
+    if (d.status !== 'ok') return;
+    const {key, dir} = window.aiState.sort, q = window.aiState.busca;
+    const rows = d.data.filter((r) => filtroOk(r.campanha))
+      .filter((r) => !q || [r.influ, r.campanha, r.tipo, r.status, r.medicao, r.combinado, r.observacao].join(' ').toLowerCase().includes(q))
+      .sort((a, b) => {
+        const x = a[key], y = b[key];
+        if (typeof x === 'number' || typeof y === 'number' || x === null || y === null) return dir * ((x ?? -1) - (y ?? -1));
+        return dir * String(x).localeCompare(String(y), 'pt-BR');
+      });
+    for (const r of rows) {
+      const tr = document.createElement('tr');
+      tr.dataset.key = r.acao_id;
+      const td = (txt, cls) => { const c = document.createElement('td'); c.textContent = txt; if (cls) c.className = cls; tr.appendChild(c); return c; };
+      td(r.influ, 'ai-influ');
+      td(r.campanha);
+      td(r.tipo);
+      const st = document.createElement('td'); const sp = document.createElement('span'); sp.className = 'ai-pill ' + pill(r.status); sp.textContent = r.status; st.appendChild(sp); tr.appendChild(st);
+      td(r.combinado, 'wrap muted');
+      td(int.format(r.entregas), 'num');
+      td(fmtData(r.ultima_entrega));
+      td(r.anuncios ? int.format(r.anuncios) : '–', 'num');
+      td(r.midia ? brl.format(r.midia) : '–', 'num');
+      td(r.receita_ads ? brl.format(r.receita_ads) : '–', 'num');
+      td(ret(r.retorno), 'num ai-ret ' + (r.retorno == null ? '' : r.retorno >= 1 ? 'good' : 'badv'));
+      td(r.medicao.includes('ink') ? brl.format(r.link_receita) : '–', 'num');
+      td(r.medicao, r.medicao === 'Sem medição de venda' ? 'muted' : '');
+      td(r.observacao, 'wrap muted');
+      tb.appendChild(tr);
+    }
+  });
+
+  const pct = (v, d) => v == null ? '–' : (v * 100).toLocaleString('pt-BR', {minimumFractionDigits: d, maximumFractionDigits: d}) + '%';
+  const brl2 = (v) => v == null ? '–' : 'R$ ' + v.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  const adsLinhas = () => {
+    const d = dash.data('ads_agrupado');
+    if (d.status !== 'ok') return null;
+    const {filtro, agrupar, buscaAds: q} = window.aiState;
+    return d.data.filter((r) => r.filtro === filtro && r.agrupamento === agrupar)
+      .filter((r) => !q || (r.nome + ' ' + r.detalhe).toLowerCase().includes(q));
+  };
+
+  dash.draw('tabela_ads', (tb) => {
+    tb.replaceChildren();
+    const rows = adsLinhas();
+    if (!rows) return;
+    const {key, dir} = window.aiState.sort3;
+    rows.sort((a, b) => {
+      const x = a[key], y = b[key];
+      if (key === 'nome') return dir * String(x).localeCompare(String(y), 'pt-BR');
+      return dir * ((x ?? -1) - (y ?? -1));
+    });
+    for (const r of rows) {
+      const tr = document.createElement('tr');
+      tr.dataset.key = [r.filtro, r.agrupamento, r.chave].map(encodeURIComponent).join(',');
+      const td = (txt, cls) => { const c = document.createElement('td'); c.textContent = txt; if (cls) c.className = cls; tr.appendChild(c); return c; };
+      td(r.nome, r.agrupamento === 'anuncio' ? 'wrap' : 'ai-influ');
+      td(r.detalhe, 'sub');
+      td(int.format(r.anuncios), 'num');
+      td(brl.format(r.midia), 'num');
+      td(int.format(r.impressoes), 'num');
+      td(brl2(r.cpm), 'num');
+      td(pct(r.hook, 1), 'num');
+      td(int.format(r.cliques), 'num');
+      td(pct(r.ctr, 2), 'num');
+      td(brl2(r.cpc), 'num');
+      td(int.format(r.vendas), 'num');
+      td(brl2(r.custo_venda), 'num');
+      td(brl.format(r.receita), 'num');
+      td(ret(r.retorno), 'num ai-ret ' + (r.retorno == null ? '' : r.retorno >= 1 ? 'good' : 'badv'));
+      td(int.format(r.leads), 'num');
+      td(int.format(r.dias_no_ar), 'num');
+      tb.appendChild(tr);
+    }
+  });
+
+  dash.draw('ads_contagem', (el) => {
+    const rows = adsLinhas();
+    if (!rows) { el.textContent = '—'; return; }
+    const midia = d3.sum(rows, (r) => r.midia), receita = d3.sum(rows, (r) => r.receita);
+    const nome = {anuncio: 'anúncios', influ: 'influs', campanha: 'campanhas', campanha_meta: 'campanhas no Meta'}[window.aiState.agrupar];
+    el.textContent = int.format(rows.length) + ' ' + nome + ' · mídia ' + brl.format(midia) + ' · receita ' + brl.format(receita) + ' · retorno ' + ret(midia ? receita / midia : null);
+  });
+
+  dash.draw('tabela_sem_acao', (tb) => {
+    const d = dash.data('sem_acao');
+    tb.replaceChildren();
+    if (d.status !== 'ok') return;
+    const {key, dir} = window.aiState.sort2;
+    const rows = d.data.filter((r) => filtroOk(r.campanha))
+      .sort((a, b) => typeof a[key] === 'number' ? dir * (a[key] - b[key]) : dir * String(a[key]).localeCompare(String(b[key]), 'pt-BR'));
+    for (const r of rows) {
+      const tr = document.createElement('tr');
+      tr.dataset.key = encodeURIComponent(r.influ) + ',' + encodeURIComponent(r.campanha);
+      const td = (txt, cls) => { const c = document.createElement('td'); c.textContent = txt; if (cls) c.className = cls; tr.appendChild(c); };
+      td(r.influ, 'ai-influ'); td(r.campanha);
+      td(int.format(r.anuncios), 'num'); td(brl.format(r.midia), 'num'); td(brl.format(r.receita), 'num'); td(int.format(r.vendas), 'num');
+      tb.appendChild(tr);
+    }
+  });
+
+  dash.draw('barras_status', (el) => {
+    el.replaceChildren();
+    const d = dash.data('status_acoes');
+    if (d.status !== 'ok') { el.textContent = '—'; return; }
+    const rows = d.data.filter((r) => r.filtro === window.aiState.filtro && r.acoes > 0);
+    const max = d3.max(rows, (r) => r.acoes) || 1;
+    const cor = {ok: 'var(--color-ok)', warn: 'var(--color-warn)', bad: 'var(--color-bad)', muted: 'var(--cds-chart-muted)', '': dash.colors[0]};
+    for (const r of rows) {
+      const row = document.createElement('div'); row.className = 'ai-barrow';
+      const l = document.createElement('span'); l.textContent = r.status;
+      const wrap = document.createElement('div');
+      const bar = document.createElement('div'); bar.className = 'ai-bar';
+      bar.style.width = (r.acoes / max * 100) + '%'; bar.style.background = cor[pill(r.status)];
+      wrap.appendChild(bar);
+      const n = document.createElement('b'); n.textContent = int.format(r.acoes); n.style.textAlign = 'right';
+      row.append(l, wrap, n); el.appendChild(row);
+    }
+  });
+
+  dash.draw('sw_midia', (el) => { el.textContent = ''; el.style.background = 'var(--cds-chart-muted)'; });
+  dash.draw('sw_receita', (el) => { el.textContent = ''; el.style.background = dash.colors[0]; });
+
+  dash.draw('grafico_semanal', (el) => {
+    el.replaceChildren();
+    const d = dash.data('semanal');
+    if (d.status !== 'ok') return;
+    const f = window.aiState.filtro;
+    const by = d3.rollups(d.data.filter((r) => f === 'Todas' || grupo(r.campanha) === f),
+      (v) => ({midia: d3.sum(v, (r) => num(r.gasto)), receita: d3.sum(v, (r) => num(r.receita))}), (r) => r.semana)
+      .map(([semana, v]) => ({semana, ...v})).sort((a, b) => a.semana.localeCompare(b.semana));
+    const W = el.clientWidth || 600, H = 260, m = {t: 10, r: 8, b: 26, l: 8};
+    const fmtY = (v) => brlc.format(v);
+    const y = d3.scaleLinear([0, d3.max(by, (r) => Math.max(r.midia, r.receita)) || 1], [H - m.b, m.t]).nice();
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Mídia e receita por semana');
+    const probe = svg.append('text').attr('font-size', 11).text(fmtY(y.domain()[1]));
+    m.l = probe.node().getComputedTextLength() + 10; probe.remove();
+    const x = d3.scaleBand(by.map((r) => r.semana), [m.l, W - m.r]).padding(0.25);
+    const xi = d3.scaleBand(['midia', 'receita'], [0, x.bandwidth()]).padding(0.08);
+    svg.append('g').selectAll('line').data(y.ticks(4)).join('line')
+      .attr('x1', m.l).attr('x2', W - m.r).attr('y1', (t) => y(t)).attr('y2', (t) => y(t)).attr('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('text').data(y.ticks(4)).join('text')
+      .attr('x', m.l - 6).attr('y', (t) => y(t)).attr('dy', '0.32em').attr('text-anchor', 'end')
+      .attr('font-size', 11).attr('fill', 'var(--color-fg-muted)').text(fmtY);
+    const step = Math.ceil(by.length / Math.max(1, Math.floor((W - m.l) / 52)));
+    svg.append('g').selectAll('text').data(by.filter((_, i) => i % step === 0)).join('text')
+      .attr('x', (r) => x(r.semana) + x.bandwidth() / 2).attr('y', H - 8).attr('text-anchor', 'middle')
+      .attr('font-size', 11).attr('fill', 'var(--color-fg-muted)').text((r) => fmtData(r.semana));
+    const tip = d3.select(el).append('div').attr('class', 'ai-tip').style('display', 'none');
+    const g = svg.append('g').selectAll('g').data(by).join('g').attr('transform', (r) => `translate(${x(r.semana)},0)`);
+    g.selectAll('rect').data((r) => [['midia', r.midia], ['receita', r.receita]]).join('rect')
+      .attr('x', ([k]) => xi(k)).attr('width', Math.min(32, xi.bandwidth()))
+      .attr('y', ([, v]) => y(v)).attr('height', ([, v]) => y(0) - y(v)).attr('rx', 2)
+      .attr('fill', ([k]) => k === 'midia' ? 'var(--cds-chart-muted)' : dash.colors[0]);
+    g.append('rect').attr('x', 0).attr('width', x.bandwidth()).attr('y', m.t).attr('height', H - m.b - m.t).attr('fill', 'transparent')
+      .on('pointermove', (ev, r) => {
+        const [px, py] = d3.pointer(ev, el);
+        tip.style('display', null).selectAll('*').remove();
+        tip.append('div').attr('class', 't').text('Semana de ' + fmtData(r.semana));
+        tip.append('div').text('Mídia ' + brl.format(r.midia));
+        tip.append('div').text('Receita ' + brl.format(r.receita));
+        tip.append('div').text('Retorno ' + ret(r.midia ? r.receita / r.midia : null));
+        const tw = tip.node().offsetWidth;
+        tip.style('left', Math.min(Math.max(0, px + 12), el.clientWidth - tw) + 'px').style('top', Math.max(0, py - 60) + 'px');
+      })
+      .on('pointerleave', () => tip.style('display', 'none'));
+  });
+
+  const dataBR = (d) => d ? d.slice(8, 10) + '/' + d.slice(5, 7) : '—';
+  fetch('./data.json', {cache: 'no-store'})
+    .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then((d) => {
+      document.getElementById('dados-ate').textContent = dataBR(d.dados_ate) + ' (o último dia pode estar parcial)';
+      document.getElementById('atualizado').textContent = dataBR(d.updated_at.slice(0, 10));
+      dash.start(d);
+      let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => dash.draw('grafico_semanal'), 150); });
+    })
+    .catch((e) => { document.getElementById('topo').insertAdjacentHTML('afterend', '<p class="erro">Não foi possível carregar os dados (' + e.message + ').</p>'); console.error(e); });
+</script>
+</body>
+</html>
