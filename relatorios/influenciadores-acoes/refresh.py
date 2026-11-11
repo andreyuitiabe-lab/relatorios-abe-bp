@@ -45,7 +45,7 @@ def norm(s: str) -> str:
 
 def campanha(n: str) -> str:
     s = re.findall(r'\[([a-z0-9-]+)\]', n)
-    if 'clu' in s: return 'Clubinho'
+    if 'clu' in s or 'bno26-livros' in s: return 'Clubinho'
     if any(x.startswith('jom') for x in s): return 'Brenda (JOM)'
     if 'par' in s: return 'Paraguai'
     if 'lac' in s: return 'Carlos Lacerda'
