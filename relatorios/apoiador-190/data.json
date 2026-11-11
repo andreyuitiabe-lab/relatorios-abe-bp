@@ -1,0 +1,851 @@
+{
+ "updated_at": "2026-11-11T18:36:53",
+ "resumo": {
+  "pessoas": 49584,
+  "reemb": 2284,
+  "up1h": 1179,
+  "up_dep": 1541,
+  "upsell": 2716,
+  "receita_depois": 563868.0,
+  "com7d": 32357,
+  "assistiu7d": 17704,
+  "h7_media": 1.07,
+  "t0_min": "2026-09-23",
+  "t0_max": "2026-11-11"
+ },
+ "perfil_origem": [
+  {
+   "entrada": "Live/YouTube orgânico",
+   "seg": "Membro ativo",
+   "pessoas": 393,
+   "up1h": 4,
+   "up_dep": 25,
+   "up_lambda": 15,
+   "up_humano": 7,
+   "up_digital_depois": 3,
+   "upsell": 29
+  },
+  {
+   "entrada": "Social orgânico/influ",
+   "seg": "Já comprou, sem assinatura",
+   "pessoas": 4,
+   "up1h": 0,
+   "up_dep": 0,
+   "up_lambda": 0,
+   "up_humano": 0,
+   "up_digital_depois": 0,
+   "upsell": 0
+  },
+  {
+   "entrada": "CRM (WhatsApp/e-mail/app)",
+   "seg": "Novo na base",
+   "pessoas": 3681,
+   "up1h": 131,
+   "up_dep": 108,
+   "up_lambda": 80,
+   "up_humano": 11,
+   "up_digital_depois": 17,
+   "upsell": 239
+  },
+  {
+   "entrada": "Comercial (vendedor)",
+   "seg": "Novo na base",
+   "pessoas": 792,
+   "up1h": 2,
+   "up_dep": 13,
+   "up_lambda": 11,
+   "up_humano": 1,
+   "up_digital_depois": 1,
+   "upsell": 15
+  },
+  {
+   "entrada": "Social orgânico/influ",
+   "seg": "Membro ativo",
+   "pessoas": 83,
+   "up1h": 1,
+   "up_dep": 1,
+   "up_lambda": 0,
+   "up_humano": 0,
+   "up_digital_depois": 1,
+   "upsell": 2
+  },
+  {
+   "entrada": "Meta Ads",
+   "seg": "Membro ativo",
+   "pessoas": 192,
+   "up1h": 3,
+   "up_dep": 9,
+   "up_lambda": 4,
+   "up_humano": 3,
+   "up_digital_depois": 2,
+   "upsell": 12
+  },
+  {
+   "entrada": "Sem rastreio/outros",
+   "seg": "Novo na base",
+   "pessoas": 988,
+   "up1h": 15,
+   "up_dep": 27,
+   "up_lambda": 23,
+   "up_humano": 2,
+   "up_digital_depois": 2,
+   "upsell": 42
+  },
+  {
+   "entrada": "Google/YouTube/X Ads",
+   "seg": "Membro ativo",
+   "pessoas": 90,
+   "up1h": 4,
+   "up_dep": 4,
+   "up_lambda": 2,
+   "up_humano": 1,
+   "up_digital_depois": 1,
+   "upsell": 8
+  },
+  {
+   "entrada": "Live/YouTube orgânico",
+   "seg": "Já comprou, sem assinatura",
+   "pessoas": 13,
+   "up1h": 0,
+   "up_dep": 0,
+   "up_lambda": 0,
+   "up_humano": 0,
+   "up_digital_depois": 0,
+   "upsell": 0
+  },
+  {
+   "entrada": "Live/YouTube orgânico",
+   "seg": "Ex-membro",
+   "pessoas": 2214,
+   "up1h": 7,
+   "up_dep": 125,
+   "up_lambda": 104,
+   "up_humano": 9,
+   "up_digital_depois": 14,
+   "upsell": 132
+  },
+  {
+   "entrada": "CRM (WhatsApp/e-mail/app)",
+   "seg": "Já comprou, sem assinatura",
+   "pessoas": 6,
+   "up1h": 0,
+   "up_dep": 0,
+   "up_lambda": 0,
+   "up_humano": 0,
+   "up_digital_depois": 0,
+   "upsell": 0
+  },
+  {
+   "entrada": "Sem rastreio/outros",
+   "seg": "Ex-membro",
+   "pessoas": 245,
+   "up1h": 5,
+   "up_dep": 2,
+   "up_lambda": 1,
+   "up_humano": 0,
+   "up_digital_depois": 1,
+   "upsell": 7
+  },
+  {
+   "entrada": "Comercial (vendedor)",
+   "seg": "Membro ativo",
+   "pessoas": 45,
+   "up1h": 0,
+   "up_dep": 1,
+   "up_lambda": 1,
+   "up_humano": 0,
+   "up_digital_depois": 0,
+   "upsell": 1
+  },
+  {
+   "entrada": "Comercial (vendedor)",
+   "seg": "Ex-membro",
+   "pessoas": 252,
+   "up1h": 0,
+   "up_dep": 7,
+   "up_lambda": 4,
+   "up_humano": 2,
+   "up_digital_depois": 1,
+   "upsell": 7
+  },
+  {
+   "entrada": "Meta Ads",
+   "seg": "Já comprou, sem assinatura",
+   "pessoas": 24,
+   "up1h": 0,
+   "up_dep": 0,
+   "up_lambda": 0,
+   "up_humano": 0,
+   "up_digital_depois": 0,
+   "upsell": 0
+  },
+  {
+   "entrada": "CRM (WhatsApp/e-mail/app)",
+   "seg": "Membro ativo",
+   "pessoas": 93,
+   "up1h": 5,
+   "up_dep": 0,
+   "up_lambda": 0,
+   "up_humano": 0,
+   "up_digital_depois": 0,
+   "upsell": 5
+  },
+  {
+   "entrada": "Sem rastreio/outros",
+   "seg": "Membro ativo",
+   "pessoas": 42,
+   "up1h": 2,
+   "up_dep": 0,
+   "up_lambda": 0,
+   "up_humano": 0,
+   "up_digital_depois": 0,
+   "upsell": 2
+  },
+  {
+   "entrada": "Social orgânico/influ",
+   "seg": "Ex-membro",
+   "pessoas": 541,
+   "up1h": 6,
+   "up_dep": 13,
+   "up_lambda": 8,
+   "up_humano": 3,
+   "up_digital_depois": 2,
+   "upsell": 19
+  },
+  {
+   "entrada": "Sem rastreio/outros",
+   "seg": "Já comprou, sem assinatura",
+   "pessoas": 1,
+   "up1h": 0,
+   "up_dep": 0,
+   "up_lambda": 0,
+   "up_humano": 0,
+   "up_digital_depois": 0,
+   "upsell": 0
+  },
+  {
+   "entrada": "Meta Ads",
+   "seg": "Novo na base",
+   "pessoas": 20825,
+   "up1h": 655,
+   "up_dep": 594,
+   "up_lambda": 495,
+   "up_humano": 24,
+   "up_digital_depois": 75,
+   "upsell": 1247
+  },
+  {
+   "entrada": "Meta Ads",
+   "seg": "Ex-membro",
+   "pessoas": 5120,
+   "up1h": 146,
+   "up_dep": 93,
+   "up_lambda": 73,
+   "up_humano": 6,
+   "up_digital_depois": 14,
+   "upsell": 238
+  },
+  {
+   "entrada": "Google/YouTube/X Ads",
+   "seg": "Novo na base",
+   "pessoas": 2442,
+   "up1h": 69,
+   "up_dep": 72,
+   "up_lambda": 53,
+   "up_humano": 4,
+   "up_digital_depois": 15,
+   "upsell": 141
+  },
+  {
+   "entrada": "Live/YouTube orgânico",
+   "seg": "Novo na base",
+   "pessoas": 6493,
+   "up1h": 20,
+   "up_dep": 325,
+   "up_lambda": 284,
+   "up_humano": 18,
+   "up_digital_depois": 25,
+   "upsell": 344
+  },
+  {
+   "entrada": "CRM (WhatsApp/e-mail/app)",
+   "seg": "Ex-membro",
+   "pessoas": 2176,
+   "up1h": 48,
+   "up_dep": 34,
+   "up_lambda": 25,
+   "up_humano": 1,
+   "up_digital_depois": 8,
+   "upsell": 82
+  },
+  {
+   "entrada": "Google/YouTube/X Ads",
+   "seg": "Ex-membro",
+   "pessoas": 763,
+   "up1h": 20,
+   "up_dep": 17,
+   "up_lambda": 10,
+   "up_humano": 2,
+   "up_digital_depois": 5,
+   "upsell": 37
+  },
+  {
+   "entrada": "Google/YouTube/X Ads",
+   "seg": "Já comprou, sem assinatura",
+   "pessoas": 2,
+   "up1h": 0,
+   "up_dep": 0,
+   "up_lambda": 0,
+   "up_humano": 0,
+   "up_digital_depois": 0,
+   "upsell": 0
+  },
+  {
+   "entrada": "Social orgânico/influ",
+   "seg": "Novo na base",
+   "pessoas": 2064,
+   "up1h": 36,
+   "up_dep": 71,
+   "up_lambda": 56,
+   "up_humano": 10,
+   "up_digital_depois": 5,
+   "upsell": 107
+  }
+ ],
+ "semanal": [
+  {
+   "semana": "2026-09-21",
+   "pessoas": 678,
+   "reemb": 21,
+   "up1h": 1,
+   "up_lambda": 13,
+   "up_humano": 2,
+   "up_digital_depois": 1
+  },
+  {
+   "semana": "2026-09-28",
+   "pessoas": 6829,
+   "reemb": 430,
+   "up1h": 3,
+   "up_lambda": 360,
+   "up_humano": 32,
+   "up_digital_depois": 27
+  },
+  {
+   "semana": "2026-10-05",
+   "pessoas": 476,
+   "reemb": 23,
+   "up1h": 0,
+   "up_lambda": 17,
+   "up_humano": 1,
+   "up_digital_depois": 2
+  },
+  {
+   "semana": "2026-10-12",
+   "pessoas": 750,
+   "reemb": 36,
+   "up1h": 2,
+   "up_lambda": 17,
+   "up_humano": 10,
+   "up_digital_depois": 4
+  },
+  {
+   "semana": "2026-10-19",
+   "pessoas": 3372,
+   "reemb": 139,
+   "up1h": 5,
+   "up_lambda": 76,
+   "up_humano": 11,
+   "up_digital_depois": 13
+  },
+  {
+   "semana": "2026-10-26",
+   "pessoas": 16256,
+   "reemb": 733,
+   "up1h": 94,
+   "up_lambda": 304,
+   "up_humano": 27,
+   "up_digital_depois": 91
+  },
+  {
+   "semana": "2026-11-02",
+   "pessoas": 15132,
+   "reemb": 680,
+   "up1h": 650,
+   "up_lambda": 330,
+   "up_humano": 16,
+   "up_digital_depois": 46
+  },
+  {
+   "semana": "2026-11-09",
+   "pessoas": 6091,
+   "reemb": 222,
+   "up1h": 424,
+   "up_lambda": 132,
+   "up_humano": 5,
+   "up_digital_depois": 8
+  }
+ ],
+ "depois": [
+  {
+   "tipo": "Essencial",
+   "janela": "1h–24h",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 354,
+   "compras": 354,
+   "receita": 54208.0
+  },
+  {
+   "tipo": "Outros (livro, CDL, certificação…)",
+   "janela": "1–7 dias",
+   "canal": "Vendedor humano",
+   "pessoas": 7,
+   "compras": 7,
+   "receita": 7302.0
+  },
+  {
+   "tipo": "Essencial",
+   "janela": "até 1h",
+   "canal": "Digital",
+   "pessoas": 1112,
+   "compras": 1116,
+   "receita": 114049.0
+  },
+  {
+   "tipo": "Premium",
+   "janela": "até 1h",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 81,
+   "compras": 81,
+   "receita": 33390.0
+  },
+  {
+   "tipo": "Outros (livro, CDL, certificação…)",
+   "janela": "até 1h",
+   "canal": "Digital",
+   "pessoas": 5,
+   "compras": 5,
+   "receita": 5083.0
+  },
+  {
+   "tipo": "Black/Vitalício/Mecenas",
+   "janela": "mais de 7 dias",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 2,
+   "compras": 2,
+   "receita": 1728.0
+  },
+  {
+   "tipo": "Premium",
+   "janela": "1h–24h",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 52,
+   "compras": 52,
+   "receita": 19615.0
+  },
+  {
+   "tipo": "Outros (livro, CDL, certificação…)",
+   "janela": "mais de 7 dias",
+   "canal": "Digital",
+   "pessoas": 16,
+   "compras": 16,
+   "receita": 17427.0
+  },
+  {
+   "tipo": "Black/Vitalício/Mecenas",
+   "janela": "até 1h",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 9,
+   "compras": 9,
+   "receita": 2979.0
+  },
+  {
+   "tipo": "Premium",
+   "janela": "1–7 dias",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 42,
+   "compras": 42,
+   "receita": 17208.0
+  },
+  {
+   "tipo": "Essencial",
+   "janela": "mais de 7 dias",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 14,
+   "compras": 14,
+   "receita": 2118.0
+  },
+  {
+   "tipo": "Premium",
+   "janela": "até 1h",
+   "canal": "Vendedor humano",
+   "pessoas": 5,
+   "compras": 5,
+   "receita": 1259.0
+  },
+  {
+   "tipo": "Premium",
+   "janela": "mais de 7 dias",
+   "canal": "Digital",
+   "pessoas": 9,
+   "compras": 9,
+   "receita": 2258.0
+  },
+  {
+   "tipo": "Essencial",
+   "janela": "até 1h",
+   "canal": "Vendedor humano",
+   "pessoas": 6,
+   "compras": 6,
+   "receita": 1095.0
+  },
+  {
+   "tipo": "Essencial",
+   "janela": "1–7 dias",
+   "canal": "Vendedor humano",
+   "pessoas": 16,
+   "compras": 16,
+   "receita": 2357.0
+  },
+  {
+   "tipo": "Essencial",
+   "janela": "mais de 7 dias",
+   "canal": "Digital",
+   "pessoas": 42,
+   "compras": 42,
+   "receita": 5299.0
+  },
+  {
+   "tipo": "Outros (livro, CDL, certificação…)",
+   "janela": "mais de 7 dias",
+   "canal": "Vendedor humano",
+   "pessoas": 22,
+   "compras": 22,
+   "receita": 23324.0
+  },
+  {
+   "tipo": "Outro Apoiador",
+   "janela": "1h–24h",
+   "canal": "Digital",
+   "pessoas": 2,
+   "compras": 2,
+   "receita": 256.0
+  },
+  {
+   "tipo": "Premium",
+   "janela": "mais de 7 dias",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 4,
+   "compras": 4,
+   "receita": 1039.0
+  },
+  {
+   "tipo": "Outros (livro, CDL, certificação…)",
+   "janela": "1h–24h",
+   "canal": "Vendedor humano",
+   "pessoas": 4,
+   "compras": 5,
+   "receita": 4435.0
+  },
+  {
+   "tipo": "Premium",
+   "janela": "1–7 dias",
+   "canal": "Vendedor humano",
+   "pessoas": 5,
+   "compras": 5,
+   "receita": 1989.0
+  },
+  {
+   "tipo": "Essencial",
+   "janela": "1h–24h",
+   "canal": "Vendedor humano",
+   "pessoas": 10,
+   "compras": 10,
+   "receita": 1907.0
+  },
+  {
+   "tipo": "Essencial",
+   "janela": "mais de 7 dias",
+   "canal": "Vendedor humano",
+   "pessoas": 6,
+   "compras": 6,
+   "receita": 672.0
+  },
+  {
+   "tipo": "Outro Apoiador",
+   "janela": "1–7 dias",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 3,
+   "compras": 3,
+   "receita": 354.0
+  },
+  {
+   "tipo": "Outro Apoiador",
+   "janela": "até 1h",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 2,
+   "compras": 2,
+   "receita": 255.0
+  },
+  {
+   "tipo": "Black/Vitalício/Mecenas",
+   "janela": "mais de 7 dias",
+   "canal": "Vendedor humano",
+   "pessoas": 12,
+   "compras": 12,
+   "receita": 21912.0
+  },
+  {
+   "tipo": "Outro Apoiador",
+   "janela": "1h–24h",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 1,
+   "compras": 1,
+   "receita": 131.0
+  },
+  {
+   "tipo": "Premium",
+   "janela": "mais de 7 dias",
+   "canal": "Vendedor humano",
+   "pessoas": 4,
+   "compras": 4,
+   "receita": 1562.0
+  },
+  {
+   "tipo": "Outros (livro, CDL, certificação…)",
+   "janela": "1–7 dias",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 1,
+   "compras": 1,
+   "receita": 828.0
+  },
+  {
+   "tipo": "Black/Vitalício/Mecenas",
+   "janela": "até 1h",
+   "canal": "Digital",
+   "pessoas": 1,
+   "compras": 1,
+   "receita": 1622.0
+  },
+  {
+   "tipo": "Essencial",
+   "janela": "1h–24h",
+   "canal": "Digital",
+   "pessoas": 42,
+   "compras": 42,
+   "receita": 4891.0
+  },
+  {
+   "tipo": "Black/Vitalício/Mecenas",
+   "janela": "1h–24h",
+   "canal": "Vendedor humano",
+   "pessoas": 4,
+   "compras": 4,
+   "receita": 11478.0
+  },
+  {
+   "tipo": "Essencial",
+   "janela": "1–7 dias",
+   "canal": "Digital",
+   "pessoas": 50,
+   "compras": 50,
+   "receita": 6092.0
+  },
+  {
+   "tipo": "Outro Apoiador",
+   "janela": "1–7 dias",
+   "canal": "Digital",
+   "pessoas": 3,
+   "compras": 3,
+   "receita": 177.0
+  },
+  {
+   "tipo": "Black/Vitalício/Mecenas",
+   "janela": "1–7 dias",
+   "canal": "Digital",
+   "pessoas": 5,
+   "compras": 5,
+   "receita": 7581.0
+  },
+  {
+   "tipo": "Black/Vitalício/Mecenas",
+   "janela": "1–7 dias",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 11,
+   "compras": 12,
+   "receita": 4848.0
+  },
+  {
+   "tipo": "Essencial",
+   "janela": "1–7 dias",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 208,
+   "compras": 208,
+   "receita": 32011.0
+  },
+  {
+   "tipo": "Black/Vitalício/Mecenas",
+   "janela": "1h–24h",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 17,
+   "compras": 17,
+   "receita": 5579.0
+  },
+  {
+   "tipo": "Essencial",
+   "janela": "até 1h",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 484,
+   "compras": 484,
+   "receita": 74129.0
+  },
+  {
+   "tipo": "Premium",
+   "janela": "até 1h",
+   "canal": "Digital",
+   "pessoas": 121,
+   "compras": 128,
+   "receita": 22800.0
+  },
+  {
+   "tipo": "Outros (livro, CDL, certificação…)",
+   "janela": "1h–24h",
+   "canal": "Lambda (IA WhatsApp)",
+   "pessoas": 1,
+   "compras": 1,
+   "receita": 1079.0
+  },
+  {
+   "tipo": "Extensão 2º ano",
+   "janela": "até 1h",
+   "canal": "Digital",
+   "pessoas": 24,
+   "compras": 24,
+   "receita": 4320.0
+  },
+  {
+   "tipo": "Premium",
+   "janela": "1h–24h",
+   "canal": "Digital",
+   "pessoas": 8,
+   "compras": 9,
+   "receita": 2370.0
+  },
+  {
+   "tipo": "Black/Vitalício/Mecenas",
+   "janela": "mais de 7 dias",
+   "canal": "Digital",
+   "pessoas": 6,
+   "compras": 6,
+   "receita": 8534.0
+  },
+  {
+   "tipo": "Black/Vitalício/Mecenas",
+   "janela": "1–7 dias",
+   "canal": "Vendedor humano",
+   "pessoas": 8,
+   "compras": 8,
+   "receita": 17071.0
+  },
+  {
+   "tipo": "Outros (livro, CDL, certificação…)",
+   "janela": "1–7 dias",
+   "canal": "Digital",
+   "pessoas": 9,
+   "compras": 10,
+   "receita": 9491.0
+  },
+  {
+   "tipo": "Premium",
+   "janela": "1h–24h",
+   "canal": "Vendedor humano",
+   "pessoas": 2,
+   "compras": 2,
+   "receita": 802.0
+  },
+  {
+   "tipo": "Premium",
+   "janela": "1–7 dias",
+   "canal": "Digital",
+   "pessoas": 6,
+   "compras": 6,
+   "receita": 1290.0
+  },
+  {
+   "tipo": "Extensão 2º ano",
+   "janela": "mais de 7 dias",
+   "canal": "Digital",
+   "pessoas": 1,
+   "compras": 1,
+   "receita": 180.0
+  },
+  {
+   "tipo": "Outro Apoiador",
+   "janela": "até 1h",
+   "canal": "Digital",
+   "pessoas": 2,
+   "compras": 2,
+   "receita": 143.0
+  },
+  {
+   "tipo": "Outros (livro, CDL, certificação…)",
+   "janela": "1h–24h",
+   "canal": "Digital",
+   "pessoas": 2,
+   "compras": 2,
+   "receita": 1138.0
+  },
+  {
+   "tipo": "Outro Apoiador",
+   "janela": "mais de 7 dias",
+   "canal": "Digital",
+   "pessoas": 2,
+   "compras": 2,
+   "receita": 202.0
+  }
+ ],
+ "consumo": [
+  {
+   "faixa": "1 nada",
+   "pessoas": 14602,
+   "subiram": 327
+  },
+  {
+   "faixa": "2 menos de 1h",
+   "pessoas": 7524,
+   "subiram": 292
+  },
+  {
+   "faixa": "3 1–3h",
+   "pessoas": 6504,
+   "subiram": 257
+  },
+  {
+   "faixa": "4 3h ou mais",
+   "pessoas": 3575,
+   "subiram": 216
+  }
+ ],
+ "checkouts": [
+  {
+   "checkout": "[10R] [Z] [LOV] seja-membro/black-november-2026",
+   "pessoas": 13527,
+   "up1h": 676
+  },
+  {
+   "checkout": "[10R] [D] [LOV] seja-membro/black-november-2026/brenda",
+   "pessoas": 5579,
+   "up1h": 390
+  },
+  {
+   "checkout": "[10R] [A] [NUB] assine",
+   "pessoas": 1187,
+   "up1h": 6
+  },
+  {
+   "checkout": null,
+   "pessoas": 927,
+   "up1h": 2
+  }
+ ]
+}

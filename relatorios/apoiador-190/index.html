@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apoiador R$ 1,90</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc; --card: #ffffff; --line: #e2e8f0;
+      --text: #1e293b; --muted: #475569; --soft: #94a3b8;
+      /* paleta validada do template (validate_palette.js, superfície #ffffff) — ordem fixa */
+      --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
+      --good: #0ca30c; --critical: #d03b3b;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg);
+           color: var(--text); font-size: 14px; line-height: 1.6; }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 48px 16px 80px; }
+    section { margin-bottom: 56px; }
+    h1 { font-size: 26px; font-weight: 700; }
+    h2 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .lead { color: var(--muted); margin-bottom: 16px; max-width: 720px; }
+    .sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
+             color: var(--soft); margin-bottom: 12px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .card + .card { margin-top: 16px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-2 > *, .stats > * { min-width: 0; }
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } .card { padding: 16px; } }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; }
+    .bigstat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+    .bs-num { font-size: 32px; font-weight: 800; color: var(--text); line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .bs-cap { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+    .tbl { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px; text-transform: uppercase;
+         letter-spacing: .05em; border-bottom: 2px solid var(--line); padding: 8px 10px; white-space: nowrap; }
+    th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    td { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    tr:last-child td { border-bottom: none; }
+    tr.tot td { font-weight: 700; border-top: 2px solid var(--line); }
+    .chart { position: relative; height: 300px; }
+    .nota { background: #f8fafc; border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px;
+            font-size: 12.5px; color: var(--muted); margin-top: 16px; }
+    .alerta { color: var(--critical); font-weight: 600; }
+    ol.recs { padding-left: 20px; } ol.recs li { margin-bottom: 12px; } ol.recs b { color: var(--text); }
+    header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
+    footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 12px; color: var(--soft); }
+    code { font-size: 12px; background: #f1f5f9; padding: 1px 4px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="label">Brasil Paralelo · Base &amp; Produtos</p>
+  <h1>Quem compra o Apoiador de R$ 1,90 e o que faz depois</h1>
+  <p class="sub">Oferta principal do Black November 2026. Compradores de <span id="periodo">—</span>, uma pessoa por e-mail.</p>
+</header>
+
+<main>
+
+<section>
+  <div class="stats">
+    <div class="bigstat"><div class="bs-num" id="stPessoas">—</div><div class="bs-cap">pessoas compraram o R$ 1,90</div></div>
+    <div class="bigstat"><div class="bs-num" id="stNovos">—</div><div class="bs-cap">eram novas na base (nunca tinham comprado)</div></div>
+    <div class="bigstat"><div class="bs-num" id="stUp">—</div><div class="bs-cap">compraram outro plano depois</div></div>
+    <div class="bigstat"><div class="bs-num" id="stRec">—</div><div class="bs-cap">em compras feitas depois do R$ 1,90</div></div>
+    <div class="bigstat"><div class="bs-num" id="stReemb">—</div><div class="bs-cap">pediram reembolso do R$ 1,90</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Quem compra</h2>
+  <p class="lead" id="txtQuem"></p>
+  <div class="grid-2">
+    <div class="card">
+      <p class="label">Pessoas por origem da compra</p>
+      <div class="chart"><canvas id="chOrigem" aria-label="Pessoas por origem"></canvas></div>
+    </div>
+    <div class="card">
+      <p class="label">Quem eram 10 min antes da compra</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Perfil</th><th class="num">Pessoas</th><th class="num">%</th><th class="num">Upsell</th></tr></thead>
+        <tbody id="tbPerfil"></tbody>
+      </table></div>
+      <p class="nota">Upsell = comprou Essencial, Premium, Black ou outro produto depois do R$ 1,90, em qualquer canal.</p>
+    </div>
+  </div>
+  <div class="card">
+    <p class="label">Upsell por origem</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Origem</th><th class="num">Pessoas</th><th class="num">One-click (≤1h)</th><th class="num">Lambda</th><th class="num">Vendedor</th><th class="num">Digital depois</th><th class="num">Total upsell</th></tr></thead>
+      <tbody id="tbOrigem"></tbody>
+    </table></div>
+    <p class="nota">Lambda = IA de vendas no WhatsApp (tracking C0113); Vendedor = Comercial humano; Digital depois = compra digital após a 1ª hora. Uma pessoa pode ter subido por mais de um canal, então as colunas não somam exatamente o total.<br>Origem pela <code>utm_medium</code> registrada na compra. "Live/YouTube orgânico" inclui as lives da apuração (04/10) e da estreia do Paraguai (25/10). Cerca de 1,2 mil compras de Meta chegam com UTM fixa e parte do tráfego de live chega como "Adwords Remarketing": a origem é aproximada.</p>
+  </div>
+</section>
+
+<section>
+  <h2>O que compram depois</h2>
+  <p class="lead" id="txtDepois"></p>
+  <div class="card">
+    <p class="label">Receita das compras posteriores, por plano e canal (R$ mil)</p>
+    <div class="chart" style="height:260px"><canvas id="chDepois" aria-label="Receita posterior por plano e canal"></canvas></div>
+  </div>
+  <div class="card">
+    <p class="label">Por plano e canal</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Plano</th><th>Canal</th><th class="num">Pessoas</th><th class="num">Receita</th><th class="num">Em até 24h</th></tr></thead>
+      <tbody id="tbDepois"></tbody>
+    </table></div>
+    <p class="nota">Lambda = IA de vendas no WhatsApp (tracking C0113). Pessoas contadas uma vez por plano e canal; a mesma pessoa pode aparecer em mais de uma linha.</p>
+  </div>
+</section>
+
+<section>
+  <h2>O upsell mudou quando o one-click entrou</h2>
+  <p class="lead" id="txtSemana"></p>
+  <div class="card">
+    <p class="label">% dos compradores de cada semana que fizeram upsell, por canal</p>
+    <div class="chart"><canvas id="chSemana" aria-label="Upsell por semana e canal"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="tbl"><table>
+      <thead><tr><th>Semana</th><th class="num">Pessoas</th><th class="num">One-click</th><th class="num">Lambda</th><th class="num">Vendedor</th><th class="num">Digital depois</th><th class="num">Reembolso</th></tr></thead>
+      <tbody id="tbSemana"></tbody>
+    </table></div>
+    <p class="nota">As semanas mais recentes ainda não tiveram tempo para o upsell posterior (Lambda, vendedor, digital depois): a comparação justa entre semanas é a do one-click, que acontece na primeira hora.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Onde o one-click não aparece</h2>
+  <p class="lead" id="txtCk"></p>
+  <div class="card">
+    <p class="label">Compras desde 02/11 por checkout de entrada (com 100+ pessoas)</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Checkout</th><th class="num">Pessoas</th><th class="num">One-click</th><th class="num">%</th></tr></thead>
+      <tbody id="tbCk"></tbody>
+    </table></div>
+  </div>
+</section>
+
+<section>
+  <h2>Quem assiste sobe mais</h2>
+  <p class="lead" id="txtConsumo"></p>
+  <div class="grid-2">
+    <div class="card">
+      <p class="label">% que fez upsell depois, por horas assistidas na 1ª semana</p>
+      <div class="chart" style="height:260px"><canvas id="chConsumo" aria-label="Upsell por consumo"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="tbl"><table>
+        <thead><tr><th>Assistiu em 7 dias</th><th class="num">Pessoas</th><th class="num">Subiram</th><th class="num">%</th></tr></thead>
+        <tbody id="tbConsumo"></tbody>
+      </table></div>
+      <p class="nota">Só quem já completou 7 dias desde a compra e não subiu no one-click. É correlação: quem assiste mais pode já ser quem estava mais propenso a subir. Para saber se estimular o consumo causa upsell, é preciso testar com grupo de controle.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>O que fazer</h2>
+  <div class="card">
+    <ol class="recs">
+      <li><b>Colocar o one-click em todos os checkouts do R$ 1,90.</b> <span id="recCk"></span></li>
+      <li><b>Oferecer upgrade para quem comprou antes do one-click existir.</b> <span id="recAntes"></span></li>
+      <li><b>Lambda falando com 100% dos compradores no dia da compra.</b> <span id="recLambda"></span></li>
+      <li><b>Onboarding para consumo.</b> <span id="recConsumo"></span> Mensagens de conteúdo (não de oferta) para quem não assistiu nada; oferta quando a pessoa termina o primeiro conteúdo.</li>
+      <li><b>Vendedor humano para quem consome 3h+.</b> Poucas pessoas, mas é onde está o ticket alto (Black/Vitalício).</li>
+      <li><b>Medir o CRM antes de escalar.</b> Links de CRM que vão direto ao checkout perdem a campanha no painel (o checkout grava o rastreio anterior da pessoa). Passar pela LP <code>vd./upsell</code> ou usar checkout exclusivo, e separar 10–20% da base como grupo de controle.</li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Brasil Paralelo · Análise gerada com Claude Code · <span id="lastUpdate"></span><br>
+  Fontes: <code>masterdata.fct_transactions</code>, <code>dim_contact</code>, <code>dim_subscriptions</code>, <code>datamart.obt_kafka__view_sessions</code>. Queries em <code>queries/</code>.
+</footer>
+
+</div>
+
+<script>
+const FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.family = FONT; Chart.defaults.font.size = 12; Chart.defaults.color = "#6b7689"; Chart.defaults.animation = false;
+const [S1, S2, S3, S4] = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"];
+const GRID = "#e1e0d9";
+const nf = v => Math.round(v).toLocaleString('pt-BR');
+const pf = (v, d = 1) => v.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d }) + '%';
+const brl = v => 'R$ ' + (v >= 1e6 ? (v / 1e6).toLocaleString('pt-BR', { maximumFractionDigits: 2 }) + ' mi'
+                                    : v >= 1e3 ? Math.round(v / 1e3).toLocaleString('pt-BR') + ' mil' : nf(v));
+const dt = s => s.slice(8, 10) + '/' + s.slice(5, 7);
+const sum = (a, f) => a.reduce((s, r) => s + f(r), 0);
+const $ = id => document.getElementById(id);
+
+const valueLabels = fmt => ({
+  id: 'vlab',
+  afterDatasetsDraw(c) {
+    const { ctx } = c; ctx.save();
+    c.data.datasets.forEach((ds, di) => {
+      const meta = c.getDatasetMeta(di); if (meta.hidden) return;
+      meta.data.forEach((el, i) => {
+        const v = ds.data[i]; if (v == null) return;
+        ctx.fillStyle = "#3a4254"; ctx.font = "700 11px " + FONT;
+        if (c.options.indexAxis === 'y') { ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.fillText(fmt(v), el.x + 6, el.y); }
+        else { ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillText(fmt(v), el.x, el.y - 4); }
+      });
+    }); ctx.restore();
+  }
+});
+
+function initCharts(D) {
+  const R = D.resumo, N = R.pessoas;
+  $('lastUpdate').textContent = 'Dados de ' + new Date(D.updated_at).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+  $('periodo').textContent = dt(R.t0_min) + ' a ' + dt(R.t0_max) + '/' + R.t0_max.slice(0, 4);
+
+  /* ── perfil e origem ── */
+  const PO = D.perfil_origem;
+  const agg = key => {
+    const m = {};
+    PO.forEach(r => { const k = r[key]; m[k] ??= { k, pessoas: 0, up1h: 0, up_dep: 0, up_lambda: 0, up_humano: 0, up_digital_depois: 0, upsell: 0 };
+      for (const f in m[k]) if (f !== 'k') m[k][f] += r[f]; });
+    return Object.values(m).sort((a, b) => b.pessoas - a.pessoas);
+  };
+  const seg = agg('seg'), ent = agg('entrada');
+  const novos = seg.find(s => s.k === 'Novo na base')?.pessoas ?? 0;
+  const ex = seg.find(s => s.k === 'Ex-membro')?.pessoas ?? 0;
+
+  $('stPessoas').textContent = nf(N);
+  $('stNovos').textContent = pf(100 * novos / N, 0);
+  $('stUp').textContent = pf(100 * R.upsell / N);
+  $('stRec').textContent = brl(R.receita_depois);
+  $('stReemb').textContent = pf(100 * R.reemb / N);
+
+  const meta = ent.find(e => e.k === 'Meta Ads');
+  $('txtQuem').textContent = `${pf(100 * novos / N, 0)} nunca tinham comprado nada da BP e ${pf(100 * ex / N, 0)} são ex-membros voltando; membros ativos são raros. `
+    + `Meta Ads traz ${pf(100 * meta.pessoas / N, 0)} dos compradores. A taxa de upsell é parecida entre as origens digitais (média ${pf(100 * R.upsell / N)}): `
+    + `a origem explica pouco de quem sobe. Ex-membros sobem um pouco menos que novos (${pf(100 * seg.find(s => s.k === 'Ex-membro').upsell / ex)}).`;
+
+  $('tbPerfil').innerHTML = seg.map(s => `<tr><td>${s.k}</td><td class="num">${nf(s.pessoas)}</td><td class="num">${pf(100 * s.pessoas / N)}</td>`
+    + `<td class="num">${pf(100 * s.upsell / s.pessoas)}</td></tr>`).join('');
+
+  new Chart(chOrigem, {
+    type: 'bar',
+    data: { labels: ent.map(e => e.k), datasets: [{ data: ent.map(e => e.pessoas), backgroundColor: S1, borderRadius: 4, barThickness: 18 }] },
+    options: { indexAxis: 'y', maintainAspectRatio: false, layout: { padding: { right: 56 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => nf(c.raw) + ' pessoas (' + pf(100 * c.raw / N) + ')' } } },
+      scales: { x: { display: false }, y: { grid: { display: false } } } },
+    plugins: [valueLabels(nf)]
+  });
+
+  const COLS = ['up1h', 'up_lambda', 'up_humano', 'up_digital_depois', 'upsell'];
+  const tot = { pessoas: sum(ent, e => e.pessoas) }; COLS.forEach(c => tot[c] = sum(ent, e => e[c]));
+  $('tbOrigem').innerHTML = [...ent, { k: 'Total', ...tot, tot: true }].map(e =>
+    `<tr${e.tot ? ' class="tot"' : ''}><td>${e.k}</td><td class="num">${nf(e.pessoas)}</td><td class="num">${pf(100 * e.up1h / e.pessoas)}</td>`
+    + COLS.slice(1).map(c => `<td class="num">${pf(100 * e[c] / e.pessoas)}</td>`).join('') + '</tr>').join('');
+
+  /* ── o que compram depois ── */
+  const DP = D.depois;
+  const CANAIS = [['Digital', S1], ['Lambda (IA WhatsApp)', S2], ['Vendedor humano', S3]];  /* cor fixa por canal */
+  const tipos = [...new Set(DP.map(r => r.tipo))].filter(t => t !== 'Outro Apoiador')
+    .sort((a, b) => sum(DP.filter(r => r.tipo === b), r => r.receita) - sum(DP.filter(r => r.tipo === a), r => r.receita));
+  const recTC = (t, c) => sum(DP.filter(r => r.tipo === t && r.canal === c), r => r.receita);
+  new Chart(chDepois, {
+    type: 'bar',
+    data: { labels: tipos, datasets: CANAIS.map(([c, col]) => ({ label: c, data: tipos.map(t => recTC(t, c) / 1e3), backgroundColor: col,
+      borderColor: '#fff', borderWidth: { right: 2 }, borderSkipped: false, barThickness: 20 })) },
+    options: { indexAxis: 'y', maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', align: 'start', labels: { boxWidth: 12, boxHeight: 12 } },
+        tooltip: { callbacks: { label: c => c.dataset.label + ': R$ ' + nf(c.raw) + ' mil' } } },
+      scales: { x: { stacked: true, grid: { color: GRID }, ticks: { callback: v => 'R$ ' + v + ' mil' } }, y: { stacked: true, grid: { display: false } } } }
+  });
+  const linhas = {};
+  DP.forEach(r => { const k = r.tipo + '|' + r.canal; linhas[k] ??= { tipo: r.tipo, canal: r.canal, pessoas: 0, receita: 0, ate24: 0 };
+    linhas[k].pessoas += r.pessoas; linhas[k].receita += r.receita; if (r.janela === 'até 1h' || r.janela === '1h–24h') linhas[k].ate24 += r.receita; });
+  const LD = Object.values(linhas).sort((a, b) => b.receita - a.receita);
+  $('tbDepois').innerHTML = LD.map(l => `<tr><td>${l.tipo}</td><td>${l.canal}</td><td class="num">${nf(l.pessoas)}</td>`
+    + `<td class="num">${brl(l.receita)}</td><td class="num">${pf(100 * l.ate24 / l.receita, 0)}</td></tr>`).join('');
+  const recCanal = c => sum(DP.filter(r => r.canal === c), r => r.receita);
+  const essCompras = sum(DP.filter(r => r.tipo === 'Essencial'), r => r.compras);
+  const upC = sum(DP.filter(r => r.tipo !== 'Outro Apoiador'), r => r.compras);
+  $('txtDepois').textContent = `O upgrade típico é para o Essencial (${pf(100 * essCompras / upC, 0)} das compras posteriores). `
+    + `A Lambda gera ${pf(100 * recCanal('Lambda (IA WhatsApp)') / R.receita_depois, 0)} da receita posterior e o digital ${pf(100 * recCanal('Digital') / R.receita_depois, 0)}. `
+    + `Vendedor humano atende poucas pessoas, mas concentra Black/Vitalício. `
+    + `${pf(100 * sum(DP.filter(r => r.janela === 'até 1h' || r.janela === '1h–24h'), r => r.receita) / R.receita_depois, 0)} da receita posterior acontece nas primeiras 24h.`;
+
+  /* ── semanal ── */
+  const W = D.semanal;
+  const SER = [['One-click (≤1h)', 'up1h', S1], ['Lambda', 'up_lambda', S2], ['Vendedor humano', 'up_humano', S3], ['Digital depois', 'up_digital_depois', S4]];
+  new Chart(chSemana, {
+    type: 'bar',
+    data: { labels: W.map(w => 'sem ' + dt(w.semana)),
+      datasets: SER.map(([lab, k, col]) => ({ label: lab, data: W.map(w => 100 * w[k] / w.pessoas), backgroundColor: col,
+        borderColor: '#fff', borderWidth: { top: 2 }, borderSkipped: false, maxBarThickness: 40 })) },
+    options: { maintainAspectRatio: false,
+      plugins: { legend: { position: 'top', align: 'start', labels: { boxWidth: 12, boxHeight: 12 } },
+        tooltip: { mode: 'index', callbacks: { label: c => c.dataset.label + ': ' + pf(c.raw), footer: it => nf(W[it[0].dataIndex].pessoas) + ' compradores' } } },
+      scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: GRID }, ticks: { callback: v => v + '%' } } } }
+  });
+  $('tbSemana').innerHTML = W.map(w => `<tr><td>${dt(w.semana)}</td><td class="num">${nf(w.pessoas)}</td>`
+    + SER.map(([, k]) => `<td class="num">${pf(100 * w[k] / w.pessoas)}</td>`).join('')
+    + `<td class="num">${pf(100 * w.reemb / w.pessoas)}</td></tr>`).join('');
+  const antes = W.filter(w => w.semana < '2026-11-02'), depoisW = W.filter(w => w.semana >= '2026-11-02');
+  const pAntes = sum(antes, w => w.pessoas), pDep = sum(depoisW, w => w.pessoas);
+  const ocAntes = 100 * sum(antes, w => w.up1h) / pAntes, ocDep = 100 * sum(depoisW, w => w.up1h) / pDep;
+  $('txtSemana').textContent = `Até o fim de outubro, quase ninguém subia na primeira hora (${pf(ocAntes)}): o upsell vinha da Lambda nos dias seguintes. `
+    + `Desde 02/11, com a oferta one-click no checkout, ${pf(ocDep)} sobem na hora. `
+    + `Os ${nf(pAntes)} que compraram antes nunca viram essa oferta.`;
+
+  /* ── checkouts ── */
+  const CK = D.checkouts;
+  $('tbCk').innerHTML = CK.map(c => { const p = 100 * c.up1h / c.pessoas, al = c.checkout && p < 1;
+    return `<tr><td>${c.checkout ?? '(sem checkout registrado)'}</td><td class="num">${nf(c.pessoas)}</td><td class="num">${nf(c.up1h)}</td>`
+      + `<td class="num${al ? ' alerta' : ''}">${al ? '⚠ ' : ''}${pf(p)}</td></tr>`; }).join('');
+  const semOC = CK.filter(c => c.checkout && 100 * c.up1h / c.pessoas < 1);
+  const comOC = CK.filter(c => c.checkout && 100 * c.up1h / c.pessoas >= 1).map(c => 100 * c.up1h / c.pessoas);
+  $('txtCk').textContent = semOC.length
+    ? `${semOC.map(c => c.checkout).join(', ')} quase não tem one-click (${nf(sum(semOC, c => c.pessoas))} compradores desde 02/11). Nos checkouts com a oferta, ${pf(Math.min(...comOC), 0)} a ${pf(Math.max(...comOC), 0)} sobem na hora.`
+    : 'Todos os checkouts com volume relevante têm one-click.';
+  $('recCk').textContent = (semOC.length ? `Hoje ${semOC.map(c => c.checkout).join(', ')} fica de fora. ` : '')
+    + 'Na análise da coorte inteira, os checkouts antigos (preço-2 dos anúncios e /vitalicio) também não tinham.';
+  const lamPico = W.reduce((a, w) => (w.pessoas >= 1000 && w.up_lambda / w.pessoas > a.up_lambda / a.pessoas ? w : a), W.find(w => w.pessoas >= 1000));
+  const lamNov = 100 * sum(depoisW, w => w.up_lambda) / pDep;
+  $('recLambda').textContent = `Ela é o principal canal de upsell posterior. Na semana de ${dt(lamPico.semana)}, ${pf(100 * lamPico.up_lambda / lamPico.pessoas)} dos compradores subiram via Lambda; em novembro, ${pf(lamNov)} até agora (parte é coorte ainda imatura). `
+    + 'A tabela de conversas da Lambda no BigQuery está parada desde 14/10, então não dá para saber se a queda é de alcance ou de conversão.';
+  $('recAntes').textContent = `São ${nf(pAntes)} pessoas que compraram antes de 02/11, quando o one-click ainda não existia. É a lista mais fácil de acionar com a mesma oferta.`;
+
+  /* ── consumo ── */
+  const C = D.consumo.map(r => ({ ...r, lab: r.faixa.slice(2), p: 100 * r.subiram / r.pessoas }));
+  new Chart(chConsumo, {
+    type: 'bar',
+    data: { labels: C.map(r => r.lab), datasets: [{ data: C.map(r => r.p), backgroundColor: S1, borderRadius: 4, maxBarThickness: 48 }] },
+    options: { maintainAspectRatio: false, layout: { padding: { top: 20 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => pf(c.raw) + ' de ' + nf(C[c.dataIndex].pessoas) } } },
+      scales: { x: { grid: { display: false } }, y: { display: false, beginAtZero: true } } },
+    plugins: [valueLabels(v => pf(v))]
+  });
+  $('tbConsumo').innerHTML = C.map(r => `<tr><td>${r.lab}</td><td class="num">${nf(r.pessoas)}</td><td class="num">${nf(r.subiram)}</td><td class="num">${pf(r.p)}</td></tr>`).join('');
+  const c7 = sum(C, r => r.pessoas), nada = C[0];
+  $('txtConsumo').textContent = `${pf(100 * nada.pessoas / c7, 0)} não assistiram nada na primeira semana. Quem assistiu 3h ou mais subiu ${(C[3].p / nada.p).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}× mais que quem não assistiu.`;
+  $('recConsumo').textContent = `${pf(100 * nada.pessoas / c7, 0)} não assistem nada na primeira semana.`;
+}
+
+fetch('./data.json')
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(initCharts)
+  .catch(err => {
+    console.error('Falha ao carregar data.json:', err);
+    document.querySelector('main').insertAdjacentHTML('afterbegin',
+      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:24px;color:#991b1b;font-size:13px">⚠ Erro ao carregar dados: ${err.message}. Para ver localmente, rode <code>python3 -m http.server</code> na pasta do relatório.</div>`);
+  });
+</script>
+</body>
+</html>
